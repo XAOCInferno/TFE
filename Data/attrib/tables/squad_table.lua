@@ -1,0 +1,11 @@
+GameData = Inherit([[]])
+GameData["squad_01"] = [[]]
+GameData["squad_02"] = [[]]
+GameData["squad_03"] = [[]]
+GameData["squad_04"] = [[]]
+GameData["squad_05"] = [[]]
+GameData["squad_06"] = [[]]
+GameData["squad_07"] = [[]]
+GameData["squad_08"] = [[]]
+GameData["squad_09"] = [[]]
+GameData["squad_10"] = [[]]

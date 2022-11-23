@@ -1,0 +1,70 @@
+
+AISettings_Easy =
+{
+	iDancing = 1,
+	iAttackDelay = 5,
+	iTechSpeed = 1,
+	iHandicap = 0,
+	bAlternativeStrategies = true,
+	bHarassing = true,
+	bMultiBuildings = true,
+	bRelicUnits = true,
+	bTurrets = false,
+	bMines = true,
+}
+
+AISettings_Standard =
+{
+	iDancing = 0,
+	iAttackDelay = 1,
+	iTechSpeed = 1,
+	iHandicap = 0,
+	bAlternativeStrategies = true,
+	bHarassing = true,
+	bMultiBuildings = true,
+	bRelicUnits = false,
+	bTurrets = false,
+	bMines = false,
+}
+
+AISettings_Hard =
+{
+	iDancing = 1,
+	iAttackDelay = 2,
+	iTechSpeed = 1,
+	iHandicap = 0,
+	bAlternativeStrategies = true,
+	bHarassing = true,
+	bMultiBuildings = true,
+	bRelicUnits = true,
+	bTurrets = true,
+	bMines = true,
+}
+
+AISettings_Harder =
+{
+	iDancing = 1,
+	iAttackDelay = 2,
+	iTechSpeed = 2,
+	iHandicap = 0,
+	bAlternativeStrategies = true,
+	bHarassing = true,
+	bMultiBuildings = true,
+	bRelicUnits = true,
+	bTurrets = true,
+	bMines = true,
+}
+
+AISettings_Insane =
+{
+	iDancing = 2,
+	iAttackDelay = 2,
+	iTechSpeed = 2,
+	iHandicap = 0,
+	bAlternativeStrategies = true,
+	bHarassing = true,
+	bMultiBuildings = true,
+	bRelicUnits = true,
+	bTurrets = true,
+	bMines = true,
+}

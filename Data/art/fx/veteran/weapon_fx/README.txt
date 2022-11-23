@@ -1,0 +1,1 @@
+s_trace = special tracer, for custom ammo on typhon marines

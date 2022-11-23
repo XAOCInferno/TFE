@@ -1,0 +1,14 @@
+GameData = Inherit([[]])
+GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
+GameData["entity_blueprint_ext"]["animator"] = [[Environment\Necron\solar_pulse]]
+GameData["resource_ext"] = Reference([[ebpextensions\resource_ext.lua]])
+GameData["resource_ext"]["decay_amber_event"] = [[]]
+GameData["resource_ext"]["decay_delay_time"] = 0
+GameData["resource_ext"]["decay_enabled"] = false
+GameData["resource_ext"]["decay_green_event"] = [[]]
+GameData["resource_ext"]["decay_lower_limit_percentage"] = 0
+GameData["resource_ext"]["decay_red_event"] = [[]]
+GameData["resource_ext"]["decay_to_lower_limit_time"] = 850
+GameData["resource_ext"]["requisition_per_second"] = 0.00119047619
+GameData["suicide_ext"] = Reference([[ebpextensions\suicide_ext.lua]])
+GameData["suicide_ext"]["lifetime"] = 840

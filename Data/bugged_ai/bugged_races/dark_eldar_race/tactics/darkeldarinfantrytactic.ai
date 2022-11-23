@@ -1,0 +1,129 @@
+----------------------------------------
+-- File: 'darkeldarinfantrytactic.ai'
+-- Edited by Thudmeizer		@ 26.10.2008
+
+class 'DarkEldarInfantryTactic' (InfantryTactic)
+
+function DarkEldarInfantryTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Dark Eldar Infantry Tactic")
+
+	-- Set infantry options
+	local sSquadName = squad_ai:GetSquadName()
+	if (sSquadName == "dark_eldar_squad_mandrake" or
+		sSquadName == "dark_eldar_squad_warrior" or
+		sSquadName == "dark_eldar_squad_wych" or
+		sSquadName == "dark_eldar_squad_archon" or
+		sSquadName == "dark_eldar_squad_haemonculus") then
+		
+		-- Squads are transportable
+		self.m_iTransportable = 1
+	end
+end
+
+function DarkEldarInfantryTactic:AddTargetAbilities()
+	table.insert(InfantryTactic.TargetAbilities, { nil, "dark_eldar_terrorfex_grenade", Ability.Filters.CloseInfiltratedOrVisibleEnemyInfantry, 4, 0 })
+end
+
+function DarkEldarInfantryTactic:AddCommanders()
+	table.insert(self.commander, { "dark_eldar_squad_archon", true })
+	table.insert(self.commander, { "dark_eldar_squad_haemonculus", false })
+end
+
+function DarkEldarInfantryTactic:DoAbilities()
+
+	-- Check if I should enable/disable fleet of foot
+	self:DoAbilityFoF()
+	
+	-- I might have these attached
+	if (self.squad_ai:IsAttached()) then
+
+		if (self.squad_ai:HasSquadAttached("dark_eldar_squad_haemonculus")) then
+			DarkEldarHaemonculusTactic.InitAbilities( self )
+			DarkEldarHaemonculusTactic.DoAbilities( self )
+		elseif (self.squad_ai:HasSquadAttached("dark_eldar_squad_archon")) then
+			DarkEldarArchonTactic.InitAbilities( self )
+			DarkEldarArchonTactic.DoAbilities( self )
+		end
+	end
+	
+	-- Call basic DoAbilities methods
+	InfantryTactic.DoAbilities(self)
+end
+
+function DarkEldarInfantryTactic:CheckDance(oSquad)
+
+	-- Check opponent
+	if (oSquad == nil) then
+		return false
+	end
+	
+	-- Compare opponents
+	local sSquadName = self.squad_ai:GetSquadName()
+	if (sSquadName == "dark_eldar_squad_warrior" or sSquadName == "dark_eldar_squad_scourge") then
+		
+		-- Check opponent
+		if (oSquad:GetSquadName() == "chaos_squad_cultist") then
+			return false
+		end
+	end
+	return true
+end
+
+-- Dreddnott edit (April 16th)
+function DarkEldarInfantryTactic:DoAbilityFoF()
+
+    -- Check to see what we are
+    local sFoFType = self.squad_ai:GetSquadName()
+
+    -- set default FoF range reasonably just in case
+    local iFoFRange = 35
+	
+	if (sFoFType == "dark_eldar_squad_mandrake" or "dark_eldar_squad_wych" or 
+		"dark_eldar_squad_archon") then
+        iFoFRange = 15
+    elseif (sFoFType == "dark_eldar_squad_haemonculus") then
+        iFoFRange = 25
+    elseif (sFoFType == "dark_eldar_squad_warrior") then
+        iFoFRange = 35
+    end
+
+    -- Check if we should toggle FoF
+    local iFoFID = cpu_manager.stats:GetAbilityID("dark_eldar_fleet_of_foot")
+    local bToggleFoF = false
+
+    -- Check whether we're using the ability
+    local bIsUsing = self.squad_ai:IsUsingAbility(iFoFID)
+
+    -- Check if we're attack moving
+    local bIsInCombat = self.squad_ai:IsInStateAttackMove()
+
+    -- Check if we're shooting
+    local bShooting = self.squad_ai:IsAttacking()
+
+    -- Check if we're in a state that should FoF regardless of enemy presence
+    local bRunAWay = (self.squad_ai:IsBroken() or (self.stateID == Tactic.StateID.AvoidDeath) or (self.stateID == Tactic.StateID.DoDance))
+
+    -- Check if we're doing any sort of moving
+    local bMoving = self:IsMoving()
+
+    -- Check if we're moving around or capping
+    local bCapping = (self.squad_ai:IsCapturing() or self.squad_ai:IsInStateMove())
+
+    -- Check if we should slow down for enemies nearing range
+    local vSquadPos = self.squad_ai:GetPosition()
+    local oEnemy = cpu_manager.cpu_player:FindFirstEnemy(vSquadPos, iFoFRange, 1)
+    local bNoEnemy = (oEnemy == nil)
+
+    -- Check if FoF should be toggled
+    if ((bIsUsing == true and ((bIsInCombat == true and bNoEnemy == false) or bMoving == false)) or
+        (bIsUsing == false and ((bIsInCombat == true and bNoEnemy == true and bShooting == false) or bCapping == true or bRunAway == true))) then
+        bToggleFoF = true
+    end
+
+    -- Toggle FoF
+    if (bToggleFoF and self.squad_ai:CanDoAbility(iFoFID)) then
+        self.squad_ai:DoSpecialAbility(iFoFID)
+    end
+end
+

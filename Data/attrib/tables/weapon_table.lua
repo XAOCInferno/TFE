@@ -1,0 +1,6 @@
+GameData = Inherit([[]])
+GameData["weapon_01"] = Reference([[tables\weapon_details.lua]])
+GameData["weapon_02"] = Reference([[tables\weapon_details.lua]])
+GameData["weapon_03"] = Reference([[tables\weapon_details.lua]])
+GameData["weapon_04"] = Reference([[tables\weapon_details.lua]])
+GameData["weapon_05"] = Reference([[tables\weapon_details.lua]])

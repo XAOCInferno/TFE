@@ -1,0 +1,56 @@
+----------------------------------------
+-- File: 'Commissartactic.ai'
+-- Edited by Thudmeizer @ 12.10.2005
+-- Edited by Arkhan 	@ 02.12.2005
+
+class 'CommissarTactic' (GuardInfantryTactic)
+
+Commissar = {}
+
+function CommissarTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Commissar Tactic")
+
+	-- Squad is able to occupy bunkers
+	self.m_bBunkerSquad = true
+end
+
+function CommissarTactic:IsAttacker()
+	return self:IsCommanderAttacker()
+end
+
+function CommissarTactic:IsDefender()
+	return self:IsCommanderDefender()
+end
+
+function CommissarTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (Commissar.execute_id == nil) then
+		Commissar.execute_id = cpu_manager.stats:GetAbilityID( "guard_commissar_execute" )
+	end
+end
+
+function CommissarTactic:DoAbilities()
+
+	-- TargetSelf: When attached to squad, executes one of his own soldiers to increase their fighting potential
+	if (self.squad_ai:IsAttached() and self.squad_ai:GetNumTroopers() > 7 and self.squad_ai:IsAttacking()) then
+		Ability.DoAbility(self.squad_ai, Commissar.execute_id, Ability.Filters.IsInCombat)
+	end
+end
+
+function CommissarTactic:Update()
+
+	if (self:IsComplete()) then
+		return
+	end
+	
+	-- State machine
+	if (not InfantryTactic.Update(self)) then
+		return
+	end
+	
+	-- Attach to squad
+	self:TryAttachSquad(false, false, 50, 60, nil)
+end
+ 

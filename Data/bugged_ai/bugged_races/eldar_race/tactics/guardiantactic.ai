@@ -1,0 +1,62 @@
+----------------------------------------
+-- File: 'guardiantactic.ai'
+-- Edited by Thudmeizer		@ 16.09.2008
+
+class 'GuardianTactic' (EldarInfantryTactic)
+
+Guardian = {}
+
+function GuardianTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Guardian Tactic")
+end
+
+function GuardianTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (Guardian.iPlasmaGrenadeID == nil) then
+		Guardian.iPlasmaGrenadeID = cpu_manager.stats:GetAbilityID( "eldar_plasma_grenades" )
+	end
+	
+	if (Guardian.iEntanglementID == nil) then
+		Guardian.iEntanglementID = cpu_manager.stats:GetAbilityID( "eldar_entanglement" )
+	end
+	
+	if (Guardian.iShurikenStormID == nil) then
+		Guardian.iShurikenStormID = cpu_manager.stats:GetAbilityID( "eldar_shurikenstorm" )
+	end
+	
+	-- Init common abilities
+	EldarInfantryTactic.InitAbilities(self)
+end
+
+function GuardianTactic:DoAbilities()
+
+	-- Try to throw frag grenades
+	Ability.DoAbilityTarget(self.squad_ai, Guardian.iPlasmaGrenadeID, Ability.Filters.CloseInfiltratedOrVisibleEnemyInfantry, 4)
+	
+	-- Eldar entanglement
+	Ability.DoAbilityTarget(self.squad_ai, Guardian.iEntanglementID, Ability.Filters.CloseInfantryEnemyCC, 1)
+	
+	-- Check if I should enable/disable shuriken storm
+	self:DoAbilityShurikenStorm()
+
+	-- Compute common abilities
+	EldarInfantryTactic.DoAbilities(self)
+end
+
+function GuardianTactic:DoAbilityShurikenStorm()
+
+	-- Check if shuriken storm should be toggled
+	local bToggleShurikenStorm = false
+	local bIsUsing = self.squad_ai:IsUsingAbility(Guardian.iShurikenStormID)
+	local bIsUnderAttack = self.squad_ai:IsUnderAttack()
+    if ((bIsUsing and bIsUnderAttack) or (not bIsUsing and not bIsUnderAttack)) then
+        bToggleShurikenStorm = true
+    end
+	
+    -- Toggle shuriken storm
+    if (bToggleShurikenStorm and self.squad_ai:CanDoAbility(Guardian.iShurikenStormID)) then
+        self.squad_ai:DoSpecialAbility(Guardian.iShurikenStormID)
+    end
+end

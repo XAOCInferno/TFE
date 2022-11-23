@@ -1,0 +1,111 @@
+--####################################################################################################
+--#
+--#     Heroes Special Settings for UBM Mod
+--#
+--#	UBM Modifications by <===CHAOS===> Inferno 2020
+--#
+--####################################################################################################
+
+-- Modifications designed to improve or lower XP gain based on the assumed contribution the squad is making to the fight
+
+
+
+import("Groups.scar")
+
+--Penalties and Bonuses are multiplied, set to 1 to ignore the bonus
+
+XP_BrokenPenalty = 0.4 --DONE
+XP_NoCombatPenalty = 0.6 --DONE
+XP_LowMembersPenalty = 0.75 --DONE
+XP_LowMaxHPPenalty = 0.75 --DONE
+
+XP_InfiltratedBonus = 1.2 --DONE
+XP_CurrentlySelectedSquadBonus = 1.4 --DONE
+XP_OnScreenBonus = 1.2 --DONE
+XP_InCoverBonus = 1.2 --DONE
+
+
+XP_DefaultNumber = 0.99999
+XP_Gain_Rate_Default = 1.2
+
+
+function SGroup_Calculate_XP_Modifiers(SGroup, Squad, IsFighting, XP_Gain_Rate)
+
+	if XP_Gain_Rate == null then
+		XP_Gain_Rate = XP_Gain_Rate_Default
+	end
+
+	local isBroken = SGroup_IsMoraleBroken( SGroup, true )
+
+	if ( isBroken ) then
+		local BrokenPenalty = BrokenXPPenalty
+	else
+		local BrokenPenalty = XP_DefaultNumber 
+	end
+
+	
+	local IsNotFightingPenalty = XP_DefaultNumber 
+
+	if ( not IsFighting ) then
+		IsNotFightingPenalty = BrokenXPPenalty
+	end
+
+
+	local ReinforcedPercent = (Squad_GetMax(Squad) / Squad_Count(Squad)) -1
+	
+	if ( ReinforcedPercent == 0 ) then
+		local ReinforcedPenalty = XP_DefaultNumber 
+	else
+		local ReinforcedPenalty = (XP_LowMembersPenalty * ReinforcedPercent)
+	end
+
+	
+	local HealthPercent = SGroup_GetAvgHealth( SGroup )
+	
+	if ( HealthPercent == 1 ) then
+		local LowHealthPenalty = XP_DefaultNumber 
+	else
+		local LowHealthPenalty = (XP_LowMaxHPPenalty * ReinforcedPercent)
+	end
+
+
+	local isInfiltrated = SGroup_IsInfiltrated( SGroup, true )
+
+	if ( isInfiltrated ) then
+		local InfiltrationBonus = XP_InfiltratedBonus 
+	else
+		local InfiltrationBonus = XP_DefaultNumber 
+	end
+
+
+	local isSelected = SGroup_IsSelected( SGroup )
+
+	if ( isSelected ) then
+		local SelectedBonus = XP_SelectedBonus 
+	else
+		local SelectedBonus = XP_DefaultNumber 
+	end
+
+
+	local isOnScreen = SGroup_IsOnScreen( SGroup )
+
+	if ( isOnScreen ) then
+		local OnScreenBonus = XP_OnScreenBonus 
+	else
+		local OnScreenBonus = XP_DefaultNumber 
+	end
+
+
+	local isInCover = SGroup_IsInCover( SGroup, true )
+
+	if ( isInCover ) then
+		local CoverBonus = XP_InCoverBonus 
+	else
+		local CoverBonus = XP_DefaultNumber 
+	end
+
+
+	local TotalModifierValue = XP_Gain_Rate * XP_BrokenPenalty * XP_NoCombatPenalty * XP_LowMembersPenalty * XP_LowMaxHPPenalty * XP_InfiltratedBonus * XP_CurrentlySelectedSquadBonus * XP_OnScreenBonus * XP_InCoverBonus 
+	return TotalModifierValue
+
+end

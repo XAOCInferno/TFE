@@ -1,0 +1,10 @@
+GameData = Inherit([[]])
+GameData["donation_penalty_percentage"] = 0.25
+GameData["starting_res_normal"] = Reference([[tables\cost_table.lua]])
+GameData["starting_res_normal"]["power"] = 100
+GameData["starting_res_normal"]["requisition"] = 1000
+GameData["starting_res_quickstart"] = Reference([[tables\cost_table.lua]])
+GameData["starting_res_quickstart"]["population"] = 3
+GameData["starting_res_quickstart"]["power"] = 10000
+GameData["starting_res_quickstart"]["requisition"] = 5000
+GameData["teamjoin_request_timeout"] = 15

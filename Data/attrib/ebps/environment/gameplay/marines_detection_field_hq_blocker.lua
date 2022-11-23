@@ -1,0 +1,9 @@
+GameData = Inherit([[]])
+GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
+GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
+GameData["entity_blueprint_ext"]["animator"] = [[Environment\Necron\solar_pulse]]
+GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
+GameData["structure_ext"] = Reference([[ebpextensions\structure_ext.lua]])
+GameData["structure_ext"]["control_structure_use"] = false
+GameData["structure_ext"]["extra_no_build_buffer"] = 0
+GameData["type_ext"] = Reference([[ebpextensions\type_ext.lua]])

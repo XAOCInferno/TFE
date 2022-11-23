@@ -1,0 +1,33 @@
+----------------------------------------
+-- File: 'darkeldarwychtactic.ai'
+-- Edited by Thudmeizer @ 23.10.2008
+
+class 'DarkEldarWychTactic' (DarkEldarInfantryTactic)
+
+DarkEldarWych = {}
+
+function DarkEldarWychTactic:__init( squad_ai ) super( squad_ai )
+	
+	self:SetName("Dark Eldar Wych Tactic")
+	
+	-- Force melee stance (Commander detaching can cause false stances)
+	self.iForceMeleeStance = true
+end
+
+function DarkEldarWychTactic:InitAbilities()
+
+	-- Init combat drugs ability
+	if (DarkEldarWych.combatdrugs_id == nil) then
+		DarkEldarWych.combatdrugs_id = cpu_manager.stats:GetAbilityID( "dark_eldar_combat_drugs" )	
+	end
+end
+
+function DarkEldarWychTactic:DoAbilities()
+
+	-- Check if I can use combat drugs (Bugged!!! Unit freezes.) --SS 1.10 check if unbugged
+	if (self.squad_ai:IsInCombat() and self.squad_ai:CanDoAbility( DarkEldarWych.combatdrugs_id )) then
+		self.squad_ai:DoSpecialAbility( DarkEldarWych.combatdrugs_id )
+	end
+	
+	DarkEldarInfantryTactic.DoAbilities(self)
+end

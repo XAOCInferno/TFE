@@ -1,0 +1,70 @@
+----------------------------------------
+-- File: 'chaosrhinotactic.ai'
+-- Edited by Arkhan         @ 10.01.2007
+
+class 'ChaosRhinoTactic' (ChaosMarineVehicleTactic)
+
+ChaosRhino = {}
+
+function ChaosRhinoTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Chaos Rhino Tactic")
+	
+	-- Set upgrade type
+	local oEnemy = cpu_manager:FindClosestEnemyPlayer()
+	if (oEnemy and oEnemy:GetPlayerRaceName() == "chaos_marine_race" and math.random(1, 2) == 1) then
+		self.bLongRange = false
+	else
+		self.bLongRange = true
+	end
+	
+	-- Vehicle is a light transport
+	self.m_iTransportVehicle = 1
+	self.m_iTransportSlots = 2
+end
+
+function ChaosRhinoTactic:InitAbilities()
+	
+	-- Init ability ID's
+	if (ChaosRhino.smoke_id == nil) then
+		ChaosRhino.smoke_id = cpu_manager.stats:GetAbilityID( "chaos_smoke_launchers" )	
+	end
+end
+
+function ChaosRhinoTactic:DoAbilities()
+
+	-- Check if we can launch smoke
+	if (self.squad_ai:CanDoAbility(ChaosRhino.smoke_id)) then
+	
+		-- Search a squad
+		local iRange = self.squad_ai:GetAbilityRange(ChaosRhino.smoke_id)
+		local oUnit = Ability.Filters.CloseHurt(self.squad_ai:GetPosition(), iRange, 1)
+		if (oUnit ~= nil and oUnit:IsInCombat() and cpu_manager:GetUnitStrength(oUnit) > 150) then
+			self.squad_ai:DoSpecialAbilitySquad(ChaosRhino.smoke_id, oUnit:GetSquad())
+		end
+	end
+end
+
+function ChaosRhinoTactic:Upgrade()
+
+	-- Check if we have free ressources
+	if (not Tactic.Options.can_reinforce) then
+		return
+	end
+
+	-- Check situation
+	if (not self.squad_ai:HasUpgradableTrooper() or self.squad_ai:GetHealthPercentage() < 0.5 or self.squad_ai:IsUnderAttack()) then
+		return
+	end
+	
+	-- Check upgrade type
+	if (self.bLongRange) then
+	
+		-- Upgrade to rocket launcher
+		self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_VehicleMed)
+	else
+		-- Upgrade to flamer
+		self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_MonsterMed)
+	end
+end
+

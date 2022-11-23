@@ -1,0 +1,48 @@
+----------------------------------------
+-- File: 'terminatortactic.ai'
+-- Created by Arkhan  @ 24.10.2010
+
+class 'TerminatorTactic' (SpaceMarineInfantryTactic)
+
+function TerminatorTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Space Marine Tactic")
+	
+	-- Set upgrade type
+	self.bLongRange = (math.random(1, 2) == 1)
+end
+
+function TerminatorTactic:Upgrade()
+
+	-- Check if we are reinforcing
+	if (self.squad_ai:IsReinforcing() or not self.squad_ai:HasUpgradableTrooper()) then
+		return
+	end
+
+	-- If I am broken, don't upgrade!
+	if (self:IsAffectedByMorale() and self.squad_ai:IsBroken()) then
+		return
+	end	
+	
+	-- Only upgrade in healthy state
+	if (self.squad_ai:GetNumTroopers() < self.squad_ai:GetMaxTroopers() * 0.5 or self.squad_ai:GetHealthPercentage() < 0.4 or self.squad_ai:IsUnderAttack()) then
+		return
+	end
+	
+	-- Check upgrade type
+	if (self.bLongRange) then
+	
+		-- Upgrade to assault cannon and rocket launcher
+		if (math.random(1, 2) == 1 and cpu_manager:GetTierLevel() >= 3) then
+		
+			-- Upgrade to assault cannon
+			self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_HeavyInfantryMed)
+		else
+			-- Upgrade to rocket launcher
+			self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_VehicleMed)
+		end
+	else
+		-- Upgrade to flamer
+		self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_MonsterMed)
+	end
+end

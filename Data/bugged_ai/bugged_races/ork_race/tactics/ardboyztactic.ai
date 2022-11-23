@@ -1,0 +1,41 @@
+----------------------------------------
+-- File: 'ardboyztactic.ai'
+-- Edited by Thudmeizer @ 16.09.2008
+
+class 'ArdBoyzTactic' (OrkInfantryTactic)
+
+function ArdBoyzTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("ArdBoyz Tactic")
+	
+	-- Set upgrade type
+	self.bLongRange = (math.random(1, 2) == 1)
+end
+
+function ArdBoyzTactic:Upgrade()
+
+	-- Check if we are reinforcing
+	if (self.squad_ai:IsReinforcing() or not self.squad_ai:HasUpgradableTrooper()) then
+		return
+	end
+
+	-- If I am broken, don't upgrade!
+	if (self:IsAffectedByMorale() and self.squad_ai:IsBroken()) then
+		return
+	end	
+	
+	-- Only upgrade in healthy state
+	if (self.squad_ai:GetNumTroopers() < self.squad_ai:GetMaxTroopers() * 0.6 or self.squad_ai:GetHealthPercentage() < 0.5 or self.squad_ai:IsUnderAttack()) then
+		return
+	end
+	
+	-- Check upgrade type
+	if (self.bLongRange) then
+	
+		-- Upgrade to big shoota
+		self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_LightInfantryMed)
+	else
+		-- Upgrade to flamer
+		self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_MonsterMed)
+	end
+end

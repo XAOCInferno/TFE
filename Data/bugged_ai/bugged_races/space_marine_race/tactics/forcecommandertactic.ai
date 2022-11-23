@@ -1,0 +1,103 @@
+----------------------------------------
+-- File: 'forcecommandertactic.ai'
+-- Edited by Thudmeizer @ 09.03.2005
+-- Edited by LarkinVB   @ 16.08.2005
+
+class 'ForceCommanderTactic' (SpaceMarineInfantryTactic)
+
+ForceCommander = {}
+
+function ForceCommanderTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Force Commander Tactic")
+	
+	self.dance_time = 0
+end
+
+function ForceCommanderTactic:InitAbilities()
+	-- Init ability ID's
+	if (ForceCommander.orbital_b == nil) then
+		ForceCommander.orbital_b = cpu_manager.stats:GetAbilityID( "marines_orbital_bombardment" )
+	end
+	
+	if (ForceCommander.battlecry == nil) then
+		ForceCommander.battlecry = cpu_manager.stats:GetAbilityID( "marines_battlecry" )
+	end
+	
+
+end
+
+function ForceCommanderTactic:DoAbilities()
+
+	-- Return if I didn't initialize myself
+	if ForceCommander.orbital_b == nil then
+		return
+	end
+	
+	-- Try to use orbital bombardement
+	Ability.DoAbilityPos(self.squad_ai, ForceCommander.orbital_b, Ability.Filters.CloseEnemy, 18) 
+	Ability.DoAbilityPos(self.squad_ai, ForceCommander.orbital_b, Ability.EntityFilters.CloseBaseEntityEnemy, 3)
+	
+	-- Try to use battlecry
+	Ability.DoAbilityArea(self.squad_ai, ForceCommander.battlecry, Ability.Filters.CloseInCombat, 10) 
+	
+
+	-- We are dying, lower requisites for attacks
+	if (self.squad_ai:WasRecentlyHurt() and self.squad_ai:GetHealthPercentage() < 0.4) then
+		Ability.DoAbilityArea( self.squad_ai, ForceCommander.battlecry, Ability.Filters.CloseInCombat, 15 ) 
+	end
+end
+
+-- Assassinate win condition -- never attack
+function ForceCommanderTactic:IsAttacker()
+	return (not cpu_manager.assassinate and self:IsCommanderAttacker())
+end
+
+-- Assassinate win condition -- never defend
+function ForceCommanderTactic:IsDefender()
+	return (not cpu_manager.assassinate and self:IsCommanderDefender())
+end
+
+function ForceCommanderTactic:Update()
+
+	if (self:IsComplete()) then
+		return
+	end
+	
+	-- State machine
+	if (not InfantryTactic.Update( self )) then
+		return
+	end
+		
+	local bSetRanged = false
+    local bSetMelee = false
+	local eStance = self.squad_ai:GetMeleeStance()
+	-- Check health
+    if (self.squad_ai:GetHealthPercentage() > 0.4) then
+        bSetMelee = (eStance == SquadAI.MSTANCE_Ranged)
+	else
+        bSetRanged = (eStance == SquadAI.MSTANCE_Assault)
+    end
+	
+	if (bSetRanged) then
+        self.squad_ai:DoSetMeleeStance( SquadAI.MSTANCE_Ranged )
+        self.dance_time = g_iGMT
+    elseif (bSetMelee and self.stateID ~= Tactic.StateID.DoDance and g_iGMT > self.dance_time + 10) then
+        self.squad_ai:DoSetDefaultMeleeStance()
+        self.dance_time = 0
+    end
+			
+	-- Check if we're busy
+	if (self:IsInSubState() or self.squad_ai:IsBroken()) then
+		return
+	end
+
+	-- Assassinate win condition -- never attach to a squad
+	if (not cpu_manager.assassinate and self.squad_ai:GetMeleeStance() == SquadAI.MSTANCE_Assault) then				
+		if (self.squad_ai:IsInCombat() or self.squad_ai:WasRecentlyHurt()) then
+			if (self:TryAttachSquad(false, true, 50, 150, self.m_fCommanderAttachHealth) == nil) then
+				self:TryAttachSquadMelee()
+			end
+		end
+	end
+end

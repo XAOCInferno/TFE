@@ -1,0 +1,45 @@
+----------------------------------------
+-- File: 'harlequintactic.ai'
+-- Edited by Thudmeizer @ 01.10.2008
+
+class 'HarlequinTactic' (EldarInfantryTactic)
+
+Harlequin = {}
+
+function HarlequinTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Harlequin Tactic")
+end
+	
+function HarlequinTactic:IsAttacker()
+	return self:IsCommanderAttacker()
+end
+
+function HarlequinTactic:IsDefender()
+	return self:IsCommanderDefender()
+end
+
+function HarlequinTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (Harlequin.liquefy_id == nil) then
+		Harlequin.liquefy_id = cpu_manager.stats:GetAbilityID( "eldar_liquefy" )
+	end
+	
+	-- Init common abilities
+	EldarInfantryTactic.InitAbilities(self)
+end
+
+function HarlequinTactic:DoAbilities()
+
+	-- Compute harlequins kiss ability
+	Ability.DoAbilityTarget( self.squad_ai, Harlequin.liquefy_id, Ability.Filters.CloseInfiltratedOrVisibleEnemyInfantry, 4 )
+	
+	-- Try to activate harlequin dance
+	if (self.squad_ai:IsInCombat() and self.squad_ai:CanMeleeDance()) then
+		self.squad_ai:DoMeleeDance()
+	end
+
+	-- Compute common abilities
+	EldarInfantryTactic.DoAbilities(self)
+end

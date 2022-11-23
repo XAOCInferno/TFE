@@ -1,0 +1,14 @@
+GameData = Inherit([[]])
+GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
+GameData["entity_blueprint_ext"]["animator"] = [[Races/Eldar/Structures/support_portal]]
+GameData["entity_blueprint_ext"]["scale_x"] = 5
+GameData["entity_blueprint_ext"]["scale_z"] = 5
+GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
+GameData["sim_entity_ext"]["is_collide"] = true 
+GameData["structure_ext"] = Reference([[ebpextensions\structure_ext.lua]])
+GameData["structure_ext"]["control_structure_use"] = true 
+GameData["structure_ext"]["control_structure_use_allied"] = true 
+GameData["structure_ext"]["extra_no_build_buffer"] = 2
+GameData["type_ext"] = Reference([[ebpextensions\type_ext.lua]])
+GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_building_med.lua]])
+GameData["type_ext"]["type_surface"] = Reference([[type_surface\tp_stone.lua]])

@@ -1,0 +1,43 @@
+----------------------------------------
+-- File: 'greyknighttactic.ai'
+-- Created by Arkhan  @ 21.11.2010
+
+class 'GreyKnightTactic' (SpaceMarineInfantryTactic)
+
+GreyKnight = {}
+
+function GreyKnightTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Grey Knight Tactic")
+	
+	-- Force melee stance (Commander detaching can cause false stances)
+	self.iForceMeleeStance = true
+end
+
+function GreyKnightTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (GreyKnight.iPsychicInquisitionID == nil) then
+		GreyKnight.iPsychicInquisitionID = cpu_manager.stats:GetAbilityID( "marines_inquisition" )
+	end
+	
+	if (GreyKnight.iSabotageID == nil) then
+		GreyKnight.iSabotageID = cpu_manager.stats:GetAbilityID( "marines_sabotage" )
+	end
+	
+	-- Init common abilities
+	SpaceMarineInfantryTactic.InitAbilities(self)
+end
+
+function GreyKnightTactic:DoAbilities()
+
+	-- Try to use psychic inquisition ability
+	Ability.DoAbilityTarget(self.squad_ai, GreyKnight.iPsychicInquisitionID, Ability.Filters.CloseInfiltratedOrVisibleEnemyInfantry, 4)
+
+	-- Try to use sabotage ability
+	Ability.DoAbilityTarget(self.squad_ai, GreyKnight.iSabotageID, Ability.Filters.CloseVehicleEnemy, 1)
+	Ability.DoAbilityTarget(self.squad_ai, GreyKnight.iSabotageID, Ability.EntityFilters.CloseBaseEntityEnemy, 1)
+	
+	-- Compute common abilities
+	SpaceMarineInfantryTactic.DoAbilities(self)
+end

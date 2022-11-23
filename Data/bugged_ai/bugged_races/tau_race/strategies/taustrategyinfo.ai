@@ -1,0 +1,268 @@
+----------------------------------------
+-- File: 'taustrategyinfo.ai'
+-- Edited by Thudmeizer   @ 02.10.2008
+
+BuildBaseStrategyInfo = 
+{
+	tau_race =
+	{
+		post_builder = 1,
+		flag_capture = 1,
+
+		--reserve this amount for building units/buildings (not for use in upgrading/ reinforcing)
+		req_reserve = 100,
+		
+		--need at least this at all times
+		squad_cap_threshold = 3,
+
+		--need at least this at all times
+		support_cap_threshold = 3,
+		
+		--used to calculate wants for engineers
+		Engineers =
+		{
+			--number of engineers we're aiming for
+			want = 2,
+		},
+		
+		-- Is used to modify the army strength in the build programs (Allows faster balancing adjustments)
+		ArmyStrengthModifier = 1.0,
+
+		-- Item-Syntax: Min. Tier, Min. Requisition, Min. Power, Min. ArmyStrength, Object-Count, Object-Type, Object-Name
+		BuildPrograms =
+		{
+			-- Tau fire warrior strategy
+			{
+				{ 1, 250,  70,    0,   1, "Unit",        "tau_commander_squad" },
+				{ 1, 200,   0,    0,   1, "Building",    "tau_hq" },
+				{ 1, 220,   0,    0,   1, "Building",    "tau_barracks" },
+				{ 1, 135,   0,    0,   1, "Building",    "tau_plasma_generator" },
+				{ 1, 150,  10,  750,   2, "Building",    "tau_plasma_generator" },
+				{ 1, 125, 100,  750,  20, "TurretAddon", "addon_tau_list_post_1" },
+				{ 1, 175,  50,  750,   1, "Building",    "tau_research_building" },
+				{ 1, 165,  20,  750,   3, "Building",    "tau_plasma_generator" },
+				{ 1, 125, 100, 1000,  60, "TurretAddon", "addon_tau_list_post_1" },
+				{ 1, 120,  80, 1000,   1, "Research",    "tau_inf_armour_research" },
+				{ 1, 100,  60, 1000,   1, "Research",    "tau_teachings_of_enlightenment_research" },
+				{ 1,  80,  60, 1000,   1, "Research",    "tau_plasma_field_generators_research" },
+				{ 1, 250, 100, 1000,   1, "Building",    "tau_shrine_of_montka" },
+				{ 1, 180,  30, 	750,   4, "Building",    "tau_plasma_generator" },
+
+				{ 2, 250,  70,    0,   1, "Unit",        "tau_commander_squad" },
+				{ 2, 250, 100,  750,   1, "Building",    "tau_vehicle_building" },
+				{ 2, 195,  40,  750,   5, "Building",    "tau_plasma_generator" },
+				{ 2, 150,  80,  750,   1, "Research",    "tau_teachings_of_montka_research" },
+				{ 2, 125, 100, 1000, 100, "TurretAddon", "addon_tau_list_post_1" },
+				{ 2, 200,  40, 1000,   1, "Research",    "tau_power_research" },
+				{ 2, 210,  50, 1500,   6, "Building",    "tau_plasma_generator" },
+				{ 2, 250, 250, 1500,   2, "Building",    "tau_hq" },
+				{ 2, 250, 100, 1750,   1, "Building",    "tau_shrine_of_kauyon" }, 
+				{ 2, 200, 150, 1750,   1, "Building",    "tau_shrine_of_purpose" },
+				{ 2, 150,  80, 2000,   1, "Research",    "tau_teachings_of_kauyon_research" },
+				{ 2, 150, 250, 2000,  40, "TurretAddon", "addon_tau_list_post_2" },
+
+				{ 3, 200, 150, 2500,   1, "Research",    "tau_teachings_of_montka_research_2" },
+				{ 3, 350,  60, 2500,   1, "Research",    "tau_power_research_2" },
+				{ 3, 200, 150, 3000,   1, "Research",    "tau_teachings_of_kauyon_research_2" },
+				{ 3, 150, 250, 3000, 100, "TurretAddon", "addon_tau_list_post_2" }
+			},
+			
+			-- Kroot carnivore strategy
+			{
+				{ 1, 250,  70,    0,   1, "Unit",        "tau_commander_squad" },
+				{ 1, 160,   0,    0,   2, "Unit",        "tau_kroot_carnivore_squad" },
+				{ 1, 225,  45,    0,   1, "Unit",        "tau_vespid_auxiliary_squad" },
+				{ 1, 200,   0,    0,   1, "Building",    "tau_hq" },
+				{ 1, 220,   0,    0,   1, "Building",    "tau_barracks" },
+				{ 1, 135,   0,    0,   1, "Building",    "tau_plasma_generator" },
+				{ 1, 150,  10,  750,   2, "Building",    "tau_plasma_generator" },
+				{ 1, 125, 100,  750,  20, "TurretAddon", "addon_tau_list_post_1" },
+				{ 1, 175,  50,  750,   1, "Building",    "tau_research_building" },
+				{ 1, 165,  20,  750,   3, "Building",    "tau_plasma_generator" },
+				{ 1, 125, 100, 1000,  60, "TurretAddon", "addon_tau_list_post_1" },
+				{ 1, 120,  80, 1000,   1, "Research",    "tau_inf_armour_research" },
+				{ 1, 100,  60, 1000,   1, "Research",    "tau_teachings_of_enlightenment_research" },
+				{ 1,  80,  60, 1000,   1, "Research",    "tau_hunter_savagery_research" },
+				{ 1, 250, 100, 1000,   1, "Building",    "tau_shrine_of_kauyon" },
+				{ 1, 180,  30, 	750,   4, "Building",    "tau_plasma_generator" },
+			    
+				{ 2, 250,  70,    0,   1, "Unit",        "tau_commander_squad" },
+				{ 2, 200,  75,    0,   1, "Unit",        "tau_kroot_shaper_squad" },
+				{ 2, 180, 240,    0,   1, "Unit",        "tau_devilfish_troop_carrier" },
+				{ 2, 160,   0,    0,   2, "Unit",        "tau_kroot_carnivore_squad" },
+				{ 2, 200, 340,    0,   1, "Unit",        "tau_skyray_squad" },
+				{ 2, 210, 120,    0,   1, "Unit",        "tau_krootox_squad" },
+				{ 2, 250, 100,  750,   1, "Building",    "tau_vehicle_building" },
+				{ 2, 195,  40,  750,   5, "Building",    "tau_plasma_generator" },
+				{ 2, 150,  80,  750,   1, "Research",    "tau_teachings_of_kauyon_research" },
+				{ 2, 125, 100, 1000, 100, "TurretAddon", "addon_tau_list_post_1" },
+				{ 2, 200,  40, 1000,   1, "Research",    "tau_power_research" },
+				{ 2, 210,  50, 1500,   6, "Building",    "tau_plasma_generator" },
+				{ 2, 250, 250, 1500,   1, "Building",    "tau_hq" },
+				{ 2, 250, 100, 1750,   1, "Building",    "tau_shrine_of_montka" }, 
+				{ 2, 200, 150, 1750,   1, "Building",    "tau_shrine_of_purpose" },
+				{ 2, 150,  80, 2000,   1, "Research",    "tau_teachings_of_montka_research" },
+				{ 2, 250, 100, 2000,   2, "Building",    "tau_vehicle_building" },
+				{ 2, 150, 250, 2000,  40, "TurretAddon", "addon_tau_list_post_2" },
+
+				{ 3, 250,  70,    0,   1, "Unit",        "tau_commander_squad" },
+				{ 3, 175, 200,    0,   1, "Unit",        "tau_ethereal_squad" },
+				{ 3, 200,  75,    0,   1, "Unit",        "tau_kroot_shaper_squad" },
+				{ 3, 240, 400,    0,   2, "Unit",        "tau_hammerhead_gunship_squad" },
+				{ 3, 160,   0,    0,   2, "Unit",        "tau_kroot_carnivore_squad" },
+				{ 3, 350, 200,    0,   1, "Unit",        "tau_greater_knarloc_squad" },
+				{ 3, 200, 150, 2500,   1, "Research",    "tau_teachings_of_kauyon_research_2" },
+				{ 3, 350,  60, 2500,   1, "Research",    "tau_power_research_2" },
+				{ 3, 200, 150, 3000,   1, "Research",    "tau_teachings_of_montka_research_2" },
+				{ 3, 150, 250, 3000, 100, "TurretAddon", "addon_tau_list_post_2" }
+			},
+			
+			-- Kroot Vespid stingwing stray strategy
+			{
+				{ 1, 250,  70,    0,   1, "Unit",        "tau_commander_squad" },
+				{ 1, 160,   0,    0,   1, "Unit",        "tau_kroot_carnivore_squad" },
+				{ 1, 225,  45,    0,   2, "Unit",        "tau_vespid_auxiliary_squad" },
+				{ 1, 200,   0,    0,   1, "Building",    "tau_hq" },
+				{ 1, 220,   0,    0,   1, "Building",    "tau_barracks" },
+				{ 1, 135,   0,    0,   1, "Building",    "tau_plasma_generator" },
+				{ 1, 150,  10,  750,   2, "Building",    "tau_plasma_generator" },
+				{ 1, 125, 100,  750,  20, "TurretAddon", "addon_tau_list_post_1" },
+				{ 1, 175,  50,  750,   1, "Building",    "tau_research_building" },
+				{ 1, 165,  20,  750,   3, "Building",    "tau_plasma_generator" },
+				{ 1, 125, 100, 1000,  60, "TurretAddon", "addon_tau_list_post_1" },
+				{ 1, 120,  80, 1000,   1, "Research",    "tau_inf_armour_research" },
+				{ 1, 100,  60, 1000,   1, "Research",    "tau_teachings_of_enlightenment_research" },
+				{ 1,  80,  60, 1000,   1, "Research",    "tau_hunter_savagery_research" },
+				{ 1, 250, 100, 1000,   1, "Building",    "tau_shrine_of_kauyon" },
+				{ 1, 180,  30, 	750,   4, "Building",    "tau_plasma_generator" },
+			    
+				{ 2, 250,  70,    0,   1, "Unit",        "tau_commander_squad" },
+				{ 2, 200,  75,    0,   1, "Unit",        "tau_kroot_shaper_squad" },
+				{ 2, 180, 240,    0,   1, "Unit",        "tau_devilfish_troop_carrier" },
+				{ 2, 160,   0,    0,   2, "Unit",        "tau_kroot_carnivore_squad" },
+				{ 2, 200, 340,    0,   1, "Unit",        "tau_skyray_squad" },
+				{ 2, 210, 120,    0,   1, "Unit",        "tau_krootox_squad" },
+				{ 2, 250, 100,  750,   1, "Building",    "tau_vehicle_building" },
+				{ 2, 195,  40,  750,   5, "Building",    "tau_plasma_generator" },
+				{ 2, 150,  80,  750,   1, "Research",    "tau_teachings_of_kauyon_research" },
+				{ 2, 125, 100, 1000, 100, "TurretAddon", "addon_tau_list_post_1" },
+				{ 2, 200,  40, 1000,   1, "Research",    "tau_power_research" },
+				{ 2, 210,  50, 1500,   6, "Building",    "tau_plasma_generator" },
+				{ 2, 250, 250, 1500,   1, "Building",    "tau_hq" },
+				{ 2, 250, 100, 1750,   1, "Building",    "tau_shrine_of_montka" }, 
+				{ 2, 200, 150, 1750,   1, "Building",    "tau_shrine_of_purpose" },
+				{ 2, 150,  80, 2000,   1, "Research",    "tau_teachings_of_montka_research" },
+				{ 2, 250, 100, 2000,   2, "Building",    "tau_vehicle_building" },
+				{ 2, 150, 250, 2000,  40, "TurretAddon", "addon_tau_list_post_2" },
+
+				{ 3, 250,  70,    0,   1, "Unit",        "tau_commander_squad" },
+				{ 3, 175, 200,    0,   1, "Unit",        "tau_ethereal_squad" },
+				{ 3, 200,  75,    0,   1, "Unit",        "tau_kroot_shaper_squad" },
+				{ 3, 240, 400,    0,   2, "Unit",        "tau_hammerhead_gunship_squad" },
+				{ 3, 160,   0,    0,   2, "Unit",        "tau_kroot_carnivore_squad" },
+				{ 3, 350, 200,    0,   1, "Unit",        "tau_greater_knarloc_squad" },
+				{ 3, 200, 150, 2500,   1, "Research",    "tau_teachings_of_kauyon_research_2" },
+				{ 3, 350,  60, 2500,   1, "Research",    "tau_power_research_2" },
+				{ 3, 200, 150, 3000,   1, "Research",    "tau_teachings_of_montka_research_2" },
+				{ 3, 150, 250, 3000, 100, "TurretAddon", "addon_tau_list_post_2" }
+			}
+		},
+
+		SquadLimits =
+		{
+			standard =
+			{
+				tau_builder_squad = 0,
+				tau_pathfinder_squad = math.random( 2,3 ),
+				tau_fire_warrior_squad = math.random( 2,3 ),
+				tau_broadside_battlesuit_squad = 2,
+				tau_kroot_carnivore_squad = math.random( 2,3 ),
+				tau_kroot_hound_squad = 2,
+				tau_stealth_team_squad = 2,
+				tau_krootox_squad = 3,
+				tau_crisis_suit_squad = 2,
+				tau_kroot_shaper_squad = 1,
+				tau_vespid_auxiliary_squad = 2,
+				tau_commander_squad = 1,
+				tau_ethereal_squad = 1,
+				tau_devilfish_troop_carrier = math.random( 2,3 ),
+				tau_piranha_squad = math.random( 2,3 ),
+			    tau_drone_squad = 2,
+				tau_skyray_squad = 3,
+				tau_hammerhead_gunship_squad = 3,
+				tau_greater_knarloc_squad = 2,
+			}
+		},
+	},
+}
+
+BuildOrderStrategyInfo = 
+{
+	tau_race =
+	{
+		-- Tau fire warrior strategy
+		{
+			{ "flag_capture" },
+			{ "flag_capture" }, 
+			{ "flag_capture" },
+			{ "squad", "tau_pathfinder_squad" },
+			{ "squad", "tau_builder_squad" },
+			{ "squad", "tau_pathfinder_squad" },
+			{ "squad", "tau_pathfinder_squad" },
+			{ "building", "tau_barracks", true },
+			{ "squad", "tau_commander_squad" },
+			{ "squad", "tau_fire_warrior_squad" },
+			{ "squad", "tau_fire_warrior_squad" },
+			{ "building", "tau_plasma_generator", true },
+			{ "post_builder" },
+			{ "post_builder" },
+			{ "post_builder" },
+		},
+		
+		-- Kroot carnivore strategy
+		{
+			{ "flag_capture" },
+			{ "flag_capture" }, 
+			{ "flag_capture" },
+			{ "squad", "tau_pathfinder_squad" },
+			{ "squad", "tau_builder_squad" },
+			{ "squad", "tau_pathfinder_squad" },
+			{ "squad", "tau_pathfinder_squad" },
+			{ "building", "tau_barracks", true },
+			{ "squad", "tau_commander_squad" },
+			{ "squad", "tau_kroot_carnivore_squad" },
+			{ "squad", "tau_kroot_carnivore_squad" },
+			{ "building", "tau_plasma_generator", true },
+			{ "post_builder" },
+			{ "post_builder" },
+			{ "post_builder" },
+		},
+		
+		-- Vespid stingwing stray strategy
+		{
+			{ "flag_capture" },
+			{ "flag_capture" }, 
+			{ "flag_capture" },
+			{ "squad", "tau_pathfinder_squad" },
+			{ "squad", "tau_builder_squad" },
+			{ "squad", "tau_pathfinder_squad" },
+			{ "squad", "tau_pathfinder_squad" },
+			{ "building", "tau_barracks", true },
+			{ "squad", "tau_commander_squad" },
+			{ "squad", "tau_kroot_carnivore_squad" },
+			{ "squad", "tau_vespid_auxiliary_squad" },
+			{ "building", "tau_plasma_generator", true },
+			{ "post_builder" },
+			{ "post_builder" },
+			{ "post_builder" },
+		},
+	}
+}
+
+AttackStrategyInfo = 
+{	
+	tau_race =
+	{
+		MinArmyStrength = 750,
+	},
+}

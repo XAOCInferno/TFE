@@ -1,0 +1,13 @@
+----------------------------------------
+-- File: 'possessedtactic.ai'
+-- Edited by Arkhan	@ 21.11.2010
+
+class 'PossessedMarineTactic' (ChaosMarineInfantryTactic)
+
+function PossessedMarineTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Possessed Marine Tactic")
+	
+	-- Force melee stance (Commander detaching can cause false stances)
+	self.iForceMeleeStance = true
+end

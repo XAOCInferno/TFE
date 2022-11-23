@@ -1,0 +1,37 @@
+----------------------------------------
+-- File: 'apothecarytactic.ai'
+-- Edited by LarkinVB   @ 31.07.2005
+
+class 'ApothecaryTactic' (SpaceMarineInfantryTactic)
+
+function ApothecaryTactic:__init( squad_ai ) super( squad_ai )
+	self:SetName("Apothecary Tactic")
+end
+
+--should only attack/defend when attached
+function ApothecaryTactic:IsAttacker()
+	return self:IsCommanderAttacker()
+end
+
+function ApothecaryTactic:IsDefender()
+	return self:IsCommanderDefender()
+end
+
+function ApothecaryTactic:Update()
+
+   if self:IsComplete() then
+      return
+   end
+   
+	--state machine
+	if not InfantryTactic.Update( self ) then
+		return
+	end
+
+	--attach to squad
+	if self:TryAttachSquad( false, false, 50, 200, nil ) == nil then
+		self:TryAttachSquadMelee()
+	end
+end
+
+

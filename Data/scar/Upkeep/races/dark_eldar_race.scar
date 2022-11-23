@@ -1,0 +1,168 @@
+--[[Race file. Costs are deducted every 1s. For ease an standardisation to DoW1 income, write these numbers as cost per 10s.]]
+--[[Numbers must be negative, positive numbers will be added to resources instead.]]
+
+ResourceGlobalNames.dark_eldar_race = 
+{
+	Req = 
+	{
+		First = "dark_eldar_upgrade_requisition_1",
+		Second = "dark_eldar_upgrade_requisition_2",
+	},
+
+	Power = 
+	{
+		First = "dark_eldar_upgrade_power_1",
+		Second = "dark_eldar_upgrade_power_2",
+	}
+	
+}
+
+UnitCosting.dark_eldar_race =
+{
+	-- Skirmish units
+	dark_eldar_squad_slave =
+	{
+		CostEntity = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+	},
+	dark_eldar_squad_mandrake =
+	{
+		CostEntity = { Req = -3, Power = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -2, Power = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -4, Power = 0, Faith = 0, Souls = 0 },
+	},
+	dark_eldar_squad_warrior =
+	{
+		CostEntity = { Req = -4.5, Power = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -4, Power = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -10, Power = -1, Faith = 0, Souls = 0 },
+	},
+	dark_eldar_squad_hellion =
+	{
+		CostEntity = { Req = -5, Power = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -4, Power = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -10, Power = -1, Faith = 0, Souls = 0 },
+	},
+	dark_eldar_squad_scourge =
+	{
+		CostEntity = { Req = -8, Power = -1, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -6, Power = -2, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+	},
+	dark_eldar_squad_wych =
+	{
+		CostEntity = { Req = -8, Power = -1, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -6, Power = -2, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+	},
+	dark_eldar_squad_warp_beast =
+	{
+		CostEntity = { Req = -13, Power = -2, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -8, Power = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -10, Power = -1, Faith = 0, Souls = 0 },
+	},
+	dark_eldar_squad_archon =
+	{
+		CostEntity = { Req = -15, Power = -2.5, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -5, Power = -1, Faith = 0, Souls = 0 },
+	},
+	-- Attachable
+	dark_eldar_squad_haemonculus =
+	{
+		CostEntity = { Req = -15, Power = -5, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+	},
+	-- Vehicles
+	dark_eldar_squad_reaver =
+	{
+		CostEntity = { Req = -5, Power = -2, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+	},
+	dark_eldar_squad_raider =
+	{
+		CostEntity = { Req = -5, Power = -10, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+	},
+	dark_eldar_squad_raven =
+	{
+		CostEntity = { Req = -10, Power = -15, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+	},
+	dark_eldar_squad_talos =
+	{
+		CostEntity = { Req = -20, Power = -15, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+	},
+	dark_eldar_squad_ravager =
+	{
+		CostEntity = { Req = -20, Power = -20, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+	},
+	dark_eldar_squad_dais_of_destruction =
+	{
+		CostEntity = { Req = -30, Power = -30, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+	},
+
+
+	-- Campaign units
+	dark_eldar_squad_archon_hg_dxp3 =
+	{
+	},
+	-- StrongholdSquads
+	dark_eldar_squad_fastrepair_sp_dxp3 =
+	{
+	},
+	dark_eldar_squad_hellion_sp_dxp3 =
+	{
+	},
+	dark_eldar_squad_scourge_sp_dxp3 =
+	{
+	},
+	dark_eldar_squad_raider_sp_dxp3 =
+	{
+	},
+	dark_eldar_squad_dais_of_destruction_sp_dxp3 =
+	{
+	},
+	-- BonusSquads
+	dark_eldar_squad_mandrake_hg_dxp3 =
+	{
+	},
+	dark_eldar_squad_warrior_leader_hg_dxp3 =
+	{
+	},
+	dark_eldar_squad_hellion_leader_hg_dxp3 =
+	{
+	},
+	dark_eldar_squad_scourge_hg_dxp3 =
+	{
+	},
+	dark_eldar_squad_wych_leader_hg_dxp3 =
+	{
+	},
+	dark_eldar_squad_warp_beast_hg_dxp3 =
+	{
+	},
+	dark_eldar_squad_incubus_hg_dxp3 =
+	{
+	},
+	dark_eldar_squad_haemonculus_hg_dxp3 =
+	{
+	},
+	dark_eldar_squad_reaver_hg_dxp3 =
+	{
+	},
+	dark_eldar_squad_raider_hg_dxp3 =
+	{
+	},
+}

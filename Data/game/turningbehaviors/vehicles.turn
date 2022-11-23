@@ -1,0 +1,279 @@
+TurningBehaviors = 
+{
+	{
+		name = "tank",
+		
+		manipulators =
+		{
+			{ 
+				type = "PathSmoother",
+				smooth_normals = true,
+			},
+			
+			{
+				type = "Turn",
+				turnplans = 
+				{
+					{
+						turn_type = "CurveTurnSmoothed",
+						radius_factor = 1.0,
+					},
+					{
+						turn_type = "CurveTurnSmoothed",
+						radius_factor = 0.5,
+					},
+					{
+						turn_type = "CurveTurn",
+						radius_factor = 1.0,
+					},
+					{
+						turn_type = "CurveTurn",
+						radius_factor = 0.5,
+					},
+					{
+						turn_type = "ThreePointTurn",
+						radius_factor = 0.5,
+					},
+					{
+						turn_type = "Pivot",
+						radius_factor = 0.5,
+					},
+				},
+			},
+		},
+		
+		pilot =
+		{
+			pilot_type = "tank",
+		},
+	},
+	
+	
+	
+	{
+		name = "hovercraft",
+		
+		manipulators =
+		{
+			{ 
+				type = "PathSmoother",
+				smooth_normals = true,
+			},
+			
+			{
+				type = "Turn",
+				turnplans = 
+				{
+					{
+						turn_type = "CurveTurnSmoothed",
+						radius_factor = 1.5,
+					},
+					{
+						turn_type = "CurveTurnSmoothed",
+						radius_factor = 1.0,
+					},
+					{
+						turn_type = "CurveTurnSmoothed",
+						radius_factor = 0.5,
+					},
+					{
+						turn_type = "CurveTurn",
+						radius_factor = 1.5,
+					},
+					{
+						turn_type = "CurveTurn",
+						radius_factor = 1.0,
+					},
+					{
+						turn_type = "CurveTurn",
+						radius_factor = 0.5,
+					},
+					{
+						turn_type = "Pivot",
+						radius_factor = 0.5,
+					},
+				},
+			},
+		},
+		
+		pilot =
+		{
+			pilot_type = "tank",
+		},
+	},
+	
+
+	{
+		name = "walker",
+		
+		manipulators =
+		{
+			{ 
+				type = "PathSmoother",
+				smooth_normals = false,
+			},
+			
+			{
+				type = "Turn",
+				turnplans = 
+				{
+					{
+						turn_type = "CurveTurnSmoothed",
+						radius_factor = 1.0,
+					},
+					{
+						turn_type = "CurveTurnSmoothed",
+						radius_factor = 0.5,
+					},
+					{
+						turn_type = "CurveTurn",
+						radius_factor = 1.0,
+					},
+					{
+						turn_type = "CurveTurn",
+						radius_factor = 0.5,
+					},
+					{
+						turn_type = "Pivot",
+						radius_factor = 0.5,
+					},
+				},
+			},
+		},
+		
+		pilot =
+		{
+			pilot_type = "tank",
+		},
+	},	
+	
+	{
+		name = "squiggoth",
+		
+		manipulators =
+		{
+			{ 
+				type = "PathSmoother",
+				smooth_normals = false,
+			},
+			
+			{
+				type = "Turn",
+				turnplans = 
+				{
+					{
+						turn_type = "CurveTurnSmoothed",
+						radius_factor = 1.0,
+					},
+					{
+						turn_type = "CurveTurnSmoothed",
+						radius_factor = 0.5,
+					},
+					{
+						turn_type = "CurveTurn",
+						radius_factor = 1.0,
+					},
+					{
+						turn_type = "CurveTurn",
+						radius_factor = 0.5,
+					},
+					{
+						turn_type = "Pivot",
+						radius_factor = 0.5,
+					},
+				},
+			},
+		},
+		
+		pilot =
+		{
+			pilot_type = "tank",
+		},
+	},	
+		
+	{
+		name = "turnonspot",
+		
+		manipulators =
+		{
+			{ 
+				type = "PathSmoother",
+				smooth_normals = false,
+			},
+			
+			{
+				type = "Turn",
+				turnplans = 
+				{
+					{
+						turn_type = "Pivot",
+						radius_factor = 1.0,
+					},
+				},
+			},
+		},
+		
+		pilot =
+		{
+			pilot_type = "tank",
+		},
+	},
+
+
+	{
+		name = "aircraft",
+		
+		manipulators =
+		{
+			{ 
+				type = "PathSmoother",
+				smooth_normals = true,
+			},
+			
+			{
+				type = "Turn",
+				turnplans = 
+				{
+					{
+						turn_type = "CurveTurnSmoothed",
+						radius_factor = 1.5,
+					},
+					{
+						turn_type = "CurveTurnSmoothed",
+						radius_factor = 1.0,
+					},
+					{
+						turn_type = "CurveTurnSmoothed",
+						radius_factor = 0.5,
+					},
+					{
+						turn_type = "CurveTurn",
+						radius_factor = 1.5,
+					},
+					{
+						turn_type = "CurveTurn",
+						radius_factor = 1.0,
+					},
+					{
+						turn_type = "CurveTurn",
+						radius_factor = 0.5,
+					},
+					{
+						turn_type = "Pivot",
+						radius_factor = 0.5,
+					},
+				},
+			},
+		},
+		
+		pilot =
+		{
+			pilot_type = "tank",
+		},
+	},	
+
+
+
+
+}
+

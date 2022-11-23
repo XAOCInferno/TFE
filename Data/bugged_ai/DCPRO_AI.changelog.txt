@@ -1,0 +1,252 @@
+v 3.5 (Larkin)
+--------------
+Updated to DoWPro 3.60
+
+
+v 3.3 (Larkin)
+--------------
+Updated to skirmish AI 3.2 and DoWPro 3.54
+
+v 2.0 (Larkin)
+--------------
+Updated to skirmish AI 3.1
+
+v 1.4 (Thudmeizer + Kaiser)
+----------
+Fully Updated to DowPro 3.3v18 (Sept 30, 2008 build)
+General code and cost tweaking
+Migrate core logic to SS 3.00 Final (Major thanks to Kaiser!)
+Added latest Heroes, Massive Battles, and Fortress Game Modes
+
+v 1.3 (Larkin)
+--------------
+Partially updated to DowPro 3.3
+Fixed disengage bug
+Fixed sorceror spell bug
+Some minor improvements
+
+v 1.2 (Larkin)
+----------
+Updated to skirmish AI 2.6 and DowPro 3.2
+Fixed harbinger drone deployment
+Reduced requirements for secondary HQ
+Lots of minor improvements
+
+v 1.1 (Larkin)
+----------
+Updated to DowPro 3.1
+Fast build of commanders
+Early weak cc squads will dance commanders
+
+V 1.0
+----------
+Updated to DowPro 3.0
+
+V 0.9.16 (Thudmeizer)
+----------
+Tweaked SM Scout tactic code so Sargent could be built properly
+
+V 0.9.15 (Larkin)
+----------
+Updated core logic to v2.50 final
+Fixed necron no builder problem
+Guards will reinforce to 6 from start
+
+V 0.9.14 (Thudmeizer)
+----------
+- CSM Berserkers: Furious Charge ability should be activated only when in melee 
+- Raise SlaveLabour ability for CSM Slaves to 0.6
+- IG should use way less HWTs - it can't handle them well (setting em up really close to FCs and other ouchy melee stuff and unable to meatshield them with GM blocking melee off).
+- Reduced # of turrets and minefields AI can build
+- Slowed down flexible researches/addons (require more troops to build researches)
+- Changed SM build order a little bit (ie. they were lacking alot of power in early Tier2 so ensured they had enough to build vehicles).
+- Increased rating of CSM Predator to 6 (AI still doesn't build em as often as I'd like due to their super-expensive power cost).
+
+V 0.9.13 (Thudmeizer)
+----------
+Compliant with Pro 2.0.2
+Updated core logic to v2.50b3
+Added all outstanding researches, units and their abilities
+Cleaned up all console errors (except for mod based ones like invalid addon preqs, stencil shadows, and builder slag depo ghost notes)
+Cleaned scripts up a little (minor)
+Tweaked all tech and build-order trees
+
+V 0.9.12
+----------
+Even more necron changes
+Emergency retreat for big mek
+
+V 0.9.11
+----------
+Minor Eldar Fixes (Increase the prob of using Dr against Tau)
+
+V 0.9.10
+----------
+UnitStats updated to DowPRO 2.01
+changed unit rating, now it is not fixed during the game
+
+V 0.9.9
+----------
+More changes to Necron generator and Pylons
+
+V 0.9.8
+----------
+Included skirmish mod 2.4 new features
+Force tech to T2 only after 7 minutes
+IG 3rd generator a bit faster
+More changes to slag creation
+
+V 0.9.7
+----------
+Fixed Cs is no longer allowed to upgrade
+fixed a bug with unitstats
+
+V 0.9.6
+----------
+Fixed distance between slags
+
+V 0.9.5
+----------
+Added Larkin's code to build generators
+Fixed log (it was always on)
+
+V 0.9.4
+----------
+Changed Necron abilities to adapt them to DoWPRO 2.0
+
+V 0.9.3
+----------
+Changed scarabs builder behaviour
+
+
+V 0.9.2
+----------
+Fixed a bug with chaos slaves (thx larkin)
+Changed pylon building
+
+
+V 0.9.1
+----------
+fixed a Bug with Tau (thx Larkin)
+fixces a Necron lock bug (thx Larkin)
+
+
+V 0.9
+----------
+Unit stats updated to 2.0
+Added Larkin's changes to Necron Generation Building Process
+
+V 0.8.4
+----------
+Fixed a bug with necron generators (thx Arkhan!!)
+
+V 0.8.3
+----------
+Added Chaos Hero Wargear
+Added Eldar Hero Wargear
+Added IG Hero Wargear
+Added Ork Hero Wargear
+
+V 0.8.2
+----------
+Fixed a bug so the AI can play IG
+
+V 0.8.1
+----------
+Fixed a buf with Icon Bearer
+
+V 0.8
+----------
+Included skirmish mod 2.3 new features
+Updated Chaos stats to 1.98v4
+Updated Eldar stats to 1.98v4
+Updated IG stats to 1.98v4
+Changed IG General behaviour to switch ranged/melee
+Updated Necron stats to 1.98v4
+Changed the log behaviour, now they are in the game directory named "DoWPRO_AI_(playerid).log"
+Updated Ork stats to 1.98v4
+Updated SM stats to 1.98v4
+Updated Tau stats to 1.98v4
+Updated all Tau upgrades to 1.98v4
+
+
+V 0.7.2
+----------
+Added SM Hero Wargear (updated to 1.98 v3)
+
+
+V 0.7.1
+----------
+Fixed a bug with Necron Hero Basic Wargear (updated to 1.98 v3)
+
+V 0.7
+----------
+Added Necron (updated to 1.98)
+Implemented Necron Hero Wargear
+
+V 0.6
+----------
+Added Tau (updated to 1.97)
+Implemented core changes to adapt Hero Wargear
+Implemented Basic Hero Wargear Race Code
+Implemented Tau Hero Wargear
+
+
+V 0.5.2
+----------
+Fixed a buf introduced in 0.5.1 that affect Tau human players
+
+
+V 0.5.1
+----------
+Improved the upgrades of Chaos Rhino
+Improved the upgrades of Chaos Predator
+Improved the upgrades of Chaos Tacs
+Improved the CS reinforce system
+Improved the upgrades of Sentinel
+Improved the upgrades of SM Rhino
+Improved the upgrades of SM Predator
+Improved the upgrades of SM Dreadnought
+Improved the upgrades of SM Tacs
+
+
+V 0.5
+----------
+Added IG AI
+Started the rework of Unit building process
+
+v 0.4
+----------
+Added Eldar AI
+Fixed crash with Chaos
+
+v 0.3
+----------
+Added Ork AI
+
+v 0.2.2
+----------
+Humans can now play with Tau against AI
+
+v 0.2.1
+----------
+Added SM AI
+Added Raptors Leap
+Fixed Doombolt bug, now the sorcerer finally uses it.
+Fixed a bug that crashes the game whith SM
+
+v 0.1.3
+----------
+Units try to use grenades against cloaked units before using them on visible squads
+Unit Stats updated to DC:PRO 1.91 (for all races)
+
+v 0.1.2
+----------
+Fixed a bug in order to allow Sorceres to use Doombolt and Chains of torment
+Auspex is now thrown towards the enemy instead of dropped.
+
+v 0.1.1 
+--------------
+Edited the sorcerer spells, so it now requires more enemies to use them.
+Edited the stats so raptor and predator are built more frecuently
+

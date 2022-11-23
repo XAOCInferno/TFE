@@ -1,0 +1,188 @@
+----------------------------------------
+-- File: 'loader.ai'
+-- Edited by Thudmeizer	@ 01.10.2008
+
+class 'tau_race'
+
+-- Constructor
+function tau_race:__init()
+
+end
+
+-- Returns the name of the race
+function tau_race:GetRaceName()
+	return "tau_race"
+end
+
+-- This function is called if the race is being played
+function tau_race:LoadRace( eDifficulty )
+	
+	-- Import strategies
+	import( 'Races/tau_race/Strategies/TauBuildBaseStrategy.ai' )
+	
+	-- Import strategy info
+	import( "Races/tau_race/Strategies/TauStrategyInfo.ai" )
+	
+	-- Import tactics
+	import( 'Races/tau_race/Tactics/TauInfantryTactic.ai' )
+	import( 'Races/tau_race/Tactics/TauVehicleTactic.ai' )
+ 	import( 'Races/tau_race/Tactics/FireWarriorTactic.ai' )
+	import( 'Races/tau_race/Tactics/KrootShaperTactic.ai' )
+    import( 'Races/tau_race/Tactics/KrootCarnivoreTactic.ai' )
+	import( 'Races/tau_race/Tactics/StealthTeamTactic.ai' )
+	import( 'Races/tau_race/Tactics/VespidTactic.ai' )
+	import( 'Races/tau_race/Tactics/PathFinderTactic.ai' )
+	import( 'Races/tau_race/Tactics/DevilfishTactic.ai' )
+	import( 'Races/tau_race/Tactics/BroadsideBattlesuitTactic.ai' )
+	import( 'Races/tau_race/Tactics/CrisisTactic.ai' )
+	import( 'Races/tau_race/Tactics/HarbingerDronesTactic.ai' )
+	import( 'Races/tau_race/Tactics/DroneHarbingerTactic.ai' )
+	import( 'Races/tau_race/Tactics/SkyrayTactic.ai' )
+	import( 'Races/tau_race/Tactics/EtherealTactic.ai' )
+	import( 'Races/tau_race/Tactics/TauCommanderTactic.ai' )
+	import( 'Races/tau_race/Tactics/taulptactic.ai' )
+
+	--Prepare unit rating, this will be used intead of rating for our units (not for the enemy units!!!)
+	--If a unit is not listed here it will use the default rating
+	unitStatsUpdater:AddSquadRating ( "tau_broadside_battlesuit_squad" , 6)
+	unitStatsUpdater:AddSquadRating ( "tau_builder_squad" , 0)
+	unitStatsUpdater:AddSquadRating ( "tau_commander_squad" , 8)
+	unitStatsUpdater:AddSquadRating ( "tau_crisis_suit_squad" , 7)
+	unitStatsUpdater:AddSquadRating ( "tau_devilfish_troop_carrier" , 5)
+	--unitStatsUpdater:AddSquadRating ( "tau_drone_harbinger_squad" , 6)
+	unitStatsUpdater:AddSquadRating ( "tau_drone_squad" , 4)
+	unitStatsUpdater:AddSquadRating ( "tau_ethereal_squad" , 8)
+	unitStatsUpdater:AddSquadRating ( "tau_fire_warrior_squad" , 4)
+	unitStatsUpdater:AddSquadRating ( "tau_greater_knarloc_squad" , 10)
+	unitStatsUpdater:AddSquadRating ( "tau_hammerhead_gunship_squad" , 8)
+	unitStatsUpdater:AddSquadRating ( "tau_harbinger_drones_squad" , 5)
+	unitStatsUpdater:AddSquadRating ( "tau_krootox_squad" , 5)
+	unitStatsUpdater:AddSquadRating ( "tau_kroot_carnivore_squad" , 4)
+	unitStatsUpdater:AddSquadRating ( "tau_kroot_shaper_squad" , 7)
+	unitStatsUpdater:AddSquadRating ( "tau_pathfinder_squad" , 2)
+	unitStatsUpdater:AddSquadRating ( "tau_skyray_squad" , 6)
+	unitStatsUpdater:AddSquadRating ( "tau_stealth_team_squad" , 5)
+	unitStatsUpdater:AddSquadRating ( "tau_vespid_auxiliary_squad" , 4)
+	return true
+end
+
+-- This function is called even if this race are not the race being played
+function tau_race:LoadGlobalInfo()
+		
+	-- Import info files
+	import( 'Races/tau_race/Info/tauunitstats.ai' )
+	
+	-- Add Tau unit stats
+	table.insert(UnitStats, TauUnitStats)
+	return true
+end
+
+-- Creates build base strategy
+function tau_race:CreateBuildBaseStrategy()
+	return TauBuildBaseStrategy(BuildBaseStrategyInfo)
+end
+
+-- Creates a special tactic for a unit
+function tau_race:CreateTactic(oSquadAI)
+
+	-- Get unit name and class
+	local sUnitName = oSquadAI:GetSquadName()
+	local eClass = oSquadAI:GetStats():GetClass()
+	
+	-- Check if there is a special tactic for the unit available
+	if (sUnitName == "tau_fire_warrior_squad") then
+		return FirewarriorTactic(oSquadAI)
+	elseif (sUnitName == "tau_kroot_shaper_squad") then
+		return KrootShaperTactic(oSquadAI)
+	elseif (sUnitName == "tau_kroot_carnivore_squad") then
+		return KrootCarnivoreTactic(oSquadAI)
+	elseif (sUnitName == "tau_stealth_team_squad") then
+		return StealthTeamTactic(oSquadAI)
+	elseif (sUnitName == "tau_vespid_auxiliary_squad") then
+		return VespidTactic(oSquadAI)
+	elseif (sUnitName == "tau_pathfinder_squad") then
+		return PathFinderTactic(oSquadAI)
+	elseif (sUnitName == "tau_broadside_battlesuit_squad") then
+		return BroadsideBattlesuitTactic(oSquadAI)
+	elseif (sUnitName == "tau_crisis_suit_squad") then
+		return CrisisTactic(oSquadAI)
+	elseif (sUnitName == "tau_drone_harbinger_squad") then
+		return DroneHarbingerTactic(oSquadAI)
+	elseif (sUnitName == "tau_harbinger_drones_squad") then
+		return HarbingerDronesTactic(oSquadAI)
+	elseif (sUnitName == "tau_skyray_squad") then
+		return SkyrayTactic(oSquadAI)
+	elseif (sUnitName == "tau_ethereal_squad") then
+		return EtherealTactic(oSquadAI)
+	elseif (sUnitName == "tau_commander_squad") then
+		return TauCommanderTactic(oSquadAI)
+	elseif (sUnitName == "tau_devilfish_troop_carrier") then
+		return DevilfishTactic(oSquadAI)
+	elseif (oSquadAI:IsEngineer()) then
+		return nil
+	elseif (eClass == UnitStatsAI.UC_VehicleLow or eClass == UnitStatsAI.UC_VehicleMed or eClass == UnitStatsAI.UC_VehicleHigh) then
+		return TauVehicleTactic(oSquadAI)
+	end
+	return TauInfantryTactic(oSquadAI)
+end
+
+-- Creates a base tactic
+function tau_race:CreateBaseTactic(oBuilding)
+	if (sBuildingName == "tau_listening_post") then
+		return TauLPTactic(oBuilding)
+	end
+	return nil
+end
+
+-- Returns a specific information
+function tau_race:GetInfo(sType)
+
+	-- Check info type
+	if (sType == "TurretPower") then
+		return 400
+	elseif (sType == "SupportAllyFactor") then
+		return 8 / 4
+	elseif (sType == "AttackModifier") then
+		return 5
+	elseif (sType == "CriticalRangeIncreasePerTier") then
+		return 10
+	elseif (sType == "MinArmyStrengthPerTier") then
+		return 600
+	elseif (sType == "AttackRatio") then
+		return 4 / 5
+	elseif (sType == "RetreatRatio") then
+		return 3 / 5
+	elseif (sType == "InvisibleBuildings") then
+		return false
+	elseif (sType == "HarassingLeader") then
+		return "tau_commander_squad"
+	elseif (sType == "AutoConstructBuildings") then
+		return false
+	end
+	return nil
+end
+
+-- Returns the building type and threat
+function tau_race:GetBuildingType(sBuildingName)
+
+	-- Return race specific object string
+	if (sBuildingName == "tau_hq") then
+		return "HQ", 0
+		
+	elseif (sBuildingName == "tau_plasma_generator") then
+		return "Generator", 0
+		
+	elseif (sBuildingName == "tau_thermoplasma_generator") then
+		return "BiggerGenerator", 0
+		
+	elseif (sBuildingName == "tau_vehicle_building") then
+		return "VehicleBuilding", 0
+		
+	elseif (sBuildingName == "tau_research_building") then
+		return "Armoury", 0
+		
+	elseif (sBuildingName == "tau_listening_post") then
+		return "ListeningPost", 0
+	end
+	return nil, 0
+end

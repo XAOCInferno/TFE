@@ -1,0 +1,333 @@
+----------------------------------------
+-- File: 'guardstrategyinfo.ai'
+-- Edited by Thudmeizer   @ 02.10.2008
+
+BuildBaseStrategyInfo = 
+{
+	guard_race =
+	{
+		post_builder = 1,
+		flag_capture = 1,
+
+		--reserve this amount for building units/buildings (not for use in upgrading/ reinforcing)
+		req_reserve = 100,
+		
+		-- need at least this at all times
+		squad_cap_threshold = 40,
+
+		-- need at least this at all times
+		support_cap_threshold = 3,
+		
+		-- used to calculate wants for engineers
+		Engineers =
+		{
+			--number of engineers we're aiming for
+			want = 2,
+		},
+		
+		-- Is used to modify the army strength in the build programs (Allows faster balancing adjustments)
+		ArmyStrengthModifier = 1.0,
+		
+		-- Item-Syntax: Min. Tier, Min. Requisition, Min. Power, Min. ArmyStrength, Object-Count, Object-Type, Object-Name
+		BuildPrograms =
+		{
+			-- Kasrkin strategy
+			{
+				{ 1, 125,  50,    0,   1, "Unit",        "guard_squad_command_squad" },
+				{ 1, 200,   0,    0,   1, "Building",    "guard_hq" },
+				{ 1, 125,   0,    0,   1, "Building",    "guard_infantry" },
+				{ 1, 135,   0,    0,   1, "Building",    "guard_plasma_generator" },
+				{ 1,  60,   0,    0,  50, "Addon",       "addon_guard_kasrkin_quarters" },
+				{ 1, 150,  10,  750,   2, "Building",    "guard_plasma_generator" },	
+				{ 1, 125, 100,  750,  20, "TurretAddon", "addon_guard_list_post_1" },
+				{ 1,  60,  30,  750,  50, "Addon",       "addon_guard_telepathica_temple" },
+				{ 1, 145,  40,  750,   1, "Building",    "guard_tactica" },
+				{ 1, 165,  20,  750,   3, "Building",    "guard_plasma_generator" },
+				{ 1, 125, 100, 1000,  60, "TurretAddon", "addon_guard_list_post_1" },
+				{ 1,  80,  60, 1000,   1, "Research",    "guard_guardsman_morale" },
+				{ 1, 120,  80, 1000,   1, "Research",    "guard_upgrade_guardsmen_health" },
+				{ 1, 250, 100, 1000,   1, "Addon",       "addon_guard_hq_1" },
+				{ 1, 180,  30,  750,   4, "Building",    "guard_plasma_generator" },
+				{ 1, 100,  60,  750,   1, "Research",    "guard_upgrade_guardsmen_range" },
+				{ 1,  60,  30,  750,  50, "Addon",       "addon_guard_ministorum_temple" },
+				
+				{ 2, 125,  50,    0,   1, "Unit",        "guard_squad_command_squad" },
+				{ 2, 100,  50,  750, 100, "Addon",       "addon_guard_chimera_depot" },
+				{ 2, 200, 100,  750,   1, "Building",    "guard_mechanized" },
+				{ 2, 195,  40,  750,   5, "Building",    "guard_plasma_generator" },
+				{ 2, 125, 100, 1000, 100, "TurretAddon", "addon_guard_list_post_1" },
+				{ 2, 200,  40, 1000,   1, "Research",    "guard_upgrade_power_1" },
+				{ 2, 100,  50, 1000, 100, "Addon",       "addon_guard_hellhound_depot" },
+				{ 2,  60,  30, 1000, 100, "Addon",       "addon_guard_ogryn_quarters" },
+				{ 2,  50,  50, 1500,  50, "TurretAddon", "addon_guard_turret" },
+				{ 2, 210,  50, 1500,   6, "Building",    "guard_plasma_generator" },
+				{ 2, 100,  50, 1500, 100, "Addon",       "addon_guard_basilisk_depot" },
+				{ 2, 250, 250, 1500,   2, "Building",    "guard_hq" },
+				{ 2, 250, 200, 2000,   1, "Addon",       "addon_guard_hq_2" },
+				{ 2, 150, 200, 2000,  40, "TurretAddon", "addon_guard_list_post_2" },
+				{ 2,  60,   0, 2000, 100, "Addon",       "addon_guard_kasrkin_quarters" },
+				{ 2,  60,  30, 2000, 100, "Addon",       "addon_guard_telepathica_temple" },
+				{ 2,  60,  30, 2000, 100, "Addon",       "addon_guard_ministorum_temple" },
+				
+				{ 3, 750, 800,    0,   1, "Unit",        "guard_squad_baneblade" },
+				{ 3, 100,  50,    0, 100, "Addon",       "addon_guard_lemanruss_depot" },
+				{ 3, 200, 100, 2500,   1, "Building",    "guard_mars_pattern" },
+				{ 3, 350,  60, 2500,   1, "Research",    "guard_upgrade_power_2" },
+				{ 3, 100,  50,    0, 100, "Addon",       "addon_guard_demolisher_depot" },
+				{ 3, 150, 100, 2500,   1, "Research",    "guard_full_scale_war" },
+				{ 3, 150,  75, 3000, math.random(3, 4), "Building", "guard_turret_heavy_bolter" },
+				{ 3, 250, 150, 3000,   2, "Building",    "guard_mechanized" },
+				{ 3, 150, 200, 3000, 100, "TurretAddon", "addon_guard_list_post_2" },
+				{ 3, 300, 200, 3000,   3, "Building",    "guard_mechanized" },
+			    { 3,  50,  35, 3000, math.random(2, 3), "Building", "guard_mines" },
+				{ 3, 150,  75, 3500,   5, "Building",    "guard_turret_heavy_bolter" }
+			},
+			
+			-- Weapon team strategy
+			{
+				{ 1, 125,  50,    0,   1, "Unit",        "guard_squad_command_squad" },
+				{ 1, 100,   0,    0,   3, "Unit",        "guard_squad_guardsmen" },
+				{ 1,  60,  20,    0,   2, "Unit",        "guard_squad_commissar" },
+				{ 1, 110,  40,    0,   2, "Unit",        "guard_squad_hvy_weapons_platoon" },
+				{ 1, 200,   0,    0,   1, "Building",    "guard_hq" },
+				{ 1, 125,   0,    0,   1, "Building",    "guard_infantry" },
+				{ 1, 135,   0,    0,   1, "Building",    "guard_plasma_generator" },
+				{ 1, 145,  40,    0,   1, "Building",    "guard_tactica" },
+				{ 1, 150,  10,  750,   2, "Building",    "guard_plasma_generator" },
+				{ 1, 125, 100,  750,  20, "TurretAddon", "addon_guard_list_post_1" },
+				{ 1,  60,  30,  750,  50, "Addon",       "addon_guard_telepathica_temple" },
+				{ 1, 165,  20,  750,   3, "Building",    "guard_plasma_generator" },
+				{ 1, 125, 100, 1000,  60, "TurretAddon", "addon_guard_list_post_1" },
+				{ 1,  80,  60, 1000,   1, "Research",    "guard_guardsman_morale" },
+				{ 1, 120,  80, 1000,   1, "Research",    "guard_upgrade_guardsmen_health" },
+				{ 1, 250, 100, 1000,   1, "Addon",       "addon_guard_hq_1" },
+				{ 1, 180,  30,  750,   4, "Building",    "guard_plasma_generator" },
+				{ 1, 100,  60,  750,   1, "Research",    "guard_upgrade_guardsmen_range" },
+				{ 1,  60,  30,  750,  50, "Addon",       "addon_guard_ministorum_temple" },
+				{ 1,  60,   0,  750,  50, "Addon",       "addon_guard_kasrkin_quarters" },
+				
+				{ 2, 125,  50,    0,   1, "Unit",        "guard_squad_command_squad" },
+				{ 2, 260,  50,    0,   1, "Unit",        "guard_squad_inquisitor" },
+				{ 2,  70,  40,    0,   2, "Unit",        "guard_squad_psyker" },
+				{ 2, 180, 160,    0,   1, "Unit",        "guard_squad_chimera" },
+				{ 2, 200,  20,    0,   1, "Unit",        "guard_squad_kasrkin" },
+				{ 2, 200, 180,    0,   1, "Unit",        "guard_squad_hellhound" },
+				{ 2, 225,  75,    0,   1, "Unit",        "guard_squad_ogryns" },
+				{ 2, 150, 140,    0,   1, "Unit",		 "guard_squad_sentinel" },
+				{ 2, 100,  50,  750, 100, "Addon",       "addon_guard_chimera_depot" },
+				{ 2, 200, 100,  750,   1, "Building",    "guard_mechanized" },
+				{ 2, 195,  40,  750,   5, "Building",    "guard_plasma_generator" },
+				{ 2, 125, 100, 1000, 100, "TurretAddon", "addon_guard_list_post_1" },
+				{ 2, 200,  40, 1000,   1, "Research",    "guard_upgrade_power_1" },
+				{ 2, 100,  50, 1000, 100, "Addon",       "addon_guard_hellhound_depot" },
+				{ 2,  60,  30, 1000, 100, "Addon",       "addon_guard_ogryn_quarters" },
+				{ 2,  60,  30, 1250,  50, "Addon",       "addon_guard_ministorum_temple" },
+				{ 2,  50,  50, 1500,  50, "TurretAddon", "addon_guard_turret" },
+				{ 2, 210,  50, 1500,   6, "Building",    "guard_plasma_generator" },
+				{ 2, 100,  50, 1500, 100, "Addon",       "addon_guard_basilisk_depot" },
+				{ 2, 250, 250, 1500,   2, "Building",    "guard_hq" },
+				{ 2, 250, 200, 2000,   1, "Addon",       "addon_guard_hq_2" },
+				{ 2, 150, 200, 2000,  40, "TurretAddon", "addon_guard_list_post_2" },
+				{ 2,  60,   0, 2000, 100, "Addon",       "addon_guard_kasrkin_quarters" },
+				{ 2,  60,  30, 2000, 100, "Addon",       "addon_guard_telepathica_temple" },
+				{ 2,  60,  30, 2000, 100, "Addon",       "addon_guard_ministorum_temple" },
+				
+				{ 3, 125,  50,    0,   1, "Unit",        "guard_squad_command_squad" },
+				{ 3, 260,  50,    0,   1, "Unit",        "guard_squad_inquisitor" },
+				{ 3, 260, 430,    0,   2, "Unit",        "guard_squad_lemanruss" },
+				{ 3, 200,  20,    0,   1, "Unit",        "guard_squad_kasrkin" },
+				{ 3, 150, 140,    0,   1, "Unit",        "guard_squad_sentinel" },
+				{ 3,  70,  40,    0,   2, "Unit",        "guard_squad_psyker" },
+				{ 3, 750, 800,    0,   1, "Unit",        "guard_squad_baneblade" },
+				{ 3, 100,  50,    0, 100, "Addon",       "addon_guard_lemanruss_depot" },
+				{ 3, 200, 100, 2500,   1, "Building",    "guard_mars_pattern" },
+				{ 3, 350,  60, 2500,   1, "Research",    "guard_upgrade_power_2" },
+				{ 3, 100,  50,    0, 100, "Addon",       "addon_guard_demolisher_depot" },
+				{ 3, 150, 100, 2500,   1, "Research",    "guard_full_scale_war" },
+				{ 3, 150,  75, 3000, math.random(4, 5), "Building", "guard_turret_heavy_bolter" },
+				{ 3, 250, 150, 3000,   2, "Building",    "guard_mechanized" },
+				{ 3, 150, 200, 3000, 100, "TurretAddon", "addon_guard_list_post_2" },
+				{ 3, 300, 200, 3000,   3, "Building",    "guard_mechanized" },
+			    	{ 3,  50,  35, 3000, math.random(2, 3), "Building", "guard_mines" },
+				{ 3, 150,  75, 3000,   6, "Building",    "guard_turret_heavy_bolter" }
+			},
+			
+			-- Priest strategy
+			{
+				{ 1, 125,  50,    0,   1, "Unit",        "guard_squad_command_squad" },
+				{ 1,  80,  50,    0,   2, "Unit",        "guard_squad_priest" },
+				{ 1, 100,   0,    0,   3, "Unit",        "guard_squad_guardsmen" },
+				{ 1,  60,  20,    0,   2, "Unit",        "guard_squad_commissar" },
+				{ 1, 110,  40,    0,   1, "Unit",        "guard_squad_hvy_weapons_platoon" },
+				{ 1, 200,   0,    0,   1, "Building",    "guard_hq" },
+				{ 1, 125,   0,    0,   1, "Building",    "guard_infantry" },
+				{ 1, 135,   0,    0,   1, "Building",    "guard_plasma_generator" },
+				{ 1,  60,  30,    0,  50, "Addon",       "addon_guard_ministorum_temple" },
+				{ 1, 150,  10,  750,   2, "Building",    "guard_plasma_generator" },
+				{ 1, 125, 100,  750,  20, "TurretAddon", "addon_guard_list_post_1" },
+				{ 1, 145,  40,  750,   1, "Building",    "guard_tactica" },
+				{ 1, 165,  20,  750,   3, "Building",    "guard_plasma_generator" },
+				{ 1, 125, 100, 1000,  60, "TurretAddon", "addon_guard_list_post_1" },
+				{ 1, 100,  60, 1000,   1, "Research",    "guard_research_command_squad_size" },
+				{ 1,  80,  60, 1000,   1, "Research",    "guard_guardsman_morale" },
+				{ 1, 250, 100, 1000,   1, "Addon",       "addon_guard_hq_1" },
+				{ 1, 180,  30,  750,   4, "Building",    "guard_plasma_generator" },
+				{ 1, 120,  80,  750,   1, "Research",    "guard_upgrade_guardsmen_health" },
+				{ 1,  60,   0,  750,  50, "Addon",       "addon_guard_kasrkin_quarters" },
+				
+				{ 2, 125,  50,    0,   1, "Unit",        "guard_squad_command_squad" },
+				{ 2, 260,  50,    0,   1, "Unit",        "guard_squad_inquisitor" },
+				{ 2,  70,  40,    0,   2, "Unit",        "guard_squad_psyker" },
+				{ 2, 180, 160,    0,   1, "Unit",        "guard_squad_chimera" },
+				{ 2, 200,  20,    0,   1, "Unit",        "guard_squad_kasrkin" },
+				{ 2, 200, 180,    0,   1, "Unit",        "guard_squad_hellhound" },
+				{ 2, 225,  75,    0,   1, "Unit",        "guard_squad_ogryns" },
+				{ 2, 150, 140,    0,   1, "Unit",		 "guard_squad_sentinel" },
+				{ 2,  70,  40,    0,   2, "Unit",        "guard_squad_psyker" },
+				{ 2, 100,  50,  750, 100, "Addon",       "addon_guard_chimera_depot" },
+				{ 2, 200, 100,  750,   1, "Building",    "guard_mechanized" },
+				{ 2, 195,  40,  750,   5, "Building",    "guard_plasma_generator" },
+				{ 2,  60,  30,  750,  50, "Addon",       "addon_guard_telepathica_temple" },
+				{ 2, 125, 100, 1000, 100, "TurretAddon", "addon_guard_list_post_1" },
+				{ 2, 200,  40, 1000,   1, "Research",    "guard_upgrade_power_1" },
+				{ 2, 100,  50, 1000, 100, "Addon",       "addon_guard_hellhound_depot" },
+				{ 2,  60,  30, 1000, 100, "Addon",       "addon_guard_ogryn_quarters" },
+				{ 2,  50,  50, 1500,  50, "TurretAddon", "addon_guard_turret" },
+				{ 2, 210,  50, 1500,   6, "Building",    "guard_plasma_generator" },
+				{ 2, 100,  50, 1500, 100, "Addon",       "addon_guard_basilisk_depot" },
+				{ 2, 250, 250, 1500,   2, "Building",    "guard_hq" },
+				{ 2, 250, 200, 2000,   1, "Addon",       "addon_guard_hq_2" },
+				{ 2, 150, 200, 2000,  40, "TurretAddon", "addon_guard_list_post_2" },
+				{ 2,  60,   0, 2000, 100, "Addon",       "addon_guard_kasrkin_quarters" },
+				{ 2,  60,  30, 2000, 100, "Addon",       "addon_guard_telepathica_temple" },
+				{ 2,  60,  30, 2000, 100, "Addon",       "addon_guard_ministorum_temple" },
+				
+				{ 3, 125,  50,    0,   1, "Unit",        "guard_squad_command_squad" },
+				{ 3, 260,  50,    0,   1, "Unit",        "guard_squad_inquisitor" },
+				{ 3, 260, 430,    0,   2, "Unit",        "guard_squad_lemanruss" },
+				{ 3, 200,  20,    0,   1, "Unit",        "guard_squad_kasrkin" },
+				{ 3, 150, 140,    0,   1, "Unit",        "guard_squad_sentinel" },
+				{ 3,  70,  40,    0,   2, "Unit",        "guard_squad_psyker" },
+				{ 3, 750, 800,    0,   1, "Unit",        "guard_squad_baneblade" },
+				{ 3, 100,  50,    0, 100, "Addon",       "addon_guard_lemanruss_depot" },
+				{ 3, 200, 100, 2500,   1, "Building",    "guard_mars_pattern" },
+				{ 3, 350,  60, 2500,   1, "Research",    "guard_upgrade_power_2" },
+				{ 3, 100,  50,    0, 100, "Addon",       "addon_guard_demolisher_depot" },
+				{ 3, 150, 100, 2500,   1, "Research",    "guard_full_scale_war" },
+				{ 3, 150,  75, 3000, math.random(3, 4), "Building", "guard_turret_heavy_bolter" },
+				{ 3, 250, 150, 3000,   2, "Building",    "guard_mechanized" },
+				{ 3, 150, 200, 3000, 100, "TurretAddon", "addon_guard_list_post_2" },
+				{ 3, 300, 200, 3000,   3, "Building",    "guard_mechanized" },
+				{ 3,  50,  35, 3000, math.random(2, 3), "Building", "guard_mines" },
+				{ 3, 150,  75, 3000,   6, "Building",    "guard_turret_heavy_bolter" }
+			}
+		},
+		
+		SquadLimits = 
+		{
+			standard = 
+			{
+				guard_squad_enginseer = 0,
+				guard_squad_guardsmen = 6,
+				guard_squad_command_squad = 1,
+				guard_squad_kasrkin = 2,
+				guard_squad_assassin = 1,
+				guard_squad_ogryns = 2,
+				guard_squad_hvy_weapons_platoon = 2,
+				guard_squad_hvy_weapons_platoon_lascannon = 2, 
+				guard_squad_inquisitor = 1,
+				guard_squad_psyker = 2,
+				guard_squad_priest = 2,
+				guard_squad_commissar = 2,
+				guard_squad_sentinel = math.random( 2,3 ),
+				guard_squad_hellhound = math.random( 1,2 ),
+				guard_squad_basilisk = math.random( 2,3 ),
+				guard_squad_chimera = math.random( 1,2 ),
+				guard_squad_lemanruss = 3,
+				guard_squad_demolisher = 3,
+				guard_squad_baneblade = 1,
+			}
+		}
+	}
+}
+
+BuildOrderStrategyInfo = 
+{
+	guard_race =
+	{
+		-- Kasrkin strategy
+		{
+			{ "flag_capture" },
+			{ "flag_capture" },
+			{ "flag_capture" },
+			{ "squad", "guard_squad_guardsmen" },
+			{ "squad", "guard_squad_enginseer" },
+			{ "squad", "guard_squad_guardsmen" },
+			{ "squad", "guard_squad_guardsmen" },
+			{ "building", "guard_infantry", true },
+			{ "squad", "guard_squad_command_squad" },
+			{ "addon", "addon_guard_kasrkin_quarters" },
+			{ "squad", "guard_squad_kasrkin" },
+			{ "squad", "guard_squad_commissar" },
+			{ "squad", "guard_squad_commissar" },
+			{ "building", "guard_plasma_generator", true },
+			{ "post_builder" },
+			{ "post_builder" },
+			{ "post_builder" },
+		},
+		
+		-- Weapon team strategy
+		{
+			{ "flag_capture" },
+			{ "flag_capture" },
+			{ "flag_capture" },
+			{ "squad", "guard_squad_guardsmen" },
+			{ "squad", "guard_squad_enginseer" },
+			{ "squad", "guard_squad_guardsmen" },
+			{ "squad", "guard_squad_guardsmen" },
+			{ "building", "guard_infantry", true },
+			{ "squad", "guard_squad_command_squad" },
+			{ "squad", "guard_squad_guardsmen" },
+			{ "squad", "guard_squad_commissar" },
+			{ "squad", "guard_squad_commissar" },
+			{ "squad", "guard_squad_hvy_weapons_platoon" },
+			{ "squad", "guard_squad_hvy_weapons_platoon" },
+			{ "building", "guard_plasma_generator", true },
+			{ "building", "guard_tactica", true },
+			{ "post_builder" },
+			{ "post_builder" },
+			{ "post_builder" },
+		},
+		
+		-- Priest strategy
+		{
+			{ "flag_capture" },
+			{ "flag_capture" },
+			{ "flag_capture" },
+			{ "squad", "guard_squad_guardsmen" },
+			{ "squad", "guard_squad_enginseer" },
+			{ "squad", "guard_squad_guardsmen" },
+			{ "squad", "guard_squad_guardsmen" },
+			{ "building", "guard_infantry", true },
+			{ "squad", "guard_squad_command_squad" },
+			{ "squad", "guard_squad_guardsmen" },
+			{ "addon", "addon_guard_ministorum_temple" },
+			{ "squad", "guard_squad_priest" },
+			{ "squad", "guard_squad_priest" },
+			{ "squad", "guard_squad_commissar" },
+			{ "squad", "guard_squad_commissar" },
+			{ "building", "guard_plasma_generator", true },
+			{ "post_builder" },
+			{ "post_builder" },
+			{ "post_builder" },
+		},
+	}
+}
+
+AttackStrategyInfo = 
+{
+	guard_race =
+	{
+		MinArmyStrength = 750,
+	},
+}

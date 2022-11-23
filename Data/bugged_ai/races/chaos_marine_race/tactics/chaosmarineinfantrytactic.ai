@@ -1,0 +1,106 @@
+----------------------------------------
+-- File: 'chaosmarineinfantrytactic.ai'
+-- Edited by Thudmeizer         @ 16.09.2008
+
+class 'ChaosMarineInfantryTactic' (InfantryTactic)
+
+ChaosMarineInfantry = {}
+
+function ChaosMarineInfantryTactic:__init( squad_ai ) super( squad_ai )
+	
+	self:SetName("Chaos Marine Infantry Tactic")
+	
+	-- Basic chaos infantry is able to enter transport vehicles
+	local sSquadName = squad_ai:GetSquadName()
+	if (sSquadName == "chaos_squad_cultist" or
+		sSquadName == "chaos_marine_squad" or
+		sSquadName == "chaos_squad_khorne_berserker" or
+		sSquadName == "chaos_squad_possessed_marine" or
+		sSquadName == "chaos_squad_sorcerer" or
+		sSquadName == "chaos_squad_lord") then
+		self.m_iTransportable = 1
+
+	elseif (sSquadName == "chaos_squad_horror") then
+		self.m_iDeepStrikeBlueprintID = cpu_manager.stats:GetBuildingID("chaos_sacrificial_circle")
+
+	elseif (sSquadName == "chaos_squad_obliterator") then
+		self.m_iDeepStrikeBlueprintID = cpu_manager.stats:GetBuildingID("chaos_greater_sacrificial_circle")
+	end
+end
+
+function ChaosMarineInfantryTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (ChaosMarineInfantry.berserk_id == nil) then
+		ChaosMarineInfantry.berserk_id = cpu_manager.stats:GetAbilityID( "chaos_furious_rage" )	
+	end
+end
+
+function ChaosMarineInfantryTactic:AddCommanders()
+	table.insert(self.commander, { "chaos_squad_lord", true })
+	table.insert(self.commander, { "chaos_squad_sorcerer", false })
+end
+
+function ChaosMarineInfantryTactic:DoAbilities()
+
+	-- Check if I can go berserk while stationary
+	if (self.squad_ai:CanDoAbility(ChaosMarineInfantry.berserk_id) and not self.squad_ai:IsBroken() and
+		self.squad_ai:IsInCombat() and not self:IsMoving() and self.squad_ai:GetMeleeStance() == SquadAI.MSTANCE_Assault) then
+		self.squad_ai:DoSpecialAbility( ChaosMarineInfantry.berserk_id )
+	end
+
+	-- I might have these attached
+	if (self.squad_ai:IsAttached()) then
+	
+		if (self.squad_ai:HasSquadAttached("chaos_squad_lord")) then
+			ChaosLordTactic.InitAbilities( self )
+			ChaosLordTactic.DoAbilities( self )
+		elseif (self.squad_ai:HasSquadAttached("chaos_squad_sorcerer")) then
+			SorcererTactic.InitAbilities( self )
+			SorcererTactic.DoAbilities( self )
+		end
+	end
+end
+
+function ChaosMarineInfantryTactic:CheckForDetach()
+
+	-- Set detach health
+	local fDetachHealth = self.m_fCommanderAttachHealth + 0.4
+
+	-- Detach healthy commanders after combat. guards stay attached	
+	if (self:CommanderAttached() and (self.squad_ai:IsCapturing()) and
+		(self.squad_ai:GetAttachedHealthPercentage() > fDetachHealth and self.squad_ai:IsRanged())) then
+		self.squad_ai:DoDetachSquad()
+		self.squad_ai:DoSetDefaultMeleeStance()
+	end
+		
+	-- Detach commander from broken/capturing
+	if ((self.squad_ai:IsBroken() or self.squad_ai:IsCapturing()) and
+		(self.squad_ai:IsInCombat() or self.squad_ai:WasRecentlyHurt())) then
+		
+		self.squad_ai:DoDetachSquad()
+		self.squad_ai:DoSetDefaultMeleeStance()
+	end
+end
+
+function ChaosMarineInfantryTactic:CheckDance(oSquad)
+
+	-- Check opponent
+	if (oSquad == nil) then
+		return false
+	end
+	
+	-- Compare opponents
+	local sSquadName = self.squad_ai:GetSquadName()
+	if (sSquadName == "chaos_marine_squad" or sSquadName == "chaos_squad_obliterator") then
+		
+		-- Check opponent
+		if (oSquad:GetSquadName() == "chaos_squad_cultist" or
+		    oSquad:GetSquadName() == "eldar_guardian_squad" or
+		    oSquad:GetSquadName() == "guard_squad_guardsmen" or
+		    oSquad:GetSquadName() == "dark_eldar_squad_warrior") then
+			return false
+		end
+	end
+	return true
+end

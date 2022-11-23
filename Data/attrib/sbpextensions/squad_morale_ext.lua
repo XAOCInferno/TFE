@@ -1,0 +1,80 @@
+GameData = Inherit([[]])
+MetaData = InheritMeta([[]])
+GameData["broken_min_morale"] = 300
+GameData["broken_min_time"] = 5
+GameData["broken_modifiers"] = Reference([[tables\modifier_table.lua]])
+GameData["broken_modifiers"]["modifier_01"] = Reference([[modifiers\speed_maximum_modifier.lua]])
+GameData["broken_modifiers"]["modifier_01"]["application_type"] = Reference([[type_modifierapplicationtype\tp_mod_apply_to_squad.lua]])
+GameData["broken_modifiers"]["modifier_01"]["value"] = 1.3 --1.200000048
+GameData["broken_modifiers"]["modifier_02"] = Reference([[modifiers\accuracy_weapon_modifier.lua]])
+GameData["broken_modifiers"]["modifier_02"]["application_type"] = Reference([[type_modifierapplicationtype\tp_mod_apply_to_squad.lua]])
+GameData["broken_modifiers"]["modifier_02"]["value"] = 0.300000003
+GameData["broken_modifiers"]["modifier_03"]["shield_of_faith"] = nil
+GameData["broken_modifiers"]["modifier_04"] = Reference([[modifiers\morale_break_event.lua]])
+GameData["broken_modifiers"]["modifier_05"] = Reference([[modifiers\health_rangedamage_received_1_modifier.lua]])
+GameData["broken_modifiers"]["modifier_05"]["application_type"] = Reference([[type_modifierapplicationtype\tp_mod_apply_to_squad.lua]])
+GameData["broken_modifiers"]["modifier_05"]["value"] = 1.1
+GameData["broken_modifiers"]["modifier_06"] = Reference([[modifiers\health_rangedamage_received_2_modifier.lua]])
+GameData["broken_modifiers"]["modifier_06"]["application_type"] = Reference([[type_modifierapplicationtype\tp_mod_apply_to_squad.lua]])
+GameData["broken_modifiers"]["modifier_06"]["value"] = 1.1
+GameData["broken_modifiers"]["modifier_07"] = Reference([[modifiers\health_meleedamage_received_modifier.lua]])
+GameData["broken_modifiers"]["modifier_07"]["application_type"] = Reference([[type_modifierapplicationtype\tp_mod_apply_to_squad.lua]])
+GameData["broken_modifiers"]["modifier_07"]["value"] = 1.2
+GameData["broken_modifiers"]["modifier_08"] = Reference([[modifiers\enable_charge_modifiers.lua]])
+GameData["broken_modifiers"]["modifier_08"]["application_type"] = Reference([[type_modifierapplicationtype\tp_mod_apply_to_squad.lua]])
+GameData["broken_modifiers"]["modifier_08"]["value"] = 0
+GameData["broken_modifiers"]["modifier_09"]["shield_of_faith"] = nil
+GameData["broken_modifiers"]["modifier_10"]["shield_of_faith"] = nil
+GameData["broken_modifiers"]["modifier_11"]["shield_of_faith"] = nil
+GameData["broken_modifiers"]["modifier_12"]["shield_of_faith"] = nil
+GameData["broken_modifiers"]["modifier_13"]["shield_of_faith"] = nil
+GameData["broken_modifiers"]["modifier_14"]["shield_of_faith"] = nil
+GameData["broken_modifiers"]["modifier_15"]["shield_of_faith"] = nil
+GameData["broken_modifiers"]["modifier_16"]["shield_of_faith"] = nil
+GameData["broken_modifiers"]["modifier_17"]["shield_of_faith"] = nil
+GameData["broken_modifiers"]["modifier_18"]["shield_of_faith"] = nil
+GameData["broken_modifiers"]["modifier_19"]["shield_of_faith"] = nil
+GameData["broken_modifiers"]["modifier_20"]["shield_of_faith"] = nil
+GameData["broken_modifiers"]["modifier_21"] = nil
+GameData["broken_modifiers"]["modifier_22"] = nil
+GameData["broken_modifiers"]["modifier_23"] = nil
+GameData["broken_modifiers"]["modifier_24"] = nil
+GameData["broken_modifiers"]["modifier_25"] = nil
+GameData["broken_modifiers"]["modifier_26"] = nil
+GameData["broken_modifiers"]["modifier_27"] = nil
+GameData["broken_modifiers"]["modifier_28"] = nil
+GameData["broken_modifiers"]["modifier_29"] = nil
+GameData["broken_modifiers"]["modifier_30"] = nil
+GameData["broken_modifiers"]["modifier_31"] = nil
+GameData["broken_modifiers"]["modifier_32"] = nil
+GameData["broken_modifiers"]["modifier_33"] = nil
+GameData["broken_modifiers"]["modifier_34"] = nil
+GameData["broken_modifiers"]["modifier_35"] = nil
+GameData["broken_modifiers"]["modifier_36"] = nil
+GameData["broken_modifiers"]["modifier_37"] = nil
+GameData["broken_modifiers"]["modifier_38"] = nil
+GameData["broken_modifiers"]["modifier_39"] = nil
+GameData["broken_modifiers"]["modifier_40"] = nil
+GameData["broken_modifiers"]["modifier_41"] = nil
+GameData["broken_modifiers"]["modifier_42"] = nil
+GameData["broken_modifiers"]["modifier_43"] = nil
+GameData["broken_modifiers"]["modifier_44"] = nil
+GameData["broken_modifiers"]["modifier_45"] = nil
+GameData["default"] = 1500
+GameData["max"] = 1500
+GameData["morale_armour"] = 0
+GameData["rate_num_seconds_no_combat"] = 0
+GameData["rate_per_second"] = 50
+GameData["rate_strengths"] = Reference([[tables\morale_rate_table.lua]])
+GameData["rate_strengths"]["rate_01"]["armour_add"] = 0.5
+GameData["rate_strengths"]["rate_01"]["rate_multiplier"] = 0.75
+GameData["rate_strengths"]["rate_01"]["squad_strength"] = 0.25
+GameData["rate_strengths"]["rate_01"]["use_rate"] = true 
+
+
+MetaData["$METADATATAG"] = {desc = [[]], type = 7, category = [[]], dispval = [[]], isLocked = false, }
+MetaData["$METACOLOURTAG"] = 
+{
+
+}
+MetaData["broken_modifiers"] = {desc = [[Modifiers which get activated while a squad is in a broken state. ]], type = 4, category = [[]], dispval = [[]], }

@@ -1,0 +1,18 @@
+----------------------------------------
+-- File: 'squadtrooper\squad_trooper.nil'
+-- Created by: AttributeEditor v2.0
+-- Note: Do NOT edit by hand!
+-- (c) 2001 Relic Entertainment Inc.
+
+GameData = Inherit([[squadtrooper\squad_troops.nil]])
+MetaData = InheritMeta([[squadtrooper\squad_troops.nil]])
+
+GameData["type"] = ""
+
+
+MetaData["$METADATATAG"] = {desc = [[]], type = 7, category = [[]], dispval = [[]], isLocked = false, }
+MetaData["$METACOLOURTAG"] = 
+{
+
+}
+MetaData["type"] = {desc = [[]], type = 2, category = [[]], dispval = [[]], baseType = [[ebps\races\troop.nil]], stringType = 1, extensions = 0, shortnames = 0, }

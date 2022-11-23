@@ -1,0 +1,29 @@
+----------------------------------------
+-- File: 'predatortactic.ai'
+-- Edited by Arkhan         @ 10.01.2007
+
+class 'PredatorTactic' (SpaceMarineVehicleTactic)
+
+function PredatorTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Predator Tactic")
+	
+	self.iUpgradeCount = 0
+end
+
+function PredatorTactic:Upgrade()
+
+	-- Check if we have free ressources (Do first upgrade immediately)
+	if (not Tactic.Options.can_reinforce and self.iUpgradeCount > 0) then
+		return
+	end
+
+	-- Check situation
+	if (self.squad_ai:HasUpgradableTrooper() and self.squad_ai:GetHealthPercentage() > 0.5 and not self.squad_ai:IsUnderAttack()) then
+	
+		-- Try to upgrade
+		self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_VehicleMed)
+		self.iUpgradeCount = self.iUpgradeCount + 1
+	end
+end
+

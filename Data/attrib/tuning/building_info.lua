@@ -1,0 +1,10 @@
+GameData = Inherit([[]])
+GameData["build_decrease"] = 0.5
+GameData["build_zone_height"] = 5
+GameData["build_zone_outline_colour"] = Reference([[tables\colour_table.lua]])
+GameData["build_zone_outline_colour"]["alpha"] = 50
+GameData["build_zone_shaded_colour"] = Reference([[tables\colour_table.lua]])
+GameData["build_zone_shaded_colour"]["alpha"] = 20
+GameData["building_snap_distance"] = 2
+GameData["no_build_distance"] = 8
+GameData["start_health_percent"] = 0.200000003

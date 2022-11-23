@@ -1,0 +1,24 @@
+----------------------------------------
+-- File: 'chimeratactic.ai'
+-- Edited by Arkhan		@ 08.01.2007
+
+class 'ChimeraTactic' (GuardVehicleTactic)
+
+function ChimeraTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Chimera Tactic")
+
+	-- Vehicle is a light transport
+	self.m_iTransportVehicle = 1
+	self.m_iTransportSlots = 2
+end
+
+function ChimeraTactic:Upgrade()
+
+	-- Check situation
+	if (self.squad_ai:HasUpgradableTrooper() and self.squad_ai:GetHealthPercentage() > 0.5 and not self.squad_ai:IsUnderAttack()) then
+	
+		-- Try to upgrade against vehicles
+		self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_VehicleMed)
+	end
+end

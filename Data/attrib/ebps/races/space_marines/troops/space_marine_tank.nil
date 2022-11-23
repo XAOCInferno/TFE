@@ -1,0 +1,51 @@
+----------------------------------------
+-- File: 'ebps\races\space_marines\troops\space_marine_tank.nil'
+-- Created by: AttributeEditor v2.0
+-- Note: Do NOT edit by hand!
+-- (c) 2001 Relic Entertainment Inc.
+
+GameData = Inherit([[ebps\races\space_marines\troops\space_marine_troop.nil]])
+MetaData = InheritMeta([[ebps\races\space_marines\troops\space_marine_troop.nil]])
+
+GameData["cover_ext"]["cover_heavy"]["modifiers"]["modifier_01"]["value"] = 0.75000
+GameData["cover_ext"]["cover_light"]["modifiers"]["modifier_01"]["value"] = 1.00000
+GameData["death_explosion_ext"] = Reference([[ebpextensions\death_explosion_ext.lua]])
+GameData["death_explosion_ext"]["chance"] = 0.25000
+GameData["death_explosion_ext"]["death_explosions"]["death_explosion_01"]["area_effect"]["area_effect_information"]["area_type"] = Reference([[type_areaeffect\tp_area_effect_circle.lua]])
+GameData["death_explosion_ext"]["death_explosions"]["death_explosion_01"]["area_effect"]["area_effect_information"]["radius"] = 10.00000
+GameData["death_explosion_ext"]["death_explosions"]["death_explosion_01"]["area_effect"]["throw_data"]["direction_angle_random"] = 10.00000
+GameData["death_explosion_ext"]["death_explosions"]["death_explosion_01"]["area_effect"]["throw_data"]["force_max"] = 45.00000
+GameData["death_explosion_ext"]["death_explosions"]["death_explosion_01"]["area_effect"]["throw_data"]["force_min"] = 35.00000
+GameData["death_explosion_ext"]["death_explosions"]["death_explosion_01"]["area_effect"]["throw_data"]["up_angle_max"] = 45.00000
+GameData["death_explosion_ext"]["death_explosions"]["death_explosion_01"]["area_effect"]["throw_data"]["up_angle_min"] = 25.00000
+GameData["death_explosion_ext"]["death_explosions"]["death_explosion_01"]["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 110.00000
+GameData["death_explosion_ext"]["death_explosions"]["death_explosion_01"]["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 90.00000
+GameData["death_explosion_ext"]["death_explosions"]["death_explosion_01"]["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 10.00000
+GameData["death_explosion_ext"]["death_explosions"]["death_explosion_01"]["chance"] = 100.00000
+GameData["entity_blueprint_ext"]["scale_x"] = 2.00000
+GameData["entity_blueprint_ext"]["scale_z"] = 3.00000
+GameData["event_manager_ext"]["event_20"]["event_entry_01"]["event_name"] = "Guard\\Abilities\\curse_the_machine"
+GameData["event_manager_ext"]["event_20"]["modifier_name"] = "ability_ig_curse_of_the_machine_spirit_event"
+GameData["event_manager_ext"]["event_23"]["event_entry_01"]["event_name"] = ""
+GameData["event_manager_ext"]["event_23"]["modifier_name"] = ""
+GameData["health_ext"]["can_be_repaired"] = true
+GameData["health_ext"]["death_event"] = "data:/art/events/unit_death_events/vehicle_death.events"
+GameData["health_ext"]["display_health_bar"] = true
+GameData["health_ext"]["keep_persistent_body"] = false
+GameData["health_ext"]["max_repairers"] = 3.00000
+GameData["health_ext"]["stay_in_pathfinding_after_dead_time"] = 2.00000
+GameData["moving_ext"]["turning_behavior_template"] = "tank"
+GameData["sight_ext"]["sight_radius"] = 30.00000
+GameData["special_attack_physics_ext"]["face_backwards_when_flying"] = false
+GameData["special_attack_physics_ext"]["get_up_time"] = 0.00000
+GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_vehicle_low.lua]])
+GameData["type_ext"]["type_speech"] = Reference([[type_speech\speech_tank.lua]])
+GameData["type_ext"]["type_surface"] = Reference([[type_surface\tp_heavy_metal_armour.lua]])
+
+
+MetaData["$METADATATAG"] = {desc = [[]], type = 7, category = [[]], dispval = [[]], isLocked = false, }
+MetaData["$METACOLOURTAG"] = 
+{
+
+}
+MetaData["death_explosion_ext"] = {desc = [[]], type = 4, category = [[]], dispval = [[]], }

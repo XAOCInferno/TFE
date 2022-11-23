@@ -1,0 +1,9 @@
+GameData = Inherit([[]])
+GameData["auto_overwatch_squad"] = [[]]
+GameData["can_rally_point"] = true 
+GameData["hide_stance_button"] = false
+GameData["reanimate_blip_duration"] = 3
+GameData["reanimate_blip_texture"] = [[data:art/ui/minimap/default_ping]]
+GameData["spawner_space_offset_for_new_unit_position"] = Reference([[tables\position.lua]])
+GameData["spawner_space_offset_for_new_unit_position"]["z"] = -3
+GameData["squad_table"] = Reference([[tables\squad_table.lua]])

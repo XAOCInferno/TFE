@@ -1,0 +1,14 @@
+----------------------------------------
+-- File: 'sqiggothtactic.ai'
+-- Edited by Arkhan		@ 09.12.2010
+
+class 'SquiggothTactic' (OrkVehicleTactic)
+
+function SquiggothTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Squiggoth Tactic")
+	
+	-- Vehicle is a transport
+	self.m_iTransportVehicle = 1
+	self.m_iTransportSlots = 2
+end

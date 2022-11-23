@@ -1,0 +1,465 @@
+----------------------------------------
+-- File: 'sistersbuildbasestrategy.ai'
+-- Edited by Thudmeizer @ 22.10.2008
+
+class 'SistersBuildBaseStrategy' (BuildBaseStrategy)
+
+function SistersBuildBaseStrategy:__init( baseinfo ) super( baseinfo )
+
+	-- Add build items that can cause an "invalid addon" console message
+	CpuPrerequisites2.AddSpecialItem("sisters_wargear_upgrade_lvl_1_rosarius_addon", CpuPrerequisites.BT_AddOn)
+	CpuPrerequisites2.AddSpecialItem("sisters_wargear_upgrade_lvl_1_crusader_greaves_addon", CpuPrerequisites.BT_AddOn)
+	CpuPrerequisites2.AddSpecialItem("sisters_wargear_upgrade_lvl_2_sabbat_pattern_helm_addon", CpuPrerequisites.BT_AddOn)
+	CpuPrerequisites2.AddSpecialItem("sisters_wargear_upgrade_lvl_2_crusader_gauntlets_addon", CpuPrerequisites.BT_AddOn)
+	CpuPrerequisites2.AddSpecialItem("sisters_wargear_upgrade_lvl_3_cloak_of_st_aspira_addon", CpuPrerequisites.BT_AddOn)
+	CpuPrerequisites2.AddSpecialItem("sisters_wargear_upgrade_lvl_3_emperors_blessing_addon", CpuPrerequisites.BT_AddOn)
+
+	-- Add detector units (Best first, worst last)
+	self:AddDetectorUnit("sisters_squad_canoness")
+	self:AddDetectorUnit("sisters_squad_confessor")
+	self:AddDetectorUnit("sisters_squad_missionary")
+	
+	self.heroeWargear = {}
+	
+	--Heroe Wargear
+	-- Name, Req, Power
+	table.insert(self.heroeWargear, {"sisters_wargear_upgrade_lvl_1_rosarius_addon",50,40})
+	table.insert(self.heroeWargear, {"sisters_wargear_upgrade_lvl_1_crusader_greaves_addon",60,30})
+	table.insert(self.heroeWargear, {"sisters_wargear_upgrade_lvl_2_sabbat_pattern_helm_addon",80,60})
+	table.insert(self.heroeWargear, {"sisters_wargear_upgrade_lvl_2_crusader_gauntlets_addon",100,60})
+	table.insert(self.heroeWargear, {"sisters_wargear_upgrade_lvl_3_cloak_of_st_aspira_addon",160,120})
+	table.insert(self.heroeWargear, {"sisters_wargear_upgrade_lvl_3_emperors_blessing_addon",200,250})
+	
+	self.HeroSquadName = "sisters_squad_canoness"
+	
+	local heroeDelayLimit = 10 --% of waiting for the upgrade
+	local heroeDelay = math.random (1,100)
+	local heroeWargearCostFactor = 1.5
+	aipushtrace ("BuildBaseStrategy:Heroe Wargear Election")
+	
+	--choose Upgrades
+	self.heroeWargearPattern1 = math.random(1,2)
+	self.heroeWargearPattern2 = math.random(3,4)
+	self.heroeWargearPattern3 = math.random(5,6)
+	
+	aitrace ("Heroe Wargear T1: "..self.heroeWargear[self.heroeWargearPattern1][HeroeWargearNameIndex])
+	aitrace ("Heroe Wargear T2: "..self.heroeWargear[self.heroeWargearPattern2][HeroeWargearNameIndex])
+	aitrace ("Heroe Wargear T3: "..self.heroeWargear[self.heroeWargearPattern3][HeroeWargearNameIndex])
+	
+	if heroeDelay <= heroeDelayLimit then
+		aipoptrace ("Heroe Wargear Delayed")
+		for i = 1, table.getn(self.heroeWargear) do
+			self.heroeWargear[i][HeroeWargearReqIndex]=self.heroeWargear[i][HeroeWargearReqIndex]*heroeWargearCostFactor
+			self.heroeWargear[i][HeroeWargearPowIndex]=self.heroeWargear[i][HeroeWargearPowIndex]*heroeWargearCostFactor
+		end
+	else
+		aipoptrace ("Heroe Wargear Not Delayed")
+	end
+end
+
+function SistersBuildBaseStrategy:ChooseBuildProgram()
+	return math.random(1, 2)
+end
+
+function SistersBuildBaseStrategy:EvaluateSquadCap()
+	
+	-- Check squad cap
+	if (self:CheckSquadCap(300, 0)) then
+		
+		local tBuildType = CpuBuildType()
+		tBuildType.btype = CpuPrerequisites.BT_Research
+		
+		if (not cpu_manager.cpu_player:IsResearchComplete( "sisters_squad_cap_research" )) then
+			tBuildType.name = "sisters_squad_cap_research"
+		elseif not cpu_manager.cpu_player:IsResearchComplete( "sisters_squad_cap_research_2" ) then
+			tBuildType.name = "sisters_squad_cap_research_2"
+		elseif not cpu_manager.cpu_player:IsResearchComplete( "sisters_squad_cap_research_3" ) then
+			tBuildType.name = "sisters_squad_cap_research_3"
+		else
+			return
+		end
+		
+		if (self:TryBuild( tBuildType )) then
+			aitrace("BuildController: Dynamic research of "..tBuildType.name)
+		end
+	end
+	
+	-- Check support cap
+	if (self:CheckSupportCap(150, 300)) then
+		
+		local tBuildType = CpuBuildType()
+		tBuildType.btype = CpuPrerequisites.BT_Research
+		
+		if (not cpu_manager.cpu_player:IsResearchComplete( "sisters_vehicle_cap_research" )) then
+			tBuildType.name = "sisters_vehicle_cap_research"
+		elseif (not cpu_manager.cpu_player:IsResearchComplete( "sisters_vehicle_cap_research_2" )) then
+			tBuildType.name = "sisters_vehicle_cap_research_2"
+		else
+			return
+		end
+		
+		if (self:TryBuild( tBuildType )) then
+			aitrace("BuildController: Dynamic research of "..tBuildType.name)
+		end
+	end
+end
+
+function SistersBuildBaseStrategy:GetBuildingName( sType )
+
+	-- Return race specific object string
+	if (sType == "HQ") then
+		return "sisters_hq"
+		
+	elseif (sType == "Generator") then
+		return "sisters_plasma_generator"
+		
+	elseif (sType == "BiggerGenerator") then
+		return "sisters_thermo_plasma"
+		
+	elseif (sType == "VehicleBuilding") then
+		return "sisters_vehicle_building"
+		
+	elseif (sType == "ListeningPost") then
+		return "sisters_listening_post"
+		
+	elseif (sType == "Turret") then
+		return "sisters_turret_flamer"
+		
+	elseif (sType == "Mine") then
+		return "sisters_mines"
+	end
+	
+	return nil
+end
+
+function SistersBuildBaseStrategy:GetAddonBuilding( sType )
+
+	if (sType == "addon_sisters_turret") then
+		return "sisters_turret_flamer"
+		
+	elseif (sType == "addon_sisters_list_post_1") then
+		return "sisters_listening_post"
+		
+	elseif (sType == "addon_sisters_list_post_2") then
+		return "sisters_listening_post"
+
+	elseif (sType == "addon_sisters_holy_icon") then
+		return "sisters_listening_post"
+		
+	elseif (sType == "addon_sisters_hq_1") then
+		return "sisters_hq"
+		
+	elseif (sType == "addon_sisters_hq_2") then
+		return "sisters_hq"
+	end
+
+	for i = 1, table.getn(self.heroeWargear) do
+		if (sType == self.heroeWargear[i][HeroeWargearNameIndex]) then
+			return "sisters_hq"
+		end
+	end
+	return nil
+end
+
+-- Inherited method to check if an addon is a tier addon
+function SistersBuildBaseStrategy:IsTierAddon( sName, iTargetTier )
+
+	-- Check addon name and target tier
+	if (sName == "addon_sisters_hq_1" and iTargetTier == 2) then
+		return true
+	elseif (sName == "addon_sisters_hq_2" and iTargetTier == 3) then
+		return true
+	end
+	return false
+end
+
+-- Returns the squad cap and support cap of the given squad
+function SistersBuildBaseStrategy:GetUnitStats(sSquadName)
+
+	if (sSquadName == "sisters_squad_missionary") then
+		return 1, 0
+	elseif (sSquadName == "sisters_squad_battle_sister") then
+		return 3, 0
+	elseif (sSquadName == "sisters_squad_seraphim") then
+		return 3, 0
+	elseif (sSquadName == "sisters_squad_celestian") then
+		return 3, 0
+	elseif (sSquadName == "sisters_squad_retributor") then
+		return 3, 0
+	elseif (sSquadName == "sisters_squad_repentia") then
+		return 3, 0
+	elseif (sSquadName == "sisters_squad_rhino") then
+		return 0, 1
+	elseif (sSquadName == "sisters_squad_immolator_tank") then
+		return 0, 2
+	elseif (sSquadName == "sisters_squad_exorcist_tank") then
+		return 0, 2
+	elseif (sSquadName == "sisters_squad_penitent_engine") then
+		return 0, 2
+	end
+	return 0, 0
+end
+
+function SistersBuildBaseStrategy:UpdateTierLevel()
+
+	-- Reset tier level
+	self.tierLevel = 1
+
+	-- Prepare
+	local iHQAddon1ID = cpu_manager.stats:GetAddOnID("addon_sisters_hq_1")
+	local iHQAddon2ID = cpu_manager.stats:GetAddOnID("addon_sisters_hq_2")
+	local oStats = cpu_manager.stats:GetPlayerStatsFromID( cpu_manager.player_id )
+	
+	-- Check HQ's for addons
+	for oBase in oStats:GetBases() do
+
+		-- Check for valid building
+		if (oBase:IsValid() and not oBase:IsListeningPost()) then
+
+			-- Check for HQ addon 2
+			if (oBase:HasAddOn(iHQAddon2ID)) then		
+				self.tierLevel = 3
+				return
+
+			-- Check for HQ addon 1
+			elseif (oBase:HasAddOn(iHQAddon1ID)) then
+				self.tierLevel = 2
+			end
+		end
+	end
+end
+
+function SistersBuildBaseStrategy:BuildFlexible()
+  
+	-- Dynamic research item syntax: ResearchName, MinTier, RequisitionCost, PowerCost, MinSquadCap, MinSupportCap, SquadName, SquadMinCount
+	local iArmyStrength = cpu_manager:GetArmyStrength()
+	local iCommanderSquads	= self:CountSquads("sisters_squad_confessor")
+	local iInfantrySquads	= self:CountSquads("sisters_squad_battle_sister") + self:CountSquads("sisters_squad_seraphim") +
+							  self:CountSquads("sisters_squad_celestian") + self:CountSquads("sisters_squad_repentia")
+	local iVehicleSquads	= self:CountSquads("sisters_squad_rhino") + self:CountSquads("sisters_squad_immolator_tank") + self:CountSquads("sisters_squad_exorcist_tank") +
+							  self:CountSquads("sisters_squad_penitent_engine")
+
+	-- Compute tier 1 researches
+	if (self.tierLevel >= 1) then
+	
+		-- Compute commander researches
+			if (iCommanderSquads >= 1) then
+				self:DynamicResearch("sisters_leader_melee_upgrade_1", 1, 40, 40, 0, 0, nil, 0)
+			end
+	
+		-- Compute infantry researches
+		if (iInfantrySquads >= 3) then
+			self:DynamicResearch("sisters_phosphor_grenades_research", 1, 25, 75, 0, 0, "sisters_squad_battle_sister", 2)
+			self:DynamicResearch("sisters_ranged_damage_research", 1, 100, 60, 0, 0, "sisters_squad_battle_sister", 2)
+			self:DynamicResearch("sisters_health_research", 1, 120, 80, 0, 0, nil, 0)
+		end
+	
+		-- Compute secondary research
+		if (iArmyStrength >= 750) then
+
+			-- Compute infantry researches
+			--if (iInfantrySquads >= 3) then
+			--	self:DynamicResearch("sisters_blessed_ammunition", 1, 100, 75, 0, 0, nil, 0)
+			--end
+		end
+	end
+	
+	-- Compute tier 2 researches
+	if (self.tierLevel >= 2) then
+	
+		-- Compute infantry researches
+		if (iInfantrySquads >= 3) then
+			self:DynamicResearch("sisters_krak_grenades_research", 2, 75, 75, 0, 0, nil, 0)
+			self:DynamicResearch("sisters_ranged_damage_research_2", 2, 120, 80, 0, 0, "sisters_squad_battle_sister", 2)
+			self:DynamicResearch("sisters_health_research_2", 2, 150, 100, 0, 0, nil, 0)
+		end
+	
+		-- Compute secondary researches
+		if (iArmyStrength >= 1250) then
+	
+			-- Compute commander researches
+			if (iCommanderSquads >= 1) then
+				self:DynamicResearch("sisters_commander_health_research_1", 2, 100, 60, 0, 0, nil, 0)
+			
+			end
+
+			-- Compute infantry researches
+			if (iInfantrySquads >= 3) then
+				self:DynamicResearch("sisters_faithful_morale", 2, 120, 80, 0, 0, nil, 0)
+			end
+	
+			-- Compute scout researches
+			self:DynamicResearch("sisters_emperors_touch_research", 2, 100, 75, 0, 0, "sisters_squad_missionary", 2)
+		end
+		
+		-- Compute bonus researches
+		if (iArmyStrength >= 1750) then
+		
+			-- Compute infantry researches
+			if (iInfantrySquads >= 3) then
+				self:DynamicResearch("sisters_max_weapons_research", 2, 100, 100, 0, 0, "sisters_squad_battle_sister", 2)
+			end
+			
+			-- Compute commander researches
+			if (iCommanderSquads >= 1) then
+				self:DynamicResearch("sisters_martyrs_gift", 2, 75, 75, 0, 0, "sisters_squad_canoness", 1)
+				self:DynamicResearch("sisters_leader_range_upgrade", 2, 60, 60, 0, 0, nil, 0)
+			end
+		end
+	end
+	
+	-- Compute tier 3 researches
+	if (self.tierLevel >= 3) then
+	
+		-- Compute vehicle researches
+		if (iVehicleSquads >= 3) then
+			self:DynamicResearch("sisters_vehicle_armor_research", 3, 150, 100, 0, 0, nil, 0)
+		end
+	
+		-- Compute secondary researches
+		if (iArmyStrength >= 1750) then
+	
+			-- Compute commander researches
+			if (iCommanderSquads >= 1) then
+				self:DynamicResearch("sisters_commander_health_research_2", 3, 125, 50, 0, 0, nil, 0)
+				self:DynamicResearch("sisters_divine_pronouncement", 3, 80, 100, 0, 0, "sisters_squad_confessor", 1)
+			end
+		
+	
+			-- Compute infantry researches
+			if (iInfantrySquads >= 3) then
+			
+		        self:DynamicResearch("sisters_faithful_morale_2", 3, 150, 100, 0, 0, nil, 0)
+			end
+		end
+		
+		-- Compute bonus researches
+		if (iArmyStrength >= 2250) then
+	
+			-- Compute commander researches
+			if (iCommanderSquads >= 1) then
+				self:DynamicResearch("sisters_martyrs_gift", 3, 50, 50, 0, 0, "sisters_squad_canoness", 1)
+			end
+			
+			-- Compute infantry researches
+			if (iInfantrySquads >= 3) then
+				self:DynamicResearch("sisters_zealot_charge", 3, 75, 50, 0, 0, "sisters_squad_repentia", 1)
+			end
+		end
+	end
+
+	-- Restrict dynamic builds to hard difficulty or higher
+	if (CpuManager.AISettings.bMultiBuildings) then
+	
+		-- Dynamic buildings
+		-- Item-Syntax: BuildingName, BuildingCount, MinTier, MinRequisition, MinPower, MinSquadCap, MinSupportCap
+		self:DynamicBuild("sisters_infantry", 2, 1, 800, 0, 0, 0)
+		self:DynamicBuild("sisters_vehicle_building", 2, 2, 200, 600, 0, 0)
+		self:DynamicBuild("sisters_vehicle_building", 3, 3, 500, 1500, 0, 0)
+		self:DynamicBuild("sisters_sanctuary", 2, 2, 500, 500, 0, 0)
+		self:DynamicBuild("sisters_hq", 2, 2, 1500, 0, 0, 0)
+	end
+end
+
+-- Method to check if force tech should be computed
+function SistersBuildBaseStrategy:ForceTech()
+
+	-- Check time
+	if (g_iGMT < 60 * CpuManager.ForceTech.StartTier1) then
+		return false
+	end
+
+	-- Check resources
+	local iRequisition = resource_manager:GetResourceAmount():Get( ResourceAmount.RT_Requisition )
+	local iPower = resource_manager:GetResourceAmount():Get( ResourceAmount.RT_Power )
+
+	-- Check tier
+	local iTierLevel = self:GetTierLevel()
+	if (iTierLevel == 1) then
+
+		-- Check resources
+		if (iRequisition > 600 and iPower > 200) then
+			return false
+		end
+		return not self.m_bHQAddon1
+
+	elseif (iTierLevel == 2) then
+
+		-- Check build channel for vehicle building
+		if (self:GetBuildingCountByName("sisters_vehicle_building", false) < 1) then
+			return true
+		end
+		
+		-- Check time
+		if (g_iGMT > 60 * CpuManager.ForceTech.StartTier2 and (iRequisition < 600 or iPower < 600)) then
+			return true
+		end
+		
+	end
+	return false
+end
+
+-- Return placement type for buildings
+function SistersBuildBaseStrategy:GetPlacementType(iBuildingID)
+	
+	-- Check building
+	if (cpu_manager:IsHQ(iBuildingID)) then
+		return "HQ"
+	elseif (iBuildingID == cpu_manager.stats:GetBuildingID("sisters_infantry") or
+		iBuildingID == cpu_manager.stats:GetBuildingID("sisters_vehicle_building") or
+		iBuildingID == cpu_manager.stats:GetBuildingID("sisters_shrine")) then
+		return "Military"
+	elseif (cpu_manager:IsTurret(iBuildingID)) then
+		return "Front2"		
+	elseif (cpu_manager:IsMine(iBuildingID)) then
+		return "Mine"
+	elseif (cpu_manager:IsGenerator(iBuildingID) or
+		iBuildingID == cpu_manager.stats:GetBuildingID("sisters_sanctuary") or
+		iBuildingID == cpu_manager.stats:GetBuildingID("sisters_holy_reliquary")) then
+		return "BaseBack"
+	end
+	return "Basic"
+end
+
+-- Inherited method to modify squad demand
+function SistersBuildBaseStrategy:ModifySquadDemand(iUnitID)
+
+	-- No more missionaries then squads 
+	if (iUnitID == cpu_manager.stats:GetSquadID("sisters_squad_missionary")) then
+		
+		-- Check number of attachable squads 
+		local miss_attach = function ( squad_ai )
+			return (squad_ai:GetTactic():GetUnitStrength() >= 250 and squad_ai:CanReceiveAttachment())
+		end
+		local num_attach = self:CountSquads("sisters_squad_battle_sister", miss_attach) +
+				   self:CountSquads("sisters_squad_celestian", miss_attach) +
+				   self:CountSquads("sisters_squad_repentia", miss_attach) 
+ 
+ 		-- Check miss count
+		local num_miss = self:CountSquads("sisters_squad_missionary")
+		if (num_miss >= num_attach) then
+			return 0
+		end	
+	end
+
+	-- Only build rhinos if we've near support cap
+	if (iUnitID == cpu_manager.stats:GetSquadID("sisters_squad_rhino")) then
+		
+		-- Check army strength
+		if (cpu_manager:GetArmyStrength() < 4000) then
+			return 0
+		end
+	end
+
+	return BuildBaseStrategy.ModifySquadDemand(self, iUnitID)
+end
+
+-- Arkhan 11.2006: Virtual method for checking out relic units
+function SistersBuildBaseStrategy:RelicRequired(sName)
+
+	-- Check name
+	if (sName == "sisters_squad_living_saint") then
+		return true
+	end
+	return false
+end

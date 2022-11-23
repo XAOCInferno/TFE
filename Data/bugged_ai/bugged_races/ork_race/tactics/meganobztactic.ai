@@ -1,0 +1,53 @@
+----------------------------------------
+-- File: 'meganobztactic.ai'
+-- Edited by Thudmeizer @ 26.09.2005
+
+class 'MegaNobzTactic' (OrkInfantryTactic)
+
+MegaNobz = {}
+
+function MegaNobzTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("MegaNobz Tactic")
+
+	self.SurgeActive = false
+	
+	-- Force melee stance (Commander detaching can cause false stances)
+	self.iForceMeleeStance = true
+end
+
+function MegaNobzTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (MegaNobz.surge == nil) then
+		MegaNobz.surge = cpu_manager.stats:GetAbilityID( "ork_power_surge" )
+	end
+end
+
+function MegaNobzTactic:DoAbilities()
+
+	-- Try to use power surge ability
+	local squad_pos = self.squad_ai:GetPosition()
+	if self.SurgeActive then
+
+		-- Stop surge if enemy is close or health too low
+		if ((self.squad_ai:IsInCombat() and Ability.Filters.CloseEnemy( squad_pos, 10, 1 ) == nil) or
+			self.squad_ai:GetHealthPercentage() < 0.6 ) then 
+			if (self.squad_ai:CanDoAbility(MegaNobz.surge)) then
+				self.squad_ai:DoSpecialAbility(MegaNobz.surge)
+				self.SurgeActive = false
+			end
+		end
+	else
+		-- mega nobz charge if in combat and enemy is not adjacent or while broken
+		-- don't surge if health is too low or we are not moving !
+		if (((self.squad_ai:IsInCombat() and Ability.Filters.CloseEnemy( squad_pos, 20, 1 ) == nil) or
+			self.squad_ai:IsBroken()) and self.squad_ai:GetHealthPercentage() > 0.8 and self:IsMoving()) then 
+			if (self.squad_ai:CanDoAbility(MegaNobz.surge)) then
+				self.squad_ai:DoSpecialAbility(MegaNobz.surge)
+				self.SurgeActive = true
+			end
+		end
+	end
+end
+  	

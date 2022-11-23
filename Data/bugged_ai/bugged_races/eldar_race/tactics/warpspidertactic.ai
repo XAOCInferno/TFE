@@ -1,0 +1,29 @@
+----------------------------------------
+-- File: 'warpspidertactic.ai'
+-- Edited by Arkhan		@ 05.12.2010
+
+class 'WarpSpiderTactic' (EldarInfantryTactic)
+
+WarpSpider = {}
+
+function WarpSpiderTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Warp Spider Tactic")
+end
+
+function WarpSpiderTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (WarpSpider.iDecapitatorID == nil) then
+		WarpSpider.iDecapitatorID = cpu_manager.stats:GetAbilityID( "eldar_warp_spider_exarch_decapitate" )
+	end
+end
+
+function WarpSpiderTactic:DoAbilities()
+
+	-- Check if I can use decaptitator ability
+	if (self.squad_ai:IsUnderAttack() and self.squad_ai:CanDoAbility(WarpSpider.iDecapitatorID) and
+		cpu_manager.cpu_player:FindFirstEnemy(self.squad_ai:GetPosition(), 5, 1) ~= nil) then
+		self.squad_ai:DoSpecialAbility(WarpSpider.iDecapitatorID)
+	end
+end

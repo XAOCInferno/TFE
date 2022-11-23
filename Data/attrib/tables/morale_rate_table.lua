@@ -1,0 +1,6 @@
+GameData = Inherit([[]])
+GameData["rate_01"] = Reference([[tables\morale_rate_entry.lua]])
+GameData["rate_02"] = Reference([[tables\morale_rate_entry.lua]])
+GameData["rate_03"] = Reference([[tables\morale_rate_entry.lua]])
+GameData["rate_04"] = Reference([[tables\morale_rate_entry.lua]])
+GameData["rate_05"] = Reference([[tables\morale_rate_entry.lua]])

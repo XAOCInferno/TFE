@@ -1,0 +1,29 @@
+----------------------------------------
+-- File: 'vypertactic.ai'
+-- Edited by Thudmeizer @ 16.09.2008
+
+class 'VyperTactic' (EldarVehicleTactic)
+
+function VyperTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Vyper Tactic")
+	
+	-- Set upgrade type
+	self.bAntiVehicle = (math.random(1, 2) == 1)
+end
+
+function VyperTactic:Upgrade()
+
+	-- Check upgrade type
+	if (not self.bAntiVehicle or cpu_manager:GetTierLevel() < 3) then
+		return
+	end
+
+	-- Check situation
+	if (self.squad_ai:HasUpgradableTrooper() and self.squad_ai:GetHealthPercentage() > 0.5 and not self.squad_ai:IsUnderAttack()) then
+	
+		-- Try to upgrade against vehicles
+		self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_VehicleMed)
+	end
+end
+

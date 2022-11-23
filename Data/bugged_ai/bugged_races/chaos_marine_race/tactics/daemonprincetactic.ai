@@ -1,0 +1,47 @@
+----------------------------------------
+-- File: 'daemonprincetactic.ai'
+-- Edited by Thudmeizer @ 10.09.2008
+
+class 'DaemonPrinceTactic' (ChaosMarineInfantryTactic)
+
+DaemonPrince = {}
+
+function DaemonPrinceTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Daemon Prince Tactic")
+end
+
+function DaemonPrinceTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (DaemonPrince.strength_id == nil) then
+		DaemonPrince.strength_id = cpu_manager.stats:GetAbilityID( "chaos_daemon_strength_daemon_prince" )	
+	end
+
+	if (DaemonPrince.banner_id == nil) then
+		DaemonPrince.banner_id = cpu_manager.stats:GetAbilityID( "chaos_desecrated_standard_healing_banner_daemon_prince" )	
+	end
+	
+	if (DaemonPrince.roar_id == nil) then
+		DaemonPrince.roar_id = cpu_manager.stats:GetAbilityID( "chaos_fear_roar" )	
+	end
+end
+
+function DaemonPrinceTactic:DoAbilities()
+
+	Ability.DoAbility(self.squad_ai, DaemonPrince.strength_id, Ability.Filters.IsAttacking)
+	Ability.DoAbilityArea(self.squad_ai, DaemonPrince.roar_id, Ability.Filters.CloseSquadEnemy, 10, 4)
+
+	--healing banner
+	if (self.squad_ai:CanDoAbility(DaemonPrince.banner_id)) then
+		local range = self.squad_ai:GetAbilityRange( DaemonPrince.banner_id)	
+		local squad_filter = function( squad_ai )		
+			return squad_ai:IsInCombat() and squad_ai:IsInStateAttackMove() and 
+					squad_ai:GetNumTroopers() >= 4  and not squad_ai:IsCapturing()
+		end	
+   		local target_squad = cpu_manager:GetClosestSquad( self.squad_ai:GetPosition(), range, squad_filter )
+		if (target_squad ~= nil) then
+			self.squad_ai:DoSpecialAbilityPos( DaemonPrince.banner_id, target_squad:GetPosition() )
+ 		end
+	end
+end

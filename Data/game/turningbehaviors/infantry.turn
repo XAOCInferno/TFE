@@ -1,0 +1,16 @@
+TurningBehaviors = 
+{
+	{
+		name = "infantry",
+		
+		manipulators =
+		{
+			{ 
+				type = "PathSmoother",
+				smooth_normals = true,
+			},
+		},
+	},
+}
+
+

@@ -1,0 +1,21 @@
+----------------------------------------
+-- File: 'hellfiretactic.ai'
+-- Edited by Arkhan @ 06.11.2010
+
+class 'HellfireDreadnoughtTactic' (SpaceMarineVehicleTactic)
+
+function HellfireDreadnoughtTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Hellfire Dreadnought Tactic")
+end
+
+function HellfireDreadnoughtTactic:Upgrade()
+
+	-- Check situation
+	if (self.squad_ai:HasUpgradableTrooper() and self.squad_ai:GetHealthPercentage() > 0.5 and not self.squad_ai:IsUnderAttack()) then
+	
+		-- Try to upgrade against vehicles
+		self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_VehicleMed)
+	end
+end
+

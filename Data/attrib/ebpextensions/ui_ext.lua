@@ -1,0 +1,17 @@
+GameData = Inherit([[]])
+GameData["ghost_auto_enable"] = false
+GameData["ghost_enable"] = false
+GameData["ghost_hidden_until_seen"] = false
+GameData["minimap_color_b"] = 255
+GameData["minimap_color_g"] = 255
+GameData["minimap_color_r"] = 255
+GameData["minimap_enable"] = false
+GameData["minimap_teamcolor"] = false
+GameData["selection_event"] = [[]]
+GameData["selection_use_events"] = false
+GameData["speech_directory"] = [[]]
+GameData["ui_hide_button_when_unable_to_build"] = false
+GameData["ui_hotkey_name"] = [[]]
+GameData["ui_index_hint"] = 1
+GameData["ui_info"] = Reference([[tables\ui_info_table.lua]])
+GameData["use_hero_ui"] = false

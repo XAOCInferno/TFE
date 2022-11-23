@@ -1,0 +1,11 @@
+GameData = Inherit([[]])
+GameData["decay_amber_event"] = [[]]
+GameData["decay_delay_time"] = 0
+GameData["decay_enabled"] = false
+GameData["decay_green_event"] = [[]]
+GameData["decay_lower_limit_percentage"] = 0
+GameData["decay_red_event"] = [[]]
+GameData["decay_to_lower_limit_time"] = 0
+GameData["faith_per_second"] = 0
+GameData["power_per_second"] = 0
+GameData["requisition_per_second"] = 0

@@ -1,0 +1,31 @@
+----------------------------------------
+-- File: 'spacemarinevehicletactic.ai'
+-- Edited by Thudmeizer		@ 16.09.2008
+
+class 'SpaceMarineVehicleTactic' (VehicleTactic)
+
+function SpaceMarineVehicleTactic:__init( squad_ai ) super( squad_ai )
+	
+	self:SetName("Space Marine Vehicle Tactic")
+	
+	-- Dreadnoughts and Hellfire Dreadnoughts can enter deepstrike buildings
+	local sName = squad_ai:GetSquadName()
+	if (sName == "space_marine_squad_dreadnought" or
+		sName == "space_marine_squad_dreadnought_hellfire") then
+		self.m_iDeepStrikeBlueprintID = cpu_manager.stats:GetBuildingID("space_marine_orbital_relay")
+	end
+end
+
+-- Check if the vehicle should dance away in melee
+function SpaceMarineVehicleTactic:CheckVehicleDance(sName)
+
+	if (sName == "space_marine_squad_whirlwind" or
+		sName == "space_marine_squad_land_speeder" or
+		sName == "space_marine_squad_predator" or
+		sName == "space_marine_squad_rhino" or
+		sName == "space_marine_squad_dreadnought_hellfire" or
+		sName == "space_marine_squad_land_raider") then
+		return true
+	end
+	return false
+end

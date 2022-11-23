@@ -1,0 +1,172 @@
+----------------------------------------
+-- File: 'scarabbuildertactic.ai'
+-- Edited by Thudmeizer @ 26.10.2006
+
+class 'ScarabBuilderTactic' (EngineerTactic)
+
+ScarabBuilder =
+{
+	iNextSlagSpawnTime = 0
+}
+SlagPositions = {}
+
+MINIMUM_DISTANCE_SLAG = 25 * 25
+MINIMUM_DISTANCE_POINT = 15 * 15
+MAXIMUM_DISTANCE_POINT = 30 * 30
+MAXIMUM_DISTANCE_HQ = 50 * 50
+
+function ScarabBuilderTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Scarab Builder Tactic")
+end
+
+function ScarabBuilderTactic:IsEngineerWhoCanCapture()
+	return true
+end
+
+function ScarabBuilderTactic:IsSupportDetector()
+	return military_manager:GetNumEngineers() > 4
+end
+
+function ScarabBuilderTactic:IsAffectedByMorale()
+	return false
+end
+
+function ScarabBuilderTactic:InitAbilities()
+
+	-- Init slag spawn ability
+	if (ScarabBuilder.slag_spawn_id == nil) then
+		ScarabBuilder.slag_spawn_id = cpu_manager.stats:GetAbilityID( "necron_scarab_slag_spawn" )
+	end
+end
+
+function ScarabBuilderTactic:DoAbilities()
+
+	-- Check if we can use slag spawn ability
+	if (table.getn(SlagPositions) < 10 and self.squad_ai:CanDoAbility(ScarabBuilder.slag_spawn_id)) then
+		local vecPosition = self.squad_ai:GetPosition()
+		if self:CanDoSlag(vecPosition) then
+			self.squad_ai:DoSpecialAbility( ScarabBuilder.slag_spawn_id )
+			table.insert( SlagPositions, { "Free", vecPosition } )
+			ScarabBuilder.iNextSlagSpawnTime = g_iGMT + 5
+		end
+	end
+end
+
+function ScarabBuilderTactic:CanDoSlag(vecPos)
+
+	-- Check next slag spawn time and capturing
+	if (g_iGMT < ScarabBuilder.iNextSlagSpawnTime) then
+		return false
+	end
+		
+	-- Check position to next slag
+	for i = 1, table.getn(SlagPositions) do
+
+		-- Check distance to other slag positions
+		if (distance_sqr(vecPos, SlagPositions[i][2]) < MINIMUM_DISTANCE_SLAG) then
+			aitrace("  BUILDERSCARAB: Too close to another slag")
+			return false
+		end
+	end	
+
+	-- Don't build too close to strategic points
+	local bSaveBuildPos = false
+	for oStrategicPoint in resource_manager:GetStrategicPointAIs() do
+		
+		-- Set min distance
+		if (oStrategicPoint:Owner() == cpu_manager.player_id and not oStrategicPoint:IsStrategicObjective()) then
+
+			-- Check distance to strategic point
+			local iDistanceSqr = distance_sqr(oStrategicPoint:GetPosition(), vecPos)
+			if (iDistanceSqr < MINIMUM_DISTANCE_POINT) then 
+				aitrace("  BUILDERSCARAB: Too close to point")
+				return false
+			elseif (iDistanceSqr < MAXIMUM_DISTANCE_POINT) then 
+				aitrace("  BUILDERSCARAB: Try to create slag near strategic point")
+				bSaveBuildPos = true
+			end
+		end
+	end
+
+	-- Don't build too close to buildings
+	local oFunctor = function() return true end 		
+	local oBuilding = cpu_manager:FindClosestBase( vecPos, 0, nil, nil )
+	if (oBuilding ~= nil) then
+		
+		-- Check distance to building
+		local iDistanceSqr = distance_sqr(oBuilding:GetPosition(), vecPos)
+		if (iDistanceSqr < MINIMUM_DISTANCE_POINT) then
+			aitrace("  BUILDERSCARAB: Too close to structure")
+			return false
+		elseif (iDistanceSqr <= MAXIMUM_DISTANCE_POINT) then
+			aitrace("  BUILDERSCARAB: Try to create slag near building")
+			bSaveBuildPos = true
+		end
+	end
+			
+	-- Check distance to HQ
+	local iDistanceToHQ = distance_sqr(vecPos, cpu_manager.start_pos)
+	if (iDistanceToHQ <= MAXIMUM_DISTANCE_HQ) then
+		aitrace("  BUILDERSCARAB: Try to create slag near HQ")
+		bSaveBuildPos = true
+	end
+	
+	-- Stay in my territory
+	for oPlayer in cpu_manager.stats:GetPlayerStats() do
+	
+		-- Check if player is an ally
+		if (oPlayer:GetPlayerID() ~= cpu_manager.player_id) then
+		
+			-- Check distance to player pos
+			local iDistanceToPlayer = distance_sqr(vecPos, oPlayer:GetStartingPosition())
+			if (iDistanceToPlayer <= iDistanceToHQ) then
+				return false
+			end
+		end
+	end
+		
+	-- Return result
+	return bSaveBuildPos		
+end
+
+function ScarabBuilderTactic:IsMoving()
+	local bMoveState = (self.squad_ai:IsInStateMove() or self.squad_ai:IsBuilding() ~= 0 or self.squad_ai:IsCapturing())
+	return (bMoveState and distance_sqr(self.m_vLastPosition, self.m_vCurrentPosition) > 4)
+end
+
+-- scarabs should reinforce to two to build bigger generators fast at gamestart.
+function ScarabBuilderTactic:Reinforce()
+
+	-- Check if we are reinforcing
+	if (self.squad_ai:IsReinforcing()) then
+		return
+	end
+	
+	-- If I am broken, don't upgrade!
+	if (self:IsAffectedByMorale() and self.squad_ai:IsBroken()) then
+		return
+	end
+	
+	local iNumScarabs = self.squad_ai:GetNumTroopers()
+	-- Don't reinforce squads in critical condition
+	if (iNumScarabs <= self.squad_ai:GetMaxTroopers() / 2 and self.squad_ai:IsUnderAttack()) then
+		return
+	end
+
+	local iBuilding = self.squad_ai:IsBuilding()
+	local bAlwaysReinforce = false
+	if (iBuilding ~= 0 and cpu_manager:IsBiggerGenerator(iBuilding) and iNumScarabs < 2) then
+		bAlwaysReinforce = true
+	end
+	
+	-- Don't reinforce if we have no free resources
+	if (not Tactic.Options.can_reinforce and not bAlwaysReinforce) then
+		return
+	end
+	
+	-- Always try to reinforce, as long as I have money
+	if (self.squad_ai:CanReinforce( false, 0 )) then
+		self.squad_ai:DoReinforce( false, 0 )
+	end
+end
