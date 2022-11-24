@@ -1,0 +1,20 @@
+----------------------------------------
+-- File: 'chaosmarinevehicletactic.ai'
+-- Edited by Thudmeizer         @ 16.09.2008
+
+class 'ChaosMarineVehicleTactic' (VehicleTactic)
+
+function ChaosMarineVehicleTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Chaos Marine Vehicle Tactic")	
+end
+
+-- Check if the vehicle should dance away in melee
+function ChaosMarineVehicleTactic:CheckVehicleDance(sName)
+
+	if (sName == "chaos_squad_predator" or
+		sName == "chaos_squad_rhino") then
+		return true
+	end
+	return false
+end

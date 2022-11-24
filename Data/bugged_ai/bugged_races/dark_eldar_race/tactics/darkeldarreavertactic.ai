@@ -1,0 +1,44 @@
+----------------------------------------
+-- File: 'darkeldarreavertactic.ai'
+-- Edited by Arkhan @ 21.11.2010
+
+class 'DarkEldarReaverTactic' (DarkEldarVehicleTactic)
+
+DarkEldarReaver = {}
+
+function DarkEldarReaverTactic:__init( squad_ai ) super( squad_ai )
+	
+	self:SetName("Dark Eldar Reaver Tactic")
+	
+	-- Set upgrade type
+	self.bAntiVehicle = (math.random(1, 2) == 1)
+end
+
+function DarkEldarReaverTactic:InitAbilities()
+
+	-- Init short circuit ability
+	if (DarkEldarReaver.iShortCircuitID == nil) then
+		DarkEldarReaver.iShortCircuitID = cpu_manager.stats:GetAbilityID( "dark_eldar_short_circuit" )	
+	end
+end
+
+function DarkEldarReaverTactic:DoAbilities()
+
+	-- Short circuit ability
+	Ability.DoAbilityTarget( self.squad_ai, DarkEldarReaver.iShortCircuitID, Ability.Filters.CloseVehicleEnemy, 1 )
+end
+
+function DarkEldarReaverTactic:Upgrade()
+
+	-- Check upgrade type
+	if (not self.bAntiVehicle) then
+		return
+	end
+
+	-- Check situation
+	if (self.squad_ai:HasUpgradableTrooper() and self.squad_ai:GetHealthPercentage() > 0.5 and not self.squad_ai:IsUnderAttack()) then
+	
+		-- Try to upgrade
+		self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_VehicleMed)
+	end
+end

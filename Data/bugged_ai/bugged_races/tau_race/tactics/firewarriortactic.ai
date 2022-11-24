@@ -1,0 +1,68 @@
+----------------------------------------
+-- File: 'firewarriortactic.ai'
+-- Edited by Thudmeizer @ 01.10.2008
+
+class 'FirewarriorTactic' (TauInfantryTactic)
+
+function FirewarriorTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Firewarrior Tactic")
+end
+
+function FirewarriorTactic:Reinforce()
+
+	-- Check if we are reinforcing
+	if (self.squad_ai:IsReinforcing()) then
+		return
+	end
+	
+	-- If I am broken, don't upgrade!
+	if (self:IsAffectedByMorale() and self.squad_ai:IsBroken()) then
+		return
+	end
+	
+	-- Don't reinforce squads in critical condition
+	if (self.squad_ai:GetNumTroopers() <= self.squad_ai:GetMaxTroopers() / 3 and self.squad_ai:IsUnderAttack()) then
+		return
+	end
+	
+	-- Always try for the actual leader first
+	if (not self.squad_ai:IsReinforcing()) then
+
+		-- try for different types of squad members
+		local shasuiIndex = 0
+		local shieldIndex = 1
+	
+		local numShasui = self.squad_ai:GetLeaderCount( shasuiIndex )
+		local numShield = self.squad_ai:GetLeaderCount( shieldIndex )
+
+		-- Desired number of each leader type
+		local desiredShasui = math.random(0,1) 
+		local desiredShield = math.random(0,1)
+
+		-- Desired order of reinforcing
+		if (numShasui < desiredShasui) then
+		
+			if (self.squad_ai:CanReinforce( true, shasuiIndex )) then
+				self.squad_ai:DoReinforce( true, shasuiIndex )
+				return
+			end
+		elseif (numShield < desiredShield) then
+		
+			if (self.squad_ai:CanReinforce( true, shieldIndex )) then
+				self.squad_ai:DoReinforce( true, shieldIndex )
+				return
+			end
+		end
+	end
+	
+	-- Don't reinforce if we have no free resources
+	if ((not Tactic.Options.can_reinforce and g_iGMT > DefendChokePointPlan.HarassingTime * 60) or self.bWaitForThreat) then
+		return
+	end
+	
+	-- Always try to reinforce, as long as I have money
+	if (self.squad_ai:CanReinforce( false, 0 )) then
+		self.squad_ai:DoReinforce( false, 0 )
+	end
+end

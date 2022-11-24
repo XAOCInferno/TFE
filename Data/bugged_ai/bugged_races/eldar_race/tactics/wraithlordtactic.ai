@@ -1,0 +1,74 @@
+----------------------------------------
+-- File: 'wraithlordtactic.ai'
+-- Edited by Thudmeizer @ 16.09.2008
+
+class 'WraithLordTactic' (EldarVehicleTactic)
+
+WraithLordTactic.bFirstOne = true
+
+function WraithLordTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("WraithLord Tactic")
+	
+	-- Set upgrade type
+	self.bAntiVehicle = (math.random(1, 2) == 1 and not WraithLordTactic.bFirstOne)
+	WraithLordTactic.bFirstOne = false
+	self.bHasUpgrade = false
+end
+
+function WraithLordTactic:Upgrade()
+
+	-- Check upgrade type
+	if (not self.bAntiVehicle) then
+		return
+	end
+
+	-- Check situation
+	if (self.squad_ai:HasUpgradableTrooper() and self.squad_ai:GetHealthPercentage() > 0.5 and not self.squad_ai:IsUnderAttack()) then
+	
+		-- Try to upgrade against vehicles
+		self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_VehicleMed)
+		self.bHasUpgrade = true
+	end
+end
+
+function WraithLordTactic:UpdateStance()
+
+	-- Check if we have a brightlance upgrade
+	local bRanged = false
+	if (self.bHasUpgrade) then
+	
+		-- Check for close enemy units and buildings
+		local vSquadPos = self.squad_ai:GetPosition()
+		if (not self.squad_ai:IsUnderAttack() and
+			cpu_manager.cpu_player:FindFirstEnemy(vSquadPos, 15, 1) == nil and
+			cpu_manager.cpu_player:FindFirstBaseEnemy(vSquadPos, 15, 1) == nil) then
+			bRanged = true
+		end
+	end
+
+	-- Set attack mode
+	if (bRanged) then
+	
+		-- Set ranged stance
+		if (self.squad_ai:GetMeleeStance() ~= SquadAI.MSTANCE_Ranged) then
+			self.squad_ai:DoSetMeleeStance(SquadAI.MSTANCE_Ranged)
+		end
+		
+		-- Set stand ground stance
+		if (self.squad_ai:GetStance() ~= SquadAI.STANCE_StandGround) then
+			self.squad_ai:DoSetStance( SquadAI.STANCE_StandGround )
+		end
+	else
+		-- Set assault stance
+		if (self.squad_ai:GetMeleeStance() ~= SquadAI.MSTANCE_Assault) then
+			self.squad_ai:DoSetMeleeStance(SquadAI.MSTANCE_Assault)
+		end
+		
+		-- Set attack stance
+		if (self.squad_ai:GetStance() ~= SquadAI.STANCE_Attack) then
+			self.squad_ai:DoSetStance( SquadAI.STANCE_Attack )
+		end
+	end
+end
+

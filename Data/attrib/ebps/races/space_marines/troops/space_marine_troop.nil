@@ -1,0 +1,37 @@
+----------------------------------------
+-- File: 'ebps\races\space_marines\troops\space_marine_troop.nil'
+-- Created by: AttributeEditor v2.0
+-- Note: Do NOT edit by hand!
+-- (c) 2001 Relic Entertainment Inc.
+
+GameData = Inherit([[ebps\races\troop.nil]])
+MetaData = InheritMeta([[ebps\races\troop.nil]])
+
+GameData["cover_ext"]["cover_negative"]["modifiers"]["modifier_02"]["value"] = 0.90000
+GameData["event_manager_ext"]["event_02"]["event_entry_03"]["event_name"] = "aura/positive_marine"
+GameData["event_manager_ext"]["event_02"]["event_entry_04"]["event_name"] = "aura/positive_str_marine"
+GameData["event_manager_ext"]["event_04"]["event_entry_01"]["event_name"] = "aura/cover_aura"
+GameData["event_manager_ext"]["event_04"]["modifier_name"] = "cover_event_modifier"
+GameData["event_manager_ext"]["event_11"]["event_entry_01"]["event_name"] = "Tau\\Abilities\\Mark_Target"
+GameData["event_manager_ext"]["event_11"]["modifier_name"] = "ability_tau_mark_target_event"
+GameData["event_manager_ext"]["event_15"]["event_entry_01"]["event_name"] = "Unit_Ability_FX\\Entanglement"
+GameData["event_manager_ext"]["event_15"]["modifier_name"] = "ability_eldar_entangle_event"
+GameData["event_manager_ext"]["event_23"]["event_entry_01"]["event_name"] = "necron\\abilities\\Souless_Strike"
+GameData["event_manager_ext"]["event_23"]["modifier_name"] = "ability_souless_strike_event"
+GameData["health_ext"]["death_event"] = "unit_death_events/sink_into_ground"
+GameData["infiltration_ext"] = Reference([[ebpextensions\infiltration_ext.lua]])
+GameData["sim_entity_ext"]["is_collide"] = true
+GameData["special_attack_physics_ext"]["mass"] = 0.00000
+GameData["summon_ext"] = Reference([[ebpextensions\summon_ext.lua]])
+GameData["type_ext"]["type_surface"] = Reference([[type_surface\tp_light_metal_armour.lua]])
+GameData["ui_ext"]["minimap_enable"] = true
+GameData["ui_ext"]["minimap_teamcolor"] = true
+
+
+MetaData["$METADATATAG"] = {desc = [[]], type = 7, category = [[]], dispval = [[]], isLocked = false, }
+MetaData["$METACOLOURTAG"] = 
+{
+
+}
+MetaData["infiltration_ext"] = {desc = [[]], type = 4, category = [[]], dispval = [[]], }
+MetaData["summon_ext"] = {desc = [[]], type = 4, category = [[]], dispval = [[]], }

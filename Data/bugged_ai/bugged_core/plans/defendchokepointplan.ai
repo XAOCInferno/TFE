@@ -1,0 +1,342 @@
+----------------------------------------
+-- File: 'defendchokepointplan.ai'
+-- Edited by Arkhan     @ 16.07.2006
+
+class 'DefendChokePointPlan' (Plan)
+
+DefendChokePointPlan.HarassingTime = 5
+DefendChokePointPlan.iHarassingStart = 0
+DefendChokePointPlan.bHarassing = false
+
+function DefendChokePointPlan:__init( choke_pt_pos ) super( CpuPlayer.CT_Defending )
+
+	dbAssert( choke_pt_pos ~= nil )
+	
+	self.waypoint_pos = Vector3f(choke_pt_pos)
+	self.oLeader = nil
+	self.vSupportPosition = nil
+	self.vHarassingTarget = nil
+	self.oDefaultDefenseState = Tactic.GlobalDefenseState
+	
+	Plan.SetName( self, "Defend Choke Point Plan" )	
+
+	Plan.SetState( self, "Defending Choke Point <"..self.waypoint_pos.x..","..self.waypoint_pos.y..","..self.waypoint_pos.z..">", DefendChokePointPlan.Defending )
+end
+
+function DefendChokePointPlan:IsEqual( plan_name, plan_id )
+	--check if we're defending the same place
+	return (self:GetName() == plan_name and distance_sqr( plan_id, self.waypoint_pos ) < sqr(10))
+end
+
+function DefendChokePointPlan:CheckHarassingMode()
+
+	aitrace("DefendChokePointPlan: Check harassing mode...")
+	
+	-- Check harassing time
+	self.oDefaultDefenseState = Tactic.GlobalDefenseState
+	self.oLeader = nil
+	self.vSupportPosition = nil
+	if (g_iGMT > DefendChokePointPlan.HarassingTime * 60 or not CpuManager.AISettings.bHarassing) then
+		DefendChokePointPlan.bHarassing = false
+		return false
+	end
+	
+	-- Try to get the leader
+	local sLeaderName = cpu_manager:GetHarassingLeader()
+	for oSquad in military_manager:GetUnlockedSquads() do
+
+		-- Check for valid squad
+		if (oSquad:IsValid() and not oSquad:IsEngineer() and not oSquad:IsCapturing() and oSquad:GetTactic():IsDefender()) then
+		
+			-- Check for leader
+			if (oSquad:GetSquadName() == sLeaderName or (oSquad:IsAttached() and oSquad:HasSquadAttached(sLeaderName))) then
+				self.oLeader = oSquad
+				break
+			end
+		end
+	end
+
+	-- Check next harassing start time
+	if (g_iGMT < DefendChokePointPlan.iHarassingStart or self.oLeader == nil or self.oLeader:GetHealthPercentage() < 0.5) then
+	
+		-- Check if harassing has to be aborted
+		if (DefendChokePointPlan.bHarassing) then
+			aitrace("DefendChokePointPlan: Abort harassing...")
+
+			DefendChokePointPlan.bHarassing = false
+			DefendChokePointPlan.iHarassingStart = g_iGMT + 15
+			self.oDefaultDefenseState = Tactic.States.Retreat
+		end
+		return false
+	end
+	
+	-- Check if we are already harassing
+	local vLeaderPos = self.oLeader:GetPosition()
+	if (DefendChokePointPlan.bHarassing) then
+	
+		-- Check situation
+		local iEnemyStrength, iAlliedStrength = cpu_manager:GetArmyStrengthAtPos(vLeaderPos, 50, true)
+		iAlliedStrength = iAlliedStrength + cpu_manager:GetDeepStrikeArmyStrength()
+		if (iAlliedStrength > cpu_manager:GetRetreatRatio() * iEnemyStrength) then
+
+			-- Set support position
+			if (iEnemyStrength > 0) then
+				self.vSupportPosition = self:GetBestSupportPosition(vLeaderPos, 35)
+			end
+			return true
+		end
+		
+		-- Check wider area
+		local iEnemyStrengthLong, iAlliedStrengthLong = cpu_manager:GetArmyStrengthAtPos(vLeaderPos, 70, true)
+		iAlliedStrengthLong = iAlliedStrengthLong + cpu_manager:GetDeepStrikeArmyStrength()
+		if (iAlliedStrengthLong > cpu_manager:GetRetreatRatio() * iEnemyStrength) then
+
+			-- Set support position
+			if (iEnemyStrength > 0) then
+				self.vSupportPosition = self:GetBestSupportPosition(vLeaderPos, 35)
+			end
+			return true
+		end
+		
+		-- Reset harassing mode
+		DefendChokePointPlan.bHarassing = false
+		DefendChokePointPlan.iHarassingStart = g_iGMT + 15
+		self.oDefaultDefenseState = Tactic.States.Retreat
+	else
+		-- Check gathered army
+		local iEnemyStrength, iAlliedStrength, iMyStrength = cpu_manager:GetArmyStrengthAtPos(vLeaderPos, 25, false)
+		iMyStrength = iMyStrength + cpu_manager:GetDeepStrikeArmyStrength()
+		if (iEnemyStrength <= 0 and iMyStrength > 600) then
+			DefendChokePointPlan.bHarassing = true
+			return true
+		end
+	end
+	return false
+end
+
+function DefendChokePointPlan:Defending()
+
+	aitrace("DefendChokePointPlan: Defending...")
+
+	-- Check threat at choke point
+	local iMaxDistance = 0
+	local vLeaderPos = nil
+	local vTargetPos = Vector3f(self.waypoint_pos)
+	if (self:CheckHarassingMode()) then
+
+		-- Try to get a new harassing point
+		self:UpdateHarassingTarget()
+
+		-- Set target pos
+		if (self.vHarassingTarget ~= nil) then
+
+			-- Set maximum harassing distance
+			iMaxDistance = cpu_manager:GetShortestPathingDistance(self.waypoint_pos, self.vHarassingTarget, true)
+		
+			-- Check if we have a support position
+			if (self.vSupportPosition ~= nil) then
+			
+				-- Set support position as target
+				vTargetPos = self.vSupportPosition
+				aitrace("DefendChokePointPlan: Support harassing leader!")
+			else
+				-- Set harassing position as target
+				vTargetPos = self.vHarassingTarget
+				aitrace("DefendChokePointPlan: Attack enemy strategic point!")
+			end
+		
+			-- Check if leader is in range
+			if (cpu_manager:GetShortestPathingDistance(self.waypoint_pos, self.oLeader:GetPosition(), true) < iMaxDistance) then
+				vLeaderPos = self.oLeader:GetPosition()
+			end
+		else
+			aitrace("DefendChokePointPlan: Protect choke point (Harass) !")
+		end
+	else
+		aitrace("DefendChokePointPlan: Protect choke point!")
+	end
+	
+	-- Grab an idle dude
+	local iMinStrength = 60 * cpu_manager:GetTierLevel()
+	local iRangeSqr = sqr(35)
+	for squad_ai in military_manager:GetUnlockedSquads() do
+	
+		-- Check for valid squad
+		if (squad_ai:IsValid() and not squad_ai:IsEngineer()) then
+		
+			-- Get squad pos and tactic
+			local vSquadPos = squad_ai:GetPosition()
+			local oTactic = squad_ai:GetTactic()
+			
+			-- Check if the squad is a vehicle which needs to be repaired
+			if (oTactic:GetType() == Tactic.Types.Vehicle and oTactic:NeedRepair() and oTactic:IsDefender()) then
+			
+				-- Retreat to start position
+				if (distance_sqr(oTactic:GetTarget(), cpu_manager.start_pos) > 1 or	oTactic:GetState() == Tactic.States.Attack) then
+					oTactic:SetState(Tactic.States.Retreat)
+					oTactic:SetTarget(cpu_manager.start_pos, Tactic.Variant.Vector)
+				end
+			
+			-- Check if squad is able to defend
+			elseif (oTactic:IsDefender() and (oTactic:GetUnitStrength() > iMinStrength or squad_ai:IsAttached())) then
+			
+				-- Set default move pos and unit state
+				local vMovePos = vTargetPos
+				local oState = self.oDefaultDefenseState
+				
+				-- Check if we are in harassing mode
+				if (DefendChokePointPlan.bHarassing) then
+				
+					-- Check if the squad is the leader
+					if (squad_ai:GetID() == self.oLeader:GetID()) then
+					
+						-- Set attack mode and give leader deep strike support if available
+						oState = Tactic.States.Attack
+						if (squad_ai:IsAttacking() or squad_ai:IsUnderAttack()) then
+							cpu_manager:DeepStrikeToPos(vSquadPos, true)
+						end
+					else
+						-- Check distance to harassing target and leader
+						if (self.vHarassingTarget and distance_sqr(vSquadPos, self.vHarassingTarget) < iRangeSqr) then
+							vMovePos = self.vHarassingTarget
+						elseif (vLeaderPos and distance_sqr(vSquadPos, vLeaderPos) > iRangeSqr) then
+							vMovePos = vLeaderPos
+						else
+							oState = Tactic.States.Attack
+						end
+					end
+				end
+				
+				-- Set target and state
+				if (oState == Tactic.States.Attack and
+					cpu_manager:GetShortestPathingDistance(self.waypoint_pos, vSquadPos, true) > iMaxDistance) then
+					oState = self.oDefaultDefenseState
+				end
+
+				-- Check if we should update tactic
+				if (oTactic:GetState() ~= oState or distance_sqr(oTactic:GetTarget(), vMovePos) > 1) then
+					oTactic:SetState(oState)
+					oTactic:SetTarget(vMovePos, Tactic.Variant.Vector)
+				end
+			
+			-- Retreat if necessary
+			elseif (squad_ai:IsIdle() or squad_ai:WasRecentlyHurt()) then
+			
+				-- Retreat to save position
+				if (distance_sqr(oTactic:GetTarget(), self.waypoint_pos) > 1 or oTactic:GetState() == Tactic.States.Attack) then
+					oTactic:SetState(Tactic.States.Retreat)
+					oTactic:SetTarget(self.waypoint_pos, Tactic.Variant.Vector)
+				end
+			end
+		end		
+	end
+end
+
+function DefendChokePointPlan:UpdateHarassingTarget()
+	
+	aitrace("DefendChokePointPlan: Find enemy strategic point...")
+
+	-- Find closest enemy
+	self.vHarassingTarget = nil
+	local oEnemy = cpu_manager:FindClosestEnemyPlayer()
+	if (oEnemy == nil) then
+		self.vHarassingTarget = nil
+		return
+	end
+	
+	-- Check if old target is still valid
+	if (self.vHarassingTarget ~= nil) then
+	
+		-- Check for buildings
+		if (cpu_manager.cpu_player:FindFirstBaseEnemy(self.vHarassingTarget, 25, 1) ~= nil) then
+			return
+		end
+		
+		-- Check for strats to disown
+		local oStrategicPoint = resource_manager:FindFirstStrategicPoint(self.vHarassingTarget, 25)
+		if (oStrategicPoint ~= nil) then
+		
+			-- Check owner
+			local iOwnerID = oStrategicPoint:Owner()
+			if (iOwnerID ~= 0 and not cpu_manager:IsFriendly(iOwnerID)) then
+				return
+			end
+		end
+		self.vHarassingTarget = nil
+	end
+
+	-- Check for closest enemy building
+	local iMaxAttackDistance = 250
+	local oEnemyBuilding = cpu_manager.cpu_player:FindFirstBaseEnemy(self.waypoint_pos, iMaxAttackDistance, 1)
+	if (oEnemyBuilding ~= nil) then
+		self.vHarassingTarget = Vector3f(oEnemyBuilding:GetPosition())
+		iMaxAttackDistance = cpu_manager:GetShortestPathingDistance(self.waypoint_pos, self.vHarassingTarget, true)
+	end
+	
+	-- Check for strats to disown
+	local oStrategicPoint = resource_manager:FindFirstStrategicPoint(self.waypoint_pos, iMaxAttackDistance)
+	if (oStrategicPoint ~= nil) then
+	
+		-- Check owner
+		local iOwnerID = oStrategicPoint:Owner()
+		if (iOwnerID ~= 0 and not cpu_manager:IsFriendly(iOwnerID)) then
+			self.vHarassingTarget = Vector3f(oStrategicPoint:GetPosition())
+		end
+	end
+end
+
+-- Arkhan 06.2006: Gets the closest enemy to the target position
+function DefendChokePointPlan:GetBestSupportPosition(vTargetPosition, iRange)
+
+    -- Get closest enemy building to target position and update harassing target if possible
+	local oEnemyBuilding = cpu_manager.cpu_player:FindFirstBaseEnemy(vTargetPosition, iRange, 1)
+	if (oEnemyBuilding ~= nil) then
+	
+		-- Check if building should be set as new harassing target
+		local vBuildingPos = oEnemyBuilding:GetPosition()
+		if (self.vHarassingTarget == nil) then
+			self.vHarassingTarget = Vector3f(vBuildingPos)
+		elseif (distance_sqr(self.vHarassingTarget, vBuildingPos) > 1) then
+		
+			-- Check if new target building is closer than the old one
+			local iOldDistance = cpu_manager:GetShortestPathingDistance(self.waypoint_pos, self.vHarassingTarget, true)
+			local iNewDistance = cpu_manager:GetShortestPathingDistance(self.waypoint_pos, vBuildingPos, true)
+			if (iNewDistance < iOldDistance) then
+				self.vHarassingTarget = Vector3f(vBuildingPos)
+			end
+		end
+		return Vector3f(vBuildingPos)
+	end
+	
+	-- Get closest enemy unit to target position
+    local oEnemySquad = cpu_manager.cpu_player:FindFirstEnemy(vTargetPosition, iRange, 1)
+    if (oEnemySquad ~= nil) then
+		return Vector3f(oEnemySquad:GetPosition())
+	end
+	
+	-- Check for strats to disown
+	local oStrategicPoint = resource_manager:FindFirstStrategicPoint(vTargetPosition, iRange)
+	if (oStrategicPoint ~= nil) then
+	
+		-- Check owner
+		local iOwnerID = oStrategicPoint:Owner()
+		if (iOwnerID ~= 0 and not cpu_manager:IsFriendly(iOwnerID)) then
+		
+			-- Check if strat point should be set as new harassing target
+			local vStratPos = oStrategicPoint:GetPosition()
+			if (self.vHarassingTarget == nil) then
+				self.vHarassingTarget = Vector3f(vStratPos)
+			elseif (distance_sqr(self.vHarassingTarget, vStratPos) > 1) then
+			
+				-- Check if new target building is closer than the old one
+				local iOldDistance = cpu_manager:GetShortestPathingDistance(self.waypoint_pos, self.vHarassingTarget, true)
+				local iNewDistance = cpu_manager:GetShortestPathingDistance(self.waypoint_pos, vStratPos, true)
+				if (iNewDistance < iOldDistance) then
+					self.vHarassingTarget = Vector3f(vStratPos)
+				end
+			end
+			return Vector3f(vStratPos)
+		end
+	end
+	return nil
+end

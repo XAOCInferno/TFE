@@ -1,0 +1,124 @@
+----------------------------------------
+-- File: 'marinesquadtactic.ai'
+-- Edited by Thudmeizer	@ 26.10.2008
+
+class 'MarineSquadTactic' (ChaosMarineInfantryTactic)
+
+MarineSquad = {}
+
+function MarineSquadTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Marine Squad Tactic")
+end
+
+function MarineSquadTactic:IsAttacker()
+	return (cpu_manager:GetTierLevel() >= 1)
+end
+
+function MarineSquadTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (MarineSquad.grenades_id == nil) then
+		MarineSquad.grenades_id = cpu_manager.stats:GetAbilityID( "chaos_frag_grenades" )	
+	end
+
+	if (MarineSquad.rage_id == nil) then
+		MarineSquad.rage_id = cpu_manager.stats:GetAbilityID( "chaos_furious_rage" )	
+	end
+
+	if (MarineSquad.draw_blades_id == nil) then
+		MarineSquad.draw_blades_id = cpu_manager.stats:GetAbilityID( "chaos_draw_blades" )	
+	end
+
+	if (MarineSquad.storm_of_tzeentch_id == nil) then
+		MarineSquad.storm_of_tzeentch_id = cpu_manager.stats:GetAbilityID( "chaos_storm_of_tzeentch" )	
+	end
+
+	if (MarineSquad.bile_grenade_id == nil) then
+		MarineSquad.bile_grenade_id = cpu_manager.stats:GetAbilityID( "chaos_bile_grenades" )	
+	end
+end
+
+function MarineSquadTactic:DoAbilities()
+
+	if (self.squad_ai:CanDoAbility( MarineSquad.grenades_id )) then
+
+		Ability.DoAbilityTarget( self.squad_ai, MarineSquad.grenades_id, Ability.Filters.CloseSquadEnemy, 1 ) 
+
+	elseif (self.squad_ai:CanDoAbility( MarineSquad.bile_grenade_id )) then
+
+		Ability.DoAbilityTarget( self.squad_ai, MarineSquad.bile_grenade_id, Ability.Filters.CloseSquadEnemy, 1 ) 
+	end
+
+	if (self.squad_ai:IsInCombat() and not self.squad_ai:IsCapturing() and not self.squad_ai:IsBroken()) then
+	  
+		-- Check if I can go berserk while stationary
+		if (not self:IsMoving()) then
+
+			if (self.squad_ai:CanDoAbility( MarineSquad.rage_id )) then
+				self.squad_ai:DoSpecialAbility( MarineSquad.rage_id )
+			elseif (self.squad_ai:CanDoAbility( MarineSquad.storm_of_tzeentch_id ) and not ( self.squad_ai:IsInfiltrating() ) ) then
+				self.squad_ai:DoSpecialAbility( MarineSquad.storm_of_tzeentch_id )
+			end
+
+		else
+
+			if (self.squad_ai:CanDoAbility( MarineSquad.draw_blades_id ) and self.squad_ai:GetMeleeStance() == SquadAI.MSTANCE_Assault) then
+				self.squad_ai:DoSpecialAbility( MarineSquad.draw_blades_id )
+			end
+		end		
+	end
+end
+
+function MarineSquadTactic:UpdateStance()
+
+	if (cpu_manager.cpu_player:IsResearchComplete( "chaos_csm_mark_khorne_research" ) and self.squad_ai:GetMeleeStance() == SquadAI.MSTANCE_Ranged) then
+
+		self.squad_ai:DoSetMeleeStance(SquadAI.MSTANCE_Assault)
+		self.iForceMeleeStance = true
+
+	elseif (cpu_manager.cpu_player:IsResearchComplete( "chaos_csm_mark_tzeentch_research" ) and self.squad_ai:GetMeleeStance() == SquadAI.MSTANCE_Assault) then
+
+		self.squad_ai:DoSetMeleeStance(SquadAI.MSTANCE_Ranged)
+	else
+
+		-- Check combat type
+		if (not self.bRanged) then
+			return
+		end
+	
+		-- Check for close enemy units and buildings
+		local vSquadPos = self.squad_ai:GetPosition()
+		local bCloseEnemyUnit      = (cpu_manager.cpu_player:FindFirstEnemy(vSquadPos, 15, 1) ~= nil)
+		local bCloseEnemyBuilding  = (cpu_manager.cpu_player:FindFirstBaseEnemy(vSquadPos, 15, 1) ~= nil)
+		local bCloseEnemy          = bCloseEnemyUnit or bCloseEnemyBuilding
+		local bCloserEnemyUnit     = (bCloseEnemyUnit and cpu_manager.cpu_player:FindFirstEnemy(vSquadPos, 8, 1) ~= nil)
+		local bCloserEnemyBuilding = (bCloseEnemyBuilding and cpu_manager.cpu_player:FindFirstBaseEnemy(vSquadPos, 8, 1) ~= nil)
+		local bCloserEnemy         = bCloserEnemyUnit or bCloserEnemyBuilding
+
+		-- Check for ranged stance
+		if (bCloserEnemy or not bCloseEnemy) then
+
+			-- Set assault stance
+			if (self.squad_ai:GetMeleeStance() ~= SquadAI.MSTANCE_Assault) then
+				self.squad_ai:DoSetMeleeStance(SquadAI.MSTANCE_Assault)
+			end
+		
+			-- Set attack stance
+			if (self.squad_ai:GetStance() ~= SquadAI.STANCE_Attack) then
+				self.squad_ai:DoSetStance( SquadAI.STANCE_Attack )
+			end
+		else
+			-- Set ranged stance
+			if (self.squad_ai:GetMeleeStance() ~= SquadAI.MSTANCE_Ranged) then
+				self.squad_ai:DoSetMeleeStance(SquadAI.MSTANCE_Ranged)
+			end
+		
+			-- Set stand ground stance
+			if (self.squad_ai:GetStance() ~= SquadAI.STANCE_StandGround) then
+			self.squad_ai:DoSetStance( SquadAI.STANCE_StandGround )
+			end
+		end
+	end
+
+end

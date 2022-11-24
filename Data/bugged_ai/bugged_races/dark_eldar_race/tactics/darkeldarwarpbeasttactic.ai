@@ -1,0 +1,40 @@
+----------------------------------------
+-- File: 'darkeldarwarpbeasttactic.ai'
+-- Created by Arkhan		@ 06.04.2008
+
+class 'DarkEldarWarpBeastTactic' (DarkEldarInfantryTactic)
+
+DarkEldarWarpBeast = {}
+
+function DarkEldarWarpBeastTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Warp Beast Tactic")
+	
+	-- Force melee stance (Commander detaching can cause false stances)
+	self.iForceMeleeStance = true
+end
+
+function DarkEldarWarpBeastTactic:InitAbilities()
+
+	-- Init tame ability
+	if (DarkEldarWarpBeast.tame_id == nil) then
+		DarkEldarWarpBeast.tame_id = cpu_manager.stats:GetAbilityID( "dark_eldar_tame_warp_beasts" )	
+	end
+end
+
+function DarkEldarWarpBeastTactic:CheckForBroken()
+
+	-- Check if we are broken
+	if (self.squad_ai:IsBroken()) then
+	
+		-- Check if I can tame the beasts (Warp Beasts)
+		if (self.squad_ai:CanDoAbility( DarkEldarWarpBeast.tame_id )) then
+			self.squad_ai:DoSpecialAbility( DarkEldarWarpBeast.tame_id )
+			return
+		end
+	end
+
+	-- Call basic broken check method
+	InfantryTactic.CheckForBroken(self)
+end
+

@@ -1,0 +1,119 @@
+----------------------------------------
+-- File: 'tombspydertactic.ai'
+-- Edited by Thudmeizer @ 16.09.2008
+
+class 'TombSpyderTactic' (NecronVehicleTactic)
+
+function TombSpyderTactic:__init( squad_ai ) super( squad_ai )
+	
+	self:SetName("Tomb Spyder Tactic")
+		
+	self.m_iLastUsedHarvestSpawnTime = g_iGMT
+	self.timedHarvestAbility = Timer( TombSpyderTactic.DoHarvestAbility, self, 5 )
+	
+	-- Set upgrade type
+	self.bLongRange = math.random(1, 2) ~= 1 
+end
+
+function TombSpyderTactic:DoAbilities()
+
+	-- Try to spawn harvest units
+	if (self.timedHarvestAbility ~= nil) then
+		self.timedHarvestAbility:Call()
+	else
+		TombSpyderTactic.DoHarvestAbility(self)
+	end
+end
+
+function TombSpyderTactic:DoHarvestAbility()
+
+	-- Check if we can harvest
+	if (self.squad_ai:IsInCombat() or cpu_manager.terrain_analyzer:HasThreat(self.squad_ai:GetPosition(), 35)) then
+		
+		-- Deactivate harvest ability
+		if (self.squad_ai:CanHarvest(false)) then
+			self.squad_ai:DoHarvest(false)
+		end
+		
+	elseif (self.squad_ai:CanHarvest(true)) then
+	
+		-- Activate harvest ability
+		self.squad_ai:DoHarvest(true)
+	end
+		
+	-- Spawn squads if in combat
+	if (self.squad_ai:IsInCombat() and g_iGMT > self.m_iLastUsedHarvestSpawnTime + 30) then
+		
+		local buildchannel_ai
+		
+		-- Get corresponding buildchannel for this unit
+		for e in self.squad_ai:GetEntities() do
+			buildchannel_ai = build_manager:GetBuildChannelFromID(e:GetID())
+			if (buildchannel_ai ~= nil) then
+				break
+			end
+		end
+		
+		-- Spawn random units
+		if (buildchannel_ai ~= nil) then
+		
+			local slots = buildchannel_ai:GetNumberOfItems(BuildChannelAI.PQ_Squad)
+			local built_units = 0
+			local chance
+			
+			-- Try fixed number of times to find a working slot
+			for chance = 1, 6 do
+				
+				local idx = math.random(0, slots - 1)
+				local unit_id = buildchannel_ai:GetItemIDAt(BuildChannelAI.PQ_Squad, idx)
+			
+				if (buildchannel_ai:CanAddToQueue(BuildChannelAI.PQ_Squad,unit_id) == BuildChannelAI.CANBUILD_Ok) then
+					buildchannel_ai:BuildSquad(unit_id)
+					built_units = built_units + 1
+				end
+			end
+			
+			-- If we built everything we could, use current time for last harvest, otherwise scale last harvest time to allow building units sooner
+			if (built_units > 0) then
+				self.m_iLastUsedHarvestSpawnTime = g_iGMT
+			end
+		end
+	end
+end
+
+function TombSpyderTactic:UpdateStance()
+
+	-- Set stand ground stance for upgraded spyder with gun
+	if (not self.squad_ai:HasUpgradableTrooper()) then
+
+		-- Set ranged stance
+		if (self.squad_ai:GetMeleeStance() ~= SquadAI.MSTANCE_Ranged) then
+			self.squad_ai:DoSetMeleeStance(SquadAI.MSTANCE_Ranged)
+		end
+		
+		-- Set stand ground stance
+		if (self.squad_ai:GetStance() ~= SquadAI.STANCE_StandGround) then
+			self.squad_ai:DoSetStance( SquadAI.STANCE_StandGround )
+		end
+	end
+end
+
+function TombSpyderTactic:Upgrade()
+
+	-- Check if we have free ressources
+	if (not Tactic.Options.can_reinforce) then
+		return
+	end
+
+	-- Check situation
+	if (not self.squad_ai:HasUpgradableTrooper() or self.squad_ai:GetHealthPercentage() < 0.5 or self.squad_ai:IsUnderAttack()) then
+		return
+	end
+	
+	-- Check upgrade type
+	if (self.bLongRange) then
+	
+		-- Upgrade to gun
+		self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_VehicleMed)
+	end
+end

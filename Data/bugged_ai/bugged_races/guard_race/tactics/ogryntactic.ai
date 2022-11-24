@@ -1,0 +1,40 @@
+----------------------------------------
+-- File: 'ogryntactic.ai'
+-- Edited by Thudmeizer @ 01.10.2008
+
+class 'OgrynTactic' (GuardInfantryTactic)
+
+Ogryn = {}
+
+function OgrynTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Guard Squad Tactic")
+
+	-- Squad is able to occupy bunkers
+	self.m_bBunkerSquad = true
+	
+	-- Force melee stance (Commander detaching can cause false stances)
+	self.iForceMeleeStance = true
+end
+
+function OgrynTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (Ogryn.iSmackEmDownID == nil) then
+		Ogryn.iSmackEmDownID = cpu_manager.stats:GetAbilityID( "guard_ogryn_sergeant_double_time" )	
+	end
+end
+
+function OgrynTactic:DoAbilities()
+
+	-- Try to use Smack Em Down ability in combat
+	if (self.squad_ai:IsInCombat() and not self.squad_ai:IsCapturing() and not self.squad_ai:IsBroken() and self.squad_ai:IsAttacking()) then
+
+		if (self.squad_ai:CanDoAbility(Ogryn.iSmackEmDownID)) then
+			self.squad_ai:DoSpecialAbility(Ogryn.iSmackEmDownID)
+		end
+	end
+	
+	-- Compute common abilities
+	GuardInfantryTactic.DoAbilities(self)
+end

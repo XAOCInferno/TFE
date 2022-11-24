@@ -1,0 +1,37 @@
+----------------------------------------
+-- File: raptortactic.ai'
+-- Edited by Arkhan	@ 27.11.2010
+
+class 'RaptorTactic' (ChaosMarineInfantryTactic)
+
+Raptor = {}
+
+function RaptorTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Raptor Tactic")
+	
+	-- Force melee stance (Commander detaching can cause false stances)
+	self.iForceMeleeStance = true
+end
+
+function RaptorTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (Raptor.boost_id == nil) then
+		Raptor.boost_id = cpu_manager.stats:GetAbilityID( "chaos_speed_fiend" )	
+	end
+	
+	-- Init common abilities
+	ChaosMarineInfantryTactic.InitAbilities(self)
+end
+
+function RaptorTactic:DoAbilities()
+
+	-- Check if raptor squad can speed up with boost
+	if (self.squad_ai:IsInStateAttackMove() and self.squad_ai:CanDoAbility( Raptor.boost_id )) then
+		self.squad_ai:DoSpecialAbility( Raptor.boost_id )
+	end
+	
+	-- Compute common abilities
+	ChaosMarineInfantryTactic.DoAbilities(self)
+end

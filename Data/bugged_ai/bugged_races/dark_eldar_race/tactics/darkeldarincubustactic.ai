@@ -1,0 +1,14 @@
+----------------------------------------
+-- File: 'darkeldarincubustactic.ai'
+-- Created by Arkhan		@ 06.04.2008
+
+class 'DarkEldarIncubusTactic' (DarkEldarInfantryTactic)
+
+function DarkEldarIncubusTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Incubus Tactic")
+	
+	-- Force melee stance (Commander detaching can cause false stances)
+	self.iForceMeleeStance = true
+end
+

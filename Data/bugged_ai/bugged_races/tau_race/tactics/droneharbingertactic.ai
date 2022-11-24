@@ -1,0 +1,94 @@
+----------------------------------------
+-- File: 'droneharbingertactic.ai'
+-- Edited by Thudmeizer @ 26.10.2006
+
+class 'DroneHarbingerTactic' (TauVehicleTactic)
+
+function DroneHarbingerTactic:__init( squad_ai ) super( squad_ai )
+	
+	self:SetName("Drone Harbinger Tactic")
+	
+	self.m_iMinSpawnPower = 400
+	self.m_iMinSpawnRequisition = 200
+	self.m_iLoadedTroopStrength = 0
+	self.m_oTimedDirectSpawnAbility = Timer(DroneHarbingerTactic.DoDirectSpawnAbility, self, 1)
+end
+
+function DroneHarbingerTactic:DoAbilities()
+
+	-- Try to spawn drones
+	if (self.m_oTimedDirectSpawnAbility ~= nil) then
+		self.m_oTimedDirectSpawnAbility:Call()
+	else
+		DroneHarbingerTactic.DoDirectSpawnAbility(self)
+	end
+end
+
+function DroneHarbingerTactic:DoDirectSpawnAbility()
+
+	-- Check threat
+	local vPos = self.squad_ai:GetPosition()
+	if (self.squad_ai:IsAttacking() or self.squad_ai:IsUnderAttack()) then
+		
+		-- Check if we can unload drones
+		if (self.squad_ai:CanUnload()) then
+		
+			-- Unload all troops
+			self.squad_ai:DoStop()
+			self.squad_ai:DoUnload()
+			self.m_iLoadedTroopStrength = 0
+		end		
+	end	
+	
+	-- If there are no resources available, don't spawn drones
+	local iPower = resource_manager:GetResourceAmount():Get(ResourceAmount.RT_Power)
+	local iRequisition = resource_manager:GetResourceAmount():Get(ResourceAmount.RT_Requisition)
+	if (iPower < self.m_iMinSpawnPower or iRequisition < self.m_iMinSpawnRequisition) then
+		return
+	end
+	
+	-- Do not spawn if near death 
+    if (self.squad_ai:WasRecentlyHurt() and self.squad_ai:GetHealthPercentage() <= 0.2) then
+    	return
+    end	
+    
+    -- Spawn drones
+	if (self.squad_ai:CanDirectSpawn()) then
+		self.squad_ai:DoDirectSpawn()
+		self.m_iLoadedTroopStrength = self.m_iLoadedTroopStrength + 200
+	end	
+end
+
+function DroneHarbingerTactic:Update()
+
+    if (self:IsComplete()) then
+        return
+    end
+
+    -- State machine
+    if (not VehicleTactic.Update(self)) then
+        return
+    end
+    
+	-- Check stance
+	if (self.squad_ai:GetStance() ~= SquadAI.STANCE_StandGround) then
+		self.squad_ai:DoSetStance(SquadAI.STANCE_StandGround)
+	end
+    		
+    -- Check damage
+    if ((self.squad_ai:WasRecentlyHurt() and self.squad_ai:GetHealthPercentage() <= 0.5)) then
+    	
+		-- Check if we can unload drones
+		if (self.squad_ai:CanUnload()) then
+		
+			-- Unload all troops
+			self.squad_ai:DoStop()
+			self.squad_ai:DoUnload()
+			self.m_iLoadedTroopStrength = 0
+		end		   	
+    	self.m_bNeedRepair = true
+    elseif (self.squad_ai:GetHealthPercentage() > 0.5 and self.m_iLoadedTroopStrength > 0 and
+    		distance_sqr(self.squad_ai:GetPosition(), cpu_manager.start_pos) > sqr(50)) then
+    	self.m_bNeedRepair = false
+    end
+end

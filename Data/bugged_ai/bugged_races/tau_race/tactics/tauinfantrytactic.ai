@@ -1,0 +1,79 @@
+----------------------------------------
+-- File: 'tauinfantrytactic.ai'
+-- Edited by Thudmeizer		@ 01.10.2008
+
+class 'TauInfantryTactic' (InfantryTactic)
+
+TauInfantry = {}
+
+function TauInfantryTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Tau Infantry Tactic")
+	
+	-- Basic Tau infantry is able to enter transport vehicles
+	local sSquadName = squad_ai:GetSquadName()
+	if (sSquadName == "tau_stealth_team_squad" or
+		sSquadName == "tau_fire_warrior_squad" or
+		sSquadName == "tau_pathfinder_squad" or
+		sSquadName == "tau_broadside_battlesuit_squad" or
+		sSquadName == "tau_ethereal_squad" or
+		sSquadName == "tau_commander_squad") then
+
+		self.m_iTransportable = 1
+	end
+end
+
+function TauInfantryTactic:AddCommanders()
+	table.insert(self.commander, { "tau_commander_squad", true })
+	table.insert(self.commander, { "tau_ethereal_squad", false })
+	table.insert(self.commander, { "tau_kroot_shaper_squad", false })
+end
+
+function TauInfantryTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (TauInfantry.iPhotonGrenadeID == nil) then
+		TauInfantry.iPhotonGrenadeID = cpu_manager.stats:GetAbilityID( "tau_photon_grenade" )
+	end
+	
+	if (TauInfantry.shield == nil) then
+		TauInfantry.shield = cpu_manager.stats:GetAbilityID( "tau_personal_shield_overdrive" )
+	end
+end
+
+function TauInfantryTactic:DoAbilities()
+
+	-- Try to throw photon grenade
+	Ability.DoAbilityTarget(self.squad_ai, TauInfantry.iPhotonGrenadeID, Ability.Filters.CloseInfiltratedOrVisibleEnemyInfantry, 4)
+	
+	-- Check if activate shield ability
+	if (self.squad_ai:WasRecentlyHurt() and self.squad_ai:GetHealthPercentage() < 0.4) then
+		Ability.DoAbility( self.squad_ai, TauInfantry.shield, Ability.PredicateFilters.IsInCombat ) 
+	end
+end
+
+function TauInfantryTactic:CheckForDetach()
+
+	-- Check if Kroot shaper is attached
+	if (self.squad_ai:HasSquadAttached( "tau_kroot_shaper_squad" )) then
+		return
+	end
+	
+	-- Set detach health
+	local fDetachHealth = self.m_fCommanderAttachHealth + 0.4
+
+	-- Detach healthy commanders after combat.
+	if (not self.squad_ai:IsInCombat() and not self.squad_ai:WasRecentlyHurt() and
+		self:CommanderAttached() and self.squad_ai:GetAttachedHealthPercentage() > fDetachHealth) then
+		self.squad_ai:DoDetachSquad()
+		self.squad_ai:DoSetDefaultMeleeStance()
+	end
+		
+	-- Detach commander from broken/capturing, not kroot shaper
+	if ((self.squad_ai:IsBroken() or self.squad_ai:IsCapturing()) and
+		(self.squad_ai:IsInCombat() or self.squad_ai:WasRecentlyHurt())) then 
+		
+		self.squad_ai:DoDetachSquad()
+		self.squad_ai:DoSetDefaultMeleeStance()
+	end
+end

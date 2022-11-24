@@ -1,0 +1,25 @@
+----------------------------------------
+-- File: 'guardvehicletactic.ai'
+-- Edited by Thudmeizer		@ 12.10.2006
+
+class 'GuardVehicleTactic' (VehicleTactic)
+
+function GuardVehicleTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Guard Vehicle Tactic")
+end
+
+-- Check if the vehicle should dance away in melee
+function GuardVehicleTactic:CheckVehicleDance(sName)
+
+	if (sName == "guard_squad_basilisk" or
+		sName == "guard_squad_chimera" or
+		sName == "guard_squad_hellhound" or
+		sName == "guard_squad_sentinel" or
+		sName == "guard_squad_lemanruss" or
+		sName == "guard_squad_demolisher" or
+		sName == "guard_squad_baneblade") then
+		return true
+	end
+	return false
+end

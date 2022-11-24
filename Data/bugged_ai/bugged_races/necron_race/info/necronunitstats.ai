@@ -1,0 +1,415 @@
+----------------------------------------
+-- File: necronunitstats.ai
+-- File created using automatic script made by Kaiser Soze
+-- Dont forget to check unit rating and other thing that may need manual update
+-- Updated to DCPRO 3.0
+
+UnitStrengths.necron_basic_warrior_squad = 60
+UnitStrengths.necron_builder_scarab_squad = 0
+UnitStrengths.necron_deceiver_squad = 300
+UnitStrengths.necron_destroyer_squad = 300
+UnitStrengths.necron_destroyer_squad_advance_sp = 300
+UnitStrengths.necron_flayed_one_squad = 60
+UnitStrengths.necron_heavy_destroyer_squad = 400
+UnitStrengths.necron_immortal_squad = 100
+UnitStrengths.necron_lord_destroyer_squad = 400
+UnitStrengths.necron_lord_squad = 300
+UnitStrengths.necron_night_bringer = 0
+UnitStrengths.necron_pariah_squad = 100
+UnitStrengths.necron_restored_monolith_squad = 1000
+UnitStrengths.necron_scarab_squad = 25
+UnitStrengths.necron_tomb_spyder_squad = 400
+UnitStrengths.necron_tomb_spyder_squad_advance_sp = 400
+UnitStrengths.necron_wraith_squad = 125
+UnitStrengths.necron_flayed_one_squad_clone_sp = 50
+
+
+NecronUnitStats =
+{
+	race = "necron_race",
+	{
+		name = "necron_deceiver",
+		sbp_name = "necron_deceiver_squad",
+		ebp_name = "necron_deceiver",
+		class = UnitStatsAI.UC_Commander,
+		rating = 6,
+		potential =
+		{
+			{
+				name = "necron_deceiver_claws",
+				effectiveness = GenerateUnitEffectiveness(0.22,0.20,0.26,0.18,0.15,0.11,0.09,0.04,0.17,0.05,0.29,0.23,0.25,0.05),
+				range = UnitStatsAI.RT_Melee,
+			},
+			{
+				name = "necron_deceiver_blast",
+				effectiveness = GenerateUnitEffectiveness(0.82,0.80,0.86,0.88,0.85,0.81,0.09,0.04,0.87,0.05,0.89,0.23,0.25,0.05),
+				range = UnitStatsAI.RT_ShortRanged,
+			},
+		}
+	},
+	{
+		name = "necron_basic_warrior",
+		sbp_name = "necron_basic_warrior_squad",
+		ebp_name = "necron_basic_warrior",
+		class = UnitStatsAI.UC_HeavyInfantryMed,
+		rating = 4,
+		potential =
+		{
+			{
+				name = "necron_warrior_gauss_flayer_ranged",
+				effectiveness = GenerateUnitEffectiveness(0.22,0.20,0.26,0.18,0.15,0.11,0.09,0.04,0.17,0.05,0.29,0.23,0.25,0.05),
+				range = UnitStatsAI.RT_ShortRanged,
+			},
+			{
+				name = "necron_warrior_gauss_flayer_melee",
+				effectiveness = GenerateUnitEffectiveness(0.23,0.23,0.23,0.12,0.08,0.11,0.07,0.04,0.12,0.07,0.21,0.21,0.17,0.05),
+				range = UnitStatsAI.RT_Melee,
+			},
+		}
+	},
+	{
+		name = "necron_builder_scarab",
+		sbp_name = "necron_builder_scarab_squad",
+		ebp_name = "necron_builder_scarab",
+		class = UnitStatsAI.UC_LightInfantryLow,
+		rating = 0,
+		potential =
+		{
+			{
+				name = "none",
+				effectiveness = GenerateUnitEffectiveness(0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00),
+				range = UnitStatsAI.RT_None,
+			},
+		}
+	},
+	{
+		name = "necron_destroyer",
+		sbp_name = "necron_destroyer_squad",
+		ebp_name = "necron_destroyer",
+		class = UnitStatsAI.UC_VehicleLow,
+		rating = 5,
+		potential =
+		{
+			{
+				name = "necron_gauss_flayer_destroyer",
+				effectiveness = GenerateUnitEffectiveness(0.90,1.66,1.38,1.19,0.97,0.38,0.42,0.06,1.05,0.06,1.23,0.98,0.88,0.27),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "necron_destroyer_melee",
+				effectiveness = GenerateUnitEffectiveness(0.68,0.78,0.78,0.75,0.78,0.85,0.66,0.43,0.82,1.07,0.97,1.10,1.50,0.62),
+				range = UnitStatsAI.RT_Melee,
+			},
+		}
+	},
+	{
+		name = "necron_destroyer",
+		sbp_name = "necron_destroyer_squad_advance_sp",
+		ebp_name = "necron_destroyer",
+		class = UnitStatsAI.UC_VehicleLow,
+		rating = 5,
+		potential =
+		{
+			{
+				name = "necron_gauss_flayer_destroyer",
+				effectiveness = GenerateUnitEffectiveness(0.90,1.66,1.38,1.19,0.97,0.38,0.42,0.06,1.05,0.06,1.23,0.98,0.88,0.27),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "necron_destroyer_melee",
+				effectiveness = GenerateUnitEffectiveness(0.68,0.78,0.78,0.75,0.78,0.85,0.66,0.43,0.82,1.07,0.97,1.10,1.50,0.62),
+				range = UnitStatsAI.RT_Melee,
+			},
+		}
+	},
+	{
+		name = "necron_flayed_one",
+		sbp_name = "necron_flayed_one_squad",
+		ebp_name = "necron_flayed_one",
+		class = UnitStatsAI.UC_HeavyInfantryMed,
+		rating = 4,
+		potential =
+		{
+			{
+				name = "necron_flayed_one_claw",
+				effectiveness = GenerateUnitEffectiveness(0.55,0.45,0.52,0.37,0.26,0.35,0.18,0.13,0.38,0.18,0.49,0.27,0.31,0.04),
+				range = UnitStatsAI.RT_Melee,
+			},
+		}
+	},
+	{
+		name = "necron_heavy_destroyer",
+		sbp_name = "necron_heavy_destroyer_squad",
+		ebp_name = "necron_heavy_destroyer",
+		class = UnitStatsAI.UC_VehicleMed,
+		rating = 6,
+		potential =
+		{
+			{
+				name = "necron_gauss_cannon_heavy_destroyer",
+				effectiveness = GenerateUnitEffectiveness(0.99,0.80,0.69,0.56,0.52,3.53,3.63,2.63,0.64,0.94,0.86,2.16,2.26,1.37),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "necron_heavy_destroyer_melee",
+				effectiveness = GenerateUnitEffectiveness(0.68,0.94,0.94,0.90,0.94,1.07,1.10,1.08,0.50,0.64,0.97,1.38,2.49,1.24),
+				range = UnitStatsAI.RT_Melee,
+			},
+		}
+	},
+	{
+		name = "necron_immortal",
+		sbp_name = "necron_immortal_squad",
+		ebp_name = "necron_immortal",
+		class = UnitStatsAI.UC_HeavyInfantryHigh,
+		rating = 5,
+		potential =
+		{
+			{
+				name = "necron_gauss_blaster_immortal",
+				effectiveness = GenerateUnitEffectiveness(0.33,0.26,0.27,0.28,0.23,0.94,0.84,0.83,0.33,0.28,0.30,0.61,0.82,0.34),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "necron_guass_flayer_immortal_melee",
+				effectiveness = GenerateUnitEffectiveness(0.19,0.33,0.28,0.26,0.23,0.37,0.20,0.10,0.24,0.13,0.46,0.36,0.44,0.20),
+				range = UnitStatsAI.RT_Melee,
+			},
+		}
+	},
+	{
+		name = "necron_lord_destroyer",
+		sbp_name = "necron_lord_destroyer_squad",
+		ebp_name = "necron_lord_destroyer",
+		class = UnitStatsAI.UC_Commander,
+		rating = 7,
+		potential =
+		{
+			{
+				name = "necron_dl_staff_of_light_ranged",
+				effectiveness = GenerateUnitEffectiveness(0.34,0.65,0.54,0.47,0.38,0.30,0.15,0.05,0.41,0.07,0.67,0.48,0.35,0.07),
+				range = UnitStatsAI.RT_ShortRanged,
+			},
+			{
+				name = "necron_dl_staff_of_light_ranged_2",
+				effectiveness = GenerateUnitEffectiveness(0.60,0.78,0.72,0.56,0.46,0.36,0.18,0.05,0.49,0.09,0.81,0.58,0.42,0.07),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "necron_dl_staff_of_light_gauss_flayer",
+				effectiveness = GenerateUnitEffectiveness(0.75,1.01,0.93,0.72,0.59,0.69,0.47,0.23,0.62,0.11,1.04,0.74,0.54,0.07),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "necron_dl_staff_of_light_melee",
+				effectiveness = GenerateUnitEffectiveness(0.84,1.67,1.67,1.59,1.67,0.91,0.78,3.08,0.75,3.03,2.20,1.37,1.77,0.44),
+				range = UnitStatsAI.RT_Melee,
+			},
+			{
+				name = "necron_dl_staff_of_light_skinning_blades",
+				effectiveness = GenerateUnitEffectiveness(1.86,2.11,2.11,2.02,2.11,1.15,0.99,3.90,0.93,3.07,2.79,1.74,2.24,0.56),
+				range = UnitStatsAI.RT_Melee,
+			},
+			{
+				name = "necron_dl_staff_of_light_reaping_blades",
+				effectiveness = GenerateUnitEffectiveness(2.22,2.59,2.59,2.47,2.59,1.41,1.21,4.78,1.13,4.71,3.42,2.13,2.75,0.69),
+				range = UnitStatsAI.RT_Melee,
+			},
+		}
+	},
+	{
+		name = "necron_lord",
+		sbp_name = "necron_lord_squad",
+		ebp_name = "necron_lord",
+		class = UnitStatsAI.UC_Commander,
+		rating = 7,
+		potential =
+		{
+			{
+				name = "necron_lord_staff_of_light_ranged",
+				effectiveness = GenerateUnitEffectiveness(0.51,0.65,0.60,0.47,0.38,0.30,0.15,0.05,0.41,0.07,0.67,0.48,0.35,0.07),
+				range = UnitStatsAI.RT_ShortRanged,
+			},
+			{
+				name = "necron_lord_staff_of_light_ranged_2",
+				effectiveness = GenerateUnitEffectiveness(0.60,0.78,0.72,0.56,0.46,0.36,0.18,0.05,0.49,0.09,0.81,0.58,0.42,0.07),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "necron_lord_staff_of_light_gauss_flayer",
+				effectiveness = GenerateUnitEffectiveness(0.75,1.01,0.93,0.72,0.59,0.69,0.47,0.23,0.62,0.11,1.04,0.74,0.54,0.07),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "necron_lord_staff_of_light_melee",
+				effectiveness = GenerateUnitEffectiveness(1.54,1.67,1.67,1.59,1.67,0.91,0.78,3.08,0.75,3.03,2.20,1.37,1.77,0.44),
+				range = UnitStatsAI.RT_Melee,
+			},
+			{
+				name = "necron_lord_staff_of_light_skinning_blades",
+				effectiveness = GenerateUnitEffectiveness(1.86,2.11,2.11,2.02,2.11,1.15,0.99,3.90,0.93,3.07,2.79,1.74,2.24,0.56),
+				range = UnitStatsAI.RT_Melee,
+			},
+			{
+				name = "necron_lord_staff_of_light_reaping_blades",
+				effectiveness = GenerateUnitEffectiveness(2.22,2.59,2.59,2.47,2.59,1.41,1.21,4.78,1.13,4.71,3.42,2.13,2.75,0.69),
+				range = UnitStatsAI.RT_Melee,
+			},
+		}
+	},
+	{
+		name = "necron_night_bringer",
+		sbp_name = "necron_night_bringer",
+		ebp_name = "necron_night_bringer",
+		class = UnitStatsAI.UC_MonsterHigh,
+		rating = 10,
+		potential =
+		{
+			{
+				name = "necron_nightbringer_scythe_ranged",
+				effectiveness = GenerateUnitEffectiveness(0.52,1.16,0.97,0.83,0.68,0.53,0.39,0.38,0.71,0.38,1.20,0.85,0.88,0.55),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "necron_nightbringer_scythe_melee",
+				effectiveness = GenerateUnitEffectiveness(4.71,10.00,10.00,9.55,10.00,5.45,4.67,6.46,4.44,9.08,4.95,7.05,6.37,1.96),
+				range = UnitStatsAI.RT_Melee,
+			},
+		}
+	},
+	{
+		name = "necron_pariah",
+		sbp_name = "necron_pariah_squad",
+		ebp_name = "necron_pariah",
+		class = UnitStatsAI.UC_HeavyInfantryHigh,
+		rating = 6,
+		potential =
+		{
+			{
+				name = "necron_gauss_blaster_pariah",
+				effectiveness = GenerateUnitEffectiveness(0.61,0.80,0.66,0.57,0.46,0.36,0.19,0.09,0.54,0.18,0.59,0.47,0.85,0.26),
+				range = UnitStatsAI.RT_ShortRanged,
+			},
+			{
+				name = "necron_warscythe_pariah",
+				effectiveness = GenerateUnitEffectiveness(0.91,1.20,0.00,0.85,0.70,0.81,0.44,0.27,1.57,1.35,1.23,0.77,0.63,0.39),
+				range = UnitStatsAI.RT_Melee,
+			},
+		}
+	},
+	{
+		name = "necron_restored_monolith",
+		sbp_name = "necron_restored_monolith_squad",
+		ebp_name = "necron_restored_monolith",
+		class = UnitStatsAI.UC_VehicleHigh,
+		rating = 10,
+		potential =
+		{
+			{
+				name = "necron_particle_whip_monolith",
+				effectiveness = GenerateUnitEffectiveness(1.93,1.80,1.80,1.76,1.80,2.08,2.12,2.10,2.88,2.08,2.97,2.40,3.54,2.58),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "necron_heavy_gauss_cannon_left_front_monolith",
+				effectiveness = GenerateUnitEffectiveness(0.31,0.33,0.33,0.32,0.33,0.36,0.47,0.46,0.35,0.45,0.82,0.59,1.06,0.66),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "necron_heavy_gauss_cannon_left_rear_monolith",
+				effectiveness = GenerateUnitEffectiveness(0.31,0.33,0.33,0.32,0.33,0.36,0.47,0.46,0.35,0.45,0.82,0.59,1.06,0.66),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "necron_heavy_gauss_cannon_right_front_monolith",
+				effectiveness = GenerateUnitEffectiveness(0.31,0.33,0.33,0.32,0.33,0.36,0.47,0.46,0.35,0.45,0.82,0.59,1.06,0.66),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "necron_heavy_gauss_cannon_right_rear_monolith",
+				effectiveness = GenerateUnitEffectiveness(0.31,0.33,0.33,0.32,0.33,0.36,0.47,0.46,0.35,0.45,0.82,0.59,1.06,0.66),
+				range = UnitStatsAI.RT_Ranged,
+			},
+		}
+	},
+	{
+		name = "necron_scarabs",
+		sbp_name = "necron_scarab_squad",
+		ebp_name = "necron_scarabs",
+		class = UnitStatsAI.UC_VehicleLow,
+		rating = 4,
+		potential =
+		{
+			{
+				name = "necron_scarab_melee",
+				effectiveness = GenerateUnitEffectiveness(0.16,0.10,0.10,0.07,0.05,0.32,0.26,0.18,0.55,0.71,0.06,0.28,0.25,0.05),
+				range = UnitStatsAI.RT_Melee,
+			},
+		}
+	},
+	{
+		name = "necron_tomb_spyder",
+		sbp_name = "necron_tomb_spyder_squad",
+		ebp_name = "necron_tomb_spyder",
+		class = UnitStatsAI.UC_VehicleHigh,
+		rating = 6,
+		potential =
+		{
+			{
+				name = "necron_tomb_spyder_claw",
+				effectiveness = GenerateUnitEffectiveness(2.63,2.51,2.01,2.64,1.51,2.39,2.32,1.39,2.91,2.73,1.86,1.77,2.08,0.50),
+				range = UnitStatsAI.RT_Melee,
+			},
+			{
+				name = "necron_tomb_spyder_claw",
+				effectiveness = GenerateUnitEffectiveness(2.63,2.51,2.01,2.64,1.51,2.39,2.32,1.39,2.91,2.73,1.86,1.77,2.08,0.50),
+				range = UnitStatsAI.RT_Melee,
+			},
+			{
+				name = "necron_tomb_spyder_particle_projector",
+				effectiveness = GenerateUnitEffectiveness(1.20,1.02,0.92,0.81,0.58,2.09,1.67,1.18,1.31,0.34,0.76,1.20,1.63,0.49),
+				range = UnitStatsAI.RT_Ranged,
+			},
+		}
+	},
+	{
+		name = "necron_tomb_spyder",
+		sbp_name = "necron_tomb_spyder_squad_advance_sp",
+		ebp_name = "necron_tomb_spyder",
+		class = UnitStatsAI.UC_VehicleHigh,
+		rating = 6,
+		potential =
+		{
+			{
+				name = "necron_tomb_spyder_claw",
+				effectiveness = GenerateUnitEffectiveness(2.63,2.51,2.01,2.64,1.51,2.39,2.32,1.39,2.91,2.73,1.86,1.77,2.08,0.50),
+				range = UnitStatsAI.RT_Melee,
+			},
+			{
+				name = "necron_tomb_spyder_claw",
+				effectiveness = GenerateUnitEffectiveness(2.63,2.51,2.01,2.64,1.51,2.39,2.32,1.39,2.91,2.73,1.86,1.77,2.08,0.50),
+				range = UnitStatsAI.RT_Melee,
+			},
+			{
+				name = "necron_tomb_spyder_particle_projector",
+				effectiveness = GenerateUnitEffectiveness(1.20,1.02,0.92,0.81,0.58,2.09,1.67,1.18,1.31,0.34,0.76,1.20,1.63,0.49),
+				range = UnitStatsAI.RT_Ranged,
+			},
+		}
+	},
+	{
+		name = "necron_wraith",
+		sbp_name = "necron_wraith_squad",
+		ebp_name = "necron_wraith",
+		class = UnitStatsAI.UC_LightInfantryHigh,
+		rating = 5,
+		potential =
+		{
+			{
+				name = "necron_wraith_claw",
+				effectiveness = GenerateUnitEffectiveness(0.60,1.14,0.95,0.72,0.47,0.26,0.13,0.07,0.52,0.26,0.75,0.50,0.60,0.09),
+				range = UnitStatsAI.RT_Melee,
+			},
+		}
+	},
+}

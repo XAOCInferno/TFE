@@ -1,0 +1,128 @@
+----------------------------------------
+-- File: 'cultistactic.ai'
+-- Edited by Thudmeizer	@ 01.10.2008
+
+class 'CultistTactic' (ChaosMarineInfantryTactic)
+
+Cultist = {}
+
+function CultistTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Cultist Tactic")
+
+	-- Init upgrade flag
+	self.bHasUpgrade = false
+	
+	self.m_oTimedSpecialAbilities = Timer( CultistTactic.DoTimedSpecialAbilities, self, 7 )
+end
+
+function CultistTactic:InitAbilities()
+
+	-- Init ability ID's
+
+	if (Cultist.detector_id == nil) then
+		Cultist.detector_id = cpu_manager.stats:GetAbilityID( "chaos_detector" )	
+	end
+
+	-- Init common abilities
+	ChaosMarineInfantryTactic.InitAbilities(self)
+end
+
+function CultistTactic:DoAbilities()
+
+
+  	if (self.m_oTimedSpecialAbilities ~= nil) then
+		self.m_oTimedSpecialAbilities:Call()
+	else
+		CultistTactic.DoTimedSpecialAbilities(self)
+	end
+
+	-- Compute common abilities
+	ChaosMarineInfantryTactic.DoAbilities(self)
+end
+
+function CultistTactic:DoTimedSpecialAbilities()
+
+	-- Try to use detection ability
+	if (self.squad_ai:CanDoAbility(Cultist.detector_id)) then
+		local oEnemy = Ability.Filters.CloseInfiltratedEnemy(self.squad_ai:GetPosition(), 35, 1)
+		local range = self.squad_ai:GetAbilityRange( Cultist.detector_id )
+		if (oEnemy ~= nil) then
+			aitrace ("  Squad using Chaos Detector")
+			--print ("Squad using Chaos Detector at range: "..tostring (range))
+			local vSquadPos = self.squad_ai:GetPosition()
+			local vEnemyPos = oEnemy:GetPosition()
+			local vTargetPos = Vector3f(vSquadPos)
+			local iDistance = distance (vSquadPos, vEnemyPos)
+			--If target is too far awy launche auspex in range
+			if (iDistance>range) then
+				--print ("Cloak is away: "..tostring (iDistance))
+				local fThrowFactor = range / iDistance
+				vTargetPos.x = vTargetPos.x + (vEnemyPos.x - vSquadPos.x) * fThrowFactor 
+				vTargetPos.z = vTargetPos.z + (vEnemyPos.z - vSquadPos.z) * fThrowFactor
+			else
+				--print ("Cloak is close: "..tostring (iDistance))
+				local vTargetPos = Vector3f(vEnemyPos)
+			end
+			self.squad_ai:DoSpecialAbilityPos(Cultist.detector_id, vTargetPos)
+			
+		end
+	end
+end
+
+function CultistTactic:UpdateStance()
+
+	-- Check for upgraded cultists with guns
+	if (self.bHasUpgrade) then
+	
+		-- Set ranged stance
+		if (self.squad_ai:GetMeleeStance() ~= SquadAI.MSTANCE_Ranged) then
+			self.squad_ai:DoSetMeleeStance(SquadAI.MSTANCE_Ranged)
+		end
+		
+		-- Set stand ground stance
+		if (self.squad_ai:GetStance() ~= SquadAI.STANCE_StandGround) then
+			self.squad_ai:DoSetStance(SquadAI.STANCE_StandGround)
+		end
+	else
+		-- Set assault stance
+		if (self.squad_ai:GetMeleeStance() ~= SquadAI.MSTANCE_Assault) then
+			self.squad_ai:DoSetMeleeStance(SquadAI.MSTANCE_Assault)
+		end
+		
+		-- Set attack stance
+		if (self.squad_ai:GetStance() ~= SquadAI.STANCE_Attack) then
+			self.squad_ai:DoSetStance( SquadAI.STANCE_Attack )
+		end
+	end
+end
+
+function CultistTactic:Upgrade()
+
+	-- Check if we are reinforcing
+	if (self.squad_ai:IsReinforcing() or not self.squad_ai:HasUpgradableTrooper() or self.bWaitForThreat or g_iGMT < DefendChokePointPlan.HarassingTime * 60) then
+		return
+	end
+
+	-- If I am broken, don't upgrade!
+	if (self:IsAffectedByMorale() and self.squad_ai:IsBroken()) then
+		return
+	end	
+	
+	-- Only upgrade in healthy state
+	if (self.squad_ai:GetNumTroopers() < self.squad_ai:GetMaxTroopers() * 0.6 or self.squad_ai:GetHealthPercentage() < 0.5 or self.squad_ai:IsUnderAttack()) then
+		return
+	end
+	
+	-- Check tier level
+	if (cpu_manager:GetTierLevel() < 2) then
+	
+		-- Upgrade to grenade launcher
+		self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_LightInfantryHigh)
+	else
+		-- Upgrade to plasma rifle
+		self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_HeavyInfantryMed)
+	end
+	self.bHasUpgrade = true
+end
+

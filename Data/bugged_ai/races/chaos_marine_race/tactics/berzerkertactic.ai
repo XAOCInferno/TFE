@@ -1,0 +1,45 @@
+----------------------------------------
+-- File: 'berzerkeractic.ai'
+-- Edited by Thudmeizer	@ 01.10.2008
+
+class 'BerzerkerTactic' (ChaosMarineInfantryTactic)
+
+Berzerker = {}
+
+function BerzerkerTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Berzerker Tactic")
+	
+	-- Force melee stance (Commander detaching can cause false stances)
+	self.iForceMeleeStance = true
+end
+
+function BerzerkerTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (Berzerker.frenzy_id == nil) then
+		Berzerker.frenzy_id = cpu_manager.stats:GetAbilityID( "chaos_blood_frenzy" )	
+	end
+	
+	if (Berzerker.iFragGrenadesID == nil) then
+		Berzerker.iFragGrenadesID = cpu_manager.stats:GetAbilityID( "chaos_frag_grenades_berserkers" )
+	end
+	
+	-- Init common abilities
+	ChaosMarineInfantryTactic.InitAbilities(self)
+end
+
+function BerzerkerTactic:DoAbilities()
+
+	-- Try to throw frag grenades
+	Ability.DoAbilityTarget(self.squad_ai, Berzerker.iFragGrenadesID, Ability.Filters.CloseInfiltratedOrVisibleEnemyInfantry, 4)
+
+	-- Check if I can go frenzy
+	if (self.squad_ai:IsUnderAttack() and self.squad_ai:IsInCombat() and not self.squad_ai:IsBroken()
+		and self.squad_ai:CanDoAbility( Berzerker.frenzy_id )) then
+		self.squad_ai:DoSpecialAbility( Berzerker.frenzy_id )
+	end
+	
+	-- Compute common abilities
+	ChaosMarineInfantryTactic.DoAbilities(self)
+end

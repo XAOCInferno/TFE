@@ -1,0 +1,36 @@
+----------------------------------------
+-- File: 'stormboyztactic.ai'
+-- Edited by Thudmeizer @ 16.09.2008
+
+class 'StormBoyzTactic' (OrkInfantryTactic)
+
+StormBoyz = {}
+
+function StormBoyzTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("StormBoyz Tactic")
+end
+	
+function StormBoyzTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (StormBoyz.boost_id == nil) then
+		StormBoyz.boost_id = cpu_manager.stats:GetAbilityID("ork_turbo_boost_stormboyz")
+	end
+	
+	-- Init common abilities
+	OrkInfantryTactic.InitAbilities(self)
+end
+
+function StormBoyzTactic:DoAbilities()
+	
+	-- Check if jump squad can speed up with boost
+	if ((self.squad_ai:IsInCombat() and self.squad_ai:WasRecentlyHurt() and 
+		self.squad_ai:IsInStateAttackMove()) or self.stateID ~= Tactic.StateID.NoState) then
+		Ability.DoAbility(self.squad_ai, StormBoyz.boost_id)
+	end
+
+	-- Compute common abilities
+	OrkInfantryTactic.DoAbilities(self)
+end
+

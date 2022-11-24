@@ -1,0 +1,11 @@
+GameData = Inherit([[]])
+GameData["can_be_possessed_by_enemy"] = true 
+GameData["reanimate"] = false
+GameData["single_player_only"] = false
+GameData["summon_teleport_building_check_override"] = false
+GameData["summon_teleport_destination"] = true 
+GameData["type_armour"] = Reference([[type_armour\tp_armour.lua]])
+GameData["type_armour_2"] = Reference([[type_armour\tp_armour.lua]])
+GameData["type_environment"] = Reference([[type_environment\tp_environment.lua]])
+GameData["type_speech"] = Reference([[type_speech\speech_normal.lua]])
+GameData["type_surface"] = Reference([[type_surface\tp_flesh.lua]])

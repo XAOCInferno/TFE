@@ -1,0 +1,57 @@
+----------------------------------------
+-- File: 'Enginseertactic.ai'
+-- Edited by Arkhan 	@ 10.01.2007
+
+class 'EnginseerTactic' (EngineerTactic)
+
+Enginseer = {}
+
+function EnginseerTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Enginseer Tactic")
+	
+	-- Enginseers are able to enter bunkers
+	self.m_iBunkerMoveDelay = 0
+end
+
+function EnginseerTactic:IsDefender()
+	if (self.squad_ai:GetHealthPercentage() < 0.6 or not cpu_manager:HQThreat()) then
+		return false
+	end
+	return self:IsCommanderDefender()
+end
+
+function EnginseerTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (Enginseercurse_id == nil) then
+		Enginseercurse_id = cpu_manager.stats:GetAbilityID( "guard_curse_machine_spirits_techpriest" )	
+	end
+end
+
+function EnginseerTactic:DoAbilities()
+
+	-- Target vehicles
+	Ability.DoAbilityTarget( self.squad_ai, Enginseercurse_id, Ability.Filters.CloseVehicleEnemy, 1 )
+end
+
+function EnginseerTactic:Update()
+
+	-- Check bunker move delay
+	if (g_iGMT < self.m_iBunkerMoveDelay) then
+		return
+	end
+
+	-- Update engineer tactic
+	EngineerTactic.Update(self)
+
+	-- Check if we're hurt
+	if (self.squad_ai:WasRecentlyHurt()) then
+	
+		-- Try to occupy a close bunker	
+		if (cpu_manager:OccupyBunker(self.squad_ai, 35)) then
+			self.m_iBunkerMoveDelay = g_iGMT + 5
+			return
+		end
+	end
+end

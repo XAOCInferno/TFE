@@ -1,0 +1,37 @@
+----------------------------------------
+-- File: 'rangertactic.ai'
+-- Edited by Thudmeizer @ 01.10.2008
+
+class 'RangerTactic' (EldarInfantryTactic)
+
+Ranger = {}
+
+function RangerTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Ranger Tactic")
+end
+	
+function RangerTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (Ranger.infiltrate_id == nil) then
+		Ranger.infiltrate_id = cpu_manager.stats:GetAbilityID( "ability_infiltrate_ranger" )
+	end
+	
+	-- Init common abilities
+	EldarInfantryTactic.InitAbilities(self)
+end
+
+function RangerTactic:DoAbilities()
+
+	-- Commence Infiltration
+	if (self.squad_ai:IsInCombat() and not self.squad_ai:IsBroken() or self.squad_ai:IsCapturing()) then
+
+		if (self.squad_ai:CanDoAbility( Ranger.infiltrate_id )) then
+			self.squad_ai:DoSpecialAbility( Ranger.infiltrate_id )
+		end
+	end
+
+	-- Compute common abilities
+	EldarInfantryTactic.DoAbilities(self)
+end

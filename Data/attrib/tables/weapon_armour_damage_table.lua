@@ -1,0 +1,9 @@
+GameData = Inherit([[]])
+GameData["armour_piercing"] = 0
+GameData["armour_piercing_types"] = Reference([[tables\armour_piercing_table.lua]])
+GameData["damage_reduction_when_moving"] = 0
+GameData["life_leech_damage"] = 0
+GameData["max_damage"] = 0
+GameData["min_damage"] = 0
+GameData["min_damage_value"] = 0
+GameData["morale_damage"] = 0

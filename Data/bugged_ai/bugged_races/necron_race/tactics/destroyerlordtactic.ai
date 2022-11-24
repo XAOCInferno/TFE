@@ -1,0 +1,92 @@
+----------------------------------------
+-- File: 'DestroyerLordTactic.ai'
+-- Created by Thudmeizer @ 12.10.2006
+
+class 'DestroyerLordTactic' (NecronInfantryTactic)
+
+DestroyerLord = {}
+
+function DestroyerLordTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Destroyer Lord Tactic")
+	
+	self.dance_time = 0
+end
+
+-- Necron Lord is allowed to retreat even directly after a jump
+function DestroyerLordTactic:SetTarget( target, variant_type )
+
+	self.variant_type = variant_type
+	self.target = Vector3f(target)
+	self.m_iMoveDelay = 0
+	self.last_jump = 0
+end
+
+function DestroyerLordTactic:InitAbilities()
+	
+	-- Target Pos: Infiltrated units revealed, blinds units causing them firing inaccuracies.
+	if (DestroyerLord.solar_pulse_id == nil) then
+		DestroyerLord.solar_pulse_id = cpu_manager.stats:GetAbilityID( "necron_solar_pulse" )
+	end
+	
+	if (DestroyerLord.extasis_id == nil) then
+		DestroyerLord.extasis_id = cpu_manager.stats:GetAbilityID( "necron_stasis" )
+	end
+	
+	if (DestroyerLord.phylactery_id == nil) then
+		DestroyerLord.phylactery_id = cpu_manager.stats:GetAbilityID( "necron_phylactery" )
+	end
+end
+
+function DestroyerLordTactic:DoAbilities()
+	
+	-- Try abilities
+	if (self.squad_ai:IsInCombat() and self.squad_ai:GetHealthPercentage() < 0.8 and 
+		self.squad_ai:WasRecentlyHurt() and self.squad_ai:CanDoAbility(DestroyerLord.phylactery_id)) then
+		self.squad_ai:DoSpecialAbility(DestroyerLord.phylactery_id)
+	end
+	
+	Ability.DoAbilityPos(self.squad_ai, DestroyerLord.solar_pulse_id, Ability.Filters.CloseInfiltratedEnemy, 1)
+	Ability.DoAbilityPos(self.squad_ai, DestroyerLord.solar_pulse_id, Ability.Filters.CloseEnemy, 6)
+	
+	if self.squad_ai:GetHealthPercentage() < 0.3 then
+		Ability.DoAbilityPos(self.squad_ai, DestroyerLord.extasis_id, Ability.Filters.CloseEnemy, 3)
+	end
+	local iEnemyStrength, iAlliedStrength = cpu_manager:GetArmyStrengthAtPos(self.squad_ai:GetPosition(), 50)
+	if (iEnemyStrength > 700 or iEnemyStrength > 1.5 * iAlliedStrength) then
+		Ability.DoAbilityPos(self.squad_ai, DestroyerLord.extasis_id, Ability.Filters.CloseEnemy, 6)
+	end	
+end
+
+function DestroyerLordTactic:Update()
+
+    if (self:IsComplete()) then
+        return
+    end
+
+    -- State machine
+    if (not InfantryTactic.Update(self)) then
+        return
+    end
+    
+	-- Check for jump retreat
+	self:JumpRetreat()
+	
+    local bSetRanged = false
+    local bSetMelee = false
+	local eStance = self.squad_ai:GetMeleeStance()
+	-- Check health
+    if (self.squad_ai:GetHealthPercentage() > 0.4) then
+        bSetMelee = (eStance == SquadAI.MSTANCE_Ranged)
+	else
+        bSetRanged = (eStance == SquadAI.MSTANCE_Assault)
+    end
+	
+	if (bSetRanged) then
+        self.squad_ai:DoSetMeleeStance( SquadAI.MSTANCE_Ranged )
+        self.dance_time = g_iGMT
+    elseif (bSetMelee and self.stateID ~= Tactic.StateID.DoDance and g_iGMT > self.dance_time + 10) then
+        self.squad_ai:DoSetDefaultMeleeStance()
+        self.dance_time = 0
+    end
+end

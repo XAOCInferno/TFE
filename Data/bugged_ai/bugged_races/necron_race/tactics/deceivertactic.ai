@@ -1,0 +1,113 @@
+----------------------------------------
+-- File: 'deceivertactic.ai'
+-- Edited by Thudmeizer @ 02.11.2006
+
+class 'DeceiverTactic' (NecronInfantryTactic)
+
+Deceiver = {}
+
+function DeceiverTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Deceiver Tactic")
+
+	self.dance_time = 0
+end
+
+-- Deceiver is allowed to retreat even directly after a jump
+function DeceiverTactic:SetTarget( target, variant_type )
+
+	self.variant_type = variant_type
+	self.target = Vector3f(target)
+	self.m_iMoveDelay = 0
+	self.last_jump = 0
+end
+
+function DeceiverTactic:IsAttacker()
+	return (self:IsCommanderAttacker())
+end
+
+function DeceiverTactic:IsDefender()
+	return (self:IsCommanderDefender())
+end
+
+function DeceiverTactic:InitAbilities()
+
+	if (Deceiver.pylon_summmon_id == nil) then
+		Deceiver.pylon_summmon_id = cpu_manager.stats:GetAbilityID( "necron_lord_pylon_summon" )
+	end
+	
+	if (Deceiver.infiltrate_id == nil) then
+		Deceiver.infiltrate_id = cpu_manager.stats:GetAbilityID( "ability_infiltrate_deceiver" )
+	end
+
+	if (Deceiver.iUndermineID == nil) then
+		Deceiver.iUndermineID = cpu_manager.stats:GetAbilityID( "necron_deceiver_undermine" )
+	end
+end
+
+function DeceiverTactic:DoAbilities()
+
+	-- Try to infiltrate
+	if (self.squad_ai:IsInCombat() and not self.squad_ai:IsBroken()) then
+
+		if (self.squad_ai:CanDoAbility( Deceiver.infiltrate_id )) then
+			self.squad_ai:DoSpecialAbility( Deceiver.infiltrate_id )
+		end
+	end
+	
+	-- Try to use undermine ability (Too expensive to be used efficient by the AI)
+	--Ability.DoAbilityTarget( self.squad_ai, Deceiver.iUndermineID, Ability.Filters.CloseInfantryEnemy, 6 )
+	
+	-- Try to summon a pylon
+	if (self.squad_ai:CanDoAbility(Deceiver.pylon_summmon_id)) then
+	
+		-- Check situation
+		local iEnemyStrength, iAlliedStrength = cpu_manager:GetArmyStrengthAtPos(self.squad_ai:GetPosition(), 35)
+		if (iEnemyStrength > 750 and iAlliedStrength > 750) then
+			
+			-- No pylon on retreating, small squads or engineers
+			local squad_filter = function( squad_ai )		
+				return (squad_ai:GetNumTroopers() >= 6 and squad_ai:IsInCombat() and
+					not squad_ai:GetTactic():IsMoving() and not squad_ai:IsEngineer())
+			end
+			local range = self.squad_ai:GetAbilityRange( NecronLord.pylon_summmon_id )
+   			local target_squad = cpu_manager:GetClosestSquad( self.squad_ai:GetPosition(), range, squad_filter )
+			if (target_squad ~= nil) then
+				self.squad_ai:DoSpecialAbilityPos( Deceiver.pylon_summmon_id , target_squad:GetPosition() )
+ 			end
+ 		end
+	end
+end
+
+function DeceiverTactic:Update()
+
+    if (self:IsComplete()) then
+        return
+    end
+
+    -- State machine
+    if (not InfantryTactic.Update(self)) then
+        return
+    end
+	
+	-- Check for jump retreat
+	self:JumpRetreat()
+	
+	local bSetRanged = false
+    local bSetMelee = false
+	local eStance = self.squad_ai:GetMeleeStance()
+	-- Check health
+    if (self.squad_ai:GetHealthPercentage() > 0.4) then
+        bSetMelee = (eStance == SquadAI.MSTANCE_Ranged)
+	else
+        bSetRanged = (eStance == SquadAI.MSTANCE_Assault)
+    end
+	
+	if (bSetRanged) then
+        self.squad_ai:DoSetMeleeStance(SquadAI.MSTANCE_Ranged)
+        self.dance_time = g_iGMT
+    elseif (bSetMelee and self.stateID ~= Tactic.StateID.DoDance and g_iGMT > self.dance_time + 10) then
+        self.squad_ai:DoSetMeleeStance(SquadAI.MSTANCE_Assault)
+        self.dance_time = 0
+    end
+end

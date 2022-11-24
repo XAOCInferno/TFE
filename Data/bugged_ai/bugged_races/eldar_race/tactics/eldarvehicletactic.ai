@@ -1,0 +1,128 @@
+----------------------------------------
+-- File: 'eldarvehicletactic.ai'
+-- Created by Arkhan		@ 31.01.2006
+
+class 'EldarVehicleTactic' (VehicleTactic)
+
+EldarVehicle = {}
+
+function EldarVehicleTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Eldar Vehicle Tactic")
+end
+
+-- Check if the vehicle should dance away in melee
+function EldarVehicleTactic:CheckVehicleDance(sName)
+
+	if (sName == "eldar_squad_grav_platform" or
+		sName == "eldar_squad_grav_platform_brightlance" or
+		sName == "eldar_squad_falcon_grav_tank" or
+		sName == "eldar_squad_vypers" or
+		sName == "eldar_squad_fire_prism") then
+		return true
+	end
+	return false
+end
+
+function EldarVehicleTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (EldarVehicle.iGraviticBoosterID == nil) then
+		EldarVehicle.iGraviticBoosterID = cpu_manager.stats:GetAbilityID( "eldar_graviticbooster" )
+	end
+end
+
+function EldarVehicleTactic:DoAbilities()
+
+	-- Check for platform boost move
+	self:DoAbilityFoF()
+end
+
+function EldarVehicleTactic:DoAbilityFoF()
+
+	-- Check if we should toggle FoF
+	local bToggleFoF = false
+	
+	-- Check if unit is using the ability
+	local bIsUsing = self.squad_ai:IsUsingAbility(EldarVehicle.iGraviticBoosterID)
+	
+	-- Check if unit is in battle
+	local bIsInCombat = self.squad_ai:IsInCombat()
+	
+	-- Check distance to target
+	local bMoving = (self:IsMoving() or self:IsInSubState())
+	
+	-- Check if FoF should be toggled
+	if ((bIsUsing == true and bIsInCombat == true and bMoving == false) or
+		(bIsUsing == false and (bIsInCombat == false or bMoving == true))) then
+		bToggleFoF = true
+	end
+	
+	-- Toggle FoF
+	if (bToggleFoF and self.squad_ai:CanDoAbility(EldarVehicle.iGraviticBoosterID)) then
+		self.squad_ai:DoSpecialAbility(EldarVehicle.iGraviticBoosterID)
+	end
+end
+
+function EldarVehicleTactic:TryAttachSquadMelee()
+
+   --if I'm in combat
+   if not self.squad_ai:IsBroken() and self.squad_ai:IsInCombat() then
+	  
+	  if self.squad_ai:GetHealthPercentage() < 0.3 then
+		 
+		 local attachable_filter = function( squad_ai )									  
+		    return self.squad_ai:CanAttachTo( squad_ai ) and not squad_ai:IsBroken() and
+			   not squad_ai:IsCapturing() and not squad_ai:GetTactic():IsInSubState()
+		 end
+		 
+		 --find close by squads
+		 local attach_to = cpu_manager:GetClosestSquad( self.squad_ai:GetPosition(), 10, attachable_filter )
+		 if attach_to ~= nil then 
+			
+			--sync FoF
+			self:ToggleFoF( self.squad_ai, false )
+			self:ToggleFoF( attach_to, false )  
+			
+			self.squad_ai:DoAttachSquad( attach_to )
+			attach_to:DoSetMeleeStance( SquadAI.MSTANCE_Assault )
+		 end
+		 
+	  else
+		 
+		 local melee_filter = function( squad_ai )								 
+	        return self.squad_ai:CanAttachTo( squad_ai ) and not squad_ai:IsRanged() and 
+			   not squad_ai:IsBroken() and not squad_ai:IsCapturing() and
+			   not squad_ai:GetTactic():IsInSubState()			
+		 end
+		 
+		 local attach_to = cpu_manager:GetClosestSquad( self.squad_ai:GetPosition(), 10, melee_filter )
+		 if attach_to ~= nil then 
+			
+			--sync FoF
+			self:ToggleFoF( self.squad_ai, false )
+			self:ToggleFoF( attach_to, false )  
+			
+			self.squad_ai:DoAttachSquad( attach_to )
+			attach_to:DoSetMeleeStance( SquadAI.MSTANCE_Assault )
+		 end
+		 
+	  end	  
+   end
+end
+
+function EldarVehicleTactic:ToggleFoF( squad_ai, state )
+
+	-- Check if vehicle can handle gravitic booster
+	if (not squad_ai:CanDoAbility(EldarVehicle.iGraviticBoosterID)) then
+		return
+	end
+	
+	-- It's already in desired state
+	if (squad_ai:IsUsingAbility(EldarVehicle.iGraviticBoosterID) == state) then
+		return 
+	end
+	
+	-- Activate gravitic booster
+	squad_ai:DoSpecialAbility(EldarVehicle.iGraviticBoosterID)
+end

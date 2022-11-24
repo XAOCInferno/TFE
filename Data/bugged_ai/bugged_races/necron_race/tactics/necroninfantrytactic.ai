@@ -1,0 +1,24 @@
+----------------------------------------
+-- File: 'necroninfantrytactic.ai'
+-- Created by Thudmeizer  @ 26.10.2006
+
+class 'NecronInfantryTactic' (InfantryTactic)
+
+function NecronInfantryTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Necron Infantry Tactic")
+	-- Flayed one can deepstrike
+	local sSquadName = squad_ai:GetSquadName()
+	if (sSquadName == "necron_flayed_one_squad") then
+		self.m_iDeepStrikeBlueprintID = cpu_manager.stats:GetBuildingID("monolith")
+	end
+	self.m_bTakeCover = true
+end
+
+function NecronInfantryTactic:AddCommanders()
+	table.insert(self.commander, { "necron_lord_squad", true })
+	table.insert(self.commander, { "necron_deceiver_squad", false })
+	table.insert(self.commander, { "necron_lord_destroyer_squad", false })
+end
+
+

@@ -1,0 +1,15 @@
+----------------------------------------
+-- File: 'darkeldarhelliontactic.ai'
+-- Edited by Thudmeizer @ 23.10.2008
+
+class 'DarkEldarHellionTactic' (DarkEldarInfantryTactic)
+
+DarkEldarHellion = {}
+
+function DarkEldarHellionTactic:__init( squad_ai ) super( squad_ai )
+	
+	self:SetName("Dark Eldar Hellion Tactic")
+
+	-- Force melee stance (Commander detaching can cause false stances)
+	self.iForceMeleeStance = true
+end

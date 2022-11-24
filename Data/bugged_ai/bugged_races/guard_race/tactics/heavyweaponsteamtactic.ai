@@ -1,0 +1,58 @@
+----------------------------------------
+-- File: 'guardhwttactic.ai'
+-- Edited by Thudmeizer @ 16.09.2008
+
+class 'HeavyWeaponsTeamTactic' (GuardInfantryTactic)
+
+function HeavyWeaponsTeamTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Guard Heavy Weapons Team Tactic")
+	
+	-- Heavy weapon teams don't run for cover
+	self.m_bTakeCover = false
+	
+	-- Retrenched squad is transportable and able to occupy bunkers
+	if (self.squad_ai:CanEntrench(true)) then
+		self.m_iTransportable = 1
+		self.m_bBunkerSquad = true
+	else
+		self.m_iTransportable = 0
+		self.m_bBunkerSquad = false
+	end
+end
+
+function HeavyWeaponsTeamTactic:DoAbilities()
+
+	-- Check if I should entrench / retrench
+	self:DoEntrenchAbility()
+end
+
+function HeavyWeaponsTeamTactic:DoEntrenchAbility()
+
+	-- Check attack state
+	local bAttackState = (self:GetState() == Tactic.States.Attack)
+	
+	-- Calculate distance to target position
+	local vSquadPos = self.squad_ai:GetPosition()
+	local bCloseToTarget = (distance_sqr(self.target, vSquadPos) < sqr(35))
+	
+	-- Check for close enemies
+	local bCloseEnemies = (self.squad_ai:IsAttacking() or
+						   cpu_manager.cpu_player:FindFirstEnemy(vSquadPos, 35, 1) ~= nil or
+						   cpu_manager.cpu_player:FindFirstBaseEnemy(vSquadPos, 35, 1) ~= nil)
+
+	-- Set desired entrench state
+	if (bCloseEnemies and (bCloseToTarget or bAttackState)) then
+	
+		-- Entrench if we can
+		if (self.squad_ai:CanEntrench(true)) then
+			self.squad_ai:DoEntrench(true)
+		end
+	else
+		-- Retrench if we can
+		if (self.squad_ai:CanEntrench(false) and not self.squad_ai:IsUnderAttack()) then
+			self.squad_ai:DoEntrench(false)
+		end
+	end
+end
+

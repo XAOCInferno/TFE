@@ -1,0 +1,2 @@
+g_AllRaces = { "space_marine_race", "chaos_marine_race", "eldar_race", "ork_race", "guard_race", "necron_race", "dark_eldar_race", "sisters_race" }
+g_AllRaceStinger = { "mu_ig_vic_space_marine", "mu_ig_vic_chaos", "mu_ig_vic_eldar", "stinger_motif_ork", "mu_ig_vic_guard", "mu_ig_vic_necron", "mu_ig_vic_darkeldar", "mu_ig_vic_sisters" }  

@@ -1,0 +1,77 @@
+----------------------------------------
+-- File: 'tankbustatactic.ai'
+-- Edited by Thudmeizer @ 01.10.2008
+
+class 'TankbustaTactic' (OrkInfantryTactic)
+
+Tankbusta = {}
+
+function TankbustaTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Tankbusta Tactic")
+end
+	
+function TankbustaTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (Tankbusta.bomb_id == nil) then
+		Tankbusta.bomb_id = cpu_manager.stats:GetAbilityID("ork_tankbusta_bombs")
+	end
+
+	if (Tankbusta.infiltrate_id == nil) then
+		Tankbusta.infiltrate_id = cpu_manager.stats:GetAbilityID( "ability_infiltrate_tankbusta" )	
+	end
+	
+	-- Init common abilities
+	OrkInfantryTactic.InitAbilities(self)
+end
+
+function TankbustaTactic:DoAbilities()
+	
+	-- Try to use tank busta bomb ability
+	Ability.DoAbilityTarget(self.squad_ai, Tankbusta.bomb_id, Ability.Filters.CloseVehicleEnemy, 1)
+	
+	-- Try to use infiltrate ability
+	if (self.squad_ai:IsInCombat() and not self.squad_ai:IsBroken() or self.squad_ai:IsCapturing()) then
+
+		if (self.squad_ai:CanDoAbility( Tankbusta.infiltrate_id )) then
+			self.squad_ai:DoSpecialAbility( Tankbusta.infiltrate_id )
+		end
+	end
+
+	-- Compute common abilities
+	OrkInfantryTactic.DoAbilities(self)
+end
+
+function TankbustaTactic:CheckDance(oSquad)
+
+	-- Check opponent
+	if (oSquad == nil) then
+		return false
+	end
+	
+	-- Check opponent
+	if (oSquad:GetSquadName() == "chaos_squad_cultist") then
+		return false
+	end
+	return true
+end
+
+function TankbustaTactic:UpdateStance()
+
+	-- Set stand ground stance for upgraded spyder with gun
+	if (not self.squad_ai:HasUpgradableTrooper()) then
+
+		-- Set ranged stance
+		if (self.squad_ai:GetMeleeStance() ~= SquadAI.MSTANCE_Ranged) then
+			self.squad_ai:DoSetMeleeStance(SquadAI.MSTANCE_Ranged)
+		end
+		
+		-- Set stand ground stance
+		if (self.squad_ai:GetStance() ~= SquadAI.STANCE_StandGround) then
+			self.squad_ai:DoSetStance( SquadAI.STANCE_StandGround )
+		end
+	end
+end
+
+

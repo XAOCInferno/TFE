@@ -1,0 +1,46 @@
+----------------------------------------
+-- File: 'darkeldarravagertactic.ai'
+-- Edited by Thudmeizer @ 23.10.2008
+
+class 'DarkEldarRavagerTactic' (DarkEldarVehicleTactic)
+
+DarkEldarRavager = {}
+
+function DarkEldarRavagerTactic:__init( squad_ai ) super( squad_ai )
+	
+	self:SetName("Dark Eldar Ravager Tactic")
+	
+	self.iUpgradeCount = 0
+end
+
+function DarkEldarRavagerTactic:InitAbilities()
+
+	--if (DarkEldarRavager.horrorfex_id == nil) then
+	--	DarkEldarRavager.horrorfex_id = cpu_manager.stats:GetAbilityID( "dark_eldar_horrorfex" )	
+	--end
+end
+
+function DarkEldarRavagerTactic:DoAbilities()
+
+	--[[if (self.squad_ai:IsInCombat()) then
+
+		-- Send bomb against enemy infantry
+		Ability.DoAbilityPos( self.squad_ai, DarkEldarRavager.horrorfex_id, Ability.Filters.CloseSquadEnemy, 1 ) 
+	end]]
+end
+
+function DarkEldarRavagerTactic:Upgrade()
+
+	-- Check if we have free ressources (Do first upgrade immediately)
+	if (not Tactic.Options.can_reinforce and self.iUpgradeCount > 0) then
+		return
+	end
+
+	-- Check situation
+	if (self.squad_ai:HasUpgradableTrooper() and self.squad_ai:GetHealthPercentage() > 0.5 and not self.squad_ai:IsUnderAttack()) then
+	
+		-- Try to upgrade
+		self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_VehicleMed)
+		self.iUpgradeCount = self.iUpgradeCount + 1
+	end
+end

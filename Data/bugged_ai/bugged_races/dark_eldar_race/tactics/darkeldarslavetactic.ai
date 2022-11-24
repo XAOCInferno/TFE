@@ -1,0 +1,102 @@
+----------------------------------------
+-- File: 'darkeldarslavetactic.ai'
+-- Edited by Thudmeizer @ 15.11.2007
+
+class 'DarkEldarSlaveTactic' (EngineerTactic)
+
+DarkEldarSlaveTactic.iLastBuildingRepair = 0
+DarkEldarSlaveTactic.iLastVehicleRepair = 0
+
+function DarkEldarSlaveTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Dark Eldar Slave Tactic")
+	
+	self.iNextSoulHarvest = 0
+end
+
+function DarkEldarSlaveTactic:IsAffectedByMorale()
+	return false
+end
+
+function DarkEldarSlaveTactic:GoToNextPost()
+
+	-- Try to reach a save position if HQ is attacked
+	self.m_bBusy = false
+	local vEngineerPos = self.squad_ai:GetPosition()	
+	if (cpu_manager:HQThreat() or self.squad_ai:WasRecentlyHurt()) then
+		local vBasePos = cpu_manager:FindClosestFriendlyBaseOrStrategicPoint(vEngineerPos, cpu_manager.start_pos, true, true)
+		if (vBasePos ~= nil) then
+			--aitrace("EngineerTactic: Evade to next safe position...")
+			self:ValidMove(vBasePos)
+			self.m_iValidRange = 35
+			self.iNextSoulHarvest = 0
+			return
+		end
+	end
+	
+	-- Check if we are harvesting souls
+	if (g_iGMT < self.iNextSoulHarvest) then
+		aitrace("EngineerTactic: Harvest soul essence...")
+		return
+	end
+
+	-- Only attempt vehicle repair if we can
+	--if (self.squad_ai:CanRepair() and g_iGMT > DarkEldarSlaveTactic.iLastVehicleRepair + 30) then
+	if (self.squad_ai:CanRepair() and math.random(1, 2) == 1) then
+		-- Find the closest vehicle that can be repaired
+		local oVehicleToRepair = cpu_manager:GetDamagedVehicleInRange()
+		if (oVehicleToRepair ~= nil) then
+			--aitrace("EngineerTactic: Repairing vehicle...")
+			self.squad_ai:DoRepairSquad(oVehicleToRepair)
+			self.m_vDestination = oVehicleToRepair:GetPosition()
+			--DarkEldarSlaveTactic.iLastVehicleRepair = g_iGMT
+			self.m_bBusy = true
+			self.iNextSoulHarvest = 0
+			return
+		end
+	end
+				
+	-- Only attempt building repair if we can
+	--if (self.squad_ai:CanRepair() and g_iGMT > DarkEldarSlaveTactic.iLastBuildingRepair + 30) then
+	if (self.squad_ai:CanRepair() and math.random(1, 2) == 1) then
+		-- Find the closest building that can be repaired
+		local oBuildingToRepair = cpu_manager:GetDamagedBuildingInRange()
+		if (oBuildingToRepair ~= nil ) then
+			--aitrace("EngineerTactic: Repairing building...")
+			self.squad_ai:DoRepairBase(oBuildingToRepair)
+			self.m_vDestination = oBuildingToRepair:GetPosition()
+			--DarkEldarSlaveTactic.iLastBuildingRepair = g_iGMT
+			self.m_bBusy = true
+			self.iNextSoulHarvest = 0
+			return
+		end
+	end
+	
+	-- Check if we can harvest soul essence
+	if ((self.squad_ai:IsIdle() or not self.squad_ai:IsInStateMove()) and
+		not cpu_manager.terrain_analyzer:HasThreat(vEngineerPos, 35) and self.squad_ai:GetNumCorpses(35) > 0) then
+		--aitrace("EngineerTactic: Start harvest soul essence...")
+		self.squad_ai:DoCannibalize()
+		self.m_vDestination = cpu_manager.start_pos
+		self.m_bBusy = true
+		self.iNextSoulHarvest = g_iGMT + 30
+		return
+	end
+
+	-- Return to home base
+	if (distance_sqr(cpu_manager.start_pos, vEngineerPos) > sqr(35) and self.squad_ai:IsIdle() or
+		distance_sqr(cpu_manager.start_pos, vEngineerPos) > sqr(50)) then
+		--aitrace("EngineerTactic: Return to home base")
+		self:ValidMove(cpu_manager.start_pos)
+		self.iNextSoulHarvest = 0
+		return
+	end
+	
+	-- debug code
+	--bIsIdle = self.squad_ai:IsIdle()
+	--bMoving = self.squad_ai:IsInStateMove()
+	--iCorpses35 = self.squad_ai:GetNumCorpses(35)
+	--iCorpses100 = self.squad_ai:GetNumCorpses(100)	
+	--aitrace("EngineerTactic: Doing nothing..."..tostring(bIsIdle).." "..tostring(bMoving).." "..tostring(iCorpses35).." "..tostring(iCorpses100))
+end
+

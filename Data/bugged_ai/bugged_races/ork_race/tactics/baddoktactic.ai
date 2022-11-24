@@ -1,0 +1,52 @@
+----------------------------------------
+-- File: 'baddoktactic.ai'
+-- Edited by LarkinVB   @ 31.07.2005
+
+class 'BadDokTactic' (OrkInfantryTactic)
+
+BadDok = {}
+
+function BadDokTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("BadDok Tactic")
+end
+
+function BadDokTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (BadDok.fightin_juice == nil) then
+		BadDok.fightin_juice = cpu_manager.stats:GetAbilityID( "ork_fightin_juice" )
+	end
+end
+
+function BadDokTactic:DoAbilities()
+
+	-- Try to use fightin juice ability
+	Ability.DoAbilityTarget( self.squad_ai, BadDok.fightin_juice, Ability.Filters.CloseHurt )
+end
+
+-- Should only attack/defend when attached
+function BadDokTactic:IsAttacker()
+	return self:IsCommanderAttacker()
+end
+
+function BadDokTactic:IsDefender()
+	return self:IsCommanderDefender()
+end
+
+function BadDokTactic:Update()
+
+	if (self:IsComplete()) then
+		return
+	end
+	
+	-- State machine
+	if (not InfantryTactic.Update( self )) then
+		return
+	end
+	
+	-- Attach to squad
+	if (self:TryAttachSquad(false, false, 50, 250, nil) == nil) then
+		self:TryAttachSquadMelee()
+	end
+end

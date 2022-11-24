@@ -1,0 +1,43 @@
+----------------------------------------
+-- File: 'wraithtactic.ai'
+-- Edited by Thudmeizer @ 16.09.2008
+
+class 'WraithTactic' (NecronInfantryTactic)
+
+Wraith = {}
+
+function WraithTactic:__init( squad_ai ) super( squad_ai )
+		
+	self:SetName("Wraith Tactic")
+end
+
+function WraithTactic:InitAbilities()
+
+	if (Wraith.phaseshift_id == nil) then
+		Wraith.phaseshift_id = cpu_manager.stats:GetAbilityID( "necron_wraith_phase_shift" )
+	end
+		
+	if (Wraith.infiltrate_id == nil) then
+		Wraith.infiltrate_id = cpu_manager.stats:GetAbilityID( "ability_infiltrate_wraith" )	
+	end
+end
+
+function WraithTactic:DoAbilities()
+
+	--Wraith Ability   
+	if (self.squad_ai:IsInCombat()) then
+
+		if (not self.squad_ai:IsBroken() or self.squad_ai:IsCapturing()) then
+		
+			if (self.squad_ai:CanDoAbility( Wraith.infiltrate_id )) then
+				self.squad_ai:DoSpecialAbility( Wraith.infiltrate_id )
+			end
+		end
+	
+        Ability.DoAbility( self.squad_ai, Wraith.phaseshift_id, Ability.PredicateFilters.IsLowHealthAndUnderAttack , { min_health = 0.4 })
+	end
+end
+
+function WraithTactic:CanOnlyDecap()
+	return true
+end

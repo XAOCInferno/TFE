@@ -1,0 +1,124 @@
+----------------------------------------
+-- File: 'mekboytactic.ai'
+-- Edited by Thudmeizer @ 09.03.2005
+-- Edited by LarkinVB   @ 16.08.2005
+
+class 'MekBoyTactic' (OrkInfantryTactic)
+
+MekBoy = {}
+
+function MekBoyTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Mek Boy Tactic")
+	
+	self.dance_time = 0
+end
+
+-- Mek Boy is allowed to retreat even directly after a jump
+function MekBoyTactic:SetTarget( target, variant_type )
+	self.variant_type = variant_type
+	self.target = Vector3f(target)
+	self.m_iMoveDelay = 0
+	self.last_jump = 0
+end
+	
+function MekBoyTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (MekBoy.zap_id == nil) then
+		MekBoy.zap_id = cpu_manager.stats:GetAbilityID( "ork_tank_zappa" )
+	end
+	
+	if (MekBoy.superstick_id == nil) then
+		MekBoy.superstick_id = cpu_manager.stats:GetAbilityID( "ork_superstick_bomb" )
+	end
+	
+	if (MekBoy.overdrive_id == nil) then
+		MekBoy.overdrive_id = cpu_manager.stats:GetAbilityID("ork_kustomforcefield_child2")
+	end
+end
+
+-- Assassinate win condition -- never attack
+function MekBoyTactic:IsAttacker()
+	return (not cpu_manager.assassinate and self:IsCommanderAttacker())
+end
+
+-- Assassinate win condition -- never defend
+function MekBoyTactic:IsDefender()
+	return (not cpu_manager.assassinate and self:IsCommanderDefender())
+end
+
+-- Assassinate win condition -- never jump into combat
+function MekBoyTactic:JumpAttack()
+	if (not cpu_manager.assassinate) then
+		Tactic.JumpAttack(self)
+	end
+end
+
+function MekBoyTactic:DoAbilities()
+
+	-- Try to use tank zappa
+	Ability.DoAbilityTarget( self.squad_ai, MekBoy.zap_id, Ability.Filters.CloseVehicleEnemy )
+	
+	-- Try to use superstick bomb
+	Ability.DoAbilityTarget( self.squad_ai, MekBoy.superstick_id, Ability.Filters.CloseVehicleEnemy ) 
+	
+	-- Try to use forcefield overdrive ability
+	if (self.squad_ai:IsInCombat() and self.squad_ai:IsInStateAttackMove() and
+		self.squad_ai:WasRecentlyHurt() and self.squad_ai:CanDoAbility( MekBoy.overdrive_id )) then
+	   
+		self.squad_ai:DoSpecialAbility( MekBoy.overdrive_id )
+	end
+end
+
+function MekBoyTactic:Update()
+
+	if (self:IsComplete()) then
+		return
+	end
+	
+	-- State machine
+	if (not InfantryTactic.Update( self )) then
+		return
+	end
+		
+	-- Check for jump retreat
+	self:JumpRetreat()
+	
+	local bSetRanged = false
+	local bSetMelee = false
+	local eStance = self.squad_ai:GetMeleeStance()
+	-- Check health
+	if (self.squad_ai:GetHealthPercentage() > 0.4) then
+    	bSetMelee = (eStance == SquadAI.MSTANCE_Ranged)
+	else
+		bSetRanged = (eStance == SquadAI.MSTANCE_Assault)
+	end
+	
+	if (bSetRanged) then
+		self.squad_ai:DoSetMeleeStance( SquadAI.MSTANCE_Ranged )
+		self.dance_time = g_iGMT
+    elseif (bSetMelee and self.stateID ~= Tactic.StateID.DoDance and g_iGMT > self.dance_time + 10) then
+		self.squad_ai:DoSetDefaultMeleeStance()
+		self.dance_time = 0
+    end
+
+	-- Check if we're busy
+	if (self:IsInSubState() or self.squad_ai:IsBroken()) then
+		return
+	end
+
+	-- Assassinate win condition -- never attach to a squad
+	if (not cpu_manager.assassinate and self.squad_ai:GetMeleeStance() == SquadAI.MSTANCE_Assault) then
+		if (self.squad_ai:IsInCombat() or self.squad_ai:WasRecentlyHurt()) then
+			if (self:TryAttachSquad(false, true, 50, 150, self.m_fCommanderAttachHealth) == nil) then
+				self:TryAttachSquadMelee()
+			end
+		end
+	end
+end
+
+-- Arkhan 03.2006: Inherited method used by commanders which are able to jump with an attached squad
+function MekBoyTactic:CanJumpAttached()
+	return true
+end

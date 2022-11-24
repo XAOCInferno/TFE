@@ -1,0 +1,13 @@
+----------------------------------------
+-- File: 'seercounciltactic.ai'
+-- Edited by Arkhan		@ 21.11.2010
+
+class 'SeerCouncilTactic' (EldarInfantryTactic)
+
+function SeerCouncilTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Seer Council Tactic")
+	
+	-- Force melee stance (Commander detaching can cause false stances)
+	self.iForceMeleeStance = true
+end

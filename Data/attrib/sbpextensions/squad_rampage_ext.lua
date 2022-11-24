@@ -1,0 +1,11 @@
+GameData = Inherit([[]])
+GameData["blocked"] = Reference([[tables\rampage_blocked_table.lua]])
+GameData["blocked"]["blocked_duration"] = 1
+GameData["breakdown"] = Reference([[tables\rampage_breakdown_table.lua]])
+GameData["cursor_event"] = [[]]
+GameData["max_distance"] = 0
+GameData["ordered_event"] = [[]]
+GameData["rampage"] = Reference([[tables\rampage_rampage_table.lua]])
+GameData["reload_time"] = 0
+GameData["speed"] = 10
+GameData["startup"] = Reference([[tables\rampage_startup_table.lua]])

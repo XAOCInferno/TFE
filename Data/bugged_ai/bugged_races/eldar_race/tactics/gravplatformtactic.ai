@@ -1,0 +1,42 @@
+----------------------------------------
+-- File: 'gravplatformtactic.ai'
+-- Edited by LarkinVB   @ 23.08.2005
+
+class 'GravPlatformTactic' (EldarVehicleTactic)
+
+function GravPlatformTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Grav Platform Tactic")
+end
+
+function GravPlatformTactic:Update()
+
+	--state machine
+	if not VehicleTactic.Update( self ) then
+		return
+	end
+   
+	local squad_pos = self.squad_ai:GetPosition()
+	--if I'm in ranged combat
+	if self.squad_ai:IsInCombat() and Ability.Filters.CloseEnemy(squad_pos, 15, 1) == nil and
+		not self:IsInSubState() then
+
+		local attachable_filter = function(squad_ai)
+			local squadname = squad_ai:GetStats():GetSquadName()
+			if squadname ~= "eldar_squad_dark_reapers" then
+				return false
+			end
+			return self.squad_ai:CanAttachTo(squad_ai ) and squad_ai:IsRanged() and 
+				not squad_ai:IsBroken() and not squad_ai:IsCapturing() and not self:IsInSubState()
+		end
+ 
+		--find close by squads
+		local attach_to = cpu_manager:GetClosestSquad(squad_pos, 20, attachable_filter)
+		if attach_to ~= nil then
+		
+			self:DoMoveAttach(attach_to, false)
+		end
+	end
+end
+
+

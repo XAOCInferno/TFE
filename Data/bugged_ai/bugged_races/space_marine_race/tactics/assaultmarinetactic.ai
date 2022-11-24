@@ -1,0 +1,36 @@
+----------------------------------------
+-- File: 'assaultmarinetactic.ai'
+-- Created by Arkhan  @ 21.11.2010
+
+class 'AssaultMarineTactic' (SpaceMarineInfantryTactic)
+
+AssaultMarine = {}
+
+function AssaultMarineTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Assault Marine Tactic")
+	
+	-- Force melee stance (Commander detaching can cause false stances)
+	self.iForceMeleeStance = true
+end
+
+function AssaultMarineTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (AssaultMarine.iMeltaBombID == nil) then
+		AssaultMarine.iMeltaBombID = cpu_manager.stats:GetAbilityID( "marines_melta_bombs" )
+	end
+	
+	-- Init common abilities
+	SpaceMarineInfantryTactic.InitAbilities(self)
+end
+
+function AssaultMarineTactic:DoAbilities()
+
+	-- Try to throw melta bomb
+	Ability.DoAbilityTarget(self.squad_ai, AssaultMarine.iMeltaBombID, Ability.Filters.CloseVehicleEnemy, 1)
+	Ability.DoAbilityTargetEntity(self.squad_ai, AssaultMarine.iMeltaBombID, Ability.EntityFilters.CloseBaseEntityEnemy, 1)
+	
+	-- Compute common abilities
+	SpaceMarineInfantryTactic.DoAbilities(self)
+end

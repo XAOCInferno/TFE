@@ -1,0 +1,11 @@
+GameData = Inherit([[]])
+GameData["animator_action_name"] = [[]]
+GameData["max_cannibalism_bonus"] = 0
+GameData["souls_amount"] = 1
+GameData["souls_generates_souls"] = false
+GameData["souls_radius"] = 100
+GameData["souls_speed"] = 1
+GameData["ui_description"] = [[$0]]
+GameData["ui_hotkey"] = [[]]
+GameData["ui_icon_name"] = [[]]
+GameData["ui_title"] = [[$0]]

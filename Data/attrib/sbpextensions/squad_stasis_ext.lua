@@ -1,0 +1,16 @@
+GameData = Inherit([[]])
+GameData["action_name"] = [[]]
+GameData["action_progress_variable_name"] = [[]]
+GameData["action_time"] = 0
+GameData["cast_delay_time"] = 0
+GameData["effect_lifetime"] = 0
+GameData["event_name_1_initial"] = [[]]
+GameData["event_name_2_cast"] = [[]]
+GameData["event_name_3_in_stasis"] = [[]]
+GameData["event_name_cursor"] = [[]]
+GameData["in_stasis_modifiers"] = Reference([[tables\modifier_table.lua]])
+GameData["radius"] = 0
+GameData["range"] = 0
+GameData["recharge_time"] = 0
+GameData["ui_instructional_msg"] = [[$0]]
+GameData["ui_invalid_target_msg"] = [[$0]]

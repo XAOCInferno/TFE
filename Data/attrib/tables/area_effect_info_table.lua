@@ -1,0 +1,10 @@
+GameData = Inherit([[]])
+GameData["angle_left"] = 0
+GameData["angle_right"] = 0
+GameData["area_effect_events"] = Reference([[tables\terrain_footfall_based_event_table.lua]])
+GameData["area_type"] = Reference([[type_areaeffect\tp_area_effect_point.lua]])
+GameData["filter_type"] = Reference([[type_areafilter\tp_area_filter_all.lua]])
+GameData["radius"] = 0
+GameData["remove_modifiers_with_source_entity"] = true 
+GameData["start_from_caster"] = false
+GameData["target_filter"] = Reference([[tables\target_filter_table.lua]])

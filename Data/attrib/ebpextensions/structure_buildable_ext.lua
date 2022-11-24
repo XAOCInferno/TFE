@@ -1,0 +1,9 @@
+GameData = Inherit([[]])
+GameData["advanced_build_option"] = false
+GameData["build_menu_priority"] = 0
+GameData["power_gift"] = 0
+GameData["requisition_gift"] = 0
+GameData["return_power_percent"] = 0.5
+GameData["return_power_unbuilt_percent"] = 1
+GameData["return_requisition_percent"] = 0.5
+GameData["return_requisition_unbuilt_percent"] = 1

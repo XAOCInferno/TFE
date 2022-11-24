@@ -1,0 +1,33 @@
+----------------------------------------
+-- File: 'firedragontactic.ai'
+-- Edited by Arkhan		@ 05.12.2010
+
+class 'FireDragonTactic' (EldarInfantryTactic)
+
+FireDragon = {}
+
+function FireDragonTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Fire Dragon Tactic")
+end
+
+function FireDragonTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (FireDragon.iHaywireBombID == nil) then
+		FireDragon.iHaywireBombID = cpu_manager.stats:GetAbilityID( "eldar_haywire_bombs" )
+	end
+	
+	-- Init common abilities
+	EldarInfantryTactic.InitAbilities(self)
+end
+
+function FireDragonTactic:DoAbilities()
+
+	-- Try to throw haywire bomb
+	Ability.DoAbilityTarget(self.squad_ai, FireDragon.iHaywireBombID, Ability.Filters.CloseVehicleEnemy, 1)
+	Ability.DoAbilityTargetEntity(self.squad_ai, FireDragon.iHaywireBombID, Ability.EntityFilters.CloseBaseEntityEnemy, 1)
+
+	-- Compute common abilities
+	EldarInfantryTactic.DoAbilities(self)
+end

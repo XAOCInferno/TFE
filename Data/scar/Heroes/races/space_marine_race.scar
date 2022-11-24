@@ -1,0 +1,604 @@
+--####################################################################################################
+--#
+--#     Heroes Special Space Marine race info script
+--#
+--#     Original Heroes idea and implementation by CutterShane 2006
+--#     Heroes Special rework by Arkhan 2007
+--#
+--####################################################################################################
+
+CommandLevel.space_marine_race = { 4, 7 }
+
+UnitTypes.space_marine_race =
+{
+	-- Skirmish units
+	space_marine_squad_servitor =
+	{
+		Title = "Servitor",
+		Type = "RegularForces",
+		UpgradeFunction = UpgradeBuilder,
+		FXType = "Squad",
+		XPGainRate = 1.15,
+	},
+	space_marine_squad_scout =
+	{
+		Title = "Scout Marine Squad",
+		Type = "RegularForces",
+		UpgradeFunction = UpgradeScoutSquad,
+		FXType = "Squad",
+		XPGainRate = 1.4,
+	},
+	space_marine_squad_tactical =
+	{
+		Title = "Space Marine Squad",
+		Type = "SpecialForces",
+		UpgradeFunction = UpgradeRangedSquad,
+		FXType = "Squad",
+		XPGainRate = 1,
+	},
+	space_marine_squad_assault =
+	{
+		Title = "Assault Marine Squad",
+		Type = "SpecialForces",
+		UpgradeFunction = UpgradeMeleeSquad,
+		FXType = "Squad",
+		XPGainRate = 0.9,
+	},
+	space_marine_squad_grey_knights =
+	{
+		Title = "Grey Knights",
+		Type = "SpecialForces",
+		UpgradeFunction = UpgradeMeleeSquad,
+		FXType = "Squad",
+		Unique = true,
+		HasWeapons = true,
+		Weapons =
+		{
+			"space_marine_storm_bolter_grey_knight",
+			"space_marine_halberd_grey_knight",
+		},
+		XPGainRate = 1.3,
+	},
+	space_marine_squad_terminator =
+	{
+		Title = "Terminator Squad",
+		Type = "CommandoForces",
+		UpgradeFunction = UpgradeRangedSquad,
+		FXType = "Squad",
+		Unique = true,
+		HasWeapons = true,
+		Weapons =
+		{
+			"space_marine_storm_bolter_terminator",
+			"space_marine_heavy_flamer_terminator",
+			"space_marine_assault_cannon_terminator",
+			"space_marine_power_fist_terminator",
+		},
+		XPGainRate = 2,
+	},
+	space_marine_squad_terminator_assault =
+	{
+		Title = "Assault Terminator Veteran",
+		Type = "CommandoForces",
+		UpgradeFunction = UpgradeMeleeSquad,
+		FXType = "Squad",
+		Unique = true,
+		HasWeapons = true,
+		Weapons =
+		{
+			"space_marine_thunder_hammer_terminator",
+		},
+		XPGainRate = 1.9,
+	},
+	-- Attachable
+	space_marine_squad_skull_probe =
+	{
+		Title = "Skull Probe",
+		Type = "RegularForces",
+		UpgradeFunction = UpgradeScoutSquad,
+		FXType = "Squad",
+		CanAttach = true,
+		XPGainRate = 1.5,
+	},
+	space_marine_squad_apothecary =
+	{
+		Title = "Apothecary",
+		Type = "RegularForces",
+		UpgradeFunction = UpgradeMeleeSquad,
+		FXType = "Squad",
+		CanAttach = true,
+		XPGainRate = 1.3,
+	},
+	space_marine_squad_force_commander =
+	{
+		Title = "Force Commander",
+		Type = "Commander",
+		UpgradeFunction = UpgradeCommander,
+		FXType = "Squad",
+		General = true,
+		CanAttach = true,
+		MorphID = 1,
+		Unique = true,
+		HasWeapons = true,
+		Weapons =
+		{
+			"space_marine_bolt_pistol_forcecommander",
+			"space_marine_power_sword_force_commander",
+			"space_marine_daemon_hammer",
+		},
+		XPGainRate = 2,
+	},
+	space_marine_squad_chaplain =
+	{
+		Title = "Chaplain",
+		Type = "Commander",
+		UpgradeFunction = UpgradeCommander,
+		FXType = "Squad",
+		CanAttach = true,
+		MorphID = 1,
+		Unique = true,
+		HasWeapons = true,
+		Weapons =
+		{
+			"space_marine_bolt_pistol_chaplain",
+			"space_marine_plasma_pistol_chaplain",
+			"space_marine_crozius_arcanum",
+		},
+		XPGainRate = 2,
+	},
+	space_marine_squad_librarian =
+	{
+		Title = "Librarian",
+		Type = "Commander",
+		UpgradeFunction = UpgradeCommander,
+		FXType = "Squad",
+		CanAttach = true,
+		MorphID = 1,
+		Unique = true,
+		HasWeapons = true,
+		Weapons =
+		{
+			"space_marine_bolt_pistol_librarian",
+			"space_marine_plasma_pistol_librarian",
+			"space_marine_power_sword_librarian",
+			"space_marine_force_weapon",
+		},
+		XPGainRate = 2,
+	},
+	-- Vehicles
+	space_marine_squad_rhino =
+	{
+		Title = "Rhino Transport",
+		Type = "RegularForces",
+		UpgradeFunction = UpgradeTank,
+		FXType = "Vehicle",
+		XPGainRate = 1.4,
+	},
+	space_marine_squad_land_speeder =
+	{
+		Title = "Land Speeder",
+		Type = "RegularForces",
+		UpgradeFunction = UpgradeTank,
+		FXType = "Vehicle",
+		XPGainRate = 1.4,
+	},
+	space_marine_squad_land_speeder_tempest = 
+	{
+		Title = "Land Speeder Tempest Skimmer",
+		Type = "RegularForces",
+		UpgradeFunction = UpgradeTank,
+		FXType = "Vehicle",
+		XPGainRate = 1.4,
+	},
+	space_marine_squad_dreadnought =
+	{
+		Title = "Dreadnought",
+		Type = "SpecialForces",
+		UpgradeFunction = UpgradeWalker,
+		FXType = "Vehicle",
+		XPGainRate = 0.9,
+	},
+	space_marine_squad_dreadnought_hellfire =
+	{
+		Title = "Hellfire Dreadnought",
+		Type = "SpecialForces",
+		UpgradeFunction = UpgradeTank,
+		FXType = "Vehicle",
+		XPGainRate = 1.4,
+	},
+	space_marine_squad_whirlwind =
+	{
+		Title = "Whirlwind",
+		Type = "SpecialForces",
+		UpgradeFunction = UpgradeArtillery,
+		FXType = "Vehicle",
+		Unique = true,
+		HasWeapons = true,
+		Weapons =
+		{
+			"space_marine_missile_battery_1",
+			"space_marine_storm_bolter_rhino",
+		},
+		XPGainRate = 2,
+	},
+	space_marine_squad_predator =
+	{
+		Title = "Predator",
+		Type = "CommandoForces",
+		UpgradeFunction = UpgradeTank,
+		FXType = "Vehicle",
+		XPGainRate = 1.8,
+	},
+	-- Campaign units
+	space_marine_squad_force_commander_advance_sp =
+	{
+		Title = "Commander Indrick Boreale",
+		Type = "Commander",
+		UpgradeFunction = UpgradeCommander,
+		FXType = "Squad",
+		General = true,
+		CanAttach = true,
+		Unique = true,
+		HasWeapons = true,
+		Weapons =
+		{
+			"space_marine_bolt_pistol_forcecommander",
+			"space_marine_plasma_pistol_commander",
+			"space_marine_bolt_pistol_combi_chaingun_forcecommander",
+			"space_marine_chainsword_force_commander",
+			"space_marine_power_sword_force_commander",
+			"space_marine_daemon_hammer_advance_sp",
+		},
+	},
+	-- StrongholdSquads
+	space_marine_squad_assault_sp_dxp3 =
+	{
+		Title = "Assault Marine Squad",
+		Type = "SpecialForces",
+		UpgradeFunction = UpgradeMeleeSquad,
+		FXType = "Squad",
+	},
+	space_marine_squad_rhino_sp_dxp3 =
+	{
+		Title = "Rhino Transport",
+		Type = "RegularForces",
+		UpgradeFunction = UpgradeTank,
+		FXType = "Vehicle",
+	},
+	-- BonusSquads
+	space_marine_squad_scout_advance_sp =
+	{
+		Title = "Scout Marine Squad",
+		Type = "RegularForces",
+		UpgradeFunction = UpgradeScoutSquad,
+		FXType = "Squad",
+	},
+	space_marine_squad_veteran_sp =
+	{
+		Title = "First Company Veteran",
+		Type = "SpecialForces",
+		UpgradeFunction = UpgradeRangedSquad,
+		FXType = "Squad",
+	},
+	space_marine_squad_assault_veteran_sp =
+	{
+		Title = "Veteran Assault Marine",
+		Type = "SpecialForces",
+		UpgradeFunction = UpgradeMeleeSquad,
+		FXType = "Squad",
+	},
+	space_marine_squad_grey_knights_hg_dxp3 =
+	{
+		Title = "Grey Knight Justicar Squad",
+		Type = "SpecialForces",
+		UpgradeFunction = UpgradeMeleeSquad,
+		FXType = "Squad",
+		Unique = true,
+	},
+	space_marine_squad_terminator_assault_veteran_sp =
+	{
+		Title = "Veteran Assault Terminator",
+		Type = "CommandoForces",
+		UpgradeFunction = UpgradeMeleeSquad,
+		FXType = "Squad",
+		Unique = true,
+		HasWeapons = true,
+		Weapons =
+		{
+			"space_marine_thunder_hammer_veteran",
+		},
+	},
+	space_marine_squad_apothecary_veteran_stronghold_sp =
+	{
+		Title = "Apothecary",
+		Type = "Commander",
+		UpgradeFunction = UpgradeCommander,
+		FXType = "Squad",
+		CanAttach = true,
+	},
+	space_marine_squad_librarian_advance_sp =
+	{
+		Title = "Senior Librarian Saribander",
+		Type = "Commander",
+		UpgradeFunction = UpgradeCommander,
+		FXType = "Squad",
+		CanAttach = true,
+	},
+	space_marine_squad_land_speeder_advance_sp =
+	{
+		Title = "Land Speeder",
+		Type = "RegularForces",
+		UpgradeFunction = UpgradeTank,
+		FXType = "Vehicle",
+	},
+	space_marine_squad_dreadnought_hellfire_advance_sp =
+	{
+		Title = "Hellfire Dreadnought",
+		Type = "SpecialForces",
+		UpgradeFunction = UpgradeTank,
+		FXType = "Vehicle",
+	},
+}
+
+UnitRanks.space_marine_race =
+{
+	{
+		Name = "Level 1",
+		XPRequirements =
+		{
+			Commander = 0,
+			RegularForces = 0,
+			SpecialForces = 0,
+			CommandoForces = 0,
+		},
+		UpgradeFX =
+		{
+			Squad = nil,
+			Vehicle = nil,
+		},
+		AuraFX =
+		{
+			Squad = nil,
+			Vehicle = nil,
+		},
+		MessageFX =
+		{
+			Icon = nil,
+			Sound = nil,
+		},
+	},
+	{
+		Name = "Level 2",
+		XPRequirements =
+		{
+			Commander = 250,
+			RegularForces = 500,
+			SpecialForces = 500,
+			CommandoForces = 500,
+		},
+		UpgradeFX =
+		{
+			Squad = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
+			Vehicle = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
+			Message = { "data:Art/Events/generic/ui/generic_level_up" },
+		},
+		AuraFX =
+		{
+			Squad = nil,
+			Vehicle = nil,
+		},
+		MessageFX =
+		{
+			Icon = "level_upgrade",
+			Sound = "/races/space_marines/librarian/word_of_the_emporer",
+		},
+	},
+	{
+		Name = "Level 3",
+		XPRequirements =
+		{
+			Commander = 500,
+			RegularForces = 1000,
+			SpecialForces = 1000,
+			CommandoForces = 1000,
+		},
+		UpgradeFX =
+		{
+			Squad = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
+			Vehicle = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
+			Message = { "data:Art/Events/generic/ui/generic_level_up" },
+		},
+		AuraFX =
+		{
+			Squad = nil,
+			Vehicle = nil,
+		},
+		MessageFX =
+		{
+			Icon = "level_upgrade",
+			Sound = "/races/space_marines/librarian/word_of_the_emporer",
+		},
+	},
+	{
+		Name = "Level 4",
+		XPRequirements =
+		{
+			Commander = 750,
+			RegularForces = 1500,
+			SpecialForces = 1500,
+			CommandoForces = 1500,
+		},
+		UpgradeFX =
+		{
+			Squad = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
+			Vehicle = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
+			Message = { "data:Art/Events/generic/ui/generic_level_up" },
+		},
+		AuraFX =
+		{
+			Squad = { "unit_ability_fx/docs_tools_unit" },
+			Vehicle = { "guard/abilities/fanatacism_hvy" },
+		},
+		MessageFX =
+		{
+			Icon = "level_upgrade",
+			Sound = "/races/space_marines/librarian/word_of_the_emporer",
+		},
+	},
+	{
+		Name = "Level 5",
+		XPRequirements =
+		{
+			Commander = 1000,
+			RegularForces = -1,
+			SpecialForces = -1,
+			CommandoForces = -1,
+		},
+		UpgradeFX =
+		{
+			Squad = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
+			Vehicle = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
+			Message = { "data:Art/Events/generic/ui/generic_level_up" },
+		},
+		AuraFX =
+		{
+			Squad = { "unit_ability_fx/docs_tools_unit" },
+			Vehicle = { "guard/abilities/fanatacism_hvy" },
+		},
+		MessageFX =
+		{
+			Icon = "level_upgrade",
+			Sound = "/races/space_marines/librarian/word_of_the_emporer",
+		},
+	},
+	{
+		Name = "Level 6",
+		XPRequirements =
+		{
+			Commander = 1250,
+			RegularForces = -1,
+			SpecialForces = -1,
+			CommandoForces = -1,
+		},
+		UpgradeFX =
+		{
+			Squad = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
+			Vehicle = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
+			Message = { "data:Art/Events/generic/ui/generic_level_up" },
+		},
+		AuraFX =
+		{
+			Squad = { "unit_ability_fx/docs_tools_unit" },
+			Vehicle = { "guard/abilities/fanatacism_hvy" },
+		},
+		MessageFX =
+		{
+			Icon = "level_upgrade",
+			Sound = "/races/space_marines/librarian/word_of_the_emporer",
+		},
+	},
+	{
+		Name = "Level 7",
+		XPRequirements =
+		{
+			Commander = 1500,
+			RegularForces = -1,
+			SpecialForces = -1,
+			CommandoForces = -1,
+		},
+		UpgradeFX =
+		{
+			Squad = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
+			Vehicle = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
+			Message = { "data:Art/Events/generic/ui/generic_level_up" },
+		},
+		AuraFX =
+		{
+			Squad = { "unit_ability_fx/inspiring" },
+			Vehicle = { "guard/abilities/fanatacism_hvy", "unit_ability_fx/rally_hvy_unit_fx" },
+		},
+		MessageFX =
+		{
+			Icon = "level_upgrade",
+			Sound = "/races/space_marines/librarian/word_of_the_emporer",
+		},
+	},
+	{
+		Name = "Level 8",
+		XPRequirements =
+		{
+			Commander = 1750,
+			RegularForces = -1,
+			SpecialForces = -1,
+			CommandoForces = -1,
+		},
+		UpgradeFX =
+		{
+			Squad = { "unit_ability_fx/battlecry_god_light", "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
+			Vehicle = { "unit_ability_fx/battlecry_god_light", "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
+			Message = { "data:Art/Events/generic/ui/generic_level_up" },
+		},
+		AuraFX =
+		{
+			Squad = { "unit_ability_fx/inspiring" },
+			Vehicle = { "guard/abilities/fanatacism_hvy", "unit_ability_fx/rally_hvy_unit_fx" },
+		},
+		MessageFX =
+		{
+			Icon = "level_upgrade",
+			Sound = "/races/space_marines/librarian/word_of_the_emporer",
+		},
+	},
+	{
+		Name = "Level 9",
+		XPRequirements =
+		{
+			Commander = 2000,
+			RegularForces = -1,
+			SpecialForces = -1,
+			CommandoForces = -1,
+		},
+		UpgradeFX =
+		{
+			Squad = { "unit_ability_fx/battlecry_god_light", "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
+			Vehicle = { "unit_ability_fx/battlecry_god_light", "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
+			Message = { "data:Art/Events/generic/ui/generic_level_up" },
+		},
+		AuraFX =
+		{
+			Squad = { "unit_ability_fx/inspiring" },
+			Vehicle = { "guard/abilities/fanatacism_hvy", "unit_ability_fx/rally_hvy_unit_fx" },
+		},
+		MessageFX =
+		{
+			Icon = "level_upgrade",
+			Sound = "/races/space_marines/librarian/word_of_the_emporer",
+		},
+	},
+	{
+		Name = "Level 10",
+		XPRequirements =
+		{
+			Commander = 2250,
+			RegularForces = -1,
+			SpecialForces = -1,
+			CommandoForces = -1,
+		},
+		UpgradeFX =
+		{
+			Squad = { "unit_ability_fx/battlecry_god_light", "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
+			Vehicle = { "unit_ability_fx/battlecry_god_light", "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
+			Message = { "data:Art/Events/generic/ui/generic_level_up" },
+		},
+		AuraFX =
+		{
+			Squad = { "unit_ability_fx/inspiring" },
+			Vehicle = { "guard/abilities/fanatacism_hvy", "unit_ability_fx/rally_hvy_unit_fx" },
+		},
+		MessageFX =
+		{
+			Icon = "level_upgrade",
+			Sound = "/races/space_marines/librarian/word_of_the_emporer",
+		},
+	},
+}

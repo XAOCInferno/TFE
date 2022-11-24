@@ -1,0 +1,10 @@
+GameData = Inherit([[]])
+GameData["able_attack_ground"] = true 
+GameData["artillery"] = Reference([[tables\artillery_table.lua]])
+GameData["death_event_name"] = [[]]
+GameData["explode_on_miss"] = false
+GameData["lifetime_as_percent_of_max_range_time"] = 150
+GameData["really_able_attack_ground_no_seriously_for_real"] = false
+GameData["rotation_speed"] = 0
+GameData["speed"] = 0
+GameData["zero_initial_velocity"] = false

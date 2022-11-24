@@ -1,0 +1,9 @@
+GameData = Inherit([[]])
+GameData["capture_radius"] = 0
+GameData["capture_time"] = 0
+GameData["garrison_radius"] = 0
+GameData["is_relic"] = false
+GameData["is_strategic_objective"] = false
+GameData["requires_garrison_to_hold"] = false
+GameData["revert_time"] = 0
+GameData["right_click_fow_fx"] = [[art/events/order_confirm_events/Objective_Ping]]

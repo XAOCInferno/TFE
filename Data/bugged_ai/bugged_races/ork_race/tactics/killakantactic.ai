@@ -1,0 +1,29 @@
+----------------------------------------
+-- File: 'killakantactic.ai'
+-- Edited by Thudmeizer @ 16.09.2008
+
+class 'KillaKanTactic' (OrkVehicleTactic)
+
+function KillaKanTactic:__init( squad_ai ) super( squad_ai )
+	
+	self:SetName("KillaKan Tactic")
+	
+	-- Set upgrade type
+	self.bRokkitLauncha = (math.random(1, 2) == 1)
+end
+
+function KillaKanTactic:Upgrade()
+
+	-- Check if we have free ressources
+	if (not Tactic.Options.can_reinforce or not self.bRokkitLauncha) then
+		return
+	end
+
+	-- Check situation
+	if (self.squad_ai:HasUpgradableTrooper() and self.squad_ai:GetHealthPercentage() > 0.5 and not self.squad_ai:IsUnderAttack()) then
+	
+		-- Upgrade to rokkit launcha
+		self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_VehicleMed)
+	end
+end
+

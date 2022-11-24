@@ -1,0 +1,60 @@
+----------------------------------------
+-- File: 'grottactic.ai'
+-- Edited by Thudmeizer   @ 30.07.2007
+
+class 'GrotTactic' (EngineerTactic)
+
+Grot = {}
+
+function GrotTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Grot Tactic")
+end
+
+function GrotTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (Grot.nuke == nil) then
+		Grot.nuke = cpu_manager.stats:GetAbilityID( "tau_nuke" )
+	end
+end
+
+function GrotTactic:DoAbilities()
+
+	-- Try to place burna bomb
+	Ability.DoAbilityPos( self.squad_ai, Grot.nuke, Ability.Filters.CloseEnemy, 10 )
+end
+
+function GrotTactic:IsAffectedByMorale()
+	return false
+end
+
+function GrotTactic:Reinforce()
+
+	-- Check if we are reinforcing
+	if (self.squad_ai:IsReinforcing()) then
+		return
+	end
+		
+	-- Don't reinforce squads in critical condition
+	-- if (self.squad_ai:IsUnderAttack()) then
+	-- 	return
+	-- end
+
+	local iNumGrots = self.squad_ai:GetNumTroopers()
+	local iMaxGrots = self.squad_ai:GetMaxTroopers()
+	-- local iMaxGrots = cpu_manager:GetTierLevel() * 2 + 1
+	-- if iMaxGrots > self.squad_ai:GetMaxTroopers() then
+	-- 	iMaxGrots = self.squad_ai:GetMaxTroopers()
+	-- end
+	
+	-- Don't reinforce if we have no free resources but always get 2 grots
+	-- if (not Tactic.Options.can_reinforce and iNumGrots >= 2) then
+	-- 	return
+	-- end
+	
+	-- Always try to reinforce, as long as I have money
+	if (iNumGrots < iMaxGrots and self.squad_ai:CanReinforce( false, 0 )) then
+		self.squad_ai:DoReinforce( false, 0 )
+	end
+end

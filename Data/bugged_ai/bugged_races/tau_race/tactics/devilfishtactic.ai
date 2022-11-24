@@ -1,0 +1,35 @@
+----------------------------------------
+-- File: 'devilfishtactic.ai'
+-- Edited by Thudmeizer        @ 31.07.2007
+
+class 'DevilfishTactic' (TauVehicleTactic)
+
+Devilfish = {}
+
+function DevilfishTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Devilfish Tactic")
+	
+	-- Vehicle is a light transport
+	self.m_iTransportVehicle = 1
+	self.m_iTransportSlots = 2
+end
+
+function DevilfishTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (Devilfish.infiltrate_id == nil) then
+		Devilfish.infiltrate_id = cpu_manager.stats:GetAbilityID( "ability_infiltrate_devilfish" )	
+	end
+end
+
+function DevilfishTactic:DoAbilities()
+
+	-- Check if we should use infiltration ability
+	if (self.squad_ai:IsInCombat() or self.squad_ai:IsInStateMove() or self.squad_ai:IsInStateAttackMove()) then
+
+		if (self.squad_ai:CanDoAbility( Devilfish.infiltrate_id )) then
+			self.squad_ai:DoSpecialAbility( Devilfish.infiltrate_id )
+		end
+	end
+end

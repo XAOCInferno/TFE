@@ -1,0 +1,10 @@
+GameData = Inherit([[]])
+GameData["acceleration_time"] = 2
+GameData["air_unit"] = false
+GameData["air_unit_float_height"] = 9
+GameData["corner_anticipation_time"] = 0.1000000015
+GameData["deceleration_time"] = 1
+GameData["move_to_min_combat_range"] = false
+GameData["rotation_rate"] = 10000
+GameData["speed_max"] = 0
+GameData["turning_behavior_template"] = [[default]]

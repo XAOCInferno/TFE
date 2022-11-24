@@ -1,0 +1,82 @@
+----------------------------------------
+-- File: 'vespidtactic.ai'
+-- Created by Arkhan		@ 21.03.2008
+
+class 'VespidTactic' (TauInfantryTactic)
+
+Vespid = {}
+
+function VespidTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Vespid Tactic")
+end
+
+function VespidTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (Vespid.iSonicPulseID == nil) then
+		Vespid.iSonicPulseID = cpu_manager.stats:GetAbilityID( "tau_sonic_pulse" )	
+	end
+
+	if (Vespid.iDestabilizationID == nil) then
+		Vespid.iDestabilizationID = cpu_manager.stats:GetAbilityID( "tau_devour" )	
+	end
+end
+
+function VespidTactic:DoAbilities()
+
+	-- Check if I can activate sonic pulse
+	Ability.DoAbility(self.squad_ai, Vespid.iSonicPulseID, Ability.PredicateFilters.IsInCombat)
+
+	-- Check if we can use destabilization ability on enemy buildings
+	Ability.DoAbilityTargetEntity(self.squad_ai, Vespid.iDestabilizationID, Ability.EntityFilters.CloseBaseEntityEnemy, 1)
+end
+
+function VespidTactic:UpdateStance()
+
+	-- Default stance ranged
+	local bRanged = true
+
+	-- Check if closest enemy unit is light infantry
+	local oSquad = cpu_manager.cpu_player:FindFirstEnemy(self.squad_ai:GetPosition(), 25, 1)
+	if (oSquad ~= nil and not oSquad:IsInfiltrating()) then
+	
+		-- Get unit stats
+		local oStats = oSquad:GetStats()
+		if (oStats ~= nil) then
+			
+			-- Check armour class
+			local eClass = oStats:GetClass()
+			if (eClass == UnitStatsAI.UC_LightInfantryLow or
+				eClass == UnitStatsAI.UC_LightInfantryMed or
+				eClass == UnitStatsAI.UC_LightInfantryHigh) then
+				bRanged = false
+			end
+		end
+	end
+
+	-- Check if the squad is melee or ranged
+	if (not bRanged) then
+
+		-- Set assault stance
+		if (self.squad_ai:GetMeleeStance() ~= SquadAI.MSTANCE_Assault) then
+			self.squad_ai:DoSetMeleeStance(SquadAI.MSTANCE_Assault)
+		end
+		
+		-- Set attack stance
+		if (self.squad_ai:GetStance() ~= SquadAI.STANCE_Attack) then
+			self.squad_ai:DoSetStance( SquadAI.STANCE_Attack )
+		end
+	else
+	
+		-- Set ranged stance
+		if (self.squad_ai:GetMeleeStance() ~= SquadAI.MSTANCE_Ranged) then
+			self.squad_ai:DoSetMeleeStance(SquadAI.MSTANCE_Ranged)
+		end
+		
+		-- Set stand ground stance
+		if (self.squad_ai:GetStance() ~= SquadAI.STANCE_StandGround) then
+			self.squad_ai:DoSetStance( SquadAI.STANCE_StandGround )
+		end
+	end
+end

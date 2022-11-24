@@ -1,0 +1,75 @@
+generic cost recommendations
+format: req/power/souls/faith (faith and souls not mentioned bc only for 2 factions zz)
+These will be balanced around squad size obviously.......
+FREE STARTING SQUADS WONT COST ANYTHING!!!! OBVIOUSLY>....
+
+
+//Infantry
+Scouts (small squad):
+CostEntity = { 1, 0 }
+CostSquad = { 4, 0 }
+CostLeader = { 2, 0 }
+
+Scouts (Big squad):
+CostEntity = { 0.5, 0 }
+CostSquad = { 8, 0 }
+CostLeader = { 1, 0.5 }
+
+Tier 1 Basic Infantry
+CostEntity = { 3.3334, 0 }
+CostSquad = { 12, 0, 0, 0 }
+CostLeader = { 6.6667, 3.3334 }
+
+Tier 2 Infantry
+CostEntity = { 6.6667, 0.5 }
+CostSquad = { 24, 8 }
+CostLeader = { 14, 6.6666 }
+
+Tier 3 Infantry
+CostEntity = { 10, 1 }
+CostSquad = { 36, 16 }
+CostLeader = { 22, 10 }
+
+
+//Heroes
+Tier 1 Commander
+CostEntity = { 22, 0 }
+CostSquad = { 0, 0 }
+CostLeader = { 0, 0 }
+
+Tier 2 Commander
+CostEntity = { 25, 5 }
+CostSquad = { 0, 0 }
+CostLeader = { 0, 0 }
+
+Tier 3 Commander
+CostEntity = { 30, 10 }
+CostSquad = { 0, 0 }
+CostLeader = { 0, 0 }
+
+
+//Tanks
+Rhino
+CostEntity = { 10, 5 }
+CostSquad = { 0, 0 }
+CostLeader = { 0, 0 }
+
+Light Vehicle
+CostEntity = { 10, 10 }
+CostSquad = { 0, 0 }
+CostLeader = { 0, 0 }
+
+Walker
+CostEntity = { 15, 25 }
+CostSquad = { 0, 0 }
+CostLeader = { 0, 0 }
+
+Battle Tank
+CostEntity = { 20, 30 }
+CostSquad = { 0, 0 }
+CostLeader = { 0, 0 }
+
+Relic Unit
+CostEntity = { 40, 40 }
+CostSquad = { 0, 0 }
+CostLeader = { 0, 0 }

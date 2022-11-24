@@ -1,0 +1,73 @@
+----------------------------------------
+-- File: 'orkinfantrytactic.ai'
+-- Created by Arkhan		@ 12.01.2006
+
+class 'OrkInfantryTactic' (InfantryTactic)
+
+OrcInfantry = {}
+
+function OrkInfantryTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Ork Infantry Tactic")
+	-- Basic ork infantry is able to enter transport vehicles
+	local sSquadName = squad_ai:GetSquadName()
+	if (sSquadName ~= "ork_squad_stormboy" and
+		sSquadName ~= "ork_flash_gitz_squad") then
+		self.m_iTransportable = 1
+	end
+end
+
+function OrkInfantryTactic:AddCommanders()
+	table.insert(self.commander, { "ork_squad_mek_boy", true })
+	table.insert(self.commander, { "ork_squad_warboss", false })
+end
+
+function OrkInfantryTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (OrcInfantry.iStikkBombID == nil) then
+		OrcInfantry.iStikkBombID = cpu_manager.stats:GetAbilityID( "ork_stikkbombs" )
+	end
+end
+
+function OrkInfantryTactic:DoAbilities()
+	
+	-- Try to throw stikk bomb
+	Ability.DoAbilityTarget(self.squad_ai, OrcInfantry.iStikkBombID, Ability.Filters.CloseInfiltratedOrVisibleEnemyInfantry, 4)
+	
+	-- I might have these attached
+	if (self.squad_ai:IsAttached()) then
+	
+		if (self.squad_ai:HasSquadAttached("ork_squad_bad_dok")) then
+			BadDokTactic.InitAbilities( self )
+			BadDokTactic.DoAbilities( self )
+		elseif (self.squad_ai:HasSquadAttached("ork_squad_mek_boy")) then
+			MekBoyTactic.InitAbilities( self )
+			MekBoyTactic.DoAbilities( self )
+		elseif (self.squad_ai:HasSquadAttached("ork_squad_warboss")) then
+			WarBossTactic.InitAbilities( self )
+			WarBossTactic.DoAbilities( self )
+		end
+	end
+	
+	-- Call basic DoAbilities methods
+	InfantryTactic.DoAbilities(self)
+end
+
+function OrkInfantryTactic:CheckForDetach()
+
+	if (not self.squad_ai:IsInCombat() and not self.squad_ai:WasRecentlyHurt()) then
+	  
+		-- Detach dok from weak squad, perhaps we can find a better one 
+		if (self.squad_ai:HasSquadAttached( "ork_squad_bad_dok" )) then	
+		 
+			if (self.squad_ai:GetTactic():GetUnitStrength() < 200) then
+				self.squad_ai:DoDetachSquad()
+				self.squad_ai:DoSetDefaultMeleeStance()
+			end
+		end
+	end
+		
+	-- Call basic detach method
+	InfantryTactic.CheckForDetach(self)
+end

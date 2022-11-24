@@ -1,0 +1,20 @@
+----------------------------------------
+-- File: 'whirlwindtactic.ai'
+-- Edited by Arkhan		@ 10.01.2011
+
+class 'WhirlwindTactic' (SpaceMarineVehicleTactic)
+
+function WhirlwindTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Whirlwind Tactic")
+end
+
+-- Keep some distance, we are an artillery and not a battle tank
+function WhirlwindTactic:IsAttacker()
+	return (not self.squad_ai:IsUnderAttack())
+end
+
+-- Keep some distance, we are an artillery and not a battle tank
+function WhirlwindTactic:IsDefender()
+	return (not self.squad_ai:IsUnderAttack() or cpu_manager:HQThreat())
+end

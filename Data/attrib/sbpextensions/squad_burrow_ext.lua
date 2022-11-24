@@ -1,0 +1,10 @@
+GameData = Inherit([[]])
+GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
+GameData["burrow_anim_name"] = [[]]
+GameData["burrow_button_texture"] = [[]]
+GameData["burrow_progress_name"] = [[]]
+GameData["deburrow_anim_name"] = [[]]
+GameData["deburrow_button_texture"] = [[]]
+GameData["deburrow_duration"] = 0
+GameData["deburrow_to_attack_radius"] = 0
+GameData["recharge_time"] = 0

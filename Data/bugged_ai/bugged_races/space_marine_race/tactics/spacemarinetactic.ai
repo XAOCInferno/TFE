@@ -1,0 +1,81 @@
+----------------------------------------
+-- File: 'spacemarinetactic.ai'
+-- Created by Arkhan  @ 24.10.2010
+
+class 'SpaceMarineTactic' (SpaceMarineInfantryTactic)
+
+SpaceMarine = {}
+
+function SpaceMarineTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Space Marine Tactic")
+	
+	-- Set upgrade type
+	if (cpu_manager:GetTierLevel() < 2) then
+		self.bLongRange = (math.random(1, 3) ~= 1)
+	else
+		self.bLongRange = (math.random(1, 2) ~= 1)
+	end
+end
+
+function SpaceMarineTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (SpaceMarine.iFragGrenadesID == nil) then
+		SpaceMarine.iFragGrenadesID = cpu_manager.stats:GetAbilityID( "marines_frag_grenades" )
+	end
+	
+	-- Init common abilities
+	SpaceMarineInfantryTactic.InitAbilities(self)
+end
+
+function SpaceMarineTactic:DoAbilities()
+
+	-- Try to throw frag grenades
+	Ability.DoAbilityTarget(self.squad_ai, SpaceMarine.iFragGrenadesID, Ability.Filters.CloseInfiltratedOrVisibleEnemyInfantry, 4)
+	
+	-- Compute common abilities
+	SpaceMarineInfantryTactic.DoAbilities(self)
+end
+
+function SpaceMarineTactic:Upgrade()
+
+	-- Check if we are reinforcing
+	if (self.squad_ai:IsReinforcing() or not self.squad_ai:HasUpgradableTrooper()) then
+		return
+	end
+
+	-- If I am broken, don't upgrade!
+	if (self:IsAffectedByMorale() and self.squad_ai:IsBroken()) then
+		return
+	end	
+	
+	-- Only upgrade in healthy state
+	if (self.squad_ai:GetNumTroopers() < self.squad_ai:GetMaxTroopers() * 0.6 or self.squad_ai:GetHealthPercentage() < 0.5 or self.squad_ai:IsUnderAttack()) then
+		return
+	end
+	
+	-- Check upgrade type
+	if (self.bLongRange) then
+	
+		-- Upgrade to heavy bolter and rocket launcher
+		if (math.random(1, 2) == 1 or cpu_manager:GetTierLevel() < 2) then
+		
+			-- Upgrade to heavy bolter
+			self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_LightInfantryHigh)
+		else
+			-- Upgrade to rocket launcher
+			self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_VehicleMed)
+		end
+	else
+		-- Upgrade to flamer and plasma rifle
+		if (cpu_manager:GetTierLevel() < 2) then
+		
+			-- Upgrade to flamer
+			self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_MonsterMed)
+		else
+			-- Upgrade to plasma rifle
+			self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_HeavyInfantryMed)
+		end	
+	end
+end

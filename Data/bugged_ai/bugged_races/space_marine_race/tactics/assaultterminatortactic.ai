@@ -1,0 +1,13 @@
+----------------------------------------
+-- File: 'assaultterminatortactic.ai'
+-- Created by Arkhan  @ 21.11.2010
+
+class 'AssaultTerminatorTactic' (SpaceMarineInfantryTactic)
+
+function AssaultTerminatorTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Assault Terminator Tactic")
+	
+	-- Force melee stance (Commander detaching can cause false stances)
+	self.iForceMeleeStance = true
+end

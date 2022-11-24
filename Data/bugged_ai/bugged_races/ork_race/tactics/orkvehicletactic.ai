@@ -1,0 +1,41 @@
+----------------------------------------
+-- File: 'orkvehicletactic.ai'
+-- Edited by Thudmeizer		@ 08.08.2006
+
+class 'OrkVehicleTactic' (VehicleTactic)
+
+OrkVehicle = {}
+
+function OrkVehicleTactic:__init( squad_ai ) super( squad_ai )
+	self:SetName("Ork Vehicle Tactic")
+end
+
+-- Check if the vehicle should dance away in melee
+function OrkVehicleTactic:CheckVehicleDance(sName)
+
+	if (sName == "ork_squad_trukk" or
+		sName == "ork_squad_wartrak" or
+		sName == "ork_squad_looted_tank") then
+		return true
+	end
+	return false
+end
+
+function OrkVehicleTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (OrkVehicle.iTurboBoostID == nil) then
+		OrkVehicle.iTurboBoostID = cpu_manager.stats:GetAbilityID( "ork_turbo_boost" )
+	end
+end
+
+function OrkVehicleTactic:DoAbilities()
+
+	-- Trakk and Trukk boost while moving
+	if ((not self.squad_ai:IsInCombat() and self.squad_ai:IsInStateMove()) or self.stateID ~= Tactic.StateID.NoState) then
+
+		if (self.squad_ai:CanDoAbility(OrkVehicle.iTurboBoostID)) then
+			self.squad_ai:DoSpecialAbility(OrkVehicle.iTurboBoostID)
+		end
+	end
+end

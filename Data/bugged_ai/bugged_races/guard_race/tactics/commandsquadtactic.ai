@@ -1,0 +1,182 @@
+----------------------------------------
+-- File: 'commandsquadtactic.ai'
+-- Edited by Thudmeizer @ 01.10.2008
+
+class 'CommandSquadTactic' (GuardInfantryTactic)
+
+CommandSquad =
+{
+	Commissar = 0,
+	Psyker = 1,
+	Priest = 2,
+}
+
+function CommandSquadTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Leader Tactic")
+	
+	-- Command squad is able to enter a bunker
+	self.m_bBunkerSquad = true
+	self.squad_ai:DoSetMeleeStance(SquadAI.MSTANCE_Ranged) -- start on ranged
+end
+
+function CommandSquadTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (CommandSquad.iStrafingRunID == nil) then
+		CommandSquad.iStrafingRunID = cpu_manager.stats:GetAbilityID( "guard_strafing_run" )	
+	end
+	
+	if (CommandSquad.iStrafingRunImpID == nil) then
+		CommandSquad.iStrafingRunImpID = cpu_manager.stats:GetAbilityID( "guard_strafing_run_imp" )	
+	end
+	
+	if (CommandSquad.iLastStandID == nil) then
+		CommandSquad.iLastStandID = cpu_manager.stats:GetAbilityID( "guard_commissar_last_stand" )	
+	end
+	
+	if (CommandSquad.iLightningArcID == nil) then
+		CommandSquad.iLightningArcID = cpu_manager.stats:GetAbilityID( "guard_psyker_lightning_arc" )
+	end
+	
+	if (CommandSquad.iStripSoulID == nil) then
+		CommandSquad.iStripSoulID = cpu_manager.stats:GetAbilityID( "guard_psyker_strip_soul" )
+	end
+	
+	if (CommandSquad.iFanaticalID == nil) then
+		CommandSquad.iFanaticalID = cpu_manager.stats:GetAbilityID( "guard_priest_fanatical_cs" )	
+	end
+end
+
+function CommandSquadTactic:DoAbilities()
+
+	-- Try to use imperial general strafing run ability
+	Ability.DoAbilityPos( self.squad_ai, CommandSquad.iStrafingRunID, Ability.Filters.CloseEnemy, 12 )
+	Ability.DoAbilityPos( self.squad_ai, CommandSquad.iStrafingRunImpID, Ability.Filters.CloseEnemy, 12 )
+
+	-- Try to use commissar last stand ability
+	Ability.DoAbility( self.squad_ai, CommandSquad.iLastStandID, Ability.Filters.IsInCombat ) 
+
+	-- Try to use psyker lightning arc ability
+	Ability.DoAbilityTarget( self.squad_ai, CommandSquad.iLightningArcID, Ability.Filters.CloseSquadEnemy, 4 )
+
+	-- Try to use psyker strip soul ability
+	Ability.DoAbilityTarget( self.squad_ai, CommandSquad.iStripSoulID, Ability.Filters.CloseCommanderEnemy, 1 )
+
+	-- Try to use priest fanatical ability
+	if (not self.squad_ai:IsBroken() and self.state ~= Tactic.States.Retreat) then
+		Ability.DoAbility( self.squad_ai, CommandSquad.iFanaticalID, Ability.Filters.IsInCombat ) 
+	end
+end
+
+-- Assassinate win condition -- never attack
+function CommandSquadTactic:IsAttacker()
+
+	-- Never attack in assassinate game mode
+	if (cpu_manager.assassinate) then
+		return false
+	end
+	
+	-- Attack if we have more than one squad member
+	if (self.squad_ai:GetNumTroopers() > 1) then
+		return true
+	end
+	return self:IsCommanderAttacker()
+end
+
+-- Assassinate win condition -- never defend
+function CommandSquadTactic:IsDefender()
+
+	-- Never defend in assassinate game mode
+	if (cpu_manager.assassinate) then
+		return false
+	end
+	
+	-- Defend if we have more than one squad member
+	if (self.squad_ai:GetNumTroopers() > 1) then
+		return true
+	end
+	return self:IsCommanderDefender()
+end
+
+function CommandSquadTactic:Reinforce()
+
+	-- Check if we are reinforcing
+	if (self.squad_ai:IsReinforcing()) then
+		return
+	end
+	
+	-- If I am broken, don't upgrade!
+	if (self:IsAffectedByMorale() and self.squad_ai:IsBroken()) then
+		return
+	end
+	
+	-- Don't reinforce in critical condition
+	if (self.squad_ai:GetNumTroopers() <= self.squad_ai:GetMaxTroopers() / 2 and self.squad_ai:IsUnderAttack()) then
+		return
+	end
+
+	-- Always try for the actual leader first
+	if (self.squad_ai:CanReinforce( false, 0 )) then
+		self.squad_ai:DoReinforce( false, 0 )
+		return
+	end
+
+	-- Get number of squad members
+	local iNumCommissars = self.squad_ai:GetLeaderCount(CommandSquad.Commissar)
+	local iNumPsykers = self.squad_ai:GetLeaderCount(CommandSquad.Psyker)
+	local iNumPriests = self.squad_ai:GetLeaderCount(CommandSquad.Priest)
+	
+	-- Desired order of reinforcing
+	local iDesiredCommissars = 1
+	local iDesiredPsykers = 1
+	local iDesiredPriests = 2
+	
+	-- Check for priest strategy
+	if (BuildBaseStrategy.iBuildProgram == 3 and cpu_manager:GetTierLevel() < 2) then
+		iDesiredCommissars = 0
+		iDesiredPsykers = 0
+		iDesiredPriests = 4
+	end
+	
+	-- Try to reinforce 
+	if (iNumCommissars < iDesiredCommissars and self.squad_ai:CanReinforce(true, CommandSquad.Commissar))then
+		self.squad_ai:DoReinforce(true, CommandSquad.Commissar)
+	elseif (iNumPsykers < iDesiredPsykers and self.squad_ai:CanReinforce(true, CommandSquad.Psyker)) then
+		self.squad_ai:DoReinforce(true, CommandSquad.Psyker)
+	elseif (iNumPriests < iDesiredPriests and self.squad_ai:CanReinforce(true, CommandSquad.Priest)) then
+		self.squad_ai:DoReinforce(true, CommandSquad.Priest)
+	end
+end
+
+function CommandSquadTactic:UpdateStance()
+
+	-- Check desired stance
+	if (self.squad_ai:GetNumTroopers() - self.squad_ai:GetLeaderCount(CommandSquad.Psyker) > 1) then
+
+		-- Set assault stance
+		if (self.squad_ai:GetMeleeStance() ~= SquadAI.MSTANCE_Assault) then
+			self.squad_ai:DoSetMeleeStance(SquadAI.MSTANCE_Assault)
+		end
+		
+		-- Set attack stance
+		if (self.squad_ai:GetStance() ~= SquadAI.STANCE_Attack) then
+			self.squad_ai:DoSetStance(SquadAI.STANCE_Attack)
+		end
+	else
+
+		-- Set ranged stance
+		if (self.squad_ai:GetMeleeStance() ~= SquadAI.MSTANCE_Ranged) then
+			self.squad_ai:DoSetMeleeStance(SquadAI.MSTANCE_Ranged)
+		end
+		
+		-- Set stand ground stance
+		if (self.squad_ai:GetStance() ~= SquadAI.STANCE_StandGround) then
+			self.squad_ai:DoSetStance( SquadAI.STANCE_StandGround )
+		end
+	end
+end
+
+function CommandSquadTactic:Upgrade()
+	return
+end

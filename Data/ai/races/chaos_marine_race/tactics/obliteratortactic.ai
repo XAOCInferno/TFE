@@ -1,0 +1,87 @@
+----------------------------------------
+-- File: 'marinesquadtactic.ai'
+-- Edited by Thudmeizer	@ 26.10.2008
+
+class 'ObliteratorTactic' (ChaosMarineInfantryTactic)
+
+ObliteratorSquad = {}
+
+function ObliteratorTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Obliterator Tactic")
+end
+
+function ObliteratorTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (ObliteratorSquad.obliterate_id == nil) then
+		ObliteratorSquad.obliterate_id = cpu_manager.stats:GetAbilityID( "chaos_obliterate" )	
+	end
+end
+
+function ObliteratorTactic:DoAbilities()
+
+
+	if (self.squad_ai:IsInCombat() and not self.squad_ai:IsCapturing()) then
+	  
+		if (not self:IsMoving()) then
+
+			if (self.squad_ai:CanDoAbility( ObliteratorSquad.obliterate_id )) then
+				self.squad_ai:DoSpecialAbility( ObliteratorSquad.obliterate_id )
+			end
+		end	
+	end
+end
+
+--[[function ObliteratorTactic:UpdateStance()
+
+	if (cpu_manager.cpu_player:IsResearchComplete( "chaos_csm_mark_khorne_research" ) and self.squad_ai:GetMeleeStance() == SquadAI.MSTANCE_Ranged) then
+
+		self.squad_ai:DoSetMeleeStance(SquadAI.MSTANCE_Assault)
+		self.iForceMeleeStance = true
+
+	elseif (cpu_manager.cpu_player:IsResearchComplete( "chaos_csm_mark_tzeentch_research" ) and self.squad_ai:GetMeleeStance() == SquadAI.MSTANCE_Assault) then
+
+		self.squad_ai:DoSetMeleeStance(SquadAI.MSTANCE_Ranged)
+	else
+
+		-- Check combat type
+		if (not self.bRanged) then
+			return
+		end
+	
+		-- Check for close enemy units and buildings
+		local vSquadPos = self.squad_ai:GetPosition()
+		local bCloseEnemyUnit      = (cpu_manager.cpu_player:FindFirstEnemy(vSquadPos, 15, 1) ~= nil)
+		local bCloseEnemyBuilding  = (cpu_manager.cpu_player:FindFirstBaseEnemy(vSquadPos, 15, 1) ~= nil)
+		local bCloseEnemy          = bCloseEnemyUnit or bCloseEnemyBuilding
+		local bCloserEnemyUnit     = (bCloseEnemyUnit and cpu_manager.cpu_player:FindFirstEnemy(vSquadPos, 8, 1) ~= nil)
+		local bCloserEnemyBuilding = (bCloseEnemyBuilding and cpu_manager.cpu_player:FindFirstBaseEnemy(vSquadPos, 8, 1) ~= nil)
+		local bCloserEnemy         = bCloserEnemyUnit or bCloserEnemyBuilding
+
+		-- Check for ranged stance
+		if (bCloserEnemy or not bCloseEnemy) then
+
+			-- Set assault stance
+			if (self.squad_ai:GetMeleeStance() ~= SquadAI.MSTANCE_Assault) then
+				self.squad_ai:DoSetMeleeStance(SquadAI.MSTANCE_Assault)
+			end
+		
+			-- Set attack stance
+			if (self.squad_ai:GetStance() ~= SquadAI.STANCE_Attack) then
+				self.squad_ai:DoSetStance( SquadAI.STANCE_Attack )
+			end
+		else
+			-- Set ranged stance
+			if (self.squad_ai:GetMeleeStance() ~= SquadAI.MSTANCE_Ranged) then
+				self.squad_ai:DoSetMeleeStance(SquadAI.MSTANCE_Ranged)
+			end
+		
+			-- Set stand ground stance
+			if (self.squad_ai:GetStance() ~= SquadAI.STANCE_StandGround) then
+			self.squad_ai:DoSetStance( SquadAI.STANCE_StandGround )
+			end
+		end
+	end
+
+end]]

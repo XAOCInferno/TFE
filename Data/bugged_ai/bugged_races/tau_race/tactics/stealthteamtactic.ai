@@ -1,0 +1,31 @@
+----------------------------------------
+-- File: 'stealthteamtactic.ai'
+-- Created by Arkhan		@ 21.03.2008
+
+class 'StealthTeamTactic' (TauInfantryTactic)
+
+StealthTeam = {}
+
+function StealthTeamTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Stealth Team Tactic")
+end
+
+-- Don't attack until tier 2
+function StealthTeamTactic:IsAttacker()	
+	return (cpu_manager:GetTierLevel() >= 2)
+end
+
+function StealthTeamTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (StealthTeam.iEMPGrenadeID == nil) then
+		StealthTeam.iEMPGrenadeID = cpu_manager.stats:GetAbilityID( "tau_emp_grenade" )	
+	end
+end
+
+function StealthTeamTactic:DoAbilities()
+	
+	-- Check if we can use EMP grenade
+	Ability.DoAbilityTarget(self.squad_ai, StealthTeam.iEMPGrenadeID, Ability.Filters.CloseVehicleEnemy, 1)
+end

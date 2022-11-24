@@ -1,0 +1,140 @@
+----------------------------------------
+-- File: 'necronlordtactic.ai'
+-- Edited by Thudmeizer @ 16.09.2008
+
+class 'NecronLordTactic' (NecronInfantryTactic)
+
+NecronLord = {}
+
+function NecronLordTactic:__init( squad_ai ) super( squad_ai )
+	--aitrace("Creating Necron Lord")
+	self:SetName("Necron Lord Tactic")
+
+	self.m_oTimedSpecialAbilities = Timer( NecronLordTactic.DoTimedSpecialAbilities, self, 7 )
+	--aitrace("Creating Necron Lord: 1")
+	
+	self.dance_time = 0
+end
+-- Necron Lord is allowed to retreat even directly after a jump
+function NecronLordTactic:SetTarget( target, variant_type )
+
+	self.variant_type = variant_type
+	self.target = Vector3f(target)
+	self.m_iMoveDelay = 0
+	self.last_jump = 0
+end
+
+function NecronLordTactic:InitAbilities()
+	-- Timed: Necron units advance normally while their opponents move in slow motion.
+	if (NecronLord.chronometron_id == nil) then
+		NecronLord.chronometron_id = cpu_manager.stats:GetAbilityID( "necron_chronometron" )
+	end
+
+	-- Timed: Lord and phase-shifted units are immune to all forms of damage, but cannot attack.	
+	if (NecronLord.phase_shifter_id == nil) then
+		NecronLord.phase_shifter_id = cpu_manager.stats:GetAbilityID( "necron_phase_shifter" )
+	end
+
+	-- Timed / Passive: Mass Resurrection / Necron units in the Necron Lord's vicinity have a chance of returning to life.
+	if (NecronLord.mass_resurrection_id == nil) then
+		NecronLord.mass_resurrection_id = cpu_manager.stats:GetAbilityID( "necron_mass_resurrection" )
+	end
+	
+	--aitrace("Creating Necron Lord: sumon pylon")
+	if (NecronLord.pylon_summmon_id == nil) then
+		NecronLord.pylon_summmon_id = cpu_manager.stats:GetAbilityID( "necron_lord_pylon_summon" )
+	end
+	--aitrace("Necron Lord Created")
+end
+
+-- Assassinate win condition -- never attack
+function NecronLordTactic:IsAttacker()
+	return (not cpu_manager.assassinate and self:IsCommanderAttacker())
+end
+
+-- Assassinate win condition -- never defend
+function NecronLordTactic:IsDefender()
+	return (not cpu_manager.assassinate and self:IsCommanderDefender())
+end
+
+-- Assassinate win condition -- never jump into combat
+function NecronLordTactic:JumpAttack()
+	if (not cpu_manager.assassinate) then
+		Tactic.JumpAttack(self)
+	end
+end
+
+function NecronLordTactic:DoAbilities()
+
+	Ability.DoAbility(self.squad_ai, NecronLord.chronometron_id , Ability.PredicateFilters.IsInCombat)
+
+	-- Try to possess
+	if (self.squad_ai:IsInCombat() and self.squad_ai:GetHealthPercentage() < 0.5 and self.squad_ai:CanPossess()) then
+		self.squad_ai:DoPossess()
+	end
+	
+	-- Try abilities
+	Ability.DoAbility(self.squad_ai, NecronLord.phase_shifter_id, Ability.PredicateFilters.IsLowHealthAndUnderAttack, { min_health = 0.3 })
+		
+	if (self.squad_ai:CanDoAbility(NecronLord.pylon_summmon_id)) then
+		local iEnemyStrength, iAlliedStrength = cpu_manager:GetArmyStrengthAtPos(self.squad_ai:GetPosition(), 50)
+		if (iEnemyStrength > 0.8 * iAlliedStrength) then
+			local range = self.squad_ai:GetAbilityRange( NecronLord.pylon_summmon_id )	
+			-- np pylon on retreating, small squads or engineers
+			local squad_filter = function( squad_ai )		
+				return (squad_ai:GetNumTroopers() >= 6 and squad_ai:IsInCombat() and 
+					not squad_ai:GetTactic():IsMoving() and not squad_ai:IsEngineer())
+			end	
+   			local target_squad = cpu_manager:GetClosestSquad( self.squad_ai:GetPosition(), range, squad_filter )
+			if (target_squad ~= nil) then
+				self.squad_ai:DoSpecialAbilityPos( NecronLord.pylon_summmon_id , target_squad:GetPosition() )
+ 			end
+ 		end
+	end
+	
+	-- Try to use mass resurrection ability
+	if (self.m_oTimedSpecialAbilities ~= nil) then
+		self.m_oTimedSpecialAbilities:Call()
+	else
+		NecronLordTactic.DoTimedSpecialAbilities(self)
+	end
+end
+
+function NecronLordTactic:DoTimedSpecialAbilities()
+
+	-- Try to use mass resurrection ability
+	Ability.DoAbility(self.squad_ai, NecronLord.mass_resurrection_id, Ability.PredicateFilters.HasUsableBodies, { ability_id = NecronLord.mass_resurrection_id, min_bodies = 5 })
+end
+
+function NecronLordTactic:Update()
+
+    if (self:IsComplete()) then
+        return
+    end
+
+    -- State machine
+    if (not InfantryTactic.Update(self)) then
+        return
+    end
+    
+	-- Check for jump retreat
+	self:JumpRetreat()
+	
+	local bSetRanged = false
+    local bSetMelee = false
+	local eStance = self.squad_ai:GetMeleeStance()
+	-- Check health
+    if (self.squad_ai:GetHealthPercentage() > 0.4) then
+        bSetMelee = (eStance == SquadAI.MSTANCE_Ranged)
+	else
+        bSetRanged = (eStance == SquadAI.MSTANCE_Assault)
+    end
+	
+	if (bSetRanged) then
+        self.squad_ai:DoSetMeleeStance( SquadAI.MSTANCE_Ranged )
+        self.dance_time = g_iGMT
+    elseif (bSetMelee and self.stateID ~= Tactic.StateID.DoDance and g_iGMT > self.dance_time + 10) then
+        self.squad_ai:DoSetDefaultMeleeStance()
+        self.dance_time = 0
+    end
+end

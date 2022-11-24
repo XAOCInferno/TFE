@@ -1,0 +1,16 @@
+GameData = Inherit([[]])
+GameData["leader_1"] = Reference([[tables\squad_leader_detail.lua]])
+GameData["leader_1"]["cost_time"]["cost"]["faith"] = 0
+GameData["leader_1"]["cost_time"]["cost"]["souls"] = 0
+GameData["leader_2"] = Reference([[tables\squad_leader_detail.lua]])
+GameData["leader_2"]["cost_time"]["cost"]["faith"] = 0
+GameData["leader_2"]["cost_time"]["cost"]["souls"] = 0
+GameData["leader_3"] = Reference([[tables\squad_leader_detail.lua]])
+GameData["leader_3"]["cost_time"]["cost"]["faith"] = 0
+GameData["leader_3"]["cost_time"]["cost"]["souls"] = 0
+GameData["leader_4"] = Reference([[tables\squad_leader_detail.lua]])
+GameData["leader_4"]["cost_time"]["cost"]["faith"] = 0
+GameData["leader_4"]["cost_time"]["cost"]["souls"] = 0
+GameData["max_leaders"] = 1
+GameData["multi_with_reinforce"] = false
+GameData["multi_with_upgrades"] = false

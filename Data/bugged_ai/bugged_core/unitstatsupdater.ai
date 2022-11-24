@@ -1,0 +1,64 @@
+----------------------------------------
+-- File: 'unitstatsupdater.ai'
+-- Edited by Kaiser 07.2007
+
+class 'UnitStatsUpdater'
+
+
+
+function UnitStatsUpdater:__init()
+	self.unitsRating = {
+	}
+	self.unitsRatingModifier ={
+	}
+end
+
+function UnitStatsUpdater:GetUnitRating (sUnitName, unit_stats)
+	local localUnitRatingModifier = 1
+	if self.unitsRatingModifier[sUnitName] ~= nil then
+		localUnitRatingModifier = self.unitsRatingModifier[sUnitName]
+	end
+	local localUnitRating = 1
+	if self.unitsRating[sUnitName]== nil then
+		--the unit is not listed here, so use default rating
+		--aitrace ("UnitStatsUpdater: "..sUnitName.." is not in internal table so its rating cannot be updated")
+		if unit_stats== nil then
+			--aitrace ("UnitStatsUpdater: there was no unit stat")
+			return 0
+		else
+			localUnitRating =  unit_stats:GetClassRating() * localUnitRatingModifier
+			--aitrace ("UnitStatsUpdater: "..unit_stats:GetSquadName().." has this default rating: "..string.format("%5.2f",localUnitRating))
+		end
+	else
+		localUnitRating = self.unitsRating[sUnitName] * localUnitRatingModifier
+		--aitrace ("UnitStatsUpdater: "..sUnitName.." has this rating: "..string.format("%5.2f",localUnitRating))
+	end
+	return localUnitRating
+end
+
+function UnitStatsUpdater:AddSquadRating (sUnitName, rating)
+
+	if self.unitsRating[sUnitName]== nil then
+		aitrace ("UnitStatsUpdater: Adding "..sUnitName.." to the rating table. Rating = "..string.format("%5.2f",rating))
+		self.unitsRating[sUnitName]= rating
+	else
+		aitrace ("UnitStatsUpdater: "..sUnitName.." is in the rating table. Updating its stats, Rating = "..string.format("%5.2f",rating))
+		self.unitsRating[sUnitName]=rating
+	end
+	return
+end
+
+function UnitStatsUpdater:AddSquadRatingModifier (sUnitName, ratingModifier)
+
+	if self.unitsRatingModifier[sUnitName]== nil then
+		self.unitsRatingModifier[sUnitName] = ratingModifier
+		aitrace ("UnitStatsUpdater: Adding "..sUnitName.." to the modifier table. Added rating modifier of "..string.format("%5.2f",ratingModifier).." to a total of  "..string.format("%5.2f",self.unitsRatingModifier[sUnitName]))
+	else
+		self.unitsRatingModifier[sUnitName] =  self.unitsRatingModifier[sUnitName] * ratingModifier
+		aitrace ("UnitStatsUpdater: Adding "..sUnitName.." to the modifier table. Added rating modifier of "..string.format("%5.2f",ratingModifier).." to a total of  "..string.format("%5.2f",self.unitsRatingModifier[sUnitName]))
+	end
+	return
+end
+
+
+

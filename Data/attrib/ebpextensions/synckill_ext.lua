@@ -1,0 +1,15 @@
+GameData = Inherit([[]])
+GameData["chance"] = 1
+GameData["synckillinfos"] = Reference([[tables\synckill_table.lua]])
+GameData["synckillinfos"]["synckillinfo_01"]["chance"] = 3
+GameData["synckillinfos"]["synckillinfo_01"]["distance"] = 2
+GameData["synckillinfos"]["synckillinfo_01"]["killer_motion_name"] = [[SyncKill_1]]
+GameData["synckillinfos"]["synckillinfo_01"]["synckill_id"] = Reference([[type_synckillids\sk_id_01.lua]])
+GameData["synckillinfos"]["synckillinfo_02"]["chance"] = 3
+GameData["synckillinfos"]["synckillinfo_02"]["distance"] = 2
+GameData["synckillinfos"]["synckillinfo_02"]["killer_motion_name"] = [[SyncKill_2]]
+GameData["synckillinfos"]["synckillinfo_02"]["synckill_id"] = Reference([[type_synckillids\sk_id_02.lua]])
+GameData["synckillinfos"]["synckillinfo_03"]["chance"] = 3
+GameData["synckillinfos"]["synckillinfo_03"]["distance"] = 2
+GameData["synckillinfos"]["synckillinfo_03"]["killer_motion_name"] = [[SyncKill_3]]
+GameData["synckillinfos"]["synckillinfo_03"]["synckill_id"] = Reference([[type_synckillids\sk_id_03.lua]])

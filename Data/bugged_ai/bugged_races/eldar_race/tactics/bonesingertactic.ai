@@ -1,0 +1,16 @@
+----------------------------------------
+-- File: 'bonesingertactic.ai'
+-- Edited by Thudmeizer @ 02.08.2007
+
+class 'BonesingerTactic' (EngineerTactic)
+
+function BonesingerTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Bonesinger Tactic")
+end
+
+function BonesingerTactic:IsAffectedByMorale()
+	return false
+end
+
+

@@ -1,0 +1,191 @@
+----------------------------------------
+-- File: 'orkloader.ai'
+-- Edited by Thudmeizer @ 16.09.2008
+
+class 'ork_race'
+
+-- Constructor
+function ork_race:__init()
+
+end
+
+-- Returns the name of the race
+function ork_race:GetRaceName()
+	return "ork_race"
+end
+
+-- This function is called if orks are the race being played
+function ork_race:LoadRace( eDifficulty )
+	
+	-- Import strategies
+	import( 'Races/ork_race/Strategies/OrkBuildBaseStrategy.ai' )
+	
+	-- Import strategy info
+	import( "Races/ork_race/Strategies/OrkStrategyInfo.ai" )
+	
+	-- Import tactics
+	import( 'Races/ork_race/Tactics/OrkInfantryTactic.ai' )
+	import( 'Races/ork_race/Tactics/OrkVehicleTactic.ai' )
+	import( 'Races/ork_race/Tactics/BadDokTactic.ai' )
+	import( 'Races/ork_race/Tactics/WarBossTactic.ai' )
+	import( 'Races/ork_race/Tactics/MekBoyTactic.ai' )
+	import( 'Races/ork_race/Tactics/StormBoyzTactic.ai' )
+	import( 'Races/ork_race/Tactics/ArdBoyzTactic.ai' )
+	import( 'Races/ork_race/Tactics/SluggaBoyzTactic.ai' )
+	import( 'Races/ork_race/Tactics/TankbustaTactic.ai' )
+	import( 'Races/ork_race/Tactics/NobzTactic.ai' )
+	import( 'Races/ork_race/Tactics/MegaNobzTactic.ai' )
+	import( 'Races/ork_race/Tactics/ShootaTactic.ai' )
+	import( 'Races/ork_race/Tactics/GrotTactic.ai' )
+	import( 'Races/ork_race/Tactics/KillaKanTactic.ai' )
+	import( 'Races/ork_race/Tactics/WarTrakTactic.ai' )
+	import( 'Races/ork_race/Tactics/WartrukkTactic.ai' )
+	import( 'Races/ork_race/Tactics/SquiggothTactic.ai' )
+
+	--Prepare unit rating, this will be used intead of rating for our units (not for the enemy units!!!)
+	--If a unit is not listed here it will use the default rating
+	unitStatsUpdater:AddSquadRating ( "ork_squad_ard_boys" , 4)
+	unitStatsUpdater:AddSquadRating ( "ork_squad_bad_dok" , 6)
+	unitStatsUpdater:AddSquadRating ( "ork_flash_gitz_squad" , 7)
+	unitStatsUpdater:AddSquadRating ( "ork_squad_grot" , 0)
+	unitStatsUpdater:AddSquadRating ( "ork_squad_killa_kan" , 5)
+	unitStatsUpdater:AddSquadRating ( "ork_squad_looted_tank" , 8)
+	unitStatsUpdater:AddSquadRating ( "ork_squad_mega_armored_nobz" , 8)
+	unitStatsUpdater:AddSquadRating ( "ork_squad_mek_boy", 7)
+	unitStatsUpdater:AddSquadRating ( "ork_squad_nob", 5)
+	unitStatsUpdater:AddSquadRating ( "ork_squad_shoota_boy" , 4)
+	unitStatsUpdater:AddSquadRating ( "ork_squad_slugga" , 3)
+	unitStatsUpdater:AddSquadRating ( "ork_squad_squiggoth" , 10)
+	unitStatsUpdater:AddSquadRating ( "ork_squad_stormboy" , 4)
+	unitStatsUpdater:AddSquadRating ( "ork_squad_tankbusta" , 6)
+	unitStatsUpdater:AddSquadRating ( "ork_squad_trukk" , 4)
+	unitStatsUpdater:AddSquadRating ( "ork_squad_warboss" , 8)
+	unitStatsUpdater:AddSquadRating ( "ork_squad_wartrak" , 5)
+	return true
+end
+
+-- This function is called even if orks are not the race being played
+function ork_race:LoadGlobalInfo()
+		
+	-- Import info files
+	import( 'Races/ork_race/Info/orkunitstats.ai' )
+		
+	-- Add ork unit stats
+	table.insert(UnitStats, OrkUnitStats)
+	return true
+end
+
+-- Creates build base strategy
+function ork_race:CreateBuildBaseStrategy()
+	return OrkBuildBaseStrategy(BuildBaseStrategyInfo)
+end
+
+-- Creates a special tactic for an ork unit
+function ork_race:CreateTactic(oSquadAI)
+
+	-- Get unit name and class
+	local sUnitName = oSquadAI:GetSquadName()
+	local eClass = oSquadAI:GetStats():GetClass()
+	
+	-- Check if there is a special tactic for the unit available
+	if (sUnitName == "ork_squad_grot") then
+		return GrotTactic(oSquadAI)
+	elseif (sUnitName == "ork_squad_stormboy") then
+		return StormBoyzTactic(oSquadAI)
+	elseif (sUnitName == "ork_squad_ard_boys") then
+		return ArdBoyzTactic(oSquadAI)
+	elseif (sUnitName == "ork_squad_slugga") then
+		return SluggaBoyzTactic(oSquadAI)
+	elseif (sUnitName == "ork_squad_tankbusta") then
+		return TankbustaTactic(oSquadAI)
+	elseif (sUnitName == "ork_squad_shoota_boy") then
+		return ShootaTactic(oSquadAI)
+	elseif (sUnitName == "ork_squad_bad_dok") then
+		return BadDokTactic(oSquadAI)
+	elseif (sUnitName == "ork_squad_nob") then
+		return NobzTactic(oSquadAI)
+	elseif (sUnitName == "ork_squad_mega_armored_nobz") then
+		return MegaNobzTactic(oSquadAI)
+	elseif (sUnitName == "ork_squad_mek_boy") then
+		return MekBoyTactic(oSquadAI)
+	elseif (sUnitName == "ork_squad_warboss") then
+		return WarBossTactic(oSquadAI)
+	elseif (sUnitName == "ork_squad_killa_kan") then
+		return KillaKanTactic(oSquadAI)
+	elseif (sUnitName == "ork_squad_wartrak") then
+		return WarTrakTactic(oSquadAI)
+	elseif (sUnitName == "ork_squad_trukk") then
+		return WartrukkTactic(oSquadAI)
+	elseif (sUnitName == "ork_squad_squiggoth") then
+		return SquiggothTactic(oSquadAI)
+	elseif (oSquadAI:IsEngineer()) then
+		return nil
+	elseif (eClass == UnitStatsAI.UC_VehicleLow or eClass == UnitStatsAI.UC_VehicleMed or eClass == UnitStatsAI.UC_VehicleHigh) then
+		return OrkVehicleTactic(oSquadAI)
+	end
+	return OrkInfantryTactic(oSquadAI)
+end
+
+-- Creates a base tactic
+function ork_race:CreateBaseTactic(oBuilding)
+	return nil
+end
+
+-- Returns a specific information
+function ork_race:GetInfo(sType)
+
+	-- Check info type
+	if (sType == "TurretPower") then
+		return 350
+	elseif (sType == "SupportAllyFactor") then
+		return 7 / 4
+	elseif (sType == "AttackModifier") then
+		return 10
+	elseif (sType == "CriticalRangeIncreasePerTier") then
+		return 10
+	elseif (sType == "MinArmyStrengthPerTier") then
+		return 600
+	elseif (sType == "AttackRatio") then
+		return 4 / 5
+	elseif (sType == "RetreatRatio") then
+		return 3 / 5
+	elseif (sType == "InvisibleBuildings") then
+		return false
+	elseif (sType == "HarassingLeader") then
+		return "ork_squad_mek_boy"
+	elseif (sType == "AutoConstructBuildings") then
+		return false
+	end
+	return nil
+end
+
+-- Returns the building type and threat
+function ork_race:GetBuildingType(sBuildingName)
+
+	-- Return race specific object string
+	if (sBuildingName == "ork_hq") then
+		return "HQ", 250
+		
+	elseif (sBuildingName == "ork_generator") then
+		return "Generator", 0
+		
+	elseif (sBuildingName == "ork_bigger_generator") then
+		return "BiggerGenerator", 0
+		
+	elseif (sBuildingName == "ork_mek_shop") then
+		return "VehicleBuilding", 250
+		
+	elseif (sBuildingName == "ork_pile_o_guns") then
+		return "Armoury", 250
+		
+	elseif (sBuildingName == "ork_gork_totem") then
+		return "ListeningPost", 0
+		
+	elseif (sBuildingName == "ork_waagh_banner") then
+		return "Turret", 200
+		
+	elseif (sBuildingName == "ork_mine_field") then
+		return "Mine", 150
+	end
+	return nil, 0
+end

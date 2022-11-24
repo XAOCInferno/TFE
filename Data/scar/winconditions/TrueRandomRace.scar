@@ -1,0 +1,51 @@
+g_TakenRacePicks = 
+{ 
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+}
+
+function OnGameSetup()
+	pcall(import, "TrueRandomRace/RacePrefs.lua")
+	CheckForValidListContents()
+
+	local PreviousN = -1
+	for i = 1, World_GetPlayerCount() do
+		local player = World_GetPlayerAt(i-1)
+		local RandN = World_GetRand(1,table.getn(g_AllRaces))
+		
+		local ValidRacePick = false
+		while ValidRacePick == false do
+
+			ValidRacePick = true
+			local RandN = World_GetRand(1,table.getn(g_AllRaces))
+			for j = 1, table.getn(g_TakenRacePicks) do
+				if(RandN == g_TakenRacePicks[j]) then
+					ValidRacePick = false
+				end
+			end
+		end
+		g_TakenRacePicks[i] = RandN
+
+		PreviousN = RandN
+		local tmpPlayer = Setup_Player(i-1, "", g_AllRaces[RandN], i)
+		Misc_PlayerTeamColor(tmpPlayer, g_AllPaints[World_GetRand(1,table.getn(g_AllPaints))])	
+	end
+
+end
+
+function CheckForValidListContents() 
+
+	if(table.getn(g_AllRaces) == 0) then
+		g_Allraces = { "space_marine_race", "chaos_marine_race" }
+	end
+	
+	if(table.getn(g_AllPaints) == 0) then
+		g_AllPaints = { "default_0" }
+	end
+end

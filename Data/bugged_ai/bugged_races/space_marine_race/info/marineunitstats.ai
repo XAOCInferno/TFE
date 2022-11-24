@@ -1,0 +1,519 @@
+----------------------------------------
+-- File: 'marineunitstats.ai'
+-- File created using automatic script made by Kaiser Soze
+-- Dont forget to check unit rating and other thing that may need manual update
+-- Updated to DoWPRO 3.0
+
+
+UnitStrengths.space_marine_squad_apothecary = 90
+UnitStrengths.space_marine_squad_assault = 65
+UnitStrengths.space_marine_squad_chaplain = 340
+UnitStrengths.space_marine_squad_dreadnought = 390
+UnitStrengths.space_marine_squad_dreadnought_hellfire = 440
+UnitStrengths.space_marine_squad_force_commander = 345
+UnitStrengths.space_marine_squad_grey_knights = 115
+UnitStrengths.space_marine_squad_land_raider = 1230
+UnitStrengths.space_marine_squad_land_speeder = 280
+UnitStrengths.space_marine_squad_librarian = 340
+UnitStrengths.space_marine_squad_predator = 625
+UnitStrengths.space_marine_squad_rhino = 295
+UnitStrengths.space_marine_squad_scout = 50
+UnitStrengths.space_marine_squad_servitor = 0
+UnitStrengths.space_marine_squad_skull_probe = 60
+UnitStrengths.space_marine_squad_tactical = 50
+UnitStrengths.space_marine_squad_terminator = 110
+UnitStrengths.space_marine_squad_terminator_assault = 110
+UnitStrengths.space_marine_squad_whirlwind = 400
+
+
+LeaderStrengths.space_marine_squad_assault = 110
+LeaderStrengths.space_marine_squad_tactical = 100
+
+Attachments.space_marine_squad_grey_knights = { "space_marine_squad_apothecary", "space_marine_squad_chaplain", "space_marine_squad_force_commander", "space_marine_squad_librarian" }
+Attachments.space_marine_squad_scout = { "space_marine_squad_apothecary", "space_marine_squad_chaplain", "space_marine_squad_force_commander", "space_marine_squad_librarian" }
+Attachments.space_marine_squad_tactical = { "space_marine_squad_apothecary", "space_marine_squad_chaplain", "space_marine_squad_force_commander", "space_marine_squad_librarian" }
+
+SpaceMarineUnitStats =
+{
+	race = "space_marine_race",
+	{
+		name = "apothecary",
+		sbp_name = "space_marine_squad_apothecary",
+		ebp_name = "apothecary",
+		class = UnitStatsAI.UC_HeavyInfantryHigh,
+		rating = 7,
+		potential =
+		{
+			{
+				name = "space_marine_chainsword_apothecary",
+				effectiveness = GenerateUnitEffectiveness(0.43,0.22,0.17,0.17,0.17,0.10,0.11,0.11,0.24,0.10,0.32,0.31,0.25,0.15),
+				range = UnitStatsAI.RT_Melee,
+			},
+		}
+	},
+	{
+		name = "assault_marine",
+		sbp_name = "space_marine_squad_assault",
+		ebp_name = "assault_marine",
+		class = UnitStatsAI.UC_HeavyInfantryMed,
+		rating = 4,
+		potential =
+		{
+			{
+				name = "space_marine_bolt_pistol_assault",
+				effectiveness = GenerateUnitEffectiveness(0.28,0.13,0.11,0.10,0.10,0.05,0.05,0.05,0.12,0.05,0.19,0.19,0.12,0.07),
+				range = UnitStatsAI.RT_ShortRanged,
+			},
+			{
+				name = "space_marine_chainsword_assault",
+				effectiveness = GenerateUnitEffectiveness(0.54,0.41,0.35,0.34,0.23,0.07,0.05,0.05,0.41,0.05,0.42,0.42,0.21,0.08),
+				range = UnitStatsAI.RT_Melee,
+			},
+		}
+	},
+	{
+		name = "chaplain",
+		sbp_name = "space_marine_squad_chaplain",
+		ebp_name = "chaplain",
+		class = UnitStatsAI.UC_Commander,
+		rating = 7,
+		potential =
+		{
+			{
+				name = "space_marine_bolt_pistol_librarian",
+				effectiveness = GenerateUnitEffectiveness(0.55,0.68,0.74,0.70,0.48,0.19,0.10,0.05,0.66,0.12,0.58,0.97,0.31,0.07),
+				range = UnitStatsAI.RT_ShortRanged,
+			},
+			{
+				name = "space_marine_plasma_pistol_librarian",
+				effectiveness = GenerateUnitEffectiveness(0.70,0.98,0.96,1.01,0.69,0.28,0.14,0.06,0.57,0.18,1.26,1.40,0.45,0.13),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_crozius_arcanum",
+				effectiveness = GenerateUnitEffectiveness(3.35,2.32,2.13,1.99,1.79,1.02,0.88,1.40,2.49,2.63,3.92,1.66,1.20,0.83),
+				range = UnitStatsAI.RT_Melee,
+			},
+		}
+	},
+	{
+		name = "dreadnought",
+		sbp_name = "space_marine_squad_dreadnought",
+		ebp_name = "dreadnought",
+		class = UnitStatsAI.UC_VehicleMed,
+		rating = 3,
+		potential =
+		{
+			{
+				name = "space_marine_dreadnought_fist",
+				effectiveness = GenerateUnitEffectiveness(4.40,2.08,1.96,2.19,2.00,4.09,3.74,2.31,2.85,1.97,3.10,3.18,2.21,2.04),
+				range = UnitStatsAI.RT_Melee,
+			},
+			{
+				name = "space_marine_dreadnought_fist_twin",
+				effectiveness = GenerateUnitEffectiveness(3.59,2.08,1.96,2.19,2.00,4.09,3.74,2.31,2.69,1.97,3.10,3.18,2.21,2.04),
+				range = UnitStatsAI.RT_Melee,
+			},
+			{
+				name = "space_marine_flamer_dreadnought",
+				effectiveness = GenerateUnitEffectiveness(2.13,0.28,0.24,0.18,0.15,0.15,0.11,0.03,1.35,0.06,0.47,0.47,0.60,0.19),
+				range = UnitStatsAI.RT_ShortRanged,
+			},
+		}
+	},
+	{
+		name = "dreadnought_hellfire_variant",
+		sbp_name = "space_marine_squad_dreadnought_hellfire",
+		ebp_name = "dreadnought_hellfire_variant",
+		class = UnitStatsAI.UC_VehicleMed,
+		rating = 6,
+		potential =
+		{
+			{
+				name = "space_marine_assault_cannon_dreadnought",
+				effectiveness = GenerateUnitEffectiveness(0.92,1.08,0.99,0.65,0.34,0.44,0.13,0.11,0.47,0.16,0.58,0.53,0.59,0.23),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_lascannon_twin_dreadnought",
+				effectiveness = GenerateUnitEffectiveness(1.77,0.27,0.27,0.25,0.52,4.49,3.73,2.34,0.36,0.64,0.66,3.18,3.00,1.68),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_missile_launcher_dreadnought",
+				effectiveness = GenerateUnitEffectiveness(0.63,0.10,0.10,0.10,0.10,0.95,1.01,0.77,0.21,0.14,0.25,1.28,1.06,0.95),
+				range = UnitStatsAI.RT_Ranged,
+			},
+		}
+	},
+	{
+		name = "force_commander",
+		sbp_name = "space_marine_squad_force_commander",
+		ebp_name = "force_commander",
+		class = UnitStatsAI.UC_Commander,
+		rating = 7,
+		potential =
+		{
+			{
+				name = "space_marine_bolt_pistol_forcecommander",
+				effectiveness = GenerateUnitEffectiveness(0.71,0.82,0.80,0.84,0.58,0.23,0.12,0.05,0.79,0.15,0.89,1.17,0.39,0.07),
+				range = UnitStatsAI.RT_ShortRanged,
+			},
+			{
+				name = "space_marine_plasma_pistol_commander",
+				effectiveness = GenerateUnitEffectiveness(0.84,1.17,1.15,1.21,0.83,0.33,0.17,0.08,0.69,0.21,1.51,1.67,0.54,0.11),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_bolt_pistol_combi_chaingun_forcecommander",
+				effectiveness = GenerateUnitEffectiveness(0.97,1.40,1.37,1.44,0.99,0.66,0.42,0.27,0.81,0.25,1.80,2.00,0.64,0.11),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_chainsword_force_commander",
+				effectiveness = GenerateUnitEffectiveness(2.31,2.19,2.01,1.88,1.69,0.96,0.83,1.32,2.97,4.52,2.88,1.57,1.13,0.78),
+				range = UnitStatsAI.RT_Melee,
+			},
+			{
+				name = "space_marine_power_sword_force_commander",
+				effectiveness = GenerateUnitEffectiveness(2.45,2.57,2.37,2.21,1.99,1.13,0.97,1.55,3.44,5.31,3.38,1.84,1.33,0.92),
+				range = UnitStatsAI.RT_Melee,
+			},
+			{
+				name = "space_marine_daemon_hammer",
+				effectiveness = GenerateUnitEffectiveness(2.76,3.41,3.13,2.93,2.63,1.49,1.29,2.05,4.46,7.03,4.47,2.43,1.76,1.22),
+				range = UnitStatsAI.RT_Melee,
+			},
+		}
+	},
+	{
+		name = "grey_knights",
+		sbp_name = "space_marine_squad_grey_knights",
+		ebp_name = "grey_knights",
+		class = UnitStatsAI.UC_HeavyInfantryHigh,
+		rating = 4,
+		potential =
+		{
+			{
+				name = "space_marine_storm_bolter_grey_knights",
+				effectiveness = GenerateUnitEffectiveness(0.33,0.31,0.27,0.30,0.25,0.11,0.06,0.05,0.29,0.05,0.25,0.37,0.28,0.22),
+				range = UnitStatsAI.RT_ShortRanged,
+			},
+			{
+				name = "space_marine_halberd_grey_knight",
+				effectiveness = GenerateUnitEffectiveness(1.30,0.98,0.88,0.84,0.82,0.37,0.23,0.15,1.45,1.73,1.10,0.87,0.52,0.18),
+				range = UnitStatsAI.RT_Melee,
+			},
+		}
+	},
+	{
+		name = "land_raider",
+		sbp_name = "space_marine_squad_land_raider",
+		ebp_name = "land_raider",
+		class = UnitStatsAI.UC_VehicleHigh,
+		rating = 10,
+		potential =
+		{
+			{
+				name = "space_marine_heavy_bolter_twin",
+				effectiveness = GenerateUnitEffectiveness(2.28,2.42,1.76,1.01,0.78,0.40,0.14,0.12,1.22,0.18,1.26,0.96,0.57,0.19),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_lascannon_twin_tank_right",
+				effectiveness = GenerateUnitEffectiveness(1.71,0.25,0.25,0.24,0.49,4.25,3.53,2.22,0.35,0.61,0.63,3.01,2.84,1.59),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_lascannon_twin_tank_left",
+				effectiveness = GenerateUnitEffectiveness(1.71,0.25,0.25,0.24,0.49,4.25,3.53,2.22,0.35,0.61,0.63,3.01,2.84,1.59),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_storm_bolter_rhino",
+				effectiveness = GenerateUnitEffectiveness(0.44,0.43,0.36,0.35,0.36,0.08,0.08,0.08,0.35,0.08,0.44,0.49,0.24,0.24),
+				range = UnitStatsAI.RT_Ranged,
+			},
+		}
+	},
+	{
+		name = "land_speeder",
+		sbp_name = "space_marine_squad_land_speeder",
+		ebp_name = "land_speeder",
+		class = UnitStatsAI.UC_VehicleLow,
+		rating = 3,
+		potential =
+		{
+			{
+				name = "space_marine_assault_cannon_landspeeder",
+				effectiveness = GenerateUnitEffectiveness(0.38,0.64,0.61,0.40,0.20,0.23,0.15,0.15,0.22,0.14,0.18,0.19,0.34,0.21),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_storm_bolter_land_speeder",
+				effectiveness = GenerateUnitEffectiveness(0.34,0.70,0.68,0.56,0.40,0.32,0.19,0.11,0.44,0.13,0.29,0.72,0.52,0.36),
+				range = UnitStatsAI.RT_Ranged,
+			},
+		}
+	},
+	{
+		name = "librarian",
+		sbp_name = "space_marine_squad_librarian",
+		ebp_name = "librarian",
+		class = UnitStatsAI.UC_Commander,
+		rating = 7,
+		potential =
+		{
+			{
+				name = "space_marine_bolt_pistol_librarian",
+				effectiveness = GenerateUnitEffectiveness(0.55,0.68,0.74,0.70,0.48,0.19,0.10,0.05,0.66,0.12,0.58,0.97,0.31,0.07),
+				range = UnitStatsAI.RT_ShortRanged,
+			},
+			{
+				name = "space_marine_plasma_pistol_librarian",
+				effectiveness = GenerateUnitEffectiveness(0.70,0.98,0.96,1.01,0.69,0.28,0.14,0.06,0.57,0.18,1.26,1.40,0.45,0.13),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_force_weapon",
+				effectiveness = GenerateUnitEffectiveness(3.15,1.58,1.43,1.60,1.45,0.83,0.70,1.54,3.39,3.99,1.45,1.04,0.88,0.52),
+				range = UnitStatsAI.RT_Melee,
+			},
+		}
+	},
+	{
+		name = "predator",
+		sbp_name = "space_marine_squad_predator",
+		ebp_name = "predator",
+		class = UnitStatsAI.UC_VehicleMed,
+		rating = 7,
+		potential =
+		{
+			{
+				name = "space_marine_autocannon",
+				effectiveness = GenerateUnitEffectiveness(0.62,0.88,0.81,0.63,0.65,1.10,1.14,0.93,0.76,0.16,0.56,1.88,1.81,1.25),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_lascannon_twin_predator",
+				effectiveness = GenerateUnitEffectiveness(1.77,0.27,0.27,0.25,0.52,4.49,3.73,2.34,0.36,0.64,0.66,3.18,3.00,1.68),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_heavy_bolter_tank_right",
+				effectiveness = GenerateUnitEffectiveness(1.29,0.88,0.69,0.45,0.23,0.61,0.32,0.16,0.61,0.15,0.56,0.60,0.25,0.18),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_lascannon_tank_right",
+				effectiveness = GenerateUnitEffectiveness(0.92,0.11,0.11,0.10,0.21,1.82,1.52,0.95,0.19,0.26,0.27,1.29,1.22,0.68),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_heavy_bolter_tank_left",
+				effectiveness = GenerateUnitEffectiveness(1.29,0.88,0.69,0.45,0.23,0.61,0.32,0.16,0.62,0.15,0.56,0.60,0.25,0.18),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_lascannon_tank_left",
+				effectiveness = GenerateUnitEffectiveness(0.92,0.11,0.11,0.10,0.21,1.82,1.52,0.95,0.19,0.26,0.27,1.29,1.22,0.68),
+				range = UnitStatsAI.RT_Ranged,
+			},
+		}
+	},
+	{
+		name = "rhino",
+		sbp_name = "space_marine_squad_rhino",
+		ebp_name = "rhino",
+		class = UnitStatsAI.UC_VehicleLow,
+		rating = 4,
+		potential =
+		{
+			{
+				name = "space_marine_storm_bolter_rhino",
+				effectiveness = GenerateUnitEffectiveness(0.44,0.43,0.36,0.35,0.36,0.08,0.08,0.08,0.35,0.08,0.44,0.49,0.24,0.24),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_flamer_rhino",
+				effectiveness = GenerateUnitEffectiveness(2.02,0.27,0.19,0.22,0.17,0.03,0.03,0.03,1.15,0.03,0.26,0.33,0.29,0.09),
+				range = UnitStatsAI.RT_ShortRanged,
+			},
+		}
+	},
+	{
+		name = "scout_marine",
+		sbp_name = "space_marine_squad_scout",
+		ebp_name = "scout_marine",
+		class = UnitStatsAI.UC_LightInfantryMed,
+		rating = 3,
+		potential =
+		{
+			{
+				name = "space_marine_bolt_pistol_scout",
+				effectiveness = GenerateUnitEffectiveness(0.27,0.17,0.17,0.12,0.09,0.03,0.04,0.03,0.14,0.03,0.11,0.08,0.08,0.05),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_flamer_scout",
+				effectiveness = GenerateUnitEffectiveness(1.97,0.18,0.13,0.11,0.07,0.03,0.03,0.03,0.81,0.03,0.06,0.20,0.18,0.06),
+				range = UnitStatsAI.RT_ShortRanged,
+			},
+			{
+				name = "space_marine_sniper_rifle",
+				effectiveness = GenerateUnitEffectiveness(0.53,0.56,0.56,0.09,0.09,0.05,0.01,0.02,0.17,0.02,0.04,0.03,0.05,0.03),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_plasma_gun_scout",
+				effectiveness = GenerateUnitEffectiveness(0.55,0.41,0.30,0.68,0.61,0.15,0.06,0.06,0.31,0.06,0.76,0.38,0.22,0.08),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_knife_pistol",
+				effectiveness = GenerateUnitEffectiveness(0.23,0.16,0.08,0.08,0.02,0.03,0.03,0.03,0.11,0.03,0.05,0.23,0.07,0.04),
+				range = UnitStatsAI.RT_Melee,
+			},
+		}
+	},
+	{
+		name = "servitor",
+		sbp_name = "space_marine_squad_servitor",
+		ebp_name = "servitor",
+		class = UnitStatsAI.UC_LightInfantryLow,
+		rating = 0,
+		potential =
+		{
+			{
+				name = "none",
+				effectiveness = GenerateUnitEffectiveness(0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00),
+				range = UnitStatsAI.RT_None,
+			},
+		}
+	},
+	{
+		name = "skull_probe",
+		sbp_name = "space_marine_squad_skull_probe",
+		ebp_name = "skull_probe",
+		class = UnitStatsAI.UC_LightInfantryMed,
+		rating = 2,
+		potential =
+		{
+			{
+				name = "none",
+				effectiveness = GenerateUnitEffectiveness(0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00),
+				range = UnitStatsAI.RT_None,
+			},
+		}
+	},
+	{
+		name = "space_marine_tactical_bolter",
+		sbp_name = "space_marine_squad_tactical",
+		ebp_name = "space_marine_tactical_bolter",
+		class = UnitStatsAI.UC_HeavyInfantryMed,
+		rating = 4,
+		potential =
+		{
+			{
+				name = "space_marine_bolter_tactical",
+				effectiveness = GenerateUnitEffectiveness(0.31,0.22,0.20,0.18,0.19,0.10,0.10,0.10,0.20,0.10,0.23,0.25,0.23,0.14),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_flamer_tactical",
+				effectiveness = GenerateUnitEffectiveness(1.97,0.18,0.13,0.11,0.07,0.03,0.03,0.03,0.81,0.03,0.06,0.33,0.36,0.11),
+				range = UnitStatsAI.RT_ShortRanged,
+			},
+			{
+				name = "space_marine_heavy_bolter_tactical",
+				effectiveness = GenerateUnitEffectiveness(1.17,1.05,0.76,0.37,0.27,0.14,0.11,0.11,0.39,0.10,0.70,0.42,0.25,0.15),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_plasma_gun",
+				effectiveness = GenerateUnitEffectiveness(0.55,0.41,0.30,0.68,0.61,0.15,0.06,0.06,0.31,0.06,0.76,0.38,0.22,0.08),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_missile_launcher_tactical",
+				effectiveness = GenerateUnitEffectiveness(0.59,0.10,0.10,0.10,0.10,0.89,1.00,0.85,0.17,0.24,0.25,0.69,0.97,0.60),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_knife_tactical",
+				effectiveness = GenerateUnitEffectiveness(0.26,0.22,0.17,0.17,0.17,0.09,0.05,0.05,0.18,0.05,0.37,0.31,0.15,0.08),
+				range = UnitStatsAI.RT_Melee,
+			},
+		}
+	},
+	{
+		name = "terminator",
+		sbp_name = "space_marine_squad_terminator",
+		ebp_name = "terminator",
+		class = UnitStatsAI.UC_HeavyInfantryHigh,
+		rating = 6,
+		potential =
+		{
+			{
+				name = "space_marine_storm_bolter",
+				effectiveness = GenerateUnitEffectiveness(0.46,0.45,0.39,0.46,0.40,0.16,0.11,0.10,0.46,0.10,0.38,0.54,0.41,0.32),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_heavy_flamer",
+				effectiveness = GenerateUnitEffectiveness(3.25,0.64,0.39,0.28,0.24,0.15,0.13,0.07,1.76,0.07,0.26,0.49,0.39,0.12),
+				range = UnitStatsAI.RT_ShortRanged,
+			},
+			{
+				name = "space_marine_assault_cannon_terminator",
+				effectiveness = GenerateUnitEffectiveness(0.27,1.02,0.93,0.66,0.43,0.33,0.11,0.06,0.46,0.16,0.67,0.41,0.44,0.08),
+				range = UnitStatsAI.RT_Ranged,
+			},
+			{
+				name = "space_marine_power_fist_terminator",
+				effectiveness = GenerateUnitEffectiveness(0.44,0.42,0.35,0.43,0.35,0.57,0.45,0.27,0.49,0.10,0.71,0.62,0.77,0.26),
+				range = UnitStatsAI.RT_Melee,
+			},
+			{
+				name = "space_marine_dummy_weapon",
+				effectiveness = GenerateUnitEffectiveness(0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00),
+				range = UnitStatsAI.RT_None,
+			},
+			{
+				name = "space_marines_cyclone_missile_launcher",
+				effectiveness = GenerateUnitEffectiveness(0.67,0.17,0.17,0.17,0.17,1.67,1.88,1.59,0.27,0.46,0.42,1.30,1.82,1.13),
+				range = UnitStatsAI.RT_Ranged,
+			},
+		}
+	},
+	{
+		name = "terminator_assault",
+		sbp_name = "space_marine_squad_terminator_assault",
+		ebp_name = "terminator_assault",
+		class = UnitStatsAI.UC_HeavyInfantryHigh,
+		rating = 5,
+		potential =
+		{
+			{
+				name = "space_marine_thunder_hammer",
+				effectiveness = GenerateUnitEffectiveness(0.46,0.45,0.39,0.46,0.40,0.16,0.11,0.10,0.46,0.10,0.38,0.54,0.41,0.32),
+				range = UnitStatsAI.RT_Ranged,
+			},
+		}
+	},
+	{
+		name = "whirlwind",
+		sbp_name = "space_marine_squad_whirlwind",
+		ebp_name = "whirlwind",
+		class = UnitStatsAI.UC_VehicleMed,
+		rating = 5,
+		potential =
+		{
+			{
+				name = "space_marine_missile_battery",
+				effectiveness = GenerateUnitEffectiveness(0.72,0.08,0.08,0.08,0.08,0.64,0.66,0.66,0.14,0.16,0.15,1.26,2.26,1.42),
+				range = UnitStatsAI.RT_Ranged,
+			},
+		}
+	},
+}

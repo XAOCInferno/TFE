@@ -1,0 +1,14 @@
+GameData = Inherit([[]])
+GameData["body_count_limit"] = 10
+GameData["pick_up_duration"] = 2
+GameData["pickup_radius_limit"] = 5
+GameData["search_radius_limit"] = 40
+GameData["spawn_slot_a_bodies_requirement"] = 2
+GameData["spawn_slot_a_entity"] = [[]]
+GameData["spawn_slot_a_squad"] = [[]]
+GameData["spawn_slot_b_bodies_requirement"] = 2
+GameData["spawn_slot_b_entity"] = [[]]
+GameData["spawn_slot_b_squad"] = [[]]
+GameData["spawn_slot_c_bodies_requirement"] = 2
+GameData["spawn_slot_c_entity"] = [[]]
+GameData["spawn_slot_c_squad"] = [[]]

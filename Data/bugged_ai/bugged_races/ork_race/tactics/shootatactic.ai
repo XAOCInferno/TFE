@@ -1,0 +1,59 @@
+----------------------------------------
+-- File: 'shootatactic.ai'
+-- Edited by Thudmeizer @ 16.09.2008
+
+class 'ShootaTactic' (OrkInfantryTactic)
+
+function ShootaTactic:__init( squad_ai ) super( squad_ai )
+	
+	self:SetName("Shoota Tactic")
+end
+
+function ShootaTactic:CheckDance(oSquad)
+
+	-- Check opponent
+	if (oSquad == nil) then
+		return false
+	end
+	
+	-- Check opponent
+	if (oSquad:GetSquadName() == "chaos_squad_cultist") then
+		return false
+	end
+	if (oSquad:GetSquadName() == "chaos_squad_cultist") then
+		return false
+	end
+	if (oSquad:GetSquadName() == "chaos_squad_cultist") then
+		return false
+	end
+	return true
+end
+
+function ShootaTactic:Upgrade()
+
+	-- Check if we can upgrade
+	if (not self.squad_ai:HasUpgradableTrooper()) then
+		return
+	end
+
+	-- If I am broken, don't upgrade!
+	if (self:IsAffectedByMorale() and self.squad_ai:IsBroken()) then
+		return
+	end	
+	
+	-- Only upgrade in healthy state
+	if (self.squad_ai:GetNumTroopers() < self.squad_ai:GetMaxTroopers() * 0.6 or self.squad_ai:GetHealthPercentage() < 0.5 or self.squad_ai:IsUnderAttack()) then
+		return
+	end
+	
+	-- Upgrade to big shoota and rokkit launcha
+	if (math.random(1, 4) < 4 or cpu_manager:GetTierLevel() < 2) then
+	
+		-- Upgrade to big shoota
+		self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_LightInfantryMed)
+	else
+		-- Upgrade to rokkit launcha
+		self.squad_ai:DoBestUpgrade(UnitStatsAI.UC_VehicleMed)
+	end
+end
+
