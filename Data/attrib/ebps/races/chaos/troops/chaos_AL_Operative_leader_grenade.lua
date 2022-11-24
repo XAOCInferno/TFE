@@ -704,6 +704,9 @@ GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_45"]["shield_of_
 GameData["modifier_ext"] = Reference([[ebpextensions\modifier_ext.lua]])
 GameData["moving_ext"] = Reference([[ebpextensions\moving_ext.lua]])
 GameData["moving_ext"]["speed_max"] = 20
+GameData["requirement_ext"] = Reference([[ebpextensions\requirement_ext.lua]])
+GameData["requirement_ext"]["requirements"]["required_10"] = Reference([[requirements\required_structure.lua]])
+GameData["requirement_ext"]["requirements"]["required_10"]["structure_name"] = [[ebps\races\chaos\structures\chaos_armoury.lua]]
 GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
 GameData["sight_ext"]["sight_radius"] = 45
 GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
