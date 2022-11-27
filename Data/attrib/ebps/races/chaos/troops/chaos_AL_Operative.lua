@@ -1,10 +1,7 @@
 GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
-GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\chaos_AL_operative_sight_grenade.lua]]
 GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\chaos_AL_PossessTurret.lua]]
 GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\chaos_AL_SnareMine.lua]]
-GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\chaos_AL_ambush_operatives.lua]]
-GameData["ability_ext"]["abilities"]["ability_05"] = [[abilities\chaos_AL_DemoTrap.lua]]
 GameData["ability_ext"]["abilities"]["ability_11"] = [[abilities\generic_auto_force_reload_burst_quick.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Main]]
