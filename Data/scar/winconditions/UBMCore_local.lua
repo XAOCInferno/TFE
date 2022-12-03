@@ -2,7 +2,7 @@ Localization =
 {
 exclusive = false,
 victory_condition = false,
-always_on = true,
+always_on = false,
 title = "UBM",
 win_message = "",
 lose_message = "",
