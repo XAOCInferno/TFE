@@ -1,3 +1,5 @@
+import("TrueRandomRace/RacePrefs.lua")
+
 g_TakenRacePicks = 
 { 
 	-1,
@@ -11,7 +13,6 @@ g_TakenRacePicks =
 }
 
 function OnGameSetup()
-	pcall(import, "TrueRandomRace/RacePrefs.lua")
 	CheckForValidListContents()
 
 	local PreviousN = -1
