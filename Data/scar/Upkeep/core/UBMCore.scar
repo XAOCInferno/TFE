@@ -1,5 +1,6 @@
 import("player.scar")
 import("groupcallers.scar")
+import("scarutil.scar")
 import("upkeep/core/GlobalsStorage.scar")
 
 function UBM_Load()
@@ -12,7 +13,6 @@ function Rule_ActivateUpkeep()
 	UIWarning_Show("Army Upkeep has now been activated!")	
 	EventCue_DoEvent( 'ingame/event_cue_icons/custom/warning', 'music/stinger_completeobjective', 'Army Upkeep Activated!', 'Your army will now drain resources.' )
 	Rule_AddInterval(Rule_CalculateUpkeep, g_UpkeepCalculateRate)
-	--Rule_AddInterval(Rule_ImplementUpkeep, g_UpkeepImplementRate)
 
 end
 
@@ -38,9 +38,6 @@ function SetupMature()
 	World_GetStrategicPoints(EGroup_CreateIfNotFound( "tmpAllStratPoints" ) )
 	EGroup_ForEachEx(EGroup_FromName("tmpAllStratPoints"),  SetupNewPoint, true, true)
 	Rule_AddOneShot(Rule_ActivateMature, g_MatureActivationDelay)
-
-	--UI_ShowCount( "Cnt_BonusRes1", g_AllPlayers[0], 5900000, 0)
-	--UI_ShowCount( "Cnt_BonusRes2", g_AllPlayers[1], 5900000, 0)
 end
 
 function CheckForGlobals() 
@@ -50,11 +47,6 @@ function CheckForGlobals()
 
 		if(g_PlayerGlobalStatus[i].ReqSecond == false) then
 			if(g_PlayerGlobalStatus[i].ReqFirst == false) then
-				print(g_AllPlayers[i])
-				print(ResourceGlobalNames)
-				print(ResourceGlobalNames[tmpRace])
-				print(ResourceGlobalNames[tmpRace].Req)
-				print(ResourceGlobalNames[tmpRace].Req.First)
 				if(Player_GetResearchState( g_AllPlayers[i], ResourceGlobalNames[tmpRace].Req.First ) == "RS_Complete" ) then
 					g_PlayerGlobalStatus[i].ReqFirst = true
 				end
@@ -282,7 +274,7 @@ function Rule_ImplementUpkeep()
 	if(g_HasDoneInitUpkeepRun) then
 		--Check if player is alive or nah?..
 		for i = 1, g_PlayerCount do
-			print(g_BonusIncome[i].Req)
+			--print(g_BonusIncome[i].Req)
 			Player_AddResource(g_AllPlayers[i], RT_Requisition, g_BonusIncome[i].Req)
 			Player_AddResource(g_AllPlayers[i], RT_Power, g_BonusIncome[i].Power)
 			Player_AddResource(g_AllPlayers[i], RT_Faith, g_BonusIncome[i].Faith)
@@ -290,9 +282,6 @@ function Rule_ImplementUpkeep()
 
 
 		end
-			
-		--UI_ShowCountUpdate( "Cnt_BonusRes1", g_BonusIncome[0].Req )
-		--UI_ShowCountUpdate( "Cnt_BonusRes2", g_BonusIncome[1].Req )
 	end
 
 end
