@@ -287,7 +287,7 @@ commandsmall_buttons =
 	combat_stance	= list_commands[13],--7
 	melee_stance  	= list_commands[14],--8
 
-	move 			= list_commands[2], 
+	--move 			= list_commands[2], 
 	stop 			= list_commands[1],	
 	--attack				= list_commands[3],
 	attack_melee	= list_commands[4],
@@ -307,7 +307,7 @@ commandsmall_buttons =
 	holy_passion	= list_commands[5],
 	harvest		= list_commands[9],--6
 	harvest_off		= list_commands[8],--6
-	attack_ground		= list_commands[11], --list_commands[6], -- "Upgrade04", 
+	attack_ground		= list_commands[2], --temporary move this later --list_commands[11], --list_commands[6], -- "Upgrade04", 
 	unload_here		= list_commands[12],--6
 	deepstrike		= list_commands[12],--6
 	unload			= list_commands[12],--6
