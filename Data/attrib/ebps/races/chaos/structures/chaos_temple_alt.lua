@@ -259,6 +259,7 @@ GameData["sight_ext"]["sight_radius"] = 15
 GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
 GameData["sim_entity_ext"]["is_collide"] = true 
 GameData["spawner_ext"] = Reference([[ebpextensions\spawner_ext.lua]])
+GameData["spawner_ext"]["squad_table"]["squad_01"] = [[sbps\races\chaos\chaos_al_marine_squad.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_02"] = [[sbps\races\chaos\chaos_squad_lord_AL.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_03"] = [[sbps\races\chaos\chaos_AL_Operative_squad.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_04"] = [[sbps\races\chaos\chaos_squad_cultist_flame.lua]]
