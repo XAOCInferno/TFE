@@ -1,0 +1,10 @@
+function FORCE_AL()	
+	Rule_AddOneShot(FORCE_AL_Implement, 0.1)
+end
+
+function FORCE_AL_Implement()	
+	g_AlphaLegionSpawnChance = 1000
+end
+
+-- Init SCAR
+Scar_AddInit(FORCE_AL)

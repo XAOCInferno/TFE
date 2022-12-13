@@ -4,9 +4,33 @@
 
 class 'ShootaTactic' (OrkInfantryTactic)
 
+Shoota = {}
+
 function ShootaTactic:__init( squad_ai ) super( squad_ai )
 
 	self:SetName("Shoota Tactic")
+end
+
+function ShootaTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (Shoota.waaagh_id == nil) then
+		Shoota.waaagh_id = cpu_manager.stats:GetAbilityID( "ork_waaagh_infantry" )	
+	end
+end
+
+function ShootaTactic:DoAbilities()
+
+	if (self.squad_ai:IsInCombat() and not self.squad_ai:IsCapturing() and not self.squad_ai:IsBroken()) then
+
+		-- Check if I am not moving (more accuracy)
+		if (not self:IsMoving()) then
+
+			if (self.squad_ai:CanDoAbility( Shoota.waaagh_id )) then
+				self.squad_ai:DoSpecialAbility( Shoota.waaagh_id )				
+			end
+		end		
+	end
 end
 
 function ShootaTactic:Reinforce()

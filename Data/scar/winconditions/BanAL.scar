@@ -1,0 +1,10 @@
+function BAN_AL()	
+	Rule_AddOneShot(BAN_AL_Implement, 0.1)
+end
+
+function BAN_AL_Implement()	
+	g_AlphaLegionSpawnChance = -1000
+end
+
+-- Init SCAR
+Scar_AddInit(BAN_AL)

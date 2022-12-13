@@ -20,6 +20,9 @@ function StormBoyzTactic:InitAbilities()
 	if (StormBoyz.stikkbombs_id == nil) then
 		StormBoyz.stikkbombs_id = cpu_manager.stats:GetAbilityID("ork_stikkbombs")
 	end
+	if (StormBoyz.waaagh_id == nil) then
+		StormBoyz.waaagh_id = cpu_manager.stats:GetAbilityID( "ork_waaagh_infantry" )	
+	end
 end
 
 function StormBoyzTactic:DoAbilities()
@@ -27,6 +30,17 @@ function StormBoyzTactic:DoAbilities()
 	-- Check if jump squad can speed up with boost
 	if ((not self.squad_ai:IsInCombat() and self.squad_ai:IsInStateMove()) or self.stateID ~= Tactic.StateID.NoState) then
 		Ability.DoAbility(self.squad_ai, StormBoyz.boost_id)
+	end
+
+	if (self.squad_ai:IsInCombat() and not self.squad_ai:IsCapturing() and not self.squad_ai:IsBroken()) then
+
+		-- Check if I am moving (probably running towards enemy)
+		if (self:IsMoving()) then
+
+			if (self.squad_ai:CanDoAbility( StormBoyz.waaagh_id )) then
+				self.squad_ai:DoSpecialAbility( StormBoyz.waaagh_id )				
+			end
+		end		
 	end
 
 	-- Try to use stikk bomb ability

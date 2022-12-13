@@ -1,0 +1,27 @@
+class 'StikkbombaTactic' (OrkInfantryTactic)
+
+Stikkbomba = {}
+
+function StikkbombaTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Stikkbomba Tactic")
+end
+
+function StikkbombaTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (Stikkbomba.waaagh_id == nil) then
+		Stikkbomba.waaagh_id = cpu_manager.stats:GetAbilityID( "ork_waaagh_infantry" )	
+	end
+end
+
+function StikkbombaTactic:DoAbilities()
+
+	if (self.squad_ai:IsInCombat() and not self.squad_ai:IsCapturing() and not self.squad_ai:IsBroken()) then
+
+		if (self.squad_ai:CanDoAbility( Stikkbomba.waaagh_id )) then
+			self.squad_ai:DoSpecialAbility( Stikkbomba.waaagh_id )				
+		end	
+	end
+end
+

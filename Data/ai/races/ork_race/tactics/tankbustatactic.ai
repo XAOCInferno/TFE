@@ -6,6 +6,7 @@ class 'TankbustaTactic' (OrkInfantryTactic)
 
 Tankbusta = {}
 
+
 function TankbustaTactic:__init( squad_ai ) super( squad_ai )
 
 	self:SetName("Tankbusta Tactic")
@@ -17,6 +18,10 @@ function TankbustaTactic:InitAbilities()
 	if (Tankbusta.bomb_id == nil) then
 		Tankbusta.bomb_id = cpu_manager.stats:GetAbilityID("ork_tankbusta_bombs")
 	end
+
+	if (Tankbusta.waaagh_id == nil) then
+		Tankbusta.waaagh_id = cpu_manager.stats:GetAbilityID( "ork_waaagh_infantry" )	
+	end
 end
 
 function TankbustaTactic:DoAbilities()
@@ -26,6 +31,17 @@ function TankbustaTactic:DoAbilities()
 	
 	-- Call basic DoAbilities methods
 	OrkInfantryTactic.DoAbilities(self)
+
+	if (self.squad_ai:IsInCombat() and not self.squad_ai:IsCapturing() and not self.squad_ai:IsBroken()) then
+
+		-- Check if I am not moving (more accuracy)
+		if (not self:IsMoving()) then
+
+			if (self.squad_ai:CanDoAbility( Tankbusta.waaagh_id )) then
+				self.squad_ai:DoSpecialAbility( Tankbusta.waaagh_id )				
+			end
+		end		
+	end
 end
 
 function TankbustaTactic:CheckDance(oSquad)

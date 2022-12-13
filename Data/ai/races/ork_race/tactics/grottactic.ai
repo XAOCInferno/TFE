@@ -4,9 +4,29 @@
 
 class 'GrotTactic' (EngineerTactic)
 
+Ork = {}
+
 function GrotTactic:__init( squad_ai ) super( squad_ai )
 
 	self:SetName("Grot Tactic")
+end
+
+function GrotTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (Ork.waaagh_id == nil) then
+		Ork.waaagh_id = cpu_manager.stats:GetAbilityID( "ork_waaagh_infantry_grot" )	
+	end
+end
+
+function GrotTactic:DoAbilities()
+
+	if (self.squad_ai:IsInCombat() and self.squad_ai:IsBroken()) then
+
+		if (self.squad_ai:CanDoAbility( Ork.waaagh_id )) then
+			self.squad_ai:DoSpecialAbility( Ork.waaagh_id )				
+		end	
+	end
 end
 
 function GrotTactic:Reinforce()

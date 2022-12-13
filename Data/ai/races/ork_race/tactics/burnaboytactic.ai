@@ -1,0 +1,27 @@
+class 'BurnaboyTactic' (OrkInfantryTactic)
+
+Burnaboy = {}
+
+function BurnaboyTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Burnaboy Tactic")
+end
+
+function BurnaboyTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (Burnaboy.waaagh_id == nil) then
+		Burnaboy.waaagh_id = cpu_manager.stats:GetAbilityID( "ork_waaagh_infantry" )	
+	end
+end
+
+function BurnaboyTactic:DoAbilities()
+
+	if (self.squad_ai:IsInCombat() and not self.squad_ai:IsCapturing() and not self.squad_ai:IsBroken()) then
+
+		if (self.squad_ai:CanDoAbility( Burnaboy.waaagh_id )) then
+			self.squad_ai:DoSpecialAbility( Burnaboy.waaagh_id )				
+		end	
+	end
+end
+

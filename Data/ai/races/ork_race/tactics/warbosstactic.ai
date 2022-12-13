@@ -26,11 +26,24 @@ function WarBossTactic:InitAbilities()
 	if (WarBoss.waagh == nil) then
 		WarBoss.waagh = cpu_manager.stats:GetAbilityID( "ork_power_of_waagh" )
 	end
+	if (WarBoss.waaagh_id == nil) then
+		WarBoss.waaagh_id = cpu_manager.stats:GetAbilityID( "ork_waaagh_infantry_commander" )	
+	end
 end
 
 function WarBossTactic:DoAbilities()
 
 	Ability.DoAbility( self.squad_ai, WarBoss.waagh, Ability.Filters.IsInCombat ) 
+	if (self.squad_ai:IsInCombat() and not self.squad_ai:IsCapturing() and not self.squad_ai:IsBroken()) then
+
+		-- Check if I am moving (probably running towards enemy)
+		if (self:IsMoving()) then
+
+			if (self.squad_ai:CanDoAbility( WarBoss.waaagh_id )) then
+				self.squad_ai:DoSpecialAbility( WarBoss.waaagh_id )				
+			end
+		end		
+	end
 end
 
 function WarBossTactic:Update()

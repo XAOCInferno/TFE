@@ -40,6 +40,9 @@ function ork_race:LoadRace( eDifficulty )
 	import( 'Races/ork_race/Tactics/MegaNobzTactic.ai' )
 	import( 'Races/ork_race/Tactics/ShootaTactic.ai' )
 	import( 'Races/ork_race/Tactics/GrotTactic.ai' )
+	import( 'Races/ork_race/Tactics/GitzTactic.ai' )
+	import( 'Races/ork_race/Tactics/BurnaboyTactic.ai' )
+	import( 'Races/ork_race/Tactics/StikkbombaTactic.ai' )
 	return true
 end
 
@@ -85,6 +88,12 @@ function ork_race:CreateTactic(oSquadAI)
 		return NobzTactic(oSquadAI)
 	elseif (sUnitName == "ork_squad_armored_nob") then
 		return MegaNobzTactic(oSquadAI)
+	elseif (sUnitName == "ork_flash_gitz_squad") then
+		return GitzTactic(oSquadAI)
+	elseif (sUnitName == "ork_squad_burnaboy") then
+		return BurnaboyTactic(oSquadAI)
+	elseif (sUnitName == "ork_squad_stikkbomba") then
+		return StikkbombaTactic(oSquadAI)
 	elseif (sUnitName == "ork_squad_mek_boy") then
 		return MekBoyTactic(oSquadAI)
 	elseif (sUnitName == "ork_squad_warboss") then

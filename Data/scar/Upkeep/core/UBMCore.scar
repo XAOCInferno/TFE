@@ -3,8 +3,16 @@ import("groupcallers.scar")
 import("scarutil.scar")
 import("upkeep/core/GlobalsStorage.scar")
 
-function UBM_Load()
+g_AlphaLegionSpawnChance = 5
+
+function UBM_Immediate_Load()
+
 	GetAllPlayers()
+
+end
+
+function UBM_Load()
+	SetupChaos()
 	SetupMature()
 	Rule_AddOneShot(Rule_ActivateUpkeep,g_UpkeepActivationDelay)
 end
@@ -181,14 +189,36 @@ function GetAllPlayers()
 
 		if (Player_IsAlive(Player)) then
 			if RaceName == "dark_eldar_race" then
-				table.insert(g_AllDarkEldarPlayers, Player)
+				table.insert(g_AllDarkEldarPlayers, Player)			
+			elseif RaceName == "chaos_marine_race" then
+				Player_RestrictBuilding(Player, "chaos_temple")
+				Player_RestrictBuilding(Player, "chaos_temple_alt")
 			end
-		end		
+		end	
 	end
 
 	if (table.getn(g_AllDarkEldarPlayers) > 0) then
 		Rule_AddInterval(Rule_AddSouls, 1.5)
 	end	
+
+end
+
+function SetupChaos()
+
+	for i = 1, table.getn(g_AllPlayers) do
+	
+		local Player = g_AllPlayers[i]
+		local RaceName = Player_GetRaceName( Player ) 
+
+		if RaceName == "chaos_marine_race" then
+
+			if World_GetRand(0,100) < g_AlphaLegionSpawnChance then 
+				Player_UnRestrictBuilding(Player, "chaos_temple_alt")
+			else		 
+				Player_UnRestrictBuilding(Player, "chaos_temple")
+			end
+		end
+	end
 
 end
 

@@ -4,9 +4,33 @@
 
 class 'NobzTactic' (OrkInfantryTactic)
 
+Nobz = {}
+
 function NobzTactic:__init( squad_ai ) super( squad_ai )
 
 	self:SetName("Nobz Tactic")
+end
+
+function NobzTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (Nobz.waaagh_id == nil) then
+		Nobz.waaagh_id = cpu_manager.stats:GetAbilityID( "ork_waaagh_infantry_nob" )	
+	end
+end
+
+function NobzTactic:DoAbilities()
+
+	if (self.squad_ai:IsInCombat() and not self.squad_ai:IsCapturing() and not self.squad_ai:IsBroken()) then
+
+		-- Check if I am moving (probably running towards enemy)
+		if (self:IsMoving()) then
+
+			if (self.squad_ai:CanDoAbility( Nobz.waaagh_id )) then
+				self.squad_ai:DoSpecialAbility( Nobz.waaagh_id )				
+			end
+		end		
+	end
 end
 
 function NobzTactic:Reinforce()

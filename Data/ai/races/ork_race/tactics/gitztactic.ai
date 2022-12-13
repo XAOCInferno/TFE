@@ -1,0 +1,31 @@
+class 'GitzTactic' (OrkInfantryTactic)
+
+Gitz = {}
+
+function GitzTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Gitz Tactic")
+end
+
+function GitzTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (Gitz.waaagh_id == nil) then
+		Gitz.waaagh_id = cpu_manager.stats:GetAbilityID( "ork_waaagh_infantry_nob" )	
+	end
+end
+
+function GitzTactic:DoAbilities()
+
+	if (self.squad_ai:IsInCombat() and not self.squad_ai:IsCapturing() and not self.squad_ai:IsBroken()) then
+
+		-- Check if I am not moving (better accuracy if not moving)
+		if (not self:IsMoving()) then
+
+			if (self.squad_ai:CanDoAbility( Gitz.waaagh_id )) then
+				self.squad_ai:DoSpecialAbility( Gitz.waaagh_id )				
+			end
+		end		
+	end
+end
+

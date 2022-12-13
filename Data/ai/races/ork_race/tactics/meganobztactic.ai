@@ -17,6 +17,10 @@ function MegaNobzTactic:InitAbilities()
 	if (MegaNobz.surge == nil) then
 		MegaNobz.surge = cpu_manager.stats:GetAbilityID( "ork_power_surge" )
 	end
+
+	if (MegaNobz.waaagh_id == nil) then
+		MegaNobz.waaagh_id = cpu_manager.stats:GetAbilityID( "ork_waaagh_infantry_commander" )	
+	end
 end
 
 function MegaNobzTactic:DoAbilities()
@@ -29,5 +33,16 @@ function MegaNobzTactic:DoAbilities()
 		if (self.squad_ai:CanDoAbility(MegaNobz.surge)) then
 			self.squad_ai:DoSpecialAbility(MegaNobz.surge)
 		end
+	end
+
+	if (self.squad_ai:IsInCombat() and not self.squad_ai:IsCapturing() and not self.squad_ai:IsBroken()) then
+
+		-- Check if I am moving (probably running towards enemy)
+		if (self:IsMoving()) then
+
+			if (self.squad_ai:CanDoAbility( MegaNobz.waaagh_id )) then
+				self.squad_ai:DoSpecialAbility( MegaNobz.waaagh_id )				
+			end
+		end		
 	end
 end

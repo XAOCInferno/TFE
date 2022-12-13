@@ -4,6 +4,8 @@
 
 class 'SluggaBoyzTactic' (OrkInfantryTactic)
 
+Slugga = {}
+
 function SluggaBoyzTactic:__init( squad_ai ) super( squad_ai )
 
 	self:SetName("SluggaBoyz Tactic")
@@ -13,6 +15,27 @@ function SluggaBoyzTactic:AlwaysAttack()
 	return cpu_manager.cpu_player:IsResearchComplete("ork_recruitment")
 end
 
+function SluggaBoyzTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (Slugga.waaagh_id == nil) then
+		Slugga.waaagh_id = cpu_manager.stats:GetAbilityID( "ork_waaagh_infantry" )	
+	end
+end
+
+function SluggaBoyzTactic:DoAbilities()
+
+	if (self.squad_ai:IsInCombat() and not self.squad_ai:IsCapturing() and not self.squad_ai:IsBroken()) then
+
+		-- Check if I am moving (running to target probably)
+		if (self:IsMoving()) then
+
+			if (self.squad_ai:CanDoAbility( Slugga.waaagh_id )) then
+				self.squad_ai:DoSpecialAbility( Slugga.waaagh_id )				
+			end
+		end		
+	end
+end
 
 function SluggaBoyzTactic:Upgrade()
 

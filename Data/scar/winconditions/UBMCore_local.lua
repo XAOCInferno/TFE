@@ -1,8 +1,8 @@
 Localization = 
 {
 exclusive = false,
-victory_condition = true,
-always_on = false,
+victory_condition = false,
+always_on = true,
 title = "UBM",
 win_message = "",
 lose_message = "",
