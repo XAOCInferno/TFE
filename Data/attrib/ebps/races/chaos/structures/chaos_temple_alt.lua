@@ -254,6 +254,7 @@ GameData["research_ext"]["research_table"]["research_01"] = [[research\chaos_csm
 GameData["research_ext"]["research_table"]["research_02"] = [[research\chaos_csm_mark_nurgle_research.lua]]
 GameData["research_ext"]["research_table"]["research_03"] = [[research\chaos_csm_mark_tzeentch_research.lua]]
 GameData["research_ext"]["research_table"]["research_04"] = [[research\chaos_cult_melee_specialism.lua]]
+GameData["research_ext"]["research_table"]["research_05"] = [[research\chaos_AL_secret_identity.lua]]
 GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
 GameData["sight_ext"]["sight_radius"] = 15
 GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])

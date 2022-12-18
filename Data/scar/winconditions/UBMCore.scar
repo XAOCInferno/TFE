@@ -7,7 +7,7 @@ function Hero_Setup()
 	FOW_RevealAll()
 	FOW_Reset()
 	UBM_Immediate_Load()
-	Rule_AddOneShot(UBM_Load, 0.5)
+	Rule_AddOneShot(UBM_Load, 1)
 end
 
 -- Init SCAR

@@ -1,5 +1,5 @@
 function FORCE_AL()	
-	Rule_AddOneShot(FORCE_AL_Implement, 0.1)
+	Rule_AddOneShot(FORCE_AL_Implement, 0.5)
 end
 
 function FORCE_AL_Implement()	
