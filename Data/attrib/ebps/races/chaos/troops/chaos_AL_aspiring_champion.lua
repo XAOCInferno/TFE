@@ -475,7 +475,6 @@ GameData["health_ext"]["poison_spread_delay"] = 2
 GameData["health_ext"]["regeneration_rate"] = 0.5
 GameData["health_ext"]["spawn_blood_splat_on_death"] = [[ebps\environment\gameplay\blood_splat.lua]]
 GameData["health_ext"]["spawn_death_blossom"] = [[ebps\environment\gameplay\dark_eldar_death_blossom.lua]]
-GameData["infiltration_ext"] = Reference([[ebpextensions\infiltration_ext.lua]])
 GameData["melee_ext"] = Reference([[ebpextensions\melee_ext.lua]])
 GameData["melee_ext"]["melee_leap_action_name"] = [[melee_charge]]
 GameData["melee_ext"]["melee_leap_curve_ratio"] = 0.01
