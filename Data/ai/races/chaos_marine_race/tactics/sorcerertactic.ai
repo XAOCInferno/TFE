@@ -42,8 +42,10 @@ function SorcererTactic:DoAbilities()
 	if (self.squad_ai:WasRecentlyHurt() and self.squad_ai:GetHealthPercentage() < 0.4) then
 
 		Ability.DoAbilityTarget( self.squad_ai, Sorcerer.torment, Ability.Filters.CloseEnemy, 4 ) 
-		Ability.DoAbilityPos( self.squad_ai, Sorcerer.corruption, Ability.Filters.CloseEnemy, 4 ) 
-		Ability.DoAbilityTarget( self.squad_ai, Sorcerer.doombolt_id, Ability.Filters.CloseSquadEnemy, 1 )
+		
+		--Why would we cast doombolts or corruption if we about to die?!
+		--Ability.DoAbilityPos( self.squad_ai, Sorcerer.corruption, Ability.Filters.CloseEnemy, 4 ) 
+		--Ability.DoAbilityTarget( self.squad_ai, Sorcerer.doombolt_id, Ability.Filters.CloseSquadEnemy, 1 ) 
 	else
 		Ability.DoAbilityTarget( self.squad_ai, Sorcerer.torment, Ability.Filters.CloseEnemy, 8 )
 		Ability.DoAbilityPos( self.squad_ai, Sorcerer.corruption, Ability.Filters.CloseEnemy, 8 )
