@@ -12,7 +12,7 @@ function UBM_Immediate_Load()
 end
 
 function UBM_Load()
-	SetupChaos()
+	Rule_AddOneShot(SetupChaos, 1) --We can wait 1s as taks longer to build barracks & lets us wait for other scars t be pushed through
 	SetupMature()
 	Rule_AddOneShot(Rule_ActivateUpkeep,g_UpkeepActivationDelay)
 end
@@ -190,9 +190,8 @@ function GetAllPlayers()
 		if (Player_IsAlive(Player)) then
 			if RaceName == "dark_eldar_race" then
 				table.insert(g_AllDarkEldarPlayers, Player)			
-			elseif RaceName == "chaos_marine_race" then
-				Player_RestrictBuilding(Player, "chaos_temple")
-				Player_RestrictBuilding(Player, "chaos_temple_alt")
+			--elseif RaceName == "chaos_marine_race" then
+			--not sure if we need to do al logic here anymore.
 			end
 		end	
 	end
@@ -213,13 +212,34 @@ function SetupChaos()
 		if RaceName == "chaos_marine_race" then
 
 			if World_GetRand(0,100) < g_AlphaLegionSpawnChance then 
-				Player_UnRestrictBuilding(Player, "chaos_temple_alt")
+			
+				UnrestrictAlphaLegion(Player)
+				
 			else		 
-				Player_UnRestrictBuilding(Player, "chaos_temple")
+			
+				RestrictAlphaLegion(Player)				
+				
 			end
 		end
 	end
 
+end
+
+function RestrictAlphaLegion(Player)
+
+	Player_RestrictResearch(Player, "chaos_AL_secret_identity")
+	Player_RestrictSquad(Player, "chaos_al_marine_squad")
+	Player_RestrictSquad(Player, "chaos_squad_lord_AL")
+	Player_RestrictSquad(Player, "chaos_AL_Operative_squad")
+		
+end
+
+function UnrestrictAlphaLegion(Player)
+
+	--Nothing needed yet..
+	Player_RestrictSquad(Player, "chaos_marine_squad")
+	Player_RestrictSquad(Player, "chaos_squad_lord")
+	
 end
 
 function Rule_CalculateUpkeep()

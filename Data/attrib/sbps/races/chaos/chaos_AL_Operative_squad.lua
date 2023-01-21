@@ -579,5 +579,5 @@ GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$97274]] --
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$97275]] -- - Can be upgraded with the Infiltration ability (stealth).
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$97276]] -- - Effective against Infantry.
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_06"] = [[$584300]]
-GameData["squad_ui_ext"]["ui_info"]["icon_name"] = [[chaos_icons/cultist_icon]]
+GameData["squad_ui_ext"]["ui_info"]["icon_name"] = [[chaos_icons/alpha_legion_operative_icon]]
 GameData["squad_ui_ext"]["ui_info"]["screen_name_id"] = [[$97270]] -- Cultist Squad

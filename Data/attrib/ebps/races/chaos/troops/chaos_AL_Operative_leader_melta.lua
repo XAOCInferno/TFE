@@ -718,5 +718,5 @@ GameData["ui_ext"]["ui_hotkey_name"] = [[chaos_cultist]]
 GameData["ui_ext"]["ui_index_hint"] = 3
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_01"] = [[$20010056]] -- - Infantry.
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_02"] = [[$20010057]] -- - Scout / Meat Shield. High numbers, but weak combat ability.
-GameData["ui_ext"]["ui_info"]["icon_name"] = [[chaos_icons/cultist_icon]]
+GameData["ui_ext"]["ui_info"]["icon_name"] = [[chaos_icons/alpha_legion_operative_melta]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$20010055]] -- Cultist
