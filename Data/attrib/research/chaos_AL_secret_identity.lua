@@ -12,5 +12,5 @@ GameData["ui_index_hint"] = 6
 GameData["ui_info"] = Reference([[tables\ui_info_table.lua]])
 GameData["ui_info"]["help_text_list"]["text_01"] = [[$670505]]
 GameData["ui_info"]["help_text_list"]["text_02"] = [[$670508]]
-GameData["ui_info"]["icon_name"] = [[chaos_icons/chaos_purge_the_weak_icon]]
+GameData["ui_info"]["icon_name"] = [[chaos_icons/alpha_legion_secret_identity_icon]]
 GameData["ui_info"]["screen_name_id"] = [[$670504]]
