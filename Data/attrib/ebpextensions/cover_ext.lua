@@ -57,3 +57,5 @@ GameData["cover_stealth"]["modifiers"]["modifier_46"] = nil
 GameData["cover_stealth"]["modifiers"]["modifier_47"] = nil
 GameData["cover_stealth"]["modifiers"]["modifier_48"] = nil
 GameData["cover_stealth"]["modifiers"]["modifier_49"] = nil
+GameData["Height_High"] = Reference([[tables\cover_table.lua]])
+GameData["Height_High"]["modifiers"]["modifier_03"] = Reference([[modifiers\cover_event_modifier.lua]])

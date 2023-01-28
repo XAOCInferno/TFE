@@ -9,3 +9,7 @@ GameData["cover_negative"] = Reference([[tables\cover_table.lua]])
 GameData["cover_negative"]["priority"] = 0 --1
 GameData["cover_stealth"] = Reference([[tables\cover_table.lua]])
 GameData["cover_stealth"]["priority"] = 0 --2
+GameData["cover_stealth"] = Reference([[tables\cover_table.lua]])
+GameData["cover_stealth"]["priority"] = 0 --2cover_height_high
+GameData["cover_height_high"] = Reference([[tables\cover_table.lua]])
+GameData["cover_height_high"]["priority"] = 0 --2
