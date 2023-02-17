@@ -1,0 +1,298 @@
+-------------------------------------------------
+--IMPORTS
+-------------------------------------------------
+import("ScarUtil.scar")
+
+-------------------------------------------------
+--GLOBAL VARIABLES
+-------------------------------------------------
+
+g_ModsByCover = {}
+g_StartingSquadsGameIDs = {}
+
+-------------------------------------------------
+--ON INITIALIZATION 
+-------------------------------------------------
+
+function SetupModifiers()
+
+	--Generic shield modifier to show you're in cover, to be replaced later with a special verticality one
+	mod_PositiveCover = Modifier_Create(MAT_Squad, "cover_event_modifier", MUT_Enable, 1, 1, "")
+	table.insert(SquadModifiers, mod_PositiveCover)
+	--
+	
+	--Light Cover Bonuses
+	mod_LightCover__modifier_01 = Modifier_Create(MAT_Squad, "health_rangedamage_received_1_modifier", MUT_Multiplication, 1, 0.75, "")
+	table.insert(SquadModifiers, mod_LightCover__modifier_01)
+		
+	mod_LightCover__modifier_02 = Modifier_Create(MAT_Squad, "speed_maximum_modifier", MUT_Multiplication, 1, 0.8999999762, "")
+	table.insert(SquadModifiers, mod_LightCover__modifier_02)
+		
+	mod_LightCover__modifier_03 = Modifier_Create(MAT_Squad, "morale_rate_squad_modifier", MUT_Multiplication, 1, 1.5, "")
+	table.insert(SquadModifiers, mod_LightCover__modifier_03)
+	--
+	
+	--Heavy Cover Bonuses
+	mod_HvyCover__modifier_01 = Modifier_Create(MAT_Squad, "health_rangedamage_received_1_modifier", MUT_Multiplication, 1, 0.5, "")
+	table.insert(SquadModifiers, mod_HvyCover__modifier_01)
+		
+	mod_HvyCover__modifier_02 = Modifier_Create(MAT_Squad, "speed_maximum_modifier", MUT_Multiplication, 1, 0.75, "")
+	table.insert(SquadModifiers, mod_HvyCover__modifier_02)
+		
+	mod_HvyCover__modifier_03 = Modifier_Create(MAT_Squad, "morale_rate_squad_modifier", MUT_Multiplication, 1, 2, "")	
+	table.insert(SquadModifiers, mod_HvyCover__modifier_03)
+	--
+	
+	--High Verticality Bonuses
+	mod_HighVert__modifier_01 = Modifier_Create(MAT_Squad, "accuracy_weapon_modifier", MUT_Multiplication, 1, 1.2, "")
+	table.insert(SquadModifiers, mod_HighVert__modifier_01)
+		
+	mod_HighVert__modifier_02 = Modifier_Create(MAT_Squad, "sight_radius_modifier", MUT_Multiplication, 0, 1.5, "")
+	table.insert(SquadModifiers, mod_HighVert__modifier_02)
+		
+	mod_HighVert__modifier_03 = Modifier_Create(MAT_Squad, "keen_sight_radius_modifier", MUT_Multiplication, 0, 1.5, "")
+	table.insert(SquadModifiers, mod_HighVert__modifier_03)
+		
+	mod_HighVert__modifier_04 = Modifier_Create(MAT_Squad, "max_range_weapon_modifier", MUT_Multiplication, 1, 1.3, "")	
+	table.insert(SquadModifiers, mod_HighVert__modifier_04)	
+	
+	mod_HighVert__modifier_05 = Modifier_Create(MAT_Squad, "melee_charge_range_modifier", MUT_Multiplication, 1, 0.8, "")	
+	table.insert(SquadModifiers, mod_HighVert__modifier_05)
+		
+	mod_HighVert__modifier_06 = Modifier_Create(MAT_Squad, "speed_maximum_modifier", MUT_Multiplication, 1, 1.1, "")	
+	table.insert(SquadModifiers, mod_HighVert__modifier_06)
+	--
+	
+	--Mid Verticality Bonuses
+	mod_MidVert__modifier_01 = Modifier_Create(MAT_Squad, "accuracy_weapon_modifier", MUT_Multiplication, 1, 1.1, "")
+	table.insert(SquadModifiers, mod_MidVert__modifier_01)	
+		
+	mod_MidVert__modifier_02 = Modifier_Create(MAT_Squad, "sight_radius_modifier", MUT_Multiplication, 0, 1.25, "")
+	table.insert(SquadModifiers, mod_MidVert__modifier_02)	
+		
+	mod_MidVert__modifier_03 = Modifier_Create(MAT_Squad, "keen_sight_radius_modifier", MUT_Multiplication, 0, 1.25, "")
+	table.insert(SquadModifiers, mod_MidVert__modifier_03)	
+		
+	mod_MidVert__modifier_04 = Modifier_Create(MAT_Squad, "max_range_weapon_modifier", MUT_Multiplication, 1, 1.15, "")	
+	table.insert(SquadModifiers, mod_MidVert__modifier_04)	
+	
+	mod_MidVert__modifier_05 = Modifier_Create(MAT_Squad, "melee_charge_range_modifier", MUT_Multiplication, 1, 0.9, "")	
+	table.insert(SquadModifiers, mod_MidVert__modifier_05)
+		
+	mod_MidVert__modifier_06 = Modifier_Create(MAT_Squad, "speed_maximum_modifier", MUT_Multiplication, 1, 1.05, "")	
+	table.insert(SquadModifiers, mod_MidVert__modifier_06)	
+	--
+	
+	--Poison Bonuses	
+	mod_Poison__modifier_01 = Modifier_Create(MAT_Squad, "health_degeneration_modifier", MUT_Addition, 1, 2.5, "")
+	table.insert(SquadModifiers, mod_Poison__modifier_01)	
+		
+	mod_Poison__modifier_02 = Modifier_Create(MAT_Squad, "morale_rate_squad_modifier", MUT_Multiplication, 1, 0.8, "")
+	table.insert(SquadModifiers, mod_Poison__modifier_02)		
+	--
+	g_ModsByCover = {
+		--0, None
+		{
+		},
+		--1, Light
+		{
+		},
+		--2, Hvy
+		{
+		},
+		--3, Negative
+		{
+		},
+		--4, Blocking 
+		{
+		},
+		--5, Stealth
+		{
+		},
+		--6 Height_High
+		{
+			mod_PositiveCover,
+			mod_HighVert__modifier_01, mod_HighVert__modifier_02, mod_HighVert__modifier_03, mod_HighVert__modifier_04, mod_HighVert__modifier_05, mod_HighVert__modifier_06 
+		},
+		--7 Height_High_Light
+		{
+			mod_PositiveCover,
+			mod_HighVert__modifier_01, mod_HighVert__modifier_02, mod_HighVert__modifier_03, mod_HighVert__modifier_04, mod_HighVert__modifier_05, mod_HighVert__modifier_06 , 
+			mod_LightCover__modifier_01, mod_LightCover__modifier_02, mod_LightCover__modifier_03
+		},
+		--8 Height_High_Heavy
+		{
+			mod_PositiveCover,
+			mod_HighVert__modifier_01, mod_HighVert__modifier_02, mod_HighVert__modifier_03, mod_HighVert__modifier_04, mod_HighVert__modifier_05, mod_HighVert__modifier_06 , 
+			mod_HvyCover__modifier_01, mod_HvyCover__modifier_02, mod_HvyCover__modifier_03
+		},
+		--9 Height_Mid
+		{
+			mod_PositiveCover,
+			mod_MidVert__modifier_01, mod_MidVert__modifier_02, mod_MidVert__modifier_03, mod_MidVert__modifier_04, mod_MidVert__modifier_05, mod_MidVert__modifier_06
+		},
+		--10 Height_Mid_Light
+		{
+			mod_PositiveCover,
+			mod_MidVert__modifier_01, mod_MidVert__modifier_02, mod_MidVert__modifier_03, mod_MidVert__modifier_04, mod_MidVert__modifier_05, mod_MidVert__modifier_06,
+			mod_LightCover__modifier_01, mod_LightCover__modifier_02, mod_LightCover__modifier_03
+		},
+		--11 Height_Mid_Heavy
+		{
+			mod_PositiveCover,
+			mod_MidVert__modifier_01, mod_MidVert__modifier_02, mod_MidVert__modifier_03, mod_MidVert__modifier_04, mod_MidVert__modifier_05, mod_MidVert__modifier_06,
+			mod_HvyCover__modifier_01, mod_HvyCover__modifier_02, mod_HvyCover__modifier_03
+		},
+		--12 Poison
+		{
+			mod_Poison__modifier_01, mod_Poison__modifier_02
+		}
+	}
+
+end
+
+
+function InitNewCoverSystems()	
+	SGroup_Create("sg_ApplierGroup")
+	SetupModifiers()
+	AssignForStartingUnits()
+	Rule_AddIntervalDelay( Rule_CheckCoverStatus, 1, 0.5)
+	
+end
+
+-------------------------------------------------
+--GLOBAL FUNCTION SUPPORT
+-------------------------------------------------
+
+function TableContainsElement(tbl, element)
+  	for _, value in pairs(tbl) do
+    	if value == element then
+        	return true
+		end
+	end
+	return false
+end
+
+-------------------------------------------------
+--MAIN SCRIPT
+-------------------------------------------------
+
+
+--Get all starting units
+--Starting units do not work with the UtilModifier system for some reason
+--Therefore we need to block them
+function AssignForStartingUnits() 
+
+	local GetStartingGameIDs = function( sgroupid, itemindex, squadID )
+				
+			table.insert(g_StartingSquadsGameIDs, Squad_GetGameID(squadID))			
+	
+	end
+	
+	for i = 1, g_PlayerCount do
+
+		local Player = World_GetPlayerAt(i-1)
+		local sg_Squads = Player_GetSquads(Player)
+		SGroup_ForEach(sg_Squads, GetStartingGameIDs)
+		
+	end
+	
+end
+
+function Rule_CheckCoverStatus()
+	local CurrentPlayer = 0
+    local CheckCover = function( sgroupid, itemindex, squadID )
+    
+       	IsStartingSquad = false
+       	CoverID = Squad_GetCoverType( squadID, 0 )
+       	
+    	--Check if the Squad is a Starting Squad
+    	gameID = Squad_GetGameID(squadID)
+    	if(TableContainsElement(g_StartingSquadsGameIDs, gameID)) then    	
+    		--IsStartingSquad = true
+    		return 0    		    		
+    	end     	
+    	--
+    	
+    	--Necrons should benefit from verticality / burn from poison
+    	--But should not benefit from cover!
+		if(Player_GetRaceName(CurrentPlayer) == necron_race) then
+			if(CoverID == 7 or CoverID == 8) then
+				CoverID = 6
+			elseif(CoverID == 10 or CoverID == 11) then
+				CoverID = 9
+			end
+		end
+		--
+				
+		--Apply the mods
+		local sg_ApplierGroupID = SGroup_FromName("sg_ApplierGroup")
+    	SGroup_Add(sg_ApplierGroupID, squadID)
+    	local ModsToAdd = {}
+    	local ModsToRemove = {}
+    	
+		---------------------------------
+		-----CALCULATE MODS TO APPLY-----
+		---------------------------------
+    	for key, coverMods in pairs(g_ModsByCover) do
+			for modKey, mod in pairs(coverMods) do
+				local keyOffset = key-1		
+				if(keyOffset == CoverID) then
+					
+					if(not TableContainsElement(ModsToAdd, mod)) then
+						--print("Applying Cover "..CoverID.." mod "..modKey.. " For "..Squad_GetBaseUnitName(squadID))  
+						table.insert(ModsToAdd,mod)						
+					end   
+				else
+					if(not TableContainsElement(ModsToRemove, mod)) then
+						--print("I am in Cover "..CoverID)
+						--print("I am Checking against Cover "..keyOffset)
+						--print("Disabiling Cover "..keyOffset.." mod "..modKey.. " For "..Squad_GetBaseUnitName(squadID))
+						table.insert(ModsToRemove,mod)
+					end
+				end
+			end
+		end
+		
+		
+		--------------------
+		-----APPLY MODS-----
+		--------------------
+		for debugRemovePos, removeMod in pairs(ModsToRemove) do
+		
+			if(not TableContainsElement(ModsToAdd, removeMod)) then 
+				--Check mod is applied
+				if(ModifierUtil_GetSquadApplierIndex( removeMod, squadID ) ~= 0) then
+					--Remove mod
+					if(sg_ApplierGroupID == nil) then break end 
+					if(removeMod == nil) then print("Mod at pos: "..debugRemovePos.." Is Nill! Cannot Remove.") break end --add some debug here
+       				pcall(ModifierUtil_ApplyToSGroup, sg_ApplierGroupID, removeMod, false)  
+       			end
+			end 
+		
+		end
+		
+		 
+		for debugAddPos, addMod in pairs(ModsToAdd) do
+			--Check mod isn't applied
+			if(ModifierUtil_GetSquadApplierIndex( addMod, squadID ) == 0) then
+				--Add mod
+				if(sg_ApplierGroupID == nil) then break end
+				if(addMod == nil) then print("Mod at pos: "..debugAddPos.." Is Nill! Cannot Add.") break end --add some debug here
+				pcall(ModifierUtil_ApplyToSGroup, sg_ApplierGroupID, addMod, true)
+			end
+		end
+	
+		SGroup_Clear(sg_ApplierGroupID)
+   	end
+   	
+   	
+	for i = 1, g_PlayerCount do
+
+		local Player = World_GetPlayerAt(i-1)
+		CurrentPlayer = Player
+		local sg_Squads = Player_GetSquads(Player)
+	
+		SGroup_ForEach(sg_Squads, CheckCover)
+	end
+end
