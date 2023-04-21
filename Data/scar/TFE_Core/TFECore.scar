@@ -1,6 +1,8 @@
+debug_TFECore_FileName = "TFECore"
+
+
 import("TFE_Core/Imports/TFECore_Imports.scar")
 
-g_AlphaLegionSpawnChance = 5
 
 function TFE_Immediate_Load()
 
@@ -9,10 +11,14 @@ function TFE_Immediate_Load()
 end
 
 function TFE_Load()
-	Rule_AddOneShot(SetupChaos, 1) --We can wait 1s as taks longer to build barracks & lets us wait for other scars t be pushed through
+	local debugFuncName = "TFE_Load"
+	
+	DebugWriteLine(debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	Rule_AddOneShot(AlphaLegion_Setup, 1) --We can wait 1s as taks longer to build barracks & lets us wait for other scars t be pushed through
 	Rule_AddOneShot(InitNewCoverSystems,1)
 	SetupMature()
 	Rule_AddOneShot(Rule_ActivateUpkeep,g_UpkeepActivationDelay)
+	DebugWriteLine(debug_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 end
 
 function Rule_ActivateUpkeep()
@@ -200,45 +206,7 @@ function GetAllPlayers()
 
 end
 
-function SetupChaos()
 
-	for i = 1, table.getn(g_AllPlayers) do
-	
-		local Player = g_AllPlayers[i]
-		local RaceName = Player_GetRaceName( Player ) 
-
-		if RaceName == "chaos_marine_race" then
-
-			if World_GetRand(0,100) < g_AlphaLegionSpawnChance then 
-			
-				UnrestrictAlphaLegion(Player)
-				
-			else		 
-			
-				RestrictAlphaLegion(Player)				
-				
-			end
-		end
-	end
-
-end
-
-function RestrictAlphaLegion(Player)
-
-	Player_RestrictResearch(Player, "chaos_AL_secret_identity")
-	Player_RestrictSquad(Player, "chaos_al_marine_squad")
-	Player_RestrictSquad(Player, "chaos_squad_lord_AL")
-	Player_RestrictSquad(Player, "chaos_AL_Operative_squad")
-		
-end
-
-function UnrestrictAlphaLegion(Player)
-
-	--Nothing needed yet..
-	Player_RestrictSquad(Player, "chaos_marine_squad")
-	Player_RestrictSquad(Player, "chaos_squad_lord")
-	
-end
 
 function Rule_CalculateUpkeep()
 	--[[EGroups only reference buildings so I'll use this for turrets later.

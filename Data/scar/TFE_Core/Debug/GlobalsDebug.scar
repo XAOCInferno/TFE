@@ -1,0 +1,5 @@
+function DebugWriteLine(moduleName, functionName, line)
+
+	print(moduleName.."/"..functionName..": "..line)
+
+end

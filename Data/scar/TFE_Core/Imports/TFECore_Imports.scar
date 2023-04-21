@@ -9,10 +9,12 @@ import("scarutil.scar")
 --TFE Globals [DO NOT REMOVE!]----
 ----------------------------------
 import("TFE_Core/Globals/GlobalsStorage.scar")
+import("TFE_Core/Debug/GlobalsDebug.scar")
 ----------------------------------
 
 
 --TFE Forced Scars----------------
 ----------------------------------
 import("cover/NewCoverSystems.scar")
+import("TFE_Core/Alpha_Legion/AlphaLegion_Core.scar")
 ----------------------------------
