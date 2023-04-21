@@ -7,14 +7,15 @@ import("TFE_Core/Imports/TFECore_Imports.scar")
 function TFE_Immediate_Load()
 
 	GetAllPlayers()
-
+	AlphaLegion_Setup() --We can wait 1s as taks longer to build barracks & lets us wait for other scars t be pushed through
+	
 end
 
 function TFE_Load()
 	local debugFuncName = "TFE_Load"
 	
 	DebugWriteLine(debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
-	Rule_AddOneShot(AlphaLegion_Setup, 1) --We can wait 1s as taks longer to build barracks & lets us wait for other scars t be pushed through
+	
 	Rule_AddOneShot(InitNewCoverSystems,1)
 	SetupMature()
 	Rule_AddOneShot(Rule_ActivateUpkeep,g_UpkeepActivationDelay)
