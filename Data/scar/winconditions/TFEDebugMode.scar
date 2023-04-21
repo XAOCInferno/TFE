@@ -1,0 +1,8 @@
+function DebugSetup()
+
+	g_DebugMode = true
+	
+end
+
+-- Init SCAR
+Scar_AddInit(DebugSetup)

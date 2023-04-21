@@ -3,7 +3,6 @@ debug_WinCondition_TFECore_FileName = "(WC)TFECore"
 import("TFE_Core/TFECore.scar");
 
 
--- Init hero rule system
 function TFE_Setup()
 
 	local debugFuncName = "TFE_Setup"

@@ -1,3 +1,7 @@
+g_ModName = "TFE"
+g_ModAbbreviation = "TFE"
+g_DebugMode = false
+
 g_AllPlayers = { }
 g_AllPlayersRace = { }
 g_PlayerCount = World_GetPlayerCount()

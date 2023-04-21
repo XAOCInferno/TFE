@@ -1,8 +1,4 @@
 function BAN_AL()	
-	Rule_AddOneShot(BAN_AL_Implement, 0.5)
-end
-
-function BAN_AL_Implement()	
 	g_AlphaLegionSpawnChance = -1000
 end
 
