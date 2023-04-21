@@ -4,7 +4,6 @@ import("Upkeep/Core/UBMCore.scar");
 -- Init hero rule system
 function Hero_Setup()
 	
-	FOW_RevealAll()
 	FOW_Reset()
 	UBM_Immediate_Load()
 	Rule_AddOneShot(UBM_Load, 1)
