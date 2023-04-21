@@ -1,0 +1,13 @@
+import("TFE_Core/TFECore.scar");
+
+
+-- Init hero rule system
+function TFE_Setup()
+	
+	FOW_Reset()
+	TFE_Immediate_Load()
+	Rule_AddOneShot(TFE_Load, 1)
+end
+
+-- Init SCAR
+Scar_AddInit(TFE_Setup)

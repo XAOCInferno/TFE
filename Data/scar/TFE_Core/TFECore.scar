@@ -1,18 +1,18 @@
 import("player.scar")
 import("groupcallers.scar")
 import("scarutil.scar")
-import("upkeep/core/GlobalsStorage.scar")
+import("TFE_Core/GlobalsStorage.scar")
 import("cover/NewCoverSystems.scar")
 
 g_AlphaLegionSpawnChance = 5
 
-function UBM_Immediate_Load()
+function TFE_Immediate_Load()
 
 	GetAllPlayers()
 
 end
 
-function UBM_Load()
+function TFE_Load()
 	Rule_AddOneShot(SetupChaos, 1) --We can wait 1s as taks longer to build barracks & lets us wait for other scars t be pushed through
 	Rule_AddOneShot(InitNewCoverSystems,1)
 	SetupMature()
