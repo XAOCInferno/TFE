@@ -1,5 +1,31 @@
-function DebugWriteLine(moduleName, functionName, line)
+debug_GlobalsDebug_FileName = "GlobalsDebug"
+
+function Log(logType, verbosity, moduleName, functionName, line)
 	if(g_DebugMode) then
-		print("["..g_ModAbbreviation.."] ("..World_GetGameTime().."s) "..moduleName.."/"..functionName..":  "..line)
+		if(verbosity == 0) then
+		
+			--Warning type, Mod Name, world time, function path, line
+			print("("..g_LogTypes[logType]..") ["..g_ModAbbreviation.."] ("..World_GetGameTime().."s) "..moduleName.."/"..functionName..":  "..line)
+			
+		elseif(verbosity == 1) then
+		
+			--Warning type, Mod Name, world time, line
+			print("("..g_LogTypes[logType]..") ["..g_ModAbbreviation.."] ("..World_GetGameTime().."s) "..line)
+			
+		elseif(verbosity == 2) then
+		
+			--Warning type, Mod Name, line
+			print("("..g_LogTypes[logType]..") ["..g_ModAbbreviation.."] "..line)
+			
+		elseif(verbosity == 3) then	
+		
+			--Just mod name and line
+			print("["..g_ModAbbreviation.."] "..line)
+			
+		else
+			--Just print the line, also in case they put an invalid number
+			Log(2,0,moduleName, functionName, "Verbosity: '"..verbosity.."' Is not valid! Defaulting to Print.") 
+			print(line)
+		end
 	end
 end

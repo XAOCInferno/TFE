@@ -7,13 +7,13 @@ function TFE_Setup()
 
 	local debugFuncName = "TFE_Setup"
 	
-	DebugWriteLine(debug_WinCondition_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	Log(0, 0, debug_WinCondition_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 
 	FOW_Reset()
 	TFE_Immediate_Load()
 	Rule_AddOneShot(TFE_Load, 1)
 	
-	DebugWriteLine(debug_WinCondition_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'...")
+	Log(0, 0, debug_WinCondition_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'...")
 	
 end
 

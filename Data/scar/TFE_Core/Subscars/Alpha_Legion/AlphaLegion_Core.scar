@@ -7,7 +7,7 @@ import("TFE_Core/Subscars/Alpha_Legion/Imports/AlphaLegion_Imports.scar")
 function AlphaLegion_Setup()
 	local debugFuncName = "AlphaLegion_Setup"
 	
-	DebugWriteLine(debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 	
 	for i = 1, table.getn(g_AllPlayers) do
 	
@@ -28,7 +28,7 @@ function AlphaLegion_Setup()
 		end
 	end
 	
-	DebugWriteLine(debug_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 
 end
 

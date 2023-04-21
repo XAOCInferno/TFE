@@ -14,30 +14,45 @@ end
 function TFE_Load()
 	local debugFuncName = "TFE_Load"
 	
-	DebugWriteLine(debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 	
 	Rule_AddOneShot(InitNewCoverSystems,1)
 	SetupMature()
 	Rule_AddOneShot(Rule_ActivateUpkeep,g_UpkeepActivationDelay)
-	DebugWriteLine(debug_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+	
+	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 end
 
 function Rule_ActivateUpkeep()
+	local debugFuncName = "Rule_ActivateUpkeep"
+	
+	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	
 	UIWarning_Show("Army Upkeep has now been activated!")	
 	EventCue_DoEvent( 'ingame/event_cue_icons/custom/warning', 'music/stinger_completeobjective', 'Army Upkeep Activated!', 'Your army will now drain resources.' )
 	Rule_AddInterval(Rule_CalculateUpkeep, g_UpkeepCalculateRate)
+	
+	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 
 end
 
 function Rule_ActivateMature()
+	local debugFuncName = "Rule_ActivateMature"
+	
+	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 
 	UIWarning_Show("Resource Mature has now been activated!")
 	EventCue_DoEvent( 'ingame/event_cue_icons/strategic_point', 'music/stinger_completeobjective', 'Resource Mature Activated!', 'Capped points will increase in value until decapped.' )
 	Rule_AddInterval(Rule_DoMature, g_UpkeepCalculateRate)
+	
+	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 
 end
 
 function SetupMature()
+	local debugFuncName = "SetupMature"
+	
+	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 
 	local SetupNewPoint = function(eSquadGroupID, i, eSquadID) 
 		table.insert( g_AllStrategicPointsID, eSquadID )	
@@ -51,6 +66,8 @@ function SetupMature()
 	World_GetStrategicPoints(EGroup_CreateIfNotFound( "tmpAllStratPoints" ) )
 	EGroup_ForEachEx(EGroup_FromName("tmpAllStratPoints"),  SetupNewPoint, true, true)
 	Rule_AddOneShot(Rule_ActivateMature, g_MatureActivationDelay)
+	
+	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 end
 
 function CheckForGlobals() 
