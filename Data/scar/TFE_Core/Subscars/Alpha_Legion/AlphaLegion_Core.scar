@@ -1,7 +1,7 @@
 debug_AlphaLegionCore_FileName = "AlphaLegion_Core"
 
 
-import("TFE_Core/Alpha_Legion/Imports/AlphaLegion_Imports.scar")
+import("TFE_Core/Subscars/Alpha_Legion/Imports/AlphaLegion_Imports.scar")
 
 
 function AlphaLegion_Setup()

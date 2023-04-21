@@ -1,8 +1,8 @@
-function DebugSetup()
+function OnGameSetup()
 
 	g_DebugMode = true
 	
 end
 
 -- Init SCAR
-Scar_AddInit(DebugSetup)
+--Scar_AddInit(DebugSetup)
