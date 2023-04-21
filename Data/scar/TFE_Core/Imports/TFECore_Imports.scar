@@ -1,0 +1,18 @@
+--DOW Core Scars------------------
+----------------------------------
+import("player.scar")
+import("groupcallers.scar")
+import("scarutil.scar")
+----------------------------------
+
+
+--TFE Globals [DO NOT REMOVE!]----
+----------------------------------
+import("TFE_Core/Globals/GlobalsStorage.scar")
+----------------------------------
+
+
+--TFE Forced Scars----------------
+----------------------------------
+import("cover/NewCoverSystems.scar")
+----------------------------------

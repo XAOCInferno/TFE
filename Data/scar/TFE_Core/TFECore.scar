@@ -1,8 +1,4 @@
-import("player.scar")
-import("groupcallers.scar")
-import("scarutil.scar")
-import("TFE_Core/GlobalsStorage.scar")
-import("cover/NewCoverSystems.scar")
+import("TFE_Core/Imports/TFECore_Imports.scar")
 
 g_AlphaLegionSpawnChance = 5
 
