@@ -28,7 +28,6 @@ function Rule_AddPassResources()
 	local AddResources = function()
 	
 		local GetFactionStruct = function(race) 
-			print(g_FactionSpecificResourceGeneration[race])
 			return g_FactionSpecificResourceGeneration[race]
 		end
 		
