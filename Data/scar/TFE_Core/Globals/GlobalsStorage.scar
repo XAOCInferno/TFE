@@ -4,9 +4,14 @@ g_DebugMode = false
 
 g_AllPlayers = { }
 g_AllPlayersRace = { }
+g_AllPlayersRace_AsIndex = { }
 g_PlayerCount = World_GetPlayerCount()
 g_AllPlayerUpkeep = { }
 g_CurrentPlayer = 0
+
+g_RaceSpecificResourceGeneration = {}
+g_ResourceGenUpdateRate = 1
+
 UnitCosting = { }
 ResourceGlobalNames = { }
 g_PlayerGlobalStatus = 
@@ -185,6 +190,3 @@ g_MatureActivationDelay = 60
 
 g_AllDarkEldarPlayers = { }
 g_DarkEldarPlayersCount = 0
-
-PassiveSoulIncome = 1
-PassiveSoulIncomeRate = 1.5

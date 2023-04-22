@@ -5,9 +5,17 @@ import("TFE_Core/Imports/TFECore_Imports.scar")
 
 
 function TFE_Immediate_Load()
+	local debugFuncName = "TFE_Immediete_Load"
 
-	GetAllPlayers()
-	AlphaLegion_Setup() --We can wait 1s as taks longer to build barracks & lets us wait for other scars t be pushed through
+	if pcall(GetAllPlayers) == false then
+		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run CORE function 'GetAllPlayers'!")
+	end
+	if pcall(AlphaLegion_Setup) == false then
+		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'AlphaLegion_Setup'!")
+	end 
+	if pcall(PassiveResourceGeneration_Immediate_Load) == false then 
+		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'PassiveResourceGeneration_Immediate_Load'!")
+	end
 	
 end
 
@@ -204,7 +212,9 @@ function GetAllPlayers()
 		table.insert(g_AllPlayers, Player)
 
 		local RaceName = Player_GetRaceName( Player ) 
+		local RaceIndex = Player_GetRace( Player ) 
 		table.insert(g_AllPlayersRace, RaceName)
+		table.insert(g_AllPlayersRace_AsIndex, RaceIndex)
 		if (UnitCosting[RaceName] == nil) then
 			pcall(import, 'upkeep/races/'..RaceName..'.scar')
 		end
@@ -219,7 +229,6 @@ function GetAllPlayers()
 	end
 
 	if (table.getn(g_AllDarkEldarPlayers) > 0) then
-		Rule_AddInterval(Rule_AddSouls, 1.5)
 	end	
 
 end
@@ -315,27 +324,6 @@ function Rule_ImplementUpkeep()
 			Player_AddResource(g_AllPlayers[i], RT_Souls, g_BonusIncome[i].Souls)
 
 
-		end
-	end
-
-end
-
-
-
-function Rule_AddSouls()
-
-	for i = 1, table.getn(g_AllDarkEldarPlayers) do
-
-		if (Player_IsAlive(g_AllDarkEldarPlayers[i])) then
-		
-			Player_AddResource(g_AllDarkEldarPlayers[i], RT_Souls, PassiveSoulIncome)
-		
-		else 
-		
-			table.remove(g_AllDarkEldarPlayers,i)
-			if (table.getn(g_AllDarkEldarPlayers == 0)) then
-				Rule_Remove(Rule_AddSouls)
-			end
 		end
 	end
 
