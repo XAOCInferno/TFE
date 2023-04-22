@@ -6,7 +6,7 @@ function Rule_ActivateMature()
 	Log(0, 0, debug_ResMatureCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 
 	UIWarning_Show("Resource Mature has now been activated!")
-	EventCue_DoEvent( 'ingame/event_cue_icons/strategic_point', 'music/stinger_completeobjective', 'Resource Mature Activated!', 'Capped points will increase in value until decapped.' )
+	EventCue_DoEvent( 'warning', 'music/stinger_completeobjective', 'Resource Mature Activated!', 'Capped points will increase in value until decapped.' )
 	Rule_AddInterval(Rule_DoMature, g_UpkeepCalculateRate)
 	
 	Log(0, 0, debug_ResMatureCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
@@ -36,9 +36,7 @@ function SetupMature()
 	g_MatureMaxLifetime = g_MatureMaxLifetime * g_PlayerCount --Code repeats itself for each player so this is to compensate  [[Why does it repeat for each player??]]
 	World_GetStrategicPoints(EGroup_CreateIfNotFound( "tmpAllStratPoints" ) )
 	EGroup_ForEachEx(EGroup_FromName("tmpAllStratPoints"),  SetupNewPoint, true, true)
-	
-	Rule_AddOneShot(Rule_ActivateMature, g_MatureActivationDelay)
-	
+		
 	Log(0, 0, debug_ResMatureCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 end
 

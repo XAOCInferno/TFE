@@ -171,7 +171,6 @@ g_BonusIncome = {
 g_UpkeepCalculateRate = 1
 g_UpkeepImplementRate = 1 
 g_UpkeepDivider = 10 --[[bc we're checking 0.25f, /4 so you lose so much per s]]
-g_HasDoneInitUpkeepRun = false --Necessary bool?
 
 
 g_AllStrategicPointsStructs = {}
@@ -184,7 +183,6 @@ g_MaxMatureBonus_Base = { Req = 2, Power = 1}
 g_MaxMatureBonus_Global1 = { Req = 3, Power = 2 }
 g_MaxMatureBonus_Global2 = { Req = 4, Power = 3 }
 
-g_UpkeepActivationDelay = 0 --180, why delay? fix the problem instead of delay. tick up the upkeep..?
 g_MatureActivationDelay = 0 --Why delay?
 g_TimeTakenForMaxUpkeep = 240
 

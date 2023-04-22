@@ -16,11 +16,18 @@ function TFE_Immediate_Load()
 	if pcall(PassiveResourceGeneration_Immediate_Load) == false then 
 		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'PassiveResourceGeneration_Immediate_Load'!")
 	end
-	Initialise_GlobalsStorage()
-	--[[if pcall(Initialise_GlobalsStorage) == false then 
-		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Initialise_GlobalsStorage'!")
-	end]]
 	
+	if pcall(Initialise_GlobalsStorage) == false then 
+		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Initialise_GlobalsStorage'!")
+	end
+	
+	if pcall(SetupMature) == false then 
+		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Initialise_GlobalsStorage'!")
+	elseif pcall(Rule_ActivateMature) == false then
+		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Rule_ActivateMature'!")
+	end	
+	
+	Rule_ActivateUpkeep()
 	
 end
 
@@ -29,9 +36,7 @@ function TFE_Load()
 	
 	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 	
-	Rule_AddOneShot(InitNewCoverSystems,1)
-	SetupMature()
-	Rule_AddOneShot(Rule_ActivateUpkeep,g_UpkeepActivationDelay)
+	Rule_AddOneShot(InitNewCoverSystems,1)	
 	
 	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 end
