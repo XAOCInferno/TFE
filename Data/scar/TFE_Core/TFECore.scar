@@ -16,8 +16,11 @@ function TFE_Immediate_Load()
 	if pcall(PassiveResourceGeneration_Immediate_Load) == false then 
 		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'PassiveResourceGeneration_Immediate_Load'!")
 	end
+	Initialise_GlobalsStorage()
+	--[[if pcall(Initialise_GlobalsStorage) == false then 
+		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Initialise_GlobalsStorage'!")
+	end]]
 	
-	Rule_AddInterval(UpdateAllSquads_Immediate, g_UpdateAllSquadsRate)
 	
 end
 

@@ -1,6 +1,8 @@
 debug_ResUpkeepCore_FileName = "ResUpkeepCore"
 
 
+
+
 function Rule_ActivateUpkeep()
 	local debugFuncName = "Rule_ActivateUpkeep"
 	
@@ -15,65 +17,41 @@ function Rule_ActivateUpkeep()
 end
 
 function Rule_CalculateUpkeep()
-	--[[EGroups only reference buildings so I'll use this for turrets later.
-	local CalculateUpkeepForPlayer_Entity = function(groupid, itemindex, itemid) 
 
-		local sUnitName = Entity_GetBlueprintName(itemid)
-		local tmpRace = g_AllPlayersRace[g_CurrentPlayer]
-
-		if(UnitCosting[tmpRace] ~= null) then
-			if (UnitCosting[tmpRace][sUnitName] ~= nil) then
-				g_BonusIncome[g_CurrentPlayer].Req = g_BonusIncome[g_CurrentPlayer].Req + (UnitCosting[tmpRace][sUnitName].CostEntity.Req / g_UpkeepDivider)
-				g_BonusIncome[g_CurrentPlayer].Power = g_BonusIncome[g_CurrentPlayer].Power + (UnitCosting[tmpRace][sUnitName].CostEntity.Power / g_UpkeepDivider)
-				g_BonusIncome[g_CurrentPlayer].Faith = g_BonusIncome[g_CurrentPlayer].Faith + (UnitCosting[tmpRace][sUnitName].CostEntity.Faith / g_UpkeepDivider)
-				g_BonusIncome[g_CurrentPlayer].Souls = g_BonusIncome[g_CurrentPlayer].Souls + (UnitCosting[tmpRace][sUnitName].CostEntity.Souls / g_UpkeepDivider)
-			end
-		end	
-	end]]
-
-	local CalculateUpkeepForPlayer_Squad = function(eSquadGroupID, i, eSquadID) 
-		local sUnitName = Squad_GetBlueprintName(eSquadID)
-		local tmpRace = g_AllPlayersRace[g_CurrentPlayer]
-		if(UnitCosting[tmpRace] ~= null) then
-			if (UnitCosting[tmpRace][sUnitName] ~= nil) then
-
-				local Loadout = Squad_Count(eSquadID)
-
-				g_BonusIncome[g_CurrentPlayer].Req = g_BonusIncome[g_CurrentPlayer].Req + ((UnitCosting[tmpRace][sUnitName].CostEntity.Req) / g_UpkeepDivider) * Loadout
-				g_BonusIncome[g_CurrentPlayer].Power = g_BonusIncome[g_CurrentPlayer].Power + ((UnitCosting[tmpRace][sUnitName].CostEntity.Power) / g_UpkeepDivider) * Loadout
-				g_BonusIncome[g_CurrentPlayer].Faith = g_BonusIncome[g_CurrentPlayer].Faith + ((UnitCosting[tmpRace][sUnitName].CostEntity.Faith) / g_UpkeepDivider) * Loadout
-				g_BonusIncome[g_CurrentPlayer].Souls = g_BonusIncome[g_CurrentPlayer].Souls + ((UnitCosting[tmpRace][sUnitName].CostEntity.Souls) / g_UpkeepDivider) * Loadout
-
-				g_BonusIncome[g_CurrentPlayer].Req = g_BonusIncome[g_CurrentPlayer].Req + (UnitCosting[tmpRace][sUnitName].CostSquad.Req / g_UpkeepDivider)
-				g_BonusIncome[g_CurrentPlayer].Power = g_BonusIncome[g_CurrentPlayer].Power + (UnitCosting[tmpRace][sUnitName].CostSquad.Power / g_UpkeepDivider)
-				g_BonusIncome[g_CurrentPlayer].Faith = g_BonusIncome[g_CurrentPlayer].Faith + (UnitCosting[tmpRace][sUnitName].CostSquad.Faith / g_UpkeepDivider)
-				g_BonusIncome[g_CurrentPlayer].Souls = g_BonusIncome[g_CurrentPlayer].Souls + (UnitCosting[tmpRace][sUnitName].CostSquad.Souls / g_UpkeepDivider)
-
-				if (Squad_HasLeader(eSquadID)) then 
-					g_BonusIncome[g_CurrentPlayer].Req = g_BonusIncome[g_CurrentPlayer].Req + (UnitCosting[tmpRace][sUnitName].CostLeader.Req / g_UpkeepDivider)
-					g_BonusIncome[g_CurrentPlayer].Power = g_BonusIncome[g_CurrentPlayer].Power + (UnitCosting[tmpRace][sUnitName].CostLeader.Power / g_UpkeepDivider)
-					g_BonusIncome[g_CurrentPlayer].Faith = g_BonusIncome[g_CurrentPlayer].Faith + (UnitCosting[tmpRace][sUnitName].CostLeader.Faith / g_UpkeepDivider)
-					g_BonusIncome[g_CurrentPlayer].Souls = g_BonusIncome[g_CurrentPlayer].Souls + (UnitCosting[tmpRace][sUnitName].CostLeader.Souls / g_UpkeepDivider)
+	for i = 1, g_PlayerCount do
+	
+		for j = 1, g_PlayerSquadCount[i] do
+		
+			local tmpStruct = g_AllSquadsData[i][j]			
+			if(tmpStruct ~= nil) then
+			
+				local SquadLifetimeAsPercent = 1
+				local SquadLifetime = GetWorldLifetime(tmpStruct.SquadInitTime)
+			
+				if(SquadLifetime < g_TimeTakenForMaxUpkeep) then			
+					SquadLifetimeAsPercent = SquadLifetime / g_MatureMaxLifetime
+				end
 				
+				if(UnitCosting[tmpStruct.SquadUnitRace] ~= null) then
+					g_BonusIncome[i].Req = g_BonusIncome[i].Req + ((UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Req * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent)
+					g_BonusIncome[i].Power = g_BonusIncome[i].Power + ((UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Power * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent)
+					g_BonusIncome[i].Faith = g_BonusIncome[i].Faith + ((UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Faith * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent)
+					g_BonusIncome[i].Souls = g_BonusIncome[i].Souls + ((UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Souls * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent)
+			
+		
+					if (tmpStruct.SquadHasLeader) then 
+						g_BonusIncome[i].Req = g_BonusIncome[i].Req + (UnitCosting[SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Req / SquadLifetimeAsPercent)
+						g_BonusIncome[i].Power = g_BonusIncome[i].Power + (UnitCosting[SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Power / SquadLifetimeAsPercent)
+						g_BonusIncome[i].Faith = g_BonusIncome[i].Faith + (UnitCosting[SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Faith / SquadLifetimeAsPercent)
+						g_BonusIncome[i].Souls = g_BonusIncome[i].Souls + (UnitCosting[SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Souls / SquadLifetimeAsPercent)
+				
+					end
 				end
 			end
-		end
+		end			
 	end
 	
-	--Calc new upkeep
-	for i = 1, g_PlayerCount do
-
-		g_CurrentPlayer = i
-		if (Player_IsAlive(g_AllPlayers[i])) then
-			
-			for j = 1, table.getn(g_AllSquads[i]) do 		
-				SGroup_ForEachEx(g_AllSquads[i][j], CalculateUpkeepForPlayer_Squad, true, true)
-			end	
-					
-		end
-	end
-
-	g_HasDoneInitUpkeepRun = true	
+	g_HasDoneInitUpkeepRun = true --Necessary now we have Core?	
 
 end
 

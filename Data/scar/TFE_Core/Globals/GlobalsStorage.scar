@@ -12,6 +12,9 @@ g_CurrentPlayer = 0
 g_RaceSpecificResourceGeneration = {}
 g_ResourceGenUpdateRate = 1
 
+g_WorldTime = World_GetGameTime()
+g_WorldTimeFidelity = 0.2
+
 UnitCosting = { }
 ResourceGlobalNames = { }
 g_PlayerGlobalStatus = 
@@ -168,24 +171,48 @@ g_BonusIncome = {
 g_UpkeepCalculateRate = 1
 g_UpkeepImplementRate = 1 
 g_UpkeepDivider = 10 --[[bc we're checking 0.25f, /4 so you lose so much per s]]
-g_HasDoneInitUpkeepRun = false
+g_HasDoneInitUpkeepRun = false --Necessary bool?
 
 
 g_AllStrategicPointsStructs = {}
 g_NumberStratPoints = 0
 
 g_MatureUpdateRate = 1 
-g_MatureMaxLifetime = 720
+g_MatureMaxLifetime = 480 --720 --12mins rly?
 
-g_MaxMatureBonus_Base = { Req = 3, Power = 2}
-g_MaxMatureBonus_Global1 = { Req = 6, Power = 4 }
-g_MaxMatureBonus_Global2 = { Req = 9, Power = 8 }
+g_MaxMatureBonus_Base = { Req = 2, Power = 1}
+g_MaxMatureBonus_Global1 = { Req = 3, Power = 2 }
+g_MaxMatureBonus_Global2 = { Req = 4, Power = 3 }
 
-g_UpkeepActivationDelay = 180
-g_MatureActivationDelay = 60
+g_UpkeepActivationDelay = 0 --180, why delay? fix the problem instead of delay. tick up the upkeep..?
+g_MatureActivationDelay = 0 --Why delay?
+g_TimeTakenForMaxUpkeep = 240
+
+g_AllSquadUpkeeps = 
+{
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{}
+}
 
 g_UpdateAllSquadsRate = 1
 g_AllSquads = 
+{
+	nil,
+	nil,
+	nil,
+	nil,
+	nil,
+	nil,
+	nil,
+	nil--Max of 8 players
+}
+
+g_AllSquadsData = 
 {
 	{},
 	{},
@@ -197,6 +224,31 @@ g_AllSquads =
 	{}--Max of 8 players
 }
 
+g_PlayerSquadCount = 
+{
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0--Max of 8 players
+}
+
+function Initialise_GlobalsStorage()
+
+	Rule_AddInterval(SetUpdatedGameTime, 0.2)
+	Rule_AddInterval(UpdateAllSquads_Immediate, g_UpdateAllSquadsRate)
+
+end
+
+function SetUpdatedGameTime()
+
+	g_WorldTime = World_GetGameTime()
+
+end
+
 
 --Keep these in SCAR and move above to LUA
 function UpdateAllSquads_Immediate()
@@ -207,13 +259,82 @@ function UpdateAllSquads_Immediate()
 	end
 end
 
-function UpdatePlayerSquads_Immediate(PlayerIndex)
+function UpdatePlayerSquads_Immediate(PlayerIndex)	
+	--local g_SGroupsCreated = 0
 	for i = 1, g_PlayerCount do
-	
 		if (Player_IsAlive(g_AllPlayers[i])) then
+					
+			local AddSGroupData = function(_sgroupid, _itemindex, _squadID)
+
+				for l = 1, TableLength(g_AllSquadsData[i]) do
+					if(g_AllSquadsData[i][l] ~= nil) then
+						if(g_AllSquadsData[i][l].SquadUniqueID == Squad_GetGameID(_squadID)) then
+							return false
+						end
+					end
+				end	
+					
+				local tmpSquadData = 
+				{
+					SquadUniqueID = Squad_GetGameID(_squadID),
+					SquadGroupID = _sgroupid,
+					SquadIndex = _itemindex, -- What can this be used for?
+					SquadID = _squadID,	
+					SquadUnitRace = g_AllPlayersRace[i],
+					SquadBlueprint = Squad_GetBlueprintName(_squadID),
+					SquadLoadout = Squad_Count(_squadID),	
+					SquadHasLeader = Squad_HasLeader(_squadID),
+					SquadInitTime = g_WorldTime	
+				}		
 				
-			table.insert(g_AllSquads[i], Player_GetSquads(g_AllPlayers[i]))	
-				
+				table.insert(g_AllSquadsData[i], tmpSquadData)	
+			end
+			
+			tmpPlayerSquads = Player_GetSquads(g_AllPlayers[i])
+			g_AllSquads[i] = Player_GetSquads(g_AllPlayers[i])
+			for k = 1, TableLength(g_AllSquadsData[i]) do
+				if(g_AllSquadsData[i][k] ~= nil) then
+					if(SGroup_CountSpawned(g_AllSquadsData[i][k].SquadGroupID) == 0) then
+						table.remove(g_AllSquadsData[i], k)
+					end
+				end
+			end	
+			
+			SGroup_ForEach(g_AllSquads[i], AddSGroupData)	
+			
+			g_PlayerSquadCount[i] = Player_GetActiveSquadCount(g_AllPlayers[i])
 		end
 	end
+end
+
+
+function GetWorldLifetime(StartTime)
+	return g_WorldTime - StartTime
+end
+
+--Move this out into a table module
+function ClearTable(tbl)
+
+	for i in pairs (tbl) do
+    	table.remove(tbl,i)
+	end
+
+end
+
+function TableContains(tbl, desired)
+
+	for i in pairs (tbl) do
+    	if(tbl[i] == desired) then
+    		return true, i
+    	end
+	end
+
+end
+
+function TableLength(tbl)
+
+	local count = 0
+	for _ in pairs(tbl) do count = count + 1 end
+	return count
+	
 end

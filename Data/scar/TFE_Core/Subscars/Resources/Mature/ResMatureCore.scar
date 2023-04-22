@@ -18,21 +18,25 @@ function SetupMature()
 	
 	Log(0, 0, debug_ResMatureCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 
-	local SetupNewPoint = function(eSquadGroupID, i, eSquadID) 
-		local tmpStratPoint = 
+	local SetupNewPoint = function(eSquadGroupID, i, eSquadID)
+	
+		local tmpStratPoint =  
 		{
 			ID = eSquadID,
-			OwnedTime = 0,
-			OwnedBy = -1
+			OwnedBy = -1,			
+			GetOwnedTime = tmpOwnedTime,			
+			
+			InitTime = g_WorldTime
 		}
 		table.insert( g_AllStrategicPointsStructs, tmpStratPoint )
 		g_NumberStratPoints = g_NumberStratPoints + 1
 
 	end
 
-	g_MatureMaxLifetime = g_MatureMaxLifetime * g_PlayerCount --Code repeats itself for each player so this is to compensate
+	g_MatureMaxLifetime = g_MatureMaxLifetime * g_PlayerCount --Code repeats itself for each player so this is to compensate  [[Why does it repeat for each player??]]
 	World_GetStrategicPoints(EGroup_CreateIfNotFound( "tmpAllStratPoints" ) )
 	EGroup_ForEachEx(EGroup_FromName("tmpAllStratPoints"),  SetupNewPoint, true, true)
+	
 	Rule_AddOneShot(Rule_ActivateMature, g_MatureActivationDelay)
 	
 	Log(0, 0, debug_ResMatureCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
@@ -78,17 +82,21 @@ function Rule_DoMature()
 		local CurrentStratPoint = g_AllStrategicPointsStructs[i]
 		--[[Firstly check if control has switched.]]
 		if(not World_OwnsEntity(g_AllStrategicPointsStructs[i].ID)) then
+		
 			local tmpOwner = Entity_GetPlayerOwner(g_AllStrategicPointsStructs[i].ID)
+			
 			if(g_AllStrategicPointsStructs[i].OwnedBy ~= World_GetPlayerIndex(tmpOwner)) then
-				g_AllStrategicPointsStructs[i].OwnedTime = 0	
+				g_AllStrategicPointsStructs[i].InitTime = g_WorldTime	
 				g_AllStrategicPointsStructs[i].OwnedBy = World_GetPlayerIndex(tmpOwner)	
-
-			elseif(g_AllStrategicPointsStructs[i].OwnedTime < g_MatureMaxLifetime) then
-				g_AllStrategicPointsStructs[i].OwnedTime = g_AllStrategicPointsStructs[i].OwnedTime[i] + g_MatureUpdateRate
+			end
+			
+			local OwnedTime = GetWorldLifetime(g_AllStrategicPointsStructs[i].InitTime)
+			if(OwnedTime < g_MatureMaxLifetime) then
+				g_AllStrategicPointsStructs[i].InitTime = OwnedTime + g_MatureUpdateRate
 			end
 
-			if(g_AllStrategicPointsStructs[i].OwnedTime > g_MatureMaxLifetime) then
-				g_AllStrategicPointsStructs[i].OwnedTime = g_MatureMaxLifetime
+			if(OwnedTime > g_MatureMaxLifetime) then
+				g_AllStrategicPointsStructs[i].InitTime = g_MatureMaxLifetime
 
 			end
 		end
@@ -143,7 +151,7 @@ function Rule_DoMature()
 						MaxBonusPower = g_MaxMatureBonus_Base.Power
 					end
 
-					local CapTimeAsMaturePercent = g_AllStrategicPointsStructs[z].OwnedTime / g_MatureMaxLifetime
+					local CapTimeAsMaturePercent = GetWorldLifetime(g_AllStrategicPointsStructs[z].InitTime) / g_MatureMaxLifetime
 					local CapTimeAsBonusReq = MaxBonusReq * CapTimeAsMaturePercent
 
 					if(CapTimeAsBonusReq > MaxBonusReq) then
