@@ -171,10 +171,7 @@ g_UpkeepDivider = 10 --[[bc we're checking 0.25f, /4 so you lose so much per s]]
 g_HasDoneInitUpkeepRun = false
 
 
-
-g_AllStrategicPointsID = { }
-g_AllStrategicPointsCapturedLifetime = { }
-g_AllStrategicPointsCurrentMaturingPlayer = { }
+g_AllStrategicPointsStructs = {}
 g_NumberStratPoints = 0
 
 g_MatureUpdateRate = 1 
