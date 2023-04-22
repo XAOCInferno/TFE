@@ -17,6 +17,8 @@ function TFE_Immediate_Load()
 		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'PassiveResourceGeneration_Immediate_Load'!")
 	end
 	
+	Rule_AddInterval(UpdateAllSquads_Immediate, g_UpdateAllSquadsRate)
+	
 end
 
 function TFE_Load()
@@ -26,169 +28,9 @@ function TFE_Load()
 	
 	Rule_AddOneShot(InitNewCoverSystems,1)
 	SetupMature()
-	Rule_AddOneShot(Rule_ActivateUpkeep,1)--g_UpkeepActivationDelay)
+	Rule_AddOneShot(Rule_ActivateUpkeep,g_UpkeepActivationDelay)
 	
 	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
-end
-
-function Rule_ActivateMature()
-	local debugFuncName = "Rule_ActivateMature"
-	
-	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
-
-	UIWarning_Show("Resource Mature has now been activated!")
-	EventCue_DoEvent( 'ingame/event_cue_icons/strategic_point', 'music/stinger_completeobjective', 'Resource Mature Activated!', 'Capped points will increase in value until decapped.' )
-	Rule_AddInterval(Rule_DoMature, g_UpkeepCalculateRate)
-	
-	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
-
-end
-
-function SetupMature()
-	local debugFuncName = "SetupMature"
-	
-	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
-
-	local SetupNewPoint = function(eSquadGroupID, i, eSquadID) 
-		table.insert( g_AllStrategicPointsID, eSquadID )	
-		table.insert( g_AllStrategicPointsCapturedLifetime, 0 )	
-		table.insert( g_AllStrategicPointsCurrentMaturingPlayer, -1 )	
-		g_NumberStratPoints = g_NumberStratPoints + 1
-
-	end
-
-	g_MatureMaxLifetime = g_MatureMaxLifetime * g_PlayerCount --Code repeats itself for each player so this is to compensate
-	World_GetStrategicPoints(EGroup_CreateIfNotFound( "tmpAllStratPoints" ) )
-	EGroup_ForEachEx(EGroup_FromName("tmpAllStratPoints"),  SetupNewPoint, true, true)
-	Rule_AddOneShot(Rule_ActivateMature, g_MatureActivationDelay)
-	
-	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
-end
-
-function CheckForGlobals() 
-
-	for i = 1, g_PlayerCount do
-		local tmpRace = g_AllPlayersRace[i]
-
-		if(g_PlayerGlobalStatus[i].ReqSecond == false) then
-			if(g_PlayerGlobalStatus[i].ReqFirst == false) then
-				if(Player_GetResearchState( g_AllPlayers[i], ResourceGlobalNames[tmpRace].Req.First ) == "RS_Complete" ) then
-					g_PlayerGlobalStatus[i].ReqFirst = true
-				end
-			else
-				if(Player_GetResearchState( g_AllPlayers[i], ResourceGlobalNames[tmpRace].Req.Second) == "RS_Complete" ) then
-					g_PlayerGlobalStatus[i].ReqSecond = true
-				end
-			end
-		end
-
-		if(g_PlayerGlobalStatus[i].PowerSecond == false) then
-		
-			if(g_PlayerGlobalStatus[i].PowerFirst == false) then
-				if(Player_GetResearchState( g_AllPlayers[i], ResourceGlobalNames[tmpRace].Power.First) == "RS_Complete" ) then
-					g_PlayerGlobalStatus[i].ReqFirst = true
-				end
-			else
-				if(Player_GetResearchState( g_AllPlayers[i], ResourceGlobalNames[tmpRace].Power.Second) == "RS_Complete" ) then
-					g_PlayerGlobalStatus[i].PowerSecond = true
-				end
-			end
-		end
-	end
-
-end
-
-function Rule_DoMature()
-
-	CheckForGlobals()
-	for i = 1, g_NumberStratPoints do
-		--[[Firstly check if control has switched.]]
-		if(not World_OwnsEntity(g_AllStrategicPointsID[i])) then
-			local tmpOwner = Entity_GetPlayerOwner(g_AllStrategicPointsID[i])
-			if(g_AllStrategicPointsCurrentMaturingPlayer[i] ~= World_GetPlayerIndex(tmpOwner)) then
-				g_AllStrategicPointsCapturedLifetime[i] = 0	
-				g_AllStrategicPointsCurrentMaturingPlayer[i] = World_GetPlayerIndex(tmpOwner)	
-
-			elseif(g_AllStrategicPointsCapturedLifetime[i] < g_MatureMaxLifetime) then
-				g_AllStrategicPointsCapturedLifetime[i] = g_AllStrategicPointsCapturedLifetime[i] + g_MatureUpdateRate
-			end
-
-			if(g_AllStrategicPointsCapturedLifetime[i] > g_MatureMaxLifetime) then
-				g_AllStrategicPointsCapturedLifetime[i] = g_MatureMaxLifetime
-
-			end
-		end
-
-	end
-
-
-	for j = 1, table.getn(g_AllPlayers) do
-
-		g_BonusIncome[j] = 
-		{
-			Req = g_BasePlayerUpkeep[j].Req,
-			Power = g_BasePlayerUpkeep[j].Power,
-			Faith = g_BasePlayerUpkeep[j].Faith,
-			Souls = g_BasePlayerUpkeep[j].Souls,				
-		}
-
-		for z = 1, table.getn(g_AllStrategicPointsCurrentMaturingPlayer) do
-			if(g_AllStrategicPointsCurrentMaturingPlayer[z] == World_GetPlayerIndex(g_AllPlayers[j])) then
-				if(g_BonusIncome ~= nil) then
-					local MaxBonusReq = 0
-					local MaxBonusPower = 0
-
-					local TmpBonusReq = 0
-					local TmpBonusPower = 0
-
-					if(g_PlayerGlobalStatus[z] == nil) then
-					
-						g_PlayerGlobalStatus[z] =
-						{
-							ReqFirst = false,
-							ReqSecond = false,
-			
-							PowerFirst = false,
-							PowerSecond = false,
-						}
-					end
-			
-					if(g_PlayerGlobalStatus[z].ReqSecond == true) then
-						MaxBonusReq = g_MaxMatureBonus_Global2.Req
-					elseif(g_PlayerGlobalStatus[z].ReqFirst == true) then
-						MaxBonusReq = g_MaxMatureBonus_Global1.Req
-					else
-						MaxBonusReq = g_MaxMatureBonus_Base.Req
-					end					
-					
-					if(g_PlayerGlobalStatus[z].PowerSecond == true) then
-						MaxBonusPower = g_MaxMatureBonus_Global2.Power
-					elseif(g_PlayerGlobalStatus[z].PowerFirst == true) then
-						MaxBonusPower = g_MaxMatureBonus_Global1.Power
-					else
-						MaxBonusPower = g_MaxMatureBonus_Base.Power
-					end
-
-					local CapTimeAsMaturePercent = g_AllStrategicPointsCapturedLifetime[z] / g_MatureMaxLifetime
-					local CapTimeAsBonusReq = MaxBonusReq * CapTimeAsMaturePercent
-
-					if(CapTimeAsBonusReq > MaxBonusReq) then
-			
-						CapTimeAsBonusReq = MaxBonusReq						
-
-					end
-
-					g_BonusIncome[j].Req = g_BonusIncome[j].Req + CapTimeAsBonusReq
-					--print("CapTime = "..CapTimeAsMaturePercent.." And New Req from it = "..CapTimeAsBonusReq.." Capped at = "..MaxBonusReq.Req)
-				end
-			end
-		
-		end
-
-	end	
-
-	Rule_ImplementUpkeep()
-
 end
 
 function GetAllPlayers()

@@ -187,7 +187,7 @@ g_MaxMatureBonus_Global2 = { Req = 9, Power = 8 }
 g_UpkeepActivationDelay = 180
 g_MatureActivationDelay = 60
 
-
+g_UpdateAllSquadsRate = 1
 g_AllSquads = 
 {
 	{},

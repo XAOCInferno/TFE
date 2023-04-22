@@ -1,8 +1,6 @@
 debug_ResUpkeepCore_FileName = "ResUpkeepCore"
 
 
-import("TFE_Core/Imports/TFECore_Imports.scar")
-
 function Rule_ActivateUpkeep()
 	local debugFuncName = "Rule_ActivateUpkeep"
 	
