@@ -39,12 +39,13 @@ function PassiveResourceGeneration_Import_Settings()
 		RT_Pop = 0,
 		RT_Souls = 0,
 		RT_Faith = 0
+	}
 	local ORK = 
 	{		
-		HasPassiveResGen = false,
+		HasPassiveResGen = true,
 		RT_Requisition = 0,
 		RT_Power = 0,
-		RT_Pop = 0,
+		RT_Pop = 0.01666666666,
 		RT_Souls = 0,
 		RT_Faith = 0
 	}
