@@ -209,27 +209,18 @@ function GetAllPlayers()
 	for i = 1, g_PlayerCount do
 
 		local Player = World_GetPlayerAt(i-1)
-		table.insert(g_AllPlayers, Player)
-
 		local RaceName = Player_GetRaceName( Player ) 
 		local RaceIndex = Player_GetRace( Player ) 
+		
+		table.insert(g_AllPlayers, Player)
 		table.insert(g_AllPlayersRace, RaceName)
 		table.insert(g_AllPlayersRace_AsIndex, RaceIndex)
+		
 		if (UnitCosting[RaceName] == nil) then
 			pcall(import, 'upkeep/races/'..RaceName..'.scar')
 		end
-
-		if (Player_IsAlive(Player)) then
-			if RaceName == "dark_eldar_race" then
-				table.insert(g_AllDarkEldarPlayers, Player)			
-			--elseif RaceName == "chaos_marine_race" then
-			--not sure if we need to do al logic here anymore.
-			end
-		end	
+		
 	end
-
-	if (table.getn(g_AllDarkEldarPlayers) > 0) then
-	end	
 
 end
 

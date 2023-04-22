@@ -4,6 +4,7 @@ function PassiveResourceGeneration_Import_Settings()
 	local debugFuncName = "PassiveResourceGeneration_Import_Settings"
 	
 	Log(0, 0, debug_PassiveResourceGeneration_Settings_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	--Convert all these to race files? less scripting 
 	local CSM = 
 	{		
 		HasPassiveResGen = false,
