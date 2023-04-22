@@ -186,3 +186,37 @@ g_MaxMatureBonus_Global2 = { Req = 9, Power = 8 }
 
 g_UpkeepActivationDelay = 180
 g_MatureActivationDelay = 60
+
+
+g_AllSquads = 
+{
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{}--Max of 8 players
+}
+
+
+--Keep these in SCAR and move above to LUA
+function UpdateAllSquads_Immediate()
+	for i = 1, g_PlayerCount do
+
+		UpdatePlayerSquads_Immediate(i)
+		
+	end
+end
+
+function UpdatePlayerSquads_Immediate(PlayerIndex)
+	for i = 1, g_PlayerCount do
+	
+		if (Player_IsAlive(g_AllPlayers[i])) then
+				
+			table.insert(g_AllSquads[i], Player_GetSquads(g_AllPlayers[i]))	
+				
+		end
+	end
+end

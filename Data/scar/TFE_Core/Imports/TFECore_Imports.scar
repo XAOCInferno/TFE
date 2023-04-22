@@ -18,4 +18,5 @@ import("TFE_Core/Debug/GlobalsDebug.scar")
 import("cover/NewCoverSystems.scar")
 import("TFE_Core/Subscars/Alpha_Legion/AlphaLegion_Core.scar")
 import("TFE_Core/Subscars/Resources/AutoGenResources/PassiveResourceGeneration_Core.scar")
+import("TFE_Core/Subscars/Resources/Upkeep/ResUpkeepCore.scar")
 ----------------------------------

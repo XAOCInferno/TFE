@@ -1,0 +1,100 @@
+debug_ResUpkeepCore_FileName = "ResUpkeepCore"
+
+
+import("TFE_Core/Imports/TFECore_Imports.scar")
+
+function Rule_ActivateUpkeep()
+	local debugFuncName = "Rule_ActivateUpkeep"
+	
+	Log(0, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	
+	UIWarning_Show("Army Upkeep has now been activated!")	
+	EventCue_DoEvent( 'ingame/event_cue_icons/custom/warning', 'music/stinger_completeobjective', 'Army Upkeep Activated!', 'Your army will now drain resources.' )
+	Rule_AddInterval(Rule_CalculateUpkeep, g_UpkeepCalculateRate)
+	
+	Log(0, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+
+end
+
+function Rule_CalculateUpkeep()
+	--[[EGroups only reference buildings so I'll use this for turrets later.
+	local CalculateUpkeepForPlayer_Entity = function(groupid, itemindex, itemid) 
+
+		local sUnitName = Entity_GetBlueprintName(itemid)
+		local tmpRace = g_AllPlayersRace[g_CurrentPlayer]
+
+		if(UnitCosting[tmpRace] ~= null) then
+			if (UnitCosting[tmpRace][sUnitName] ~= nil) then
+				g_BonusIncome[g_CurrentPlayer].Req = g_BonusIncome[g_CurrentPlayer].Req + (UnitCosting[tmpRace][sUnitName].CostEntity.Req / g_UpkeepDivider)
+				g_BonusIncome[g_CurrentPlayer].Power = g_BonusIncome[g_CurrentPlayer].Power + (UnitCosting[tmpRace][sUnitName].CostEntity.Power / g_UpkeepDivider)
+				g_BonusIncome[g_CurrentPlayer].Faith = g_BonusIncome[g_CurrentPlayer].Faith + (UnitCosting[tmpRace][sUnitName].CostEntity.Faith / g_UpkeepDivider)
+				g_BonusIncome[g_CurrentPlayer].Souls = g_BonusIncome[g_CurrentPlayer].Souls + (UnitCosting[tmpRace][sUnitName].CostEntity.Souls / g_UpkeepDivider)
+			end
+		end	
+	end]]
+
+	local CalculateUpkeepForPlayer_Squad = function(eSquadGroupID, i, eSquadID) 
+		local sUnitName = Squad_GetBlueprintName(eSquadID)
+		local tmpRace = g_AllPlayersRace[g_CurrentPlayer]
+		if(UnitCosting[tmpRace] ~= null) then
+			if (UnitCosting[tmpRace][sUnitName] ~= nil) then
+
+				local Loadout = Squad_Count(eSquadID)
+
+				g_BonusIncome[g_CurrentPlayer].Req = g_BonusIncome[g_CurrentPlayer].Req + ((UnitCosting[tmpRace][sUnitName].CostEntity.Req) / g_UpkeepDivider) * Loadout
+				g_BonusIncome[g_CurrentPlayer].Power = g_BonusIncome[g_CurrentPlayer].Power + ((UnitCosting[tmpRace][sUnitName].CostEntity.Power) / g_UpkeepDivider) * Loadout
+				g_BonusIncome[g_CurrentPlayer].Faith = g_BonusIncome[g_CurrentPlayer].Faith + ((UnitCosting[tmpRace][sUnitName].CostEntity.Faith) / g_UpkeepDivider) * Loadout
+				g_BonusIncome[g_CurrentPlayer].Souls = g_BonusIncome[g_CurrentPlayer].Souls + ((UnitCosting[tmpRace][sUnitName].CostEntity.Souls) / g_UpkeepDivider) * Loadout
+
+				g_BonusIncome[g_CurrentPlayer].Req = g_BonusIncome[g_CurrentPlayer].Req + (UnitCosting[tmpRace][sUnitName].CostSquad.Req / g_UpkeepDivider)
+				g_BonusIncome[g_CurrentPlayer].Power = g_BonusIncome[g_CurrentPlayer].Power + (UnitCosting[tmpRace][sUnitName].CostSquad.Power / g_UpkeepDivider)
+				g_BonusIncome[g_CurrentPlayer].Faith = g_BonusIncome[g_CurrentPlayer].Faith + (UnitCosting[tmpRace][sUnitName].CostSquad.Faith / g_UpkeepDivider)
+				g_BonusIncome[g_CurrentPlayer].Souls = g_BonusIncome[g_CurrentPlayer].Souls + (UnitCosting[tmpRace][sUnitName].CostSquad.Souls / g_UpkeepDivider)
+
+				if (Squad_HasLeader(eSquadID)) then 
+					g_BonusIncome[g_CurrentPlayer].Req = g_BonusIncome[g_CurrentPlayer].Req + (UnitCosting[tmpRace][sUnitName].CostLeader.Req / g_UpkeepDivider)
+					g_BonusIncome[g_CurrentPlayer].Power = g_BonusIncome[g_CurrentPlayer].Power + (UnitCosting[tmpRace][sUnitName].CostLeader.Power / g_UpkeepDivider)
+					g_BonusIncome[g_CurrentPlayer].Faith = g_BonusIncome[g_CurrentPlayer].Faith + (UnitCosting[tmpRace][sUnitName].CostLeader.Faith / g_UpkeepDivider)
+					g_BonusIncome[g_CurrentPlayer].Souls = g_BonusIncome[g_CurrentPlayer].Souls + (UnitCosting[tmpRace][sUnitName].CostLeader.Souls / g_UpkeepDivider)
+				
+				end
+			end
+		end
+	end
+	
+	--Calc new upkeep
+	for i = 1, g_PlayerCount do
+
+		g_CurrentPlayer = i
+		if (Player_IsAlive(g_AllPlayers[i])) then
+			
+			for j = 1, table.getn(g_AllSquads[i]) do 		
+				SGroup_ForEachEx(g_AllSquads[i][j], CalculateUpkeepForPlayer_Squad, true, true)
+			end	
+					
+		end
+	end
+
+	g_HasDoneInitUpkeepRun = true	
+
+end
+
+
+function Rule_ImplementUpkeep()
+	
+	if(g_HasDoneInitUpkeepRun) then
+	
+		for i = 1, g_PlayerCount do			
+		
+			if(Player_IsAlive(g_AllPlayers[i])) then
+			
+				Player_AddResource(g_AllPlayers[i], RT_Requisition, g_BonusIncome[i].Req)
+				Player_AddResource(g_AllPlayers[i], RT_Power, g_BonusIncome[i].Power)
+				Player_AddResource(g_AllPlayers[i], RT_Faith, g_BonusIncome[i].Faith)
+				Player_AddResource(g_AllPlayers[i], RT_Souls, g_BonusIncome[i].Souls)
+				
+			end
+		end
+	end
+
+end

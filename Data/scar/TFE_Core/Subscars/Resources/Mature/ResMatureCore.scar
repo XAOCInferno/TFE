@@ -26,9 +26,22 @@ function TFE_Load()
 	
 	Rule_AddOneShot(InitNewCoverSystems,1)
 	SetupMature()
-	Rule_AddOneShot(Rule_ActivateUpkeep,1)--g_UpkeepActivationDelay)
+	Rule_AddOneShot(Rule_ActivateUpkeep,g_UpkeepActivationDelay)
 	
 	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+end
+
+function Rule_ActivateUpkeep()
+	local debugFuncName = "Rule_ActivateUpkeep"
+	
+	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	
+	UIWarning_Show("Army Upkeep has now been activated!")	
+	EventCue_DoEvent( 'ingame/event_cue_icons/custom/warning', 'music/stinger_completeobjective', 'Army Upkeep Activated!', 'Your army will now drain resources.' )
+	Rule_AddInterval(Rule_CalculateUpkeep, g_UpkeepCalculateRate)
+	
+	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+
 end
 
 function Rule_ActivateMature()
@@ -203,7 +216,6 @@ function GetAllPlayers()
 		table.insert(g_AllPlayersRace, RaceName)
 		table.insert(g_AllPlayersRace_AsIndex, RaceIndex)
 		
-		--Move this later
 		if (UnitCosting[RaceName] == nil) then
 			pcall(import, 'upkeep/races/'..RaceName..'.scar')
 		end
@@ -214,3 +226,96 @@ end
 
 
 
+function Rule_CalculateUpkeep()
+	--[[EGroups only reference buildings so I'll use this for turrets later.
+	local CalculateUpkeepForPlayer_Entity = function(groupid, itemindex, itemid) 
+
+		local sUnitName = Entity_GetBlueprintName(itemid)
+		local tmpRace = g_AllPlayersRace[g_CurrentPlayer]
+
+		if(UnitCosting[tmpRace] ~= null) then
+			if (UnitCosting[tmpRace][sUnitName] ~= nil) then
+				g_BonusIncome[g_CurrentPlayer].Req = g_BonusIncome[g_CurrentPlayer].Req + (UnitCosting[tmpRace][sUnitName].CostEntity.Req / g_UpkeepDivider)
+				g_BonusIncome[g_CurrentPlayer].Power = g_BonusIncome[g_CurrentPlayer].Power + (UnitCosting[tmpRace][sUnitName].CostEntity.Power / g_UpkeepDivider)
+				g_BonusIncome[g_CurrentPlayer].Faith = g_BonusIncome[g_CurrentPlayer].Faith + (UnitCosting[tmpRace][sUnitName].CostEntity.Faith / g_UpkeepDivider)
+				g_BonusIncome[g_CurrentPlayer].Souls = g_BonusIncome[g_CurrentPlayer].Souls + (UnitCosting[tmpRace][sUnitName].CostEntity.Souls / g_UpkeepDivider)
+			end
+		end	
+	end]]
+
+	local CalculateUpkeepForPlayer_Squad = function(eSquadGroupID, i, eSquadID) 
+		local sUnitName = Squad_GetBlueprintName(eSquadID)
+		local tmpRace = g_AllPlayersRace[g_CurrentPlayer]
+		if(UnitCosting[tmpRace] ~= null) then
+			if (UnitCosting[tmpRace][sUnitName] ~= nil) then
+
+				local Loadout = Squad_Count(eSquadID)
+
+				g_BonusIncome[g_CurrentPlayer].Req = g_BonusIncome[g_CurrentPlayer].Req + ((UnitCosting[tmpRace][sUnitName].CostEntity.Req) / g_UpkeepDivider) * Loadout
+				g_BonusIncome[g_CurrentPlayer].Power = g_BonusIncome[g_CurrentPlayer].Power + ((UnitCosting[tmpRace][sUnitName].CostEntity.Power) / g_UpkeepDivider) * Loadout
+				g_BonusIncome[g_CurrentPlayer].Faith = g_BonusIncome[g_CurrentPlayer].Faith + ((UnitCosting[tmpRace][sUnitName].CostEntity.Faith) / g_UpkeepDivider) * Loadout
+				g_BonusIncome[g_CurrentPlayer].Souls = g_BonusIncome[g_CurrentPlayer].Souls + ((UnitCosting[tmpRace][sUnitName].CostEntity.Souls) / g_UpkeepDivider) * Loadout
+
+				g_BonusIncome[g_CurrentPlayer].Req = g_BonusIncome[g_CurrentPlayer].Req + (UnitCosting[tmpRace][sUnitName].CostSquad.Req / g_UpkeepDivider)
+				g_BonusIncome[g_CurrentPlayer].Power = g_BonusIncome[g_CurrentPlayer].Power + (UnitCosting[tmpRace][sUnitName].CostSquad.Power / g_UpkeepDivider)
+				g_BonusIncome[g_CurrentPlayer].Faith = g_BonusIncome[g_CurrentPlayer].Faith + (UnitCosting[tmpRace][sUnitName].CostSquad.Faith / g_UpkeepDivider)
+				g_BonusIncome[g_CurrentPlayer].Souls = g_BonusIncome[g_CurrentPlayer].Souls + (UnitCosting[tmpRace][sUnitName].CostSquad.Souls / g_UpkeepDivider)
+
+				if (Squad_HasLeader(eSquadID)) then 
+					g_BonusIncome[g_CurrentPlayer].Req = g_BonusIncome[g_CurrentPlayer].Req + (UnitCosting[tmpRace][sUnitName].CostLeader.Req / g_UpkeepDivider)
+					g_BonusIncome[g_CurrentPlayer].Power = g_BonusIncome[g_CurrentPlayer].Power + (UnitCosting[tmpRace][sUnitName].CostLeader.Power / g_UpkeepDivider)
+					g_BonusIncome[g_CurrentPlayer].Faith = g_BonusIncome[g_CurrentPlayer].Faith + (UnitCosting[tmpRace][sUnitName].CostLeader.Faith / g_UpkeepDivider)
+					g_BonusIncome[g_CurrentPlayer].Souls = g_BonusIncome[g_CurrentPlayer].Souls + (UnitCosting[tmpRace][sUnitName].CostLeader.Souls / g_UpkeepDivider)
+				
+				end
+			end
+		end
+	end
+	
+	--Calc new upkeep
+	for i = 1, g_PlayerCount do
+
+		g_CurrentPlayer = i
+		if (Player_IsAlive(g_AllPlayers[i])) then
+			
+			--Rule_DoMature() --Should calculate mature first I guess
+			
+			--[[Use this for turrets later	
+			local tmpEGroupID = Player_GetEntities( g_AllPlayers[i] )
+			EGroup_ForEachEx(tmpEGroupID, CalculateUpkeepForPlayer_Entity, true, true)
+			]]
+
+			local tmpAllSquads = {}			
+			table.insert(tmpAllSquads, Player_GetSquads(g_AllPlayers[i]))	
+			for j = 1, table.getn(tmpAllSquads) do 		
+				SGroup_ForEachEx(tmpAllSquads[j], CalculateUpkeepForPlayer_Squad, true, true)
+			end			
+
+			tmpAllSquads = {}
+		
+		else
+			table.remove(g_AllPlayers,i)
+		end
+	end
+
+	g_HasDoneInitUpkeepRun = true	
+
+end
+
+
+function Rule_ImplementUpkeep()
+	
+	if(g_HasDoneInitUpkeepRun) then
+		--Check if player is alive or nah?..
+		for i = 1, g_PlayerCount do
+			--print(g_BonusIncome[i].Req)
+			Player_AddResource(g_AllPlayers[i], RT_Requisition, g_BonusIncome[i].Req)
+			Player_AddResource(g_AllPlayers[i], RT_Power, g_BonusIncome[i].Power)
+			Player_AddResource(g_AllPlayers[i], RT_Faith, g_BonusIncome[i].Faith)
+			Player_AddResource(g_AllPlayers[i], RT_Souls, g_BonusIncome[i].Souls)
+
+
+		end
+	end
+
+end
