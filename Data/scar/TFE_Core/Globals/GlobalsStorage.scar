@@ -5,6 +5,7 @@ import("TFE_Core/Globals/GlobalsStorage.lua")
 
 function Initialise_GlobalsStorage()
 
+	UpdateAllSquads_Immediate()
 	Rule_AddInterval(SetUpdatedGameTime, g_WorldTimeFidelity)
 	Rule_AddInterval(UpdateAllSquads_Immediate, g_UpdateAllSquadsRate)
 
@@ -23,6 +24,7 @@ function UpdateAllSquads_Immediate()
 		UpdatePlayerSquads_Immediate(i)
 		
 	end
+	
 end
 
 
@@ -72,6 +74,8 @@ function UpdatePlayerSquads_Immediate(PlayerIndex)
 			g_PlayerSquadCount[i] = Player_GetActiveSquadCount(g_AllPlayers[i])
 		end
 	end
+	
+	g_LastSquadUpdateTime = g_WorldTime
 end
 
 function SetupStrategicPoints()

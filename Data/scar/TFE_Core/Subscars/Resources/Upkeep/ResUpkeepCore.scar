@@ -15,11 +15,23 @@ function Rule_ActivateUpkeep()
 	Log(0, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 	
 	EventCue_DoEvent( 'warning', 'music/stinger_completeobjective', 'Army Upkeep Activated!', 'Your army will now drain resources.' )
-	Rule_AddInterval(Rule_CalculateUpkeep, g_UpkeepCalculateRate)
+	Rule_Add(Rule_CheckForNewSquads_Upkeep)
 	
 	Log(0, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 
 end
+
+function Rule_CheckForNewSquads_Upkeep()
+
+	if(g_WorldTime == g_LastSquadUpdateTime and g_PreviousUpkeepCalcTime < g_WorldTime) then
+	
+		g_PreviousUpkeepCalcTime = g_WorldTime
+		Rule_CalculateUpkeep()
+	
+	end
+
+end
+
 
 function Rule_CalculateUpkeep()
 	local debugFuncName = "Rule_CalculateUpkeep"

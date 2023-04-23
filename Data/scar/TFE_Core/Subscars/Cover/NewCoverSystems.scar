@@ -158,10 +158,21 @@ function InitNewCoverSystems()
 
 	g_SGroupCoverApplier = SGroup_Create("sg_CoverApplierGroup")
 	SetupCoverModifiers()
-	Rule_AddIntervalDelay(Rule_CheckCoverStatus, 0, 1)
+	Rule_Add(Rule_CheckForNewSquads_Cover)
 	
 	Log(0, 0, debug_NewCoverSystems_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 	
+end
+
+
+function Rule_CheckForNewSquads_Cover()
+
+	if(g_WorldTime == g_LastSquadUpdateTime and g_PreviousCoverCalcTime < g_WorldTime) then
+		g_PreviousCoverCalcTime = g_WorldTime
+		Rule_CheckForNewSquads_Cover()
+	
+	end
+
 end
 
 

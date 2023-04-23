@@ -184,6 +184,10 @@ g_MaxMatureBonus_Global2 = { Req = 4, Power = 3 }
 g_MatureActivationDelay = 0 --Why delay?
 g_TimeTakenForMaxUpkeep = 240
 
+g_LastSquadUpdateTime = 0
+g_PreviousUpkeepCalcTime = 0
+g_PreviousCoverCalcTime = 0
+
 g_AllSquadUpkeeps = 
 {
 	{},
