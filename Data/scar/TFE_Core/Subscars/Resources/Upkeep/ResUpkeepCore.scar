@@ -1,14 +1,16 @@
 debug_ResUpkeepCore_FileName = "ResUpkeepCore"
 
-if(g_DebugMode) then
-	debug_CalcUpdate_LoggedRaceErrors = {}
-	debug_CalcUpdate_LoggedUnitErrors = {}
-	debug_CalcUpdate_LoggedUnitLeaderErrors = {}
-end
-
 
 function Rule_ActivateUpkeep()
 	local debugFuncName = "Rule_ActivateUpkeep"
+	
+	if(g_DebugMode) then
+		debug_CalcUpdate_LoggedRaceErrors = {}
+		debug_CalcUpdate_LoggedUnitErrors = {}
+		debug_CalcUpdate_LoggedUnitLeaderErrors = {}
+		debug_CalcUpdate_LoggedUnitMissingIDErrors = {}
+		debug_CalcUpdate_LoggedNillStructErrors = {}
+	end
 	
 	Log(0, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 	
@@ -30,9 +32,19 @@ function Rule_CalculateUpkeep()
 				
 			if(tmpStruct == nil) then
 				if(g_DebugMode)	then	
-					Log(3, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Struct for Player: "..i.." at position "..j.." is Nil! Can't apply upkeep.")					
+					if(TableContains(debug_CalcUpdate_LoggedNillStructErrors,tmpStruct.SquadUniqueID) == false) then
+						table.insert(debug_CalcUpdate_LoggedNillStructErrors,tmpStruct.SquadUniqueID)
+						Log(1, 0, debug_ResUpkeepCore_FileName, debugFuncName,  "Struct for Player: "..i.." at position "..j.." is Nil!")
+					end
 				end
-			else			
+			elseif(tmpStruct.SquadUniqueID == nil) then
+				if(g_DebugMode)	then	
+					if(TableContains(debug_CalcUpdate_LoggedUnitMissingIDErrors,tmpStruct.SquadUniqueID) == false) then
+						table.insert(debug_CalcUpdate_LoggedUnitMissingIDErrors,tmpStruct.SquadUniqueID)
+						Log(1, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Struct: '"..tmpStruct.."' does not have a Unique ID!")
+					end			
+				end
+			else		
 				local SquadLifetimeAsPercent = 1
 				local SquadLifetime = GetWorldLifetime(tmpStruct.SquadInitTime)
 			
@@ -65,13 +77,13 @@ function Rule_CalculateUpkeep()
 							end
 						end
 					elseif(g_DebugMode) then
-						if(TableContains(debug_CalcUpdate_LoggedUnitErrors,tmpStruct.SquadBlueprint) == false) then
-							table.insert(debug_CalcUpdate_LoggedUnitErrors,tmpStruct.SquadBlueprint)
-							Log(2, 0, debug_ResUpkeepCore_FileName, debugFuncName, "SquadBP '"..tmpStruct.SquadBlueprint.."' does not have Upkeep data!")
+						if(TableContains(debug_CalcUpdate_LoggedUnitErrors,tmpStruct.SquadUniqueID) == false) then
+							table.insert(debug_CalcUpdate_LoggedUnitErrors,tmpStruct.SquadUniqueID)
+							Log(1, 0, debug_ResUpkeepCore_FileName, debugFuncName, "SquadBP for ID: '"..tmpStruct.SquadUniqueID.."' does not have a Blueprint!")
 						end
 					end
 				elseif(g_DebugMode)	then			
-					if(TableContains(debug_CalcUpdate_LoggedRaceErrors,tmpStruct.SquadBlueprint) == false) then
+					if(TableContains(debug_CalcUpdate_LoggedRaceErrors,tmpStruct.SquadUnitRace) == false) then
 						table.insert(debug_CalcUpdate_LoggedRaceErrors, tmpStruct.SquadUnitRace)
 						Log(2, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Race '"..tmpStruct.SquadUnitRace.."' does not have Upkeep data!")
 					end

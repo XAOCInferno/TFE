@@ -5,7 +5,7 @@ import("TFE_Core/Globals/GlobalsStorage.lua")
 
 function Initialise_GlobalsStorage()
 
-	Rule_AddInterval(SetUpdatedGameTime, 0.2)
+	Rule_AddInterval(SetUpdatedGameTime, g_WorldTimeFidelity)
 	Rule_AddInterval(UpdateAllSquads_Immediate, g_UpdateAllSquadsRate)
 
 end

@@ -9,6 +9,7 @@ end
 
 function TableContains(tbl, desired)
 
+	if(tbl == nil) then return false end
 	for i in pairs (tbl) do
     	if(tbl[i] == desired) then
     		return true, i

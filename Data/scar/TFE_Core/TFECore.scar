@@ -24,13 +24,13 @@ function TFE_Immediate_Load()
 	end
 	
 	if pcall(SetupStrategicPoints) == false then 
-		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'SetupMature'!")
+		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'SetupMature'!")
 	elseif pcall(Rule_ActivateMature) == false then
-		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Rule_ActivateMature'!")
+		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Rule_ActivateMature'!")
 	end	
 	
 	if pcall(Rule_ActivateUpkeep) == false then 
-		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Rule_ActivateUpkeep'!")
+		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Rule_ActivateUpkeep'!")
 	end
 	
 end
