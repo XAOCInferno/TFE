@@ -192,9 +192,10 @@ function Rule_CheckCoverStatus()
 			if (tmpStruct ~= nil) then
 				if(tmpStruct.SquadLoadout == 0) then
 					if(pcall(SGroup_Add, g_SGroupCoverApplier, tmpStruct.SquadID) == false) then						
-						Log(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Can't Add to SGroup!")
+						Log(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Loadout is empty!")
 						break
 					end
+				else
 					
 					---------------------------------
 					-----CALCULATE MODS TO APPLY-----
@@ -262,8 +263,6 @@ function Rule_CheckCoverStatus()
 		
 					SGroup_Clear(g_SGroupCoverApplier)
 							
-	   			else
-					Log(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Loadout is empty!")
 				end
 	   		else
 				Log(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Struct is Nil!")
