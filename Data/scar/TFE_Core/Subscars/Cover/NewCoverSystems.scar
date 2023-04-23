@@ -190,7 +190,7 @@ function Rule_CheckCoverStatus()
 	    	local ModsToRemove = {}					
 	    	
 			if (tmpStruct ~= nil) then
-				if(tmpStruct.SquadLoadout > 0) then
+				if(tmpStruct.SquadLoadout == 0) then
 					if(pcall(SGroup_Add, g_SGroupCoverApplier, tmpStruct.SquadID) == false) then						
 						Log(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Can't Add to SGroup!")
 						break
