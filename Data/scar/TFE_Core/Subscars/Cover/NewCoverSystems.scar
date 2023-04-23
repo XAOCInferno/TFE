@@ -190,12 +190,12 @@ function Rule_CheckCoverStatus()
 	    	local ModsToRemove = {}					
 	    	
 			if (tmpStruct ~= nil) then
-				if(tmpStruct.SquadLoadout == 0) then
+				
+				if(tmpStruct.SquadLoadout > 0) then
 					if(pcall(SGroup_Add, g_SGroupCoverApplier, tmpStruct.SquadID) == false) then						
-						Log(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Loadout is empty!")
+						Log(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Can't add Struct to SGroup!")
 						break
-					end
-				else
+					end				
 					
 					---------------------------------
 					-----CALCULATE MODS TO APPLY-----
@@ -262,7 +262,10 @@ function Rule_CheckCoverStatus()
 					end
 		
 					SGroup_Clear(g_SGroupCoverApplier)
-							
+				else
+				
+					Log(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Loadout is empty!")
+						
 				end
 	   		else
 				Log(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Struct is Nil!")
