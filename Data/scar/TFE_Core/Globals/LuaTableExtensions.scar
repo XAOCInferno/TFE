@@ -1,0 +1,28 @@
+
+function ClearTable(tbl)
+
+	for i in pairs (tbl) do
+    	table.remove(tbl,i)
+	end
+
+end
+
+function TableContains(tbl, desired)
+
+	for i in pairs (tbl) do
+    	if(tbl[i] == desired) then
+    		return true, i
+    	end
+	end
+	
+	return false
+
+end
+
+function TableLength(tbl)
+
+	local count = 0
+	for _ in pairs(tbl) do count = count + 1 end
+	return count
+	
+end
