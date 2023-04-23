@@ -74,12 +74,12 @@ function Rule_CalculateUpkeep()
 			
 		
 						if (tmpStruct.SquadHasLeader) then 
-							if(UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint] ~= nil) then
+							if(UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader ~= nil) then
 							
-								g_BonusIncome[i].Req = g_BonusIncome[i].Req + (UnitCosting[SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Req / SquadLifetimeAsPercent)
-								g_BonusIncome[i].Power = g_BonusIncome[i].Power + (UnitCosting[SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Power / SquadLifetimeAsPercent)
-								g_BonusIncome[i].Faith = g_BonusIncome[i].Faith + (UnitCosting[SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Faith / SquadLifetimeAsPercent)
-								g_BonusIncome[i].Souls = g_BonusIncome[i].Souls + (UnitCosting[SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Souls / SquadLifetimeAsPercent)
+								g_BonusIncome[i].Req = g_BonusIncome[i].Req + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Req / SquadLifetimeAsPercent)
+								g_BonusIncome[i].Power = g_BonusIncome[i].Power + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Power / SquadLifetimeAsPercent)
+								g_BonusIncome[i].Faith = g_BonusIncome[i].Faith + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Faith / SquadLifetimeAsPercent)
+								g_BonusIncome[i].Souls = g_BonusIncome[i].Souls + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Souls / SquadLifetimeAsPercent)
 							
 							elseif(g_DebugMode) then							
 								if(TableContains(debug_CalcUpdate_LoggedUnitErrors, tmpStruct.SquadBlueprint) == false) then
