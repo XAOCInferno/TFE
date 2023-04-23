@@ -236,9 +236,8 @@ function Rule_CheckCoverStatus()
 						if(contains == false) then 
 							--Check mod is applied
 							if(removeMod == nil) then								
-									Log(2, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugRemovePos.." Is Nil! Cannot Remove.")
-									break 
-								end --add some debug here
+								Log(2, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugRemovePos.." Is Nil! Cannot Remove.")
+								break 
 							elseif(ModifierUtil_GetSquadApplierIndex( removeMod, tmpStruct.SquadID ) ~= 0) then
 								--Remove mod
 								if(g_SGroupCoverApplier == nil) then g_SGroupCoverApplier = SGroup_Create("sg_CoverApplierGroup") end								
@@ -252,9 +251,8 @@ function Rule_CheckCoverStatus()
 					for debugAddPos, addMod in pairs(ModsToAdd) do
 						--Check mod isn't applied
 						if(addMod == nil) then  
-								Log(2, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugAddPos.." Is Nil! Cannot Add.")   
-								break 
-							end
+							Log(2, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugAddPos.." Is Nil! Cannot Add.")   
+							break 
 						elseif(ModifierUtil_GetSquadApplierIndex( addMod, tmpStruct.SquadID ) == 0) then
 							--Add mod
 							if(g_SGroupCoverApplier == nil) then g_SGroupCoverApplier = SGroup_Create("sg_CoverApplierGroup") end							
