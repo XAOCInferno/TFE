@@ -1,3 +1,6 @@
+debug_GlobalsStorage_FileName = "GlobalsStorage.scar"
+
+
 import("TFE_Core/Globals/GlobalsStorage.lua")
 
 function Initialise_GlobalsStorage()
@@ -69,6 +72,33 @@ function UpdatePlayerSquads_Immediate(PlayerIndex)
 			g_PlayerSquadCount[i] = Player_GetActiveSquadCount(g_AllPlayers[i])
 		end
 	end
+end
+
+function SetupStrategicPoints()
+	local debugFuncName = "SetupStrategicPoints"
+	
+	Log(0, 0, debug_GlobalsStorage_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	
+	local SetupNewPoint = function(eSquadGroupID, i, eSquadID)
+	
+		local tmpStratPoint =  
+		{
+			ID = eSquadID,
+			OwnedBy = -1,					
+			
+			InitTime = g_WorldTime
+		}
+		table.insert( g_AllStrategicPointsStructs, tmpStratPoint )
+		g_NumberStratPoints = g_NumberStratPoints + 1
+
+	end
+	
+	g_NumberStratPoints = 0
+	--g_MatureMaxLifetime = g_MatureMaxLifetime * g_PlayerCount --Code repeats itself for each player so this is to compensate  [[Why does it repeat for each player??]]
+	World_GetStrategicPoints(EGroup_CreateIfNotFound( "tmpAllStratPoints" ) )
+	EGroup_ForEachEx(EGroup_FromName("tmpAllStratPoints"),  SetupNewPoint, true, true)
+		
+	Log(0, 0, debug_GlobalsStorage_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 end
 
 

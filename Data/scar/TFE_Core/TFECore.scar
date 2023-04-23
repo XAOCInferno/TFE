@@ -23,13 +23,15 @@ function TFE_Immediate_Load()
 		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Initialise_GlobalsStorage'!")
 	end
 	
-	if pcall(SetupMature) == false then 
+	if pcall(SetupStrategicPoints) == false then 
 		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'SetupMature'!")
 	elseif pcall(Rule_ActivateMature) == false then
 		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Rule_ActivateMature'!")
 	end	
 	
-	Rule_ActivateUpkeep()
+	if pcall(Rule_ActivateUpkeep) == false then 
+		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Rule_ActivateUpkeep'!")
+	end
 	
 end
 

@@ -12,33 +12,6 @@ function Rule_ActivateMature()
 
 end
 
-function SetupMature()
-	local debugFuncName = "SetupMature"
-	
-	Log(0, 0, debug_ResMatureCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
-
-	local SetupNewPoint = function(eSquadGroupID, i, eSquadID)
-	
-		local tmpStratPoint =  
-		{
-			ID = eSquadID,
-			OwnedBy = -1,			
-			GetOwnedTime = tmpOwnedTime,			
-			
-			InitTime = g_WorldTime
-		}
-		table.insert( g_AllStrategicPointsStructs, tmpStratPoint )
-		g_NumberStratPoints = g_NumberStratPoints + 1
-
-	end
-
-	g_MatureMaxLifetime = g_MatureMaxLifetime * g_PlayerCount --Code repeats itself for each player so this is to compensate  [[Why does it repeat for each player??]]
-	World_GetStrategicPoints(EGroup_CreateIfNotFound( "tmpAllStratPoints" ) )
-	EGroup_ForEachEx(EGroup_FromName("tmpAllStratPoints"),  SetupNewPoint, true, true)
-		
-	Log(0, 0, debug_ResMatureCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
-end
-
 function CheckForGlobals() 
 
 	for i = 1, g_PlayerCount do
