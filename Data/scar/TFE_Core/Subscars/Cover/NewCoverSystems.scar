@@ -168,8 +168,9 @@ end
 function Rule_CheckForNewSquads_Cover()
 
 	if(g_WorldTime == g_LastSquadUpdateTime and g_PreviousCoverCalcTime < g_WorldTime) then
-		g_PreviousCoverCalcTime = g_WorldTime
-		Rule_CheckForNewSquads_Cover()
+		
+	g_PreviousCoverCalcTime = g_WorldTime
+		Rule_CheckCoverStatus()
 	
 	end
 

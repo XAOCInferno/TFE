@@ -200,7 +200,7 @@ g_AllSquadUpkeeps =
 	{}--Max of 8 players
 }
 
-g_UpdateAllSquadsRate = 1
+g_UpdateAllSquadsRate = 0.5
 g_AllSquads = 
 {
 	nil,
