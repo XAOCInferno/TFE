@@ -1,3 +1,4 @@
+debug_LuaTableExtensions_FileName = "LuaTableExtensions"
 
 function ClearTable(tbl)
 
@@ -8,14 +9,18 @@ function ClearTable(tbl)
 end
 
 function TableContains(tbl, desired)
+	local debugFuncName = "TableContains"
 
-	if(tbl == nil) then return false end
-	for i in pairs (tbl) do
-    	if(tbl[i] == desired) then
-    		return true, i
-    	end
+	if(tbl == nil) then 		
+			Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Table is nil, returning false as default.")
+		return false 
+	else
+		for i in pairs (tbl) do
+    		if(tbl[i] == desired) then
+    			return true, i
+    		end
+		end
 	end
-	
 	return false
 
 end
