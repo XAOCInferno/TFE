@@ -1,5 +1,8 @@
 debug_GlobalsDebug_FileName = "GlobalsDebug"
 
+g_WrittenLogs = {}
+
+--Writes a custom log to the console
 function Log(logType, verbosity, moduleName, functionName, line)
 	if(g_DebugMode) then
 		if(verbosity == 0) then
@@ -28,4 +31,19 @@ function Log(logType, verbosity, moduleName, functionName, line)
 			print(line)
 		end
 	end
+end
+
+
+--Writes a custom log to the console, if it hasn't been written before
+function LogOnce(logType, verbosity, moduleName, functionName, line)
+
+	local LogID = verbosity..moduleName..functionName..line
+	contains, _ = TableContains(g_WrittenLogs, LogID)
+	if(contains) then 
+		return true 
+	else
+		table.insert(g_WrittenLogs, LogID)
+		Log(logType, verbosity, moduleName, functionName, line)
+	end
+	
 end

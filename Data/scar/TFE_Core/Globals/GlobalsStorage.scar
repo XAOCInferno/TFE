@@ -53,7 +53,10 @@ function UpdatePlayerSquads_Immediate(PlayerIndex)
 					SquadBlueprint = Squad_GetBlueprintName(_squadID),
 					SquadLoadout = Squad_Count(_squadID),
 					SquadHasLeader = Squad_HasLeader(_squadID),
-					SquadInitTime = g_WorldTime	
+					SquadInitTime = g_WorldTime,	
+					
+					SquadAppliedCoverMods = {},
+					SquadAppliedCoverMods_IDs = {}
 				}
 							
 				table.insert(g_AllSquadsData[i], tmpSquadData)	

@@ -6,8 +6,8 @@ debug_NewCoverSystems_FileName = "NewCoverSystems"
 
 g_ModsByCover = {}
 g_StartingSquadsGameIDs = {}
-g_SGroupCoverApplier = nil
-g_SGroupCoverApplierName = "sg_CoverApplierGroup"
+--g_SGroupCoverApplier = nil
+--g_SGroupCoverApplierName = "sg_CoverApplierGroup"
 
 -------------------------------------------------
 --ON INITIALIZATION 
@@ -156,7 +156,7 @@ function InitNewCoverSystems()
 	
 	Log(0, 0, debug_NewCoverSystems_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 
-	g_SGroupCoverApplier = SGroup_Create("sg_CoverApplierGroup")
+	--g_SGroupCoverApplier = SGroup_Create("sg_CoverApplierGroup")
 	SetupCoverModifiers()
 	Rule_Add(Rule_CheckForNewSquads_Cover)
 	
@@ -187,91 +187,161 @@ function Rule_CheckCoverStatus()
 			local tmpStruct = g_AllSquadsData[i][j]	
 			
 	    	local ModsToAdd = {}
-	    	local ModsToRemove = {}					
+	    	local ModsToRemove = {}	
+	    	local CriticalError = false
 	    	
-			if (tmpStruct ~= nil) then
+			--if(g_SGroupCoverApplier == nil) then 
+			
+				--g_SGroupCoverApplier = SGroup_Create("sg_CoverApplierGroup") 
 				
-				if(tmpStruct.SquadLoadout > 0) then
-					if(pcall(SGroup_Add, g_SGroupCoverApplier, tmpStruct.SquadID) == false) then						
-						Log(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Can't add Struct to SGroup!")
-						break
-					end				
+			--end	    	
+	    	
+			if (tmpStruct == nil) then
+			
+				LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Loadout is empty!")
+				CriticalError = true
+			end
+				
+			if(tmpStruct.SquadLoadout < 1) then				
+   		
+				LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Struct is Nil!")
+				CriticalError = true
 					
-					---------------------------------
-					-----CALCULATE MODS TO APPLY-----
-					---------------------------------
-					if(pcall(Squad_GetCoverType, tmpStruct.SquadID, 0 ) == false) then
-						Log(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Can't get squad Cover!")
-						break
-	    			end
-	    			
-	    			CoverID = Squad_GetCoverType(tmpStruct.SquadID, 0 )
-					for key, coverMods in pairs(g_ModsByCover) do
-						for modKey, mod in pairs(coverMods) do
-							local keyOffset = key-1		
-							if(keyOffset == CoverID) then
+			end
+			
+			--if(pcall(SGroup_Add, g_SGroupCoverApplier, tmpStruct.SquadID) == false) then	
+								
+				--LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Can't add Struct to SGroup!")
+				--CriticalError = true
+				
+			--end				
+				
+			---------------------------------
+			-----CALCULATE MODS TO APPLY-----
+			---------------------------------
+			if(pcall(Squad_GetCoverType, tmpStruct.SquadID, 0 ) == false) then
+			
+				LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Can't get squad Cover!")
+				CriticalError = true
+				
+			end
+			--print("Hi3"..tostring(CriticalError))
+			if(CriticalError == false) then
+				CoverID = Squad_GetCoverType(tmpStruct.SquadID, 0 )
+				--print(CoverID)
+				for key, coverMods in pairs(g_ModsByCover) do
+				
+					for modKey, mod in pairs(coverMods) do
+					
+						local keyOffset = key-1	
+						if(mod == nil) then
 						
-								contains, index = TableContains(ModsToAdd, mod)
-								if(contains == false) then
-									--print("Applying Cover "..CoverID.." mod "..modKey.. " For "..tmpStruct.SquadBlueprint)  
-									table.insert(ModsToAdd,mod)						
-								end   
-							else
-								contains, index = TableContains(ModsToRemove, mod)
-								if(contains == false) then
-									--print("I am in Cover "..CoverID)
-									--print("I am Checking against Cover "..keyOffset)
-									--print("Disabiling Cover "..keyOffset.." mod "..modKey.. " For "..tmpStruct.SquadBlueprint)
-									table.insert(ModsToRemove,mod)
-								end
+							LogOnce(2, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..modKey.." Is Nil! Cannot Add.")
+						
+						--elseif(Modifier_Exists(	mod ) == true) then
+						
+							--LogOnce(2, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..modKey.." Does not exist! Cannot Add.")
+						
+						elseif(keyOffset == CoverID) then
+					
+							contains, index = TableContains(ModsToAdd, mod)
+							if(contains == false) then
+								--print("Applying Cover "..CoverID.." mod "..modKey.. " For "..tmpStruct.SquadBlueprint)  
+								table.insert(ModsToAdd,mod)						
+							end   
+							
+						else
+							contains, index = TableContains(ModsToRemove, mod)
+							if(contains == false) then
+								--print("I am in Cover "..CoverID)
+								--print("I am Checking against Cover "..keyOffset)
+								--print("Disabiling Cover "..keyOffset.." mod "..modKey.. " For "..tmpStruct.SquadBlueprint)
+								table.insert(ModsToRemove,mod)
 							end
-						end
-					end	
-			
-					--------------------
-					-----APPLY MODS-----
-					--------------------
-					for debugRemovePos, removeMod in pairs(ModsToRemove) do
-				
-						contains, index = TableContains(ModsToAdd, removeMod)
-						if(contains == false) then 
-							--Check mod is applied
-							if(removeMod == nil) then								
-								Log(2, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugRemovePos.." Is Nil! Cannot Remove.")
-								break 
-							elseif(ModifierUtil_GetSquadApplierIndex( removeMod, tmpStruct.SquadID ) ~= 0) then
-								--Remove mod
-								if(g_SGroupCoverApplier == nil) then g_SGroupCoverApplier = SGroup_Create("sg_CoverApplierGroup") end								
-	       						pcall(ModifierUtil_ApplyToSGroup, g_SGroupCoverApplier, removeMod, false)  
-	       					end
-						end 
-			
+							
+						end	
+												
 					end
-			
-			 
-					for debugAddPos, addMod in pairs(ModsToAdd) do
-						--Check mod isn't applied
-						if(addMod == nil) then  
-							Log(2, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugAddPos.." Is Nil! Cannot Add.")   
-							break 
-						elseif(ModifierUtil_GetSquadApplierIndex( addMod, tmpStruct.SquadID ) == 0) then
-							--Add mod
-							if(g_SGroupCoverApplier == nil) then g_SGroupCoverApplier = SGroup_Create("sg_CoverApplierGroup") end							
-							pcall(ModifierUtil_ApplyToSGroup, g_SGroupCoverApplier, addMod, true)
-						end
-					end
+					
+				end	
 		
-					SGroup_Clear(g_SGroupCoverApplier)
-				else
-				
-					Log(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Loadout is empty!")
+				--------------------
+				-----APPLY MODS-----
+				--------------------
+				for debugRemovePos, removeMod in pairs(ModsToRemove) do
+			
+					contains, index = TableContains(ModsToAdd, removeMod)
+					if(removeMod == nil) then	
+												
+						LogOnce(2, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugRemovePos.." Is Nil! Cannot Remove.")
 						
+					--elseif(Modifier_Exists(	mod ) == false) then
+					
+						--LogOnce(2, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugRemovePos.." Does not exist! Cannot Remove.")
+					
+					elseif(contains == false) then 
+						print("mega hi")
+						--local removeModID = ModifierUtil_GetSquadApplierIndex( removeMod, tmpStruct.SquadID )
+						
+						contains, key = TableContains(tmpStruct.SquadAppliedCoverMods, removeMod)
+						if(contains == true) then
+							print("super hi")
+							--Remove mod	
+							--ModifierUtil_GetSquadApplierIndex
+							--local removeModID = ModifierUtil_GetSquadApplierIndex( removeMod, tmpStruct.SquadID )
+							if(Modifier_Exists( tmpStruct.SquadAppliedCoverMods_IDs[key])) then
+								_RemoveModID = ModifierUtil_GetSquadApplierIndex(tmpStruct.SquadAppliedCoverMods, tmpStruct.SquadID)
+								Modifier_Remove( _RemoveModID )
+							end
+							table.remove(tmpStruct.SquadAppliedCoverMods, key)
+							table.remove(tmpStruct.SquadAppliedCoverMods_IDs, key)
+							--pcall( Modifier_Remove, removeModID )
+							--pcall(Modifier_ApplyToSquad(removeMod, tmpStruct.SquadID)						
+	   						--pcall(ModifierUtil_ApplyToSGroup, g_SGroupCoverApplier, removeMod, false)  
+	   						
+	   					else
+	   					
+	   						LogOnce(2, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugRemovePos.." Is not applied! Cannot remove.")
+	   						
+	   					end
+	   					
+					end 
+		
 				end
-	   		else
-				Log(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Struct is Nil!")
-	   		end
+		
+		 
+				for debugAddPos, addMod in pairs(ModsToAdd) do
+					--Check mod isn't applied				
+					
+					if(addMod == nil) then	
+												
+						LogOnce(2, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugRemovePos.." Is Nil! Cannot Remove.")
+						
+					--elseif(Modifier_Exists(	addMod ) == false) then
+					
+						--LogOnce(2, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugRemovePos.." Does not exist! Cannot Remove.")
+						
+					--elseif(ModifierUtil_GetSquadApplierIndex( addMod, tmpStruct.SquadID ) == 0) then
+						--Add mod		
+					else
+						contains, key = TableContains(tmpStruct.SquadAppliedCoverMods)
+						
+						if(contains == false) then
+							local modID = Modifier_ApplyToSquad( addMod, tmpStruct.SquadID )			
+							table.insert(tmpStruct.SquadAppliedCoverMods_IDs, modID)	
+							table.insert(tmpStruct.SquadAppliedCoverMods, addMod)	
+							--pcall(ModifierUtil_ApplyToSGroup, g_SGroupCoverApplier, addMod, true)					
+						
+						else
+	   					
+	   						LogOnce(2, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugAddPos.." Is Applied! Cannot Apply Again.")
+						end
+					end
+				end
+				
+				--SGroup_Remove( g_SGroupCoverApplier, tmpStruct.SquadID )
+			end
 	   	end		
 	end
-
 end
 

@@ -13,7 +13,7 @@ function TableContains(tbl, desired)
 
 	if(tbl == nil) then 		
 			Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Table is nil, returning false as default.")
-		return false 
+		return false, 0 
 	else
 		for i in pairs (tbl) do
     		if(tbl[i] == desired) then
