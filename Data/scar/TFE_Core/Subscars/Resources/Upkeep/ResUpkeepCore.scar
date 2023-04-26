@@ -3,15 +3,7 @@ debug_ResUpkeepCore_FileName = "ResUpkeepCore"
 
 function Rule_ActivateUpkeep()
 	local debugFuncName = "Rule_ActivateUpkeep"
-	
-	if(g_DebugMode) then
-		debug_CalcUpdate_LoggedRaceErrors = {}
-		debug_CalcUpdate_LoggedUnitErrors = {}
-		debug_CalcUpdate_LoggedUnitLeaderErrors = {}
-		debug_CalcUpdate_LoggedUnitMissingIDErrors = {}
-		debug_CalcUpdate_LoggedNillStructErrors = {}
-	end
-	
+		
 	Log(0, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 	
 	EventCue_DoEvent( 'warning', 'music/stinger_completeobjective', 'Army Upkeep Activated!', 'Your army will now drain resources.' )
@@ -43,18 +35,17 @@ function Rule_CalculateUpkeep()
 			local tmpStruct = g_AllSquadsData[i][j]		
 				
 			if(tmpStruct == nil) then
-				if(g_DebugMode)	then	
-					if(TableContains(debug_CalcUpdate_LoggedNillStructErrors,tmpStruct.SquadUniqueID) == false) then
-						table.insert(debug_CalcUpdate_LoggedNillStructErrors,tmpStruct.SquadUniqueID)
-						Log(1, 0, debug_ResUpkeepCore_FileName, debugFuncName,  "Struct for Player: "..i.." at position "..j.." is Nil!")
-					end
+			
+				if(g_DebugMode)	then
+					
+					LogOnce(1, 0, debug_ResUpkeepCore_FileName, debugFuncName,  "Struct for Player: "..i.." at position "..j.." is Nil!")
 				end
+				
 			elseif(tmpStruct.SquadUniqueID == nil) then
 				if(g_DebugMode)	then	
-					if(TableContains(debug_CalcUpdate_LoggedUnitMissingIDErrors,tmpStruct.SquadUniqueID) == false) then
-						table.insert(debug_CalcUpdate_LoggedUnitMissingIDErrors,tmpStruct.SquadUniqueID)
-						Log(1, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Struct: '"..tmpStruct.."' does not have a Unique ID!")
-					end			
+				
+					LogOnce(1, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Struct: '"..tmpStruct.."' does not have a Unique ID!")		
+				
 				end
 			else		
 				local SquadLifetimeAsPercent = 1
@@ -81,24 +72,21 @@ function Rule_CalculateUpkeep()
 								g_BonusIncome[i].Faith = g_BonusIncome[i].Faith + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Faith / SquadLifetimeAsPercent)
 								g_BonusIncome[i].Souls = g_BonusIncome[i].Souls + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Souls / SquadLifetimeAsPercent)
 							
-							elseif(g_DebugMode) then							
-								if(TableContains(debug_CalcUpdate_LoggedUnitErrors, tmpStruct.SquadBlueprint) == false) then
-									table.insert(debug_CalcUpdate_LoggedUnitErrors, tmpStruct.SquadBlueprint)
-									Log(2, 0, debug_ResUpkeepCore_FileName, debugFuncName, "SquadBP '"..tmpStruct.SquadBlueprint.."' does not have LEADER Upkeep data!")
-								end									
-							end
+							elseif(g_DebugMode) then
+														
+								LogOnce(2, 0, debug_ResUpkeepCore_FileName, debugFuncName, "SquadBP '"..tmpStruct.SquadBlueprint.."' does not have LEADER Upkeep data!")								
+							
+								end
 						end
 					elseif(g_DebugMode) then
-						if(TableContains(debug_CalcUpdate_LoggedUnitErrors,tmpStruct.SquadUniqueID) == false) then
-							table.insert(debug_CalcUpdate_LoggedUnitErrors,tmpStruct.SquadUniqueID)
-							Log(1, 0, debug_ResUpkeepCore_FileName, debugFuncName, "SquadBP for ID: '"..tmpStruct.SquadUniqueID.."' does not have a Blueprint!")
-						end
+
+							LogOnce(1, 0, debug_ResUpkeepCore_FileName, debugFuncName, "SquadBP for ID: '"..tmpStruct.SquadUniqueID.."' does not have a Blueprint!")
+
 					end
-				elseif(g_DebugMode)	then			
-					if(TableContains(debug_CalcUpdate_LoggedRaceErrors,tmpStruct.SquadUnitRace) == false) then
-						table.insert(debug_CalcUpdate_LoggedRaceErrors, tmpStruct.SquadUnitRace)
-						Log(2, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Race '"..tmpStruct.SquadUnitRace.."' does not have Upkeep data!")
-					end
+				elseif(g_DebugMode)	then	
+						
+					LogOnce(2, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Race '"..tmpStruct.SquadUnitRace.."' does not have Upkeep data!")
+					
 				end	
 			end
 		end			

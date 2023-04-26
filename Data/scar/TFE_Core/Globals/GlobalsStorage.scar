@@ -27,46 +27,63 @@ function UpdateAllSquads_Immediate()
 	
 end
 
-
 function UpdatePlayerSquads_Immediate(PlayerIndex)	
-	
+	print("updating...")
 	for i = 1, g_PlayerCount do
 		if (Player_IsAlive(g_AllPlayers[i])) then
 					
 			local AddSGroupData = function(_sgroupid, _itemindex, _squadID)
-
+				print("addding sgroup data")
+				local newSquadGameID = Squad_GetGameID(_squadID )
+				local CriticalError = false
 				for l = 1, TableLength(g_AllSquadsData[i]) do
 					if(g_AllSquadsData[i][l] ~= nil) then
-						if(g_AllSquadsData[i][l].SquadUniqueID == Squad_GetGameID(_squadID)) then
+				--print("New ID: "..newSquadGameID.."   Old ID: "..g_AllSquadsData[i][l].SquadUniqueID)
+						if(g_AllSquadsData[i][l].SquadUniqueID == newSquadGameID) then
+							g_AllSquadsData[i][l].SquadLoadout = Squad_Count(g_AllSquadsData[i][l].SquadID)
+							g_AllSquadsData[i][l].SquadHasLeader = Squad_HasLeader(g_AllSquadsData[i][l].SquadID)
+							CriticalError = true
 							return false
 						end
 					end
 				end		
 				
-				local tmpSquadData = 
-				{
-					SquadUniqueID = Squad_GetGameID(_squadID),
-					SquadGroupID = _sgroupid,
-					SquadIndex = _itemindex, -- What can this be used for?
-					SquadID = _squadID,	
-					SquadUnitRace = g_AllPlayersRace[i],
-					SquadBlueprint = Squad_GetBlueprintName(_squadID),
-					SquadLoadout = Squad_Count(_squadID),
-					SquadHasLeader = Squad_HasLeader(_squadID),
-					SquadInitTime = g_WorldTime,	
+				if(CriticalError == false) then
+					print("HIIII!!!!!")
+					local squadBP = Squad_GetBlueprintName(_squadID)
+					local newSquadGroupName = tostring(newSquadGameID.."  "..squadBP)
+					SGroup_Create(newSquadGroupName)
+				
+					local tmpSquadData = 
+					{
+						SquadUniqueID = newSquadGameID,
+						SquadGroupID = _sgroupid,
+						SquadIndex = _itemindex, -- What can this be used for?
+						SquadID = _squadID,	
+						SquadUnitRace = g_AllPlayersRace[i],
+						SquadBlueprint = squadBP,
+						SquadLoadout = Squad_Count(_squadID),
+						SquadHasLeader = Squad_HasLeader(_squadID),
+						SquadInitTime = g_WorldTime,	
 					
-					SquadAppliedCoverMods = {},
-					SquadAppliedCoverMods_IDs = {}
-				}
+						SquadAppliedCoverMods = {},
+						SquadAppliedCoverMods_IDs = {},
+					
+						SquadGroupName = newSquadGroupName,
+						SecondarySquadGroupID = SGroup_FromName(newSquadGroupName)
+					}
 							
-				table.insert(g_AllSquadsData[i], tmpSquadData)	
+					table.insert(g_AllSquadsData[i], tmpSquadData)	
+				end
 			end
 			
 			tmpPlayerSquads = Player_GetSquads(g_AllPlayers[i])
 			g_AllSquads[i] = Player_GetSquads(g_AllPlayers[i])
 			for k = 1, TableLength(g_AllSquadsData[i]) do
 				if(g_AllSquadsData[i][k] ~= nil) then
-					if(SGroup_CountSpawned(g_AllSquadsData[i][k].SquadGroupID) == 0) then
+					if(g_AllSquadsData[i][k].SquadLoadout == 0) then
+					print("HIIII")
+						SGroup_Destroy(g_AllSquadsData[i][k].SecondarySquadGroupID)
 						table.remove(g_AllSquadsData[i], k)
 					end
 				end

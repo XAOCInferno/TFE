@@ -200,29 +200,20 @@ function Rule_CheckCoverStatus()
 			
 				LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Loadout is empty!")
 				CriticalError = true
-			end
-				
-			if(tmpStruct.SquadLoadout < 1) then				
+			else
+				if(tmpStruct.SquadLoadout == 0) then				
    		
-				LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Struct is Nil!")
-				CriticalError = true
+					LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Struct is Nil!")
+					CriticalError = true
 					
-			end
-			
-			--if(pcall(SGroup_Add, g_SGroupCoverApplier, tmpStruct.SquadID) == false) then	
-								
-				--LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Can't add Struct to SGroup!")
-				--CriticalError = true
+				end
 				
-			--end				
-				
-			---------------------------------
-			-----CALCULATE MODS TO APPLY-----
-			---------------------------------
-			if(pcall(Squad_GetCoverType, tmpStruct.SquadID, 0 ) == false) then
+				if(pcall(Squad_GetCoverType, tmpStruct.SquadID, 0 ) == false) then
 			
-				LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Can't get squad Cover!")
-				CriticalError = true
+					LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Can't get squad Cover!")
+					CriticalError = true
+				
+				end
 				
 			end
 			--print("Hi3"..tostring(CriticalError))
@@ -297,7 +288,7 @@ function Rule_CheckCoverStatus()
 							table.remove(tmpStruct.SquadAppliedCoverMods_IDs, key)
 							--pcall( Modifier_Remove, removeModID )
 							--pcall(Modifier_ApplyToSquad(removeMod, tmpStruct.SquadID)						
-	   						--pcall(ModifierUtil_ApplyToSGroup, g_SGroupCoverApplier, removeMod, false)  
+	   						pcall(ModifierUtil_ApplyToSGroup, tmpStruct.SecondarySquadGroupID, removeMod, false)  
 	   						
 	   					else
 	   					
@@ -327,10 +318,10 @@ function Rule_CheckCoverStatus()
 						contains, key = TableContains(tmpStruct.SquadAppliedCoverMods)
 						
 						if(contains == false) then
-							local modID = Modifier_ApplyToSquad( addMod, tmpStruct.SquadID )			
+							--local modID = Modifier_ApplyToSquad( addMod, tmpStruct.SquadID )			
 							table.insert(tmpStruct.SquadAppliedCoverMods_IDs, modID)	
 							table.insert(tmpStruct.SquadAppliedCoverMods, addMod)	
-							--pcall(ModifierUtil_ApplyToSGroup, g_SGroupCoverApplier, addMod, true)					
+							pcall(ModifierUtil_ApplyToSGroup, tmpStruct.SecondarySquadGroupID, addMod, true)					
 						
 						else
 	   					
