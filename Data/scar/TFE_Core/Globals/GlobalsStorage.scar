@@ -28,12 +28,11 @@ function UpdateAllSquads_Immediate()
 end
 
 function UpdatePlayerSquads_Immediate(PlayerIndex)	
-	print("updating...")
 	for i = 1, g_PlayerCount do
 		if (Player_IsAlive(g_AllPlayers[i])) then
 					
 			local AddSGroupData = function(_sgroupid, _itemindex, _squadID)
-				print("addding sgroup data")
+			
 				local newSquadGameID = Squad_GetGameID(_squadID )
 				local CriticalError = false
 				for l = 1, TableLength(g_AllSquadsData[i]) do
@@ -49,11 +48,15 @@ function UpdatePlayerSquads_Immediate(PlayerIndex)
 				end		
 				
 				if(CriticalError == false) then
-					print("HIIII!!!!!")
-					local squadBP = Squad_GetBlueprintName(_squadID)
-					local newSquadGroupName = tostring(newSquadGameID.."  "..squadBP)
-					SGroup_Create(newSquadGroupName)
 				
+					local squadBP = Squad_GetBlueprintName(_squadID)
+					local newSquadGroupName = newSquadGameID.."  "..squadBP
+					SGroup_Create(newSquadGroupName)
+					local newSquadID = SGroup_FromName(newSquadGroupName)
+					print(newSquadGroupName)
+					--print("NEWID: "..SGroup_FromName(tostring(newSquadGroupName)))
+					SGroup_Add(SGroup_FromName(newSquadGroupName), _squadID)
+					
 					local tmpSquadData = 
 					{
 						SquadUniqueID = newSquadGameID,
@@ -70,9 +73,10 @@ function UpdatePlayerSquads_Immediate(PlayerIndex)
 						SquadAppliedCoverMods_IDs = {},
 					
 						SquadGroupName = newSquadGroupName,
-						SecondarySquadGroupID = SGroup_FromName(newSquadGroupName)
+						SecondarySquadGroupID = newSquadID
 					}
 							
+					
 					table.insert(g_AllSquadsData[i], tmpSquadData)	
 				end
 			end
