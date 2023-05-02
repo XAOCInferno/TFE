@@ -68,10 +68,12 @@ function UpdatePlayerSquads_Immediate(PlayerIndex)
 						SquadLoadout = Squad_Count(_squadID),
 						SquadHasLeader = Squad_HasLeader(_squadID),
 						SquadInitTime = g_WorldTime,	
-					
+						
 						SquadAppliedCoverMods = {},
 						SquadAppliedCoverMods_IDs = {},
+						SquadAppliedCoverMods_Index = {},
 					
+						--Old stuff
 						SquadGroupName = newSquadGroupName,
 						SecondarySquadGroupID = newSquadID
 					}
@@ -81,13 +83,13 @@ function UpdatePlayerSquads_Immediate(PlayerIndex)
 				end
 			end
 			
-			tmpPlayerSquads = Player_GetSquads(g_AllPlayers[i])
+			--tmpPlayerSquads = Player_GetSquads(g_AllPlayers[i])
 			g_AllSquads[i] = Player_GetSquads(g_AllPlayers[i])
 			for k = 1, TableLength(g_AllSquadsData[i]) do
 				if(g_AllSquadsData[i][k] ~= nil) then
 					if(g_AllSquadsData[i][k].SquadLoadout == 0) then
 					print("HIIII")
-						SGroup_Destroy(g_AllSquadsData[i][k].SecondarySquadGroupID)
+						--SGroup_Destroy(g_AllSquadsData[i][k].SecondarySquadGroupID)
 						table.remove(g_AllSquadsData[i], k)
 					end
 				end
