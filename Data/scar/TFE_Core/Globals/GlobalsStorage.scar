@@ -28,16 +28,23 @@ function UpdateAllSquads_Immediate()
 end
 
 function UpdatePlayerSquads_Immediate(PlayerIndex)	
+	local debugFuncName = "UpdatePlayerSquads_Immediate"
 	for i = 1, g_PlayerCount do
 		if (Player_IsAlive(g_AllPlayers[i])) then
 					
 			local AddSGroupData = function(_sgroupid, _itemindex, _squadID)
 			
-				local newSquadGameID = Squad_GetGameID(_squadID )
+				local newSquadGameID = Squad_GetGameID( _squadID )
+				local squadBP = Squad_GetBlueprintName( _squadID )				
 				local CriticalError = false
+				
+				if(squadBP == nil) then 
+					LogOnce(1, 0, debug_GlobalsStorage_FileName, debugFuncName, "Can't squad BP is nil!")
+					return 
+				end
+				
 				for l = 1, TableLength(g_AllSquadsData[i]) do
 					if(g_AllSquadsData[i][l] ~= nil) then
-				--print("New ID: "..newSquadGameID.."   Old ID: "..g_AllSquadsData[i][l].SquadUniqueID)
 						if(g_AllSquadsData[i][l].SquadUniqueID == newSquadGameID) then
 							g_AllSquadsData[i][l].SquadLoadout = Squad_Count(g_AllSquadsData[i][l].SquadID)
 							g_AllSquadsData[i][l].SquadHasLeader = Squad_HasLeader(g_AllSquadsData[i][l].SquadID)
@@ -48,15 +55,7 @@ function UpdatePlayerSquads_Immediate(PlayerIndex)
 				end		
 				
 				if(CriticalError == false) then
-				
-					local squadBP = Squad_GetBlueprintName(_squadID)
-					local newSquadGroupName = newSquadGameID.."  "..squadBP
-					SGroup_Create(newSquadGroupName)
-					local newSquadID = SGroup_FromName(newSquadGroupName)
-					print(newSquadGroupName)
-					--print("NEWID: "..SGroup_FromName(tostring(newSquadGroupName)))
-					SGroup_Add(SGroup_FromName(newSquadGroupName), _squadID)
-					
+									
 					local tmpSquadData = 
 					{
 						SquadUniqueID = newSquadGameID,
@@ -71,11 +70,7 @@ function UpdatePlayerSquads_Immediate(PlayerIndex)
 						
 						SquadAppliedCoverMods = {},
 						SquadAppliedCoverMods_IDs = {},
-						SquadAppliedCoverMods_Index = {},
-					
-						--Old stuff
-						SquadGroupName = newSquadGroupName,
-						SecondarySquadGroupID = newSquadID
+						SquadAppliedCoverMods_Index = {}
 					}
 							
 					
@@ -83,21 +78,20 @@ function UpdatePlayerSquads_Immediate(PlayerIndex)
 				end
 			end
 			
-			--tmpPlayerSquads = Player_GetSquads(g_AllPlayers[i])
 			g_AllSquads[i] = Player_GetSquads(g_AllPlayers[i])
 			for k = 1, TableLength(g_AllSquadsData[i]) do
 				if(g_AllSquadsData[i][k] ~= nil) then
 					if(g_AllSquadsData[i][k].SquadLoadout == 0) then
-					print("HIIII")
-						--SGroup_Destroy(g_AllSquadsData[i][k].SecondarySquadGroupID)
+
 						table.remove(g_AllSquadsData[i], k)
+						
 					end
 				end
 			end	
 			
-			SGroup_ForEach(g_AllSquads[i], AddSGroupData)	
-			
+			SGroup_ForEach(g_AllSquads[i], AddSGroupData)				
 			g_PlayerSquadCount[i] = Player_GetActiveSquadCount(g_AllPlayers[i])
+			
 		end
 	end
 	

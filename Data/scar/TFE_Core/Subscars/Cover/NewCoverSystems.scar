@@ -5,9 +5,6 @@ debug_NewCoverSystems_FileName = "NewCoverSystems"
 -------------------------------------------------
 
 g_ModsByCover = {}
-g_StartingSquadsGameIDs = {}
---g_SGroupCoverApplier = nil
---g_SGroupCoverApplierName = "sg_CoverApplierGroup"
 
 -------------------------------------------------
 --ON INITIALIZATION 
@@ -156,7 +153,6 @@ function InitNewCoverSystems()
 	
 	Log(0, 0, debug_NewCoverSystems_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 
-	--g_SGroupCoverApplier = SGroup_Create("sg_CoverApplierGroup")
 	SetupCoverModifiers()
 	Rule_Add(Rule_CheckForNewSquads_Cover)
 	
