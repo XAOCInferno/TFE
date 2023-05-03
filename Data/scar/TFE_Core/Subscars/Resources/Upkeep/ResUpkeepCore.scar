@@ -30,7 +30,7 @@ function Rule_CalculateUpkeep()
 
 	for i = 1, g_PlayerCount do
 	
-		for j = 1, g_PlayerSquadCount[i] do
+		for j = 1, g_PlayerSquadCount[i]+1 do
 		
 			local tmpStruct = g_AllSquadsData[i][j]		
 				
