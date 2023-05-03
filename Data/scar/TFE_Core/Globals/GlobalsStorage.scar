@@ -50,6 +50,8 @@ function UpdatePlayerSquads_Immediate(PlayerIndex)
 							g_AllSquadsData[i][l].SquadHasLeader = Squad_HasLeader(g_AllSquadsData[i][l].SquadID)
 							CriticalError = true
 							return false
+						elseif(Squad_Exists(g_AllSquadsData[i][l].SquadUniqueID) == false) then	--Does this work?					
+							table.remove(g_AllSquadsData[i], l)							
 						end
 					end
 				end		
@@ -77,19 +79,24 @@ function UpdatePlayerSquads_Immediate(PlayerIndex)
 					table.insert(g_AllSquadsData[i], tmpSquadData)	
 				end
 			end
+							
 			
 			g_AllSquads[i] = Player_GetSquads(g_AllPlayers[i])
+			
+			SGroup_ForEachEx(g_AllSquads[i], AddSGroupData, true, false)				
+			
 			for k = 1, TableLength(g_AllSquadsData[i]) do
 				if(g_AllSquadsData[i][k] ~= nil) then
-					if(g_AllSquadsData[i][k].SquadLoadout == 0) then
+					
+					local shouldIgnore, _ = TableContains(g_SquadBlueprintToIgnore, g_AllSquadsData[i][k].SquadBlueprint)
+					if(g_AllSquadsData[i][k].SquadBlueprint == nil or g_AllSquadsData[i][k].SquadLoadout == 0 or shouldIgnore) then
 
 						table.remove(g_AllSquadsData[i], k)
 						
 					end
 				end
-			end	
-			
-			SGroup_ForEach(g_AllSquads[i], AddSGroupData)				
+			end			
+				
 			g_PlayerSquadCount[i] = Player_GetActiveSquadCount(g_AllPlayers[i])
 			
 		end

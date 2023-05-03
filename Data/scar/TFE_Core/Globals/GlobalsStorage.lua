@@ -188,6 +188,11 @@ g_LastSquadUpdateTime = 0
 g_PreviousUpkeepCalcTime = 0
 g_PreviousCoverCalcTime = 0
 
+g_SquadBlueprintToIgnore = 
+{
+	"dark_eldar_squad_slave_murdered_long"
+}
+
 g_AllSquadUpkeeps = 
 {
 	{},
