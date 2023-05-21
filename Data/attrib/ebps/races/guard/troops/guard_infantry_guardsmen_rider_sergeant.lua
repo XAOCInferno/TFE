@@ -652,7 +652,6 @@ GameData["melee_ext"]["melee_leap_target_pos_offset"] = 1
 GameData["melee_ext"]["melee_leap_tendency"] = 1
 GameData["modifier_ext"] = Reference([[ebpextensions\modifier_ext.lua]])
 GameData["moving_ext"] = Reference([[ebpextensions\moving_ext.lua]])
-GameData["moving_ext"]["is_land"] = true 
 GameData["moving_ext"]["speed_max"] = 22
 GameData["moving_ext"]["turning_behavior_template"] = [[infantry]]
 GameData["moving_ext"]["air_unit"] = nil
