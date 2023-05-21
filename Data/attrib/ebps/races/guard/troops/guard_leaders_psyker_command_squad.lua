@@ -1,7 +1,7 @@
 GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
 GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\guard_psyker_lightning_arc.lua]]
-GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\guard_psyker_strip_soul.lua]]
+GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\guard_psyker_strip_soul_activate.lua]]
 GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\guard_curse_machine_spirits.lua]]
 GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\guard_leaders_morale_bonus.lua]]
 GameData["ability_ext"]["abilities"]["ability_05"] = [[abilities\guard_psyker_squad_bonus.lua]]
