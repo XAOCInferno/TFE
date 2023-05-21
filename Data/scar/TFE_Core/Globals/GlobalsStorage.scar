@@ -1,0 +1,139 @@
+debug_GlobalsStorage_FileName = "GlobalsStorage.scar"
+
+
+import("TFE_Core/Globals/GlobalsStorage.lua")
+
+function Initialise_GlobalsStorage()
+
+	UpdateAllSquads_Immediate()
+	Rule_AddInterval(SetUpdatedGameTime, g_WorldTimeFidelity)
+	Rule_AddInterval(UpdateAllSquads_Immediate, g_UpdateAllSquadsRate)
+
+end
+
+function SetUpdatedGameTime()
+
+	g_WorldTime = World_GetGameTime()
+
+end
+
+
+function UpdateAllSquads_Immediate()
+	for i = 1, g_PlayerCount do
+
+		UpdatePlayerSquads_Immediate(i)
+		
+	end
+	
+end
+
+function UpdatePlayerSquads_Immediate(PlayerIndex)	
+	local debugFuncName = "UpdatePlayerSquads_Immediate"
+	for i = 1, g_PlayerCount do
+		if (Player_IsAlive(g_AllPlayers[i])) then
+					
+			local AddSGroupData = function(_sgroupid, _itemindex, _squadID)
+			
+				local newSquadGameID = Squad_GetGameID( _squadID )
+				local squadBP = Squad_GetBlueprintName( _squadID )				
+				local CriticalError = false
+				
+				if(squadBP == nil) then 
+					LogOnce(1, 0, debug_GlobalsStorage_FileName, debugFuncName, "Can't squad BP is nil!")
+					return 
+				end
+				
+				for l = 1, TableLength(g_AllSquadsData[i]) do
+					if(g_AllSquadsData[i][l] ~= nil) then
+						if(g_AllSquadsData[i][l].SquadUniqueID == newSquadGameID) then
+							g_AllSquadsData[i][l].SquadLoadout = Squad_Count(g_AllSquadsData[i][l].SquadID)
+							g_AllSquadsData[i][l].SquadHasLeader = Squad_HasLeader(g_AllSquadsData[i][l].SquadID)
+							CriticalError = true
+							return false
+						elseif(Squad_Exists(g_AllSquadsData[i][l].SquadUniqueID) == false) then	--Does this work?					
+							table.remove(g_AllSquadsData[i], l)							
+						end
+					end
+				end		
+				
+				if(CriticalError == false) then
+									
+					local tmpSquadData = 
+					{
+						SquadUniqueID = newSquadGameID,
+						SquadGroupID = _sgroupid,
+						SquadIndex = _itemindex, -- What can this be used for?
+						SquadID = _squadID,	
+						SquadUnitRace = g_AllPlayersRace[i],
+						SquadBlueprint = squadBP,
+						SquadLoadout = Squad_Count(_squadID),
+						SquadHasLeader = Squad_HasLeader(_squadID),
+						SquadInitTime = g_WorldTime,	
+						
+						SquadAppliedCoverMods = {},
+						SquadAppliedCoverMods_IDs = {},
+						SquadAppliedCoverMods_Index = {}
+					}
+							
+					
+					table.insert(g_AllSquadsData[i], tmpSquadData)	
+				end
+			end
+							
+			
+			g_AllSquads[i] = Player_GetSquads(g_AllPlayers[i])
+			
+			SGroup_ForEachEx(g_AllSquads[i], AddSGroupData, true, false)				
+			
+			for k = 1, TableLength(g_AllSquadsData[i]) do
+				if(g_AllSquadsData[i][k] ~= nil) then
+					
+					local shouldIgnore, _ = TableContains(g_SquadBlueprintToIgnore, g_AllSquadsData[i][k].SquadBlueprint)
+					if(g_AllSquadsData[i][k].SquadBlueprint == nil or g_AllSquadsData[i][k].SquadLoadout == 0 or shouldIgnore) then
+
+						table.remove(g_AllSquadsData[i], k)
+						
+					end
+				end
+			end			
+				
+			g_PlayerSquadCount[i] = Player_GetActiveSquadCount(g_AllPlayers[i])
+			
+		end
+	end
+	
+	g_LastSquadUpdateTime = g_WorldTime
+end
+
+function SetupStrategicPoints()
+	local debugFuncName = "SetupStrategicPoints"
+	
+	Log(0, 0, debug_GlobalsStorage_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	
+	local SetupNewPoint = function(eSquadGroupID, i, eSquadID)
+	
+		local tmpStratPoint =  
+		{
+			ID = eSquadID,
+			OwnedBy = -1,					
+			
+			InitTime = g_WorldTime
+		}
+		table.insert( g_AllStrategicPointsStructs, tmpStratPoint )
+		g_NumberStratPoints = g_NumberStratPoints + 1
+
+	end
+	
+	g_NumberStratPoints = 0
+	--g_MatureMaxLifetime = g_MatureMaxLifetime * g_PlayerCount --Code repeats itself for each player so this is to compensate  [[Why does it repeat for each player??]]
+	World_GetStrategicPoints(EGroup_CreateIfNotFound( "tmpAllStratPoints" ) )
+	EGroup_ForEachEx(EGroup_FromName("tmpAllStratPoints"),  SetupNewPoint, true, true)
+		
+	Log(0, 0, debug_GlobalsStorage_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+end
+
+
+function GetWorldLifetime(StartTime)
+	return g_WorldTime - StartTime
+end
+

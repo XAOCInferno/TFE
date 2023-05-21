@@ -1,10 +1,13 @@
-function FORCE_AL()	
-	Rule_AddOneShot(FORCE_AL_Implement, 0.5)
-end
+debug_ForceAL_FileName = "ForceAL"
 
-function FORCE_AL_Implement()	
+function OnGameSetup()	
+
+	if(g_AlphaLegionSpawnChance == -1000) then
+	
+		Log(1, 0, debug_ForceAL_FileName, debugFuncName, "Ban AL and Force AL active at same time. Defaulting to Force AL")
+		
+	end
+	
 	g_AlphaLegionSpawnChance = 1000
+	
 end
-
--- Init SCAR
-Scar_AddInit(FORCE_AL)

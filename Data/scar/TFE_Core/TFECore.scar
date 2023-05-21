@@ -1,179 +1,49 @@
-import("player.scar")
-import("groupcallers.scar")
-import("scarutil.scar")
-import("TFE_Core/GlobalsStorage.scar")
-import("cover/NewCoverSystems.scar")
+debug_TFECore_FileName = "TFECore"
 
-g_AlphaLegionSpawnChance = 5
+
+import("TFE_Core/Imports/TFECore_Imports.scar")
+
 
 function TFE_Immediate_Load()
+	local debugFuncName = "TFE_Immediete_Load"
 
-	GetAllPlayers()
-
+	if pcall(GetAllPlayers) == false then
+		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run CORE function 'GetAllPlayers'!")
+	end
+	
+	if pcall(AlphaLegion_Setup) == false then
+		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'AlphaLegion_Setup'!")
+	end 
+	
+	if pcall(PassiveResourceGeneration_Immediate_Load) == false then 
+		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'PassiveResourceGeneration_Immediate_Load'!")
+	end
+	Initialise_GlobalsStorage()
+	--if pcall(Initialise_GlobalsStorage) == false then 
+	--	Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Initialise_GlobalsStorage'!")
+	--end
+	
+	if pcall(SetupStrategicPoints) == false then 
+		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'SetupMature'!")
+	elseif pcall(Rule_ActivateMature) == false then
+		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Rule_ActivateMature'!")
+	end	
+	
+	if pcall(Rule_ActivateUpkeep) == false then 
+		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Rule_ActivateUpkeep'!")
+	end
+	
+	InitNewCoverSystems()	
+	
 end
 
 function TFE_Load()
-	Rule_AddOneShot(SetupChaos, 1) --We can wait 1s as taks longer to build barracks & lets us wait for other scars t be pushed through
-	Rule_AddOneShot(InitNewCoverSystems,1)
-	SetupMature()
-	Rule_AddOneShot(Rule_ActivateUpkeep,g_UpkeepActivationDelay)
-end
-
-function Rule_ActivateUpkeep()
-	UIWarning_Show("Army Upkeep has now been activated!")	
-	EventCue_DoEvent( 'ingame/event_cue_icons/custom/warning', 'music/stinger_completeobjective', 'Army Upkeep Activated!', 'Your army will now drain resources.' )
-	Rule_AddInterval(Rule_CalculateUpkeep, g_UpkeepCalculateRate)
-
-end
-
-function Rule_ActivateMature()
-
-	UIWarning_Show("Resource Mature has now been activated!")
-	EventCue_DoEvent( 'ingame/event_cue_icons/strategic_point', 'music/stinger_completeobjective', 'Resource Mature Activated!', 'Capped points will increase in value until decapped.' )
-	Rule_AddInterval(Rule_DoMature, g_UpkeepCalculateRate)
-
-end
-
-function SetupMature()
-
-	local SetupNewPoint = function(eSquadGroupID, i, eSquadID) 
-		table.insert( g_AllStrategicPointsID, eSquadID )	
-		table.insert( g_AllStrategicPointsCapturedLifetime, 0 )	
-		table.insert( g_AllStrategicPointsCurrentMaturingPlayer, -1 )	
-		g_NumberStratPoints = g_NumberStratPoints + 1
-
-	end
-
-	g_MatureMaxLifetime = g_MatureMaxLifetime * g_PlayerCount --Code repeats itself for each player so this is to compensate
-	World_GetStrategicPoints(EGroup_CreateIfNotFound( "tmpAllStratPoints" ) )
-	EGroup_ForEachEx(EGroup_FromName("tmpAllStratPoints"),  SetupNewPoint, true, true)
-	Rule_AddOneShot(Rule_ActivateMature, g_MatureActivationDelay)
-end
-
-function CheckForGlobals() 
-
-	for i = 1, g_PlayerCount do
-		local tmpRace = g_AllPlayersRace[i]
-
-		if(g_PlayerGlobalStatus[i].ReqSecond == false) then
-			if(g_PlayerGlobalStatus[i].ReqFirst == false) then
-				if(Player_GetResearchState( g_AllPlayers[i], ResourceGlobalNames[tmpRace].Req.First ) == "RS_Complete" ) then
-					g_PlayerGlobalStatus[i].ReqFirst = true
-				end
-			else
-				if(Player_GetResearchState( g_AllPlayers[i], ResourceGlobalNames[tmpRace].Req.Second) == "RS_Complete" ) then
-					g_PlayerGlobalStatus[i].ReqSecond = true
-				end
-			end
-		end
-
-		if(g_PlayerGlobalStatus[i].PowerSecond == false) then
-		
-			if(g_PlayerGlobalStatus[i].PowerFirst == false) then
-				if(Player_GetResearchState( g_AllPlayers[i], ResourceGlobalNames[tmpRace].Power.First) == "RS_Complete" ) then
-					g_PlayerGlobalStatus[i].ReqFirst = true
-				end
-			else
-				if(Player_GetResearchState( g_AllPlayers[i], ResourceGlobalNames[tmpRace].Power.Second) == "RS_Complete" ) then
-					g_PlayerGlobalStatus[i].PowerSecond = true
-				end
-			end
-		end
-	end
-
-end
-
-function Rule_DoMature()
-
-	CheckForGlobals()
-	for i = 1, g_NumberStratPoints do
-		--[[Firstly check if control has switched.]]
-		if(not World_OwnsEntity(g_AllStrategicPointsID[i])) then
-			local tmpOwner = Entity_GetPlayerOwner(g_AllStrategicPointsID[i])
-			if(g_AllStrategicPointsCurrentMaturingPlayer[i] ~= World_GetPlayerIndex(tmpOwner)) then
-				g_AllStrategicPointsCapturedLifetime[i] = 0	
-				g_AllStrategicPointsCurrentMaturingPlayer[i] = World_GetPlayerIndex(tmpOwner)	
-
-			elseif(g_AllStrategicPointsCapturedLifetime[i] < g_MatureMaxLifetime) then
-				g_AllStrategicPointsCapturedLifetime[i] = g_AllStrategicPointsCapturedLifetime[i] + g_MatureUpdateRate
-			end
-
-			if(g_AllStrategicPointsCapturedLifetime[i] > g_MatureMaxLifetime) then
-				g_AllStrategicPointsCapturedLifetime[i] = g_MatureMaxLifetime
-
-			end
-		end
-
-	end
-
-
-	for j = 1, table.getn(g_AllPlayers) do
-
-		g_BonusIncome[j] = 
-		{
-			Req = g_BasePlayerUpkeep[j].Req,
-			Power = g_BasePlayerUpkeep[j].Power,
-			Faith = g_BasePlayerUpkeep[j].Faith,
-			Souls = g_BasePlayerUpkeep[j].Souls,				
-		}
-
-		for z = 1, table.getn(g_AllStrategicPointsCurrentMaturingPlayer) do
-			if(g_AllStrategicPointsCurrentMaturingPlayer[z] == World_GetPlayerIndex(g_AllPlayers[j])) then
-				if(g_BonusIncome ~= nil) then
-					local MaxBonusReq = 0
-					local MaxBonusPower = 0
-
-					local TmpBonusReq = 0
-					local TmpBonusPower = 0
-
-					if(g_PlayerGlobalStatus[z] == nil) then
-					
-						g_PlayerGlobalStatus[z] =
-						{
-							ReqFirst = false,
-							ReqSecond = false,
-			
-							PowerFirst = false,
-							PowerSecond = false,
-						}
-					end
-			
-					if(g_PlayerGlobalStatus[z].ReqSecond == true) then
-						MaxBonusReq = g_MaxMatureBonus_Global2.Req
-					elseif(g_PlayerGlobalStatus[z].ReqFirst == true) then
-						MaxBonusReq = g_MaxMatureBonus_Global1.Req
-					else
-						MaxBonusReq = g_MaxMatureBonus_Base.Req
-					end					
-					
-					if(g_PlayerGlobalStatus[z].PowerSecond == true) then
-						MaxBonusPower = g_MaxMatureBonus_Global2.Power
-					elseif(g_PlayerGlobalStatus[z].PowerFirst == true) then
-						MaxBonusPower = g_MaxMatureBonus_Global1.Power
-					else
-						MaxBonusPower = g_MaxMatureBonus_Base.Power
-					end
-
-					local CapTimeAsMaturePercent = g_AllStrategicPointsCapturedLifetime[z] / g_MatureMaxLifetime
-					local CapTimeAsBonusReq = MaxBonusReq * CapTimeAsMaturePercent
-
-					if(CapTimeAsBonusReq > MaxBonusReq) then
-			
-						CapTimeAsBonusReq = MaxBonusReq						
-
-					end
-
-					g_BonusIncome[j].Req = g_BonusIncome[j].Req + CapTimeAsBonusReq
-					--print("CapTime = "..CapTimeAsMaturePercent.." And New Req from it = "..CapTimeAsBonusReq.." Capped at = "..MaxBonusReq.Req)
-				end
-			end
-		
-		end
-
-	end	
-
-	Rule_ImplementUpkeep()
-
+	local debugFuncName = "TFE_Load"
+	
+	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	
+	
+	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 end
 
 function GetAllPlayers()
@@ -181,180 +51,21 @@ function GetAllPlayers()
 	for i = 1, g_PlayerCount do
 
 		local Player = World_GetPlayerAt(i-1)
-		table.insert(g_AllPlayers, Player)
-
 		local RaceName = Player_GetRaceName( Player ) 
+		local RaceIndex = Player_GetRace( Player ) 
+		
+		table.insert(g_AllPlayers, Player)
 		table.insert(g_AllPlayersRace, RaceName)
+		table.insert(g_AllPlayersRace_AsIndex, RaceIndex)
+		
+		--Move this later
 		if (UnitCosting[RaceName] == nil) then
 			pcall(import, 'upkeep/races/'..RaceName..'.scar')
 		end
-
-		if (Player_IsAlive(Player)) then
-			if RaceName == "dark_eldar_race" then
-				table.insert(g_AllDarkEldarPlayers, Player)			
-			--elseif RaceName == "chaos_marine_race" then
-			--not sure if we need to do al logic here anymore.
-			end
-		end	
-	end
-
-	if (table.getn(g_AllDarkEldarPlayers) > 0) then
-		Rule_AddInterval(Rule_AddSouls, 1.5)
-	end	
-
-end
-
-function SetupChaos()
-
-	for i = 1, table.getn(g_AllPlayers) do
-	
-		local Player = g_AllPlayers[i]
-		local RaceName = Player_GetRaceName( Player ) 
-
-		if RaceName == "chaos_marine_race" then
-
-			if World_GetRand(0,100) < g_AlphaLegionSpawnChance then 
-			
-				UnrestrictAlphaLegion(Player)
-				
-			else		 
-			
-				RestrictAlphaLegion(Player)				
-				
-			end
-		end
-	end
-
-end
-
-function RestrictAlphaLegion(Player)
-
-	Player_RestrictResearch(Player, "chaos_AL_secret_identity")
-	Player_RestrictSquad(Player, "chaos_al_marine_squad")
-	Player_RestrictSquad(Player, "chaos_squad_lord_AL")
-	Player_RestrictSquad(Player, "chaos_AL_Operative_squad")
 		
-end
-
-function UnrestrictAlphaLegion(Player)
-
-	--Nothing needed yet..
-	Player_RestrictSquad(Player, "chaos_marine_squad")
-	Player_RestrictSquad(Player, "chaos_squad_lord")
-	
-end
-
-function Rule_CalculateUpkeep()
-	--[[EGroups only reference buildings so I'll use this for turrets later.
-	local CalculateUpkeepForPlayer_Entity = function(groupid, itemindex, itemid) 
-
-		local sUnitName = Entity_GetBlueprintName(itemid)
-		local tmpRace = g_AllPlayersRace[g_CurrentPlayer]
-
-		if(UnitCosting[tmpRace] ~= null) then
-			if (UnitCosting[tmpRace][sUnitName] ~= nil) then
-				g_BonusIncome[g_CurrentPlayer].Req = g_BonusIncome[g_CurrentPlayer].Req + (UnitCosting[tmpRace][sUnitName].CostEntity.Req / g_UpkeepDivider)
-				g_BonusIncome[g_CurrentPlayer].Power = g_BonusIncome[g_CurrentPlayer].Power + (UnitCosting[tmpRace][sUnitName].CostEntity.Power / g_UpkeepDivider)
-				g_BonusIncome[g_CurrentPlayer].Faith = g_BonusIncome[g_CurrentPlayer].Faith + (UnitCosting[tmpRace][sUnitName].CostEntity.Faith / g_UpkeepDivider)
-				g_BonusIncome[g_CurrentPlayer].Souls = g_BonusIncome[g_CurrentPlayer].Souls + (UnitCosting[tmpRace][sUnitName].CostEntity.Souls / g_UpkeepDivider)
-			end
-		end	
-	end]]
-
-	local CalculateUpkeepForPlayer_Squad = function(eSquadGroupID, i, eSquadID) 
-		local sUnitName = Squad_GetBlueprintName(eSquadID)
-		local tmpRace = g_AllPlayersRace[g_CurrentPlayer]
-		if(UnitCosting[tmpRace] ~= null) then
-			if (UnitCosting[tmpRace][sUnitName] ~= nil) then
-
-				local Loadout = Squad_Count(eSquadID)
-
-				g_BonusIncome[g_CurrentPlayer].Req = g_BonusIncome[g_CurrentPlayer].Req + ((UnitCosting[tmpRace][sUnitName].CostEntity.Req) / g_UpkeepDivider) * Loadout
-				g_BonusIncome[g_CurrentPlayer].Power = g_BonusIncome[g_CurrentPlayer].Power + ((UnitCosting[tmpRace][sUnitName].CostEntity.Power) / g_UpkeepDivider) * Loadout
-				g_BonusIncome[g_CurrentPlayer].Faith = g_BonusIncome[g_CurrentPlayer].Faith + ((UnitCosting[tmpRace][sUnitName].CostEntity.Faith) / g_UpkeepDivider) * Loadout
-				g_BonusIncome[g_CurrentPlayer].Souls = g_BonusIncome[g_CurrentPlayer].Souls + ((UnitCosting[tmpRace][sUnitName].CostEntity.Souls) / g_UpkeepDivider) * Loadout
-
-				g_BonusIncome[g_CurrentPlayer].Req = g_BonusIncome[g_CurrentPlayer].Req + (UnitCosting[tmpRace][sUnitName].CostSquad.Req / g_UpkeepDivider)
-				g_BonusIncome[g_CurrentPlayer].Power = g_BonusIncome[g_CurrentPlayer].Power + (UnitCosting[tmpRace][sUnitName].CostSquad.Power / g_UpkeepDivider)
-				g_BonusIncome[g_CurrentPlayer].Faith = g_BonusIncome[g_CurrentPlayer].Faith + (UnitCosting[tmpRace][sUnitName].CostSquad.Faith / g_UpkeepDivider)
-				g_BonusIncome[g_CurrentPlayer].Souls = g_BonusIncome[g_CurrentPlayer].Souls + (UnitCosting[tmpRace][sUnitName].CostSquad.Souls / g_UpkeepDivider)
-
-				if (Squad_HasLeader(eSquadID)) then 
-					g_BonusIncome[g_CurrentPlayer].Req = g_BonusIncome[g_CurrentPlayer].Req + (UnitCosting[tmpRace][sUnitName].CostLeader.Req / g_UpkeepDivider)
-					g_BonusIncome[g_CurrentPlayer].Power = g_BonusIncome[g_CurrentPlayer].Power + (UnitCosting[tmpRace][sUnitName].CostLeader.Power / g_UpkeepDivider)
-					g_BonusIncome[g_CurrentPlayer].Faith = g_BonusIncome[g_CurrentPlayer].Faith + (UnitCosting[tmpRace][sUnitName].CostLeader.Faith / g_UpkeepDivider)
-					g_BonusIncome[g_CurrentPlayer].Souls = g_BonusIncome[g_CurrentPlayer].Souls + (UnitCosting[tmpRace][sUnitName].CostLeader.Souls / g_UpkeepDivider)
-				
-				end
-			end
-		end
-	end
-	
-	--Calc new upkeep
-	for i = 1, g_PlayerCount do
-
-		g_CurrentPlayer = i
-		if (Player_IsAlive(g_AllPlayers[i])) then
-			
-			--Rule_DoMature() --Should calculate mature first I guess
-			
-			--[[Use this for turrets later	
-			local tmpEGroupID = Player_GetEntities( g_AllPlayers[i] )
-			EGroup_ForEachEx(tmpEGroupID, CalculateUpkeepForPlayer_Entity, true, true)
-			]]
-
-			local tmpAllSquads = {}			
-			table.insert(tmpAllSquads, Player_GetSquads(g_AllPlayers[i]))	
-			for j = 1, table.getn(tmpAllSquads) do 		
-				SGroup_ForEachEx(tmpAllSquads[j], CalculateUpkeepForPlayer_Squad, true, true)
-			end			
-
-			tmpAllSquads = {}
-		
-		else
-			table.remove(g_AllPlayers,i)
-		end
-	end
-
-	g_HasDoneInitUpkeepRun = true	
-
-end
-
-
-function Rule_ImplementUpkeep()
-	
-	if(g_HasDoneInitUpkeepRun) then
-		--Check if player is alive or nah?..
-		for i = 1, g_PlayerCount do
-			--print(g_BonusIncome[i].Req)
-			Player_AddResource(g_AllPlayers[i], RT_Requisition, g_BonusIncome[i].Req)
-			Player_AddResource(g_AllPlayers[i], RT_Power, g_BonusIncome[i].Power)
-			Player_AddResource(g_AllPlayers[i], RT_Faith, g_BonusIncome[i].Faith)
-			Player_AddResource(g_AllPlayers[i], RT_Souls, g_BonusIncome[i].Souls)
-
-
-		end
 	end
 
 end
 
 
 
-function Rule_AddSouls()
-
-	for i = 1, table.getn(g_AllDarkEldarPlayers) do
-
-		if (Player_IsAlive(g_AllDarkEldarPlayers[i])) then
-		
-			Player_AddResource(g_AllDarkEldarPlayers[i], RT_Souls, PassiveSoulIncome)
-		
-		else 
-		
-			table.remove(g_AllDarkEldarPlayers,i)
-			if (table.getn(g_AllDarkEldarPlayers == 0)) then
-				Rule_Remove(Rule_AddSouls)
-			end
-		end
-	end
-
-end

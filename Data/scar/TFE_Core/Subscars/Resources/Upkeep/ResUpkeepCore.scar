@@ -1,0 +1,113 @@
+debug_ResUpkeepCore_FileName = "ResUpkeepCore"
+
+
+function Rule_ActivateUpkeep()
+	local debugFuncName = "Rule_ActivateUpkeep"
+		
+	Log(0, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	
+	EventCue_DoEvent( 'warning', 'music/stinger_completeobjective', 'Army Upkeep Activated!', 'Your army will now drain resources.' )
+	Rule_Add(Rule_CheckForNewSquads_Upkeep)
+	
+	Log(0, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+
+end
+
+function Rule_CheckForNewSquads_Upkeep()
+
+	if(g_WorldTime == g_LastSquadUpdateTime and g_PreviousUpkeepCalcTime < g_WorldTime) then
+	
+		g_PreviousUpkeepCalcTime = g_WorldTime
+		Rule_CalculateUpkeep()
+	
+	end
+
+end
+
+
+function Rule_CalculateUpkeep()
+	local debugFuncName = "Rule_CalculateUpkeep"
+
+	for i = 1, g_PlayerCount do
+	
+		for j = 1, g_PlayerSquadCount[i]+1 do
+		
+			local tmpStruct = g_AllSquadsData[i][j]		
+				
+			if(tmpStruct == nil) then
+			
+				if(g_DebugMode)	then
+					
+					LogOnce(1, 0, debug_ResUpkeepCore_FileName, debugFuncName,  "Struct for Player: "..i.." at position "..j.." is Nil!")
+				end
+				
+			elseif(tmpStruct.SquadUniqueID == nil) then
+				if(g_DebugMode)	then	
+				
+					LogOnce(1, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Struct: '"..tmpStruct.."' does not have a Unique ID!")		
+				
+				end
+			else		
+				local SquadLifetimeAsPercent = 1
+				local SquadLifetime = GetWorldLifetime(tmpStruct.SquadInitTime)
+			
+				if(SquadLifetime < g_TimeTakenForMaxUpkeep) then			
+					SquadLifetimeAsPercent = SquadLifetime / g_MatureMaxLifetime
+				end
+				
+				if(UnitCosting[tmpStruct.SquadUnitRace] ~= nil) then
+					if(UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint] ~= nil) then
+					
+						g_BonusIncome[i].Req = g_BonusIncome[i].Req + ((UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Req * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent)
+						g_BonusIncome[i].Power = g_BonusIncome[i].Power + ((UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Power * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent)
+						g_BonusIncome[i].Faith = g_BonusIncome[i].Faith + ((UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Faith * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent)
+						g_BonusIncome[i].Souls = g_BonusIncome[i].Souls + ((UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Souls * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent)
+			
+		
+						if (tmpStruct.SquadHasLeader) then 
+							if(UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader ~= nil) then
+							
+								g_BonusIncome[i].Req = g_BonusIncome[i].Req + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Req / SquadLifetimeAsPercent)
+								g_BonusIncome[i].Power = g_BonusIncome[i].Power + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Power / SquadLifetimeAsPercent)
+								g_BonusIncome[i].Faith = g_BonusIncome[i].Faith + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Faith / SquadLifetimeAsPercent)
+								g_BonusIncome[i].Souls = g_BonusIncome[i].Souls + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Souls / SquadLifetimeAsPercent)
+							
+							elseif(g_DebugMode) then
+														
+								LogOnce(2, 0, debug_ResUpkeepCore_FileName, debugFuncName, "SquadBP '"..tmpStruct.SquadBlueprint.."' does not have LEADER Upkeep data!")								
+							
+								end
+						end
+					elseif(g_DebugMode) then
+
+							LogOnce(1, 0, debug_ResUpkeepCore_FileName, debugFuncName, "SquadBP for ID: '"..tmpStruct.SquadUniqueID.."' does not have a Blueprint!")
+
+					end
+				elseif(g_DebugMode)	then	
+						
+					LogOnce(2, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Race '"..tmpStruct.SquadUnitRace.."' does not have Upkeep data!")
+					
+				end	
+			end
+		end			
+	end
+end
+
+
+function Rule_ImplementUpkeep()
+	
+	if(g_HasDoneInitUpkeepRun) then
+	
+		for i = 1, g_PlayerCount do			
+		
+			if(Player_IsAlive(g_AllPlayers[i])) then
+			
+				Player_AddResource(g_AllPlayers[i], RT_Requisition, g_BonusIncome[i].Req)
+				Player_AddResource(g_AllPlayers[i], RT_Power, g_BonusIncome[i].Power)
+				Player_AddResource(g_AllPlayers[i], RT_Faith, g_BonusIncome[i].Faith)
+				Player_AddResource(g_AllPlayers[i], RT_Souls, g_BonusIncome[i].Souls)
+			end
+		end
+	end
+
+end

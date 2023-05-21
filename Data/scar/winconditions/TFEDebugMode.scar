@@ -1,0 +1,12 @@
+g_LogTypes = {}
+
+function OnGameSetup()
+	
+	g_LogTypes[0] = "i" --Basic Log
+	g_LogTypes[1] = "?" --Concern / Warning
+	g_LogTypes[2] = "!!" --Basic Error
+	g_LogTypes[3] = "!!!!" --Severe Error
+
+	g_DebugMode = true
+	
+end

@@ -1,0 +1,144 @@
+debug_ResMatureCore_FileName = "ResMatureCore"
+
+function Rule_ActivateMature()
+	local debugFuncName = "Rule_ActivateMature"
+	
+	Log(0, 0, debug_ResMatureCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+
+	EventCue_DoEvent( 'warning', 'music/stinger_completeobjective', 'Resource Mature Activated!', 'Capped points will increase in value until decapped.' )
+	Rule_AddInterval(Rule_DoMature, g_UpkeepCalculateRate)
+	
+	Log(0, 0, debug_ResMatureCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+
+end
+
+function CheckForGlobals() 
+
+	for i = 1, g_PlayerCount do
+		local tmpRace = g_AllPlayersRace[i]
+
+		if(g_PlayerGlobalStatus[i].ReqSecond == false) then
+			if(g_PlayerGlobalStatus[i].ReqFirst == false) then
+				if(Player_GetResearchState( g_AllPlayers[i], ResourceGlobalNames[tmpRace].Req.First ) == "RS_Complete" ) then
+					g_PlayerGlobalStatus[i].ReqFirst = true
+				end
+			else
+				if(Player_GetResearchState( g_AllPlayers[i], ResourceGlobalNames[tmpRace].Req.Second) == "RS_Complete" ) then
+					g_PlayerGlobalStatus[i].ReqSecond = true
+				end
+			end
+		end
+
+		if(g_PlayerGlobalStatus[i].PowerSecond == false) then
+		
+			if(g_PlayerGlobalStatus[i].PowerFirst == false) then
+				if(Player_GetResearchState( g_AllPlayers[i], ResourceGlobalNames[tmpRace].Power.First) == "RS_Complete" ) then
+					g_PlayerGlobalStatus[i].ReqFirst = true
+				end
+			else
+				if(Player_GetResearchState( g_AllPlayers[i], ResourceGlobalNames[tmpRace].Power.Second) == "RS_Complete" ) then
+					g_PlayerGlobalStatus[i].PowerSecond = true
+				end
+			end
+		end
+	end
+
+end
+
+function Rule_DoMature()
+
+	CheckForGlobals()
+	for i = 1, g_NumberStratPoints do
+		local CurrentStratPoint = g_AllStrategicPointsStructs[i]
+		--[[Firstly check if control has switched.]]
+		if(not World_OwnsEntity(g_AllStrategicPointsStructs[i].ID)) then
+		
+			local tmpOwner = Entity_GetPlayerOwner(g_AllStrategicPointsStructs[i].ID)
+			
+			if(g_AllStrategicPointsStructs[i].OwnedBy ~= World_GetPlayerIndex(tmpOwner)) then
+				g_AllStrategicPointsStructs[i].InitTime = g_WorldTime	
+				g_AllStrategicPointsStructs[i].OwnedBy = World_GetPlayerIndex(tmpOwner)	
+			end
+			
+			local OwnedTime = GetWorldLifetime(g_AllStrategicPointsStructs[i].InitTime)
+			if(OwnedTime < g_MatureMaxLifetime) then
+				g_AllStrategicPointsStructs[i].InitTime = OwnedTime + g_MatureUpdateRate
+			end
+
+			if(OwnedTime > g_MatureMaxLifetime) then
+				g_AllStrategicPointsStructs[i].InitTime = g_MatureMaxLifetime
+
+			end
+		end
+
+	end
+
+
+	for j = 1, table.getn(g_AllPlayers) do
+
+		g_BonusIncome[j] = 
+		{
+			Req = g_BasePlayerUpkeep[j].Req,
+			Power = g_BasePlayerUpkeep[j].Power,
+			Faith = g_BasePlayerUpkeep[j].Faith,
+			Souls = g_BasePlayerUpkeep[j].Souls,				
+		}
+
+		for z = 1, g_NumberStratPoints do
+			if(g_AllStrategicPointsStructs[z].OwnedPlayer == World_GetPlayerIndex(g_AllPlayers[j])) then
+				if(g_BonusIncome ~= nil) then
+					local MaxBonusReq = 0
+					local MaxBonusPower = 0
+
+					local TmpBonusReq = 0
+					local TmpBonusPower = 0
+
+					if(g_PlayerGlobalStatus[z] == nil) then
+					
+						g_PlayerGlobalStatus[z] =
+						{
+							ReqFirst = false,
+							ReqSecond = false,
+			
+							PowerFirst = false,
+							PowerSecond = false,
+						}
+					end
+			
+					if(g_PlayerGlobalStatus[z].ReqSecond == true) then
+						MaxBonusReq = g_MaxMatureBonus_Global2.Req
+					elseif(g_PlayerGlobalStatus[z].ReqFirst == true) then
+						MaxBonusReq = g_MaxMatureBonus_Global1.Req
+					else
+						MaxBonusReq = g_MaxMatureBonus_Base.Req
+					end					
+					
+					if(g_PlayerGlobalStatus[z].PowerSecond == true) then
+						MaxBonusPower = g_MaxMatureBonus_Global2.Power
+					elseif(g_PlayerGlobalStatus[z].PowerFirst == true) then
+						MaxBonusPower = g_MaxMatureBonus_Global1.Power
+					else
+						MaxBonusPower = g_MaxMatureBonus_Base.Power
+					end
+
+					local CapTimeAsMaturePercent = GetWorldLifetime(g_AllStrategicPointsStructs[z].InitTime) / g_MatureMaxLifetime
+					local CapTimeAsBonusReq = MaxBonusReq * CapTimeAsMaturePercent
+
+					if(CapTimeAsBonusReq > MaxBonusReq) then
+			
+						CapTimeAsBonusReq = MaxBonusReq						
+
+					end
+
+					g_BonusIncome[j].Req = g_BonusIncome[j].Req + CapTimeAsBonusReq
+					--print("CapTime = "..CapTimeAsMaturePercent.." And New Req from it = "..CapTimeAsBonusReq.." Capped at = "..MaxBonusReq.Req)
+				end
+			end
+		
+		end
+
+	end	
+
+	Rule_ImplementUpkeep()
+
+end

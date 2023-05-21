@@ -1,0 +1,31 @@
+--DOW Core Scars------------------
+----------------------------------
+import("player.scar")
+import("groupcallers.scar")
+import("scarutil.scar")
+----------------------------------
+----------------------------------
+
+
+
+----------------------------------
+--TFE Globals [DO NOT REMOVE!]----
+----------------------------------
+import("TFE_Core/Globals/LuaTableExtensions.scar")
+import("TFE_Core/Globals/GlobalsStorage.scar")
+import("TFE_Core/Debug/GlobalsDebug.scar")
+----------------------------------
+----------------------------------
+
+
+
+----------------------------------
+--Non-Essential TFE Scars---------
+----------------------------------
+import("TFE_Core/Subscars/Cover/NewCoverSystems.scar")
+import("TFE_Core/Subscars/Alpha_Legion/AlphaLegion_Core.scar")
+import("TFE_Core/Subscars/Resources/AutoGenResources/PassiveResourceGeneration_Core.scar")
+import("TFE_Core/Subscars/Resources/Upkeep/ResUpkeepCore.scar")
+import("TFE_Core/Subscars/Resources/Mature/ResMatureCore.scar")
+----------------------------------
+----------------------------------

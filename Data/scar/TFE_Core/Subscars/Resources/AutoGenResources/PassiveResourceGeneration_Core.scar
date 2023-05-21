@@ -1,0 +1,57 @@
+debug_PassiveResourceGeneration_Core_FileName = "PassiveResourceGeneration_Core"
+
+import("TFE_Core/Subscars/Resources/AutoGenResources/PassiveResourceGeneration_Settings.lua")
+
+function PassiveResourceGeneration_Immediate_Load()
+	local debugFuncName = "PassiveResourceGeneration_Immediate_Load"
+
+	Log(0, 0, debug_PassiveResourceGeneration_Core_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	
+	if pcall(PassiveResourceGeneration_Import_Settings) then
+	
+		Rule_AddInterval(Rule_AddPassResources, g_ResourceGenUpdateRate)	
+		
+		Log(0, 0, debug_PassiveResourceGeneration_Core_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+		
+	else 
+	
+		Log(2, 1, debug_PassiveResourceGeneration_Core_FileName, debugFuncName, "Cannot run function 'PassiveResourceGeneration_Import_Settings'!")
+		Log(2, 0, debug_PassiveResourceGeneration_Core_FileName, debugFuncName, "Finished: '"..debugFuncName.."' with error!")
+		
+	end
+	
+end
+
+
+function Rule_AddPassResources()
+
+	local AddResources = function()
+	
+		local GetFactionStruct = function(race) 
+			return g_FactionSpecificResourceGeneration[race]
+		end
+		
+		for i = 1, g_PlayerCount do
+		
+			local RaceResStruct = GetFactionStruct(g_AllPlayersRace_AsIndex[i]+1)
+			if (Player_IsAlive(g_AllPlayers[i]) == true and RaceResStruct ~= nil) then
+			
+				if(RaceResStruct.HasPassiveResGen) then
+			
+					Player_AddResource(g_AllPlayers[i], RT_Requisition, RaceResStruct.RT_Requisition)
+					Player_AddResource(g_AllPlayers[i], RT_Power, RaceResStruct.RT_Power)
+					Player_AddResource(g_AllPlayers[i], RT_Pop, RaceResStruct.RT_Pop)
+					Player_AddResource(g_AllPlayers[i], RT_Souls, RaceResStruct.RT_Souls)
+					Player_AddResource(g_AllPlayers[i], RT_Faith, RaceResStruct.RT_Faith)
+					
+				end
+			end
+		
+		end
+		
+	end
+	
+	if pcall(AddResources) == false then
+		Log(2, 0, debug_PassiveResourceGeneration_Core_FileName, "Rule_AddPassResources", "Cannot add passive resources!")
+	end
+end

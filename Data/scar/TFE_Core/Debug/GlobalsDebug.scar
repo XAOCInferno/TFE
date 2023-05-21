@@ -1,0 +1,49 @@
+debug_GlobalsDebug_FileName = "GlobalsDebug"
+
+g_WrittenLogs = {}
+
+--Writes a custom log to the console
+function Log(logType, verbosity, moduleName, functionName, line)
+	if(g_DebugMode) then
+		if(verbosity == 0) then
+		
+			--Warning type, Mod Name, world time, function path, line
+			print("("..g_LogTypes[logType]..") ["..g_ModAbbreviation.."] ("..World_GetGameTime().."s) "..moduleName.."/"..functionName..":  "..line)
+			
+		elseif(verbosity == 1) then
+		
+			--Warning type, Mod Name, world time, line
+			print("("..g_LogTypes[logType]..") ["..g_ModAbbreviation.."] ("..World_GetGameTime().."s) "..line)
+			
+		elseif(verbosity == 2) then
+		
+			--Warning type, Mod Name, line
+			print("("..g_LogTypes[logType]..") ["..g_ModAbbreviation.."] "..line)
+			
+		elseif(verbosity == 3) then	
+		
+			--Just mod name and line
+			print("["..g_ModAbbreviation.."] "..line)
+			
+		else
+			--Just print the line, also in case they put an invalid number
+			Log(2,0,moduleName, functionName, "Verbosity: '"..verbosity.."' Is not valid! Defaulting to Print.") 
+			print(line)
+		end
+	end
+end
+
+
+--Writes a custom log to the console, if it hasn't been written before
+function LogOnce(logType, verbosity, moduleName, functionName, line)
+
+	local LogID = verbosity..moduleName..functionName..line
+	contains, _ = TableContains(g_WrittenLogs, LogID)
+	if(contains) then 
+		return true 
+	else
+		table.insert(g_WrittenLogs, LogID)
+		Log(logType, verbosity, moduleName, functionName, line)
+	end
+	
+end

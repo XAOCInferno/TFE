@@ -1,12 +1,20 @@
+debug_WinCondition_TFECore_FileName = "(WC)TFECore"
+
 import("TFE_Core/TFECore.scar");
 
 
--- Init hero rule system
 function TFE_Setup()
+
+	local debugFuncName = "TFE_Setup"
 	
+	Log(0, 0, debug_WinCondition_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+
 	FOW_Reset()
 	TFE_Immediate_Load()
 	Rule_AddOneShot(TFE_Load, 1)
+	
+	Log(0, 0, debug_WinCondition_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'...")
+	
 end
 
 -- Init SCAR
