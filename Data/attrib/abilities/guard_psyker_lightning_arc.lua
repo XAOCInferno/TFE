@@ -25,9 +25,9 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_08"] 
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_09"] = Reference([[type_armour\tp_commander.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_01"]["armour_piercing_value"] = 50
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_01"]["armour_type"] = Reference([[type_armour\tp_infantry_low.lua]])
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_02"]["armour_piercing_value"] = 50
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_02"]["armour_piercing_value"] = 40
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_02"]["armour_type"] = Reference([[type_armour\tp_infantry_med.lua]])
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_03"]["armour_piercing_value"] = 70
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_03"]["armour_piercing_value"] = 55
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_03"]["armour_type"] = Reference([[type_armour\tp_infantry_high.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_04"]["armour_piercing_value"] = 100
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_04"]["armour_type"] = Reference([[type_armour\tp_infantry_heavy_med.lua]])
@@ -37,7 +37,7 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 100
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 100
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 50
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 70
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Guard\Abilities\lightning_arc_squad_hit]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry02"]["event"] = [[Guard\Abilities\lightning_arc_squad_hit]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry03"]["event"] = [[Guard\Abilities\lightning_arc_squad_hit]]
