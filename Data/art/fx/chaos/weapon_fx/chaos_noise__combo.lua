@@ -209,14 +209,14 @@ fxtypes =
 							0,
 							0,
 							0,
-							0.15000,
+							0.10000,
 						},
 						entry_01 =  
 						{
 							1,
 							0,
 							0,
-							0.15000,
+							0.10000,
 						},
 					},
 				},
@@ -299,7 +299,7 @@ fxtypes =
 						0.50125,
 						1.06667,
 						1,
-						0.66667,
+						0.40000,
 					},
 				},
 				property_21 =  
@@ -343,12 +343,12 @@ fxtypes =
 						0.26667,
 						0.21250,
 						0.60000,
-						0.42125,
+						0.42500,
+						0.66667,
+						0.69250,
 						0.93333,
-						0.69375,
-						1.40000,
 						1,
-						1.86667,
+						0.66667,
 					},
 				},
 				property_01 =  
@@ -527,7 +527,7 @@ fxtypes =
 				{
 					name = "Duration",
 					type = "VARTYPE_FLOAT",
-					value = 1.50000,
+					value = 1.80000,
 				},
 				property_13 =  
 				{
@@ -575,7 +575,7 @@ fxtypes =
 				{
 					name = "Texture",
 					type = "VARTYPE_STRING",
-					value = "TEXTURES/A_GHOULARC.TGA",
+					value = "TEXTURES/ILE_SPRITES/A_343SMOKE_02.TGA",
 				},
 				property_21 =  
 				{
@@ -670,7 +670,7 @@ fxtypes =
 				{
 					name = "Emitter_Drag",
 					type = "VARTYPE_FLOAT",
-					value = 1,
+					value = 0,
 				},
 				property_07 =  
 				{
@@ -691,9 +691,9 @@ fxtypes =
 					value =  
 					{
 						0,
-						25,
+						30,
 						1,
-						25,
+						0,
 					},
 				},
 				property_10 =  
@@ -753,14 +753,14 @@ fxtypes =
 							0,
 							0,
 							0,
-							0.15000,
+							0,
 						},
 						entry_01 =  
 						{
 							1,
 							0,
 							0,
-							0.15000,
+							0,
 						},
 					},
 				},
@@ -771,15 +771,15 @@ fxtypes =
 					value =  
 					{
 						0,
-						14,
-						0.10000,
-						14.53333,
-						0.32375,
-						15.13333,
-						0.68000,
-						15.06667,
+						2.40000,
+						0.10250,
+						3.73333,
+						0.32750,
+						4.13333,
+						0.68250,
+						4.80000,
 						1,
-						13.46667,
+						3.73333,
 					},
 				},
 				property_15 =  
@@ -831,9 +831,9 @@ fxtypes =
 					value =  
 					{
 						0,
-						0.40000,
+						0.30000,
 						1,
-						1.20000,
+						0.80000,
 					},
 				},
 				property_21 =  
@@ -867,93 +867,20 @@ fxtypes =
 			{
 				property_00 =  
 				{
-					name = "Fx1",
-					type = "VARTYPE_STRING",
-					value = "",
-				},
-				property_01 =  
-				{
-					name = "Fx2",
-					type = "VARTYPE_STRING",
-					value = "",
-				},
-				property_02 =  
-				{
-					name = "FX3",
-					type = "VARTYPE_STRING",
-					value = "",
-				},
-				property_03 =  
-				{
-					name = "FX4",
-					type = "VARTYPE_STRING",
-					value = "__fxtool_private_copy",
-				},
-				property_04 =  
-				{
-					name = "FX5",
-					type = "VARTYPE_STRING",
-					value = "",
-				},
-				property_05 =  
-				{
-					name = "FX6",
-					type = "VARTYPE_STRING",
-					value = "",
-				},
-				property_06 =  
-				{
-					name = "FX7",
-					type = "VARTYPE_STRING",
-					value = "",
-				},
-				property_07 =  
-				{
-					name = "FX8",
-					type = "VARTYPE_STRING",
-					value = "",
-				},
-				property_08 =  
-				{
-					name = "Detail_From",
-					type = "VARTYPE_FLOAT",
-					value = 1,
-				},
-				property_09 =  
-				{
-					name = "Detail_To",
-					type = "VARTYPE_FLOAT",
-					value = 1,
-				},
-			},
-			style = "STYLE_COMBO",
-		},
-	},
-	 
-	{
-		effect = "root>__fxtool_private_copy>__fxtool_private_copy>__fxtool_private_copy",
-		fx =  
-		{
-			properties =  
-			{
-				property_00 =  
-				{
 					name = "Radius",
 					type = "VARTYPE_ARRAY_TIMEFLOAT",
 					value =  
 					{
 						0,
-						0.06667,
-						0.03000,
-						0.26667,
-						0.21250,
-						0.60000,
-						0.42125,
-						0.93333,
-						0.69375,
-						1.40000,
+						0.50000,
+						0.07875,
+						1.13333,
+						0.27625,
+						2,
+						0.54625,
+						2.46667,
 						1,
-						1.86667,
+						3.46667,
 					},
 				},
 				property_01 =  
@@ -1010,12 +937,6 @@ fxtypes =
 					{
 						0,
 						0,
-						0.06375,
-						0,
-						0.15000,
-						0,
-						0.26375,
-						0,
 						1,
 						0,
 					},
@@ -1029,60 +950,36 @@ fxtypes =
 						entry_00 =  
 						{
 							0,
-							0,
-							0,
-							0,
+							202,
+							159,
+							228,
 							0,
 						},
 						entry_01 =  
 						{
-							0.04897,
-							116,
+							0.13025,
+							62,
+							22,
+							132,
 							93,
-							117,
-							0,
 						},
 						entry_02 =  
 						{
-							0.11983,
-							62,
-							33,
-							79,
-							0,
+							0.35953,
+							89,
+							31,
+							81,
+							158,
 						},
 						entry_03 =  
 						{
-							0.20239,
-							20,
-							10,
-							28,
-							0,
+							0.85145,
+							47,
+							30,
+							50,
+							21,
 						},
 						entry_04 =  
-						{
-							0.35839,
-							39,
-							10,
-							55,
-							28,
-						},
-						entry_05 =  
-						{
-							0.53813,
-							64,
-							30,
-							63,
-							137,
-						},
-						entry_06 =  
-						{
-							0.81808,
-							38,
-							18,
-							40,
-							33,
-						},
-						entry_07 =  
 						{
 							1,
 							0,
@@ -1096,7 +993,7 @@ fxtypes =
 				{
 					name = "RadiusEpsilon",
 					type = "VARTYPE_FLOAT",
-					value = 0.50000,
+					value = 0,
 				},
 				property_07 =  
 				{
@@ -1120,7 +1017,7 @@ fxtypes =
 				{
 					name = "SpinEpsilonZ",
 					type = "VARTYPE_FLOAT",
-					value = 1,
+					value = 0,
 				},
 				property_11 =  
 				{
@@ -1132,7 +1029,7 @@ fxtypes =
 				{
 					name = "Duration",
 					type = "VARTYPE_FLOAT",
-					value = 2,
+					value = 1.50000,
 				},
 				property_13 =  
 				{
@@ -1180,7 +1077,7 @@ fxtypes =
 				{
 					name = "Texture",
 					type = "VARTYPE_STRING",
-					value = "TEXTURES/A_SWIRL_CCW.TGA",
+					value = "TEXTURES/HALOGLOW.TGA",
 				},
 				property_21 =  
 				{
@@ -1204,7 +1101,7 @@ fxtypes =
 				{
 					name = "SortOrder",
 					type = "VARTYPE_INT",
-					value = 0,
+					value = 1,
 				},
 				property_25 =  
 				{
@@ -1242,9 +1139,11 @@ fxtypes =
 					value =  
 					{
 						0,
-						2,
+						6,
+						0.50000,
+						7.50000,
 						1,
-						2,
+						6,
 					},
 				},
 				property_01 =  
@@ -1257,14 +1156,14 @@ fxtypes =
 						{
 							0,
 							0,
-							1,
+							0.50000,
 							0,
 						},
 						entry_01 =  
 						{
 							1,
 							0,
-							1,
+							0.50000,
 							0,
 						},
 					},
@@ -1322,16 +1221,16 @@ fxtypes =
 						entry_01 =  
 						{
 							0.12635,
-							83,
-							60,
+							71,
+							43,
 							84,
 							255,
 						},
 						entry_02 =  
 						{
 							0.42358,
-							53,
-							35,
+							44,
+							10,
 							60,
 							255,
 						},
@@ -1339,8 +1238,8 @@ fxtypes =
 						{
 							0.83153,
 							81,
-							31,
-							74,
+							36,
+							80,
 							255,
 						},
 						entry_04 =  
@@ -1552,14 +1451,14 @@ fxtypes =
 						2,
 						0.05125,
 						2.53333,
-						0.19250,
-						2.93333,
-						0.37500,
-						2.93333,
-						0.56125,
-						2.40000,
-						0.73125,
-						2,
+						0.20125,
+						3.93333,
+						0.39500,
+						4.26667,
+						0.61000,
+						3.13333,
+						0.75250,
+						2.26667,
 						1,
 						2,
 					},
@@ -1622,12 +1521,12 @@ fxtypes =
 						0.60000,
 						0.07625,
 						1.13333,
-						0.15375,
+						0.16250,
+						1.86667,
+						0.27625,
+						1.93333,
+						0.58625,
 						1.33333,
-						0.25625,
-						1.26667,
-						0.57125,
-						0.93333,
 						1,
 						0.60000,
 					},
@@ -1641,25 +1540,25 @@ fxtypes =
 						entry_00 =  
 						{
 							0,
-							255,
-							175,
-							240,
-							255,
+							39,
+							11,
+							79,
+							50,
 						},
 						entry_01 =  
 						{
-							0.37244,
+							0.37146,
 							255,
-							173,
-							204,
+							210,
+							9,
 							0,
 						},
 						entry_02 =  
 						{
 							1,
-							255,
-							209,
-							239,
+							67,
+							11,
+							108,
 							255,
 						},
 					},
@@ -1992,15 +1891,15 @@ fxtypes =
 						0,
 						0.06667,
 						0.03375,
-						0.46667,
-						0.17625,
+						0.40000,
+						0.17375,
+						0.60000,
+						0.41625,
 						0.73333,
-						0.41750,
-						1.06667,
-						0.70000,
-						1.33333,
+						0.70250,
 						1,
-						1.73333,
+						1,
+						1.33333,
 					},
 				},
 				property_01 =  
@@ -2512,7 +2411,7 @@ fxtypes =
 				{
 					name = "Emitter_Drag",
 					type = "VARTYPE_FLOAT",
-					value = 0,
+					value = 1,
 				},
 				property_07 =  
 				{
@@ -2533,9 +2432,9 @@ fxtypes =
 					value =  
 					{
 						0,
-						39.73333,
+						15,
 						1,
-						0,
+						15,
 					},
 				},
 				property_10 =  
@@ -2595,14 +2494,14 @@ fxtypes =
 							0,
 							0,
 							0,
-							0.15000,
+							0,
 						},
 						entry_01 =  
 						{
 							1,
 							0,
 							0,
-							0.15000,
+							0,
 						},
 					},
 				},
@@ -2613,15 +2512,15 @@ fxtypes =
 					value =  
 					{
 						0,
-						14,
-						0.10000,
-						14.53333,
-						0.32375,
-						15.13333,
-						0.68000,
-						15.06667,
+						7.73333,
+						0.11250,
+						8.66667,
+						0.31750,
+						8.53333,
+						0.70750,
+						9.06667,
 						1,
-						13.46667,
+						7.46667,
 					},
 				},
 				property_15 =  
@@ -2673,9 +2572,9 @@ fxtypes =
 					value =  
 					{
 						0,
-						0.40000,
+						0.50000,
 						1,
-						1.20000,
+						0.50000,
 					},
 				},
 				property_21 =  
@@ -2709,20 +2608,93 @@ fxtypes =
 			{
 				property_00 =  
 				{
+					name = "Fx1",
+					type = "VARTYPE_STRING",
+					value = "",
+				},
+				property_01 =  
+				{
+					name = "Fx2",
+					type = "VARTYPE_STRING",
+					value = "",
+				},
+				property_02 =  
+				{
+					name = "FX3",
+					type = "VARTYPE_STRING",
+					value = "",
+				},
+				property_03 =  
+				{
+					name = "FX4",
+					type = "VARTYPE_STRING",
+					value = "__fxtool_private_copy",
+				},
+				property_04 =  
+				{
+					name = "FX5",
+					type = "VARTYPE_STRING",
+					value = "",
+				},
+				property_05 =  
+				{
+					name = "FX6",
+					type = "VARTYPE_STRING",
+					value = "",
+				},
+				property_06 =  
+				{
+					name = "FX7",
+					type = "VARTYPE_STRING",
+					value = "",
+				},
+				property_07 =  
+				{
+					name = "FX8",
+					type = "VARTYPE_STRING",
+					value = "",
+				},
+				property_08 =  
+				{
+					name = "Detail_From",
+					type = "VARTYPE_FLOAT",
+					value = 1,
+				},
+				property_09 =  
+				{
+					name = "Detail_To",
+					type = "VARTYPE_FLOAT",
+					value = 1,
+				},
+			},
+			style = "STYLE_COMBO",
+		},
+	},
+	 
+	{
+		effect = "root>__fxtool_private_copy>__fxtool_private_copy>__fxtool_private_copy",
+		fx =  
+		{
+			properties =  
+			{
+				property_00 =  
+				{
 					name = "Radius",
 					type = "VARTYPE_ARRAY_TIMEFLOAT",
 					value =  
 					{
 						0,
-						0.50000,
-						0.07875,
-						1.13333,
-						0.27625,
-						2,
-						0.54625,
-						2.46667,
+						1.86667,
+						0.11000,
+						1.46667,
+						0.35500,
 						1,
-						3.46667,
+						0.65125,
+						0.66667,
+						0.86375,
+						0.46667,
+						1,
+						0,
 					},
 				},
 				property_01 =  
@@ -2779,6 +2751,14 @@ fxtypes =
 					{
 						0,
 						0,
+						0.06375,
+						0,
+						0.15000,
+						0,
+						0.26375,
+						0,
+						0.35375,
+						0,
 						1,
 						0,
 					},
@@ -2792,36 +2772,60 @@ fxtypes =
 						entry_00 =  
 						{
 							0,
-							202,
-							159,
-							228,
-							0,
+							185,
+							25,
+							226,
+							91,
 						},
 						entry_01 =  
 						{
-							0.13025,
-							62,
-							22,
+							0.04897,
+							190,
+							99,
+							206,
 							132,
-							93,
 						},
 						entry_02 =  
 						{
-							0.35953,
-							89,
-							31,
-							81,
-							158,
+							0.19063,
+							62,
+							33,
+							79,
+							50,
 						},
 						entry_03 =  
 						{
-							0.85145,
-							47,
-							30,
-							50,
-							21,
+							0.28214,
+							19,
+							10,
+							28,
+							38,
 						},
 						entry_04 =  
+						{
+							0.35839,
+							39,
+							10,
+							55,
+							55,
+						},
+						entry_05 =  
+						{
+							0.53813,
+							64,
+							30,
+							63,
+							137,
+						},
+						entry_06 =  
+						{
+							0.81808,
+							38,
+							18,
+							40,
+							33,
+						},
+						entry_07 =  
 						{
 							1,
 							0,
@@ -2835,7 +2839,7 @@ fxtypes =
 				{
 					name = "RadiusEpsilon",
 					type = "VARTYPE_FLOAT",
-					value = 0,
+					value = 0.50000,
 				},
 				property_07 =  
 				{
@@ -2859,7 +2863,7 @@ fxtypes =
 				{
 					name = "SpinEpsilonZ",
 					type = "VARTYPE_FLOAT",
-					value = 0,
+					value = 1,
 				},
 				property_11 =  
 				{
@@ -2871,7 +2875,7 @@ fxtypes =
 				{
 					name = "Duration",
 					type = "VARTYPE_FLOAT",
-					value = 1.50000,
+					value = 1,
 				},
 				property_13 =  
 				{
@@ -2919,7 +2923,7 @@ fxtypes =
 				{
 					name = "Texture",
 					type = "VARTYPE_STRING",
-					value = "TEXTURES/HALOGLOW.TGA",
+					value = "TEXTURES/A_SWIRL_CCW.TGA",
 				},
 				property_21 =  
 				{
@@ -2943,7 +2947,7 @@ fxtypes =
 				{
 					name = "SortOrder",
 					type = "VARTYPE_INT",
-					value = 1,
+					value = 0,
 				},
 				property_25 =  
 				{
@@ -3231,10 +3235,10 @@ fxtypes =
 						0.60000,
 						0.42125,
 						0.93333,
-						0.69375,
-						1.40000,
+						0.70500,
+						0.66667,
 						1,
-						1.86667,
+						0.66667,
 					},
 				},
 				property_01 =  
@@ -3413,7 +3417,7 @@ fxtypes =
 				{
 					name = "Duration",
 					type = "VARTYPE_FLOAT",
-					value = 2,
+					value = 1.25000,
 				},
 				property_13 =  
 				{
