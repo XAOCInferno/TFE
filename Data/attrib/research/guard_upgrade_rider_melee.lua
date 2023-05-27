@@ -53,5 +53,5 @@ GameData["ui_index_hint"] = 11
 GameData["ui_info"] = Reference([[tables\ui_info_table.lua]])
 GameData["ui_info"]["help_text_list"]["text_01"] = [[$692601]]
 GameData["ui_info"]["help_text_list"]["text_02"] = [[$692602]]
-GameData["ui_info"]["icon_name"] = [[guard_icons/guard_research_ogryn_melee]]
+GameData["ui_info"]["icon_name"] = [[guard_icons/guard_upgrade_rider_melee]]
 GameData["ui_info"]["screen_name_id"] = [[$692600]]
