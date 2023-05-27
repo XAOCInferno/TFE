@@ -485,7 +485,7 @@ GameData["relocatee_ext"]["relocation_modifiers"]["modifier_44"]["shield_of_fait
 GameData["relocatee_ext"]["relocation_modifiers"]["modifier_45"] = Reference([[modifiers\no_modifier.lua]])
 GameData["relocatee_ext"]["relocation_modifiers"]["modifier_45"]["shield_of_faith"] = false
 GameData["relocatee_ext"]["relocation_recharge_time"] = 40
-GameData["relocatee_ext"]["relocation_time"] = 30
+GameData["relocatee_ext"]["relocation_time"] = 20
 GameData["relocatee_ext"]["requirements"]["required_1"] = Reference([[requirements\local_required_addon.lua]])
 GameData["relocatee_ext"]["requirements"]["required_1"]["addon_name"] = [[eldar_webway_gate_relocation_addon]]
 GameData["requirement_ext"] = Reference([[ebpextensions\requirement_ext.lua]])
