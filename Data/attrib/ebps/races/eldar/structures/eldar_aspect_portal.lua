@@ -334,6 +334,7 @@ GameData["relocatee_ext"]["requirements"]["required_1"]["addon_name"] = [[eldar_
 GameData["research_ext"] = Reference([[ebpextensions\research_ext.lua]])
 GameData["research_ext"]["research_table"]["research_02"] = [[research\eldar_ranger_infiltration_research.lua]]
 GameData["research_ext"]["research_table"]["research_03"] = [[research\eldar_exarch_ability_research_1.lua]]
+GameData["research_ext"]["research_table"]["research_04"] = [[research\eldar_fire_grenade_research.lua]]
 GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
 GameData["sight_ext"]["sight_radius"] = 15
 GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
