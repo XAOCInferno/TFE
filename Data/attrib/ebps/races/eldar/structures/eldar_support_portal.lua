@@ -404,6 +404,7 @@ GameData["requirement_ext"]["requirements"]["required_2"]["is_display_requiremen
 GameData["requirement_ext"]["requirements"]["required_2"]["structure_name"] = [[ebps\races\eldar\structures\eldar_hq.lua]]
 GameData["research_ext"] = Reference([[ebpextensions\research_ext.lua]])
 GameData["research_ext"]["research_table"]["research_01"] = [[research\eldar_vehicle_ability_research.lua]]
+GameData["research_ext"]["research_table"]["research_02"] = [[research\eldar_research_nightwing.lua]]
 GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
 GameData["sight_ext"]["sight_radius"] = 15
 GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
