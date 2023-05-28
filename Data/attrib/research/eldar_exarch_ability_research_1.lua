@@ -1,9 +1,6 @@
 GameData = Inherit([[]])
 GameData["modifiers"] = Reference([[tables\modifier_table.lua]])
 GameData["requirements"] = Reference([[tables\requirements.lua]])
-GameData["requirements"]["required_1"] = Reference([[requirements\required_structure.lua]])
-GameData["requirements"]["required_1"]["is_display_requirement"] = true 
-GameData["requirements"]["required_1"]["structure_name"] = [[ebps\races\eldar\structures\eldar_hq.lua]]
 GameData["requirements"]["required_2"] = Reference([[requirements\local_required_addon.lua]])
 GameData["requirements"]["required_2"]["addon_name"] = [[addons\eldar_aspect_stone_dark_reapers.lua]]
 GameData["requirements"]["required_10"] = Reference([[requirements\required_structure.lua]])
