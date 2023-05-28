@@ -5,7 +5,6 @@ GameData["entity_blueprint_ext"]["scale_x"] = 4
 GameData["entity_blueprint_ext"]["scale_z"] = 4
 GameData["entity_blueprint_ext"]["minimum_update_radius"] = nil
 GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
-GameData["sim_entity_ext"]["is_collide"] = true 
 GameData["structure_ext"] = Reference([[ebpextensions\structure_ext.lua]])
 GameData["type_ext"] = Reference([[ebpextensions\type_ext.lua]])
 GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_building_high.lua]])

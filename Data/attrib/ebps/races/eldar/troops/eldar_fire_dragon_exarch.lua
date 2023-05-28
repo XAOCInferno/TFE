@@ -461,7 +461,7 @@ GameData["health_ext"] = Reference([[ebpextensions\health_ext.lua]])
 GameData["health_ext"]["armour"] = 100
 GameData["health_ext"]["death_event"] = [[data:/art/events/unit_death_events/sink_into_ground.events]]
 GameData["health_ext"]["display_health_bar"] = true 
-GameData["health_ext"]["hitpoints"] = 675
+GameData["health_ext"]["hitpoints"] = 685
 GameData["health_ext"]["morale_death"] = 40
 GameData["health_ext"]["poison_damage"] = 0.8000000119
 GameData["health_ext"]["poison_damage_duration"] = 15
@@ -707,7 +707,7 @@ GameData["synckill_ext"]["synckillinfos"]["synckillinfo_02"]["killer_invulnerabl
 GameData["synckill_ext"]["synckillinfos"]["synckillinfo_03"]["dead_zombie_time"] = 4.099999905
 GameData["synckill_ext"]["synckillinfos"]["synckillinfo_03"]["killer_invulnerable_time"] = 3.529999971
 GameData["type_ext"] = Reference([[ebpextensions\type_ext.lua]])
-GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_infantry_heavy_high.lua]])
+GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_infantry_heavy_med.lua]])
 GameData["ui_ext"] = Reference([[ebpextensions\ui_ext.lua]])
 GameData["ui_ext"]["minimap_enable"] = true 
 GameData["ui_ext"]["minimap_teamcolor"] = true 
