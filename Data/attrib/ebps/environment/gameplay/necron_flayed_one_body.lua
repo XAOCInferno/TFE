@@ -1,6 +1,6 @@
 GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
-GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\necron_body_autorevive.lua]]
+GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\necron_body_autorevive_greater.lua]]
 GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
 GameData["entity_blueprint_ext"]["animator"] = [[Races/Necrons/Troops/Flayed_One]]
 GameData["entity_blueprint_ext"]["scale_x"] = 0.5
@@ -30,7 +30,7 @@ GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
 GameData["sight_ext"]["keen_sight_radius"] = 0
 GameData["sight_ext"]["sight_radius"] = 4
 GameData["suicide_ext"] = Reference([[ebpextensions\suicide_ext.lua]])
-GameData["suicide_ext"]["lifetime"] = 100 --240
+GameData["suicide_ext"]["lifetime"] = 180 --240
 GameData["type_ext"] = Reference([[ebpextensions\type_ext.lua]])
 GameData["type_ext"]["can_be_possessed_by_enemy"] = false
 GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_armour.lua]])

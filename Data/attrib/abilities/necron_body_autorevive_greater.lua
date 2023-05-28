@@ -117,7 +117,7 @@ GameData["execute_table"]["weapon_damage_table"]["modifiers"]["modifier_09"]["mo
 GameData["execute_table"]["weapon_damage_table"]["modifiers"]["modifier_10"] = Reference([[tables\time_modify_entry.lua]])
 GameData["execute_table"]["weapon_damage_table"]["modifiers"]["modifier_10"]["modifier"]["shield_of_faith"] = false
 GameData["fire_cost"] = Reference([[tables\cost_table.lua]])
-GameData["fire_cost"]["power"] = 12 --27
+GameData["fire_cost"]["power"] = 18 --27
 GameData["friendly_opacity_while_active"] = 1
 GameData["initial_delay_time"] = 0
 GameData["looping_event_name"] = [[races/necron/necron_body_revive]]
@@ -135,6 +135,8 @@ GameData["recharge_timer_global"] = false
 GameData["recharge_timer_id"] = 0
 GameData["refresh_time"] = 15
 GameData["requirements"] = Reference([[tables\requirements.lua]])
+GameData["requirements"]["required_1"] = Reference([[requirements\required_research.lua]])
+GameData["requirements"]["required_1"]["research_name"] = [[research\necron_resurrection_orb_research.lua]]
 GameData["spawned_entity_name"] = [[]]
 GameData["speech_directory"] = [[]]
 GameData["target_ground"] = false
