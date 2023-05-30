@@ -1,7 +1,6 @@
 GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
 GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\marines_inquisition.lua]]
-GameData["ability_ext"]["abilities"]["ability_10"] = [[abilities\marines_attach_resistance_apothecary.lua]]
 GameData["ability_ext"]["abilities"]["ability_11"] = [[abilities\generic_auto_force_reload.lua]]
 GameData["ability_ext"]["abilities"]["ability_12"] = [[abilities\generic_stonewall_type_versatile.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
