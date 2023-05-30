@@ -452,7 +452,7 @@ GameData["squad_infiltration_ext"]["requirements"]["required_1"]["research_name"
 GameData["squad_leader_ext"] = Reference([[sbpextensions\squad_leader_ext.lua]])
 GameData["squad_leader_ext"]["leader_1"]["add_while_moving"] = true 
 GameData["squad_leader_ext"]["leader_1"]["cost_time"]["cost"]["power"] = 5
-GameData["squad_leader_ext"]["leader_1"]["cost_time"]["cost"]["requisition"] = 45
+GameData["squad_leader_ext"]["leader_1"]["cost_time"]["cost"]["requisition"] = 55
 GameData["squad_leader_ext"]["leader_1"]["cost_time"]["time_seconds"] = 20
 GameData["squad_leader_ext"]["leader_1"]["leader"]["type"] = [[ebps\races\chaos\troops\chaos_aspiring_champion_cultist.lua]]
 GameData["squad_loadout_ext"] = Reference([[sbpextensions\squad_loadout_ext.lua]])
