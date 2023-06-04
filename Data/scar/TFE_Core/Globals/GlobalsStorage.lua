@@ -206,17 +206,6 @@ g_AllSquadUpkeeps =
 }
 
 g_UpdateAllSquadsRate = 0.5
-g_AllSquads = 
-{
-	nil,
-	nil,
-	nil,
-	nil,
-	nil,
-	nil,
-	nil,
-	nil--Max of 8 players
-}
 
 g_AllSquadsData = 
 {

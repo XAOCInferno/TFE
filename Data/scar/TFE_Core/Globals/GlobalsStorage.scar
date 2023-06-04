@@ -51,6 +51,9 @@ end
 
 function UpdatePlayerSquads_Immediate(PlayerIndex)	
 	local debugFuncName = "UpdatePlayerSquads_Immediate"
+	
+	g_LastSquadUpdateTime = g_WorldTime
+	
 	for i = 1, g_PlayerCount do
 	
 		--We should only run the squad checker if the player is alive
@@ -105,11 +108,8 @@ function UpdatePlayerSquads_Immediate(PlayerIndex)
 				table.insert(g_AllSquadsData[i], tmpSquadData)	
 			end
 		end
-						
-		
-		g_AllSquads[i] = Player_GetSquads(g_AllPlayers[i])
-		
-		SGroup_ForEachEx(g_AllSquads[i], AddSGroupData, true, false)				
+								
+		SGroup_ForEachEx(Player_GetSquads(g_AllPlayers[i]), AddSGroupData, true, false)				
 		
 		for k = 1, TableLength(g_AllSquadsData[i]) do
 			if(g_AllSquadsData[i][k] ~= nil) then
@@ -126,9 +126,6 @@ function UpdatePlayerSquads_Immediate(PlayerIndex)
 		g_PlayerSquadCount[i] = Player_GetActiveSquadCount(g_AllPlayers[i])
 		
 	end
-	
-	
-	g_LastSquadUpdateTime = g_WorldTime
 end
 
 function SetupStrategicPoints()
