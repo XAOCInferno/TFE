@@ -1,5 +1,15 @@
 debug_GlobalsStorage_FileName = "GlobalsStorage.scar"
 
+StrategicPoint = {ID = 0, OwnedBy = -1, InitTime = 0}
+
+function StrategicPoint:new (ID, OwnedBy, InitTime)
+   setmetatable(ID, self)
+   self.ID = ID
+   self.OwnedBy = OwnedBy
+   self.InitTime = InitTime
+   return o
+end
+
 
 import("TFE_Core/Globals/GlobalsStorage.lua")
 
@@ -112,13 +122,15 @@ function SetupStrategicPoints()
 	
 	local SetupNewPoint = function(eSquadGroupID, i, eSquadID)
 	
-		local tmpStratPoint =  
-		{
-			ID = eSquadID,
-			OwnedBy = -1,					
+		--local tmpStratPoint =  
+		--{
+		--	ID = eSquadID,
+		--	OwnedBy = -1,					
 			
-			InitTime = g_WorldTime
-		}
+		--	InitTime = g_WorldTime
+		--}
+		
+		tmpStratPoint = StrategicPoint:new (ID, OwnedBy, InitTime)
 		table.insert( g_AllStrategicPointsStructs, tmpStratPoint )
 		g_NumberStratPoints = g_NumberStratPoints + 1
 
