@@ -51,9 +51,7 @@ function Rule_DoMature()
 	for i = 1, g_NumberStratPoints do
 		local CurrentStratPoint = g_AllStrategicPointsStructs[i]
 		--[[Firstly check if control has switched.]]
-		print(g_AllStrategicPointsStructs)
-		print(g_AllStrategicPointsStructs[i])
-		print(g_AllStrategicPointsStructs[i].ID)
+		
 		if(not World_OwnsEntity(g_AllStrategicPointsStructs[i].ID)) then
 		
 			local tmpOwner = Entity_GetPlayerOwner(g_AllStrategicPointsStructs[i].ID)
