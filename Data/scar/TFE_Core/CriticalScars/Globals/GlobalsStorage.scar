@@ -1,0 +1,52 @@
+---------
+--DEBUG--
+---------
+debug_GlobalsStorage_FileName = "GlobalsStorage.scar"
+
+
+--------------------
+--Settings imports--
+--------------------
+import("TFE_Core/CriticalScars/Globals/GlobalsStorage.lua")
+
+---------------
+--Main Script--
+---------------
+function Initialise_GlobalsStorage()
+
+	Rule_AddInterval(SetUpdatedGameTime, g_WorldTimeFidelity)
+
+end
+
+function SetUpdatedGameTime()
+
+	g_WorldTime = World_GetGameTime()
+
+end
+
+function SetupStrategicPoints()
+	local debugFuncName = "SetupStrategicPoints"
+	
+	Log(0, 0, debug_GlobalsStorage_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	
+	local SetupNewPoint = function(eSquadGroupID, i, eSquadID)
+		
+		table.insert( g_AllStrategicPointsStructs, StrategicPoint:new (eSquadID, -1, g_WorldTime) )
+		g_NumberStratPoints = g_NumberStratPoints + 1
+
+	end
+	
+	g_NumberStratPoints = 0
+	--g_MatureMaxLifetime = g_MatureMaxLifetime * g_PlayerCount --Code repeats itself for each player so this is to compensate  [[Why does it repeat for each player??]]
+	World_GetStrategicPoints(EGroup_CreateIfNotFound( "tmpAllStratPoints" ) )
+	EGroup_ForEachEx(EGroup_FromName("tmpAllStratPoints"),  SetupNewPoint, true, true)
+	EGroup_Destroy("tmpAllStratPoints")
+	
+	Log(0, 0, debug_GlobalsStorage_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+end
+
+
+function GetWorldLifetime(StartTime)
+	return g_WorldTime - StartTime
+end
+

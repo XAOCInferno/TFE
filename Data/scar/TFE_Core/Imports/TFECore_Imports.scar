@@ -11,9 +11,10 @@ import("scarutil.scar")
 ----------------------------------
 --TFE Globals [DO NOT REMOVE!]----
 ----------------------------------
-import("TFE_Core/Globals/LuaTableExtensions.scar")
-import("TFE_Core/Globals/GlobalsStorage.scar")
-import("TFE_Core/Debug/GlobalsDebug.scar")
+import("TFE_Core/CriticalScars/Globals/LuaTableExtensions.scar")
+import("TFE_Core/CriticalScars/Globals/GlobalsStorage.scar")
+import("TFE_Core/CriticalScars/SquadManager/SquadManager_Core.scar")
+import("TFE_Core/CriticalScars/Debug/GlobalsDebug.scar")
 ----------------------------------
 ----------------------------------
 

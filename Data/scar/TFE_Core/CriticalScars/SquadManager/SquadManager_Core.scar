@@ -1,7 +1,7 @@
 ---------
 --DEBUG--
 ---------
-debug_GlobalsStorage_FileName = "GlobalsStorage.scar"
+debug_SquadManager_FileName = "SquadManager_Core.scar"
 
 ----------------------
 --Class Constructors--
@@ -44,28 +44,15 @@ function SquadData:new (sGameID, sGroupID, sIndex, sID, sRace, sBP)
 	return setmetatable(o, self)
 end
 
---------------------
---Settings imports--
---------------------
-import("TFE_Core/Globals/GlobalsStorage.lua")
-
 ---------------
 --Main Script--
 ---------------
-function Initialise_GlobalsStorage()
+function Initialise_SquadManager()
 
 	UpdateAllSquads_Immediate()
-	Rule_AddInterval(SetUpdatedGameTime, g_WorldTimeFidelity)
 	Rule_AddInterval(UpdateAllSquads_Immediate, g_UpdateAllSquadsRate)
 
 end
-
-function SetUpdatedGameTime()
-
-	g_WorldTime = World_GetGameTime()
-
-end
-
 
 function UpdateAllSquads_Immediate()
 	for i = 1, g_PlayerCount do
@@ -95,7 +82,7 @@ function UpdatePlayerSquads_Immediate(PlayerIndex)
 			local CriticalError = false
 			
 			if(squadBP == nil) then 
-				LogOnce(1, 0, debug_GlobalsStorage_FileName, debugFuncName, "Can't squad BP is nil!")
+				LogOnce(1, 0, debug_SquadManager_FileName, debugFuncName, "Can't squad BP is nil!")
 				return 
 			end
 			
@@ -137,29 +124,3 @@ function UpdatePlayerSquads_Immediate(PlayerIndex)
 		
 	end
 end
-
-function SetupStrategicPoints()
-	local debugFuncName = "SetupStrategicPoints"
-	
-	Log(0, 0, debug_GlobalsStorage_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
-	
-	local SetupNewPoint = function(eSquadGroupID, i, eSquadID)
-		
-		table.insert( g_AllStrategicPointsStructs, StrategicPoint:new (eSquadID, -1, g_WorldTime) )
-		g_NumberStratPoints = g_NumberStratPoints + 1
-
-	end
-	
-	g_NumberStratPoints = 0
-	--g_MatureMaxLifetime = g_MatureMaxLifetime * g_PlayerCount --Code repeats itself for each player so this is to compensate  [[Why does it repeat for each player??]]
-	World_GetStrategicPoints(EGroup_CreateIfNotFound( "tmpAllStratPoints" ) )
-	EGroup_ForEachEx(EGroup_FromName("tmpAllStratPoints"),  SetupNewPoint, true, true)
-		
-	Log(0, 0, debug_GlobalsStorage_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
-end
-
-
-function GetWorldLifetime(StartTime)
-	return g_WorldTime - StartTime
-end
-
