@@ -8,12 +8,12 @@ function Log(logType, verbosity, moduleName, functionName, line)
 		if(verbosity == 0) then
 		
 			--Warning type, Mod Name, world time, function path, line
-			print("("..g_LogTypes[logType]..") ["..g_ModAbbreviation.."] ("..World_GetGameTime().."s) "..moduleName.."/"..functionName..":  "..line)
+			print("("..g_LogTypes[logType]..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) "..moduleName.."/"..functionName..":  "..line)
 			
 		elseif(verbosity == 1) then
 		
 			--Warning type, Mod Name, world time, line
-			print("("..g_LogTypes[logType]..") ["..g_ModAbbreviation.."] ("..World_GetGameTime().."s) "..line)
+			print("("..g_LogTypes[logType]..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) "..line)
 			
 		elseif(verbosity == 2) then
 		

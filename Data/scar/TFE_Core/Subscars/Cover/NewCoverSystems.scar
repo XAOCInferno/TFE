@@ -162,12 +162,19 @@ end
 
 
 function Rule_CheckForNewSquads_Cover()
-
+	
 	if(g_WorldTime == g_LastSquadUpdateTime and g_PreviousCoverCalcTime < g_WorldTime) then
-		
-	g_PreviousCoverCalcTime = g_WorldTime
+		print("HI?!!E!E!EE!E!?")
+		g_PreviousCoverCalcTime = g_WorldTime
 		Rule_CheckCoverStatus()
 	
+	else
+		print("----------------")
+		print(g_WorldTime)
+		print(g_LastSquadUpdateTime)
+		print(g_PreviousCoverCalcTime)
+		print("----------------")
+		
 	end
 
 end

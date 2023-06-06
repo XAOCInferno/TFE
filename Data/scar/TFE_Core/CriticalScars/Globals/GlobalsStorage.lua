@@ -1,6 +1,5 @@
 g_ModName = "TFE"
 g_ModAbbreviation = "TFE"
-g_DebugMode = false
 
 g_AllPlayers = { }
 g_AllPlayersRace = { }
@@ -12,7 +11,7 @@ g_CurrentPlayer = 0
 g_RaceSpecificResourceGeneration = {}
 g_ResourceGenUpdateRate = 1
 
-g_WorldTime = World_GetGameTime()
+g_WorldTime = 0
 g_WorldTimeFidelity = 0.2
 
 UnitCosting = { }
@@ -184,9 +183,9 @@ g_MaxMatureBonus_Global2 = { Req = 4, Power = 3 }
 g_MatureActivationDelay = 0 --Why delay?
 g_TimeTakenForMaxUpkeep = 240
 
-g_LastSquadUpdateTime = 0
-g_PreviousUpkeepCalcTime = 0
-g_PreviousCoverCalcTime = 0
+g_LastSquadUpdateTime = -2
+g_PreviousUpkeepCalcTime = -1
+g_PreviousCoverCalcTime = -1
 
 g_SquadBlueprintToIgnore = 
 {

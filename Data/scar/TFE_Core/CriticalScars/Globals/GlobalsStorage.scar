@@ -13,7 +13,7 @@ import("TFE_Core/CriticalScars/Globals/GlobalsStorage.lua")
 --Main Script--
 ---------------
 function Initialise_GlobalsStorage()
-
+	SetUpdatedGameTime()
 	Rule_AddInterval(SetUpdatedGameTime, g_WorldTimeFidelity)
 
 end

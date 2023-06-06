@@ -1,12 +1,17 @@
 debug_TFECore_FileName = "TFECore"
 
-
 import("TFE_Core/Imports/TFECore_Imports.scar")
 
 
-function TFE_Immediate_Load()
-	local debugFuncName = "TFE_Immediete_Load"
+function TFE_Game_Load()
+	
+	local debugFuncName = "TFE_Game_Load"	
+	
+	CheckForSecondaryScars()
+	
+end
 
+function TFE_Init_Load()
 	if pcall(GetAllPlayers) == false then
 		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run CORE function 'GetAllPlayers'!")
 	end
@@ -20,7 +25,7 @@ function TFE_Immediate_Load()
 	end
 	
 	if pcall(Initialise_SquadManager) == false then 
-		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Initialise_GlobalsStorage'!")
+		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Initialise_SquadManager'!")
 	end
 	
 	if pcall(Initialise_GlobalsStorage) == false then 
@@ -37,8 +42,20 @@ function TFE_Immediate_Load()
 		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Rule_ActivateUpkeep'!")
 	end
 	
-	InitNewCoverSystems()	
+	if pcall(InitNewCoverSystems) == false then 
+		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'InitNewCoverSystems'!")
+	end
 	
+end
+
+function CheckForSecondaryScars()
+
+	if g_TrueRandomRace_Enabled == true then
+
+		TrueRandomRace_Setup()
+	
+	end
+
 end
 
 function TFE_Load()

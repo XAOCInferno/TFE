@@ -48,13 +48,14 @@ end
 --Main Script--
 ---------------
 function Initialise_SquadManager()
-
+	
 	UpdateAllSquads_Immediate()
 	Rule_AddInterval(UpdateAllSquads_Immediate, g_UpdateAllSquadsRate)
 
 end
 
 function UpdateAllSquads_Immediate()
+	
 	for i = 1, g_PlayerCount do
 
 		UpdatePlayerSquads_Immediate(i)
