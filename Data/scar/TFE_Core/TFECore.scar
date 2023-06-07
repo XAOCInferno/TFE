@@ -8,6 +8,7 @@ function TFE_Game_Load()
 	local debugFuncName = "TFE_Game_Load"	
 	
 	CheckForSecondaryScars()
+	Rule_Add(MainLoop)--, 0.25)
 	
 end
 
@@ -58,15 +59,6 @@ function CheckForSecondaryScars()
 
 end
 
-function TFE_Load()
-	local debugFuncName = "TFE_Load"
-	
-	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
-	
-	
-	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
-end
-
 function GetAllPlayers()
 
 	for i = 1, g_PlayerCount do
@@ -86,6 +78,23 @@ function GetAllPlayers()
 		
 	end
 
+end
+
+
+function MainLoop()
+
+	if(g_PreviousMainLoopHasCompleted) then
+	
+		g_PreviousMainLoopHasCompleted = false
+		SetUpdatedGameTime()
+		UpdateAllSquads_Immediate()--, g_UpdateAllSquadsRate)
+		Rule_CheckCoverStatus()
+		Rule_CheckForNewSquads_Upkeep()
+		Rule_DoMature()
+		
+	end
+	
+	g_PreviousMainLoopHasCompleted = true
 end
 
 

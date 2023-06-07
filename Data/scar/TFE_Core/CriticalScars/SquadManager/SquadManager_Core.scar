@@ -50,7 +50,6 @@ end
 function Initialise_SquadManager()
 	
 	UpdateAllSquads_Immediate()
-	Rule_AddInterval(UpdateAllSquads_Immediate, g_UpdateAllSquadsRate)
 
 end
 
@@ -88,16 +87,25 @@ function UpdatePlayerSquads_Immediate(PlayerIndex)
 			end
 			
 			for l = 1, TableLength(g_AllSquadsData[i]) do
-				if(g_AllSquadsData[i][l] ~= nil) then
+				if(g_AllSquadsData[i][l] == nil) then
+					table.remove(g_AllSquadsData[i], l)	
+					return false
+				end
 				
-					if(g_AllSquadsData[i][l].SquadUniqueID == newSquadGameID) then
-						g_AllSquadsData[i][l].SquadLoadout = Squad_Count(g_AllSquadsData[i][l].SquadID)
-						g_AllSquadsData[i][l].SquadHasLeader = Squad_HasLeader(g_AllSquadsData[i][l].SquadID)
-						CriticalError = true
+				if(g_AllSquadsData[i][l].SquadUniqueID == newSquadGameID) then
+				
+					if(g_AllSquadsData[i][l].SquadLoadout == 0) then
+						table.remove(g_AllSquadsData[i],l)
 						return false
-					elseif(Squad_Exists(g_AllSquadsData[i][l].SquadUniqueID) == false) then	--Does this work?					
-						table.remove(g_AllSquadsData[i], l)							
 					end
+					
+					g_AllSquadsData[i][l].SquadLoadout = Squad_Count(g_AllSquadsData[i][l].SquadID)
+					g_AllSquadsData[i][l].SquadHasLeader = Squad_HasLeader(g_AllSquadsData[i][l].SquadID)
+					CriticalError = true			
+					return false
+					
+				elseif(Squad_Exists(g_AllSquadsData[i][l].SquadUniqueID) == false) then	--Does this work?					
+					table.remove(g_AllSquadsData[i], l)							
 				end
 			end		
 			

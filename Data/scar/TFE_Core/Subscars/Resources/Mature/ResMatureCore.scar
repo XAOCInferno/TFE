@@ -6,7 +6,6 @@ function Rule_ActivateMature()
 	Log(0, 0, debug_ResMatureCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 
 	EventCue_DoEvent( 'warning', 'music/stinger_completeobjective', 'Resource Mature Activated!', 'Capped points will increase in value until decapped.' )
-	Rule_AddInterval(Rule_DoMature, g_UpkeepCalculateRate)
 	
 	Log(0, 0, debug_ResMatureCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 

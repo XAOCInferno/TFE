@@ -154,29 +154,9 @@ function InitNewCoverSystems()
 	Log(0, 0, debug_NewCoverSystems_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 
 	SetupCoverModifiers()
-	Rule_Add(Rule_CheckForNewSquads_Cover)
 	
 	Log(0, 0, debug_NewCoverSystems_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 	
-end
-
-
-function Rule_CheckForNewSquads_Cover()
-	
-	if(g_WorldTime == g_LastSquadUpdateTime and g_PreviousCoverCalcTime < g_WorldTime) then
-		print("HI?!!E!E!EE!E!?")
-		g_PreviousCoverCalcTime = g_WorldTime
-		Rule_CheckCoverStatus()
-	
-	else
-		print("----------------")
-		print(g_WorldTime)
-		print(g_LastSquadUpdateTime)
-		print(g_PreviousCoverCalcTime)
-		print("----------------")
-		
-	end
-
 end
 
 
@@ -184,7 +164,7 @@ function Rule_CheckCoverStatus()
 	local debugFuncName = "Rule_CheckCoverStatus"
 
 	for i = 1, g_PlayerCount do
-	
+		UpdatePlayerSquads_Immediate(i)
 		for j = 1, g_PlayerSquadCount[i]+1 do
 		
 			local tmpStruct = g_AllSquadsData[i][j]	
