@@ -12,17 +12,6 @@ function Rule_ActivateUpkeep()
 
 end
 
-function Rule_CheckForNewSquads_Upkeep()
-
-	if(g_WorldTime == g_LastSquadUpdateTime and g_PreviousUpkeepCalcTime < g_WorldTime) then
-	
-		g_PreviousUpkeepCalcTime = g_WorldTime
-		Rule_CalculateUpkeep()
-	
-	end
-
-end
-
 
 function Rule_CalculateUpkeep()
 	local debugFuncName = "Rule_CalculateUpkeep"

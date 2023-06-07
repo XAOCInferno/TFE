@@ -89,7 +89,7 @@ function MainLoop()
 		SetUpdatedGameTime()
 		UpdateAllSquads_Immediate()--, g_UpdateAllSquadsRate)
 		Rule_CheckCoverStatus()
-		Rule_CheckForNewSquads_Upkeep()
+		Rule_CalculateUpkeep()
 		Rule_DoMature()
 		
 	end
