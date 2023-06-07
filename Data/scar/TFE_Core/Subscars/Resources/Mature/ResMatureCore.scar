@@ -14,15 +14,15 @@ end
 function CheckForGlobals() 
 
 	for i = 1, g_PlayerCount do
-		local tmpRace = g_AllPlayersRace[i]
+		local tmpRace = g_AllPlayers[i].RaceName
 
 		if(g_PlayerGlobalStatus[i].ReqSecond == false) then
 			if(g_PlayerGlobalStatus[i].ReqFirst == false) then
-				if(Player_GetResearchState( g_AllPlayers[i], ResourceGlobalNames[tmpRace].Req.First ) == "RS_Complete" ) then
+				if(Player_GetResearchState( g_AllPlayers[i].Player, ResourceGlobalNames[tmpRace].Req.First ) == "RS_Complete" ) then
 					g_PlayerGlobalStatus[i].ReqFirst = true
 				end
 			else
-				if(Player_GetResearchState( g_AllPlayers[i], ResourceGlobalNames[tmpRace].Req.Second) == "RS_Complete" ) then
+				if(Player_GetResearchState( g_AllPlayers[i].Player, ResourceGlobalNames[tmpRace].Req.Second) == "RS_Complete" ) then
 					g_PlayerGlobalStatus[i].ReqSecond = true
 				end
 			end
@@ -31,11 +31,11 @@ function CheckForGlobals()
 		if(g_PlayerGlobalStatus[i].PowerSecond == false) then
 		
 			if(g_PlayerGlobalStatus[i].PowerFirst == false) then
-				if(Player_GetResearchState( g_AllPlayers[i], ResourceGlobalNames[tmpRace].Power.First) == "RS_Complete" ) then
+				if(Player_GetResearchState( g_AllPlayers[i].Player, ResourceGlobalNames[tmpRace].Power.First) == "RS_Complete" ) then
 					g_PlayerGlobalStatus[i].ReqFirst = true
 				end
 			else
-				if(Player_GetResearchState( g_AllPlayers[i], ResourceGlobalNames[tmpRace].Power.Second) == "RS_Complete" ) then
+				if(Player_GetResearchState( g_AllPlayers[i].Player, ResourceGlobalNames[tmpRace].Power.Second) == "RS_Complete" ) then
 					g_PlayerGlobalStatus[i].PowerSecond = true
 				end
 			end
@@ -85,7 +85,7 @@ function Rule_DoMature()
 		}
 
 		for z = 1, g_NumberStratPoints do
-			if(g_AllStrategicPointsStructs[z].OwnedPlayer == World_GetPlayerIndex(g_AllPlayers[j])) then
+			if(g_AllStrategicPointsStructs[z].OwnedPlayer == g_AllPlayers[j].PlayerIndex) then
 				if(g_BonusIncome ~= nil) then
 					local MaxBonusReq = 0
 					local MaxBonusPower = 0

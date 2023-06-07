@@ -71,7 +71,7 @@ function UpdatePlayerSquads_Immediate(PlayerIndex)
 	for i = 1, g_PlayerCount do
 	
 		--We should only run the squad checker if the player is alive
-		if (not Player_IsAlive(g_AllPlayers[i])) then			
+		if (not Player_IsAlive(g_AllPlayers[i].Player)) then			
 			return nil					
 		end
 					
@@ -111,11 +111,11 @@ function UpdatePlayerSquads_Immediate(PlayerIndex)
 			
 			if(CriticalError == false) then
 				
-				table.insert(g_AllSquadsData[i], SquadData:new( newSquadGameID, _sgroupid, _itemindex, _squadID, g_AllPlayersRace[i], squadBP))	
+				table.insert(g_AllSquadsData[i], SquadData:new( newSquadGameID, _sgroupid, _itemindex, _squadID, g_AllPlayers[i].RaceName, squadBP))	
 			end
 		end
 								
-		SGroup_ForEachEx(Player_GetSquads(g_AllPlayers[i]), AddSGroupData, true, false)				
+		SGroup_ForEachEx(Player_GetSquads(g_AllPlayers[i].Player), AddSGroupData, true, false)				
 		
 		for k = 1, TableLength(g_AllSquadsData[i]) do
 			if(g_AllSquadsData[i][k] ~= nil) then
@@ -129,7 +129,7 @@ function UpdatePlayerSquads_Immediate(PlayerIndex)
 			end
 		end
 			
-		g_PlayerSquadCount[i] = Player_GetActiveSquadCount(g_AllPlayers[i])
+		g_PlayerSquadCount[i] = Player_GetActiveSquadCount(g_AllPlayers[i].Player)
 		
 	end
 end

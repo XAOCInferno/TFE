@@ -2,8 +2,6 @@ g_ModName = "TFE"
 g_ModAbbreviation = "TFE"
 
 g_AllPlayers = { }
-g_AllPlayersRace = { }
-g_AllPlayersRace_AsIndex = { }
 g_PlayerCount = World_GetPlayerCount()
 g_AllPlayerUpkeep = { }
 g_CurrentPlayer = 0

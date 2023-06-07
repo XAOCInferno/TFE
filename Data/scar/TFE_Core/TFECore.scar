@@ -1,5 +1,23 @@
 debug_TFECore_FileName = "TFECore"
 
+
+PlayerDetails = {}
+function PlayerDetails:new (Player, PlayerIndex, RaceName, RaceIndex)
+
+    local o = 
+    {
+	    Player = Player,
+	    PlayerIndex = PlayerIndex,
+	    RaceName = RaceName,
+	    RaceIndex = RaceIndex,
+	    CurrentUpkeep = 0
+    }
+	self.__index = self
+    return setmetatable(o, self)
+end
+
+
+
 import("TFE_Core/Imports/TFECore_Imports.scar")
 
 
@@ -13,6 +31,8 @@ function TFE_Game_Load()
 end
 
 function TFE_Init_Load()
+	local debugFuncName = "TFE_Init_Load"	
+	
 	if pcall(GetAllPlayers) == false then
 		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run CORE function 'GetAllPlayers'!")
 	end
@@ -67,9 +87,11 @@ function GetAllPlayers()
 		local RaceName = Player_GetRaceName( Player ) 
 		local RaceIndex = Player_GetRace( Player ) 
 		
-		table.insert(g_AllPlayers, Player)
+		
+		table.insert(g_AllPlayers, PlayerDetails:new( Player, PlayerIndex, RaceName, RaceIndex ))
+		--[[table.insert(g_AllPlayers, Player)
 		table.insert(g_AllPlayersRace, RaceName)
-		table.insert(g_AllPlayersRace_AsIndex, RaceIndex)
+		table.insert(g_AllPlayersRace_AsIndex, RaceIndex)]]
 		
 		--Move this later
 		if (UnitCosting[RaceName] == nil) then

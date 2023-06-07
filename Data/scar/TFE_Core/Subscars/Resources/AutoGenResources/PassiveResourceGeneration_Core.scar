@@ -33,16 +33,16 @@ function Rule_AddPassResources()
 		
 		for i = 1, g_PlayerCount do
 		
-			local RaceResStruct = GetFactionStruct(g_AllPlayersRace_AsIndex[i]+1)
-			if (Player_IsAlive(g_AllPlayers[i]) == true and RaceResStruct ~= nil) then
+			local RaceResStruct = GetFactionStruct(g_AllPlayers[i].RaceIndex+1)
+			if (Player_IsAlive(g_AllPlayers[i].Player) == true and RaceResStruct ~= nil) then
 			
 				if(RaceResStruct.HasPassiveResGen) then
 			
-					Player_AddResource(g_AllPlayers[i], RT_Requisition, RaceResStruct.RT_Requisition)
-					Player_AddResource(g_AllPlayers[i], RT_Power, RaceResStruct.RT_Power)
-					Player_AddResource(g_AllPlayers[i], RT_Pop, RaceResStruct.RT_Pop)
-					Player_AddResource(g_AllPlayers[i], RT_Souls, RaceResStruct.RT_Souls)
-					Player_AddResource(g_AllPlayers[i], RT_Faith, RaceResStruct.RT_Faith)
+					Player_AddResource(g_AllPlayers[i].Player, RT_Requisition, RaceResStruct.RT_Requisition)
+					Player_AddResource(g_AllPlayers[i].Player, RT_Power, RaceResStruct.RT_Power)
+					Player_AddResource(g_AllPlayers[i].Player, RT_Pop, RaceResStruct.RT_Pop)
+					Player_AddResource(g_AllPlayers[i].Player, RT_Souls, RaceResStruct.RT_Souls)
+					Player_AddResource(g_AllPlayers[i].Player, RT_Faith, RaceResStruct.RT_Faith)
 					
 				end
 			end
