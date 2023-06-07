@@ -8,7 +8,7 @@ function TFE_Game_Load()
 	local debugFuncName = "TFE_Game_Load"	
 	
 	CheckForSecondaryScars()
-	Rule_Add(MainLoop)--, 0.25)
+	Rule_AddInterval(MainLoop, 0.1)
 	
 end
 

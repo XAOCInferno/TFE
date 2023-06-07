@@ -28,25 +28,20 @@ function Rule_CalculateUpkeep()
 	local debugFuncName = "Rule_CalculateUpkeep"
 
 	for i = 1, g_PlayerCount do
-		UpdatePlayerSquads_Immediate(i)
 	
 		for j = 1, g_PlayerSquadCount[i]+1 do
 		
 			local tmpStruct = g_AllSquadsData[i][j]		
 				
 			if(tmpStruct == nil) then
-			
-				if(g_DebugMode)	then
 					
-					LogOnce(1, 0, debug_ResUpkeepCore_FileName, debugFuncName,  "Struct for Player: "..i.." at position "..j.." is Nil!")
-				end
+				LogOnce(1, 0, debug_ResUpkeepCore_FileName, debugFuncName,  "Struct for Player: "..i.." at position "..j.." is Nil!")
+				
 				
 			elseif(tmpStruct.SquadUniqueID == nil) then
-				if(g_DebugMode)	then	
 				
-					LogOnce(1, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Struct: '"..tmpStruct.."' does not have a Unique ID!")		
+				LogOnce(1, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Struct: '"..tmpStruct.."' does not have a Unique ID!")		
 				
-				end
 			else		
 				local SquadLifetimeAsPercent = 1
 				local SquadLifetime = GetWorldLifetime(tmpStruct.SquadInitTime)
@@ -78,12 +73,12 @@ function Rule_CalculateUpkeep()
 							
 								end
 						end
-					elseif(g_DebugMode) then
+					else
 
 							LogOnce(1, 0, debug_ResUpkeepCore_FileName, debugFuncName, "SquadBP for ID: '"..tmpStruct.SquadUniqueID.."' does not have a Blueprint!")
 
 					end
-				elseif(g_DebugMode)	then	
+				else
 						
 					LogOnce(2, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Race '"..tmpStruct.SquadUnitRace.."' does not have Upkeep data!")
 					
