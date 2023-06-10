@@ -1,20 +1,19 @@
 --[[Race file. Costs are deducted every 1s. For ease an standardisation to DoW1 income, write these numbers as cost per 10s.]]
 --[[Numbers must be negative, positive numbers will be added to resources instead.]]
 
-ResourceGlobalNames.sisters_race = 
+ResourceGlobalNames["sisters_race"] = 
 {
-	Req = 
+	RT_Requistion = 
 	{
-		First = "sisters_upgrade_requisition_1",
-		Second = "sisters_upgrade_requisition_2",
+		"sisters_upgrade_requisition_1",
+		"sisters_upgrade_requisition_2",
 	},
 
-	Power = 
+	RT_Power = 
 	{
-		First = "sisters_upgrade_power_1",
-		Second = "sisters_upgrade_power_2",
+	"sisters_upgrade_power_1",
+	"sisters_upgrade_power_2",
 	}
-	
 }
 
 UnitCosting.sisters_race =
@@ -22,207 +21,134 @@ UnitCosting.sisters_race =
 	-- Skirmish units
 	sisters_squad_servitor =
 	{
-		CostEntity = { Req = -2, Power = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -2, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	sisters_squad_battle_sister =
 	{
-		CostEntity = { Req = -4, Power = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -3.5, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -10, Power = -1, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -4, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -3.5, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -10, Power = -1, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	sisters_squad_seraphim =
 	{
-		CostEntity = { Req = -5, Power = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -4, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -10, Power = -1, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -5, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -4, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -10, Power = -1, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	sisters_squad_celestian =
 	{
-		CostEntity = { Req = -8, Power = -1, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -6, Power = -2, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -8, Power = -1, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -8, Power = -1, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -6, Power = -2, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -8, Power = -1, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	sisters_squad_assassin = 
 	{
-		CostEntity = { Req = -8, Power = -1, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -6, Power = -2, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -8, Power = -1, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -6, Power = -2, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	sisters_squad_repentia =
 	{
-		CostEntity = { Req = -13, Power = -2, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -8, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -10, Power = -1, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -13, Power = -2, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -8, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -10, Power = -1, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	-- Attachable
 	sisters_squad_missionary =
 	{
-		CostEntity = { Req = -5, Power = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -5, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	sisters_squad_canoness =
 	{
-		CostEntity = { Req = -15, Power = -2.5, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -15, Power = -2.5, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	sisters_squad_confessor =
 	{
-		CostEntity = { Req = -15, Power = -5, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -15, Power = -5, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	-- Vehicles
 	sisters_squad_rhino =
 	{
-		CostEntity = { Req = -5, Power = -5, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -5, Power = -5, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	sisters_squad_immolator_tank =
 	{
-		CostEntity = { Req = -20, Power = -15, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -20, Power = -15, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	sisters_squad_lightning =
 	{
-		CostEntity = { Req = -10, Power = -10, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -10, Power = -10, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	sisters_squad_exorcist_tank =
 	{
-		CostEntity = { Req = -20, Power = -20, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -20, Power = -20, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	sisters_squad_penitent_engine =
 	{
-		CostEntity = { Req = -20, Power = -20, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -20, Power = -20, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	sisters_squad_living_saint =
 	{
-		CostEntity = { Req = -30, Power = -30, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -30, Power = -30, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 --[[
 	-- Campaign
 	sisters_squad_canoness_advance_sp =
 	{
-		Title = "Canoness Selena Agna",
-		Type = "Commander",
-		UpgradeFunction = UpgradeCommander,
-		FXType = "Squad",
-		General = true,
-		CanAttach = true,
-		Unique = true,
-		HasLeaders = true,
-		HasWeapons = true,
-		Leaders =
-		{
-			"sisters_squad_ascension_angel",
-		},
-		Weapons =
-		{
-			"sisters_bolt_pistol_canoness",
-			"sisters_wargear_03",
-			"sisters_wargear_04",
-			"sisters_chain_sword_canoness",
-			"sisters_wargear_01",
-			"sisters_wargear_02",
-			"sisters_ascension_angel_weapon",
-		},
 	},
 	-- StrongholdSquads
 	sisters_squad_rhino_sp_dxp3 =
 	{
-		Title = "Rhino Transport",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeTank,
-		FXType = "Vehicle",
 	},
 	sisters_squad_exorcist_tank_sp_dxp3 =
 	{
-		Title = "Exorcist",
-		Type = "CommandoForces",
-		UpgradeFunction = UpgradeArtillery,
-		FXType = "Vehicle",
 	},
 	sisters_squad_living_saint_sp_dxp3 =
 	{
-		Title = "Living Saint",
-		Type = "CommandoForces",
-		UpgradeFunction = UpgradeCommander,
-		FXType = "Vehicle",
-		CanMorph = true,
-		CanResurrect = true,
-		MorphID = 1,
 	},
 	-- BonusSquads
 	sisters_squad_servitor_hg_dxp3 =
 	{
-		Title = "Enhanced Ecclesiarchal Servitor",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeBuilder,
-		FXType = "Squad",
-		Unique = true,
 	},
 	sisters_squad_missionary_hg_dxp3 =
 	{
-		Title = "Holy Terra Missionary",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeScoutSquad,
-		FXType = "Squad",
 	},
 	sisters_squad_battle_sister_hg_dxp3 =
 	{
-		Title = "Battle Sister Prioris Squad",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
 	},
 	sisters_squad_seraphim_hg_dxp3 =
 	{
-		Title = "Flamewing Seraphim Squad",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeMeleeSquad,
-		FXType = "Squad",
 	},
 	sisters_squad_celestian_hg_dxp3 =
 	{
-		Title = "Ophelian Celestian Squad",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
 	},
 	sisters_squad_assassin_hg_dxp3 =
 	{
-		Title = "Emperor's Blades Death-Cult Assassin",
-		Type = "CommandoForces",
-		UpgradeFunction = UpgradeMeleeSquad,
-		FXType = "Squad",
 	},
 	sisters_squad_repentia_mistress_hg_dxp3 =
 	{
-		Title = "Elite Mistress Repentia Squad",
-		Type = "CommandoForces",
-		UpgradeFunction = UpgradeMeleeSquad,
-		FXType = "Squad",
-		Unique = true,
 	},
 	sisters_squad_confessor_hg_dxp3 =
 	{
-		Title = "Confessor",
-		Type = "Commander",
-		UpgradeFunction = UpgradeCommander,
-		FXType = "Squad",
-		CanAttach = true,
 	},]]
 }

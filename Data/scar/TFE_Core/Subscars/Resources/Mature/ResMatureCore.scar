@@ -1,7 +1,7 @@
 debug_ResMatureCore_FileName = "ResMatureCore"
 
-function ActivateMatureSystem()
-	local debugFuncName = "ActivateMatureSystem"
+function Setup_MatureSystem()
+	local debugFuncName = "Setup_MatureSystem"
 	
 	Log(0, 0, debug_ResMatureCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 
@@ -11,10 +11,8 @@ function ActivateMatureSystem()
 
 end
 
+local function Get_StrategicPointsStatus()
 
-function Set_ResourceMature()
-
-	CheckForGlobals()
 	for i = 1, g_NumberStratPoints do
 		local CurrentStratPoint = g_AllStrategicPointsStructs[i]
 		--[[Firstly check if control has switched.]]
@@ -40,71 +38,37 @@ function Set_ResourceMature()
 		end
 
 	end
+end
 
+function Set_ResourceMature()
+
+	Get_StrategicPointsStatus()
 
 	for j = 1, table.getn(g_AllPlayers) do
 
-		g_BonusIncome[j] = 
-		{
-			Req = g_BasePlayerUpkeep[j].Req,
-			Power = g_BasePlayerUpkeep[j].Power,
-			Faith = g_BasePlayerUpkeep[j].Faith,
-			Souls = g_BasePlayerUpkeep[j].Souls,				
-		}
-
 		for z = 1, g_NumberStratPoints do
 			if(g_AllStrategicPointsStructs[z].OwnedPlayer == g_AllPlayers[j].PlayerIndex) then
-				if(g_BonusIncome ~= nil) then
-					local MaxBonusReq = 0
-					local MaxBonusPower = 0
 
-					local TmpBonusReq = 0
-					local TmpBonusPower = 0
+				local MaxBonusReq = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Requisition[g_AllPlayers[j].CurrentNumberOfResearchedGlobals]
+				-----Not implemented yet
+				local MaxBonusPower = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Power[g_AllPlayers[j].CurrentNumberOfResearchedGlobals]
+				local MaxBonusPop = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Pop[g_AllPlayers[j].CurrentNumberOfResearchedGlobals]
+				local MaxBonusSouls = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Souls[g_AllPlayers[j].CurrentNumberOfResearchedGlobals]
+				local MaxBonusFaith = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Faith[g_AllPlayers[j].CurrentNumberOfResearchedGlobals]
+				-----
+				
+				local CapTimeAsMaturePercent = GetWorldLifetime(g_AllStrategicPointsStructs[z].InitTime) / g_MatureMaxLifetime
+				local CapTimeAsBonusReq = MaxBonusReq * CapTimeAsMaturePercent
 
-					if(g_PlayerGlobalStatus[z] == nil) then
-					
-						g_PlayerGlobalStatus[z] =
-						{
-							ReqFirst = false,
-							ReqSecond = false,
-			
-							PowerFirst = false,
-							PowerSecond = false,
-						}
-					end
-			
-					if(g_PlayerGlobalStatus[z].ReqSecond == true) then
-						MaxBonusReq = g_MaxMatureBonus_Global2.Req
-					elseif(g_PlayerGlobalStatus[z].ReqFirst == true) then
-						MaxBonusReq = g_MaxMatureBonus_Global1.Req
-					else
-						MaxBonusReq = g_MaxMatureBonus_Base.Req
-					end					
-					
-					if(g_PlayerGlobalStatus[z].PowerSecond == true) then
-						MaxBonusPower = g_MaxMatureBonus_Global2.Power
-					elseif(g_PlayerGlobalStatus[z].PowerFirst == true) then
-						MaxBonusPower = g_MaxMatureBonus_Global1.Power
-					else
-						MaxBonusPower = g_MaxMatureBonus_Base.Power
-					end
-
-					local CapTimeAsMaturePercent = GetWorldLifetime(g_AllStrategicPointsStructs[z].InitTime) / g_MatureMaxLifetime
-					local CapTimeAsBonusReq = MaxBonusReq * CapTimeAsMaturePercent
-
-					if(CapTimeAsBonusReq > MaxBonusReq) then
-			
-						CapTimeAsBonusReq = MaxBonusReq						
-
-					end
-
-					g_BonusIncome[j].Req = g_BonusIncome[j].Req + CapTimeAsBonusReq
-					--print("CapTime = "..CapTimeAsMaturePercent.." And New Req from it = "..CapTimeAsBonusReq.." Capped at = "..MaxBonusReq.Req)
-				end
-			end
+				if(CapTimeAsBonusReq > MaxBonusReq) then
 		
+					CapTimeAsBonusReq = MaxBonusReq						
+
+				end
+
+				g_AllPlayers[j].CurrentAddResources.RT_Requisition =  g_AllPlayers[j].CurrentAddResources.RT_Requisition + CapTimeAsBonusReq
+				--print("CapTime = "..CapTimeAsMaturePercent.." And New Req from it = "..CapTimeAsBonusReq.." Capped at = "..MaxBonusReq.Req)
+			end
 		end
-
 	end	
-
 end

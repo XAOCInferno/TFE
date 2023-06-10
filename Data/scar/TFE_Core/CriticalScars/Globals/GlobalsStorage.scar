@@ -48,7 +48,7 @@ function SetupStrategicPoints()
 	Log(0, 0, debug_GlobalsStorage_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 end
 
---Remove me?
+--Used to tell the difference between a time and the world time, EG: get how long something has been alive for
 function GetWorldLifetime(StartTime)
 	return g_WorldTime - StartTime
 end

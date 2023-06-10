@@ -1,18 +1,18 @@
 --[[Race file. Costs are deducted every 1s. For ease an standardisation to DoW1 income, write these numbers as cost per 10s.]]
 --[[Numbers must be negative, positive numbers will be added to resources instead.]]
 
-ResourceGlobalNames.guard_race = 
+ResourceGlobalNames["guard_race"] = 
 {
-	Req = 
+	RT_Requistion = 
 	{
-		First = "guard_upgrade_requisition_1",
-		Second = "guard_upgrade_requisition_2",
+		"guard_upgrade_requisition_1",
+		"guard_upgrade_requisition_2",
 	},
 
-	Power = 
+	RT_Power = 
 	{
-		First = "guard_upgrade_power_1",
-		Second = "guard_upgrade_power_2",
+		"guard_upgrade_power_1",
+		"guard_upgrade_power_2",
 	}
 	
 }
@@ -22,530 +22,170 @@ UnitCosting.guard_race =
 	-- Skirmish units
 	guard_squad_enginseer =
 	{
-		CostEntity = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	guard_squad_guardsmen =
 	{
-		CostEntity = { Req = -1, Power = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -6, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -5, Power = -1, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -1, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -6, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -5, Power = -1, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	guard_squad_guardsmen_rider =
 	{
-		CostEntity = { Req = -5, Power = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -4, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -10, Power = -1, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -5, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -4, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -10, Power = -1, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	guard_heavy_weapons_team_squad =
 	{
-		CostEntity = { Req = -15, Power = -4, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -15, Power = -4, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	guard_heavy_weapon_team_entrenched_squad_sp =
 	{
-		CostEntity = { Req = -15, Power = -4, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -15, Power = -4, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	guard_squad_kasrkin =
 	{
-		CostEntity = { Req = -13, Power = -2, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -8, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -10, Power = -1, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -13, Power = -2, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -8, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -10, Power = -1, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	guard_squad_ogryns =
 	{
-		CostEntity = { Req = -13, Power = -2, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -8, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -10, Power = -1, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -13, Power = -2, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -8, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -10, Power = -1, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	guard_squad_command_squad =
 	{
-		CostEntity = { Req = -10, Power = -2, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -5, Power = -1, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -10, Power = -2, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -5, Power = -1, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	guard_squad_assassin =
 	{
-		CostEntity = { Req = -15, Power = -5, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -15, Power = -5, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	-- Attachable
 	guard_squad_commissar =
 	{
-		CostEntity = { Req = -10, Power = -1, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -10, Power = -1, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	guard_squad_psyker =
 	{
-		CostEntity = { Req = -10, Power = -1, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -10, Power = -1, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	guard_squad_priest =
 	{
-		CostEntity = { Req = -10, Power = -1, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -10, Power = -1, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	-- Vehicles
 	guard_squad_sentinel =
 	{
-		CostEntity = { Req = -10, Power = -10, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -10, Power = -10, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	guard_squad_chimera =
 	{
-		CostEntity = { Req = -10, Power = -5, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -10, Power = -5, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	guard_squad_hellhound =
 	{
-		CostEntity = { Req = -20, Power = -15, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -20, Power = -15, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	guard_squad_basilisk =
 	{
-		CostEntity = { Req = -10, Power = -20, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -10, Power = -20, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	guard_squad_marauder =
 	{
-		CostEntity = { Req = -10, Power = -10, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -10, Power = -10, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	guard_squad_lemanruss =
 	{
-		CostEntity = { Req = -20, Power = -20, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -20, Power = -20, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	guard_squad_baneblade =
 	{
-		CostEntity = { Req = -30, Power = -30, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -30, Power = -30, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 
 --[[	
 	-- Campaign units
 	guard_squad_command_squad_advance_sp =
 	{
-		Title = "General Vance Stubbs",
-		Type = "Commander",
-		UpgradeFunction = UpgradeCommander,
-		FXType = "Squad",
-		General = true,
-		Unique = true,
-		HasLeaders = true,
-		HasWeapons = true,
-		Leaders =
-		{
-			"guard_leaders_commissar_command_squad_advance_sp",
-			"guard_leaders_psyker_command_squad_advance_sp",
-			"guard_leaders_priest_command_squad_advance_sp",
-			"guard_infantry_kasrkin_sergeant_advance_sp",
-		},
-		Weapons =
-		{
-			"guard_laspistol_captain",
-			"guard_storm_bolter_captain",
-			"guard_plasma_pistol_captain",
-			"guard_power_gauntlet_captain",
-			"guard_master_power_claws_captain",
-			"guard_power_fist_captain",
-			"guard_chainsword_priest",
-		},
 	},
 	-- StrongholdSquads
 	guard_squad_artillery_spotter_sp_dxp3 =
 	{
-		Title = "Artillery Spotter",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
 	},
 	guard_squad_driver_sp_dxp3 =
 	{
-		Title = "Driver",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
 	},
 	guard_squad_convoy_sp_dxp3 =
 	{
-		Title = "Imperial Convoy Vehicle",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeTank,
-		FXType = "Vehicle",
 	},
 	guard_squad_baneblade_nerfed_sp_dxp3 =
 	{
-		Title = "Baneblade",
-		Type = "CommandoForces",
-		UpgradeFunction = UpgradeCommander,
-		FXType = "Vehicle",
 	},
 	-- BonusSquads
 	guard_squad_enginseer_advance_sp =
 	{
-		Title = "Techpriest Enginseer",
-		Type = "Commander",
-		UpgradeFunction = UpgradeBuilder,
-		FXType = "Squad",
 	},
 	guard_squad_guardsmen_advance_sp =
 	{
-		Title = "Regimental Bodyguard",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
 	},
 	guard_heavy_weapons_team_squad_hg_dxp3 =
 	{
-		Title = "Regimental Heavies",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
-		HeavyWeaponsTeam = true,
-		HWT = true,
 	},
 	guard_heavy_weapon_team_entrenched_squad_hg_dxp3 =
 	{
-		Title = "Regimental Heavies Entrenched",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
-		HeavyWeaponsTeam = true,
-		HWTE = true,
 	},
 	guard_squad_kasrkin_advance_sp =
 	{
-		Title = "Veteran Kasrkin Squad",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
-		Unique = true,
-		HasLeaders = true,
-		Leaders =
-		{
-			"guard_infantry_kasrkin_sgt_advance_sp",
-		},
 	},
 	guard_squad_ogryns_advance_sp =
 	{
-		Title = "Bone'ead Squad",
-		Type = "CommandoForces",
-		UpgradeFunction = UpgradeMeleeSquad,
-		FXType = "Squad",
-		Unique = true,
-		HasLeaders = true,
-		Leaders =
-		{
-			"guard_infantry_ogryn_sergeant_advance_sp",
-		},
 	},
 	guard_squad_commissar_advance_sp =
 	{
-		Title = "Regimental Commissar",
-		Type = "Commander",
-		UpgradeFunction = UpgradeCommander,
-		FXType = "Squad",
-		CanAttach = true,
 	},
 	guard_squad_psyker_advance_sp =
 	{
-		Title = "Sanctioned Psyker",
-		Type = "Commander",
-		UpgradeFunction = UpgradeCommander,
-		FXType = "Squad",
-		CanAttach = true,
 	},
 	guard_squad_assassin_advance_sp =
 	{
-		Title = "Vindicare Assassin",
-		Type = "Commander",
-		UpgradeFunction = UpgradeCommander,
-		FXType = "Squad",
 	},
 	guard_squad_sentinel_advance_sp =
 	{
-		Title = "Sentinel",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeWalker,
-		FXType = "Vehicle",
 	},
 }
-
-UnitRanks.guard_race =
-{
-	{
-		Name = "Level 1",
-		XPRequirements =
-		{
-			Commander = 0,
-			RegularForces = 0,
-			SpecialForces = 0,
-			CommandoForces = 0,
-		},
-		UpgradeFX =
-		{
-			Squad = nil,
-			Vehicle = nil,
-		},
-		AuraFX =
-		{
-			Squad = nil,
-			Vehicle = nil,
-		},
-		MessageFX =
-		{
-			Icon = nil,
-			Sound = nil,
-		},
-	},
-	{
-		Name = "Level 2",
-		XPRequirements =
-		{
-			Commander = 250,
-			RegularForces = 500,
-			SpecialForces = 500,
-			CommandoForces = 500,
-		},
-		UpgradeFX =
-		{
-			Squad = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
-			Vehicle = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
-			Message = { "data:Art/Events/generic/ui/generic_level_up" },
-		},
-		AuraFX =
-		{
-			Squad = nil,
-			Vehicle = nil,
-		},
-		MessageFX =
-		{
-			Icon = "level_upgrade",
-			Sound = "/races/space_marines/librarian/word_of_the_emporer",
-		},
-	},
-	{
-		Name = "Level 3",
-		XPRequirements =
-		{
-			Commander = 500,
-			RegularForces = 1000,
-			SpecialForces = 1000,
-			CommandoForces = 1000,
-		},
-		UpgradeFX =
-		{
-			Squad = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
-			Vehicle = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
-			Message = { "data:Art/Events/generic/ui/generic_level_up" },
-		},
-		AuraFX =
-		{
-			Squad = nil,
-			Vehicle = nil,
-		},
-		MessageFX =
-		{
-			Icon = "level_upgrade",
-			Sound = "/races/space_marines/librarian/word_of_the_emporer",
-		},
-	},
-	{
-		Name = "Level 4",
-		XPRequirements =
-		{
-			Commander = 750,
-			RegularForces = 1500,
-			SpecialForces = 1500,
-			CommandoForces = 1500,
-		},
-		UpgradeFX =
-		{
-			Squad = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
-			Vehicle = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
-			Message = { "data:Art/Events/generic/ui/generic_level_up" },
-		},
-		AuraFX =
-		{
-			Squad = { "unit_ability_fx/docs_tools_unit" },
-			Vehicle = { "guard/abilities/fanatacism_hvy" },
-		},
-		MessageFX =
-		{
-			Icon = "level_upgrade",
-			Sound = "/races/space_marines/librarian/word_of_the_emporer",
-		},
-	},
-	{
-		Name = "Level 5",
-		XPRequirements =
-		{
-			Commander = 1000,
-			RegularForces = -1,
-			SpecialForces = -1,
-			CommandoForces = -1,
-		},
-		UpgradeFX =
-		{
-			Squad = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
-			Vehicle = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
-			Message = { "data:Art/Events/generic/ui/generic_level_up" },
-		},
-		AuraFX =
-		{
-			Squad = { "unit_ability_fx/docs_tools_unit" },
-			Vehicle = { "guard/abilities/fanatacism_hvy" },
-		},
-		MessageFX =
-		{
-			Icon = "level_upgrade",
-			Sound = "/races/space_marines/librarian/word_of_the_emporer",
-		},
-	},
-	{
-		Name = "Level 6",
-		XPRequirements =
-		{
-			Commander = 1250,
-			RegularForces = -1,
-			SpecialForces = -1,
-			CommandoForces = -1,
-		},
-		UpgradeFX =
-		{
-			Squad = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
-			Vehicle = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
-			Message = { "data:Art/Events/generic/ui/generic_level_up" },
-		},
-		AuraFX =
-		{
-			Squad = { "unit_ability_fx/docs_tools_unit" },
-			Vehicle = { "guard/abilities/fanatacism_hvy" },
-		},
-		MessageFX =
-		{
-			Icon = "level_upgrade",
-			Sound = "/races/space_marines/librarian/word_of_the_emporer",
-		},
-	},
-	{
-		Name = "Level 7",
-		XPRequirements =
-		{
-			Commander = 1500,
-			RegularForces = -1,
-			SpecialForces = -1,
-			CommandoForces = -1,
-		},
-		UpgradeFX =
-		{
-			Squad = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
-			Vehicle = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
-			Message = { "data:Art/Events/generic/ui/generic_level_up" },
-		},
-		AuraFX =
-		{
-			Squad = { "unit_ability_fx/inspiring" },
-			Vehicle = { "guard/abilities/fanatacism_hvy", "unit_ability_fx/rally_hvy_unit_fx" },
-		},
-		MessageFX =
-		{
-			Icon = "level_upgrade",
-			Sound = "/races/space_marines/librarian/word_of_the_emporer",
-		},
-	},
-	{
-		Name = "Level 8",
-		XPRequirements =
-		{
-			Commander = 1750,
-			RegularForces = -1,
-			SpecialForces = -1,
-			CommandoForces = -1,
-		},
-		UpgradeFX =
-		{
-			Squad = { "unit_ability_fx/battlecry_god_light", "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
-			Vehicle = { "unit_ability_fx/battlecry_god_light", "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
-			Message = { "data:Art/Events/generic/ui/generic_level_up" },
-		},
-		AuraFX =
-		{
-			Squad = { "unit_ability_fx/inspiring" },
-			Vehicle = { "guard/abilities/fanatacism_hvy", "unit_ability_fx/rally_hvy_unit_fx" },
-		},
-		MessageFX =
-		{
-			Icon = "level_upgrade",
-			Sound = "/races/space_marines/librarian/word_of_the_emporer",
-		},
-	},
-	{
-		Name = "Level 9",
-		XPRequirements =
-		{
-			Commander = 2000,
-			RegularForces = -1,
-			SpecialForces = -1,
-			CommandoForces = -1,
-		},
-		UpgradeFX =
-		{
-			Squad = { "unit_ability_fx/battlecry_god_light", "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
-			Vehicle = { "unit_ability_fx/battlecry_god_light", "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
-			Message = { "data:Art/Events/generic/ui/generic_level_up" },
-		},
-		AuraFX =
-		{
-			Squad = { "unit_ability_fx/inspiring" },
-			Vehicle = { "guard/abilities/fanatacism_hvy", "unit_ability_fx/rally_hvy_unit_fx" },
-		},
-		MessageFX =
-		{
-			Icon = "level_upgrade",
-			Sound = "/races/space_marines/librarian/word_of_the_emporer",
-		},
-	},
-	{
-		Name = "Level 10",
-		XPRequirements =
-		{
-			Commander = 2250,
-			RegularForces = -1,
-			SpecialForces = -1,
-			CommandoForces = -1,
-		},
-		UpgradeFX =
-		{
-			Squad = { "unit_ability_fx/battlecry_god_light", "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
-			Vehicle = { "unit_ability_fx/battlecry_god_light", "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
-			Message = { "data:Art/Events/generic/ui/generic_level_up" },
-		},
-		AuraFX =
-		{
-			Squad = { "unit_ability_fx/inspiring" },
-			Vehicle = { "guard/abilities/fanatacism_hvy", "unit_ability_fx/rally_hvy_unit_fx" },
-		},
-		MessageFX =
-		{
-			Icon = "level_upgrade",
-			Sound = "/races/space_marines/librarian/word_of_the_emporer",
-		},
-	},]]
+]]
 }

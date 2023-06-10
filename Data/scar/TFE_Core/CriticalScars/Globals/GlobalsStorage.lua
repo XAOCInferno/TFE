@@ -10,7 +10,7 @@ g_RaceSpecificResourceGeneration = {}
 g_ResourceGenUpdateRate = 1
 
 g_WorldTime = 0
-g_WorldTimeFidelity = 0.2
+g_WorldTimeFidelity = 0.1
 
 UnitCosting = { }
 ResourceGlobalNames = { }
@@ -69,9 +69,9 @@ g_NumberStratPoints = 0
 g_MatureUpdateRate = 1 
 g_MatureMaxLifetime = 480 --720 --12mins rly?
 
-g_MaxMatureBonus_Base = { ReqEverySecond = 2, PowerEverySecond = 1}
-g_MaxMatureBonus_Global1 = { ReqEverySecond = 3, PowerEverySecond = 2 }
-g_MaxMatureBonus_Global2 = { ReqEverySecond = 4, PowerEverySecond = 3 }
+g_BaseMatureRate_Req = { 2, 3, 4 }
+g_BaseMatureRate_Req = { 1, 2, 3 }
+
 
 g_MatureActivationDelay = 0 --Why delay?
 g_TimeTakenForMaxUpkeep = 240

@@ -25,12 +25,20 @@ function PlayerDetails:new (_Player, _PlayerIndex, _RaceDetails, _RaceName, _Rac
 	    RaceDetails = _RaceDetails	    
 	    
 	    --Variables
-	    CurrentNumberOfResearchedGlobals = 0,
+	    CurrentNumberOfResearchedGlobals = 
+	    {
+	    		RT_Requisition = 0,
+	    		RT_Power =  0,
+	    		RT_Pop =  0,
+	    		RT_Faith = 0, 
+	    		RT_Souls = 0
+	    },
 	    
 	    CurrentAddResources = 
 	    	{
 	    		RT_Requisition = 0,
 	    		RT_Power =  0,
+	    		RT_Pop =  0,
 	    		RT_Faith = 0, 
 	    		RT_Souls = 0
 	    	}
@@ -39,6 +47,16 @@ function PlayerDetails:new (_Player, _PlayerIndex, _RaceDetails, _RaceName, _Rac
 	return setmetatable(o, self)
 end
 
+function PlayerDetails.ClearCurrentResourceBonuses()
+	self.CurrentAddResources = 
+	    	{
+	    		RT_Requisition = 0,
+	    		RT_Power =  0,
+	    		RT_Pop =  0,
+	    		RT_Faith = 0, 
+	    		RT_Souls = 0
+	    	}
+end
 
 
 import("TFE_Core/Imports/TFECore_Imports.scar")
@@ -49,12 +67,12 @@ function Core_Game_Load()
 	local debugFuncName = "Core_Game_Load"	
 	
 	Core_CheckForSecondaryScars()
-	Rule_AddInterval(MainLoop, 0.1)
+	Rule_AddInterval(MainLoop, g_WorldTimeFidelity)
 	
 end
 
-function TFE_Init_Load()
-	local debugFuncName = "TFE_Init_Load"	
+function Core_Init_Load()
+	local debugFuncName = "Core_Init_Load"	
 	
 	if pcall(Core_GetAllPlayers) == false then
 		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run CORE function 'Core_GetAllPlayers'!")
@@ -153,20 +171,53 @@ end
 
 function Set_PlayerGlobalsStatus(_Player) 
 
-	if(_Player.CurrentNumberOfResearchedGlobals < _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals) then
+	if(_Player.CurrentNumberOfResearchedGlobals.RT_Requisition < _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals) then
 	
-		for(j = 1 + _Player.CurrentNumberOfResearchedGlobals, _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals) do
+		for(j = 1 + _Player.CurrentNumberOfResearchedGlobals, _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Requisition) do
 		
-			if(Player_GetResearchState( _Player.Player, _Player.RaceDetails.RaceResourceInfo.RaceGlobals[j] ) == "RS_Complete" ) then
+			if(Player_GetResearchState( _Player.Player, _Player.RaceDetails.RaceResourceInfo.RaceGlobals.RT_Requisition[j] ) == "RS_Complete" ) then
 			
-				_Player.CurrentNumberOfResearchedGlobals = _Player.CurrentNumberOfResearchedGlobals + 1
+				_Player.CurrentNumberOfResearchedGlobals.RT_Requisition = _Player.CurrentNumberOfResearchedGlobals.RT_Requisition + 1
 				
 			end
-			
 		end
+			
 		
+		for(j = 1 + _Player.CurrentNumberOfResearchedGlobals.RT_Power, _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Power) do
+			if(Player_GetResearchState( _Player.Player, _Player.RaceDetails.RaceResourceInfo.RaceGlobals.RT_Power[j] ) == "RS_Complete" ) then
+			
+				_Player.CurrentNumberOfResearchedGlobals.RT_Power = _Player.CurrentNumberOfResearchedGlobals.RT_Power + 1
+				
+			end
+		end
+			
+		
+		for(j = 1 + _Player.CurrentNumberOfResearchedGlobals.RT_Pop, _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Pop) do
+			if(Player_GetResearchState( _Player.Player, _Player.RaceDetails.RaceResourceInfo.RaceGlobals.RT_Pop[j] ) == "RS_Complete" ) then
+			
+				_Player.CurrentNumberOfResearchedGlobals.RT_Pop = _Player.CurrentNumberOfResearchedGlobals.RT_Pop + 1
+				
+			end
+		end
+			
+		
+		for(j = 1 + _Player.CurrentNumberOfResearchedGlobals.RT_Faith, _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Faith) do
+			if(Player_GetResearchState( _Player.Player, _Player.RaceDetails.RaceResourceInfo.RaceGlobals.RT_Faith[j] ) == "RS_Complete" ) then
+			
+				_Player.CurrentNumberOfResearchedGlobals.RT_Faith = _Player.CurrentNumberOfResearchedGlobals.RT_Faith + 1
+				
+			end
+		end
+			
+		
+		for(j = 1 + _Player.CurrentNumberOfResearchedGlobals.RT_Souls, _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Souls) do
+			if(Player_GetResearchState( _Player.Player, _Player.RaceDetails.RaceResourceInfo.RaceGlobals.RT_Souls[j] ) == "RS_Complete" ) then
+			
+				_Player.CurrentNumberOfResearchedGlobals.RT_Souls = _Player.CurrentNumberOfResearchedGlobals.RT_Souls + 1
+				
+			end
+		end		
 	end
-
 end
 
 
@@ -185,6 +236,7 @@ function Implement_UpkeepAndMature()
 			
 		end
 		
+		g_AllPlayers[i].ClearCurrentResourceBonuses()
 	end
 
 end

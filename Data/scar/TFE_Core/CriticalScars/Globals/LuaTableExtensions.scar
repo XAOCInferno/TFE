@@ -67,6 +67,11 @@ end
 
 function TableLength(_Tbl)
 
+	if(_Tbl == nil) then 		
+		Log(1, 0, debug_LuaTableExtensions_FileName, "TableLength",  "Table is Nil!")
+		return 0
+	end
+	
 	local count = 0
 	for _ in pairs(_Tbl) do count = count + 1 end
 	return count
