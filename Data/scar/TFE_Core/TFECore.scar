@@ -1,15 +1,32 @@
 debug_TFECore_FileName = "TFECore"
 
-
-PlayerDetails = {}
-function PlayerDetails:new (_Player, _PlayerIndex, _RaceName, _RaceIndex)
+RaceDetails = {}
+function RaceDetails:new (_RaceName, _RaceIndex)
 
     local o = 
     {
+    	--Constants
+	    RaceName = RaceName,
+	    RaceIndex = _RaceIndex,
+	    RaceResourceInfo = g _FactionSpecificResourceGeneration[RaceName]
+    }
+	self.__index = self
+   	return setmetatable(o, self)
+end
+
+PlayerDetails = {}
+function PlayerDetails:new (_Player, _PlayerIndex, _RaceDetails, _RaceName, _RaceIndex)
+
+    local o = 
+    {
+    	    --Constants
 	    Player = _Player,
 	    PlayerIndex = _PlayerIndex,
-	    RaceName = _RaceName,
-	    RaceIndex = _RaceIndex,
+	    RaceDetails = _RaceDetails	    
+	    
+	    --Variables
+	    CurrentNumberOfResearchedGlobals = 0,
+	    
 	    CurrentAddResources = 
 	    	{
 	    		RT_Requisition = 0,
@@ -19,7 +36,7 @@ function PlayerDetails:new (_Player, _PlayerIndex, _RaceName, _RaceIndex)
 	    	}
     }
 	self.__index = self
-    return setmetatable(o, self)
+	return setmetatable(o, self)
 end
 
 
@@ -106,7 +123,7 @@ end
 
 
 function Core_MainLoop()
-
+	
 	if(g_PreviousMainLoopHasCompleted) then
 	
 		g_PreviousMainLoopHasCompleted = false
@@ -116,10 +133,40 @@ function Core_MainLoop()
 		Set_Upkeep()
 		Set_ResourceMature()
 		Implement_UpkeepAndMature()
+	
+		g_PreviousMainLoopHasCompleted = true
 		
 	end
 	
-	g_PreviousMainLoopHasCompleted = true
+end
+
+function Set_PlayerUpdatedDetails()
+
+	for i = 1, g_PlayerCount do
+	
+		Set_PlayerGlobalsStatus(g_AllPlayers[i])
+	
+	end
+
+end
+
+
+function Set_PlayerGlobalsStatus(_Player) 
+
+	if(_Player.CurrentNumberOfResearchedGlobals < _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals) then
+	
+		for(j = 1 + _Player.CurrentNumberOfResearchedGlobals, _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals) do
+		
+			if(Player_GetResearchState( _Player.Player, _Player.RaceDetails.RaceResourceInfo.RaceGlobals[j] ) == "RS_Complete" ) then
+			
+				_Player.CurrentNumberOfResearchedGlobals = _Player.CurrentNumberOfResearchedGlobals + 1
+				
+			end
+			
+		end
+		
+	end
+
 end
 
 
@@ -132,6 +179,7 @@ function Implement_UpkeepAndMature()
 		
 			Player_AddResource(g_AllPlayers[i], RT_Requisition, g_AllPlayers[i].CurrentAddResources.RT_Requisition)
 			Player_AddResource(g_AllPlayers[i], RT_Power, g_AllPlayers[i].CurrentAddResources.RT_Power)
+			Player_AddResource(g_AllPlayers[i], RT_Pop, g_AllPlayers[i].CurrentAddResources.RT_Pop)
 			Player_AddResource(g_AllPlayers[i], RT_Faith, g_AllPlayers[i].CurrentAddResources.RT_Faith)
 			Player_AddResource(g_AllPlayers[i], RT_Souls, g_AllPlayers[i].CurrentAddResources.RT_Souls)
 			
@@ -140,3 +188,4 @@ function Implement_UpkeepAndMature()
 	end
 
 end
+

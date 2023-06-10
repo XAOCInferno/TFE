@@ -14,114 +14,9 @@ g_WorldTimeFidelity = 0.2
 
 UnitCosting = { }
 ResourceGlobalNames = { }
-g_PlayerGlobalStatus = 
-{
-	{
-		ReqFirst = false,
-		ReqSecond = false,
-		
-		PowerFirst = false,
-		PowerSecond = false,
-	},
-	{
-		ReqFirst = false,
-		ReqSecond = false,
-		
-		PowerFirst = false,
-		PowerSecond = false,
-	},
-	{
-		ReqFirst = false,
-		ReqSecond = false,
-		
-		PowerFirst = false,
-		PowerSecond = false,
-	},
-	{
-		ReqFirst = false,
-		ReqSecond = false,
-		
-		PowerFirst = false,
-		PowerSecond = false,
-	},
-	{
-		ReqFirst = false,
-		ReqSecond = false,
-		
-		PowerFirst = false,
-		PowerSecond = false,
-	},
-	{
-		ReqFirst = false,
-		ReqSecond = false,
-		
-		PowerFirst = false,
-		PowerSecond = false,
-	},
-	{
-		ReqFirst = false,
-		ReqSecond = false,
-		
-		PowerFirst = false,
-		PowerSecond = false,
-	},
-	{
-		ReqFirst = false,
-		ReqSecond = false,
-		
-		PowerFirst = false,
-		PowerSecond = false,
-	},
-}
 
 g_BasePlayerUpkeep = 
 { 	
-	{
-		Req = 0,
-		Power = 0,
-		Faith = 0,
-		Souls = 0,
-	},{
-		Req = 0,
-		Power = 0,
-		Faith = 0,
-		Souls = 0,
-	},{
-		Req = 0,
-		Power = 0,
-		Faith = 0,
-		Souls = 0,
-	},{
-		Req = 0,
-		Power = 0,
-		Faith = 0,
-		Souls = 0,
-	},{
-		Req = 0,
-		Power = 0,
-		Faith = 0,
-		Souls = 0,
-	},{
-		Req = 0,
-		Power = 0,
-		Faith = 0,
-		Souls = 0,
-	},{
-		Req = 0,
-		Power = 0,
-		Faith = 0,
-		Souls = 0,
-	},{
-		Req = 0,
-		Power = 0,
-		Faith = 0,
-		Souls = 0,
-	},
-}
-
---[[Mature and Upkeep. Combined together in case we need to do checkers on the total value later]]
-g_BonusIncome = {
-
 	{
 		Req = 0,
 		Power = 0,
@@ -174,9 +69,9 @@ g_NumberStratPoints = 0
 g_MatureUpdateRate = 1 
 g_MatureMaxLifetime = 480 --720 --12mins rly?
 
-g_MaxMatureBonus_Base = { Req = 2, Power = 1}
-g_MaxMatureBonus_Global1 = { Req = 3, Power = 2 }
-g_MaxMatureBonus_Global2 = { Req = 4, Power = 3 }
+g_MaxMatureBonus_Base = { ReqEverySecond = 2, PowerEverySecond = 1}
+g_MaxMatureBonus_Global1 = { ReqEverySecond = 3, PowerEverySecond = 2 }
+g_MaxMatureBonus_Global2 = { ReqEverySecond = 4, PowerEverySecond = 3 }
 
 g_MatureActivationDelay = 0 --Why delay?
 g_TimeTakenForMaxUpkeep = 240
@@ -184,6 +79,10 @@ g_TimeTakenForMaxUpkeep = 240
 g_LastSquadUpdateTime = -2
 g_PreviousUpkeepCalcTime = -1
 g_PreviousCoverCalcTime = -1
+
+
+g_PreviousWorldTime = 0
+g_TimeSinceWorldTimeUpdate = 0
 
 g_SquadBlueprintToIgnore = 
 {
