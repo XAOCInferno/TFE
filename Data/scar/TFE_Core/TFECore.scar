@@ -1,28 +1,28 @@
 debug_TFECore_FileName = "TFECore"
 
 RaceDetails = {}
-function RaceDetails:new (_RaceName, _RaceIndex)
+function RaceDetails:new (_RaceName, _RaceIndex, _RaceResourceInfo)
 
     local o = 
     {
     	--Constants
 	    RaceName = RaceName,
 	    RaceIndex = _RaceIndex,
-	    RaceResourceInfo = g _FactionSpecificResourceGeneration[RaceName]
+	    RaceResourceInfo = _RaceResourceInfo 
     }
 	self.__index = self
    	return setmetatable(o, self)
 end
 
 PlayerDetails = {}
-function PlayerDetails:new (_Player, _PlayerIndex, _RaceDetails, _RaceName, _RaceIndex)
+function PlayerDetails:new (_Player, _PlayerIndex, _RaceDetails)
 
     local o = 
     {
     	    --Constants
 	    Player = _Player,
 	    PlayerIndex = _PlayerIndex,
-	    RaceDetails = _RaceDetails	    
+	    RaceDetails = _RaceDetails,   
 	    
 	    --Variables
 	    CurrentNumberOfResearchedGlobals = 
@@ -67,7 +67,7 @@ function Core_Game_Load()
 	local debugFuncName = "Core_Game_Load"	
 	
 	Core_CheckForSecondaryScars()
-	Rule_AddInterval(MainLoop, g_WorldTimeFidelity)
+	Rule_AddInterval(Core_MainLoop, g_WorldTimeFidelity)
 	
 end
 
@@ -127,8 +127,8 @@ function Core_GetAllPlayers()
 		local Player = World_GetPlayerAt(i-1)
 		local RaceName = Core_Player_GetRaceName( Player ) 
 		local RaceIndex = Core_Player_GetRace( Player ) 
-			
-		table.insert(g_AllPlayers, PlayerDetails:new( Player, PlayerIndex, RaceName, RaceIndex ))
+		
+		table.insert(g_AllPlayers, PlayerDetails:new( Player, PlayerIndex, RaceDetails:new (RaceName, RaceIndex, g_FactionSpecificResourceGeneration[RaceName] )))
 	
 		--Move this later
 		if (UnitCosting[RaceName] == nil) then
@@ -146,8 +146,9 @@ function Core_MainLoop()
 	
 		g_PreviousMainLoopHasCompleted = false
 		Set_UpdatedGameTime()
-		Set_AllSquads_Immediate()--, g_UpdateAllSquadsRate)
+		Set_AllSquads_Immediate()
 		Set_CustomCoverModifiers()
+		Set_PlayerUpdatedDetails()
 		Set_Upkeep()
 		Set_ResourceMature()
 		Implement_UpkeepAndMature()
@@ -171,46 +172,54 @@ end
 
 function Set_PlayerGlobalsStatus(_Player) 
 
-	if(_Player.CurrentNumberOfResearchedGlobals.RT_Requisition < _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals) then
+	if(_Player.CurrentNumberOfResearchedGlobals.RT_Requisition < _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Requisition) then
 	
-		for(j = 1 + _Player.CurrentNumberOfResearchedGlobals, _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Requisition) do
+		for j = 1 + _Player.CurrentNumberOfResearchedGlobals.RT_Requisition, _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Requisition do
 		
 			if(Player_GetResearchState( _Player.Player, _Player.RaceDetails.RaceResourceInfo.RaceGlobals.RT_Requisition[j] ) == "RS_Complete" ) then
 			
 				_Player.CurrentNumberOfResearchedGlobals.RT_Requisition = _Player.CurrentNumberOfResearchedGlobals.RT_Requisition + 1
 				
 			end
-		end
+		end		
+	end
 			
+	if(_Player.CurrentNumberOfResearchedGlobals.RT_Power < _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Power) then
 		
-		for(j = 1 + _Player.CurrentNumberOfResearchedGlobals.RT_Power, _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Power) do
+		for j = 1 + _Player.CurrentNumberOfResearchedGlobals.RT_Power, _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Power do
 			if(Player_GetResearchState( _Player.Player, _Player.RaceDetails.RaceResourceInfo.RaceGlobals.RT_Power[j] ) == "RS_Complete" ) then
 			
 				_Player.CurrentNumberOfResearchedGlobals.RT_Power = _Player.CurrentNumberOfResearchedGlobals.RT_Power + 1
 				
 			end
 		end
-			
-		
-		for(j = 1 + _Player.CurrentNumberOfResearchedGlobals.RT_Pop, _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Pop) do
+	end
+	
+	if(_Player.CurrentNumberOfResearchedGlobals.RT_Pop < _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Pop) then	
+	
+		for j = 1 + _Player.CurrentNumberOfResearchedGlobals.RT_Pop, _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Pop do
 			if(Player_GetResearchState( _Player.Player, _Player.RaceDetails.RaceResourceInfo.RaceGlobals.RT_Pop[j] ) == "RS_Complete" ) then
 			
 				_Player.CurrentNumberOfResearchedGlobals.RT_Pop = _Player.CurrentNumberOfResearchedGlobals.RT_Pop + 1
 				
 			end
 		end
+	end
 			
-		
-		for(j = 1 + _Player.CurrentNumberOfResearchedGlobals.RT_Faith, _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Faith) do
+	if(_Player.CurrentNumberOfResearchedGlobals.RT_Faith < _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Faith) then
+	
+		for j = 1 + _Player.CurrentNumberOfResearchedGlobals.RT_Faith, _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Faith do
 			if(Player_GetResearchState( _Player.Player, _Player.RaceDetails.RaceResourceInfo.RaceGlobals.RT_Faith[j] ) == "RS_Complete" ) then
 			
 				_Player.CurrentNumberOfResearchedGlobals.RT_Faith = _Player.CurrentNumberOfResearchedGlobals.RT_Faith + 1
 				
 			end
 		end
-			
+	end
+	
+	if(_Player.CurrentNumberOfResearchedGlobals.RT_Souls < _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Souls) then
 		
-		for(j = 1 + _Player.CurrentNumberOfResearchedGlobals.RT_Souls, _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Souls) do
+		for j = 1 + _Player.CurrentNumberOfResearchedGlobals.RT_Souls, _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Souls do
 			if(Player_GetResearchState( _Player.Player, _Player.RaceDetails.RaceResourceInfo.RaceGlobals.RT_Souls[j] ) == "RS_Complete" ) then
 			
 				_Player.CurrentNumberOfResearchedGlobals.RT_Souls = _Player.CurrentNumberOfResearchedGlobals.RT_Souls + 1

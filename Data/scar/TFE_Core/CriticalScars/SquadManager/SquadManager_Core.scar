@@ -27,7 +27,7 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP)
     {
 	    
 		SquadUniqueID = _sGameID,	
-		SquadGroupID =_ sGroupID,	
+		SquadGroupID =_sGroupID,	
 		SquadIndex = _sIndex, 
 		SquadID = _sID,	
 		SquadUnitRace = _sRace,

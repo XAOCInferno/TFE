@@ -1,7 +1,7 @@
 --[[Race file. Costs are deducted every 1s. For ease an standardisation to DoW1 income, write these numbers as cost per 10s.]]
 --[[Numbers must be negative, positive numbers will be added to resources instead.]]
 
-ResourceGlobalNames["sisters_race"] = 
+ResourceGlobalNames.sisters_race = 
 {
 	RT_Requistion = 
 	{

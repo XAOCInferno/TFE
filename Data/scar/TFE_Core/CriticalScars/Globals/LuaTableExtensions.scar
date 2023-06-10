@@ -13,7 +13,7 @@ function TableHasItemAtPositionOrID(_Tbl, _ItemPositionOrID)
 	local debugFuncName = "TableContains_ExactID"
 
 	if(_Tbl == nil) then 		
-			Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Table is nil, returning false as default.")
+		Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Table is nil, returning false as default.")
 		return nil, nil 
 	else
 		if(_Tbl[_ItemPositionOrID] == nil) then

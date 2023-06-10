@@ -1,13 +1,5 @@
---####################################################################################################
---#
---#     Heroes Special Necron race info script
---#
---#     Original Heroes idea and implementation by CutterShane 2006
---#     Heroes Special rework by Arkhan 2007
---#
---####################################################################################################
 
-ResourceGlobalNames["necron_race"] = 
+ResourceGlobalNames.necron_race = 
 {
 	RT_Power = 
 	{

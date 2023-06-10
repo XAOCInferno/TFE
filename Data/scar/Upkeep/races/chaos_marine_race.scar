@@ -1,9 +1,9 @@
 --[[Race file. Costs are deducted every 1s. For ease and standardisation to DoW1 income, write these numbers as cost per 10s.]]
 --[[Numbers must be negative, positive numbers will be added to resources instead.]]
 
-ResourceGlobalNames["chaos_marine_race"] = 
+ResourceGlobalNames.chaos_marine_race = 
 {
-	RT_Req = 
+	RT_Requistion = 
 	{
 		"chaos_requisition_research_1",
 		"chaos_requisition_research_2",

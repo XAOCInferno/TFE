@@ -2,7 +2,7 @@
 --[[Numbers must be negative, positive numbers will be added to resources instead.]]
 
 
-ResourceGlobalNames["ork_race"] = 
+ResourceGlobalNames.ork_race = 
 {
 
 	RT_Requistion = 

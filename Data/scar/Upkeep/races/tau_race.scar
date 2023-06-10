@@ -1,13 +1,5 @@
---####################################################################################################
---#
---#     Heroes Special Tau race info script
---#
---#     Original Heroes idea and implementation by CutterShane 2006
---#     Heroes Special rework by Arkhan 2007
---#
---####################################################################################################
 
-ResourceGlobalNames["tau_race"] = 
+ResourceGlobalNames.tau_race = 
 {
 	RT_Requistion = 
 	{

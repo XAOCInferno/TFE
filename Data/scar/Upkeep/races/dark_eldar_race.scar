@@ -1,9 +1,9 @@
 --[[Race file. Costs are deducted every 1s. For ease an standardisation to DoW1 income, write these numbers as cost per 10s.]]
 --[[Numbers must be negative, positive numbers will be added to resources instead.]]
 
-ResourceGlobalNames[dark_eldar_race] = 
+ResourceGlobalNames.dark_eldar_race = 
 {
-	RT_Req = 
+	RT_Requistion = 
 	{
 		"dark_eldar_upgrade_requisition_1",
 		"dark_eldar_upgrade_requisition_2",
