@@ -50,23 +50,54 @@ function Set_ResourceMature()
 			if(g_AllStrategicPointsStructs[z].OwnedPlayer == g_AllPlayers[j].PlayerIndex) then
 
 				local MaxBonusReq = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Requisition[g_AllPlayers[j].CurrentNumberOfResearchedGlobals]
-				-----Not implemented yet
 				local MaxBonusPower = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Power[g_AllPlayers[j].CurrentNumberOfResearchedGlobals]
 				local MaxBonusPop = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Pop[g_AllPlayers[j].CurrentNumberOfResearchedGlobals]
 				local MaxBonusSouls = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Souls[g_AllPlayers[j].CurrentNumberOfResearchedGlobals]
 				local MaxBonusFaith = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Faith[g_AllPlayers[j].CurrentNumberOfResearchedGlobals]
-				-----
 				
 				local CapTimeAsMaturePercent = GetWorldLifetime(g_AllStrategicPointsStructs[z].InitTime) / g_MatureMaxLifetime
+				
 				local CapTimeAsBonusReq = MaxBonusReq * CapTimeAsMaturePercent
-
+				local CapTimeAsBonusPower = MaxBonusPower * CapTimeAsMaturePercent
+				local CapTimeAsBonusPop = MaxBonusPop * CapTimeAsMaturePercent
+				local CapTimeAsBonusSouls = MaxBonusSouls * CapTimeAsMaturePercent
+				local CapTimeAsBonusFaith = MaxBonusFaith * CapTimeAsMaturePercent
+				
 				if(CapTimeAsBonusReq > MaxBonusReq) then
 		
 					CapTimeAsBonusReq = MaxBonusReq						
 
 				end
+				
+				if(CapTimeAsBonusPower > MaxBonusPower) then
+		
+					CapTimeAsBonusPower = MaxBonusPower						
+
+				end
+				
+				if(CapTimeAsBonusPop > MaxBonusPop) then
+		
+					CapTimeAsBonusPop = MaxBonusPop						
+
+				end
+				
+				if(CapTimeAsBonusSouls > MaxBonusSouls) then
+		
+					CapTimeAsBonusSouls = MaxBonusSouls						
+
+				end
+				
+				if(CapTimeAsBonusFaith > MaxBonusFaith) then
+		
+					CapTimeAsBonusFaith = MaxBonusFaith						
+
+				end
 
 				g_AllPlayers[j].CurrentAddResources.RT_Requisition =  g_AllPlayers[j].CurrentAddResources.RT_Requisition + CapTimeAsBonusReq
+				g_AllPlayers[j].CurrentAddResources.RT_Power =  g_AllPlayers[j].CurrentAddResources.RT_Power + CapTimeAsBonusPower
+				g_AllPlayers[j].CurrentAddResources.RT_Pop =  g_AllPlayers[j].CurrentAddResources.RT_Pop + CapTimeAsBonusPop
+				g_AllPlayers[j].CurrentAddResources.RT_Souls =  g_AllPlayers[j].CurrentAddResources.RT_Souls + CapTimeAsBonusSouls
+				g_AllPlayers[j].CurrentAddResources.RT_Faith =  g_AllPlayers[j].CurrentAddResources.RT_Faith + CapTimeAsBonusFaith
 				--print("CapTime = "..CapTimeAsMaturePercent.." And New Req from it = "..CapTimeAsBonusReq.." Capped at = "..MaxBonusReq.Req)
 			end
 		end

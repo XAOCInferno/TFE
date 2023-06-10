@@ -100,36 +100,3 @@ function TableMergeValues(_Tbl1, _Tbl2)
 	end
 
 end
-
-function TableMergeValues_UsingKey(_Tbl1, _Tbl2, _Keys)
-
-	local debugFuncName = "TableMergeValues"
-	local NewTable = _Tbl1
-	
-	if(_Tbl1 == nil) then 		
-		Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Table1 is nil!.")
-		return _Tbl2
-	elseif(_Tbl2 == nil) then 		
-		Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Table2 is nil!")
-		return _Tbl1
-	else
-		for i in pairs (_Keys) do
-			local CriticalError = false
-		
-	    		if(_Tbl2._Keys[i] == nil) then
-	    			CriticalError = true
-	    		end
-	    		
-	    		if(_Tbl2._Keys[i] == nil) then
-	    			CriticalError = true
-	    		end
-	    		
-	    		if(CriticalError = false) then
-	    			NewTable[i] = _Tbl1._Keys[i]  + _Tbl2._Keys[i]
-	    		else
-	    			NewTable[i] = nil
-	    		end
-		end
-	end
-
-end

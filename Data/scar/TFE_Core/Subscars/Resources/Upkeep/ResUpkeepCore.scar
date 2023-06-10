@@ -50,6 +50,7 @@ function Get_PlayerUpkeep()
 						local UpkeepFaith = (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Req * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent
 						local UpkeepSouls = (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Req * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent
 						
+						
 						g_BonusIncome[i].Req = g_BonusIncome[i].Req + ((UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Req * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent)
 						g_BonusIncome[i].Power = g_BonusIncome[i].Power + ((UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Power * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent)
 						g_BonusIncome[i].Faith = g_BonusIncome[i].Faith + ((UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Faith * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent)

@@ -34,13 +34,12 @@ function Set_PassiveResources()
 			if (Player_IsAlive(g_AllPlayers[i].Player) == true and RaceResStruct ~= nil) then
 			
 				if(RaceResStruct.HasPassiveResGen) then
-					TableMergeValues_UsingKey(g_AllPlayers[i].Player.CurrentAddResources, RaceResStruct, {RT_Requisition, RT_Power, RT_Pop, RT_Souls, RT_Faith})
-					--[[.RT_Requisition =  g_AllPlayers[i].Player.CurrentAddResources.RT_Requisition + .RT_Requisition
-					Player_AddResource(g_AllPlayers[i].Player, RT_Power, RaceResStruct.RT_Power)
-					Player_AddResource(g_AllPlayers[i].Player, RT_Pop, RaceResStruct.RT_Pop)
-					Player_AddResource(g_AllPlayers[i].Player, RT_Souls, RaceResStruct.RT_Souls)
-					Player_AddResource(g_AllPlayers[i].Player, RT_Faith, RaceResStruct.RT_Faith)]]
-					
+				
+					g_AllPlayers[i].Player.CurrentAddResources.RT_Requisition = g_AllPlayers[i].Player.CurrentAddResources.RT_Requisition + RaceResStruct.RT_Requisition
+					g_AllPlayers[i].Player.CurrentAddResources.RT_Power = g_AllPlayers[i].Player.CurrentAddResources.RT_Power + RaceResStruct.RT_Power
+					g_AllPlayers[i].Player.CurrentAddResources.RT_Pop = g_AllPlayers[i].Player.CurrentAddResources.RT_Pop + RaceResStruct.RT_Pop
+					g_AllPlayers[i].Player.CurrentAddResources.RT_Souls = g_AllPlayers[i].Player.CurrentAddResources.RT_Souls + RaceResStruct.RT_Souls
+					g_AllPlayers[i].Player.CurrentAddResources.RT_Faith = g_AllPlayers[i].Player.CurrentAddResources.RT_Faith + RaceResStruct.RT_Faith
 				end
 			end
 		
