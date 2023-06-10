@@ -81,7 +81,7 @@ function Core_Init_Load()
 	if pcall(Setup_AlphaLegion) == false then
 		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_AlphaLegion'!")
 	end 
-	
+	Setup_PassiveResourceGeneration()
 	if pcall(Setup_PassiveResourceGeneration) == false then 
 		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_PassiveResourceGeneration'!")
 	end
@@ -125,8 +125,8 @@ function Core_GetAllPlayers()
 	for i = 1, g_PlayerCount do
 
 		local Player = World_GetPlayerAt(i-1)
-		local RaceName = Core_Player_GetRaceName( Player ) 
-		local RaceIndex = Core_Player_GetRace( Player ) 
+		local RaceName = Player_GetRaceName( Player ) 
+		local RaceIndex = Player_GetRace( Player ) 
 		
 		table.insert(g_AllPlayers, PlayerDetails:new( Player, PlayerIndex, RaceDetails:new (RaceName, RaceIndex, g_FactionSpecificResourceGeneration[RaceName] )))
 	

@@ -7,18 +7,13 @@ function Setup_PassiveResourceGeneration()
 
 	Log(0, 0, debug_PassiveResourceGeneration_Core_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 	
-	if pcall(PassiveResourceGeneration_Import_Settings) then
-	
-		Rule_AddInterval(Set_PassiveResources, g_ResourceGenUpdateRate)	
-		
-		Log(0, 0, debug_PassiveResourceGeneration_Core_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
-		
-	else 
-	
-		Log(2, 1, debug_PassiveResourceGeneration_Core_FileName, debugFuncName, "Cannot run function 'PassiveResourceGeneration_Import_Settings'!")
-		Log(2, 0, debug_PassiveResourceGeneration_Core_FileName, debugFuncName, "Finished: '"..debugFuncName.."' with error!")
-		
+	for i = 1, g_PlayerCount do
+		Setup_PassiveResourceGeneration_Settings(g_AllPlayers[i].RaceDetails.RaceName)
 	end
+	
+	Rule_AddInterval(Set_PassiveResources, g_ResourceGenUpdateRate)	
+	
+	Log(0, 0, debug_PassiveResourceGeneration_Core_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 	
 end
 
