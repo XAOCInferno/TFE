@@ -45,35 +45,37 @@ function Get_PlayerUpkeep()
 					if(UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint] ~= nil) then
 					
 						local UpkeepReq = (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Req * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent
-						local UpkeepPower = (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Req * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent
-						local UpkeepPop = (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Req * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent
-						local UpkeepFaith = (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Req * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent
-						local UpkeepSouls = (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Req * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent
-						
-						
-						g_BonusIncome[i].Req = g_BonusIncome[i].Req + ((UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Req * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent)
-						g_BonusIncome[i].Power = g_BonusIncome[i].Power + ((UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Power * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent)
-						g_BonusIncome[i].Faith = g_BonusIncome[i].Faith + ((UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Faith * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent)
-						g_BonusIncome[i].Souls = g_BonusIncome[i].Souls + ((UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Souls * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent)
+						local UpkeepPower = (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Power * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent
+						local UpkeepPop = (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Pop * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent
+						local UpkeepSouls = (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Souls * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent
+						local UpkeepFaith = (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Faith * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent
 			
 		
 						if (tmpStruct.SquadHasLeader) then 
 							if(UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader ~= nil) then
 							
-								g_BonusIncome[i].Req = g_BonusIncome[i].Req + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Req / SquadLifetimeAsPercent)
-								g_BonusIncome[i].Power = g_BonusIncome[i].Power + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Power / SquadLifetimeAsPercent)
-								g_BonusIncome[i].Faith = g_BonusIncome[i].Faith + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Faith / SquadLifetimeAsPercent)
-								g_BonusIncome[i].Souls = g_BonusIncome[i].Souls + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Souls / SquadLifetimeAsPercent)
+								UpkeepReq = UpkeepReq + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Req / SquadLifetimeAsPercent)
+								UpkeepPower = UpkeepPower + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Power / SquadLifetimeAsPercent)
+								UpkeepPop = UpkeepPop + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Pop / SquadLifetimeAsPercent)
+								UpkeepSouls = UpkeepSouls + g_BonusIncome[i].Souls + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Souls / SquadLifetimeAsPercent)
+								UpkeepFaith = UpkeepFaith + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Faith / SquadLifetimeAsPercent)
 							
 							elseif(g_DebugMode) then
 														
 								LogOnce(2, 0, debug_ResUpkeepCore_FileName, debugFuncName, "SquadBP '"..tmpStruct.SquadBlueprint.."' does not have LEADER Upkeep data!")								
 							
-								end
+							end
 						end
+						
+						g_AllPlayers[j].CurrentAddResources.RT_Requisition =  g_AllPlayers[j].CurrentAddResources.RT_Requisition + UpkeepReq
+						g_AllPlayers[j].CurrentAddResources.RT_Power =  g_AllPlayers[j].CurrentAddResources.RT_Requisition + UpkeepPower
+						g_AllPlayers[j].CurrentAddResources.RT_Pop =  g_AllPlayers[j].CurrentAddResources.RT_Requisition + UpkeepPop
+						g_AllPlayers[j].CurrentAddResources.RT_Souls =  g_AllPlayers[j].CurrentAddResources.RT_Requisition + UpkeepSouls
+						g_AllPlayers[j].CurrentAddResources.RT_Faith =  g_AllPlayers[j].CurrentAddResources.RT_Requisition + UpkeepFaith
+						
 					else
 
-							LogOnce(1, 0, debug_ResUpkeepCore_FileName, debugFuncName, "SquadBP for ID: '"..tmpStruct.SquadUniqueID.."' does not have a Blueprint!")
+						LogOnce(1, 0, debug_ResUpkeepCore_FileName, debugFuncName, "SquadBP for ID: '"..tmpStruct.SquadUniqueID.."' does not have a Blueprint!")
 
 					end
 				else

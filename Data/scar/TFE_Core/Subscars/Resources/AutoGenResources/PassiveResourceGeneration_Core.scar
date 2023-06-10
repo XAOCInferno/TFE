@@ -40,6 +40,7 @@ function Set_PassiveResources()
 					g_AllPlayers[i].Player.CurrentAddResources.RT_Pop = g_AllPlayers[i].Player.CurrentAddResources.RT_Pop + RaceResStruct.RT_Pop
 					g_AllPlayers[i].Player.CurrentAddResources.RT_Souls = g_AllPlayers[i].Player.CurrentAddResources.RT_Souls + RaceResStruct.RT_Souls
 					g_AllPlayers[i].Player.CurrentAddResources.RT_Faith = g_AllPlayers[i].Player.CurrentAddResources.RT_Faith + RaceResStruct.RT_Faith
+					
 				end
 			end
 		
