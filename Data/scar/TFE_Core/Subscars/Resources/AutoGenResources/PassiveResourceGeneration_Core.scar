@@ -2,14 +2,14 @@ debug_PassiveResourceGeneration_Core_FileName = "PassiveResourceGeneration_Core"
 
 import("TFE_Core/Subscars/Resources/AutoGenResources/PassiveResourceGeneration_Settings.lua")
 
-function PassiveResourceGeneration_Immediate_Load()
-	local debugFuncName = "PassiveResourceGeneration_Immediate_Load"
+function Setup_PassiveResourceGeneration()
+	local debugFuncName = "Setup_PassiveResourceGeneration"
 
 	Log(0, 0, debug_PassiveResourceGeneration_Core_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 	
 	if pcall(PassiveResourceGeneration_Import_Settings) then
 	
-		Rule_AddInterval(Rule_AddPassResources, g_ResourceGenUpdateRate)	
+		Rule_AddInterval(Set_PassiveResources, g_ResourceGenUpdateRate)	
 		
 		Log(0, 0, debug_PassiveResourceGeneration_Core_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 		
@@ -23,26 +23,23 @@ function PassiveResourceGeneration_Immediate_Load()
 end
 
 
-function Rule_AddPassResources()
+function Set_PassiveResources()
 
 	local AddResources = function()
-	
-		local GetFactionStruct = function(race) 
-			return g_FactionSpecificResourceGeneration[race]
-		end
-		
+			
 		for i = 1, g_PlayerCount do
 		
-			local RaceResStruct = GetFactionStruct(g_AllPlayers[i].RaceIndex+1)
+			local RaceResStruct = g_FactionSpecificResourceGeneration[g_AllPlayers[i].RaceIndex+1] 
+			
 			if (Player_IsAlive(g_AllPlayers[i].Player) == true and RaceResStruct ~= nil) then
 			
 				if(RaceResStruct.HasPassiveResGen) then
-			
-					Player_AddResource(g_AllPlayers[i].Player, RT_Requisition, RaceResStruct.RT_Requisition)
+					TableMergeValues_UsingKey(g_AllPlayers[i].Player.CurrentAddResources, RaceResStruct, {RT_Requisition, RT_Power, RT_Pop, RT_Souls, RT_Faith})
+					--[[.RT_Requisition =  g_AllPlayers[i].Player.CurrentAddResources.RT_Requisition + .RT_Requisition
 					Player_AddResource(g_AllPlayers[i].Player, RT_Power, RaceResStruct.RT_Power)
 					Player_AddResource(g_AllPlayers[i].Player, RT_Pop, RaceResStruct.RT_Pop)
 					Player_AddResource(g_AllPlayers[i].Player, RT_Souls, RaceResStruct.RT_Souls)
-					Player_AddResource(g_AllPlayers[i].Player, RT_Faith, RaceResStruct.RT_Faith)
+					Player_AddResource(g_AllPlayers[i].Player, RT_Faith, RaceResStruct.RT_Faith)]]
 					
 				end
 			end
@@ -52,6 +49,6 @@ function Rule_AddPassResources()
 	end
 	
 	if pcall(AddResources) == false then
-		Log(2, 0, debug_PassiveResourceGeneration_Core_FileName, "Rule_AddPassResources", "Cannot add passive resources!")
+		Log(2, 0, debug_PassiveResourceGeneration_Core_FileName, "Set_PassiveResources", "Cannot add passive resources!")
 	end
 end

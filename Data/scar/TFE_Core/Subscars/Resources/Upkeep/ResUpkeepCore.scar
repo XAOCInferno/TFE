@@ -1,8 +1,8 @@
 debug_ResUpkeepCore_FileName = "ResUpkeepCore"
 
 
-function Rule_ActivateUpkeep()
-	local debugFuncName = "Rule_ActivateUpkeep"
+function Setup_UpkeepSystem()
+	local debugFuncName = "ActivateUpkeepSystem"
 		
 	Log(0, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 	
@@ -13,8 +13,8 @@ function Rule_ActivateUpkeep()
 end
 
 
-function Rule_CalculateUpkeep()
-	local debugFuncName = "Rule_CalculateUpkeep"
+function Get_PlayerUpkeep()
+	local debugFuncName = "CalculatePlayerUpkeep"
 
 	for i = 1, g_PlayerCount do
 	
@@ -77,21 +77,3 @@ function Rule_CalculateUpkeep()
 	end
 end
 
-
-function Rule_ImplementUpkeep()
-	
-	if(g_HasDoneInitUpkeepRun) then
-	
-		for i = 1, g_PlayerCount do			
-		
-			if(Player_IsAlive(g_AllPlayers[i])) then
-			
-				Player_AddResource(g_AllPlayers[i], RT_Requisition, g_BonusIncome[i].Req)
-				Player_AddResource(g_AllPlayers[i], RT_Power, g_BonusIncome[i].Power)
-				Player_AddResource(g_AllPlayers[i], RT_Faith, g_BonusIncome[i].Faith)
-				Player_AddResource(g_AllPlayers[i], RT_Souls, g_BonusIncome[i].Souls)
-			end
-		end
-	end
-
-end

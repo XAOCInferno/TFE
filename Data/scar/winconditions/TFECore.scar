@@ -3,26 +3,26 @@ debug_WinCondition_TFECore_FileName = "(WC)TFECore"
 import("TFE_Core/TFECore.scar");
 
 
-function TFE_InitSetup()
+function Core_InitSetup()
 
-	local debugFuncName = "TFE_GameSetup"
+	local debugFuncName = "Core_InitSetup"
 	
 	Log(0, 0, debug_WinCondition_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 	
 	FOW_Reset()
-	TFE_Init_Load()
+	Core_Init_Load()
 	
 	Log(0, 0, debug_WinCondition_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'...")
 	
 end
 
-function TFE_GameSetup()
+function Core_GameSetup()
 
-	local debugFuncName = "TFE_GameSetup"
+	local debugFuncName = "Core_GameSetup"
 	
 	Log(0, 0, debug_WinCondition_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 	
-	TFE_Game_Load()
+	Core_Game_Load()
 	
 	Log(0, 0, debug_WinCondition_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'...")
 
@@ -30,9 +30,9 @@ end
 
 function OnGameSetup()
 
-	TFE_GameSetup()
+	Core_GameSetup()
 	
 end
 
 -- Init SCAR
-Scar_AddInit(TFE_InitSetup)
+Scar_AddInit(Core_InitSetup)

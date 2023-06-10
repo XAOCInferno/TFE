@@ -2,15 +2,21 @@ debug_TFECore_FileName = "TFECore"
 
 
 PlayerDetails = {}
-function PlayerDetails:new (Player, PlayerIndex, RaceName, RaceIndex)
+function PlayerDetails:new (_Player, _PlayerIndex, _RaceName, _RaceIndex)
 
     local o = 
     {
-	    Player = Player,
-	    PlayerIndex = PlayerIndex,
-	    RaceName = RaceName,
-	    RaceIndex = RaceIndex,
-	    CurrentUpkeep = 0
+	    Player = _Player,
+	    PlayerIndex = _PlayerIndex,
+	    RaceName = _RaceName,
+	    RaceIndex = _RaceIndex,
+	    CurrentAddResources = 
+	    	{
+	    		RT_Requisition = 0,
+	    		RT_Power =  0,
+	    		RT_Faith = 0, 
+	    		RT_Souls = 0
+	    	}
     }
 	self.__index = self
     return setmetatable(o, self)
@@ -21,11 +27,11 @@ end
 import("TFE_Core/Imports/TFECore_Imports.scar")
 
 
-function TFE_Game_Load()
+function Core_Game_Load()
 	
-	local debugFuncName = "TFE_Game_Load"	
+	local debugFuncName = "Core_Game_Load"	
 	
-	CheckForSecondaryScars()
+	Core_CheckForSecondaryScars()
 	Rule_AddInterval(MainLoop, 0.1)
 	
 end
@@ -33,43 +39,43 @@ end
 function TFE_Init_Load()
 	local debugFuncName = "TFE_Init_Load"	
 	
-	if pcall(GetAllPlayers) == false then
-		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run CORE function 'GetAllPlayers'!")
+	if pcall(Core_GetAllPlayers) == false then
+		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run CORE function 'Core_GetAllPlayers'!")
 	end
 	
-	if pcall(AlphaLegion_Setup) == false then
-		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'AlphaLegion_Setup'!")
+	if pcall(Setup_AlphaLegion) == false then
+		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_AlphaLegion'!")
 	end 
 	
-	if pcall(PassiveResourceGeneration_Immediate_Load) == false then 
-		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'PassiveResourceGeneration_Immediate_Load'!")
+	if pcall(Setup_PassiveResourceGeneration) == false then 
+		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_PassiveResourceGeneration'!")
 	end
 	
-	if pcall(Initialise_SquadManager) == false then 
-		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Initialise_SquadManager'!")
+	if pcall(Setup_SquadManager) == false then 
+		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_SquadManager'!")
 	end
 	
-	if pcall(Initialise_GlobalsStorage) == false then 
-		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Initialise_GlobalsStorage'!")
+	if pcall(Setup_GlobalsStorage) == false then 
+		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_GlobalsStorage'!")
 	end
 	
-	if pcall(SetupStrategicPoints) == false then 
-		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'SetupMature'!")
-	elseif pcall(Rule_ActivateMature) == false then
-		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Rule_ActivateMature'!")
+	if pcall(Setup_StrategicPoints) == false then 
+		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_StrategicPoints'!")
+	elseif pcall(Setup_MatureSystem) == false then
+		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_MatureSystem'!")
 	end	
 	
-	if pcall(Rule_ActivateUpkeep) == false then 
-		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Rule_ActivateUpkeep'!")
+	if pcall(Setup_UpkeepSystem) == false then 
+		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_UpkeepSystem'!")
 	end
 	
-	if pcall(InitNewCoverSystems) == false then 
-		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'InitNewCoverSystems'!")
+	if pcall(Setup_NewCoverSystem) == false then 
+		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_NewCoverSystem'!")
 	end
 	
 end
 
-function CheckForSecondaryScars()
+function Core_CheckForSecondaryScars()
 
 	if g_TrueRandomRace_Enabled == true then
 
@@ -79,20 +85,16 @@ function CheckForSecondaryScars()
 
 end
 
-function GetAllPlayers()
+function Core_GetAllPlayers()
 
 	for i = 1, g_PlayerCount do
 
 		local Player = World_GetPlayerAt(i-1)
-		local RaceName = Player_GetRaceName( Player ) 
-		local RaceIndex = Player_GetRace( Player ) 
-		
-		
+		local RaceName = Core_Player_GetRaceName( Player ) 
+		local RaceIndex = Core_Player_GetRace( Player ) 
+			
 		table.insert(g_AllPlayers, PlayerDetails:new( Player, PlayerIndex, RaceName, RaceIndex ))
-		--[[table.insert(g_AllPlayers, Player)
-		table.insert(g_AllPlayersRace, RaceName)
-		table.insert(g_AllPlayersRace_AsIndex, RaceIndex)]]
-		
+	
 		--Move this later
 		if (UnitCosting[RaceName] == nil) then
 			pcall(import, 'upkeep/races/'..RaceName..'.scar')
@@ -103,16 +105,17 @@ function GetAllPlayers()
 end
 
 
-function MainLoop()
+function Core_MainLoop()
 
 	if(g_PreviousMainLoopHasCompleted) then
 	
 		g_PreviousMainLoopHasCompleted = false
-		SetUpdatedGameTime()
-		UpdateAllSquads_Immediate()--, g_UpdateAllSquadsRate)
-		Rule_CheckCoverStatus()
-		Rule_CalculateUpkeep()
-		Rule_DoMature()
+		Set_UpdatedGameTime()
+		Set_AllSquads_Immediate()--, g_UpdateAllSquadsRate)
+		Set_CustomCoverModifiers()
+		Set_Upkeep()
+		Set_ResourceMature()
+		Implement_UpkeepAndMature()
 		
 	end
 	
@@ -120,4 +123,20 @@ function MainLoop()
 end
 
 
+function Implement_UpkeepAndMature()
+	
+	
+	for i = 1, g_PlayerCount do			
+	
+		if(Player_IsAlive(g_AllPlayers[i])) then
+		
+			Player_AddResource(g_AllPlayers[i], RT_Requisition, g_AllPlayers[i].CurrentAddResources.RT_Requisition)
+			Player_AddResource(g_AllPlayers[i], RT_Power, g_AllPlayers[i].CurrentAddResources.RT_Power)
+			Player_AddResource(g_AllPlayers[i], RT_Faith, g_AllPlayers[i].CurrentAddResources.RT_Faith)
+			Player_AddResource(g_AllPlayers[i], RT_Souls, g_AllPlayers[i].CurrentAddResources.RT_Souls)
+			
+		end
+		
+	end
 
+end

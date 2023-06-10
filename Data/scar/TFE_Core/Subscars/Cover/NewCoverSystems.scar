@@ -148,7 +148,7 @@ function SetupCoverModifiers()
 end
 
 
-function InitNewCoverSystems()	
+function ActivateNewCoverSystem()	
 	local debugFuncName = "InitNewCoverSystems"
 	
 	Log(0, 0, debug_NewCoverSystems_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
@@ -160,32 +160,32 @@ function InitNewCoverSystems()
 end
 
 
-function Rule_CheckCoverStatus()
-	local debugFuncName = "Rule_CheckCoverStatus"
+function Calculate_CustomCoverModifiers()
+	local debugFuncName = "Calculate_CustomCoverModifiers"
 
 	for i = 1, g_PlayerCount do
 	
 		for j = 1, g_PlayerSquadCount[i]+1 do
 		
-			local tmpStruct = g_AllSquadsData[i][j]	
+			local TargetSquad = g_AllSquadsData[i][j]	
 			
 	    	local ModsToAdd = {}
 	    	local ModsToRemove = {}	
 	    	local CriticalError = false
 	    	
-			if (tmpStruct == nil) then
+			if (TargetSquad == nil) then
 			
 				LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Loadout is empty!")
 				CriticalError = true
 			else
-				if(tmpStruct.SquadLoadout == 0) then				
+				if(TargetSquad.SquadLoadout == 0) then				
    		
 					LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Struct is Nil!")
 					CriticalError = true
 					
 				end
 				
-				if(pcall(Squad_GetCoverType, tmpStruct.SquadID, 0 ) == false) then
+				if(pcall(Squad_GetCoverType, TargetSquad.SquadID, 0 ) == false) then
 			
 					LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Can't get squad Cover!")
 					CriticalError = true
@@ -193,10 +193,10 @@ function Rule_CheckCoverStatus()
 				end
 				
 			end
-			--print("Hi3"..tostring(CriticalError))
+
 			if(CriticalError == false) then
-				CoverID = Squad_GetCoverType(tmpStruct.SquadID, 0 )
-				--print(CoverID)
+				CoverID = Squad_GetCoverType(TargetSquad.SquadID, 0 )
+				
 				for key, coverMods in pairs(g_ModsByCover) do
 				
 					for modKey, mod in pairs(coverMods) do
@@ -211,7 +211,6 @@ function Rule_CheckCoverStatus()
 							contains, index = TableContains(ModsToAdd, mod)
 							if(contains == false) then
 							
-								--print("Applying Cover "..CoverID.." mod "..modKey.. " For "..tmpStruct.SquadBlueprint)  
 								table.insert(ModsToAdd,mod)	
 								
 							end   
@@ -219,10 +218,9 @@ function Rule_CheckCoverStatus()
 						else
 							contains, index = TableContains(ModsToRemove, mod)
 							if(contains == false) then
-								--print("I am in Cover "..CoverID)
-								--print("I am Checking against Cover "..keyOffset)
-								--print("Disabiling Cover "..keyOffset.." mod "..modKey.. " For "..tmpStruct.SquadBlueprint)
+							
 								table.insert(ModsToRemove,mod)
+								
 							end
 							
 						end	
@@ -231,63 +229,72 @@ function Rule_CheckCoverStatus()
 					
 				end	
 				
-				--------------------------------
+				------------------------------------
 				-----CHECK APPLY NOT REMOVE-----
-				--------------------------------				
-				
-				ModsToRemove = TableRemoveDuplicates(ModsToRemove, ModsToAdd)
+				------------------------------------	
+				ModsToRemove = TableRemoveDuplicates(TargetSquad, ModsToRemove, ModsToAdd)
 		
-				--------------------
-				-----APPLY MODS-----
-				--------------------	
-								
-				--REMOVE--
-				for debugRemovePos, removeMod in pairs(ModsToRemove) do
-		 			if(removeMod == nil) then
-		 			
-						LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugRemovePos.." Is Nil! Cannot Remove.")
-		 			
-		 			else
-		 			
-						contains, key = TableContains(tmpStruct.SquadAppliedCoverMods, removeMod)
-						if(contains == true) then
-						
-							RemoveCoverMod(removeMod, tmpStruct, debugRemovePos)			
-			
-						else
-							
-							LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugRemovePos.." Is not applied! Cannot remove.")
-								
-						end	
-					end					
-					
-				end
 				
-				--APPLY--
-				for debugAddPos, addMod in pairs(ModsToAdd) do
-		 			if(addMod == nil) then
-		 			
-						LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugAddPos.." Is Nil! Cannot Add.")
-		 			
-		 			else
-		 			
-						contains, key = TableContains(tmpStruct.SquadAppliedCoverMods, addMod)
-						if(contains == false) then
-						
-							ApplyCoverMod(addMod, tmpStruct, debugAddPos)
-							
-						else
-	   					
-	   						LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugAddPos.." Is Applied! Cannot Apply Again.")
-
-						end	
-					end					
-					
-				end				
+				----------------
+				-----APPLY-----
+				----------------
+				Set_CoverModifiers(TargetSquad, ModsToRemove, ModsToAdd)
 				
 			end
 	   	end		
 	end
+end
+
+
+function Set_CoverModifiers(TargetSquad, ModsToRemove, ModsToAdd)
+	local debugFuncName = "Set_CoverModifiers"
+
+	--------------------
+	-----APPLY MODS-----
+	--------------------	
+					
+	--REMOVE--
+	for debugRemovePos, removeMod in pairs(ModsToRemove) do
+		if(removeMod == nil) then
+			
+			LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugRemovePos.." Is Nil! Cannot Remove.")
+			
+		else
+			
+			contains, key = TableContains(TargetSquad.SquadAppliedCoverMods, removeMod)
+			if(contains == true) then
+			
+				RemoveCoverMod(removeMod, TargetSquad, debugRemovePos)			
+
+			else
+				
+				LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugRemovePos.." Is not applied! Cannot remove.")
+					
+			end	
+		end			
+	end
+	
+	--APPLY--
+	for debugAddPos, addMod in pairs(ModsToAdd) do
+		if(addMod == nil) then
+			
+			LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugAddPos.." Is Nil! Cannot Add.")
+			
+		else
+			
+			contains, key = TableContains(TargetSquad.SquadAppliedCoverMods, addMod)
+			if(contains == false) then
+			
+				ApplyCoverMod(addMod, TargetSquad, debugAddPos)
+				
+			else
+				
+					LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugAddPos.." Is Applied! Cannot Apply Again.")
+
+			end	
+			
+		end			
+	end	
 end
 
 

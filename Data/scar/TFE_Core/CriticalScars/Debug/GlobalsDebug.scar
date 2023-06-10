@@ -3,39 +3,39 @@ debug_GlobalsDebug_FileName = "GlobalsDebug"
 g_WrittenLogs = {}
 
 --Writes a custom log to the console
-function Log(logType, verbosity, moduleName, functionName, line)
+function Log(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
 	if(g_DebugMode) then
-		if(verbosity == 0) then
+		if(_Verbosity == 0) then
 		
 			--Warning type, Mod Name, world time, function path, line
-			print("("..g_LogTypes[logType]..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) "..moduleName.."/"..functionName..":  "..line)
+			print("("..g_LogTypes[_LogType]..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) ".._ModuleName.."/".._FunctionName..":  ".._Line)
 			
-		elseif(verbosity == 1) then
+		elseif(_Verbosity == 1) then
 		
 			--Warning type, Mod Name, world time, line
-			print("("..g_LogTypes[logType]..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) "..line)
+			print("("..g_LogTypes[_LogType]..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) ".._Line)
 			
-		elseif(verbosity == 2) then
+		elseif(_Verbosity == 2) then
 		
 			--Warning type, Mod Name, line
-			print("("..g_LogTypes[logType]..") ["..g_ModAbbreviation.."] "..line)
+			print("("..g_LogTypes[_LogType]..") ["..g_ModAbbreviation.."] ".._Line)
 			
-		elseif(verbosity == 3) then	
+		elseif(_Verbosity == 3) then	
 		
 			--Just mod name and line
-			print("["..g_ModAbbreviation.."] "..line)
+			print("["..g_ModAbbreviation.."] ".._Line)
 			
 		else
 			--Just print the line, also in case they put an invalid number
-			Log(2,0,moduleName, functionName, "Verbosity: '"..verbosity.."' Is not valid! Defaulting to Print.") 
-			print(line)
+			Log(2,0,moduleName, functionName, "Verbosity: '".._Verbosity.."' Is not valid! Defaulting to Print.") 
+			print(_Line)
 		end
 	end
 end
 
 
 --Writes a custom log to the console, if it hasn't been written before
-function LogOnce(logType, verbosity, moduleName, functionName, line)
+function LogOnce(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
 
 	local LogID = verbosity..moduleName..functionName..line
 	contains, _ = TableContains(g_WrittenLogs, LogID)
@@ -43,7 +43,7 @@ function LogOnce(logType, verbosity, moduleName, functionName, line)
 		return true 
 	else
 		table.insert(g_WrittenLogs, LogID)
-		Log(logType, verbosity, moduleName, functionName, line)
+		Log(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
 	end
 	
 end

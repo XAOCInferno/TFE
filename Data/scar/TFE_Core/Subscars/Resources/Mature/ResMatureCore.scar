@@ -1,7 +1,7 @@
 debug_ResMatureCore_FileName = "ResMatureCore"
 
-function Rule_ActivateMature()
-	local debugFuncName = "Rule_ActivateMature"
+function ActivateMatureSystem()
+	local debugFuncName = "ActivateMatureSystem"
 	
 	Log(0, 0, debug_ResMatureCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 
@@ -44,7 +44,7 @@ function CheckForGlobals()
 
 end
 
-function Rule_DoMature()
+function Set_ResourceMature()
 
 	CheckForGlobals()
 	for i = 1, g_NumberStratPoints do
@@ -138,7 +138,5 @@ function Rule_DoMature()
 		end
 
 	end	
-
-	Rule_ImplementUpkeep()
 
 end
