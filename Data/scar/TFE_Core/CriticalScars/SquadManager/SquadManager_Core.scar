@@ -25,7 +25,6 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP)
 
     local o = 
     {
-	    
 		SquadUniqueID = _sGameID,	
 		SquadGroupID =_sGroupID,	
 		SquadIndex = _sIndex, 

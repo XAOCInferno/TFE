@@ -31,7 +31,7 @@ function TableContains(_Tbl, _Desired)
 
 	if(_Tbl == nil) then 		
 		Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Table is nil, returning false as default.")
-		return nil, 0 
+		return false, 0 
 	else
 		for _, index in pairs (_Tbl) do
 	    		if(_Tbl[index] == _Desired) then

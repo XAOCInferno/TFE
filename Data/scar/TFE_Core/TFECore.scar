@@ -150,7 +150,7 @@ function Core_MainLoop()
 		g_PreviousMainLoopHasCompleted = false
 		Set_UpdatedGameTime()
 		Set_AllSquads_Immediate()
-		--Set_AllSquadCoverModifiers()
+		Set_AllSquadCoverModifiers()
 		--Set_PlayerUpkeep()
 		Set_ResourceMature()
 		Implement_UpkeepAndMature()

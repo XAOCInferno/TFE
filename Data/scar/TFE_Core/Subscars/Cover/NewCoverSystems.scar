@@ -175,12 +175,12 @@ function Set_AllSquadCoverModifiers()
 	    	
 			if (TargetSquad == nil) then
 			
-				LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Loadout is empty!")
+				LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Loadout is Nil!")
 				CriticalError = true
 			else
 				if(TargetSquad.SquadLoadout == 0) then				
    		
-					LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Struct is Nil!")
+					LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Struct is empty!")
 					CriticalError = true
 					
 				end
@@ -217,6 +217,7 @@ function Set_AllSquadCoverModifiers()
 							
 						else
 							contains, index = TableContains(ModsToRemove, mod)
+							contains, index = TableContains(ModsToRemove, TargetSquad.SquadAppliedCoverMods)
 							if(contains == false) then
 							
 								table.insert(ModsToRemove,mod)
@@ -225,21 +226,20 @@ function Set_AllSquadCoverModifiers()
 							
 						end	
 												
-					end
+					end					
+				
+					------------------------------------
+					-----CHECK APPLY NOT REMOVE-----
+					------------------------------------	
+					ModsToRemove = TableRemoveDuplicates(ModsToRemove, ModsToAdd)
+			
 					
-				end	
-				
-				------------------------------------
-				-----CHECK APPLY NOT REMOVE-----
-				------------------------------------	
-				ModsToRemove = TableRemoveDuplicates(ModsToRemove, ModsToAdd)
-		
-				
-				----------------
-				-----APPLY-----
-				----------------
-				Set_CoverModifiers(TargetSquad, ModsToRemove, ModsToAdd)
-				
+					----------------
+					-----APPLY-----
+					----------------
+					Set_CoverModifiers(TargetSquad, ModsToRemove, ModsToAdd)
+					
+				end					
 			end
 	   	end		
 	end
@@ -262,6 +262,7 @@ function Set_CoverModifiers(TargetSquad, ModsToRemove, ModsToAdd)
 		else
 			
 			contains, key = TableContains(TargetSquad.SquadAppliedCoverMods, removeMod)
+			
 			if(contains == true) then
 			
 				RemoveCoverMod(removeMod, TargetSquad, debugRemovePos)			
