@@ -108,8 +108,9 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 		end		
 		
 		if(CriticalError == false) then
+			local tmpData = SquadData:new( newSquadGameID, _sgroupid, _itemindex, _squadID, g_AllPlayers[_PlayerIndex].RaceDetails.RaceName, squadBP)
+			table.insert(g_AllSquadsData[_PlayerIndex], tmpData)	
 			
-			table.insert(g_AllSquadsData[_PlayerIndex], SquadData:new( newSquadGameID, _sgroupid, _itemindex, _squadID, g_AllPlayers[_PlayerIndex].RaceName, squadBP))	
 		end
 	end
 							

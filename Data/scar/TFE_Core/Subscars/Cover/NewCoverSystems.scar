@@ -169,9 +169,9 @@ function Set_AllSquadCoverModifiers()
 		
 			local TargetSquad = g_AllSquadsData[i][j]	
 			
-	    	local ModsToAdd = {}
-	    	local ModsToRemove = {}	
-	    	local CriticalError = false
+	    		local ModsToAdd = {}
+	    		local ModsToRemove = {}	
+	    		local CriticalError = false
 	    	
 			if (TargetSquad == nil) then
 			
@@ -232,7 +232,7 @@ function Set_AllSquadCoverModifiers()
 				------------------------------------
 				-----CHECK APPLY NOT REMOVE-----
 				------------------------------------	
-				ModsToRemove = TableRemoveDuplicates(TargetSquad, ModsToRemove, ModsToAdd)
+				ModsToRemove = TableRemoveDuplicates(ModsToRemove, ModsToAdd)
 		
 				
 				----------------

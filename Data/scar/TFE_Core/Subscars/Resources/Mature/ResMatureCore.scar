@@ -49,11 +49,11 @@ function Set_ResourceMature()
 		for z = 1, g_NumberStratPoints do
 			if(g_AllStrategicPointsStructs[z].OwnedPlayer == g_AllPlayers[j].PlayerIndex) then
 
-				local MaxBonusReq = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Requisition[g_AllPlayers[j].CurrentNumberOfResearchedGlobals]
-				local MaxBonusPower = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Power[g_AllPlayers[j].CurrentNumberOfResearchedGlobals]
-				local MaxBonusPop = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Pop[g_AllPlayers[j].CurrentNumberOfResearchedGlobals]
-				local MaxBonusSouls = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Souls[g_AllPlayers[j].CurrentNumberOfResearchedGlobals]
-				local MaxBonusFaith = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Faith[g_AllPlayers[j].CurrentNumberOfResearchedGlobals]
+				local MaxBonusReq = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Requisition
+				local MaxBonusPower = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Power
+				local MaxBonusPop = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Pop
+				local MaxBonusSouls = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Souls
+				local MaxBonusFaith = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Faith
 				
 				local CapTimeAsMaturePercent = GetWorldLifetime(g_AllStrategicPointsStructs[z].InitTime) / g_MatureMaxLifetime
 				

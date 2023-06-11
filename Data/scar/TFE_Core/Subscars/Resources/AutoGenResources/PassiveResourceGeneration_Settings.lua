@@ -25,34 +25,20 @@ function SpecificRaceResourceGenerationDetails:new (_RaceName, _HasPassiveResGen
 		
 		BaseMatureLimits = 
 		{
-			RT_Requisition = {0, 0, 0, 0, 0, 0, 0},
-			RT_Power = {0, 0, 0, 0, 0, 0, 0},
-			RT_Pop = {0, 0, 0, 0, 0, 0, 0},
-			RT_Souls = {0, 0, 0, 0, 0, 0, 0},
-			RT_Faith = {0, 0, 0, 0, 0, 0, 0}
+			RT_Requisition = 6,
+			RT_Power = 5,
+			RT_Pop = 1.5,
+			RT_Souls = 1,
+			RT_Faith = 2
 		}
     }
 	
 	self.__index = self
 	
-	print("TESTING:")
-	print(o.MaxNumberOfGlobals)
-	print(o.MaxNumberOfGlobals.RT_Requistion)
 	Log(0, 0, debug_PassiveResourceGeneration_Settings_FileName, "SpecificRaceResourceGenerationDetails:Constructor",  "Importing race: '".._RaceName.."' Success!")
 	
     return setmetatable(o, self)
 end
-
-function SpecificRaceResourceGenerationDetails:SetMatureLimits (_BaseRT_Requisition, _BaseRT_Power, _BaseRT_Pop, _BaseRT_Souls, _BaseRT_Faith)
-
-	self.BaseMatureLimits.RT_Requisition = _BaseRT_Requisition
-	self.BaseMatureLimits.RT_Power = _BaseRT_Power
-	self.BaseMatureLimits.RT_Pop = _BaseRT_Pop
-	self.BaseMatureLimits.RT_Souls = _BaseRT_Souls
-	self.BaseMatureLimits.RT_Faith = _BaseRT_Faith
-	
-end
-
 
 g_AllRaceResourcesSetup = {}
 g_FactionSpecificResourceGeneration = {	}
@@ -61,102 +47,67 @@ function Setup_PassiveResourceGeneration_Settings(_PlayerRace)
 	if(TableContains(g_AllRaceResourcesSetup, _PlayerRace)) then
 		return 
 	end
+
+	import('Upkeep/races/'.._PlayerRace..'.scar')
 	
-	pcall(import, "Upkeep/races/".._PlayerRace..".scar")
-	if ResourceGlobalNames[_PlayerRace].RT_Requistion == nil then
-		print("HII!?")
-		ResourceGlobalNames[_PlayerRace].RT_Requistion = {}
-	end
-	
-	if ResourceGlobalNames[_PlayerRace].RT_Power == nil then
-		ResourceGlobalNames[_PlayerRace].RT_Power = {}
-	end
-	
-	if ResourceGlobalNames[_PlayerRace].RT_Pop == nil then
-		ResourceGlobalNames[_PlayerRace].RT_Pop = {}
-	end
-	
-	if ResourceGlobalNames[_PlayerRace].RT_Faith == nil then
-		ResourceGlobalNames[_PlayerRace].RT_Faith = {}
-	end
-	
-	if ResourceGlobalNames[_PlayerRace].RT_Souls == nil then
-		ResourceGlobalNames[_PlayerRace].RT_Souls = {}
-	end
 	--This code is vulnerable, players can mess around a bit with adding their own data here... should probably make the import more like a file import
 	--Currently only req supported, but others can be made to support if necessary (like power for gens... or Pop for banners)
 	if(_PlayerRace == "chaos_marine_race") then
 	
 		local ChaosMarineRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("chaos_marine_race",false,0,0,0,0,0)	
-		ChaosMarineRace_PassiveResourceGeneration:SetMatureLimits(g_BaseMatureRate_Req, g_BaseMatureRate_Power, {0}, {0}, {0})
 		g_FactionSpecificResourceGeneration["chaos_marine_race"] = ChaosMarineRace_PassiveResourceGeneration
 
 	elseif(_PlayerRace == "space_marine_race") then
 	
 		local SpaceMarineRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("space_marine_race", false,0,0,0,0,0)	
-		SpaceMarineRace_PassiveResourceGeneration:SetMatureLimits(g_BaseMatureRate_Req, g_BaseMatureRate_Power, {0}, {0}, {0})
 		g_FactionSpecificResourceGeneration["space_marine_race"] = SpaceMarineRace_PassiveResourceGeneration
 		
 	elseif(_PlayerRace == "space_marine_veteran_race") then
 	
 		local SpaceMarineVeteranRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("space_marine_race", false,0,0,0,0,0)	
-		SpaceMarineVeteranRace_PassiveResourceGeneration:SetMatureLimits(g_BaseMatureRate_Req, g_BaseMatureRate_Power, {0}, {0}, {0})
 		g_FactionSpecificResourceGeneration["space_marine_veteran_race"] = SpaceMarineVeteranRace_PassiveResourceGeneration
 
 	elseif(_PlayerRace == "ork_race") then
 	
 		local OrkRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("ork_race",true,0,0,0.01666666666,0,0)	
-		OrkRace_PassiveResourceGeneration:SetMatureLimits(g_BaseMatureRate_Req, g_BaseMatureRate_Power, {0}, {0}, {0})
 		g_FactionSpecificResourceGeneration["ork_race"] = OrkRace_PassiveResourceGeneration
 
 	elseif(_PlayerRace == "eldar_race") then
 	
 		local EldarRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("eldar_race",false,0,0,0,0,0)	
-		EldarRace_PassiveResourceGeneration:SetMatureLimits(g_BaseMatureRate_Req, g_BaseMatureRate_Power, {0}, {0}, {0})
 		g_FactionSpecificResourceGeneration["eldar_race"] = EldarRace_PassiveResourceGeneration
 		
 	elseif(_PlayerRace == "guard_race") then
 	
 		local GuardRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("guard_race",false,0,0,0,0,0)
-		GuardRace_PassiveResourceGeneration:SetMatureLimits(g_BaseMatureRate_Req, g_BaseMatureRate_Power, {0}, {0}, {0})
 		g_FactionSpecificResourceGeneration["guard_race"] = GuardRace_PassiveResourceGeneration
 		
 	elseif(_PlayerRace == "necron_race") then
 	
 		local NecronRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("necron_race",false,0,0,0,0,0)	
-		NecronRace_PassiveResourceGeneration:SetMatureLimits(g_BaseMatureRate_Req, g_BaseMatureRate_Power, {0}, {0}, {0})
 		g_FactionSpecificResourceGeneration["necron_race"] = NecronRace_PassiveResourceGeneration
 		
 	elseif(_PlayerRace == "dark_eldar_race") then
 	
 		local DarkEldarRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("dark_eldar_race",true,0,0,0,1,0)
-		DarkEldarRace_PassiveResourceGeneration:SetMatureLimits(g_BaseMatureRate_Req, g_BaseMatureRate_Power, {0}, {0}, {0})
 		g_FactionSpecificResourceGeneration["dark_eldar_race"] = DarkEldarRace_PassiveResourceGeneration
 		
 	elseif(_PlayerRace == "sisters_race") then
 	
 		local SistersRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("sisters_race",false,0,0,0,0,0)	
-		SistersRace_PassiveResourceGeneration:SetMatureLimits(g_BaseMatureRate_Req, g_BaseMatureRate_Power, {0}, {0}, {0})
 		g_FactionSpecificResourceGeneration["sisters_race"] = SistersRace_PassiveResourceGeneration
 
 	elseif(_PlayerRace == "tau_race") then
 	
 		local TauRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("tau_race",false,0,0,0,0,0)	
-		TauRace_PassiveResourceGeneration:SetMatureLimits(g_BaseMatureRate_Req, g_BaseMatureRate_Power, {0}, {0}, {0})
 		g_FactionSpecificResourceGeneration["tau_race"] = TauRace_PassiveResourceGeneration
 		
 	end
 	
+
 	table.insert(g_AllRaceResourcesSetup, _PlayerRace)
 
 end
-
-
-
-
-
---[[local SpaceMarineVeteransRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("space_marine_veterans_race",false,0,0,0,0,0)	
-SpaceMarineVeteransRace_PassiveResourceGeneration.SetMatureLimits(g_BaseMatureRate_Req, g_BaseMatureRate_Power, {0}, {0}, {0})]]
 
 
 

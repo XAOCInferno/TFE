@@ -5,15 +5,16 @@ ResourceGlobalNames.chaos_marine_race =
 {
 	RT_Requistion = 
 	{
-		"chaos_requisition_research_1",
-		"chaos_requisition_research_2",
+		First = "chaos_requisition_research_1",
+		Second = "chaos_requisition_research_2",
 	},
 
 	RT_Power = 
 	{
-		"chaos_power_research_1",
-		"chaos_power_research_2",
+		First = "chaos_power_research_1",
+		Second = "chaos_power_research_2",
 	}
+	
 	
 }
 

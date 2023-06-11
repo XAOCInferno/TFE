@@ -5,7 +5,9 @@ function Setup_UpkeepSystem()
 	local debugFuncName = "ActivateUpkeepSystem"
 		
 	Log(0, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
-	
+	for i = 1, g_PlayerCount do
+		import('Upkeep/races/'..g_AllPlayers[i].RaceDetails.RaceName..'.scar')
+	end
 	EventCue_DoEvent( 'warning', 'music/stinger_completeobjective', 'Army Upkeep Activated!', 'Your army will now drain resources.' )
 	
 	Log(0, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
@@ -13,8 +15,8 @@ function Setup_UpkeepSystem()
 end
 
 
-function Get_PlayerUpkeep()
-	local debugFuncName = "Get_PlayerUpkeep"
+function Set_PlayerUpkeep()
+	local debugFuncName = "Set_PlayerUpkeep"
 	
 	--g_AllPlayers[j].CurrentAddResources.RT_Requisition =  g_AllPlayers[j].CurrentAddResources.RT_Requisition + CapTimeAsBonusReq
 	
@@ -79,7 +81,7 @@ function Get_PlayerUpkeep()
 
 					end
 				else
-						
+				
 					LogOnce(2, 0, debug_ResUpkeepCore_FileName, debugFuncName, "Race '"..tmpStruct.SquadUnitRace.."' does not have Upkeep data!")
 					
 				end	
