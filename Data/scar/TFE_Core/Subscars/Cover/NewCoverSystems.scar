@@ -10,7 +10,7 @@ g_ModsByCover = {}
 --ON INITIALIZATION 
 -------------------------------------------------
 
-function SetupCoverModifiers()
+function Setup_CoverModifiers()
 
 	--Generic shield modifier to show you're in cover, to be replaced later with a special verticality one
 	mod_PositiveCover = Modifier_Create(MAT_Squad, "cover_event_modifier", MUT_Enable, 1, 1, "")
@@ -148,20 +148,20 @@ function SetupCoverModifiers()
 end
 
 
-function ActivateNewCoverSystem()	
-	local debugFuncName = "InitNewCoverSystems"
+function Setup_NewCoverSystem()	
+	local debugFuncName = "Setup_NewCoverSystem"
 	
 	Log(0, 0, debug_NewCoverSystems_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 
-	SetupCoverModifiers()
+	Setup_CoverModifiers()
 	
 	Log(0, 0, debug_NewCoverSystems_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 	
 end
 
 
-function Calculate_CustomCoverModifiers()
-	local debugFuncName = "Calculate_CustomCoverModifiers"
+function Set_AllSquadCoverModifiers()
+	local debugFuncName = "Set_AllSquadCoverModifiers"
 
 	for i = 1, g_PlayerCount do
 	

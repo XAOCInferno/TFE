@@ -30,16 +30,16 @@ function TableContains(_Tbl, _Desired)
 	local debugFuncName = "TableContains"
 
 	if(_Tbl == nil) then 		
-			Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Table is nil, returning false as default.")
-		return nil, nil 
+		Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Table is nil, returning false as default.")
+		return nil, 0 
 	else
-		for i in pairs (_Tbl) do
-    		if(_Tbl[i] == _Desired) then
-    			return true, i
-    		end
+		for _, index in pairs (_Tbl) do
+	    		if(_Tbl[index] == _Desired) then
+	    			return true, index
+	    		end
 		end
 	end
-	return false
+	return false, 0
 
 end
 
@@ -47,21 +47,21 @@ function TableRemoveDuplicates(_AddTbl, _CompareTbl)
 	local debugFuncName = "TableRemoveDuplicates"
 
 	if(_AddTbl == nil) then 		
-			Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Add Table is Nil!")
+		Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Add Table is Nil!")
 		return 
 	elseif(_CompareTbl == nil) then 		
-			Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Compare Table is Nil!")
+		Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Compare Table is Nil!")
 		return
 	else
-		for item in pairs (_CompareTbl) do
-    		local contains, index = TableContains(_AddTbl, item)
-    		if(contains == true) then
-    			table.remove(_AddTbl, index)
-    		end
+		for item, _ in pairs (_CompareTbl) do
+	    		local contains, index = TableContains(_AddTbl, item)
+	    		if(contains == true) then
+	    			table.remove(_AddTbl, index)
+	    		end
 		end
 	end
 	
-	return addTbl
+	return _AddTbl
 
 end
 

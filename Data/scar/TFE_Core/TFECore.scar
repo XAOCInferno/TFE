@@ -6,7 +6,7 @@ function RaceDetails:new (_RaceName, _RaceIndex, _RaceResourceInfo)
     local o = 
     {
     	--Constants
-	    RaceName = RaceName,
+	    RaceName = _RaceName,
 	    RaceIndex = _RaceIndex,
 	    RaceResourceInfo = _RaceResourceInfo 
     }
@@ -47,7 +47,7 @@ function PlayerDetails:new (_Player, _PlayerIndex, _RaceDetails)
 	return setmetatable(o, self)
 end
 
-function PlayerDetails.ClearCurrentResourceBonuses()
+function PlayerDetails:ClearCurrentResourceBonuses()
 	self.CurrentAddResources = 
 	    	{
 	    		RT_Requisition = 0,
@@ -67,13 +67,14 @@ function Core_Game_Load()
 	local debugFuncName = "Core_Game_Load"	
 	
 	Core_CheckForSecondaryScars()
+	g_PreviousMainLoopHasCompleted = true
 	Rule_AddInterval(Core_MainLoop, g_WorldTimeFidelity)
 	
 end
 
 function Core_Init_Load()
 	local debugFuncName = "Core_Init_Load"	
-	
+	Core_GetAllPlayers()
 	if pcall(Core_GetAllPlayers) == false then
 		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run CORE function 'Core_GetAllPlayers'!")
 	end
@@ -82,31 +83,33 @@ function Core_Init_Load()
 		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_AlphaLegion'!")
 	end 
 	Setup_PassiveResourceGeneration()
-	if pcall(Setup_PassiveResourceGeneration) == false then 
+	--[[if pcall(Setup_PassiveResourceGeneration) == false then 
 		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_PassiveResourceGeneration'!")
-	end
-	
-	if pcall(Setup_SquadManager) == false then 
+	end]]
+	Setup_SquadManager()
+	--[[if pcall(Setup_SquadManager) == false then 
 		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_SquadManager'!")
-	end
-	
-	if pcall(Setup_GlobalsStorage) == false then 
+	end]]
+	Setup_GlobalsStorage()
+	--[[if pcall(Setup_GlobalsStorage) == false then 
 		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_GlobalsStorage'!")
-	end
-	
-	if pcall(Setup_StrategicPoints) == false then 
+	end]]
+	Setup_StrategicPoints()
+	Setup_MatureSystem()
+	--[[if pcall(Setup_StrategicPoints) == false then 
 		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_StrategicPoints'!")
 	elseif pcall(Setup_MatureSystem) == false then
 		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_MatureSystem'!")
-	end	
-	
-	if pcall(Setup_UpkeepSystem) == false then 
+	end	]]
+	Setup_UpkeepSystem()
+	Setup_NewCoverSystem()
+	--[[if pcall(Setup_UpkeepSystem) == false then 
 		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_UpkeepSystem'!")
 	end
 	
 	if pcall(Setup_NewCoverSystem) == false then 
 		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_NewCoverSystem'!")
-	end
+	end]]
 	
 end
 
@@ -128,7 +131,9 @@ function Core_GetAllPlayers()
 		local RaceName = Player_GetRaceName( Player ) 
 		local RaceIndex = Player_GetRace( Player ) 
 		
+		Setup_PassiveResourceGeneration_Settings(RaceName)
 		table.insert(g_AllPlayers, PlayerDetails:new( Player, PlayerIndex, RaceDetails:new (RaceName, RaceIndex, g_FactionSpecificResourceGeneration[RaceName] )))
+		
 	
 		--Move this later
 		if (UnitCosting[RaceName] == nil) then
@@ -147,15 +152,16 @@ function Core_MainLoop()
 		g_PreviousMainLoopHasCompleted = false
 		Set_UpdatedGameTime()
 		Set_AllSquads_Immediate()
-		Set_CustomCoverModifiers()
+		Set_AllSquadCoverModifiers()
 		Set_PlayerUpdatedDetails()
 		Set_Upkeep()
 		Set_ResourceMature()
 		Implement_UpkeepAndMature()
-	
+		
 		g_PreviousMainLoopHasCompleted = true
 		
 	end
+	
 	
 end
 
@@ -171,13 +177,24 @@ end
 
 
 function Set_PlayerGlobalsStatus(_Player) 
-
+	print("HI!")	
+	print(_Player)
+	print(_Player.CurrentNumberOfResearchedGlobals)
+	print(_Player.CurrentNumberOfResearchedGlobals.RT_Requisition)
+	print("BYE!")
+	
+	print("HI2!")	
+	print(_Player.RaceDetails)
+	print(_Player.RaceDetails.RaceResourceInfo)
+	print(_Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals)
+	print(_Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Requisition)
+	print("BYE!2")
 	if(_Player.CurrentNumberOfResearchedGlobals.RT_Requisition < _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Requisition) then
 	
 		for j = 1 + _Player.CurrentNumberOfResearchedGlobals.RT_Requisition, _Player.RaceDetails.RaceResourceInfo.MaxNumberOfGlobals.RT_Requisition do
 		
 			if(Player_GetResearchState( _Player.Player, _Player.RaceDetails.RaceResourceInfo.RaceGlobals.RT_Requisition[j] ) == "RS_Complete" ) then
-			
+
 				_Player.CurrentNumberOfResearchedGlobals.RT_Requisition = _Player.CurrentNumberOfResearchedGlobals.RT_Requisition + 1
 				
 			end
@@ -242,11 +259,13 @@ function Implement_UpkeepAndMature()
 			Player_AddResource(g_AllPlayers[i], RT_Pop, g_AllPlayers[i].CurrentAddResources.RT_Pop)
 			Player_AddResource(g_AllPlayers[i], RT_Faith, g_AllPlayers[i].CurrentAddResources.RT_Faith)
 			Player_AddResource(g_AllPlayers[i], RT_Souls, g_AllPlayers[i].CurrentAddResources.RT_Souls)
+			print("ADDING RESOURCES FOR: " + g_AllPlayers[i].RaceDetails.RaceName)
 			
 		end
 		
-		g_AllPlayers[i].ClearCurrentResourceBonuses()
+		g_AllPlayers[i]:ClearCurrentResourceBonuses()
 	end
 
 end
+
 

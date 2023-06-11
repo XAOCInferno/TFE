@@ -3,7 +3,6 @@ debug_PassiveResourceGeneration_Settings_FileName = "PassiveResourceGeneration_S
 SpecificRaceResourceGenerationDetails = {}
 function SpecificRaceResourceGenerationDetails:new (_RaceName, _HasPassiveResGen, _RT_Requisition, _RT_Power, _RT_Pop, _RT_Souls, _RT_Faith)
 	
-	pcall(import, "Upkeep/races/".._RaceName..".scar")
 	Log(0, 0, debug_PassiveResourceGeneration_Settings_FileName, "SpecificRaceResourceGenerationDetails:Constructor",  "Importing race: '".._RaceName.."'...")
 	
     local o = 
@@ -34,8 +33,13 @@ function SpecificRaceResourceGenerationDetails:new (_RaceName, _HasPassiveResGen
 		}
     }
 	
-	Log(0, 0, debug_PassiveResourceGeneration_Settings_FileName, "SpecificRaceResourceGenerationDetails:Constructor",  "Importing race: '".._RaceName.."' Success!")
 	self.__index = self
+	
+	print("TESTING:")
+	print(o.MaxNumberOfGlobals)
+	print(o.MaxNumberOfGlobals.RT_Requistion)
+	Log(0, 0, debug_PassiveResourceGeneration_Settings_FileName, "SpecificRaceResourceGenerationDetails:Constructor",  "Importing race: '".._RaceName.."' Success!")
+	
     return setmetatable(o, self)
 end
 
@@ -58,6 +62,27 @@ function Setup_PassiveResourceGeneration_Settings(_PlayerRace)
 		return 
 	end
 	
+	pcall(import, "Upkeep/races/".._PlayerRace..".scar")
+	if ResourceGlobalNames[_PlayerRace].RT_Requistion == nil then
+		print("HII!?")
+		ResourceGlobalNames[_PlayerRace].RT_Requistion = {}
+	end
+	
+	if ResourceGlobalNames[_PlayerRace].RT_Power == nil then
+		ResourceGlobalNames[_PlayerRace].RT_Power = {}
+	end
+	
+	if ResourceGlobalNames[_PlayerRace].RT_Pop == nil then
+		ResourceGlobalNames[_PlayerRace].RT_Pop = {}
+	end
+	
+	if ResourceGlobalNames[_PlayerRace].RT_Faith == nil then
+		ResourceGlobalNames[_PlayerRace].RT_Faith = {}
+	end
+	
+	if ResourceGlobalNames[_PlayerRace].RT_Souls == nil then
+		ResourceGlobalNames[_PlayerRace].RT_Souls = {}
+	end
 	--This code is vulnerable, players can mess around a bit with adding their own data here... should probably make the import more like a file import
 	--Currently only req supported, but others can be made to support if necessary (like power for gens... or Pop for banners)
 	if(_PlayerRace == "chaos_marine_race") then

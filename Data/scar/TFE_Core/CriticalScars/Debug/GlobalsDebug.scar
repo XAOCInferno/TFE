@@ -27,7 +27,7 @@ function Log(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
 			
 		else
 			--Just print the line, also in case they put an invalid number
-			Log(2,0,moduleName, functionName, "Verbosity: '".._Verbosity.."' Is not valid! Defaulting to Print.") 
+			Log(2,0,_ModuleName, _FunctionName, "Verbosity: '".._Verbosity.."' Is not valid! Defaulting to Print.") 
 			print(_Line)
 		end
 	end
@@ -37,7 +37,7 @@ end
 --Writes a custom log to the console, if it hasn't been written before
 function LogOnce(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
 
-	local LogID = verbosity..moduleName..functionName..line
+	local LogID = _Verbosity.._ModuleName.._FunctionName.._Line
 	contains, _ = TableContains(g_WrittenLogs, LogID)
 	if(contains) then 
 		return true 

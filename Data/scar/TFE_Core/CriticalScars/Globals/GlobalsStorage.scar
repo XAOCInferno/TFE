@@ -12,13 +12,13 @@ import("TFE_Core/CriticalScars/Globals/GlobalsStorage.lua")
 ---------------
 --Main Script--
 ---------------
-function Initialise_GlobalsStorage()
+function Setup_GlobalsStorage()
 
-	SetUpdatedGameTime()
+	Set_UpdatedGameTime()
 
 end
 
-function SetUpdatedGameTime()
+function Set_UpdatedGameTime()
 
 	g_PreviousWorldTime = g_WorldTime
 	g_WorldTime = World_GetGameTime()
@@ -27,8 +27,8 @@ function SetUpdatedGameTime()
 
 end
 
-function SetupStrategicPoints()
-	local debugFuncName = "SetupStrategicPoints"
+function Setup_StrategicPoints()
+	local debugFuncName = "Setup_StrategicPoints"
 	
 	Log(0, 0, debug_GlobalsStorage_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 	

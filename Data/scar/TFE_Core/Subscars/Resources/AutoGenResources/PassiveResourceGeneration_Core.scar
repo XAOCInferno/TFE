@@ -24,7 +24,7 @@ function Set_PassiveResources()
 			
 		for i = 1, g_PlayerCount do
 		
-			local RaceResStruct = g_FactionSpecificResourceGeneration[g_AllPlayers[i].RaceIndex+1] 
+			local RaceResStruct = g_FactionSpecificResourceGeneration[g_AllPlayers[i].RaceDetails.RaceIndex] 
 			
 			if (Player_IsAlive(g_AllPlayers[i].Player) == true and RaceResStruct ~= nil) then
 			

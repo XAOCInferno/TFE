@@ -47,7 +47,7 @@ end
 ---------------
 --Main Script--
 ---------------
-function Initialise_SquadManager()
+function Setup_SquadManager()
 	
 	Set_AllSquads_Immediate()
 
