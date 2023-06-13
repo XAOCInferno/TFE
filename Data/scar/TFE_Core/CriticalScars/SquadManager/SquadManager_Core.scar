@@ -85,15 +85,13 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 		
 		for l = 1, TableLength(g_AllSquadsData[_PlayerIndex]) do
 			if(g_AllSquadsData[_PlayerIndex][l] == nil) then
-				print("REMOVING 1");
 				table.remove(g_AllSquadsData[_PlayerIndex], l)	
 				return false
 			end
 			
 			if(g_AllSquadsData[_PlayerIndex][l].SquadUniqueID == newSquadGameID) then
 			
-				if(g_AllSquadsData[_PlayerIndex][l].SquadLoadout == 0) then
-					print("REMOVING 2");
+				if(g_AllSquadsData[_PlayerIndex][l].SquadLoadout == 0) then					
 					table.remove(g_AllSquadsData[_PlayerIndex],l)
 					return false
 				end
@@ -104,7 +102,6 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 				return false
 				
 			elseif(Squad_Exists(g_AllSquadsData[_PlayerIndex][l].SquadUniqueID) == false) then	--Does this work?
-				print("REMOVING 3");					
 				table.remove(g_AllSquadsData[_PlayerIndex], l)							
 			end
 		end		
