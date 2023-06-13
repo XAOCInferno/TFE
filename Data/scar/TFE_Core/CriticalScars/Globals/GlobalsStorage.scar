@@ -23,7 +23,7 @@ function Set_UpdatedGameTime()
 	g_PreviousWorldTime = g_WorldTime
 	g_WorldTime = World_GetGameTime()
 	g_TimeSinceWorldTimeUpdate = g_WorldTime - g_PreviousWorldTime
-	print("Estimated FPS: "..g_TimeSinceWorldTimeUpdate * 60) --Move this into function later, use 'Log'?
+	--print("Estimated FPS: "..g_TimeSinceWorldTimeUpdate * 60) --Move this into function later, use 'Log'?
 
 end
 

@@ -10,7 +10,7 @@ g_RaceSpecificResourceGeneration = {}
 g_ResourceGenUpdateRate = 1
 
 g_WorldTime = 0
-g_WorldTimeFidelity = 0.1
+g_WorldTimeFidelity = 0.2
 
 UnitCosting = { }
 ResourceGlobalNames = { }

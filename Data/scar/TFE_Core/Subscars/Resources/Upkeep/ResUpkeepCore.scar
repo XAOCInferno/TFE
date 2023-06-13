@@ -23,10 +23,10 @@ function Set_PlayerUpkeep()
 	
 	for i = 1, g_PlayerCount do
 	
-		for j = 1, g_PlayerSquadCount[i]+1 do
-		
+		for j = 1, g_PlayerSquadCount[i] do
+			
 			local tmpStruct = g_AllSquadsData[i][j]		
-				
+
 			if(tmpStruct == nil) then
 					
 				LogOnce(1, 0, debug_ResUpkeepCore_FileName, debugFuncName,  "Struct for Player: "..i.." at position "..j.." is Nil!")				
@@ -45,22 +45,16 @@ function Set_PlayerUpkeep()
 				
 				if(UnitCosting[tmpStruct.SquadUnitRace] ~= nil) then
 					if(UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint] ~= nil) then
-					
-						local UpkeepReq = (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Req * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent
-						local UpkeepPower = (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Power * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent
-						local UpkeepPop = (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Pop * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent
-						local UpkeepSouls = (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Souls * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent
-						local UpkeepFaith = (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostEntity.Faith * tmpStruct.SquadLoadout) / SquadLifetimeAsPercent
-			
-		
+
+						local BlueprintCostDetails = UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint]						
+						local SquadUpkeep = BlueprintCostDetails.CostSquad
+						local EntityUpkeep = BlueprintCostDetails.CostEntity
+						local LeaderUpkeep = { Req = 0,	Power = 0, Pop = 0,	Souls = 0, Faith = 0 }
+
 						if (tmpStruct.SquadHasLeader) then 
 							if(UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader ~= nil) then
-							
-								UpkeepReq = UpkeepReq + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Req / SquadLifetimeAsPercent)
-								UpkeepPower = UpkeepPower + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Power / SquadLifetimeAsPercent)
-								UpkeepPop = UpkeepPop + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Pop / SquadLifetimeAsPercent)
-								UpkeepSouls = UpkeepSouls + g_BonusIncome[i].Souls + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Souls / SquadLifetimeAsPercent)
-								UpkeepFaith = UpkeepFaith + (UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader.Faith / SquadLifetimeAsPercent)
+
+								local LeaderUpkeep = BlueprintCostDetails.CostLeader
 							
 							elseif(g_DebugMode) then
 														
@@ -68,12 +62,24 @@ function Set_PlayerUpkeep()
 							
 							end
 						end
+
+						local MaxUpkeepReq = SquadUpkeep.Req + LeaderUpkeep.Req + (EntityUpkeep.Req * tmpStruct.SquadLoadout)
+						local MaxUpkeepPower = SquadUpkeep.Power + LeaderUpkeep.Power + (EntityUpkeep.Power * tmpStruct.SquadLoadout)
+						local MaxUpkeepPop = SquadUpkeep.Pop + LeaderUpkeep.Pop + (EntityUpkeep.Pop * tmpStruct.SquadLoadout)
+						local MaxUpkeepSouls = SquadUpkeep.Souls + LeaderUpkeep.Souls + (EntityUpkeep.Souls * tmpStruct.SquadLoadout)
+						local MaxUpkeepFaith = SquadUpkeep.Faith + LeaderUpkeep.Faith + (EntityUpkeep.Faith * tmpStruct.SquadLoadout)
+
+						local UpkeepReq = MaxUpkeepReq * SquadLifetimeAsPercent
+						local UpkeepPower = MaxUpkeepPower * SquadLifetimeAsPercent
+						local UpkeepPop = MaxUpkeepPop * SquadLifetimeAsPercent
+						local UpkeepSouls = MaxUpkeepSouls * SquadLifetimeAsPercent
+						local UpkeepFaith = MaxUpkeepFaith * SquadLifetimeAsPercent								
 						
-						g_AllPlayers[j].CurrentAddResources.RT_Requisition =  g_AllPlayers[j].CurrentAddResources.RT_Requisition + UpkeepReq
-						g_AllPlayers[j].CurrentAddResources.RT_Power =  g_AllPlayers[j].CurrentAddResources.RT_Requisition + UpkeepPower
-						g_AllPlayers[j].CurrentAddResources.RT_Pop =  g_AllPlayers[j].CurrentAddResources.RT_Requisition + UpkeepPop
-						g_AllPlayers[j].CurrentAddResources.RT_Souls =  g_AllPlayers[j].CurrentAddResources.RT_Requisition + UpkeepSouls
-						g_AllPlayers[j].CurrentAddResources.RT_Faith =  g_AllPlayers[j].CurrentAddResources.RT_Requisition + UpkeepFaith
+						g_AllPlayers[i].CurrentAddResources.RT_Requisition =  g_AllPlayers[i].CurrentAddResources.RT_Requisition + UpkeepReq
+						g_AllPlayers[i].CurrentAddResources.RT_Power =  g_AllPlayers[i].CurrentAddResources.RT_Power + UpkeepPower
+						g_AllPlayers[i].CurrentAddResources.RT_Pop =  g_AllPlayers[i].CurrentAddResources.RT_Pop + UpkeepPop
+						g_AllPlayers[i].CurrentAddResources.RT_Souls =  g_AllPlayers[i].CurrentAddResources.RT_Souls + UpkeepSouls
+						g_AllPlayers[i].CurrentAddResources.RT_Faith =  g_AllPlayers[i].CurrentAddResources.RT_Faith + UpkeepFaith
 						
 					else
 

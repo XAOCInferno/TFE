@@ -26,10 +26,10 @@ function SpecificRaceResourceGenerationDetails:new (_RaceName, _HasPassiveResGen
 		BaseMatureLimits = 
 		{
 			RT_Requisition = 6,
-			RT_Power = 5,
-			RT_Pop = 1.5,
-			RT_Souls = 1,
-			RT_Faith = 2
+			RT_Power = 0,
+			RT_Pop = 0,
+			RT_Souls = 0,
+			RT_Faith = 0
 		}
     }
 	

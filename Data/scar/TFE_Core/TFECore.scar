@@ -3,7 +3,7 @@ debug_TFECore_FileName = "TFECore"
 RaceDetails = {}
 function RaceDetails:new (_RaceName, _RaceIndex, _RaceResourceInfo)
 
-    local o = 
+    local RaceDetailsObject = 
     {
     	--Constants
 	    RaceName = _RaceName,
@@ -11,15 +11,15 @@ function RaceDetails:new (_RaceName, _RaceIndex, _RaceResourceInfo)
 	    RaceResourceInfo = _RaceResourceInfo 
     }
 	self.__index = self
-   	return setmetatable(o, self)
+   	return setmetatable(RaceDetailsObject, self)
 end
 
 PlayerDetails = {}
 function PlayerDetails:new (_Player, _PlayerIndex, _RaceDetails)
 
-    local o = 
+    local PlayerDetailsObject = 
     {
-    	    --Constants
+    	--Constants
 	    Player = _Player,
 	    PlayerIndex = _PlayerIndex,
 	    RaceDetails = _RaceDetails,   
@@ -27,24 +27,24 @@ function PlayerDetails:new (_Player, _PlayerIndex, _RaceDetails)
 	    --Variables
 	    CurrentNumberOfResearchedGlobals = 
 	    {
-	    		RT_Requisition = 0,
-	    		RT_Power =  0,
-	    		RT_Pop =  0,
-	    		RT_Faith = 0, 
-	    		RT_Souls = 0
+	    	RT_Requisition = 0,
+	    	RT_Power =  0,
+	    	RT_Pop =  0,
+	    	RT_Faith = 0, 
+	    	RT_Souls = 0
 	    },
 	    
 	    CurrentAddResources = 
-	    	{
-	    		RT_Requisition = 0,
-	    		RT_Power =  0,
-	    		RT_Pop =  0,
-	    		RT_Faith = 0, 
-	    		RT_Souls = 0
-	    	}
+	    {
+	    	RT_Requisition = 0,
+	    	RT_Power =  0,
+	    	RT_Pop =  0,
+	    	RT_Faith = 0, 
+	    	RT_Souls = 0
+	    }
     }
 	self.__index = self
-	return setmetatable(o, self)
+	return setmetatable(PlayerDetailsObject, self)
 end
 
 function PlayerDetails:ClearCurrentResourceBonuses()
@@ -126,6 +126,7 @@ function Core_GetAllPlayers()
 	for i = 1, g_PlayerCount do
 
 		local Player = World_GetPlayerAt(i-1)
+		local PlayerIndex = World_GetPlayerIndex(Player)
 		local RaceName = Player_GetRaceName( Player ) 
 		local RaceIndex = Player_GetRace( Player ) 
 		
@@ -151,7 +152,7 @@ function Core_MainLoop()
 		Set_UpdatedGameTime()
 		Set_AllSquads_Immediate()
 		Set_AllSquadCoverModifiers()
-		--Set_PlayerUpkeep()
+		Set_PlayerUpkeep()
 		Set_ResourceMature()
 		Implement_UpkeepAndMature()
 		
@@ -177,8 +178,9 @@ function Implement_UpkeepAndMature()
 			Player_AddResource(g_AllPlayers[i].Player, RT_Souls, g_AllPlayers[i].CurrentAddResources.RT_Souls)
 			
 		end
-		
+
 		g_AllPlayers[i]:ClearCurrentResourceBonuses()
+
 	end
 
 end

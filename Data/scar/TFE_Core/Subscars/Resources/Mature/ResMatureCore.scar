@@ -14,7 +14,6 @@ end
 local function Get_StrategicPointsStatus()
 
 	for i = 1, g_NumberStratPoints do
-		local CurrentStratPoint = g_AllStrategicPointsStructs[i]
 		--[[Firstly check if control has switched.]]
 		
 		if(not World_OwnsEntity(g_AllStrategicPointsStructs[i].ID)) then
@@ -33,8 +32,12 @@ local function Get_StrategicPointsStatus()
 
 			if(OwnedTime > g_MatureMaxLifetime) then
 				g_AllStrategicPointsStructs[i].InitTime = g_MatureMaxLifetime
-
 			end
+
+		elseif(g_AllStrategicPointsStructs[i].OwnedBy ~= -1) then
+			
+			g_AllStrategicPointsStructs[i].OwnedBy = -1
+			g_AllStrategicPointsStructs[i].InitTime = g_WorldTime	
 		end
 
 	end
@@ -44,11 +47,11 @@ function Set_ResourceMature()
 
 	Get_StrategicPointsStatus()
 
-	for j = 1, table.getn(g_AllPlayers) do
+	for j = 1, g_PlayerCount do
 
 		for z = 1, g_NumberStratPoints do
-			if(g_AllStrategicPointsStructs[z].OwnedPlayer == g_AllPlayers[j].PlayerIndex) then
-
+			if(g_AllStrategicPointsStructs[z].OwnedBy == g_AllPlayers[j].PlayerIndex) then
+				
 				local MaxBonusReq = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Requisition
 				local MaxBonusPower = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Power
 				local MaxBonusPop = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Pop

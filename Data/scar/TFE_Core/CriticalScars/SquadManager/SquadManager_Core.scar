@@ -9,21 +9,21 @@ debug_SquadManager_FileName = "SquadManager_Core.scar"
 StrategicPoint = {}
 function StrategicPoint:new (_ID, _OwnedBy, _InitTime)
 
-    local o = 
+    local StrategicPointObject = 
     {
 	    ID = _ID,
 	    OwnedBy = _OwnedBy,
 	    InitTime = _InitTime
     }
 	self.__index = self
-    return setmetatable(o, self)
+    return setmetatable(StrategicPointObject, self)
 end
 
 
 SquadData = {}
 function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP)
 
-    local o = 
+    local SquadDataObject = 
     {
 		SquadUniqueID = _sGameID,	
 		SquadGroupID =_sGroupID,	
@@ -40,7 +40,7 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP)
 		SquadAppliedCoverMods_Index = {}
 	}
 	self.__index = self
-	return setmetatable(o, self)
+	return setmetatable(SquadDataObject, self)
 end
 
 ---------------
@@ -59,7 +59,7 @@ function Set_AllSquads_Immediate()
 		Set_PlayerSquads_Immediate(i)
 		
 	end
-	
+
 end
 
 function Set_PlayerSquads_Immediate(_PlayerIndex)	
@@ -85,6 +85,7 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 		
 		for l = 1, TableLength(g_AllSquadsData[_PlayerIndex]) do
 			if(g_AllSquadsData[_PlayerIndex][l] == nil) then
+				print("REMOVING 1");
 				table.remove(g_AllSquadsData[_PlayerIndex], l)	
 				return false
 			end
@@ -92,6 +93,7 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 			if(g_AllSquadsData[_PlayerIndex][l].SquadUniqueID == newSquadGameID) then
 			
 				if(g_AllSquadsData[_PlayerIndex][l].SquadLoadout == 0) then
+					print("REMOVING 2");
 					table.remove(g_AllSquadsData[_PlayerIndex],l)
 					return false
 				end
@@ -101,12 +103,14 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 				CriticalError = true			
 				return false
 				
-			elseif(Squad_Exists(g_AllSquadsData[_PlayerIndex][l].SquadUniqueID) == false) then	--Does this work?					
+			elseif(Squad_Exists(g_AllSquadsData[_PlayerIndex][l].SquadUniqueID) == false) then	--Does this work?
+				print("REMOVING 3");					
 				table.remove(g_AllSquadsData[_PlayerIndex], l)							
 			end
 		end		
 		
 		if(CriticalError == false) then
+
 			local tmpData = SquadData:new( newSquadGameID, _sgroupid, _itemindex, _squadID, g_AllPlayers[_PlayerIndex].RaceDetails.RaceName, squadBP)
 			table.insert(g_AllSquadsData[_PlayerIndex], tmpData)	
 			
