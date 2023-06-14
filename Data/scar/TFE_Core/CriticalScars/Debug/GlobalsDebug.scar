@@ -25,6 +25,11 @@ function Log(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
 			--Just mod name and line
 			print("["..g_ModAbbreviation.."] ".._Line)
 			
+		elseif(_Verbosity == 4) then
+			
+			--What dummy makes a print statement called from a function... me -q-q
+			print(_Line)
+
 		else
 			--Just print the line, also in case they put an invalid number
 			Log(2,0,_ModuleName, _FunctionName, "Verbosity: '".._Verbosity.."' Is not valid! Defaulting to Print.") 
@@ -46,4 +51,17 @@ function LogOnce(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
 		Log(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
 	end
 	
+end
+
+function LogError(_ModuleName, _FunctionName, _Line)
+	g_DebugMode = true --Error is so severe we should force debug on!
+	Log(3, 0, _ModuleName, _FunctionName, _Line)
+	Log(1, 4, "", "", "|")
+	Log(1, 4, "", "", "--------------------------------------------")
+	Log(1, 4, "", "", "------TFE CORE FATAL ERROR------")
+	Log(1, 4, "", "", "-----------CORE STOPPED------------")
+	Log(1, 4, "", "", "--------------------------------------------")
+	Log(1, 4, "", "", "|")
+	ErrorPause()
+
 end

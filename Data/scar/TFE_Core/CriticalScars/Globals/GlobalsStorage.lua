@@ -1,6 +1,8 @@
 g_ModName = "TFE"
 g_ModAbbreviation = "TFE"
 
+g_ModRunning = true
+
 g_AllPlayers = { }
 g_PlayerCount = World_GetPlayerCount()
 g_AllPlayerUpkeep = { }

@@ -86,7 +86,8 @@ function Setup_CoverModifiers()
 	mod_Poison__modifier_02 = Modifier_Create(MAT_Squad, "morale_rate_squad_modifier", MUT_Multiplication, 1, 0.8, "")
 	table.insert(SquadModifiers, mod_Poison__modifier_02)		
 	--
-	g_ModsByCover = {
+	g_ModsByCover = 
+	{
 		--0, None
 		{
 		},
@@ -354,9 +355,7 @@ function ApplyCoverMod(addMod, tmpStruct, modIndex)
 		table.insert(tmpStruct.SquadAppliedCoverMods, addMod)	
 		table.insert(tmpStruct.SquadAppliedCoverMods_IDs, tmpModID)	
 		table.insert(tmpStruct.SquadAppliedCoverMods_Index, tmpModIndex)	
-		
-		print("Applying mod...")
-		print(addMod)
+
 	end
 end
 

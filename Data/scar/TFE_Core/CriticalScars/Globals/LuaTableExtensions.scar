@@ -91,11 +91,11 @@ function TableMergeValues(_Tbl1, _Tbl2)
 		return _Tbl1
 	else
 		for i, _ in pairs (_Tbl1) do
-	    		if(_Tbl2[i] == nil) then
-	    			return NewTable
-	    		end
+	    	if(_Tbl2[i] == nil) then
+	    		return NewTable
+	    	end
 	    		
-	    		NewTable[i] = _Tbl1[i] + _Tbl2[i]
+	    	NewTable[i] = _Tbl1[i] + _Tbl2[i]
 		end
 	end
 

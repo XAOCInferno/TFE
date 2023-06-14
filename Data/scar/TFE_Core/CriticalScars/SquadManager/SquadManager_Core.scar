@@ -55,7 +55,7 @@ end
 function Set_AllSquads_Immediate()
 	
 	for i = 1, g_PlayerCount do
-
+		print(""..{}.."")
 		Set_PlayerSquads_Immediate(i)
 		
 	end

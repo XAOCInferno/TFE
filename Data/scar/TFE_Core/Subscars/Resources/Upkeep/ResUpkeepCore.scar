@@ -16,10 +16,8 @@ end
 
 
 function Set_PlayerUpkeep()
-	local debugFuncName = "Set_PlayerUpkeep"
 	
-	--g_AllPlayers[j].CurrentAddResources.RT_Requisition =  g_AllPlayers[j].CurrentAddResources.RT_Requisition + CapTimeAsBonusReq
-	
+	local debugFuncName = "Set_PlayerUpkeep"	
 	
 	for i = 1, g_PlayerCount do
 	
