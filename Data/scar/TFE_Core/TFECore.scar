@@ -163,12 +163,12 @@ function Core_MainLoop()
 		
 	g_PreviousMainLoopHasCompleted = false
 		
-	if(DoCriticalFunction(Set_UpdatedGameTime, debug_TFECore_FileName, "Set_UpdatedGameTime")) then return
-	if(DoCriticalFunction(Set_AllSquads_Immediate, debug_TFECore_FileName, "Set_AllSquads_Immediate")) then return
-	if(DoCriticalFunction(Set_AllSquadCoverModifiers, debug_TFECore_FileName, "Set_AllSquadCoverModifiers")) then return
-	if(DoCriticalFunction(Set_PlayerUpkeep, debug_TFECore_FileName, "Set_PlayerUpkeep")) then return
-	if(DoCriticalFunction(Set_ResourceMature, debug_TFECore_FileName, "Set_ResourceMature")) then return
-	if(DoCriticalFunction(Implement_UpkeepAndMature, debug_TFECore_FileName, "Implement_UpkeepAndMature")) then return
+	if(DoCriticalFunction(Set_UpdatedGameTime, debug_TFECore_FileName, "Set_UpdatedGameTime")) then return end
+	if(DoCriticalFunction(Set_AllSquads_Immediate, debug_TFECore_FileName, "Set_AllSquads_Immediate")) then return end
+	if(DoCriticalFunction(Set_AllSquadCoverModifiers, debug_TFECore_FileName, "Set_AllSquadCoverModifiers")) then return end
+	if(DoCriticalFunction(Set_PlayerUpkeep, debug_TFECore_FileName, "Set_PlayerUpkeep")) then return end 
+	if(DoCriticalFunction(Set_ResourceMature, debug_TFECore_FileName, "Set_ResourceMature")) then return end
+	if(DoCriticalFunction(Implement_UpkeepAndMature, debug_TFECore_FileName, "Implement_UpkeepAndMature")) then return end
 		
 	g_PreviousMainLoopHasCompleted = true	
 	
