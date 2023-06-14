@@ -43,25 +43,25 @@ function TableContains(_Tbl, _Desired)
 
 end
 
-function TableRemoveDuplicates(_AddTbl, _CompareTbl)
+function TableRemoveDuplicates(_BaseTbl, _CompareTbl)
 	local debugFuncName = "TableRemoveDuplicates"
-
-	if(_AddTbl == nil) then 		
+	
+	if(_BaseTbl == nil) then 		
 		Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Add Table is Nil!")
 		return 
 	elseif(_CompareTbl == nil) then 		
 		Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Compare Table is Nil!")
 		return
 	else
-		for _, item in pairs (_CompareTbl) do
-	    		local contains, index = TableContains(_AddTbl, item)
-	    		if(contains == true) then
-	    			table.remove(_AddTbl, index)
-	    		end
+		for index, item in pairs (_BaseTbl) do
+	    	local contains, _ = TableContains(_CompareTbl, item)
+	    	if(contains == true) then
+	    		table.remove(_BaseTbl, index)
+	    	end
 		end
 	end
 	
-	return _AddTbl
+	return _BaseTbl
 
 end
 
