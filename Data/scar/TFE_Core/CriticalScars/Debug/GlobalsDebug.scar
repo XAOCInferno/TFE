@@ -65,3 +65,11 @@ function LogError(_ModuleName, _FunctionName, _Line)
 	ErrorPause()
 
 end
+
+--This function will do something illegal that should warrant game to crash
+--Good to use this to check for thoroughness of error checking
+function DoFatalError()
+
+	print(""..{}.."")
+
+end
