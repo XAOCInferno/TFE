@@ -33,8 +33,8 @@ function TableContains(_Tbl, _Desired)
 		Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Table is nil, returning false as default.")
 		return false, 0 
 	else
-		for _, index in pairs (_Tbl) do
-	    	if(_Tbl[index] == _Desired) then
+		for index, item in pairs (_Tbl) do
+	    	if(item == _Desired) then				
 	    		return true, index
 	    	end
 		end
@@ -53,7 +53,7 @@ function TableRemoveDuplicates(_AddTbl, _CompareTbl)
 		Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Compare Table is Nil!")
 		return
 	else
-		for item, _ in pairs (_CompareTbl) do
+		for _, item in pairs (_CompareTbl) do
 	    		local contains, index = TableContains(_AddTbl, item)
 	    		if(contains == true) then
 	    			table.remove(_AddTbl, index)
@@ -90,7 +90,7 @@ function TableMergeValues(_Tbl1, _Tbl2)
 		Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Table2 is nil!")
 		return _Tbl1
 	else
-		for i in pairs (_Tbl1) do
+		for i, _ in pairs (_Tbl1) do
 	    		if(_Tbl2[i] == nil) then
 	    			return NewTable
 	    		end
