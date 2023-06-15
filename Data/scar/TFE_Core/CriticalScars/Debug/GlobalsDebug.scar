@@ -6,7 +6,7 @@ g_WrittenLogs = {}
 function Log(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
 	if(g_DebugMode) then
 		if(_Verbosity == 0) then
-		
+			
 			--Warning type, Mod Name, world time, function path, line
 			print("("..g_LogTypes[_LogType]..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) ".._ModuleName.."/".._FunctionName..":  ".._Line)
 			

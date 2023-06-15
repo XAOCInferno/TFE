@@ -10,18 +10,16 @@ function Setup_AlphaLegion()
 	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 	
 	for i = 1, g_PlayerCount do
-		print(g_AllPlayers[i])
-		print(g_AllPlayers[i].RaceDetails)
-		print(g_AllPlayers[i].RaceDetails.RaceName)
+
 		if g_AllPlayers[i].RaceDetails.RaceName == "chaos_marine_race" then
 
 			if World_GetRand(0,100) < g_AlphaLegionSpawnChance then 
 			
-				Restrict_BaseChaos(g_AllPlayers[i])
+				Restrict_BaseChaos(g_AllPlayers[i].Player)
 				
 			else		 
 			
-				Restrict_AlphaLegion(g_AllPlayers[i])				
+				Restrict_AlphaLegion(g_AllPlayers[i].Player)				
 				
 			end
 		end

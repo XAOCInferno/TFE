@@ -66,7 +66,7 @@ function Core_Game_Load()
 	
 	local debugFuncName = "Core_Game_Load"	
 	
-	Core_CheckForSecondaryScars()
+	DoBasicFunction(Core_CheckForSecondaryScars, debug_TFECore_FileName, debugFuncName)
 	g_PreviousMainLoopHasCompleted = true
 	Rule_AddInterval(Core_MainLoop, g_WorldTimeFidelity)
 	
@@ -75,39 +75,15 @@ end
 function Core_Init_Load()
 	local debugFuncName = "Core_Init_Load"	
 	
-	if pcall(Core_GetAllPlayers) == false then
-		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run CORE function 'Core_GetAllPlayers'!")
-	end
-	
-	if pcall(Setup_AlphaLegion) == false then
-		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_AlphaLegion'!")
-	end 
-	
-	if pcall(Setup_PassiveResourceGeneration) == false then 
-		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_PassiveResourceGeneration'!")
-	end
-
-	if pcall(Setup_SquadManager) == false then 
-		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_SquadManager'!")
-	end
-	
-	if pcall(Setup_GlobalsStorage) == false then 
-		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_GlobalsStorage'!")
-	end
-	
-	if pcall(Setup_StrategicPoints) == false then 
-		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_StrategicPoints'!")
-	elseif pcall(Setup_MatureSystem) == false then
-		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_MatureSystem'!")
-	end	
-	
-	if pcall(Setup_UpkeepSystem) == false then 
-		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_UpkeepSystem'!")
-	end
-	
-	if pcall(Setup_NewCoverSystem) == false then 
-		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Setup_NewCoverSystem'!")
-	end
+	if(DoCriticalFunction(Core_GetAllPlayers, debug_TFECore_FileName, debugFuncName.."/Core_GetAllPlayers")) then return end
+	if(DoBasicFunction(Setup_AlphaLegion, debug_TFECore_FileName, debugFuncName.."/Setup_AlphaLegion")) then Log(2, 0, debug_TFECore_FileName, debugFuncName, "Alpha Legion failed to setup!")  end
+	if(DoCriticalFunction(Setup_PassiveResourceGeneration, debug_TFECore_FileName, debugFuncName.."/Setup_PassiveResourceGeneration")) then return end
+	if(DoCriticalFunction(Setup_SquadManager, debug_TFECore_FileName, debugFuncName.."/Setup_SquadManager")) then return end
+	if(DoCriticalFunction(Setup_GlobalsStorage, debug_TFECore_FileName, debugFuncName.."/Setup_GlobalsStorage")) then return end
+	if(DoCriticalFunction(Setup_StrategicPoints, debug_TFECore_FileName, debugFuncName.."/Setup_StrategicPoints")) then return end
+	if(DoCriticalFunction(Setup_MatureSystem, debug_TFECore_FileName, debugFuncName.."/Setup_MatureSystem")) then return end
+	if(DoCriticalFunction(Setup_UpkeepSystem, debug_TFECore_FileName, debugFuncName.."/Setup_UpkeepSystem")) then return end
+	if(DoCriticalFunction(Setup_NewCoverSystem, debug_TFECore_FileName, debugFuncName.."/Setup_NewCoverSystem")) then return end
 	
 end
 
@@ -147,7 +123,21 @@ function DoCriticalFunction(_Func, _SentFromFunc, _FuncName)
 
 	if(pcall(_Func) == false) then
 		 
-		LogError(_SentFromFunc, _FuncName, "Cannot run function '".._FuncName.."' in CORE_MainLoop!") 
+		LogError(_SentFromFunc, _FuncName, "Cannot run CRITICAL function '".._FuncName.."'!") 
+		return true
+
+	end
+
+	return false
+end
+
+
+function DoBasicFunction(_Func, _SentFromFunc, _FuncName)
+
+	print(_SentFromFunc)
+	print(_FuncName)
+	if(pcall(_Func) == false) then
+		Log(2, 0, _SentFromFunc, _FuncName, "Cannot run function '".._FuncName.."'!") 
 		return true
 
 	end
@@ -163,12 +153,12 @@ function Core_MainLoop()
 		
 	g_PreviousMainLoopHasCompleted = false
 		
-	if(DoCriticalFunction(Set_UpdatedGameTime, debug_TFECore_FileName, "Set_UpdatedGameTime")) then return end
-	if(DoCriticalFunction(Set_AllSquads_Immediate, debug_TFECore_FileName, "Set_AllSquads_Immediate")) then return end
-	if(DoCriticalFunction(Set_AllSquadCoverModifiers, debug_TFECore_FileName, "Set_AllSquadCoverModifiers")) then return end
-	if(DoCriticalFunction(Set_PlayerUpkeep, debug_TFECore_FileName, "Set_PlayerUpkeep")) then return end 
-	if(DoCriticalFunction(Set_ResourceMature, debug_TFECore_FileName, "Set_ResourceMature")) then return end
-	if(DoCriticalFunction(Implement_UpkeepAndMature, debug_TFECore_FileName, "Implement_UpkeepAndMature")) then return end
+	if(DoCriticalFunction(Set_UpdatedGameTime, debug_TFECore_FileName, "Core_MainLoop/Set_UpdatedGameTime")) then return end
+	if(DoCriticalFunction(Set_AllSquads_Immediate, debug_TFECore_FileName, "Core_MainLoop/Set_AllSquads_Immediate")) then return end
+	if(DoCriticalFunction(Set_AllSquadCoverModifiers, debug_TFECore_FileName, "Core_MainLoop/Set_AllSquadCoverModifiers")) then return end
+	if(DoCriticalFunction(Set_PlayerUpkeep, debug_TFECore_FileName, "Core_MainLoop/Set_PlayerUpkeep")) then return end 
+	if(DoCriticalFunction(Set_ResourceMature, debug_TFECore_FileName, "Core_MainLoop/Set_ResourceMature")) then return end
+	if(DoCriticalFunction(Implement_UpkeepAndMature, debug_TFECore_FileName, "Core_MainLoop/Implement_UpkeepAndMature")) then return end
 		
 	g_PreviousMainLoopHasCompleted = true	
 	
