@@ -64,6 +64,7 @@ g_BasePlayerUpkeep =
 
 g_UpkeepCalculateRate = 1
 g_UpkeepImplementRate = 1 
+g_UpkeepMultiplier = 0.1
 
 g_AllStrategicPointsStructs = {}
 g_NumberStratPoints = 0

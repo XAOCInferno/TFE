@@ -178,11 +178,11 @@ function Implement_UpkeepAndMature()
 	
 		if(Player_IsAlive(g_AllPlayers[i].Player)) then
 			
-			Player_AddResource(g_AllPlayers[i].Player, RT_Requisition, g_AllPlayers[i].CurrentAddResources.RT_Requisition * g_WorldTimeFidelity)
-			Player_AddResource(g_AllPlayers[i].Player, RT_Power, g_AllPlayers[i].CurrentAddResources.RT_Power * g_WorldTimeFidelity)
-			Player_AddResource(g_AllPlayers[i].Player, RT_Pop, g_AllPlayers[i].CurrentAddResources.RT_Pop * g_WorldTimeFidelity)
-			Player_AddResource(g_AllPlayers[i].Player, RT_Faith, g_AllPlayers[i].CurrentAddResources.RT_Faith * g_WorldTimeFidelity)
-			Player_AddResource(g_AllPlayers[i].Player, RT_Souls, g_AllPlayers[i].CurrentAddResources.RT_Souls * g_WorldTimeFidelity)
+			Player_AddResource(g_AllPlayers[i].Player, RT_Requisition, g_AllPlayers[i].CurrentAddResources.RT_Requisition * g_WorldTimeFidelity * g_UpkeepMultiplier)
+			Player_AddResource(g_AllPlayers[i].Player, RT_Power, g_AllPlayers[i].CurrentAddResources.RT_Power * g_WorldTimeFidelity * g_UpkeepMultiplier)
+			Player_AddResource(g_AllPlayers[i].Player, RT_Pop, g_AllPlayers[i].CurrentAddResources.RT_Pop * g_WorldTimeFidelity * g_UpkeepMultiplier)
+			Player_AddResource(g_AllPlayers[i].Player, RT_Faith, g_AllPlayers[i].CurrentAddResources.RT_Faith * g_WorldTimeFidelity * g_UpkeepMultiplier)
+			Player_AddResource(g_AllPlayers[i].Player, RT_Souls, g_AllPlayers[i].CurrentAddResources.RT_Souls * g_WorldTimeFidelity * g_UpkeepMultiplier)
 			
 		end
 
