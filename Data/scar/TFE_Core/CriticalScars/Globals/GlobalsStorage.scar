@@ -40,7 +40,6 @@ function Setup_StrategicPoints()
 	end
 	
 	g_NumberStratPoints = 0
-	--g_MatureMaxLifetime = g_MatureMaxLifetime * g_PlayerCount --Code repeats itself for each player so this is to compensate  [[Why does it repeat for each player??]]
 	World_GetStrategicPoints(EGroup_CreateIfNotFound( "tmpAllStratPoints" ) )
 	EGroup_ForEachEx(EGroup_FromName("tmpAllStratPoints"),  SetupNewPoint, true, true)
 	EGroup_Destroy("tmpAllStratPoints")
@@ -52,4 +51,3 @@ end
 function GetWorldLifetime(StartTime)
 	return g_WorldTime - StartTime
 end
-

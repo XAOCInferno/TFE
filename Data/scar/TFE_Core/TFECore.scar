@@ -134,9 +134,8 @@ end
 
 function DoBasicFunction(_Func, _SentFromFunc, _FuncName)
 
-	print(_SentFromFunc)
-	print(_FuncName)
 	if(pcall(_Func) == false) then
+
 		Log(2, 0, _SentFromFunc, _FuncName, "Cannot run function '".._FuncName.."'!") 
 		return true
 
