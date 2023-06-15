@@ -35,8 +35,8 @@ function Set_PlayerUpkeep()
 				
 			else		
 				local SquadLifetimeAsPercent = 1
-				local SquadLifetime = GetWorldLifetime(tmpStruct.SquadInitTime)
-			
+				local SquadLifetime = GetWorldLifetime(tmpStruct.SquadInitTime) 
+
 				if(SquadLifetime < g_TimeTakenForMaxUpkeep) then			
 					SquadLifetimeAsPercent = SquadLifetime / g_MatureMaxLifetime
 				end
@@ -67,11 +67,11 @@ function Set_PlayerUpkeep()
 						local MaxUpkeepSouls = SquadUpkeep.Souls + LeaderUpkeep.Souls + (EntityUpkeep.Souls * tmpStruct.SquadLoadout)
 						local MaxUpkeepFaith = SquadUpkeep.Faith + LeaderUpkeep.Faith + (EntityUpkeep.Faith * tmpStruct.SquadLoadout)
 
-						local UpkeepReq = MaxUpkeepReq * SquadLifetimeAsPercent * g_WorldTimeFidelity
-						local UpkeepPower = MaxUpkeepPower * SquadLifetimeAsPercent * g_WorldTimeFidelity
-						local UpkeepPop = MaxUpkeepPop * SquadLifetimeAsPercent * g_WorldTimeFidelity
-						local UpkeepSouls = MaxUpkeepSouls * SquadLifetimeAsPercent * g_WorldTimeFidelity
-						local UpkeepFaith = MaxUpkeepFaith * SquadLifetimeAsPercent * g_WorldTimeFidelity								
+						local UpkeepReq = MaxUpkeepReq * SquadLifetimeAsPercent
+						local UpkeepPower = MaxUpkeepPower * SquadLifetimeAsPercent
+						local UpkeepPop = MaxUpkeepPop * SquadLifetimeAsPercent
+						local UpkeepSouls = MaxUpkeepSouls * SquadLifetimeAsPercent
+						local UpkeepFaith = MaxUpkeepFaith * SquadLifetimeAsPercent	
 						
 						g_AllPlayers[i].CurrentAddResources.RT_Requisition =  g_AllPlayers[i].CurrentAddResources.RT_Requisition + UpkeepReq
 						g_AllPlayers[i].CurrentAddResources.RT_Power =  g_AllPlayers[i].CurrentAddResources.RT_Power + UpkeepPower
