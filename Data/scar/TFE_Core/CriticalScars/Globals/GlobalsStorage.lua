@@ -70,19 +70,8 @@ g_AllStrategicPointsStructs = {}
 g_NumberStratPoints = 0
 
 g_MatureUpdateRate = 1 
-g_MatureMaxLifetime = 480 --720 --12mins rly?
-
-g_BaseMatureRate_Req = { 2, 3, 4 }
-g_BaseMatureRate_Req = { 1, 2, 3 }
-
-
-g_MatureActivationDelay = 0 --Why delay?
-g_TimeTakenForMaxUpkeep = 240
-
-g_LastSquadUpdateTime = -2
-g_PreviousUpkeepCalcTime = -1
-g_PreviousCoverCalcTime = -1
-
+g_MatureMaxLifetime = 360 --480 --720 --12mins rly?
+g_TimeTakenForMaxUpkeep = 300
 
 g_PreviousWorldTime = 0
 g_TimeSinceWorldTimeUpdate = 0
