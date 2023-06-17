@@ -46,8 +46,8 @@ UnitCosting.space_marine_race =
 	},
 	space_marine_squad_grey_knights =
 	{
-		CostEntity = { Req = -0.58, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -1.45, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.54, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.5, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	space_marine_squad_terminator =
