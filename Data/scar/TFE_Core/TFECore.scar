@@ -109,7 +109,9 @@ function Core_GetAllPlayers()
 		Setup_PassiveResourceGeneration_Settings(RaceName)
 		table.insert(g_AllPlayers, PlayerDetails:new( Player, PlayerIndex, RaceDetails:new (RaceName, RaceIndex, g_FactionSpecificResourceGeneration[RaceName] )))
 		
-	
+		UI_ShowRatio( "UI_RatioIncomeVsUpkeep_Mixed"..PlayerIndex, Player, 20050000, 0, 0 )
+
+
 		--Move this later
 		if (UnitCosting[RaceName] == nil) then
 			pcall(import, 'upkeep/races/'..RaceName..'.scar')
@@ -151,7 +153,7 @@ function Core_MainLoop()
 	end
 		
 	g_PreviousMainLoopHasCompleted = false
-		
+
 	if(DoCriticalFunction(Set_UpdatedGameTime, debug_TFECore_FileName, "Core_MainLoop/Set_UpdatedGameTime")) then return end
 	if(DoCriticalFunction(Set_AllSquads_Immediate, debug_TFECore_FileName, "Core_MainLoop/Set_AllSquads_Immediate")) then return end
 	if(DoCriticalFunction(Set_AllSquadCoverModifiers, debug_TFECore_FileName, "Core_MainLoop/Set_AllSquadCoverModifiers")) then return end
@@ -177,13 +179,15 @@ function Implement_UpkeepAndMature()
 	for i = 1, g_PlayerCount do			
 	
 		if(Player_IsAlive(g_AllPlayers[i].Player)) then
-			
-			Player_AddResource(g_AllPlayers[i].Player, RT_Requisition, g_AllPlayers[i].CurrentAddResources.RT_Requisition * g_WorldTimeFidelity * g_UpkeepMultiplier)
-			Player_AddResource(g_AllPlayers[i].Player, RT_Power, g_AllPlayers[i].CurrentAddResources.RT_Power * g_WorldTimeFidelity * g_UpkeepMultiplier)
-			Player_AddResource(g_AllPlayers[i].Player, RT_Pop, g_AllPlayers[i].CurrentAddResources.RT_Pop * g_WorldTimeFidelity * g_UpkeepMultiplier)
-			Player_AddResource(g_AllPlayers[i].Player, RT_Faith, g_AllPlayers[i].CurrentAddResources.RT_Faith * g_WorldTimeFidelity * g_UpkeepMultiplier)
-			Player_AddResource(g_AllPlayers[i].Player, RT_Souls, g_AllPlayers[i].CurrentAddResources.RT_Souls * g_WorldTimeFidelity * g_UpkeepMultiplier)
-			
+
+			Player_AddResource(g_AllPlayers[i].Player, RT_Requisition, g_AllPlayers[i].CurrentAddResources.RT_Requisition * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			Player_AddResource(g_AllPlayers[i].Player, RT_Power, g_AllPlayers[i].CurrentAddResources.RT_Power * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			Player_AddResource(g_AllPlayers[i].Player, RT_Pop, g_AllPlayers[i].CurrentAddResources.RT_Pop * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			Player_AddResource(g_AllPlayers[i].Player, RT_Faith, g_AllPlayers[i].CurrentAddResources.RT_Faith * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			Player_AddResource(g_AllPlayers[i].Player, RT_Souls, g_AllPlayers[i].CurrentAddResources.RT_Souls * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+
+			UI_ShowRatioUpdate( "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[i].PlayerIndex, 20050000, math.floor(g_AllPlayers[i].CurrentAddResources.RT_Requisition), math.floor(g_AllPlayers[i].CurrentAddResources.RT_Power) )
+
 		end
 
 		g_AllPlayers[i]:ClearCurrentResourceBonuses()
