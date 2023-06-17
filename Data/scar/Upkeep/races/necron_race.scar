@@ -111,8 +111,8 @@ UnitCosting.necron_race =
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	
-	necron_night_bringer = necron_lord_squad
-	necron_deceiver_squad = necron_lord_squad
+	necron_night_bringer = necron_lord_squad,
+	necron_deceiver_squad = necron_lord_squad,
 --[[
 	-- Campaign units
 	necron_lord_squad_advance_sp =
