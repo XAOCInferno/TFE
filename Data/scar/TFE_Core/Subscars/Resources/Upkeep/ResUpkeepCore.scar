@@ -52,7 +52,7 @@ function Set_PlayerUpkeep()
 						if (tmpStruct.SquadHasLeader) then 
 							if(UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader ~= nil) then
 
-								local LeaderUpkeep = BlueprintCostDetails.CostLeader
+								local LeaderUpkeep = BlueprintCostDetails.CostLeader * SGroup_CountLeaders(tmpStruct.SquadID)
 							
 							elseif(g_DebugMode) then
 														
