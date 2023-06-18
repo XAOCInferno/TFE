@@ -18,20 +18,11 @@ local function Get_StrategicPointsStatus()
 		
 		if(not World_OwnsEntity(g_AllStrategicPointsStructs[i].ID)) then
 		
-			local tmpOwner = Entity_GetPlayerOwner(g_AllStrategicPointsStructs[i].ID)
-			
-			if(g_AllStrategicPointsStructs[i].OwnedBy ~= World_GetPlayerIndex(tmpOwner)) then
+			local TmpOwner = Entity_GetPlayerOwner(g_AllStrategicPointsStructs[i].ID)
+			local OwnerPlayer = World_GetPlayerIndex(TmpOwner)
+			if(g_AllStrategicPointsStructs[i].OwnedBy ~= OwnerPlayer) then
 				g_AllStrategicPointsStructs[i].InitTime = g_WorldTime	
-				g_AllStrategicPointsStructs[i].OwnedBy = World_GetPlayerIndex(tmpOwner)	
-			end
-			
-			local OwnedTime = GetWorldLifetime(g_AllStrategicPointsStructs[i].InitTime)
-			if(OwnedTime < g_MatureMaxLifetime) then
-				g_AllStrategicPointsStructs[i].InitTime = OwnedTime + g_MatureUpdateRate
-			end
-
-			if(OwnedTime > g_MatureMaxLifetime) then
-				g_AllStrategicPointsStructs[i].InitTime = g_MatureMaxLifetime
+				g_AllStrategicPointsStructs[i].OwnedBy = OwnerPlayer	
 			end
 
 		elseif(g_AllStrategicPointsStructs[i].OwnedBy ~= -1) then

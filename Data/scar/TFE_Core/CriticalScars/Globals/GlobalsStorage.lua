@@ -69,9 +69,8 @@ g_BonusResourcesMultiplier = 0.1
 g_AllStrategicPointsStructs = {}
 g_NumberStratPoints = 0
 
-g_MatureUpdateRate = 1 
-g_MatureMaxLifetime = 360 --480 --720 --12mins rly?
-g_TimeTakenForMaxUpkeep = 300
+g_MatureMaxLifetime = 480 --720 --12mins rly?
+g_TimeTakenForMaxUpkeep = 240 --300
 
 g_PreviousWorldTime = 0
 g_TimeSinceWorldTimeUpdate = 0
