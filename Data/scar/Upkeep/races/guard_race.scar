@@ -37,6 +37,12 @@ UnitCosting.guard_race =
 		CostEntity = { Req = -0.20, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 		CostSquad = { Req = -1, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = -0.5, Power = -0.14, Pop = 0, Faith = 0, Souls = 0 },
+	},	
+	guard_squad_spotter =
+	{
+		CostEntity = { Req = -0.11, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.8, Power = -0.2, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	guard_heavy_weapons_team_squad =
 	{
@@ -133,7 +139,7 @@ UnitCosting.guard_race =
 	guard_squad_baneblade =
 	{
 		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -7, Power = -6.5, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -7.5, Power = -6.75, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 

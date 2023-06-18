@@ -175,7 +175,7 @@ UnitCosting.chaos_marine_race =
 	chaos_squad_bloodthirster =
 	{
 		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -11, Power = -2, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -10, Power = -2, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 }
