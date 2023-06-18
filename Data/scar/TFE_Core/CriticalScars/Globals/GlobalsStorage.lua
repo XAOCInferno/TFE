@@ -70,7 +70,7 @@ g_AllStrategicPointsStructs = {}
 g_NumberStratPoints = 0
 
 g_MatureMaxLifetime = 480 --720 --12mins rly?
-g_TimeTakenForMaxUpkeep = 240 --300
+g_TimeTakenForMaxUpkeep = 150 --300
 
 g_PreviousWorldTime = 0
 g_TimeSinceWorldTimeUpdate = 0

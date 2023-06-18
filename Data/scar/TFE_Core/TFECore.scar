@@ -198,12 +198,12 @@ function Implement_UpkeepAndMature()
 				WinWarning_Add( "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex, g_AllPlayers[i].Player, "", "", "" )
 
 			end
-
-			Player_AddResource(g_AllPlayers[i].Player, RT_Requisition, g_AllPlayers[Index].CurrentAddResources.RT_Requisition * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
-			Player_AddResource(g_AllPlayers[i].Player, RT_Power, g_AllPlayers[Index].CurrentAddResources.RT_Power * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
-			Player_AddResource(g_AllPlayers[i].Player, RT_Pop, g_AllPlayers[Index].CurrentAddResources.RT_Pop * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
-			Player_AddResource(g_AllPlayers[i].Player, RT_Faith, g_AllPlayers[Index].CurrentAddResources.RT_Faith * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
-			Player_AddResource(g_AllPlayers[i].Player, RT_Souls, g_AllPlayers[Index].CurrentAddResources.RT_Souls * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			
+			Player_AddResource(g_AllPlayers[Index].Player, RT_Requisition, g_AllPlayers[Index].CurrentAddResources.RT_Requisition * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			Player_AddResource(g_AllPlayers[Index].Player, RT_Power, g_AllPlayers[Index].CurrentAddResources.RT_Power * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			Player_AddResource(g_AllPlayers[Index].Player, RT_Pop, g_AllPlayers[Index].CurrentAddResources.RT_Pop * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			Player_AddResource(g_AllPlayers[Index].Player, RT_Faith, g_AllPlayers[Index].CurrentAddResources.RT_Faith * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			Player_AddResource(g_AllPlayers[Index].Player, RT_Souls, g_AllPlayers[Index].CurrentAddResources.RT_Souls * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
 			
 			g_AllPlayers[Index]:ClearCurrentResourceBonuses()
 		else
