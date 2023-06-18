@@ -20,44 +20,44 @@ UnitCosting.necron_race =
 	},
 	necron_basic_warrior_squad =
 	{
-		CostEntity = { Req = 0, Power = -0.39, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = -0.525, Pop = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = 0, Power = -0.585, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = -0.7875, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	necron_wraith_squad =
 	{
 		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = -0.345, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = -0.5175, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	necron_flayed_one_squad =
 	{
-		CostEntity = { Req = 0, Power = -0.36, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = -0.585, Pop = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = 0, Power = -0.54, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = -0.8775, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	necron_immortal_squad =
 	{
-		CostEntity = { Req = 0, Power = -0.27, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = -0.75, Pop = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = 0, Power = -0.405, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = -1.125, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	necron_pariah_squad =
 	{
-		CostEntity = { Req = 0, Power = -0.63, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = -0.9, Pop = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = 0, Power = -0.945, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = -1.35, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	necron_lord_squad =
 	{
 		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = -3.6, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = -3.9, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	necron_pariah_lord_squad =
 	{
 		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = -1.5, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = -1.6, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 
@@ -65,25 +65,25 @@ UnitCosting.necron_race =
 	necron_tomb_spyder_squad =
 	{
 		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = -5.55, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = -5.7, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	necron_destroyer_squad =
 	{
 		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = -3.75, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = -3.85, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	necron_heavy_destroyer_squad =
 	{
 		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = -2.9, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = -4, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	necron_lord_destroyer_squad =
 	{
 		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = -4.35, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = -4.65, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	necron_scarab_mine_squad =
