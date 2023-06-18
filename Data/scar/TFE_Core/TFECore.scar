@@ -15,13 +15,14 @@ function RaceDetails:new (_RaceName, _RaceIndex, _RaceResourceInfo)
 end
 
 PlayerDetails = {}
-function PlayerDetails:new (_Player, _PlayerIndex, _RaceDetails)
+function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
 
     local PlayerDetailsObject = 
     {
     	--Constants
 	    Player = _Player,
 	    PlayerIndex = _PlayerIndex,
+	    DisplayName = _DisplayName,
 	    RaceDetails = _RaceDetails,   
 	    
 	    --Variables
@@ -74,7 +75,7 @@ end
 
 function Core_Init_Load()
 	local debugFuncName = "Core_Init_Load"	
-	
+
 	if(DoCriticalFunction(Core_GetAllPlayers, debug_TFECore_FileName, debugFuncName.."/Core_GetAllPlayers")) then return end
 	if(DoBasicFunction(Setup_AlphaLegion, debug_TFECore_FileName, debugFuncName.."/Setup_AlphaLegion")) then Log(2, 0, debug_TFECore_FileName, debugFuncName, "Alpha Legion failed to setup!")  end
 	if(DoCriticalFunction(Setup_PassiveResourceGeneration, debug_TFECore_FileName, debugFuncName.."/Setup_PassiveResourceGeneration")) then return end
@@ -105,12 +106,10 @@ function Core_GetAllPlayers()
 		local PlayerIndex = World_GetPlayerIndex(Player)
 		local RaceName = Player_GetRaceName( Player ) 
 		local RaceIndex = Player_GetRace( Player ) 
-		
-		Setup_PassiveResourceGeneration_Settings(RaceName)
-		table.insert(g_AllPlayers, PlayerDetails:new( Player, PlayerIndex, RaceDetails:new (RaceName, RaceIndex, g_FactionSpecificResourceGeneration[RaceName] )))
-		
-		UI_ShowRatio( "UI_RatioIncomeVsUpkeep_Mixed"..PlayerIndex, Player, 20050000, 0, 0 )
+		local DisplayName = Player_GetDisplayName(Player)
 
+		Setup_PassiveResourceGeneration_Settings(RaceName)
+		table.insert(g_AllPlayers, PlayerDetails:new( Player, PlayerIndex, DisplayName, RaceDetails:new (RaceName, RaceIndex, g_FactionSpecificResourceGeneration[RaceName] )))
 
 		--Move this later
 		if (UnitCosting[RaceName] == nil) then
@@ -119,6 +118,12 @@ function Core_GetAllPlayers()
 		
 	end
 
+	
+	for i = 1, g_PlayerCount do
+		--They need to be in reverse order so P1 is on top...
+		WinWarning_Add( "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[g_PlayerCount-i+1].PlayerIndex, g_AllPlayers[g_PlayerCount-i+1].Player, "", "", "" )
+
+	end
 end
 
 function DoCriticalFunction(_Func, _SentFromFunc, _FuncName)
@@ -175,23 +180,37 @@ end
 
 function Implement_UpkeepAndMature()
 	
-	
-	for i = 1, g_PlayerCount do			
-	
-		if(Player_IsAlive(g_AllPlayers[i].Player)) then
+	for i = 1, g_PlayerCount do
+		local Index = g_PlayerCount - i +1
+		--They need to be in reverse order so P1 is on top...
+		if(Player_IsAlive(g_AllPlayers[Index].Player)) then
 
-			Player_AddResource(g_AllPlayers[i].Player, RT_Requisition, g_AllPlayers[i].CurrentAddResources.RT_Requisition * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
-			Player_AddResource(g_AllPlayers[i].Player, RT_Power, g_AllPlayers[i].CurrentAddResources.RT_Power * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
-			Player_AddResource(g_AllPlayers[i].Player, RT_Pop, g_AllPlayers[i].CurrentAddResources.RT_Pop * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
-			Player_AddResource(g_AllPlayers[i].Player, RT_Faith, g_AllPlayers[i].CurrentAddResources.RT_Faith * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
-			Player_AddResource(g_AllPlayers[i].Player, RT_Souls, g_AllPlayers[i].CurrentAddResources.RT_Souls * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			if(WinWarning_Exists("UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex)) then
+				
+				local DisplayReqIncome = g_AllPlayers[Index].CurrentAddResources.RT_Requisition				
+				local DisplayPowerIncome = g_AllPlayers[Index].CurrentAddResources.RT_Power 
+				DisplayReqIncome = round(math.floor(DisplayReqIncome),2)
+				DisplayPowerIncome = round(math.floor(DisplayPowerIncome),2)
 
-			UI_ShowRatioUpdate( "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[i].PlayerIndex, 20050000, math.floor(g_AllPlayers[i].CurrentAddResources.RT_Requisition), math.floor(g_AllPlayers[i].CurrentAddResources.RT_Power) )
+				WinWarning_SetText( "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex, Loc_FormatText3( 20050000, g_AllPlayers[Index].DisplayName,  DisplayReqIncome , DisplayPowerIncome ))
+			else
+
+				WinWarning_Add( "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex, g_AllPlayers[i].Player, "", "", "" )
+
+			end
+
+			Player_AddResource(g_AllPlayers[i].Player, RT_Requisition, g_AllPlayers[Index].CurrentAddResources.RT_Requisition * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			Player_AddResource(g_AllPlayers[i].Player, RT_Power, g_AllPlayers[Index].CurrentAddResources.RT_Power * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			Player_AddResource(g_AllPlayers[i].Player, RT_Pop, g_AllPlayers[Index].CurrentAddResources.RT_Pop * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			Player_AddResource(g_AllPlayers[i].Player, RT_Faith, g_AllPlayers[Index].CurrentAddResources.RT_Faith * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			Player_AddResource(g_AllPlayers[i].Player, RT_Souls, g_AllPlayers[Index].CurrentAddResources.RT_Souls * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			
+			g_AllPlayers[Index]:ClearCurrentResourceBonuses()
+		else
+
+			WinWarning_Remove("UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex)
 
 		end
-
-		g_AllPlayers[i]:ClearCurrentResourceBonuses()
-
 	end
 
 end
