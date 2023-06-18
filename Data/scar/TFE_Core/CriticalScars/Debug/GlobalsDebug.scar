@@ -54,7 +54,9 @@ function LogOnce(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
 end
 
 function LogError(_ModuleName, _FunctionName, _Line)
+	
 	g_DebugMode = true --Error is so severe we should force debug on!
+	UIWarning_Show( "--------------------------------------------\n------TFE CORE FATAL ERROR------\n-----------CORE STOPPED------------\n--------------------------------------------" )
 	Log(3, 0, _ModuleName, _FunctionName, _Line)
 	Log(1, 4, "", "", "|")
 	Log(1, 4, "", "", "--------------------------------------------")

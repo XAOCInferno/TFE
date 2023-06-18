@@ -26,7 +26,8 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP)
     local SquadDataObject = 
     {
 		SquadUniqueID = _sGameID,	
-		SquadGroupID =_sGroupID,	
+		SquadGroupID =_sGroupID,
+		SquadGroupName = SGroup_GetName(_sGroupID),	
 		SquadIndex = _sIndex, 
 		SquadID = _sID,	
 		SquadUnitRace = _sRace,

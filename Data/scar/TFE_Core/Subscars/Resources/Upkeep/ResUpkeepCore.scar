@@ -51,8 +51,8 @@ function Set_PlayerUpkeep()
 
 						if (tmpStruct.SquadHasLeader) then 
 							if(UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader ~= nil) then
-
-								local LeaderUpkeep = BlueprintCostDetails.CostLeader * SGroup_CountLeaders(tmpStruct.SquadID)
+								
+								local LeaderUpkeep = BlueprintCostDetails.CostLeader 
 							
 							elseif(g_DebugMode) then
 														
@@ -61,11 +61,12 @@ function Set_PlayerUpkeep()
 							end
 						end
 
-						local MaxUpkeepReq = SquadUpkeep.Req + LeaderUpkeep.Req + (EntityUpkeep.Req * tmpStruct.SquadLoadout)
-						local MaxUpkeepPower = SquadUpkeep.Power + LeaderUpkeep.Power + (EntityUpkeep.Power * tmpStruct.SquadLoadout)
-						local MaxUpkeepPop = SquadUpkeep.Pop + LeaderUpkeep.Pop + (EntityUpkeep.Pop * tmpStruct.SquadLoadout)
-						local MaxUpkeepSouls = SquadUpkeep.Souls + LeaderUpkeep.Souls + (EntityUpkeep.Souls * tmpStruct.SquadLoadout)
-						local MaxUpkeepFaith = SquadUpkeep.Faith + LeaderUpkeep.Faith + (EntityUpkeep.Faith * tmpStruct.SquadLoadout)
+						local LeaderCount = SGroup_CountLeaders(tmpStruct.SquadGroupName)
+						local MaxUpkeepReq = SquadUpkeep.Req + (LeaderUpkeep.Req * LeaderCount) + (EntityUpkeep.Req * tmpStruct.SquadLoadout)
+						local MaxUpkeepPower = SquadUpkeep.Power + (LeaderUpkeep.Power * LeaderCount) + (EntityUpkeep.Power * tmpStruct.SquadLoadout)
+						local MaxUpkeepPop = SquadUpkeep.Pop + (LeaderUpkeep.Pop * LeaderCount) + (EntityUpkeep.Pop * tmpStruct.SquadLoadout)
+						local MaxUpkeepSouls = SquadUpkeep.Souls + (LeaderUpkeep.Souls * LeaderCount)+ (EntityUpkeep.Souls * tmpStruct.SquadLoadout)
+						local MaxUpkeepFaith = SquadUpkeep.Faith + (LeaderUpkeep.Faith * LeaderCount) + (EntityUpkeep.Faith * tmpStruct.SquadLoadout)
 
 						local UpkeepReq = MaxUpkeepReq * SquadLifetimeAsPercent
 						local UpkeepPower = MaxUpkeepPower * SquadLifetimeAsPercent
