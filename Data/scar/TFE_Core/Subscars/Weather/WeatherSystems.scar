@@ -1,0 +1,117 @@
+debug_NewCoverSystems_FileName = "WeatherSystems"
+g_TornadoSquadBP = "world_squad_tornado"
+g_AllTornadoMkrs = {}
+g_AllTornados = {}
+
+MarkerDetails = {}
+function MarkerDetails:new (_MarkerID, _MarkerName, _MarkerType)
+
+    local MarkerDetailsObject = 
+    {
+    	--Constants
+	    MarkerID = _MarkerID,
+	    MarkerName = _MarkerName,
+		MarkerType = _MarkerType,
+    }
+	self.__index = self
+   	return setmetatable(MarkerDetailsObject, self)
+end
+
+function Setup_WeatherSystems()
+
+	GetAllMarkers()
+	Rule_AddOneShot(SpawnATornado, 1)
+
+end
+
+function GetAllMarkers()
+
+	for i = 1, 1000 do
+		local mkrType = "tornado_marker"
+		local tornadoSpawnerMarkerExists = Marker_Exists("TornadoSpawn_"..i, mkrType)
+		if(tornadoSpawnerMarkerExists) then
+			g_AllTornadoMkrs[i] = {}
+			table.insert(g_AllTornadoMkrs[i], MarkerDetails:new(Marker_FromName("TornadoSpawn_"..i, mkrType), "TornadoSpawn_"..i, MarkerType))
+			for j = 1, 100 do
+
+				local tornadoDestinationMarkerExists = Marker_Exists("TornadoMove_"..i.."_"..j, mkrType)
+				if(tornadoDestinationMarkerExists) then
+				
+					table.insert(g_AllTornadoMkrs[i], MarkerDetails:new(Marker_FromName("TornadoMove_"..i.."_"..j, mkrType), "TornadoMove_"..i.."_"..j, MarkerType))
+
+				else
+
+					j = 100
+
+				end	
+			end
+		else
+			break
+		end
+	end
+
+end
+
+
+function SpawnATornado()
+
+	local setWorldOwner = function(_sgroupid, _itemindex, _squadID)
+
+		Squad_SetWorldOwner(_squadID)
+
+	end
+
+	for i = 1, table.getn(g_AllTornadoMkrs) do
+		for j = 1, table.getn(g_AllTornadoMkrs[i]) do
+			if(j == 1) then
+				print("making tornado "..i)
+				local spawnMkr = g_AllTornadoMkrs[i][j]
+				print(spawnMkr.MarkerName)
+				local newTornado_sg = Util_CreateSquadsAtCustomMarkerEx(g_AllPlayers[1].Player, "tmpNewTornado", g_TornadoSquadBP, spawnMkr.MarkerID, 1, 1)
+				SGroup_ForEach( newTornado_sg, setWorldOwner )
+				g_AllTornados[i] = {}
+				table.insert(g_AllTornados[i], newTornado_sg) --Replace this later with tornado details
+				--local newTornado_sgName = SGroup_GetName(newTornado_sg)
+				--local group = Marker_GetNumberAttribute(spawnMkr, "GroupID")
+				--local groupPos = Marker_GetNumberAttribute(spawnMkr, "GroupPos")
+			else
+				local nextMarker = g_AllTornadoMkrs[i][j].MarkerID
+				--local nextMarker = Marker_FromName(nextMarkerName, mkrType)
+				
+				--local newTornado_sgName = SGroup_GetName(newTornado_sg)
+				Cmd_MoveToCustomMarker(SGroup_GetName(g_AllTornados[i][1]), nextMarker)
+			end
+		end
+	end
+end
+
+
+
+--Move these later!
+
+function Util_CreateSquadsAtCustomMarkerEx(playerId, squadgroupName, squadBlueprint, marker, numsquads, loadout)
+	return Util_CreateSquadsAtPositionEx( 
+		playerId,
+		squadgroupName,
+		squadBlueprint,
+		Marker_GetPosition( marker ),
+		numsquads,
+		loadout -- use min loadout
+	)
+end
+
+
+function Cmd_MoveToCustomMarker( sgroupname, marker )
+	local squads = SGroup_FromName( sgroupname )
+	
+	-- ignore empty group
+	if( SGroup_CountSpawned( squads ) <= 0 ) then return end
+		
+	Command_SquadPos(
+		--_Cmd_Private.GetGroupPlayerOwner( squads, SGroupCaller ),
+		g_AllPlayers[1].Player,
+		squads,
+		SCMD_Move,
+		Marker_GetPosition ( marker )
+	)
+end
