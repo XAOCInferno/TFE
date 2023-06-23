@@ -167,7 +167,7 @@ function Core_MainLoop()
 	if(DoCriticalFunction(Set_PlayerUpkeep, debug_TFECore_FileName, "Core_MainLoop/Set_PlayerUpkeep")) then return end 
 	if(DoCriticalFunction(Set_ResourceMature, debug_TFECore_FileName, "Core_MainLoop/Set_ResourceMature")) then return end
 	if(DoCriticalFunction(Implement_UpkeepAndMature, debug_TFECore_FileName, "Core_MainLoop/Implement_UpkeepAndMature")) then return end
-		
+	TornadoUpdate()
 	g_PreviousMainLoopHasCompleted = true	
 	
 end

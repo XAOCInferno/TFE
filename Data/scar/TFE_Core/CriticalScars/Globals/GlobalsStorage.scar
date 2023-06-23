@@ -9,6 +9,8 @@ debug_GlobalsStorage_FileName = "GlobalsStorage.scar"
 --------------------
 import("TFE_Core/CriticalScars/Globals/GlobalsStorage.lua")
 
+local GlobalUniqueSquadID = 0
+
 ---------------
 --Main Script--
 ---------------
@@ -23,7 +25,6 @@ function Set_UpdatedGameTime()
 	g_PreviousWorldTime = g_WorldTime
 	g_WorldTime = World_GetGameTime()
 	g_TimeSinceWorldTimeUpdate = g_WorldTime - g_PreviousWorldTime
-	--print("Estimated FPS: "..g_TimeSinceWorldTimeUpdate * 60) --Move this into function later, use 'Log'?
 
 end
 
@@ -50,4 +51,18 @@ end
 --Used to tell the difference between a time and the world time, EG: get how long something has been alive for
 function GetWorldLifetime(StartTime)
 	return g_WorldTime - StartTime
+end
+
+function GetUniqueSG(BaseSGName)
+	BaseSGName = BaseSGName or "UniqueSG."
+
+	local UniqueSG = BaseSGName;	
+	while(SGroup_Exists(UniqueSG) == true) do
+
+		GlobalUniqueSquadID = GlobalUniqueSquadID + 1
+		UniqueSG = BaseSGName..GlobalUniqueSquadID
+
+	end
+
+	return SGroup_Create(UniqueSG)
 end

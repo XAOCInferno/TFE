@@ -2,6 +2,7 @@ debug_NewCoverSystems_FileName = "WeatherSystems"
 g_TornadoSquadBP = "world_squad_tornado"
 g_AllTornadoMkrs = {}
 g_AllTornados = {}
+g_CurrentTornadoMarkerGroup = {};
 
 MarkerDetails = {}
 function MarkerDetails:new (_MarkerID, _MarkerName, _MarkerType)
@@ -15,6 +16,26 @@ function MarkerDetails:new (_MarkerID, _MarkerName, _MarkerType)
     }
 	self.__index = self
    	return setmetatable(MarkerDetailsObject, self)
+end
+
+TornadoDetails = {}
+function TornadoDetails:new (_sGameID, _sGroupID, _sIndex, _sID, _MarkerGroup, _PosInTornadoStorage)
+
+    local TornadoDetailsObject = 
+    {
+    	--Constants
+		SquadUniqueID = _sGameID,	
+		SquadGroupID =_sGroupID,
+		SquadGroupName = SGroup_GetName(_sGroupID),	
+		SquadIndex = _sIndex, 
+		SquadID = _sID,	
+		SquadInitTime = g_WorldTime,	
+		MarkerGroup = _MarkerGroup,
+		PosInTornadoStorage = _PosInTornadoStorage,
+		CurrentMarkerIndex = 1,
+    }
+	self.__index = self
+   	return setmetatable(TornadoDetailsObject, self)
 end
 
 function Setup_WeatherSystems()
@@ -55,37 +76,62 @@ end
 
 function SpawnATornado()
 
-	local setWorldOwner = function(_sgroupid, _itemindex, _squadID)
+	local CreateTornado = function(_sgroupid, _itemindex, _squadID)
 
-		Squad_SetWorldOwner(_squadID)
+		Squad_SetWorldOwner(_squadID)	
+		local TornadoPos = table.getn(g_AllTornados) + 1
+		local NewTornado = TornadoDetails:new (Squad_GetGameID(_squadID), _sgroupid, _itemindex, _squadID, g_CurrentTornadoMarkerGroup, TornadoPos )
+		table.insert(g_AllTornados, NewTornado)
 
 	end
 
-	for i = 1, table.getn(g_AllTornadoMkrs) do
-		for j = 1, table.getn(g_AllTornadoMkrs[i]) do
-			if(j == 1) then
-				print("making tornado "..i)
-				local spawnMkr = g_AllTornadoMkrs[i][j]
-				print(spawnMkr.MarkerName)
-				local newTornado_sg = Util_CreateSquadsAtCustomMarkerEx(g_AllPlayers[1].Player, "tmpNewTornado", g_TornadoSquadBP, spawnMkr.MarkerID, 1, 1)
-				SGroup_ForEach( newTornado_sg, setWorldOwner )
-				g_AllTornados[i] = {}
-				table.insert(g_AllTornados[i], newTornado_sg) --Replace this later with tornado details
-				--local newTornado_sgName = SGroup_GetName(newTornado_sg)
-				--local group = Marker_GetNumberAttribute(spawnMkr, "GroupID")
-				--local groupPos = Marker_GetNumberAttribute(spawnMkr, "GroupPos")
-			else
-				local nextMarker = g_AllTornadoMkrs[i][j].MarkerID
-				--local nextMarker = Marker_FromName(nextMarkerName, mkrType)
-				
-				--local newTornado_sgName = SGroup_GetName(newTornado_sg)
-				Cmd_MoveToCustomMarker(SGroup_GetName(g_AllTornados[i][1]), nextMarker)
-			end
-		end
-	end
+	g_CurrentTornadoMarkerGroup = g_AllTornadoMkrs[World_GetRand(0, table.getn(g_AllTornadoMkrs))]
+	local spawnMkr = g_CurrentTornadoMarkerGroup[1]
+	print(spawnMkr.MarkerName)
+	local newTornado_sg = Util_CreateSquadsAtCustomMarkerEx(g_AllPlayers[1].Player, SGroup_GetName(GetUniqueSG("Tornado")), g_TornadoSquadBP, spawnMkr.MarkerID, 1, 1)
+	SGroup_ForEach( newTornado_sg, CreateTornado )
+		
 end
 
+function TornadoUpdate()
 
+	for i = 1, table.getn(g_AllTornados) do
+
+		TornadoIfIdleMove(g_AllTornados[i])
+
+	end
+
+end
+
+function TornadoIfIdleMove(tornado)
+	if(SGroup_Exists(tornado.SquadGroupName) == false) then
+		return
+	end
+	
+	if(SGroup_CheckActiveCommand( tornado.SquadGroupName, SQUADSTATEID_Move, true) == false) then
+
+		SetTornadoDestination(tornado)
+
+	end
+
+end
+
+function SetTornadoDestination(tornado)
+
+	if(table.getn(tornado.MarkerGroup) == tornado.CurrentMarkerIndex) then
+
+		Squad_Destroy(tornado.SquadID)
+		SGroup_Destroy(tornado.SquadGroupID)
+		table.remove(g_AllTornados[tornado.PosInTornadoStorage])
+		return
+		
+	end
+
+	local NextMarker = tornado.MarkerGroup[CurrentMarker]
+	tornado.CurrentMarkerIndex = tornado.CurrentMarkerIndex + 1
+	Cmd_MoveToCustomMarker(tornado.SquadGroupName, tornado.MarkerGroup[tornado.CurrentMarkerIndex].MarkerID )
+
+end
 
 --Move these later!
 
@@ -108,7 +154,6 @@ function Cmd_MoveToCustomMarker( sgroupname, marker )
 	if( SGroup_CountSpawned( squads ) <= 0 ) then return end
 		
 	Command_SquadPos(
-		--_Cmd_Private.GetGroupPlayerOwner( squads, SGroupCaller ),
 		g_AllPlayers[1].Player,
 		squads,
 		SCMD_Move,
