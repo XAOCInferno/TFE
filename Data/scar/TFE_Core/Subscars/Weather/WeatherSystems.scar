@@ -2,7 +2,9 @@ debug_NewCoverSystems_FileName = "WeatherSystems"
 g_TornadoSquadBP = "world_squad_tornado"
 g_AllTornadoMkrs = {}
 g_AllTornados = {}
-g_CurrentTornadoMarkerGroup = {};
+g_CurrentTornadoMarkerGroup = {}
+
+local MarkersSetupComplete = false
 
 MarkerDetails = {}
 function MarkerDetails:new (_MarkerID, _MarkerName, _MarkerType)
@@ -41,7 +43,7 @@ end
 function Setup_WeatherSystems()
 
 	GetAllMarkers()
-	Rule_AddOneShot(SpawnATornado, 1)
+	--Rule_AddInterval(SpawnAllTornados, 20) --work out better spawning later
 
 end
 
@@ -70,37 +72,61 @@ function GetAllMarkers()
 			break
 		end
 	end
+	MarkersSetupComplete = true
+end
+
+function RandomTornadoSpawn()
+
+	if(World_GetRand(0,100) <= 20) then
+		SpawnRandomTornado()
+	end
+
+end
+
+function SpawnAllTornados()
+
+	for i = 1, table.getn(g_AllTornadoMkrs) do
+
+		SpawnATornadoAtMarkerGroup(g_AllTornadoMkrs[i])
+
+	end
+
+end
+
+function SpawnRandomTornado()
+
+	SpawnATornadoAtMarkerGroup(g_AllTornadoMkrs[World_GetRand(0,table.getn(g_AllTornadoMkrs)-1)])
 
 end
 
 
-function SpawnATornado()
+function SpawnATornadoAtMarkerGroup(markerGroup)
 
 	local CreateTornado = function(_sgroupid, _itemindex, _squadID)
 
-		Squad_SetWorldOwner(_squadID)	
+		--Squad_SetWorldOwner(_squadID)	
 		local TornadoPos = table.getn(g_AllTornados) + 1
 		local NewTornado = TornadoDetails:new (Squad_GetGameID(_squadID), _sgroupid, _itemindex, _squadID, g_CurrentTornadoMarkerGroup, TornadoPos )
 		table.insert(g_AllTornados, NewTornado)
 
 	end
 
-	g_CurrentTornadoMarkerGroup = g_AllTornadoMkrs[World_GetRand(0, table.getn(g_AllTornadoMkrs))]
-	local spawnMkr = g_CurrentTornadoMarkerGroup[1]
-	print(spawnMkr.MarkerName)
-	local newTornado_sg = Util_CreateSquadsAtCustomMarkerEx(g_AllPlayers[1].Player, SGroup_GetName(GetUniqueSG("Tornado")), g_TornadoSquadBP, spawnMkr.MarkerID, 1, 1)
+	g_CurrentTornadoMarkerGroup = markerGroup
+	
+	local newTornado_sg = Util_CreateSquadsAtCustomMarkerEx(g_AllPlayers[1].Player, SGroup_GetName(GetUniqueSG("Tornado")), g_TornadoSquadBP, markerGroup[1].MarkerID, 1, 1)
 	SGroup_ForEach( newTornado_sg, CreateTornado )
 		
 end
 
 function TornadoUpdate()
+	if(MarkersSetupComplete) then
+		RandomTornadoSpawn()
+		for i = 1, table.getn(g_AllTornados) do
 
-	for i = 1, table.getn(g_AllTornados) do
+			TornadoIfIdleMove(g_AllTornados[i])
 
-		TornadoIfIdleMove(g_AllTornados[i])
-
+		end
 	end
-
 end
 
 function TornadoIfIdleMove(tornado)
@@ -120,8 +146,15 @@ function SetTornadoDestination(tornado)
 
 	if(table.getn(tornado.MarkerGroup) == tornado.CurrentMarkerIndex) then
 
-		Squad_Destroy(tornado.SquadID)
-		SGroup_Destroy(tornado.SquadGroupID)
+		if(Squad_Exists(tornado.SquadUniqueID)) then
+			Squad_Destroy(tornado.SquadID)
+		end
+
+		if(SGroup_Exists(tornado.SquadGroupName)) then
+			SGroup_Destroy(SGroup_FromName(tornado.SquadGroupName))
+			--SGroup_Destroy(tornado.SquadGroupID)
+		end
+
 		table.remove(g_AllTornados[tornado.PosInTornadoStorage])
 		return
 		

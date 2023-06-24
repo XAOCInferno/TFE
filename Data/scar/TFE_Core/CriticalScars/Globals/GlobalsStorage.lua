@@ -77,7 +77,8 @@ g_TimeSinceWorldTimeUpdate = 0
 
 g_SquadBlueprintToIgnore = 
 {
-	"dark_eldar_squad_slave_murdered_long"
+	"dark_eldar_squad_slave_murdered_long",
+	"world_squad_tornado"
 }
 
 g_AllSquadUpkeeps = 

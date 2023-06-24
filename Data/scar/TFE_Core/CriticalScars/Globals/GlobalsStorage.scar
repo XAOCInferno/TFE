@@ -9,7 +9,8 @@ debug_GlobalsStorage_FileName = "GlobalsStorage.scar"
 --------------------
 import("TFE_Core/CriticalScars/Globals/GlobalsStorage.lua")
 
-local GlobalUniqueSquadID = 0
+--local GlobalUniqueSquadID = 0
+local UsedUniqueSquadIDs = {}
 
 ---------------
 --Main Script--
@@ -55,14 +56,18 @@ end
 
 function GetUniqueSG(BaseSGName)
 	BaseSGName = BaseSGName or "UniqueSG."
+	local UniqueSG = BaseSGName	
 
-	local UniqueSG = BaseSGName;	
-	while(SGroup_Exists(UniqueSG) == true) do
-
-		GlobalUniqueSquadID = GlobalUniqueSquadID + 1
-		UniqueSG = BaseSGName..GlobalUniqueSquadID
-
+	while(SGroup_Exists(UniqueSG) == true or TableContains(UsedUniqueSquadIDs,UniqueSG)) do
+		local index1 = World_GetRand(1,9)
+		local index2 = World_GetRand(1,9)
+		local index3 = World_GetRand(1,9)
+		local index4 = World_GetRand(1,9)
+		local index5 = World_GetRand(1,9)
+		UniqueSG = BaseSGName..index1..index2..index3..index4..index5
+		
 	end
-
+	table.insert(UsedUniqueSquadIDs,UniqueSG) 
+	print("Assigned Unique ID: "..UniqueSG)
 	return SGroup_Create(UniqueSG)
 end
