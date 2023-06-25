@@ -4,6 +4,9 @@ g_AllTornadoMkrs = {}
 g_AllTornados = {}
 g_CurrentTornadoMarkerGroup = {}
 
+g_TimeRequiredToSpawnTornadoMax = 25
+g_CurrentTimeRequiredToSpawnTornadoMax = 25 
+
 local MarkersSetupComplete = false
 
 MarkerDetails = {}
@@ -75,14 +78,6 @@ function GetAllMarkers()
 	MarkersSetupComplete = true
 end
 
-function RandomTornadoSpawn()
-
-	if(World_GetRand(0,100) <= 20) then
-		SpawnRandomTornado()
-	end
-
-end
-
 function SpawnAllTornados()
 
 	for i = 1, table.getn(g_AllTornadoMkrs) do
@@ -102,6 +97,8 @@ end
 
 function SpawnATornadoAtMarkerGroup(markerGroup)
 
+	if(markerGroup == nil) then return false end
+
 	local CreateTornado = function(_sgroupid, _itemindex, _squadID)
 
 		--Squad_SetWorldOwner(_squadID)	
@@ -110,7 +107,7 @@ function SpawnATornadoAtMarkerGroup(markerGroup)
 		table.insert(g_AllTornados, NewTornado)
 
 	end
-
+	
 	g_CurrentTornadoMarkerGroup = markerGroup
 	
 	local newTornado_sg = Util_CreateSquadsAtCustomMarkerEx(g_AllPlayers[1].Player, SGroup_GetName(GetUniqueSG("Tornado")), g_TornadoSquadBP, markerGroup[1].MarkerID, 1, 1)
@@ -120,10 +117,17 @@ end
 
 function TornadoUpdate()
 	if(MarkersSetupComplete) then
-		RandomTornadoSpawn()
+
 		for i = 1, table.getn(g_AllTornados) do
 
 			TornadoIfIdleMove(g_AllTornados[i])
+
+		end
+
+		if(g_WorldTime - g_CurrentTimeRequiredToSpawnTornadoMax > 0) then
+
+			g_CurrentTimeRequiredToSpawnTornadoMax = g_WorldTime + (g_TimeRequiredToSpawnTornadoMax + World_GetRand(-5,5))
+			SpawnRandomTornado()
 
 		end
 	end
