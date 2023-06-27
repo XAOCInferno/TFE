@@ -3,6 +3,7 @@ GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
 GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\necron_summon_obelisk.lua]]
 GameData["building_engineer_ext"] = Reference([[ebpextensions\building_engineer_ext.lua]])
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
+GameData["cost_ext"]["time_cost"]["cost"]["power"] = 10
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
 GameData["cost_ext"]["time_cost"]["time_seconds"] = 15

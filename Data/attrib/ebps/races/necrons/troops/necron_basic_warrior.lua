@@ -15,10 +15,10 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["shoot_motion_variable_name
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["vertical_aim_motion_variable_name"] = [[]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\necron_warrior_gauss_flayer_melee.lua]]
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
-GameData["cost_ext"]["time_cost"]["cost"]["power"] = 8.75
+GameData["cost_ext"]["time_cost"]["cost"]["power"] = 10
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
-GameData["cost_ext"]["time_cost"]["time_seconds"] = 6.5
+GameData["cost_ext"]["time_cost"]["time_seconds"] = 6.8
 GameData["cover_ext"] = Reference([[ebpextensions\cover_ext.lua]])
 GameData["cover_ext"]["cover_blocking"]["modifiers"]["modifier_01"] = Reference([[modifiers\no_modifier.lua]])
 GameData["cover_ext"]["cover_blocking"]["modifiers"]["modifier_01"]["shield_of_faith"] = false
@@ -567,7 +567,11 @@ GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_01"]["shield_of_
 GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_01"]["target_type_name"] = [[necron_basic_warrior]]
 GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_01"]["usage_type"] = Reference([[type_modifierusagetype\tp_mod_usage_addition.lua]])
 GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_01"]["value"] = 0.6
+GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_02"] = Reference([[modifiers\reinforce_time_player_modifier.lua]])
+GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_02"]["application_type"] = Reference([[type_modifierapplicationtype\tp_mod_apply_to_entity_type.lua]])
 GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_02"]["shield_of_faith"] = false
+GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_02"]["target_type_name"] = [[necron_basic_warrior]]
+GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_02"]["value"] = 1.01
 GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_03"]["shield_of_faith"] = false
 GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_04"]["shield_of_faith"] = false
 GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_05"]["shield_of_faith"] = false
