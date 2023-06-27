@@ -156,7 +156,7 @@ function DustStormUpdate()
 
 		if(g_WorldTime - g_TimeRequiredToDoDustStormMax > 0 and g_IsDoingDustStorm == false) then
 
-			g_TimeRequiredToDoDustStormMax = g_WorldTime + (g_TimeRequiredToDoDustStormMax + World_GetRand(-5,5))
+			g_CurrentTimeRequiredToDoDustStormMax = g_WorldTime + (g_TimeRequiredToDoDustStormMax + World_GetRand(-30,90))
 			StartGlobalDust()
 
 		elseif(g_IsDoingDustStorm and g_WorldTime > g_DustStormEndTime) then
@@ -178,7 +178,7 @@ function TornadoUpdate()
 
 		if(g_WorldTime - g_CurrentTimeRequiredToSpawnTornadoMax > 0) then
 
-			g_CurrentTimeRequiredToDoDustStormMax = g_WorldTime + ((g_TimeRequiredToSpawnTornadoMax + World_GetRand(-30,90))  * g_DustStormTimeModifier_Multiplication)
+			g_CurrentTimeRequiredToSpawnTornadoMax = g_WorldTime + ((g_TimeRequiredToSpawnTornadoMax + World_GetRand(-5,10))  * g_TornadoSpawnTimeModifier_Multiplication)
 			SpawnRandomTornado()
 
 		end
