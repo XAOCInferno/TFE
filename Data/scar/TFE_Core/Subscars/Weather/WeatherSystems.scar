@@ -1,11 +1,23 @@
 debug_NewCoverSystems_FileName = "WeatherSystems"
 g_TornadoSquadBP = "world_squad_tornado"
+g_DustStormSquadBP = "world_squad_global_dust_storm"
 g_AllTornadoMkrs = {}
 g_AllTornados = {}
 g_CurrentTornadoMarkerGroup = {}
 
 g_TimeRequiredToSpawnTornadoMax = 25
 g_CurrentTimeRequiredToSpawnTornadoMax = 25 
+g_TornadoSpawnTimeModifier_Multiplication = 1
+
+
+
+g_TimeRequiredToDoDustStormMax = 300
+g_CurrentTimeRequiredToDoDustStormMax = 300
+g_DustStormTimeModifier_Multiplication = 1
+g_DustStormDuration = 120
+g_DustStormEndTime = 0
+g_IsDoingDustStorm = false
+g_GlobalDustStormSquad = 0
 
 local MarkersSetupComplete = false
 
@@ -46,9 +58,33 @@ end
 function Setup_WeatherSystems()
 
 	GetAllMarkers()
-	--Rule_AddInterval(SpawnAllTornados, 20) --work out better spawning later
+	StartGlobalDust()
+	EndGlobalDust()
 
 end
+
+function StartGlobalDust()
+
+	g_TornadoSpawnTimeModifier_Multiplication = 0.5
+	g_DustStormEndTime = g_WorldTime + g_DustStormDuration + World_GetRand(-15, 25)
+	g_IsDoingDustStorm = true
+	g_GlobalDustStormSquad = Util_CreateSquadsAtCustomMarkerEx(g_AllPlayers[1].Player, SGroup_GetName(GetUniqueSG("DustStorm")), g_DustStormSquadBP, g_AllTornadoMkrs[1][1].MarkerID, 1, 1)
+
+end
+
+function EndGlobalDust()
+
+    local DespawnSquad = function( sgroupid, itemindex, squadID )
+        Squad_Destroy( squadID )
+    end
+	
+	g_TimeRequiredToDoDustStormMax = g_WorldTime + (g_TimeRequiredToDoDustStormMax + World_GetRand(-5,5))
+	g_IsDoingDustStorm = false
+	g_TornadoSpawnTimeModifier_Multiplication = 1
+	SGroup_ForEach(g_GlobalDustStormSquad, DespawnSquad)
+
+end
+
 
 function GetAllMarkers()
 
@@ -79,7 +115,7 @@ function GetAllMarkers()
 end
 
 function SpawnAllTornados()
-
+	
 	for i = 1, table.getn(g_AllTornadoMkrs) do
 
 		SpawnATornadoAtMarkerGroup(g_AllTornadoMkrs[i])
@@ -115,6 +151,22 @@ function SpawnATornadoAtMarkerGroup(markerGroup)
 		
 end
 
+function DustStormUpdate()
+	if(MarkersSetupComplete) then
+
+		if(g_WorldTime - g_TimeRequiredToDoDustStormMax > 0 and g_IsDoingDustStorm == false) then
+
+			g_TimeRequiredToDoDustStormMax = g_WorldTime + (g_TimeRequiredToDoDustStormMax + World_GetRand(-5,5))
+			StartGlobalDust()
+
+		elseif(g_IsDoingDustStorm and g_WorldTime > g_DustStormEndTime) then
+
+			EndGlobalDust()
+
+		end
+	end
+end
+
 function TornadoUpdate()
 	if(MarkersSetupComplete) then
 
@@ -126,7 +178,7 @@ function TornadoUpdate()
 
 		if(g_WorldTime - g_CurrentTimeRequiredToSpawnTornadoMax > 0) then
 
-			g_CurrentTimeRequiredToSpawnTornadoMax = g_WorldTime + (g_TimeRequiredToSpawnTornadoMax + World_GetRand(-5,5))
+			g_CurrentTimeRequiredToDoDustStormMax = g_WorldTime + ((g_TimeRequiredToSpawnTornadoMax + World_GetRand(-30,90))  * g_DustStormTimeModifier_Multiplication)
 			SpawnRandomTornado()
 
 		end
