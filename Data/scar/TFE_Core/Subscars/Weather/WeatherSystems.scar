@@ -5,16 +5,15 @@ g_AllTornadoMkrs = {}
 g_AllTornados = {}
 g_CurrentTornadoMarkerGroup = {}
 
-g_TimeRequiredToSpawnTornadoMax = 25
-g_CurrentTimeRequiredToSpawnTornadoMax = 25 
+g_TimeRequiredToSpawnTornadoMax = 28
+g_CurrentTimeRequiredToSpawnTornadoMax = 28 
 g_TornadoSpawnTimeModifier_Multiplication = 1
 
 
-
-g_TimeRequiredToDoDustStormMax = 300
-g_CurrentTimeRequiredToDoDustStormMax = 300
+g_TimeRequiredToDoDustStormMax = 340
+g_CurrentTimeRequiredToDoDustStormMax = 340
 g_DustStormTimeModifier_Multiplication = 1
-g_DustStormDuration = 120
+g_DustStormDuration = 105
 g_DustStormEndTime = 0
 g_IsDoingDustStorm = false
 g_GlobalDustStormSquad = 0
@@ -58,8 +57,6 @@ end
 function Setup_WeatherSystems()
 
 	GetAllMarkers()
-	StartGlobalDust()
-	EndGlobalDust()
 
 end
 

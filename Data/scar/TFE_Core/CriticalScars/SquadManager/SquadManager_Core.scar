@@ -78,7 +78,7 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 		local newSquadGameID = Squad_GetGameID( _squadID )
 		local squadBP = Squad_GetBlueprintName( _squadID )				
 		local CriticalError = false
-		--if(TableContains(g_SquadBlueprintToIgnore, squadBP)) then return false end
+		if(TableContains(g_SquadBlueprintToIgnore, squadBP)) then return false end
 
 		if(squadBP == nil) then 
 			LogOnce(1, 0, debug_SquadManager_FileName, debugFuncName, "Can't squad BP is nil!")
