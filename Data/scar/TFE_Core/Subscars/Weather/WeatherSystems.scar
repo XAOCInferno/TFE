@@ -18,6 +18,8 @@ g_DustStormEndTime = 0
 g_IsDoingDustStorm = false
 g_GlobalDustStormSquad = 0
 
+local g_WorldRootMarker = nil
+
 local MarkersSetupComplete = false
 
 MarkerDetails = {}
@@ -65,7 +67,7 @@ function StartGlobalDust()
 	g_TornadoSpawnTimeModifier_Multiplication = 0.5
 	g_DustStormEndTime = g_WorldTime + g_DustStormDuration + World_GetRand(-15, 25)
 	g_IsDoingDustStorm = true
-	g_GlobalDustStormSquad = Util_CreateSquadsAtCustomMarkerEx(g_AllPlayers[1].Player, SGroup_GetName(GetUniqueSG("DustStorm")), g_DustStormSquadBP, g_AllTornadoMkrs[1][1].MarkerID, 1, 1)
+	g_GlobalDustStormSquad = Util_CreateSquadsAtCustomMarkerEx(g_AllPlayers[1].Player, SGroup_GetName(GetUniqueSG("DustStorm")), g_DustStormSquadBP, g_WorldRootMarker, 1, 1)
 
 end
 
@@ -84,6 +86,14 @@ end
 
 
 function GetAllMarkers()
+	local debugFuncName = "GetAllMarkers"
+
+	if(Marker_Exists("WorldCentre", "basic_marker")) then
+		g_WorldRootMarker = Marker_FromName("WorldCentre", "basic_marker")
+		Log(0, 0, debug_NewCoverSystems_FileName, debugFuncName, "World root marker found, global weather supported.") 
+	else
+		Log(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "World root marker can't be found, global weather not supported. To allow support, use Mission Editor to add a marker called 'WorldRoot' of type 'basic_marker'.") 
+	end
 
 	for i = 1, 1000 do
 		local mkrType = "tornado_marker"
@@ -146,6 +156,17 @@ function SpawnATornadoAtMarkerGroup(markerGroup)
 	local newTornado_sg = Util_CreateSquadsAtCustomMarkerEx(g_AllPlayers[1].Player, SGroup_GetName(GetUniqueSG("Tornado")), g_TornadoSquadBP, markerGroup[1].MarkerID, 1, 1)
 	SGroup_ForEach( newTornado_sg, CreateTornado )
 		
+end
+
+function Set_Weather()
+
+	if(g_WorldRootMarker ~= nil) then
+		DustStormUpdate()
+	end
+
+	if(table.getn(g_AllTornadoMkrs) > 0) then
+		TornadoUpdate()
+	end
 end
 
 function DustStormUpdate()
