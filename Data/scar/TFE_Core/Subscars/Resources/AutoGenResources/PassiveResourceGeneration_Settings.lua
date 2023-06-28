@@ -86,7 +86,7 @@ function Setup_PassiveResourceGeneration_Settings(_PlayerRace)
 	
 		local NecronRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("necron_race",false,0,0,0,0,0)	
 		NecronRace_PassiveResourceGeneration.BaseMatureLimits.RT_Requisition = 0
-		NecronRace_PassiveResourceGeneration.BaseMatureLimits.RT_Power = 2
+		NecronRace_PassiveResourceGeneration.BaseMatureLimits.RT_Power = 1
 		g_FactionSpecificResourceGeneration["necron_race"] = NecronRace_PassiveResourceGeneration
 		
 	elseif(_PlayerRace == "dark_eldar_race") then
