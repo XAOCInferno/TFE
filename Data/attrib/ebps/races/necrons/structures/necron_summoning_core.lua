@@ -259,6 +259,7 @@ GameData["research_ext"]["research_table"]["research_09"] = [[research\necron_wa
 GameData["research_ext"]["research_table"]["research_10"] = [[research\necron_warrior_phase.lua]]
 GameData["spawner_ext"] = Reference([[ebpextensions\spawner_ext.lua]])
 GameData["spawner_ext"]["squad_table"]["squad_01"] = [[sbps\races\necrons\necron_scarab_mine_squad.lua]]
+GameData["spawner_ext"]["squad_table"]["squad_02"] = [[sbps\races\necrons\necron_reclamator_squad.lua]]
 GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
 GameData["sight_ext"]["sight_radius"] = 20
 GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
