@@ -71,8 +71,8 @@ UnitCosting.guard_race =
 	guard_squad_command_squad =
 	{
 		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -1.8, Power = -0.3, Pop = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -0.6, Power = -0.15, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.4, Power = -0.3, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -0.55, Power = -0.15, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	guard_squad_assassin =
 	{
