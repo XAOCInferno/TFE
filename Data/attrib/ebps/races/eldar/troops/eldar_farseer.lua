@@ -1072,5 +1072,5 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$97814]] -- - Pow
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$97815]] -- - Can be upgraded with abilities to enhance friendly units.
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$97816]] -- - Effective against all unit types.
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[eldar_icons/farseer_icon]]
-GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$97811]] -- Farseer (Commander Unit)
+GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$97810]] -- Farseer (Commander Unit)
 GameData["ui_ext"]["use_hero_ui"] = true 
