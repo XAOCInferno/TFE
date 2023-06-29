@@ -11,9 +11,10 @@ import("scarutil.scar")
 ----------------------------------
 --TFE Globals [DO NOT REMOVE!]----
 ----------------------------------
-import("TFE_Core/Globals/LuaTableExtensions.scar")
-import("TFE_Core/Globals/GlobalsStorage.scar")
-import("TFE_Core/Debug/GlobalsDebug.scar")
+import("TFE_Core/CriticalScars/Globals/LuaTableExtensions.scar")
+import("TFE_Core/CriticalScars/Globals/GlobalsStorage.scar")
+import("TFE_Core/CriticalScars/SquadManager/SquadManager_Core.scar")
+import("TFE_Core/CriticalScars/Debug/GlobalsDebug.scar")
 ----------------------------------
 ----------------------------------
 
@@ -27,5 +28,6 @@ import("TFE_Core/Subscars/Alpha_Legion/AlphaLegion_Core.scar")
 import("TFE_Core/Subscars/Resources/AutoGenResources/PassiveResourceGeneration_Core.scar")
 import("TFE_Core/Subscars/Resources/Upkeep/ResUpkeepCore.scar")
 import("TFE_Core/Subscars/Resources/Mature/ResMatureCore.scar")
+import("TFE_Core/Subscars/Weather/WeatherSystems.scar")
 ----------------------------------
 ----------------------------------

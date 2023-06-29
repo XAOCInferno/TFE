@@ -1,1043 +1,361 @@
---####################################################################################################
---#
---#     Heroes Special Tau race info script
---#
---#     Original Heroes idea and implementation by CutterShane 2006
---#     Heroes Special rework by Arkhan 2007
---#
---####################################################################################################
 
-CommandLevel.tau_race = { 4, 7 }
+ResourceGlobalNames.tau_race = 
+{
+	RT_Requistion = 
+	{
+		"tau_requisition_research",
+		"tau_requisition_research_2",
+	},
 
-UnitTypes.tau_race =
+	RT_Power = 
+	{
+		"tau_power_research",
+		"tau_power_research_2",
+	}
+}
+
+UnitCosting.tau_race =
 {
 	-- Skirmish units
 	tau_builder_squad =
 	{
-		Title = "Earth Caste Builder",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeBuilder,
-		FXType = "Squad",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_stealth_team_shield_squad =
 	{
-		Title = "XV15 Stealth Shield Team",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
-		Unique = true,
-		HasLeaders = true,
-		HasWeapons = true,
-		Leaders =
-		{
-			"tau_shasvre_stealth_suit_shield",
-			"tau_drone_shield_drone_stealth",
-			"tau_drone_marker_drone",
-			"tau_drone_gun_drone",
-		},
-		Weapons =
-		{
-			"tau_burst_cannon_xv_25",
-			"tau_fusion_blaster_stealth_suit",
-			"tau_burst_cannon_xv_25",
-			"tau_fusion_blaster_stealth_suit",
-			"tau_stealth_suit_rifle_melee",
-			"tau_twin_linked_pulse_carbine_gun_drones",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_stealth_team_squad = 
 	{
-		Title = "XV15 Stealth Team",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
-		Unique = true,
-		HasLeaders = true,
-		HasWeapons = true,
-		Leaders =
-		{
-			"tau_shasvre_stealth_suit",
-			"tau_drone_shield_drone_stealth",
-			"tau_drone_marker_drone",
-			"tau_drone_gun_drone",
-		},
-		Weapons =
-		{
-			"tau_burst_cannon_xv_25",
-			"tau_fusion_blaster_stealth_suit",
-			"tau_burst_cannon_xv_25",
-			"tau_fusion_blaster_stealth_suit",
-			"tau_stealth_suit_rifle_melee",
-			"tau_twin_linked_pulse_carbine_gun_drones",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_stealth_team_targ_array_squad = 
 	{
-		Title = "XV15 Stealth Target Array Team",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
-		Unique = true,
-		HasLeaders = true,
-		HasWeapons = true,
-		Leaders =
-		{
-			"tau_shasvre_stealth_suit_targ_array",
-			"tau_drone_shield_drone_stealth",
-			"tau_drone_marker_drone",
-			"tau_drone_gun_drone",
-		},
-		Weapons =
-		{
-			"tau_burst_cannon_targ_array_stealth_team",
-			"tau_fusion_blaster_targ_array_stealth_suit",
-			"tau_burst_cannon_targ_array_xv_25",
-			"tau_fusion_blaster_stealth_suit",
-			"tau_stealth_suit_rifle_melee",
-			"tau_twin_linked_pulse_carbine_gun_drones",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_vespid_auxiliary_squad =
 	{
-		Title = "Vespid Stingwing Strain",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeCommander,
-		FXType = "Squad",
-		Unique = true,
-		HasLeaders = true,
-		HasWeapons = true,
-		Leaders =
-		{
-			"tau_vespid_strain_leader",
-		},
-		Weapons =
-		{
-			"tau_vespid_neutron_blaster",
-			"tau_vespid_claw",
-			"tau_vespid_strain_leader_claw",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_fire_warrior_squad =
 	{
-		Title = "Fire Warrior Team",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
-		Unique = true,
-		HasLeaders = true,
-		HasWeapons = true,
-		Leaders =
-		{
-			"tau_shasui_fire_warrior",
-			"tau_drone_shield_drone",
-			"tau_drone_marker_drone",
-			"tau_drone_gun_drone",
-		},
-		Weapons =
-		{
-			"tau_pulse_rifle_fire_warrior",
-			"tau_pulse_carbine_fire_warrior",
-			"tau_fire_warrior_rifle_melee",
-			"tau_pulse_carbine_shasui_fire_warrior",
-			"tau_twin_linked_pulse_carbine_gun_drones",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_pathfinder_squad =
 	{
-		Title = "Pathfinder Team",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeScoutSquad,
-		FXType = "Squad",
-		Unique = true,
-		HasLeaders = true,
-		HasWeapons = true,
-		Leaders =
-		{
-			"tau_shasui_pathfinder",
-			"tau_drone_shield_drone",
-			"tau_drone_marker_drone",
-			"tau_drone_gun_drone",
-		},
-		Weapons =
-		{
-			"tau_pulse_carbine_pathfinder",
-			"tau_rail_rifle_pathfinder",
-			"tau_pathfinder_melee",
-			"tau_pulse_carbine_pathfinder",
-			"tau_twin_linked_pulse_carbine_gun_drones",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_guevesa_auxiliary_squad =
 	{
-		Title = "Guevesa Auxiliary Pack",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_gun_drone_squadron =
 	{
-		Title = "Gun Drone Squadron",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_heavy_gun_drone_squadron =
 	{
-		Title = "Heavy Gun Drone Squadron",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_sniper_drone_squad =
 	{
-		Title = "Sniper Drone Squadron",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeCommander,
-		FXType = "Squad",
-		Unique = true,
-		HasLeaders = true,
-		HasWeapons = true,
-		Leaders =
-		{
-			"tau_drone_sniper_drone",
-		},
-		Weapons =
-		{
-			"tau_fire_warrior_rifle_melee",
-			"tau_pulse_rifle_longshot_drone",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_kroot_carnivore_squad =
 	{
-		Title = "Kroot Carnivore Squad",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeMeleeSquad,
-		FXType = "Squad",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_kroot_hound_squad =
 	{
-		Title = "Kroot Hound Pack",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeMeleeSquad,
-		FXType = "Squad",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_krootox_squad =
 	{
-		Title = "Krootox Pack",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeWalker,
-		FXType = "Vehicle",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_kroot_knarloc_rider_squad =
 	{
-		Title = "Knarloc Rider Pack",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_broadside_battlesuit_squad =
 	{
-		Title = "XV88 Broadside Battlesuit",
-		Type = "CommandoForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Vehicle",
-		Unique = true,
-		HasLeaders = true,
-		HasWeapons = true,
-		Leaders =
-		{
-			"tau_broadside_battlesuit_shasvre",
-			"tau_drone_shield_drone_broadside",
-			"tau_drone_marker_drone",
-			"tau_drone_gun_drone",
-		},
-		Weapons =
-		{
-			"tau_heavy_rail_rifle_broadside_battlesuit",
-			"tau_missile_broadside_battlesuit",
-			"tau_twinlink_plasma_broadside",
-			"tau_battlesuit_melee",
-			"tau_battlesuit_melee_shasvre",
-			"tau_twin_linked_pulse_carbine_gun_drones",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_crisis_suit_squad_fireknife = 
 	{
-		Title = "XV8 Crisis Battlesuit Fireknife",
-		Type = "CommandoForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Vehicle",
-		Unique = true,
-		HasLeaders = true,
-		HasWeapons = true,
-		Leaders =
-		{
-			"tau_shasvre_crisis_suit_fireknife",
-			"tau_drone_shield_drone",
-			"tau_drone_marker_drone",
-			"tau_drone_gun_drone",
-		},
-		Weapons =
-		{
-			"tau_plasma_rifle_xv81_crisis_suit_TA_r",
-			"tau_flamer_xv81_crisis_suit_l",
-			"tau_burst_cannon_xv81_crisis_suit_TA_l",
-			"tau_fusion_blaster_xv81_crisis_suit_TA_l",
-			"tau_missile_pod_xv81_crisis_suit_TA_l",
-			"tau_battlesuit_melee",
-			"tau_battlesuit_melee_shasvre",
-			"tau_twin_linked_pulse_carbine_gun_drones",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_crisis_suit_squad_firestorm = 
 	{
-		Title = "XV8 Crisis Battlesuit Firestorm",
-		Type = "CommandoForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Vehicle",
-		Unique = true,
-		HasLeaders = true,
-		HasWeapons = true,
-		Leaders =
-		{
-			"tau_shasvre_crisis_suit",
-			"tau_drone_shield_drone",
-			"tau_drone_marker_drone",
-			"tau_drone_gun_drone",
-		},
-		Weapons =
-		{
-			"tau_burst_cannon_xv81_crisis_suit_r",
-			"tau_flamer_xv81_crisis_suit_l",
-			"tau_fusion_blaster_xv81_crisis_suit_l",
-			"tau_missile_pod_xv81_crisis_suit_l",
-			"tau_plasma_rifle_xv81_crisis_suit_l",
-			"tau_battlesuit_melee",
-			"tau_battlesuit_melee_shasvre",
-			"tau_twin_linked_pulse_carbine_gun_drones",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_crisis_suit_squad_monat = 
 	{
-		Title = "XV8 Crisis Battlesuit Monat",
-		Type = "CommandoForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Vehicle",
-		Unique = true,
-		HasLeaders = true,
-		HasWeapons = true,
-		Leaders =
-		{
-			"tau_shasvre_crisis_suit_monat",
-			"tau_drone_shield_drone",
-			"tau_drone_marker_drone",
-			"tau_drone_gun_drone",
-		},
-		Weapons =
-		{
-			"tau_burst_cannon_xv81_crisis_suit_l",
-			"tau_flamer_xv81_crisis_suit_l",
-			"tau_fusion_blaster_xv81_crisis_suit_r",
-			"tau_missile_pod_xv81_crisis_suit_l",
-			"tau_plasma_rifle_xv81_crisis_suit_l",
-			"tau_battlesuit_melee",
-			"tau_battlesuit_melee_shasvre",
-			"tau_twin_linked_pulse_carbine_gun_drones",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_crisis_suit_squad_sunfire = 
 	{
-		Title = "XV8 Crisis Battlesuit Sunfire",
-		Type = "CommandoForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Vehicle",
-		Unique = true,
-		HasLeaders = true,
-		HasWeapons = true,
-		Leaders =
-		{
-			"tau_shasvre_crisis_suit_sunfire",
-			"tau_drone_shield_drone",
-			"tau_drone_marker_drone",
-			"tau_drone_gun_drone",
-		},
-		Weapons =
-		{
-			"tau_burst_cannon_xv81_crisis_suit_r",
-			"tau_flamer_xv81_crisis_suit_l",
-			"tau_fusion_blaster_xv81_crisis_suit_l",
-			"tau_missile_pod_xv81_crisis_suit_top",
-			"tau_plasma_rifle_xv81_crisis_suit_l",
-			"tau_battlesuit_melee",
-			"tau_plasma_rifle_xv81_crisis_suit_r",
-			"tau_battlesuit_melee_shasvre",
-			"tau_twin_linked_pulse_carbine_gun_drones",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_crisis_suit_squad =
 	{
-		Title = "XV8 Crisis Battlesuit",
-		Type = "CommandoForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Vehicle",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_commander_squad =
 	{
-		Title = "Tau Commander",
-		Type = "Commander",
-		UpgradeFunction = UpgradeCommander,
-		FXType = "Squad",
-		General = true,
-		Unique = true,
-		HasLeaders = true,
-		HasWeapons = true,
-		Leaders =
-		{
-			"tau_snare_trap",
-			"tau_drone_gun_drone_commander_sp",
-			"tau_drone_shield_drone_commander_sp",
-		},
-		Weapons =
-		{
-			"tau_burst_cannon_commander",
-			"tau_fusion_blaster_commander",
-			"tau_plasma_rifle_commander",
-			"tau_missile_launcher_commander",
-			"tau_flamer_commander",
-			"tau_burst_cannon_commander_melee",
-			"tau_twin_linked_pulse_carbine_gun_drones",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_ethereal_squad =
 	{
-		Title = "Ethereal",
-		Type = "Commander",
-		UpgradeFunction = UpgradeCommander,
-		FXType = "Squad",
-		MorphID = 1,
-		Unique = true,
-		HasWeapons = true,
-		Weapons =
-		{
-			"tau_ethereal_honor_blade",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_shasui_fire_warrior_bodyguard_sp =
 	{
-		Title = "Fire Warrior Bodyguard",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
-		CanMorph = true,
-		Summoned = true,
-		MorphID = 1,
-		Unique = true,
-		HasWeapons = true,
-		Weapons =
-		{
-			"tau_pulse_carbine_shasui_fire_warrior_advance_sp",
-			"tau_fire_warrior_rifle_melee",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_ethereal_bodyguards_squad =
 	{
-		Title = "Ethereal Bodyguards",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
-		CanMorph = true,
-		Summoned = true,
-		MorphID = 1,
-		Unique = true,
-		HasLeaders = true,
-		HasWeapons = true,
-		Leaders =
-		{
-			"tau_shasui_fire_warrior_honor_guard",
-			"tau_drone_shield_drone",
-			"tau_drone_marker_drone",
-			"tau_drone_gun_drone",
-		},
-		Weapons =
-		{
-			"tau_pulse_rifle_fire_warrior_honor_guard",
-			"tau_pulse_carbine_fire_warrior_honor_guard",
-			"tau_fire_warrior_rifle_melee",
-			"tau_twin_linked_pulse_carbine_gun_drones",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_xv_89_commander_squad =
 	{
-		Title = "XV89 Commander",
-		Type = "Commander",
-		UpgradeFunction = UpgradeCommander,
-		FXType = "Squad",
-		MorphID = 1,
-		Unique = true,
-		HasWeapons = true,
-		Weapons =
-		{
-			"tau_burst_cannon_xv89",
-			"tau_fusion_blaster_xv89",
-			"tau_plasma_rifle_xv89",
-			"tau_cyclic_ion_blaster_xv89",
-			"tau_flamer_xv89",
-			"tau_missile_pod_xv89",
-			"tau_energy_shield_xv89",
-			"tau_airbursting_frag_xv89",
-			"tau_battlesuit_melee_shaso",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_xv_89_commander_bodyguards_squad =
 	{
-		Title = "XV89 Commander Bodyguards",
-		Type = "CommandoForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
-		CanMorph = true,
-		Summoned = true,
-		MorphID = 1,
-		Unique = true,
-		HasLeaders = true,
-		HasWeapons = true,
-		Leaders =
-		{
-			"tau_crisis_suit_fireknife_bodyguard",
-			"tau_crisis_suit_monat_bodyguard",
-		},
-		Weapons =
-		{
-			"tau_plasma_rifle_xv81_crisis_suit_r",
-			"tau_burst_cannon_xv81_crisis_suit_l",
-			"tau_fusion_blaster_xv81_crisis_suit_bodyguard_l",
-			"tau_missile_pod_xv81_crisis_suit_bodyguard_l",
-			"tau_battlesuit_melee_shasvre",
-			"tau_missile_pod_xv81_crisis_suit_l",
-			"tau_fusion_blaster_xv81_crisis_suit_l",
-			"tau_fusion_blaster_xv81_crisis_suit_r",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	-- Attachable
 	tau_kroot_shaper_squad =
 	{
-		Title = "Kroot Shaper",
-		Type = "Commander",
-		UpgradeFunction = UpgradeCommander,
-		FXType = "Squad",
-		CanAttach = true,
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	-- Vehicles
 	tau_tetra_squad =
 	{
-		Title = "Tetra Squad",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Vehicle",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_piranha_squad =
 	{
-		Title = "Piranha Squad",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Vehicle",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_devilfish_troop_carrier =
 	{
-		Title = "Devilfish Troop Carrier",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeTank,
-		FXType = "Vehicle",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_devilfish_troop_carrier_pathfinder =
 	{
-		Title = "Devilfish Troop Carrier Pathfinder",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeTank,
-		FXType = "Vehicle",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_skyray_squad =
 	{
-		Title = "Skyray Missile Gunship",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeTank,
-		FXType = "Vehicle",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_drone_squad =
 	{
-		Title = "Drone Squad",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_drone_harbinger_squad =
 	{
-		Title = "Drone Harbinger",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeTank,
-		FXType = "Vehicle",
-		MorphID = 2,
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_harbinger_drones_squad =
 	{
-		Title = "Harbinger Drones",
-		Type = "CommandoForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
-		CanMorph = true,
-		Summoned = true,
-		MorphID = 2,
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_barracuda_squad =
 	{
-		Title = "Barracuda",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeTank,
-		FXType = "Vehicle",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_hammerhead_gunship_squad =
 	{
-		Title = "Hammerhead Gunship Railgun",
-		Type = "CommandoForces",
-		UpgradeFunction = UpgradeTank,
-		FXType = "Vehicle",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_hammerhead_gunship_squad_2 =
 	{
-		Title = "Hammerhead Gunship Ion Cannon",
-		Type = "CommandoForces",
-		UpgradeFunction = UpgradeTank,
-		FXType = "Vehicle",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_greater_knarloc_squad =
 	{
-		Title = "Greater Knarloc",
-		Type = "CommandoForces",
-		UpgradeFunction = UpgradeCommander,
-		FXType = "Vehicle",
-		Unique = true,
-		HasWeapons = true,
-		Weapons =
-		{
-			"tau_greater_knarloc_claw",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	-- Campaign units
 	tau_commander_squad_advance_sp =
 	{
-		Title = "Commander Or'es'Ka",
-		Type = "Commander",
-		UpgradeFunction = UpgradeCommander,
-		FXType = "Squad",
-		General = true,
-		Unique = true,
-		HasLeaders = true,
-		HasWeapons = true,
-		Leaders =
-		{
-			"tau_shield_drone_commander_sp",
-			"tau_drone_squad_commander_sp",
-			"tau_snare_trap",
-		},
-		Weapons =
-		{
-			"tau_burst_cannon_commander",
-			"tau_fusion_blaster_commander_sp",
-			"tau_plasma_rifle_commander_sp",
-			"tau_missile_launcher_commander",
-			"tau_flamer_commander",
-			"tau_burst_cannon_commander_melee",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_stealth_team_squad_sp =
 	{
-		Title = "XV15 Stealth Team",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_vespid_auxiliary_squad_sp =
 	{
-		Title = "Vespid Stingwing Strain",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeCommander,
-		FXType = "Squad",
-		Unique = true,
-		HasLeaders = true,
-		HasWeapons = true,
-		Leaders =
-		{
-			"tau_vespid_strain_leader",
-		},
-		Weapons =
-		{
-			"tau_vespid_neutron_blaster",
-			"tau_vespid_claw",
-			"tau_vespid_strain_leader_claw",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	-- StrongholdSquads
 	tau_kroot_alpha_squad_sp_dxp3_prisoner =
 	{
-		Title = "Kroot Alpha Pack",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeMeleeSquad,
-		FXType = "Squad",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_honor_guard_fire_warrior_squad_sp_dxp3_prisoner =
 	{
-		Title = "Fire Warrior Bodyguard",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_vespid_auxiliary_squad_sp_dxp3 =
 	{
-		Title = "Vespid Stingwing Strain",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeCommander,
-		FXType = "Squad",
-		Unique = true,
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_crisis_suit_squad_sp_dxp3 =
 	{
-		Title = "XV8 Crisis Battlesuit",
-		Type = "CommandoForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Vehicle",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	-- BonusSquads
 	tau_honor_guard_stealth_suit_squad_advance_sp =
 	{
-		Title = "Veteran Stealth Team",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_vespid_elder_squad_advance_sp =
 	{
-		Title = "Vespid Elder Strain",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeCommander,
-		FXType = "Squad",
-		Unique = true,
-		HasLeaders = true,
-		Leaders =
-		{
-			"tau_vespid_strain_leader_advance_sp",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_honor_guard_fire_warrior_squad_advance_sp =
 	{
-		Title = "Fire Warrior Bodyguard",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Squad",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_kroot_alpha_squad_advance_sp =
 	{
-		Title = "Kroot Alpha Pack",
-		Type = "RegularForces",
-		UpgradeFunction = UpgradeMeleeSquad,
-		FXType = "Squad",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_kroot_hound_squad_advance_sp =
 	{
-		Title = "Kroot Hunting Pack",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeMeleeSquad,
-		FXType = "Squad",
-		Unique = true,
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_kroot_shaper_squad_advance_sp =
 	{
-		Title = "Shaper Ortrazk",
-		Type = "Commander",
-		UpgradeFunction = UpgradeCommander,
-		FXType = "Squad",
-		CanAttach = true,
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_honor_guard_crisis_suit_squad_advance_sp =
 	{
-		Title = "Crisis Suit Guard",
-		Type = "CommandoForces",
-		UpgradeFunction = UpgradeRangedSquad,
-		FXType = "Vehicle",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_broadside_battlesuit_squad_hg_dxp3 =
 	{
-		Title = "Veteran Broadside Battlesuit",
-		Type = "CommandoForces",
-		UpgradeFunction = UpgradeCommander,
-		FXType = "Vehicle",
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	tau_skyray_squad_advance_sp =
 	{
-		Title = "Skyray Missile Gunship",
-		Type = "SpecialForces",
-		UpgradeFunction = UpgradeTank,
-		FXType = "Vehicle",
-	},
-}
-
-UnitRanks.tau_race =
-{
-	{
-		Name = "Level 1",
-		XPRequirements =
-		{
-			Commander = 0,
-			RegularForces = 0,
-			SpecialForces = 0,
-			CommandoForces = 0,
-		},
-		UpgradeFX =
-		{
-			Squad = nil,
-			Vehicle = nil,
-		},
-		AuraFX =
-		{
-			Squad = nil,
-			Vehicle = nil,
-		},
-		MessageFX =
-		{
-			Icon = nil,
-			Sound = nil,
-		},
-	},
-	{
-		Name = "Level 2",
-		XPRequirements =
-		{
-			Commander = 250,
-			RegularForces = 500,
-			SpecialForces = 500,
-			CommandoForces = 500,
-		},
-		UpgradeFX =
-		{
-			Squad = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
-			Vehicle = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
-			Message = { "data:Art/Events/generic/ui/generic_level_up" },
-		},
-		AuraFX =
-		{
-			Squad = nil,
-			Vehicle = nil,
-		},
-		MessageFX =
-		{
-			Icon = "level_upgrade",
-			Sound = "/races/space_marines/librarian/word_of_the_emporer",
-		},
-	},
-	{
-		Name = "Level 3",
-		XPRequirements =
-		{
-			Commander = 500,
-			RegularForces = 1000,
-			SpecialForces = 1000,
-			CommandoForces = 1000,
-		},
-		UpgradeFX =
-		{
-			Squad = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
-			Vehicle = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
-			Message = { "data:Art/Events/generic/ui/generic_level_up" },
-		},
-		AuraFX =
-		{
-			Squad = nil,
-			Vehicle = nil,
-		},
-		MessageFX =
-		{
-			Icon = "level_upgrade",
-			Sound = "/races/space_marines/librarian/word_of_the_emporer",
-		},
-	},
-	{
-		Name = "Level 4",
-		XPRequirements =
-		{
-			Commander = 750,
-			RegularForces = 1500,
-			SpecialForces = 1500,
-			CommandoForces = 1500,
-		},
-		UpgradeFX =
-		{
-			Squad = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
-			Vehicle = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
-			Message = { "data:Art/Events/generic/ui/generic_level_up" },
-		},
-		AuraFX =
-		{
-			Squad = { "unit_ability_fx/docs_tools_unit" },
-			Vehicle = { "guard/abilities/fanatacism_hvy" },
-		},
-		MessageFX =
-		{
-			Icon = "level_upgrade",
-			Sound = "/races/space_marines/librarian/word_of_the_emporer",
-		},
-	},
-	{
-		Name = "Level 5",
-		XPRequirements =
-		{
-			Commander = 1000,
-			RegularForces = -1,
-			SpecialForces = -1,
-			CommandoForces = -1,
-		},
-		UpgradeFX =
-		{
-			Squad = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
-			Vehicle = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
-			Message = { "data:Art/Events/generic/ui/generic_level_up" },
-		},
-		AuraFX =
-		{
-			Squad = { "unit_ability_fx/docs_tools_unit" },
-			Vehicle = { "guard/abilities/fanatacism_hvy" },
-		},
-		MessageFX =
-		{
-			Icon = "level_upgrade",
-			Sound = "/races/space_marines/librarian/word_of_the_emporer",
-		},
-	},
-	{
-		Name = "Level 6",
-		XPRequirements =
-		{
-			Commander = 1250,
-			RegularForces = -1,
-			SpecialForces = -1,
-			CommandoForces = -1,
-		},
-		UpgradeFX =
-		{
-			Squad = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
-			Vehicle = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
-			Message = { "data:Art/Events/generic/ui/generic_level_up" },
-		},
-		AuraFX =
-		{
-			Squad = { "unit_ability_fx/docs_tools_unit" },
-			Vehicle = { "guard/abilities/fanatacism_hvy" },
-		},
-		MessageFX =
-		{
-			Icon = "level_upgrade",
-			Sound = "/races/space_marines/librarian/word_of_the_emporer",
-		},
-	},
-	{
-		Name = "Level 7",
-		XPRequirements =
-		{
-			Commander = 1500,
-			RegularForces = -1,
-			SpecialForces = -1,
-			CommandoForces = -1,
-		},
-		UpgradeFX =
-		{
-			Squad = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
-			Vehicle = { "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },			
-			Message = { "data:Art/Events/generic/ui/generic_level_up" },
-		},
-		AuraFX =
-		{
-			Squad = { "unit_ability_fx/inspiring" },
-			Vehicle = { "guard/abilities/fanatacism_hvy", "unit_ability_fx/rally_hvy_unit_fx" },
-		},
-		MessageFX =
-		{
-			Icon = "level_upgrade",
-			Sound = "/races/space_marines/librarian/word_of_the_emporer",
-		},
-	},
-	{
-		Name = "Level 8",
-		XPRequirements =
-		{
-			Commander = 1750,
-			RegularForces = -1,
-			SpecialForces = -1,
-			CommandoForces = -1,
-		},
-		UpgradeFX =
-		{
-			Squad = { "unit_ability_fx/battlecry_god_light", "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
-			Vehicle = { "unit_ability_fx/battlecry_god_light", "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
-			Message = { "data:Art/Events/generic/ui/generic_level_up" },
-		},
-		AuraFX =
-		{
-			Squad = { "unit_ability_fx/inspiring" },
-			Vehicle = { "guard/abilities/fanatacism_hvy", "unit_ability_fx/rally_hvy_unit_fx" },
-		},
-		MessageFX =
-		{
-			Icon = "level_upgrade",
-			Sound = "/races/space_marines/librarian/word_of_the_emporer",
-		},
-	},
-	{
-		Name = Level 9",
-		XPRequirements =
-		{
-			Commander = 2000,
-			RegularForces = -1,
-			SpecialForces = -1,
-			CommandoForces = -1,
-		},
-		UpgradeFX =
-		{
-			Squad = { "unit_ability_fx/battlecry_god_light", "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
-			Vehicle = { "unit_ability_fx/battlecry_god_light", "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
-			Message = { "data:Art/Events/generic/ui/generic_level_up" },
-		},
-		AuraFX =
-		{
-			Squad = { "unit_ability_fx/inspiring" },
-			Vehicle = { "guard/abilities/fanatacism_hvy", "unit_ability_fx/rally_hvy_unit_fx" },
-		},
-		MessageFX =
-		{
-			Icon = "level_upgrade",
-			Sound = "/races/space_marines/librarian/word_of_the_emporer",
-		},
-	},
-	{
-		Name = Level 10",
-		XPRequirements =
-		{
-			Commander = 2250,
-			RegularForces = -1,
-			SpecialForces = -1,
-			CommandoForces = -1,
-		},
-		UpgradeFX =
-		{
-			Squad = { "unit_ability_fx/battlecry_god_light", "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx" },
-			Vehicle = { "unit_ability_fx/battlecry_god_light", "unit_ability_fx/smite_anticipation_fx", "eldar_unit_fx/warp_fx", "unit_ability_fx/smite_impact_fx" },
-			Message = { "data:Art/Events/generic/ui/generic_level_up" },
-		},
-		AuraFX =
-		{
-			Squad = { "unit_ability_fx/inspiring" },
-			Vehicle = { "guard/abilities/fanatacism_hvy", "unit_ability_fx/rally_hvy_unit_fx" },
-		},
-		MessageFX =
-		{
-			Icon = "level_upgrade",
-			Sound = "/races/space_marines/librarian/word_of_the_emporer",
-		},
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 }

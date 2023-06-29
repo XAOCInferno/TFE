@@ -1,0 +1,58 @@
+---------
+--DEBUG--
+---------
+debug_TrueRandomRace_FileName = "TrueRandomRace_Core.scar"
+
+--------------------
+------imports-------
+--------------------
+import("TrueRandomRace/RacePrefs.lua")
+
+
+function TrueRandomRace_Setup()
+
+	local debugFuncName = "TrueRandomRace_Setup"	
+	Log(0, 0, debug_TrueRandomRace_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	
+	CheckForValidListContents()
+	
+	local availableRaces = g_TRR_AllRaces
+	for i = 1, g_PlayerCount do
+		
+		local newRaceIndex = 0
+		local newRace = 0
+		
+		if(tblLength == 0) then
+		
+			Log(1, 0, debug_TrueRandomRace_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+			
+			newRaceIndex = World_GetRand(1, table.getn(availableRaces))
+			newRace = g_TRR_AllRaces[newRaceIndex]
+			table.remove(availableRaces, newRaceIndex)
+			
+		else
+		
+			newRaceIndex = World_GetRand(1, table.getn(g_TRR_AllRaces))
+			newRace = g_TRR_AllRaces[newRaceIndex]
+			
+		end
+		
+		local tmpPlayer = Setup_Player(i-1, "", newRace, i)
+		Misc_PlayerTeamColor(tmpPlayer, g_TRR_AllPaints[World_GetRand(1,table.getn(g_TRR_AllPaints))])	
+		
+	end
+	
+	Log(0, 0, debug_TrueRandomRace_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+
+end
+
+function CheckForValidListContents() 
+
+	if(table.getn(g_TRR_AllRaces) == 0) then
+		g_TRR_Allraces = { "space_marine_race", "chaos_marine_race" }
+	end
+	
+	if(table.getn(g_TRR_AllPaints) == 0) then
+		g_TRR_AllPaints = { "default_0" }
+	end
+end

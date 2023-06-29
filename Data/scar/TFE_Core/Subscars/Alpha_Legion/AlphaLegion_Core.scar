@@ -4,25 +4,22 @@ debug_AlphaLegionCore_FileName = "AlphaLegion_Core"
 import("TFE_Core/Subscars/Alpha_Legion/Imports/AlphaLegion_Imports.scar")
 
 
-function AlphaLegion_Setup()
-	local debugFuncName = "AlphaLegion_Setup"
+function Setup_AlphaLegion()
+	local debugFuncName = "Setup_AlphaLegion"
 	
 	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 	
-	for i = 1, table.getn(g_AllPlayers) do
-	
-		local Player = g_AllPlayers[i]
-		local RaceName = Player_GetRaceName( Player ) 
-		
-		if RaceName == "chaos_marine_race" then
+	for i = 1, g_PlayerCount do
+
+		if g_AllPlayers[i].RaceDetails.RaceName == "chaos_marine_race" then
 
 			if World_GetRand(0,100) < g_AlphaLegionSpawnChance then 
 			
-				RestrictBaseChaos(Player)
+				Restrict_BaseChaos(g_AllPlayers[i].Player)
 				
 			else		 
 			
-				RestrictAlphaLegion(Player)				
+				Restrict_AlphaLegion(g_AllPlayers[i].Player)				
 				
 			end
 		end
@@ -32,19 +29,19 @@ function AlphaLegion_Setup()
 
 end
 
-function RestrictAlphaLegion(Player)
+function Restrict_AlphaLegion(_Player)
 
-	Player_RestrictResearch(Player, "chaos_AL_secret_identity")
-	Player_RestrictSquad(Player, "chaos_al_marine_squad")
-	Player_RestrictSquad(Player, "chaos_squad_lord_AL")
-	Player_RestrictSquad(Player, "chaos_AL_Operative_squad")
+	Player_RestrictResearch(_Player, "chaos_AL_secret_identity")
+	Player_RestrictSquad(_Player, "chaos_al_marine_squad")
+	Player_RestrictSquad(_Player, "chaos_squad_lord_AL")
+	Player_RestrictSquad(_Player, "chaos_AL_Operative_squad")
 		
 end
 
-function RestrictBaseChaos(Player)
+function Restrict_BaseChaos(_Player)
 
 	--Nothing needed yet..
-	Player_RestrictSquad(Player, "chaos_marine_squad")
-	Player_RestrictSquad(Player, "chaos_squad_lord")
+	Player_RestrictSquad(_Player, "chaos_marine_squad")
+	Player_RestrictSquad(_Player, "chaos_squad_lord")
 	
 end

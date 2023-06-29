@@ -1,63 +1,118 @@
 debug_TFECore_FileName = "TFECore"
 
+RaceDetails = {}
+function RaceDetails:new (_RaceName, _RaceIndex, _RaceResourceInfo)
+
+    local RaceDetailsObject = 
+    {
+    	--Constants
+	    RaceName = _RaceName,
+	    RaceIndex = _RaceIndex,
+	    RaceResourceInfo = _RaceResourceInfo 
+    }
+	self.__index = self
+   	return setmetatable(RaceDetailsObject, self)
+end
+
+PlayerDetails = {}
+function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
+
+    local PlayerDetailsObject = 
+    {
+    	--Constants
+	    Player = _Player,
+	    PlayerIndex = _PlayerIndex,
+	    DisplayName = _DisplayName,
+	    RaceDetails = _RaceDetails,   
+	    
+	    --Variables
+	    CurrentNumberOfResearchedGlobals = 
+	    {
+	    	RT_Requisition = 0,
+	    	RT_Power =  0,
+	    	RT_Pop =  0,
+	    	RT_Faith = 0, 
+	    	RT_Souls = 0
+	    },
+	    
+	    CurrentAddResources = 
+	    {
+	    	RT_Requisition = 0,
+	    	RT_Power =  0,
+	    	RT_Pop =  0,
+	    	RT_Faith = 0, 
+	    	RT_Souls = 0
+	    }
+    }
+	self.__index = self
+	return setmetatable(PlayerDetailsObject, self)
+end
+
+function PlayerDetails:ClearCurrentResourceBonuses()
+	self.CurrentAddResources = 
+	    	{
+	    		RT_Requisition = 0,
+	    		RT_Power =  0,
+	    		RT_Pop =  0,
+	    		RT_Faith = 0, 
+	    		RT_Souls = 0
+	    	}
+end
+
 
 import("TFE_Core/Imports/TFECore_Imports.scar")
 
 
-function TFE_Immediate_Load()
-	local debugFuncName = "TFE_Immediete_Load"
-
-	if pcall(GetAllPlayers) == false then
-		Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run CORE function 'GetAllPlayers'!")
-	end
+function Core_Game_Load()
 	
-	if pcall(AlphaLegion_Setup) == false then
-		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'AlphaLegion_Setup'!")
-	end 
+	local debugFuncName = "Core_Game_Load"	
 	
-	if pcall(PassiveResourceGeneration_Immediate_Load) == false then 
-		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'PassiveResourceGeneration_Immediate_Load'!")
-	end
-	Initialise_GlobalsStorage()
-	--if pcall(Initialise_GlobalsStorage) == false then 
-	--	Log(3, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Initialise_GlobalsStorage'!")
-	--end
-	
-	if pcall(SetupStrategicPoints) == false then 
-		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'SetupMature'!")
-	elseif pcall(Rule_ActivateMature) == false then
-		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Rule_ActivateMature'!")
-	end	
-	
-	if pcall(Rule_ActivateUpkeep) == false then 
-		Log(2, 0, debug_TFECore_FileName, debugFuncName, "Cannot run function 'Rule_ActivateUpkeep'!")
-	end
-	
-	InitNewCoverSystems()	
+	DoBasicFunction(Core_CheckForSecondaryScars, debug_TFECore_FileName, debugFuncName)
+	g_PreviousMainLoopHasCompleted = true
+	Rule_AddInterval(Core_MainLoop, g_WorldTimeFidelity)
 	
 end
 
-function TFE_Load()
-	local debugFuncName = "TFE_Load"
+function Core_Init_Load()
+	local debugFuncName = "Core_Init_Load"	
+
+	if(DoCriticalFunction(Core_GetAllPlayers, debug_TFECore_FileName, debugFuncName.."/Core_GetAllPlayers")) then return end
+	if(DoBasicFunction(Setup_AlphaLegion, debug_TFECore_FileName, debugFuncName.."/Setup_AlphaLegion")) then Log(2, 0, debug_TFECore_FileName, debugFuncName, "Alpha Legion failed to setup!")  end
+	if(DoCriticalFunction(Setup_PassiveResourceGeneration, debug_TFECore_FileName, debugFuncName.."/Setup_PassiveResourceGeneration")) then return end
+	if(DoCriticalFunction(Setup_SquadManager, debug_TFECore_FileName, debugFuncName.."/Setup_SquadManager")) then return end
+	if(DoCriticalFunction(Setup_GlobalsStorage, debug_TFECore_FileName, debugFuncName.."/Setup_GlobalsStorage")) then return end
+	if(DoCriticalFunction(Setup_StrategicPoints, debug_TFECore_FileName, debugFuncName.."/Setup_StrategicPoints")) then return end
+	if(DoCriticalFunction(Setup_MatureSystem, debug_TFECore_FileName, debugFuncName.."/Setup_MatureSystem")) then return end
+	if(DoCriticalFunction(Setup_UpkeepSystem, debug_TFECore_FileName, debugFuncName.."/Setup_UpkeepSystem")) then return end
+	if(DoCriticalFunction(Setup_NewCoverSystem, debug_TFECore_FileName, debugFuncName.."/Setup_NewCoverSystem")) then return end
+	Setup_WeatherSystems()
+	--if(DoBasicFunction(Setup_WeatherSystems, debug_TFECore_FileName, debugFuncName.."/Setup_WeatherSystems")) then return end
 	
-	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
-	
-	
-	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 end
 
-function GetAllPlayers()
+function Core_CheckForSecondaryScars()
+
+	if g_TrueRandomRace_Enabled == true then
+
+		TrueRandomRace_Setup()
+	
+	end
+
+end
+
+function Core_GetAllPlayers()
 
 	for i = 1, g_PlayerCount do
 
 		local Player = World_GetPlayerAt(i-1)
+		local PlayerIndex = World_GetPlayerIndex(Player)
 		local RaceName = Player_GetRaceName( Player ) 
 		local RaceIndex = Player_GetRace( Player ) 
-		
-		table.insert(g_AllPlayers, Player)
-		table.insert(g_AllPlayersRace, RaceName)
-		table.insert(g_AllPlayersRace_AsIndex, RaceIndex)
-		
+		local DisplayName = Player_GetDisplayName(Player)
+
+		Setup_PassiveResourceGeneration_Settings(RaceName)
+		table.insert(g_AllPlayers, PlayerDetails:new( Player, PlayerIndex, DisplayName, RaceDetails:new (RaceName, RaceIndex, g_FactionSpecificResourceGeneration[RaceName] )))
+
 		--Move this later
 		if (UnitCosting[RaceName] == nil) then
 			pcall(import, 'upkeep/races/'..RaceName..'.scar')
@@ -65,7 +120,101 @@ function GetAllPlayers()
 		
 	end
 
+	
+	for i = 1, g_PlayerCount do
+		--They need to be in reverse order so P1 is on top...
+		WinWarning_Add( "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[g_PlayerCount-i+1].PlayerIndex, g_AllPlayers[g_PlayerCount-i+1].Player, "", "", "" )
+
+	end
 end
 
+function DoCriticalFunction(_Func, _SentFromFunc, _FuncName)
+
+	if(pcall(_Func) == false) then
+		 
+		LogError(_SentFromFunc, _FuncName, "Cannot run CRITICAL function '".._FuncName.."'!") 
+		return true
+
+	end
+
+	return false
+end
+
+
+function DoBasicFunction(_Func, _SentFromFunc, _FuncName)
+
+	if(pcall(_Func) == false) then
+
+		Log(2, 0, _SentFromFunc, _FuncName, "Cannot run function '".._FuncName.."'!") 
+		return true
+
+	end
+
+	return false
+end
+
+function Core_MainLoop()
+	
+	if(g_PreviousMainLoopHasCompleted == false) then
+		return
+	end
+		
+	g_PreviousMainLoopHasCompleted = false
+
+	if(DoCriticalFunction(Set_UpdatedGameTime, debug_TFECore_FileName, "Core_MainLoop/Set_UpdatedGameTime")) then return end
+	if(DoCriticalFunction(Set_AllSquads_Immediate, debug_TFECore_FileName, "Core_MainLoop/Set_AllSquads_Immediate")) then return end
+	if(DoCriticalFunction(Set_AllSquadCoverModifiers, debug_TFECore_FileName, "Core_MainLoop/Set_AllSquadCoverModifiers")) then return end
+	if(DoCriticalFunction(Set_PlayerUpkeep, debug_TFECore_FileName, "Core_MainLoop/Set_PlayerUpkeep")) then return end 
+	if(DoCriticalFunction(Set_ResourceMature, debug_TFECore_FileName, "Core_MainLoop/Set_ResourceMature")) then return end
+	if(DoCriticalFunction(Implement_UpkeepAndMature, debug_TFECore_FileName, "Core_MainLoop/Implement_UpkeepAndMature")) then return end
+	DoBasicFunction(Set_Weather, debug_TFECore_FileName, "Core_MainLoop/Set_Weather")
+	g_PreviousMainLoopHasCompleted = true	
+	
+end
+
+function ErrorPause()
+
+	g_ModRunning = false
+	Rule_RemoveAll()
+
+end
+
+
+function Implement_UpkeepAndMature()
+	
+	for i = 1, g_PlayerCount do
+		local Index = g_PlayerCount - i +1
+		--They need to be in reverse order so P1 is on top...
+		if(Player_IsAlive(g_AllPlayers[Index].Player)) then
+
+			if(WinWarning_Exists("UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex)) then
+				
+				local DisplayReqIncome = g_AllPlayers[Index].CurrentAddResources.RT_Requisition				
+				local DisplayPowerIncome = g_AllPlayers[Index].CurrentAddResources.RT_Power 
+				DisplayReqIncome = round(math.floor(DisplayReqIncome),2)
+				DisplayPowerIncome = round(math.floor(DisplayPowerIncome),2)
+
+				WinWarning_SetText( "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex, Loc_FormatText3( 20050000, g_AllPlayers[Index].DisplayName,  DisplayReqIncome , DisplayPowerIncome ))
+			else
+
+				WinWarning_Add( "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex, g_AllPlayers[i].Player, "", "", "" )
+
+			end
+			
+			Player_AddResource(g_AllPlayers[Index].Player, RT_Requisition, g_AllPlayers[Index].CurrentAddResources.RT_Requisition * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			Player_AddResource(g_AllPlayers[Index].Player, RT_Power, g_AllPlayers[Index].CurrentAddResources.RT_Power * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			Player_AddResource(g_AllPlayers[Index].Player, RT_Pop, g_AllPlayers[Index].CurrentAddResources.RT_Pop * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			Player_AddResource(g_AllPlayers[Index].Player, RT_Faith, g_AllPlayers[Index].CurrentAddResources.RT_Faith * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			Player_AddResource(g_AllPlayers[Index].Player, RT_Souls, g_AllPlayers[Index].CurrentAddResources.RT_Souls * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			
+			g_AllPlayers[Index]:ClearCurrentResourceBonuses()
+		else
+
+			WinWarning_Remove("UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex)
+
+		end
+	end
+
+end
 
 

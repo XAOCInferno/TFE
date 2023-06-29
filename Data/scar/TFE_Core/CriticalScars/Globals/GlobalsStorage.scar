@@ -1,0 +1,73 @@
+---------
+--DEBUG--
+---------
+debug_GlobalsStorage_FileName = "GlobalsStorage.scar"
+
+
+--------------------
+--Settings imports--
+--------------------
+import("TFE_Core/CriticalScars/Globals/GlobalsStorage.lua")
+
+--local GlobalUniqueSquadID = 0
+local UsedUniqueSquadIDs = {}
+
+---------------
+--Main Script--
+---------------
+function Setup_GlobalsStorage()
+
+	Set_UpdatedGameTime()
+
+end
+
+function Set_UpdatedGameTime()
+
+	g_PreviousWorldTime = g_WorldTime
+	g_WorldTime = World_GetGameTime()
+	g_TimeSinceWorldTimeUpdate = g_WorldTime - g_PreviousWorldTime
+
+end
+
+function Setup_StrategicPoints()
+	local debugFuncName = "Setup_StrategicPoints"
+	
+	Log(0, 0, debug_GlobalsStorage_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	
+	local SetupNewPoint = function(eSquadGroupID, i, eSquadID)
+		
+		table.insert( g_AllStrategicPointsStructs, StrategicPoint:new (eSquadID, -1, g_WorldTime) )
+		g_NumberStratPoints = g_NumberStratPoints + 1
+
+	end
+	
+	g_NumberStratPoints = 0
+	World_GetStrategicPoints(EGroup_CreateIfNotFound( "tmpAllStratPoints" ) )
+	EGroup_ForEachEx(EGroup_FromName("tmpAllStratPoints"),  SetupNewPoint, true, true)
+	EGroup_Destroy("tmpAllStratPoints")
+	
+	Log(0, 0, debug_GlobalsStorage_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+end
+
+--Used to tell the difference between a time and the world time, EG: get how long something has been alive for
+function GetWorldLifetime(StartTime)
+	return g_WorldTime - StartTime
+end
+
+function GetUniqueSG(BaseSGName)
+	BaseSGName = BaseSGName or "UniqueSG."
+	local UniqueSG = BaseSGName	
+
+	while(SGroup_Exists(UniqueSG) == true or TableContains(UsedUniqueSquadIDs,UniqueSG)) do
+		local index1 = World_GetRand(1,9)
+		local index2 = World_GetRand(1,9)
+		local index3 = World_GetRand(1,9)
+		local index4 = World_GetRand(1,9)
+		local index5 = World_GetRand(1,9)
+		UniqueSG = BaseSGName..index1..index2..index3..index4..index5
+		
+	end
+	table.insert(UsedUniqueSquadIDs,UniqueSG) 
+	print("Assigned Unique ID: "..UniqueSG)
+	return SGroup_Create(UniqueSG)
+end

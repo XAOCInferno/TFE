@@ -10,7 +10,7 @@ g_ModsByCover = {}
 --ON INITIALIZATION 
 -------------------------------------------------
 
-function SetupCoverModifiers()
+function Setup_CoverModifiers()
 
 	--Generic shield modifier to show you're in cover, to be replaced later with a special verticality one
 	mod_PositiveCover = Modifier_Create(MAT_Squad, "cover_event_modifier", MUT_Enable, 1, 1, "")
@@ -86,7 +86,8 @@ function SetupCoverModifiers()
 	mod_Poison__modifier_02 = Modifier_Create(MAT_Squad, "morale_rate_squad_modifier", MUT_Multiplication, 1, 0.8, "")
 	table.insert(SquadModifiers, mod_Poison__modifier_02)		
 	--
-	g_ModsByCover = {
+	g_ModsByCover = 
+	{
 		--0, None
 		{
 		},
@@ -148,168 +149,179 @@ function SetupCoverModifiers()
 end
 
 
-function InitNewCoverSystems()	
-	local debugFuncName = "InitNewCoverSystems"
+function Setup_NewCoverSystem()	
+	local debugFuncName = "Setup_NewCoverSystem"
 	
 	Log(0, 0, debug_NewCoverSystems_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 
-	SetupCoverModifiers()
-	Rule_Add(Rule_CheckForNewSquads_Cover)
+	Setup_CoverModifiers()
 	
 	Log(0, 0, debug_NewCoverSystems_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 	
 end
 
+function IsSquadInvalid(TargetSquad)
 
-function Rule_CheckForNewSquads_Cover()
+	local debugFuncName = "IsSquadInvalid"
 
-	if(g_WorldTime == g_LastSquadUpdateTime and g_PreviousCoverCalcTime < g_WorldTime) then
-		
-	g_PreviousCoverCalcTime = g_WorldTime
-		Rule_CheckCoverStatus()
+	local CriticalError = false
 	
+	if (TargetSquad == nil) then
+	
+		LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Loadout is Nil!")
+		CriticalError = true
+	else
+		if(TargetSquad.SquadLoadout == 0) then				
+   
+			LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Struct is empty!")
+			CriticalError = true
+			
+		end
+		
+		if(pcall(Squad_GetCoverType, TargetSquad.SquadID, 0 ) == false) then
+	
+			LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Can't get squad Cover!")
+			CriticalError = true
+		
+		end
+		
 	end
+
+	return CriticalError
 
 end
 
 
-function Rule_CheckCoverStatus()
-	local debugFuncName = "Rule_CheckCoverStatus"
+function CalculateSquadCoverModifiersAndApply(TargetSquad)
+
+	local debugFuncName = "CalculateSquadCoverModifiersAndApply"
+	
+
+	if(IsSquadInvalid(TargetSquad)) then
+		return
+	end	
+
+	local ModsToAdd = {}
+	local ModsToRemove = {}	
+
+	CoverID = Squad_GetCoverType(TargetSquad.SquadID, 0 )
+		
+	for key, coverMods in pairs(g_ModsByCover) do
+		
+		for modKey, mod in pairs(coverMods) do
+			
+			local keyOffset = key-1	
+			if(mod == nil) then
+				
+				LogOnce(2, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..modKey.." Is Nil! Cannot Add.")
+				
+			else
+				local containsSquad, _ = TableContains(TargetSquad.SquadAppliedCoverMods, mod)
+				if(keyOffset == CoverID) then
+			
+					local contains, _ = TableContains(ModsToAdd, mod)
+					if(contains == false and containsSquad == false) then
+					
+						table.insert(ModsToAdd, mod)	
+						
+					end   
+					
+				else
+
+					local contains, _ = TableContains(ModsToRemove, mod)
+					if(contains == false and containsSquad == true) then
+					
+						table.insert(ModsToRemove, mod)
+						
+					end
+
+				end
+					
+			end	
+										
+		end					
+		
+		--Remove mod if we are about to apply it	
+		ModsToRemove = TableRemoveDuplicates(ModsToRemove, ModsToAdd)
+
+		--Do remove and apply modifier logic
+		Set_CoverModifiers(TargetSquad, ModsToRemove, ModsToAdd)	
+
+	end
+end
+
+function Set_AllSquadCoverModifiers()
+	local debugFuncName = "Set_AllSquadCoverModifiers"
 
 	for i = 1, g_PlayerCount do
 	
-		for j = 1, g_PlayerSquadCount[i]+1 do
+		for j = 1, g_PlayerSquadCount[i] do
 		
-			local tmpStruct = g_AllSquadsData[i][j]	
-			
-	    	local ModsToAdd = {}
-	    	local ModsToRemove = {}	
-	    	local CriticalError = false
-	    	
-			if (tmpStruct == nil) then
-			
-				LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Loadout is empty!")
-				CriticalError = true
-			else
-				if(tmpStruct.SquadLoadout == 0) then				
-   		
-					LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Struct is Nil!")
-					CriticalError = true
-					
-				end
-				
-				if(pcall(Squad_GetCoverType, tmpStruct.SquadID, 0 ) == false) then
-			
-					LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Can't get squad Cover!")
-					CriticalError = true
-				
-				end
-				
-			end
-			--print("Hi3"..tostring(CriticalError))
-			if(CriticalError == false) then
-				CoverID = Squad_GetCoverType(tmpStruct.SquadID, 0 )
-				--print(CoverID)
-				for key, coverMods in pairs(g_ModsByCover) do
-				
-					for modKey, mod in pairs(coverMods) do
-					
-						local keyOffset = key-1	
-						if(mod == nil) then
-						
-							LogOnce(2, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..modKey.." Is Nil! Cannot Add.")
-						
-						elseif(keyOffset == CoverID) then
-					
-							contains, index = TableContains(ModsToAdd, mod)
-							if(contains == false) then
-							
-								--print("Applying Cover "..CoverID.." mod "..modKey.. " For "..tmpStruct.SquadBlueprint)  
-								table.insert(ModsToAdd,mod)	
-								
-							end   
-							
-						else
-							contains, index = TableContains(ModsToRemove, mod)
-							if(contains == false) then
-								--print("I am in Cover "..CoverID)
-								--print("I am Checking against Cover "..keyOffset)
-								--print("Disabiling Cover "..keyOffset.." mod "..modKey.. " For "..tmpStruct.SquadBlueprint)
-								table.insert(ModsToRemove,mod)
-							end
-							
-						end	
-												
-					end
-					
-				end	
-				
-				--------------------------------
-				-----CHECK APPLY NOT REMOVE-----
-				--------------------------------				
-				
-				ModsToRemove = TableRemoveDuplicates(ModsToRemove, ModsToAdd)
-		
-				--------------------
-				-----APPLY MODS-----
-				--------------------	
-								
-				--REMOVE--
-				for debugRemovePos, removeMod in pairs(ModsToRemove) do
-		 			if(removeMod == nil) then
-		 			
-						LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugRemovePos.." Is Nil! Cannot Remove.")
-		 			
-		 			else
-		 			
-						contains, key = TableContains(tmpStruct.SquadAppliedCoverMods, removeMod)
-						if(contains == true) then
-						
-							RemoveCoverMod(removeMod, tmpStruct, debugRemovePos)			
-			
-						else
-							
-							LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugRemovePos.." Is not applied! Cannot remove.")
-								
-						end	
-					end					
-					
-				end
-				
-				--APPLY--
-				for debugAddPos, addMod in pairs(ModsToAdd) do
-		 			if(addMod == nil) then
-		 			
-						LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugAddPos.." Is Nil! Cannot Add.")
-		 			
-		 			else
-		 			
-						contains, key = TableContains(tmpStruct.SquadAppliedCoverMods, addMod)
-						if(contains == false) then
-						
-							ApplyCoverMod(addMod, tmpStruct, debugAddPos)
-							
-						else
-	   					
-	   						LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugAddPos.." Is Applied! Cannot Apply Again.")
+			local TargetSquad = g_AllSquadsData[i][j]	
 
-						end	
-					end					
+	    	CalculateSquadCoverModifiersAndApply(TargetSquad)
 					
-				end				
-				
-			end
 	   	end		
 	end
+end
+
+
+function Set_CoverModifiers(TargetSquad, ModsToRemove, ModsToAdd)
+	local debugFuncName = "Set_CoverModifiers"
+					
+	--REMOVE--
+	for debugRemovePos, removeMod in pairs(ModsToRemove) do
+		if(removeMod == nil) then
+			
+			LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugRemovePos.." Is Nil! Cannot Remove.")
+			
+		else
+			
+			contains, key = TableContains(TargetSquad.SquadAppliedCoverMods, removeMod)
+			
+			if(contains == true) then
+			
+				RemoveCoverMod(removeMod, TargetSquad, key)			
+
+			else
+				
+				LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugRemovePos.." Is not applied! Cannot remove.")
+					
+			end	
+		end			
+	end
+	
+	--APPLY--
+	for debugAddPos, addMod in pairs(ModsToAdd) do
+		if(addMod == nil) then
+			
+			LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugAddPos.." Is Nil! Cannot Add.")
+			
+		else
+			
+			contains, key = TableContains(TargetSquad.SquadAppliedCoverMods, addMod)
+			
+			if(contains == false) then
+
+				ApplyCoverMod(addMod, TargetSquad, debugAddPos)
+				
+			else
+				
+				LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugAddPos.." Is Applied! Cannot Apply Again.")
+
+			end	
+			
+		end			
+	end	
 end
 
 
 function RemoveCoverMod(removeMod, tmpStruct, modIndex)
 
 	local debugFuncName = "RemoveCoverMod"	
-	if (Modifier_Exists(tmpStruct.SquadAppliedCoverMods_IDs[key])) then
+	if (Modifier_Exists(tmpStruct.SquadAppliedCoverMods_IDs[modIndex])) then
 	
-		local functionSuccess = pcall(Modifier_Remove, tmpStruct.SquadAppliedCoverMods_IDs[key])
+		local functionSuccess = pcall(Modifier_Remove, tmpStruct.SquadAppliedCoverMods_IDs[modIndex])
 		
 		if (functionSuccess == false) then 
 			LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..modIndex.." Can't be removed for unknown reason! Triggered pcall.")
@@ -318,9 +330,9 @@ function RemoveCoverMod(removeMod, tmpStruct, modIndex)
 		
 	end
 	
-	table.remove(tmpStruct.SquadAppliedCoverMods, key)
-	table.remove(tmpStruct.SquadAppliedCoverMods_IDs, key)
-	table.remove(tmpStruct.SquadAppliedCoverMods_Index, key)
+	table.remove(tmpStruct.SquadAppliedCoverMods, modIndex)
+	table.remove(tmpStruct.SquadAppliedCoverMods_IDs, modIndex)
+	table.remove(tmpStruct.SquadAppliedCoverMods_Index, modIndex)
 
 end
 
@@ -328,21 +340,22 @@ end
 function ApplyCoverMod(addMod, tmpStruct, modIndex)
 
 	local debugFuncName = "ApplyCoverMod"	
+	if (ModifierUtil_GetSquadApplierIndex( addMod, tmpStruct.SquadID ) == 0) then
+		-- Apply modifier
+		local functionSuccess, tmpModID = pcall(Modifier_ApplyToSquad, addMod, tmpStruct.SquadID)
+		if (functionSuccess == false) then 
+			LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..modIndex.." Can't be added for unknown reason! Triggered pcall.")
+			return 
+		end
 	
-	-- Apply modifier
-	local functionSuccess, tmpModID = pcall(Modifier_ApplyToSquad, addMod, tmpStruct.SquadID)
-	if (functionSuccess == false) then 
-		LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..modIndex.." Can't be removed for unknown reason! Triggered pcall.")
-		return 
+		-- Get modifier index
+		local tmpModIndex = ModifierUtil_GetSquadApplierIndex(addMod, tmpStruct.SquadID)
+	
+		-- Store modifier info
+		table.insert(tmpStruct.SquadAppliedCoverMods, addMod)	
+		table.insert(tmpStruct.SquadAppliedCoverMods_IDs, tmpModID)	
+		table.insert(tmpStruct.SquadAppliedCoverMods_Index, tmpModIndex)	
+
 	end
-	
-	-- Get modifier index
-	local tmpModIndex = ModifierUtil_GetSquadApplierIndex(addMod, tmpStruct.SquadID)
-	
-	-- Store modifier info
-	table.insert(tmpStruct.SquadAppliedCoverMods, addMod)	
-	table.insert(tmpStruct.SquadAppliedCoverMods_IDs, tmpModID)	
-	table.insert(tmpStruct.SquadAppliedCoverMods_Index, tmpModIndex)	
-	
 end
 

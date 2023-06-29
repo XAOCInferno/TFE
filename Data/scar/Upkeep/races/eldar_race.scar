@@ -3,16 +3,16 @@
 
 ResourceGlobalNames.eldar_race = 
 {
-	Req = 
+	RT_Requistion = 
 	{
-		First = "eldar_requisition_research_1",
-		Second = "eldar_requisition_research_2",
+		"eldar_requisition_research_1",
+		"eldar_requisition_research_2",
 	},
 
-	Power = 
+	RT_Power = 
 	{
-		First = "eldar_power_research_1",
-		Second = "eldar_power_research_2",
+		"eldar_power_research_1",
+		"eldar_power_research_2",
 	}
 	
 }
@@ -22,131 +22,131 @@ UnitCosting.eldar_race =
 	-- Skirmish units
 	eldar_squad_bonesinger =
 	{
-		CostEntity = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_guardian_squad =
 	{
-		CostEntity = { Req = -1.5, Power = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -2, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -4, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.33, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -0.6, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -0.6, Power = -0.1, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_squad_rangers =
 	{
-		CostEntity = { Req = -4.5, Power = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -4, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -6, Power = -1, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.35, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.4, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_squad_banshees =
 	{
-		CostEntity = { Req = -4, Power = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -3.5, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -6, Power = -1, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.39, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.1, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -1.1, Power = -0.34, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_squad_dark_reapers =
 	{
-		CostEntity = { Req = -5, Power = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -4, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -6, Power = -1, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.35, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.35, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -0.8, Power = -0.2, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_squad_fire_dragon = 
 	{
-		CostEntity = { Req = -4.5, Power = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -4, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -10, Power = -1, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.38, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.15, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -0.7, Power = -0.25, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_squad_warp_spider =
 	{
-		CostEntity = { Req = -8, Power = -1, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -6, Power = -2, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.42, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.4, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -0.85, Power = -0.3, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_harlequin_squad =
 	{
-		CostEntity = { Req = -8, Power = -1, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.3, Power = -0.25, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_squad_warlock_commander =
 	{
-		CostEntity = { Req = -12, Power = -2, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.8, Power = -0.7, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_squad_seer_council =
 	{
-		CostEntity = { Req = -13, Power = -2, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -8, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -10, Power = -1, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.65, Power = -0.32, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.4, Power = -0.9, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	-- Attachable
 	eldar_squad_farseer =
 	{
-		CostEntity = { Req = -15, Power = -2.5, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -2.7, Power = -1.1, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_squad_farseer_hunter =
 	{
-		CostEntity = { Req = -15, Power = -2.5, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -2.7, Power = -1.1, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_squad_farseer_support =
 	{
-		CostEntity = { Req = -15, Power = -2.5, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -2.7, Power = -1.1, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
 	},
 	-- Vehicles
 	eldar_squad_grav_platform =
 	{
-		CostEntity = { Req = -5, Power = -2, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.1, Power = -0.4, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_squad_grav_platform_brightlance =
 	{
-		CostEntity = { Req = -5, Power = -2, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1, Power = -0.55, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_squad_falcon_grav_tank =
 	{
-		CostEntity = { Req = -5, Power = -10, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.1, Power = -1.05, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_squad_vypers =
 	{
-		CostEntity = { Req = -10, Power = -10, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.9, Power = -1.65, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_squad_wraithlord =
 	{
-		CostEntity = { Req = -20, Power = -15, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -3.1, Power = -2.6, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_squad_nightwing =
 	{
-		CostEntity = { Req = -10, Power = -10, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -2.7, Power = -2.15, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_squad_fire_prism =
 	{
-		CostEntity = { Req = -20, Power = -20, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -3.2, Power = -3.7, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_squad_avatar =
 	{
-		CostEntity = { Req = -30, Power = -30, Faith = 0, Souls = 0 },
-		CostSquad = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = 0, Power = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -7.5, Power = -1.9, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 
 

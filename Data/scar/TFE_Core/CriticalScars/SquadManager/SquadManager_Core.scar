@@ -1,0 +1,135 @@
+---------
+--DEBUG--
+---------
+debug_SquadManager_FileName = "SquadManager_Core.scar"
+
+----------------------
+--Class Constructors--
+----------------------
+StrategicPoint = {}
+function StrategicPoint:new (_ID, _OwnedBy, _InitTime)
+
+    local StrategicPointObject = 
+    {
+	    ID = _ID,
+	    OwnedBy = _OwnedBy,
+	    InitTime = _InitTime
+    }
+	self.__index = self
+    return setmetatable(StrategicPointObject, self)
+end
+
+
+SquadData = {}
+function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP)
+
+    local SquadDataObject = 
+    {
+		SquadUniqueID = _sGameID,	
+		SquadGroupID =_sGroupID,
+		SquadGroupName = SGroup_GetName(_sGroupID),	
+		SquadIndex = _sIndex, 
+		SquadID = _sID,	
+		SquadUnitRace = _sRace,
+		SquadBlueprint = _sBP,
+		SquadLoadout = Squad_Count(_sID),
+		SquadHasLeader = Squad_HasLeader(_sID),
+		SquadInitTime = g_WorldTime,	
+		
+		SquadAppliedCoverMods = {},
+		SquadAppliedCoverMods_IDs = {},
+		SquadAppliedCoverMods_Index = {}
+	}
+	self.__index = self
+	return setmetatable(SquadDataObject, self)
+end
+
+---------------
+--Main Script--
+---------------
+function Setup_SquadManager()
+	
+	Set_AllSquads_Immediate()
+
+end
+
+function Set_AllSquads_Immediate()
+	
+	for i = 1, g_PlayerCount do
+		
+		Set_PlayerSquads_Immediate(i)
+		
+	end
+
+end
+
+function Set_PlayerSquads_Immediate(_PlayerIndex)	
+	local debugFuncName = "UpdatePlayerSquads_Immediate"
+	
+	g_LastSquadUpdateTime = g_WorldTime
+	
+	--We should only run the squad checker if the player is alive
+	if (not Player_IsAlive(g_AllPlayers[_PlayerIndex].Player)) then			
+		return nil					
+	end
+				
+	local AddSGroupData = function(_sgroupid, _itemindex, _squadID)
+		
+		local newSquadGameID = Squad_GetGameID( _squadID )
+		local squadBP = Squad_GetBlueprintName( _squadID )				
+		local CriticalError = false
+		if(TableContains(g_SquadBlueprintToIgnore, squadBP)) then return false end
+
+		if(squadBP == nil) then 
+			LogOnce(1, 0, debug_SquadManager_FileName, debugFuncName, "Can't squad BP is nil!")
+			return 
+		end
+		
+		for l = 1, TableLength(g_AllSquadsData[_PlayerIndex]) do
+			if(g_AllSquadsData[_PlayerIndex][l] == nil) then
+				table.remove(g_AllSquadsData[_PlayerIndex], l)	
+				return false
+			end
+			
+			if(g_AllSquadsData[_PlayerIndex][l].SquadUniqueID == newSquadGameID) then
+			
+				if(g_AllSquadsData[_PlayerIndex][l].SquadLoadout == 0) then					
+					table.remove(g_AllSquadsData[_PlayerIndex],l)
+					return false
+				end
+				
+				g_AllSquadsData[_PlayerIndex][l].SquadLoadout = Squad_Count(g_AllSquadsData[_PlayerIndex][l].SquadID)
+				g_AllSquadsData[_PlayerIndex][l].SquadHasLeader = Squad_HasLeader(g_AllSquadsData[_PlayerIndex][l].SquadID)
+				CriticalError = true			
+				return false
+				
+			elseif(Squad_Exists(g_AllSquadsData[_PlayerIndex][l].SquadUniqueID) == false) then	--Does this work?
+				table.remove(g_AllSquadsData[_PlayerIndex], l)							
+			end
+		end		
+		
+		if(CriticalError == false) then
+
+			local tmpData = SquadData:new( newSquadGameID, _sgroupid, _itemindex, _squadID, g_AllPlayers[_PlayerIndex].RaceDetails.RaceName, squadBP)
+			table.insert(g_AllSquadsData[_PlayerIndex], tmpData)	
+			
+		end
+	end
+							
+	SGroup_ForEachEx(Player_GetSquads(g_AllPlayers[_PlayerIndex].Player), AddSGroupData, true, false)				
+	
+	for k = 1, TableLength(g_AllSquadsData[_PlayerIndex]) do
+		if(g_AllSquadsData[_PlayerIndex][k] ~= nil) then
+			
+			local shouldIgnore, _ = TableContains(g_SquadBlueprintToIgnore, g_AllSquadsData[_PlayerIndex][k].SquadBlueprint)
+			if(g_AllSquadsData[_PlayerIndex][k].SquadBlueprint == nil or g_AllSquadsData[_PlayerIndex][k].SquadLoadout == 0 or shouldIgnore) then
+
+				table.remove(g_AllSquadsData[_PlayerIndex], k)
+				
+			end
+		end
+	end
+		
+	g_PlayerSquadCount[_PlayerIndex] = Player_GetActiveSquadCount(g_AllPlayers[_PlayerIndex].Player)
+		
+end

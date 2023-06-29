@@ -1,0 +1,269 @@
+debug_NewCoverSystems_FileName = "WeatherSystems"
+g_TornadoSquadBP = "world_squad_tornado"
+g_DustStormSquadBP = "world_squad_global_dust_storm"
+g_AllTornadoMkrs = {}
+g_AllTornados = {}
+g_CurrentTornadoMarkerGroup = {}
+
+g_TimeRequiredToSpawnTornadoMax = 28
+g_CurrentTimeRequiredToSpawnTornadoMax = 28 
+g_TornadoSpawnTimeModifier_Multiplication = 1
+
+
+g_TimeRequiredToDoDustStormMax = 340
+g_CurrentTimeRequiredToDoDustStormMax = 340
+g_DustStormTimeModifier_Multiplication = 1
+g_DustStormDuration = 105
+g_DustStormEndTime = 0
+g_IsDoingDustStorm = false
+g_GlobalDustStormSquad = 0
+
+local g_WorldRootMarker = nil
+
+local MarkersSetupComplete = false
+
+MarkerDetails = {}
+function MarkerDetails:new (_MarkerID, _MarkerName, _MarkerType)
+
+    local MarkerDetailsObject = 
+    {
+    	--Constants
+	    MarkerID = _MarkerID,
+	    MarkerName = _MarkerName,
+		MarkerType = _MarkerType,
+    }
+	self.__index = self
+   	return setmetatable(MarkerDetailsObject, self)
+end
+
+TornadoDetails = {}
+function TornadoDetails:new (_sGameID, _sGroupID, _sIndex, _sID, _MarkerGroup, _PosInTornadoStorage)
+
+    local TornadoDetailsObject = 
+    {
+    	--Constants
+		SquadUniqueID = _sGameID,	
+		SquadGroupID =_sGroupID,
+		SquadGroupName = SGroup_GetName(_sGroupID),	
+		SquadIndex = _sIndex, 
+		SquadID = _sID,	
+		SquadInitTime = g_WorldTime,	
+		MarkerGroup = _MarkerGroup,
+		PosInTornadoStorage = _PosInTornadoStorage,
+		CurrentMarkerIndex = 1,
+    }
+	self.__index = self
+   	return setmetatable(TornadoDetailsObject, self)
+end
+
+function Setup_WeatherSystems()
+
+	GetAllMarkers()
+
+end
+
+function StartGlobalDust()
+
+	g_TornadoSpawnTimeModifier_Multiplication = 0.5
+	g_DustStormEndTime = g_WorldTime + g_DustStormDuration + World_GetRand(-15, 25)
+	g_IsDoingDustStorm = true
+	g_GlobalDustStormSquad = Util_CreateSquadsAtCustomMarkerEx(g_AllPlayers[1].Player, SGroup_GetName(GetUniqueSG("DustStorm")), g_DustStormSquadBP, g_WorldRootMarker, 1, 1)
+
+end
+
+function EndGlobalDust()
+
+    local DespawnSquad = function( sgroupid, itemindex, squadID )
+        Squad_Destroy( squadID )
+    end
+	
+	g_TimeRequiredToDoDustStormMax = g_WorldTime + (g_TimeRequiredToDoDustStormMax + World_GetRand(-5,5))
+	g_IsDoingDustStorm = false
+	g_TornadoSpawnTimeModifier_Multiplication = 1
+	SGroup_ForEach(g_GlobalDustStormSquad, DespawnSquad)
+
+end
+
+
+function GetAllMarkers()
+	local debugFuncName = "GetAllMarkers"
+
+	if(Marker_Exists("WorldCentre", "basic_marker")) then
+		g_WorldRootMarker = Marker_FromName("WorldCentre", "basic_marker")
+		Log(0, 0, debug_NewCoverSystems_FileName, debugFuncName, "World root marker found, global weather supported.") 
+	else
+		Log(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "World root marker can't be found, global weather not supported. To allow support, use Mission Editor to add a marker called 'WorldRoot' of type 'basic_marker'.") 
+	end
+
+	for i = 1, 1000 do
+		local mkrType = "tornado_marker"
+		local tornadoSpawnerMarkerExists = Marker_Exists("TornadoSpawn_"..i, mkrType)
+		if(tornadoSpawnerMarkerExists) then
+			g_AllTornadoMkrs[i] = {}
+			table.insert(g_AllTornadoMkrs[i], MarkerDetails:new(Marker_FromName("TornadoSpawn_"..i, mkrType), "TornadoSpawn_"..i, MarkerType))
+			for j = 1, 100 do
+
+				local tornadoDestinationMarkerExists = Marker_Exists("TornadoMove_"..i.."_"..j, mkrType)
+				if(tornadoDestinationMarkerExists) then
+				
+					table.insert(g_AllTornadoMkrs[i], MarkerDetails:new(Marker_FromName("TornadoMove_"..i.."_"..j, mkrType), "TornadoMove_"..i.."_"..j, MarkerType))
+
+				else
+
+					j = 100
+
+				end	
+			end
+		else
+			break
+		end
+	end
+	MarkersSetupComplete = true
+end
+
+function SpawnAllTornados()
+	
+	for i = 1, table.getn(g_AllTornadoMkrs) do
+
+		SpawnATornadoAtMarkerGroup(g_AllTornadoMkrs[i])
+
+	end
+
+end
+
+function SpawnRandomTornado()
+
+	SpawnATornadoAtMarkerGroup(g_AllTornadoMkrs[World_GetRand(0,table.getn(g_AllTornadoMkrs)-1)])
+
+end
+
+
+function SpawnATornadoAtMarkerGroup(markerGroup)
+
+	if(markerGroup == nil) then return false end
+
+	local CreateTornado = function(_sgroupid, _itemindex, _squadID)
+
+		--Squad_SetWorldOwner(_squadID)	
+		local TornadoPos = table.getn(g_AllTornados) + 1
+		local NewTornado = TornadoDetails:new (Squad_GetGameID(_squadID), _sgroupid, _itemindex, _squadID, g_CurrentTornadoMarkerGroup, TornadoPos )
+		table.insert(g_AllTornados, NewTornado)
+
+	end
+	
+	g_CurrentTornadoMarkerGroup = markerGroup
+	
+	local newTornado_sg = Util_CreateSquadsAtCustomMarkerEx(g_AllPlayers[1].Player, SGroup_GetName(GetUniqueSG("Tornado")), g_TornadoSquadBP, markerGroup[1].MarkerID, 1, 1)
+	SGroup_ForEach( newTornado_sg, CreateTornado )
+		
+end
+
+function Set_Weather()
+
+	if(g_WorldRootMarker ~= nil) then
+		DustStormUpdate()
+	end
+
+	if(table.getn(g_AllTornadoMkrs) > 0) then
+		TornadoUpdate()
+	end
+end
+
+function DustStormUpdate()
+	if(MarkersSetupComplete) then
+
+		if(g_WorldTime - g_TimeRequiredToDoDustStormMax > 0 and g_IsDoingDustStorm == false) then
+
+			g_CurrentTimeRequiredToDoDustStormMax = g_WorldTime + (g_TimeRequiredToDoDustStormMax + World_GetRand(-30,90))
+			StartGlobalDust()
+
+		elseif(g_IsDoingDustStorm and g_WorldTime > g_DustStormEndTime) then
+
+			EndGlobalDust()
+
+		end
+	end
+end
+
+function TornadoUpdate()
+	if(MarkersSetupComplete) then
+
+		for i = 1, table.getn(g_AllTornados) do
+
+			TornadoIfIdleMove(g_AllTornados[i])
+
+		end
+
+		if(g_WorldTime - g_CurrentTimeRequiredToSpawnTornadoMax > 0) then
+
+			g_CurrentTimeRequiredToSpawnTornadoMax = g_WorldTime + ((g_TimeRequiredToSpawnTornadoMax + World_GetRand(-5,10))  * g_TornadoSpawnTimeModifier_Multiplication)
+			SpawnRandomTornado()
+
+		end
+	end
+end
+
+function TornadoIfIdleMove(tornado)
+	if(SGroup_Exists(tornado.SquadGroupName) == false) then
+		return
+	end
+	
+	if(SGroup_CheckActiveCommand( tornado.SquadGroupName, SQUADSTATEID_Move, true) == false) then
+
+		SetTornadoDestination(tornado)
+
+	end
+
+end
+
+function SetTornadoDestination(tornado)
+
+	if(table.getn(tornado.MarkerGroup) == tornado.CurrentMarkerIndex) then
+
+		if(Squad_Exists(tornado.SquadUniqueID)) then
+			Squad_Destroy(tornado.SquadID)
+		end
+
+		if(SGroup_Exists(tornado.SquadGroupName)) then
+			SGroup_Destroy(SGroup_FromName(tornado.SquadGroupName))
+			--SGroup_Destroy(tornado.SquadGroupID)
+		end
+
+		table.remove(g_AllTornados[tornado.PosInTornadoStorage])
+		return
+		
+	end
+
+	local NextMarker = tornado.MarkerGroup[CurrentMarker]
+	tornado.CurrentMarkerIndex = tornado.CurrentMarkerIndex + 1
+	Cmd_MoveToCustomMarker(tornado.SquadGroupName, tornado.MarkerGroup[tornado.CurrentMarkerIndex].MarkerID )
+
+end
+
+--Move these later!
+
+function Util_CreateSquadsAtCustomMarkerEx(playerId, squadgroupName, squadBlueprint, marker, numsquads, loadout)
+	return Util_CreateSquadsAtPositionEx( 
+		playerId,
+		squadgroupName,
+		squadBlueprint,
+		Marker_GetPosition( marker ),
+		numsquads,
+		loadout -- use min loadout
+	)
+end
+
+
+function Cmd_MoveToCustomMarker( sgroupname, marker )
+	local squads = SGroup_FromName( sgroupname )
+	
+	-- ignore empty group
+	if( SGroup_CountSpawned( squads ) <= 0 ) then return end
+		
+	Command_SquadPos(
+		g_AllPlayers[1].Player,
+		squads,
+		SCMD_Move,
+		Marker_GetPosition ( marker )
+	)
+end
