@@ -1,7 +1,7 @@
 simvis_attributes =
 {
-	vis_scale_min = 1.1, -- where x.xx is a scaling factor. eg. 1.50 = %150
-	vis_scale_max = 1.1,
+	vis_scale_min = 1.14, -- where x.xx is a scaling factor. eg. 1.50 = %150
+	vis_scale_max = 1.14,
 	
 	selection_volume		= 1,
 	selection_ground		= 1,
