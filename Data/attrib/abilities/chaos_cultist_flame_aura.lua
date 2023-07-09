@@ -30,7 +30,7 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_03"]["armour_type"] = Reference([[type_armour\tp_infantry_high.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_15"]["armour_type"] = Reference([[type_armour\tp_air_med.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 8
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 6
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 3.6
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 1
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[unit_impact_events/chaos_fire_small]]
