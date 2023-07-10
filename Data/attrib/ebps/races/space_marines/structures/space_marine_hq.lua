@@ -329,7 +329,6 @@ GameData["research_ext"]["research_table"]["research_06"] = [[research\support_c
 GameData["research_ext"]["research_table"]["research_07"] = [[research\marine_scout_infiltrate_research.lua]]
 GameData["research_ext"]["research_table"]["research_08"] = [[research\marine_sniper_rifle.lua]]
 GameData["research_ext"]["research_table"]["research_09"] = [[research\marine_skull_probe_infiltrate_research.lua]]
-GameData["research_ext"]["research_table"]["research_10"] = [[research\marine_grenade_specialism_research.lua]]
 GameData["resource_ext"] = Reference([[ebpextensions\resource_ext.lua]])
 GameData["resource_ext"]["decay_delay_time"] = 900
 GameData["resource_ext"]["decay_enabled"] = true 
