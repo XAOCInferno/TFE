@@ -26,8 +26,8 @@ import("TFE_Core/CriticalScars/Debug/GlobalsDebug.scar")
 import("TFE_Core/Subscars/Cover/NewCoverSystems.scar")
 import("TFE_Core/Subscars/Alpha_Legion/AlphaLegion_Core.scar")
 import("TFE_Core/Subscars/Resources/AutoGenResources/PassiveResourceGeneration_Core.scar")
-import("TFE_Core/Subscars/Resources/Upkeep/ResUpkeepCore.scar")
-import("TFE_Core/Subscars/Resources/Mature/ResMatureCore.scar")
+import("TFE_Core/Subscars/Resources/Upkeep/ResUpkeep_Core.scar")
+import("TFE_Core/Subscars/Resources/Mature/ResMature_Core.scar")
 import("TFE_Core/Subscars/Weather/WeatherSystems.scar")
 ----------------------------------
 ----------------------------------

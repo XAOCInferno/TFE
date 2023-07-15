@@ -1,4 +1,4 @@
-debug_ResUpkeepCore_FileName = "ResUpkeepCore"
+debug_ResUpkeepCore_FileName = "ResUpkeep_Core"
 
 
 function Setup_UpkeepSystem()

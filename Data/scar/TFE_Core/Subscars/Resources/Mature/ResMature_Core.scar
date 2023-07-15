@@ -1,4 +1,4 @@
-debug_ResMatureCore_FileName = "ResMatureCore"
+debug_ResMatureCore_FileName = "ResMature_Core"
 
 function Setup_MatureSystem()
 	local debugFuncName = "Setup_MatureSystem"
