@@ -1,15 +1,58 @@
 debug_GlobalAbilitiesCore_FileName = "GlobalAbilities_Core"
 
-
 import("TFE_Core/Subscars/GlobalAbilities/Imports/GlobalAbilities_Imports.scar")
 
+g_btn = ""
+
+g_AllTrackedAbilityBuilders = {}
+g_AllTrackedAbilityBuildersCount = 0
+GlobalAbilityBuilder = {}
+function GlobalAbilityBuilder:new (_OwnedByPlayer, _SGroupID, _TargetBuilding_EntityID, _PosInTrackedAbilityBuilders)
+
+    local GlobalAbilityBuilderObject = 
+    {
+    	--Constants
+		OwnedByPlayer = _OwnedByPlayer,
+	    SGroupID = _SGroupID,
+		TargetBuilding_EntityID = _TargetBuilding_EntityID,
+		PosInTrackedAbilityBuilders = PosInTrackedAbilityBuilders
+    }
+	self.__index = self
+   	return setmetatable(GlobalAbilityBuilderObject, self)
+end
+
+function GlobalAbilityBuilder:Update()
+
+	
+	if(Entity_IsBuilding(self.TargetBuilding_EntityID)) then
+
+		--We have started building it, don't need to issue order
+		SGroup_DestroyAllSquads("tmpBuilderGroup")
+		SGroup_Destroy("tmpBuilderGroup")
+
+		g_AllTrackedAbilityBuildersCount = g_AllTrackedAbilityBuildersCount - 1
+		table.remove(g_AllTrackedAbilityBuilders, PosInTrackedAbilityBuilders)
+
+	else
+		-- issue order
+		Command_SquadEntity( 
+			self.OwnedByPlayer,
+			self.SGroupID,
+			SCMD_BuildStructure,
+			self.TargetBuilding_EntityID
+		)	
+
+	end
+end
 
 function Setup_GlobalAbilities()
 	local debugFuncName = "Setup_GlobalAbilities"
 	
 	Log(0, 0, debug_ResMatureCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 
-	EventCue_DoEvent( 'warning', 'music/stinger_completeobjective', 'Resource Mature Activated!', 'Global Abilities Activated!.' )
+	EventCue_DoEvent( 'warning', 'music/stinger_completeobjective', 'Global Abilities Activated!', 'Global Abilities Activated!.' )
+	Dev_CreateTestGlobalAbilityButton()
+
 	
 	Log(0, 0, debug_ResMatureCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 
@@ -17,5 +60,83 @@ end
 
 function Update_GlobalAbilities()
 	local debugFuncName = "Update_GlobalAbilities"
+
+	if(Button_Exists(g_btn))then 
+
+		if(Button_GetPressed(g_btn)) then
+
+			print("Button Is Pressed!")
+			Dev_DoTestAbility()
+
+		end
+	end
+
+	Update_AllAbilityBuilders()
+end
+
+
+function Dev_CreateTestGlobalAbilityButton()
+
+	local TextureTable = {"guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel"}
+    --"command_icons/stance_burn" = enabled icon, "command_icons/stance_hold" = disabled icon, "command_icons/stance_cease" = mouseover icon
+    local TipTable = { "Test Title", "Test Description"}
+	local Instructions = "um test instructions..."
+    --"$830050" = title, "$830051" = description
+
+	g_btn = Util_GlobalAbilityButton_Create("btn_ScarUI", TextureTable, TipTable, Instructions, true, true)
+
+end
+
+function Dev_DoTestAbility()
+
+	W40k_UnlockInputOnLetterBox()
+	W40k_Letterbox(true, 0)
+
+	local pos = Button_GetPressedPosition(g_btn)
+
+	if( pos ~= nil) then
+
+		Implement_TestAbility(pos, g_AllPlayers[1])
+
+	end
+	
+
+end
+
+function Implement_TestAbility(pos, _PlayerStruct)
+
+	W40k_Letterbox(false, 0)
+	print(pos)
+	
+	local UniqueBuildingEGroup = GetUniqueEG("tmpBuildingEGroup")
+	local UniqueBuilderSGroup = GetUniqueSG("tmpBuilderGroup")
+	
+	Entity_CreateBuildingPosition(_PlayerStruct.Player, EGroup_GetName(UniqueBuildingEGroup), "guard_infantry_summon", pos, 0)
+	Util_CreateSquadsAtPosition(_PlayerStruct.Player, SGroup_GetName(UniqueBuilderSGroup), "world_squad_global_builder", pos, 1)
+	Util_ResetAndRebuild(EGroup_FromName("tmpBuildingEGroup"), SGroup_FromName("tmpBuilderGroup"))
+
+	table.insert(g_AllTrackedAbilityBuilders, GlobalAbilityBuilder:new( _Player, UniqueBuilderSGroup, EGroup_GetSpawnedEntityAt(UniqueBuildingEGroup, 1) ))
+
+end
+
+function Update_AllAbilityBuilders()
+
+	for i = 1, g_AllTrackedAbilityBuildersCount do
+
+		g_AllTrackedAbilityBuildersCount[i]:Update()
+
+	end
+end
+
+
+function Util_GlobalAbilityButton_Create(widgetName, textureTable, tipTable, instructions, boolean1, boolean2)
+
+	local buttonID = Button_Add(widgetName,boolean1, boolean2, true)
+	Button_SetVisible(buttonID, boolean1)
+	Button_SetTextures(buttonID, textureTable[1], textureTable[2], textureTable[3])
+	Button_SetTooltip(buttonID, tipTable[1], tipTable[2])
+	Button_SetModalInstruction(buttonID, instructions)
+
+	return buttonID
 
 end
