@@ -6,15 +6,18 @@ g_btn = ""
 
 g_AllTrackedAbilityBuilders = {}
 g_AllTrackedAbilityBuildersCount = 0
+g_IsDoingAbility = false --This NEEDS to be changed later as part of an ability class
+
 GlobalAbilityBuilder = {}
-function GlobalAbilityBuilder:new (_OwnedByPlayer, _SGroupID, _TargetBuilding_EntityID, _PosInTrackedAbilityBuilders)
+function GlobalAbilityBuilder:new (_OwnedByPlayer, _SGroupID, _SGroupName, _TargetEGroupName, _PosInTrackedAbilityBuilders)
 
     local GlobalAbilityBuilderObject = 
     {
     	--Constants
 		OwnedByPlayer = _OwnedByPlayer,
+		SGroupName = _SGroupName,
 	    SGroupID = _SGroupID,
-		TargetBuilding_EntityID = _TargetBuilding_EntityID,
+		TargetEGroupName = _TargetEGroupName,
 		PosInTrackedAbilityBuilders = PosInTrackedAbilityBuilders
     }
 	self.__index = self
@@ -24,22 +27,23 @@ end
 function GlobalAbilityBuilder:Update()
 
 	
-	if(Entity_IsBuilding(self.TargetBuilding_EntityID)) then
+	if(Cmd_IsConstructingBuilding(self.SGroupName, true)) then
 
 		--We have started building it, don't need to issue order
-		SGroup_DestroyAllSquads("tmpBuilderGroup")
-		SGroup_Destroy("tmpBuilderGroup")
+		SGroup_DestroyAllSquads(self.SGroupName)
+		SGroup_Destroy(self.SGroupID)
 
 		g_AllTrackedAbilityBuildersCount = g_AllTrackedAbilityBuildersCount - 1
 		table.remove(g_AllTrackedAbilityBuilders, PosInTrackedAbilityBuilders)
 
 	else
+		
 		-- issue order
 		Command_SquadEntity( 
 			self.OwnedByPlayer,
 			self.SGroupID,
 			SCMD_BuildStructure,
-			self.TargetBuilding_EntityID
+			self.TargetEGroupName
 		)	
 
 	end
@@ -63,11 +67,14 @@ function Update_GlobalAbilities()
 
 	if(Button_Exists(g_btn))then 
 
-		if(Button_GetPressed(g_btn)) then
-
-			print("Button Is Pressed!")
-			Dev_DoTestAbility()
-
+		if(g_IsDoingAbility == false) then
+			if(Button_GetPressed(g_btn)) then
+				
+				print("Button Is Pressed!")
+				g_IsDoingAbility = true
+				Dev_DoTestAbility()
+				
+			end
 		end
 	end
 
@@ -89,8 +96,6 @@ end
 
 function Dev_DoTestAbility()
 
-	W40k_UnlockInputOnLetterBox()
-	W40k_Letterbox(true, 0)
 
 	local pos = Button_GetPressedPosition(g_btn)
 
@@ -100,22 +105,32 @@ function Dev_DoTestAbility()
 
 	end
 	
+	g_IsDoingAbility = false
 
 end
 
 function Implement_TestAbility(pos, _PlayerStruct)
 
-	W40k_Letterbox(false, 0)
-	print(pos)
-	
 	local UniqueBuildingEGroup = GetUniqueEG("tmpBuildingEGroup")
 	local UniqueBuilderSGroup = GetUniqueSG("tmpBuilderGroup")
-	
-	Entity_CreateBuildingPosition(_PlayerStruct.Player, EGroup_GetName(UniqueBuildingEGroup), "guard_infantry_summon", pos, 0)
-	Util_CreateSquadsAtPosition(_PlayerStruct.Player, SGroup_GetName(UniqueBuilderSGroup), "world_squad_global_builder", pos, 1)
-	Util_ResetAndRebuild(EGroup_FromName("tmpBuildingEGroup"), SGroup_FromName("tmpBuilderGroup"))
+	local UniqueBuildingEGroupName = EGroup_GetName(UniqueBuildingEGroup)
+	local UniqueBuilderSGroupName =  SGroup_GetName(UniqueBuilderSGroup)
 
-	table.insert(g_AllTrackedAbilityBuilders, GlobalAbilityBuilder:new( _Player, UniqueBuilderSGroup, EGroup_GetSpawnedEntityAt(UniqueBuildingEGroup, 1) ))
+	Entity_CreateBuildingPosition(_PlayerStruct.Player, UniqueBuildingEGroupName, "guard_infantry_summon", pos, 0)
+
+	--If group size is 0 we have not created the above entity. Likely due to it being placed in a bad position. Must show error and stop function
+	if(EGroup_Count(UniqueBuildingEGroup) == 0) then
+
+		UIWarning_Show( "FAILED TO CAST SUMMON ABILITY.\nCannot place structure at that position." )
+		return
+
+	end
+
+	Util_CreateSquadsAtPosition(_PlayerStruct.Player, UniqueBuilderSGroupName, "world_squad_global_builder", pos, 1)
+	--Util_ResetAndRebuild(UniqueBuildingEGroupName, UniqueBuilderSGroupName)
+
+	table.insert(g_AllTrackedAbilityBuilders, GlobalAbilityBuilder:new( _PlayerStruct.Player, UniqueBuilderSGroup, UniqueBuilderSGroupName, UniqueBuildingEGroupName ))
+	g_AllTrackedAbilityBuildersCount = g_AllTrackedAbilityBuildersCount + 1
 
 end
 
@@ -123,7 +138,7 @@ function Update_AllAbilityBuilders()
 
 	for i = 1, g_AllTrackedAbilityBuildersCount do
 
-		g_AllTrackedAbilityBuildersCount[i]:Update()
+		g_AllTrackedAbilityBuilders[i]:Update()
 
 	end
 end
