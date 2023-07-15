@@ -29,6 +29,6 @@ import("TFE_Core/Subscars/Resources/AutoGenResources/PassiveResourceGeneration_C
 import("TFE_Core/Subscars/Resources/Upkeep/ResUpkeep_Core.scar")
 import("TFE_Core/Subscars/Resources/Mature/ResMature_Core.scar")
 import("TFE_Core/Subscars/Weather/WeatherSystems.scar")
-import("TFE_Core/Subscars/Weather/GlobalAbilities_Core.scar")
+import("TFE_Core/Subscars/GlobalAbilities/GlobalAbilities_Core.scar")
 ----------------------------------
 ----------------------------------
