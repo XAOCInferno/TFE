@@ -167,6 +167,7 @@ function Core_MainLoop()
 	if(DoCriticalFunction(Set_ResourceMature, debug_TFECore_FileName, "Core_MainLoop/Set_ResourceMature")) then return end
 	if(DoCriticalFunction(Implement_UpkeepAndMature, debug_TFECore_FileName, "Core_MainLoop/Implement_UpkeepAndMature")) then return end
 	DoBasicFunction(Set_Weather, debug_TFECore_FileName, "Core_MainLoop/Set_Weather")
+	DoBasicFunction(Update_GlobalAbilities, debug_TFECore_FileName, "Core_MainLoop/Update_GlobalAbilities")
 	g_PreviousMainLoopHasCompleted = true	
 	
 end

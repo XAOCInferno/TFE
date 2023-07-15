@@ -1,0 +1,21 @@
+debug_GlobalAbilitiesCore_FileName = "GlobalAbilities_Core"
+
+
+import("TFE_Core/Subscars/GlobalAbilities/Imports/GlobalAbilities_Imports.scar")
+
+
+function Setup_GlobalAbilities()
+	local debugFuncName = "Setup_GlobalAbilities"
+	
+	Log(0, 0, debug_ResMatureCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+
+	EventCue_DoEvent( 'warning', 'music/stinger_completeobjective', 'Resource Mature Activated!', 'Global Abilities Activated!.' )
+	
+	Log(0, 0, debug_ResMatureCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+
+end
+
+function Update_GlobalAbilities()
+	local debugFuncName = "Update_GlobalAbilities"
+
+end
