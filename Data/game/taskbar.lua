@@ -339,7 +339,8 @@ commandsmall_buttons =
 	scuttle 					= "Detach", 
 	relocate					= "Upgrade03",
 	
-	cancel_construction	= list_commands[12],
+	cancel_construction	= list_commands[12],	
+	
 }
 
 list_abilities = 
@@ -360,6 +361,10 @@ list_abilities =
     soul_ability_6, -- ABILITY14
 
 }
+
+--[[list_global_abilities =
+{
+}]]
 
 -- progress positions must be in sync with above list_abilities list
 list_abilities_progress = 
@@ -916,7 +921,7 @@ hero_ui =
 }
 
 scar_ui =
-{
+{					
 	{ bind = "scar_button", ui = "btn_ScarUI", tt = tooltip_simple_template, },
 }
 
@@ -939,6 +944,15 @@ submenu_modal = uses(static)
     { bind = "cancel_menu_button", ui = list_commands[12], hk = "escape", texture =  "command_icons/Back", tt = tooltip_simple_template, tt_title = "$40850", tt_desc = "$40851"  },
 }
 
+GlobalAbilities =
+{					
+	{ bind = "scar_button", ui = "btn_GlobalAbility01", submenu = submenu_modal, tt = tooltip_simple_template, },	
+	{ bind = "scar_button", ui = "btn_GlobalAbility02", submenu = submenu_modal, tt = tooltip_simple_template, },
+	{ bind = "scar_button", ui = "btn_GlobalAbility03", submenu = submenu_modal, tt = tooltip_simple_template, },	
+	{ bind = "scar_button", ui = "btn_GlobalAbility04", submenu = submenu_modal, tt = tooltip_simple_template, },
+	{ bind = "scar_button", ui = "btn_GlobalAbility05", submenu = submenu_modal, tt = tooltip_simple_template, },
+}
+
 SoulAbilities = 
 {
 	-- soulability1
@@ -948,11 +962,12 @@ SoulAbilities =
 	{ bind = "soul_ability_4", hk = "rampage", texture =  "Dark_Eldar_Icons/corrosive_cloud_icon", ui = "btnSoulAbility04", progress_recharge = "SoulProgress04", submenu =  submenu_modal, tt = tooltip_ability, tt_title = "$40938", tt_desc = "$40939" },
 	{ bind = "soul_ability_5", hk = "rampage", texture =  "Dark_Eldar_Icons/Soulstorm_icon", ui = "btnSoulAbility06", progress_recharge = "SoulProgress06", submenu =  submenu_modal, tt = tooltip_ability, tt_title = "$40938", tt_desc = "$40939" },
 	{ bind = "soul_ability_6", hk = "rampage", texture =  "Dark_Eldar_Icons/rekindle_rage_icon", ui = "btnSoulAbility05", progress_recharge = "SoulProgress05", submenu =  submenu_modal, tt = tooltip_ability, tt_title = "$40938", tt_desc = "$40939" },
+	
 }
 
 
 -- build basic structures sub-menu
-submenu_structures = uses(static, SoulAbilities)
+submenu_structures = uses(static, SoulAbilities, GlobalAbilities)
 {
     -- cancel
     { bind = "cancel_menu_button", ui = "AddLeader", hk = "escape", texture =  "command_icons/Back", tt = tooltip_simple_template, tt_title = "$40850", tt_desc = "$40851" },
@@ -991,7 +1006,7 @@ submenu_scuttle = uses(static)
 }
 ]]
 
-submenu_cancel_production = uses(static, SoulAbilities)
+submenu_cancel_production = uses(static, SoulAbilities, GlobalAbilities)
 {
 	-- ok
     { bind = "command_cancel_production", ui = list_commands[11], texture =  "command_icons/ok", tt = tooltip_simple_template, tt_title = "$40854", tt_desc = "$40855"  },
@@ -1001,7 +1016,7 @@ submenu_cancel_production = uses(static, SoulAbilities)
 }
 
 -- 
-submenu_devunits = uses(static, SoulAbilities)
+submenu_devunits = uses(static, SoulAbilities, GlobalAbilities)
 {
     -- basic buildings
     { bind = "list", uilist = list_production, 
@@ -1019,7 +1034,7 @@ submenu_devunits = uses(static, SoulAbilities)
 }
 
 
-production_info = uses(SoulAbilities)
+production_info = uses(SoulAbilities, GlobalAbilities)
 {
 	-- display the production queue
 	{ bind = "production_queue_progress", ui = "buildProgress", display_type = "bar" },
@@ -1038,7 +1053,7 @@ production_info = uses(SoulAbilities)
 	},
 }
 
-reinforcement_info = uses(SoulAbilities)
+reinforcement_info = uses(SoulAbilities, GlobalAbilities)
 {
 	-- display the reinforcement queue
 	{ bind = "reinforcement_queue_progress", ui = "buildProgress", display_type = "bar" },
@@ -1092,7 +1107,7 @@ submenu_production_squad_from_squad = uses(static, production_info)
 }
 
 
-mult_selection_info = uses(SoulAbilities)
+mult_selection_info = uses(SoulAbilities, GlobalAbilities)
 {
 	-- background
 	{ bind = "image", ui = "grpMultiSquadSelection" },
@@ -1120,7 +1135,7 @@ mult_selection_info = uses(SoulAbilities)
 	},
 }
 
-primary_selection_info = uses(SoulAbilities)
+primary_selection_info = uses(SoulAbilities, GlobalAbilities)
 {
 	-- background
 	{ bind = "image", ui = "grpPrimaryInfo"},
@@ -1150,7 +1165,7 @@ primary_selection_info = uses(SoulAbilities)
 	}
 }
 
-single_selection_info = uses(SoulAbilities)
+single_selection_info = uses(SoulAbilities, GlobalAbilities)
 {
 	-- background
 	{ bind = "image", ui = "grpStats" },
@@ -1204,7 +1219,7 @@ single_selection_info = uses(SoulAbilities)
 }
 
 -- production items(squads, research, addons, ...) and entity commands
-entity_commands = uses(SoulAbilities)
+entity_commands = uses(SoulAbilities, GlobalAbilities)
 {
 	-- attack
 	{ bind = "entity_attack_ranged_modal", hk = "attack", texture =  "command_icons/attackg", ui = commandsmall_buttons.building_attack, submenu =  submenu_modal, tt = tooltip_simple_template, tt_title = "$40944", tt_desc = "$40949" },
@@ -1359,7 +1374,7 @@ entity_commands = uses(SoulAbilities)
 }	
 
 -- squad commands (attack / move / stance etc)
-commands = uses(SoulAbilities) 
+commands = uses(SoulAbilities, GlobalAbilities) 
 {	
 	-- move
 	{ bind = "move_modal", hk = "move", texture =  "command_icons/move", ui = commandsmall_buttons.move, submenu =  submenu_modal, tt = tooltip_simple_template, tt_title = "$40922", tt_desc = "$40923" },
@@ -1724,7 +1739,7 @@ squad_commands =
 }
 
 -- minimap
-minimap_buttons = uses(SoulAbilities)
+minimap_buttons = uses(SoulAbilities, GlobalAbilities)
 {
 		-- minimap ping
 	{	bind = "minimap_ping_binding", 

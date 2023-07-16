@@ -89,8 +89,12 @@ function Dev_CreateTestGlobalAbilityButton()
     local TipTable = { "Test Title", "Test Description"}
 	local Instructions = "um test instructions..."
     --"$830050" = title, "$830051" = description
-
-	g_btn = Util_GlobalAbilityButton_Create("btn_ScarUI", TextureTable, TipTable, Instructions, true, true)
+	print("creating button!!")
+	g_btn = Util_GlobalAbilityButton_Create("btn_GlobalAbility01", TextureTable, TipTable, Instructions, true, true)
+	g_btn = Util_GlobalAbilityButton_Create("btn_GlobalAbility02", TextureTable, TipTable, Instructions, true, true)
+	g_btn = Util_GlobalAbilityButton_Create("btn_GlobalAbility03", TextureTable, TipTable, Instructions, true, true)
+	g_btn = Util_GlobalAbilityButton_Create("btn_GlobalAbility04", TextureTable, TipTable, Instructions, true, true)
+	g_btn = Util_GlobalAbilityButton_Create("btn_GlobalAbility05", TextureTable, TipTable, Instructions, true, true)
 
 end
 
@@ -144,10 +148,10 @@ function Update_AllAbilityBuilders()
 end
 
 
-function Util_GlobalAbilityButton_Create(widgetName, textureTable, tipTable, instructions, boolean1, boolean2)
+function Util_GlobalAbilityButton_Create(widgetName, textureTable, tipTable, instructions, visible, enabled)
 
-	local buttonID = Button_Add(widgetName,boolean1, boolean2, true)
-	Button_SetVisible(buttonID, boolean1)
+	local buttonID = Button_Add(widgetName, visible, enabled, true)
+	Button_SetVisible(buttonID, visible)
 	Button_SetTextures(buttonID, textureTable[1], textureTable[2], textureTable[3])
 	Button_SetTooltip(buttonID, tipTable[1], tipTable[2])
 	Button_SetModalInstruction(buttonID, instructions)
