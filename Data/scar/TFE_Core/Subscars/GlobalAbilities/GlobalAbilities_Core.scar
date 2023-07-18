@@ -157,15 +157,15 @@ end
 function Setup_AbilityButtons()
 	for i = 1, g_PlayerCount do
 		if(g_AllPlayers[i].PlayerIndex == Tut_GetLocalPlayerIndex()) then
+			local CurrentPlayer = g_AllPlayers[i]
 			if(g_AllPlayers[i].RaceDetails.RaceName == "guard_race") then
-				local CurrentPlayer = g_AllPlayers[i]
 				local AbilityStruct = CreateGlobalAbilityAndButton(
 					CurrentPlayer.Player, 
 					"GlobalAbility_Guard_SummonBunker", 
 					"btn_GlobalAbility01",
 					{"guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel"},
 					{ "Deploy Tunnel Network", "Fire Cost: Req: 100\n\n - Constructs a Tunnel Network at target location.\n - Tunnel Networks can transport infantry easily around the map.\n - Can be upgraded with Medi Bay or Repair Deck and can gain infiltration via Cammo Netting.\n - Can construct some infantry at a slower rate."},
-					"um test instructions...",
+					"Left Click location on the ground to create structure.",
 					true,
 					"GROUND"
 				)
@@ -173,7 +173,7 @@ function Setup_AbilityButtons()
 				AbilityStruct.DoAbility = function( _pos, _targetSquad, _targetEntity )
 
 					FireCost(CurrentPlayer, -100, 0, 0, 0, 0)
-					ActivateAutoConstructionAbility(_pos, g_AllPlayers[1], "guard_infantry_summon")
+					ActivateAutoConstructionAbility(_pos, CurrentPlayer, "guard_infantry_summon")
 
 				end
 
@@ -183,7 +183,7 @@ function Setup_AbilityButtons()
 					"btn_GlobalAbility02",
 					{"guard_icons/guard_turret_multilaser", "guard_icons/guard_turret_multilaser", "guard_icons/guard_turret_multilaser"},
 					{ "Deploy Multilaser Turret", "Fire Cost: Req: 50, Power: 30\n\n - Create a multilaser turret at target location.\n - Turret will automatically build itself.\n - Weaker than a Heavy Bolter Turret and cannot be upgraded."},
-					"um test instructions...",
+					"Left Click location on the ground to create structure.",
 					true,
 					"GROUND"
 				)
@@ -191,7 +191,25 @@ function Setup_AbilityButtons()
 				AbilityStruct2.DoAbility = function( _pos, _targetSquad, _targetEntity )
 
 					FireCost(CurrentPlayer, -50, -30, 0, 0, 0)
-					ActivateAutoConstructionAbility(_pos, g_AllPlayers[1], "guard_turret_multilaser")
+					ActivateAutoConstructionAbility(_pos, CurrentPlayer, "guard_turret_multilaser")
+
+				end
+			elseif(g_AllPlayers[i].RaceDetails.RaceName == "eldar_race") then
+				local AbilityStruct3 = CreateGlobalAbilityAndButton(
+					CurrentPlayer.Player, 
+					"GlobalAbility_Eldar_SummonWebwayGate", 
+					"btn_GlobalAbility01",
+					{"eldar_icons/webway_gate_icon", "eldar_icons/webway_gate_icon", "eldar_icons/webway_gate_icon"},
+					{ "Summon Webway Gate", "Fire Cost: Req: 100\n\n - Create a Webway Gate at target location.\n - Webway Gate will automatically build itself."},
+					"Left Click location on the ground to create structure.",
+					true,
+					"GROUND"
+				)
+
+				AbilityStruct3.DoAbility = function( _pos, _targetSquad, _targetEntity )
+
+					FireCost(CurrentPlayer, -100, 0, 0, 0, 0)
+					ActivateAutoConstructionAbility(_pos, CurrentPlayer, "eldar_webway_gate")
 
 				end
 			end
