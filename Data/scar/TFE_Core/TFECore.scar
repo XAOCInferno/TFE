@@ -26,6 +26,7 @@ function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
 	    RaceDetails = _RaceDetails,   
 	    
 	    --Variables
+		--Is this even being used anymore? just here for future..?
 	    CurrentNumberOfResearchedGlobals = 
 	    {
 	    	RT_Requisition = 0,
@@ -42,21 +43,49 @@ function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
 	    	RT_Pop =  0,
 	    	RT_Faith = 0, 
 	    	RT_Souls = 0
+	    },
+	    
+	    CurrentFireCosts = 
+	    {
+	    	RT_Requisition = 0,
+	    	RT_Power =  0,
+	    	RT_Pop =  0,
+	    	RT_Faith = 0, 
+	    	RT_Souls = 0
 	    }
     }
 	self.__index = self
 	return setmetatable(PlayerDetailsObject, self)
 end
 
+function PlayerDetails:AddFireCost( _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls )
+
+	self.CurrentFireCosts.RT_Requisition = self.CurrentFireCosts.RT_Requisition + _RT_Requsition
+	self.CurrentFireCosts.RT_Power = self.CurrentFireCosts.RT_Power + _RT_Power
+	self.CurrentFireCosts.RT_Pop = self.CurrentFireCosts.RT_Pop + _RT_Pop
+	self.CurrentFireCosts.RT_Faith = self.CurrentFireCosts.RT_Faith + _RT_Faith
+	self.CurrentFireCosts.RT_Souls = self.CurrentFireCosts.RT_Souls + _RT_Souls
+	print(self.CurrentFireCosts.RT_Requisition)
+end
+
 function PlayerDetails:ClearCurrentResourceBonuses()
 	self.CurrentAddResources = 
-	    	{
-	    		RT_Requisition = 0,
-	    		RT_Power =  0,
-	    		RT_Pop =  0,
-	    		RT_Faith = 0, 
-	    		RT_Souls = 0
-	    	}
+    {
+	    RT_Requisition = 0,
+	    RT_Power =  0,
+	    RT_Pop =  0,
+	    RT_Faith = 0, 
+		RT_Souls = 0
+	}
+
+	self.CurrentFireCosts = 
+	{
+	    RT_Requisition = 0,
+	    RT_Power =  0,
+	    RT_Pop =  0,
+	    RT_Faith = 0, 
+	    RT_Souls = 0
+	 }
 end
 
 
@@ -208,7 +237,13 @@ function Implement_UpkeepAndMature()
 			Player_AddResource(g_AllPlayers[Index].Player, RT_Pop, g_AllPlayers[Index].CurrentAddResources.RT_Pop * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
 			Player_AddResource(g_AllPlayers[Index].Player, RT_Faith, g_AllPlayers[Index].CurrentAddResources.RT_Faith * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
 			Player_AddResource(g_AllPlayers[Index].Player, RT_Souls, g_AllPlayers[Index].CurrentAddResources.RT_Souls * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
-			
+
+			Player_AddResource(g_AllPlayers[Index].Player, RT_Requisition, g_AllPlayers[Index].CurrentFireCosts.RT_Requisition )
+			Player_AddResource(g_AllPlayers[Index].Player, RT_Power, g_AllPlayers[Index].CurrentFireCosts.RT_Power )
+			Player_AddResource(g_AllPlayers[Index].Player, RT_Pop, g_AllPlayers[Index].CurrentFireCosts.RT_Pop )
+			Player_AddResource(g_AllPlayers[Index].Player, RT_Faith, g_AllPlayers[Index].CurrentFireCosts.RT_Faith )
+			Player_AddResource(g_AllPlayers[Index].Player, RT_Souls, g_AllPlayers[Index].CurrentFireCosts.RT_Souls )
+			print("LOST REQ = "..g_AllPlayers[Index].CurrentFireCosts.RT_Requisition)
 			g_AllPlayers[Index]:ClearCurrentResourceBonuses()
 		else
 

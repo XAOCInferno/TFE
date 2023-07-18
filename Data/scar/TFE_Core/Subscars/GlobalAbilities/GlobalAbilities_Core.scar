@@ -29,7 +29,7 @@ end
 
 --Possibly override... But must include the "GetPressed"
 function GlobalAbility:Update()
-
+	
 	if(Button_Exists(self.ButtonID) == false) then
 
 		Log(2, 0, debug_GlobalAbilitiesCore_FileName, self.AbilityName.."/Update", "Linked button does not exist! Removing self from global abilities.")
@@ -40,7 +40,7 @@ function GlobalAbility:Update()
 
 	if(Button_GetPressed(self.ButtonID)) then
 
-		self.OnPress()
+		self:OnPress()
 
 	end
 
@@ -155,61 +155,48 @@ function Setup_GlobalAbilities()
 end
 
 function Setup_AbilityButtons()
-	local AbilityStruct = CreateGlobalAbilityAndButton(
-		g_AllPlayers[1].Player, 
-		"Test Ability", 
-		"btn_GlobalAbility01",
-		{"guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel"},
-		{ "Test Title", "Test Description"},
-		"um test instructions...",
-		true,
-		"GROUND"
-	)
+	for i = 1, g_PlayerCount do
+		if(g_AllPlayers[i].PlayerIndex == Tut_GetLocalPlayerIndex()) then
+			if(g_AllPlayers[i].RaceDetails.RaceName == "guard_race") then
+				local CurrentPlayer = g_AllPlayers[i]
+				local AbilityStruct = CreateGlobalAbilityAndButton(
+					CurrentPlayer.Player, 
+					"GlobalAbility_Guard_SummonBunker", 
+					"btn_GlobalAbility01",
+					{"guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel"},
+					{ "Deploy Tunnel Network", "Fire Cost: Req: 100\n\n - Constructs a Tunnel Network at target location.\n - Tunnel Networks can transport infantry easily around the map.\n - Can be upgraded with Medi Bay or Repair Deck and can gain infiltration via Cammo Netting.\n - Can construct some infantry at a slower rate."},
+					"um test instructions...",
+					true,
+					"GROUND"
+				)
+	
+				AbilityStruct.DoAbility = function( _pos, _targetSquad, _targetEntity )
 
-	AbilityStruct.DoAbility = function( _pos, _targetSquad, _targetEntity )
+					FireCost(CurrentPlayer, -100, 0, 0, 0, 0)
+					ActivateAutoConstructionAbility(_pos, g_AllPlayers[1], "guard_infantry_summon")
 
-		ActivateAutoConstructionAbility(pos, g_AllPlayers[1], "guard_infantry_summon")
+				end
 
+				local AbilityStruct2 = CreateGlobalAbilityAndButton(
+					CurrentPlayer.Player, 
+					"GlobalAbility_Guard_SummonMultilaser", 
+					"btn_GlobalAbility02",
+					{"guard_icons/guard_turret_multilaser", "guard_icons/guard_turret_multilaser", "guard_icons/guard_turret_multilaser"},
+					{ "Deploy Multilaser Turret", "Fire Cost: Req: 50, Power: 30\n\n - Create a multilaser turret at target location.\n - Turret will automatically build itself.\n - Weaker than a Heavy Bolter Turret and cannot be upgraded."},
+					"um test instructions...",
+					true,
+					"GROUND"
+				)
+	
+				AbilityStruct2.DoAbility = function( _pos, _targetSquad, _targetEntity )
+
+					FireCost(CurrentPlayer, -50, -30, 0, 0, 0)
+					ActivateAutoConstructionAbility(_pos, g_AllPlayers[1], "guard_turret_multilaser")
+
+				end
+			end
+		end
 	end
-	--[[g_btn = CreateAbilityButton(
-		"btn_GlobalAbility01", 
-		{"guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel"},
-		{ "Test Title", "Test Description"},
-		"um test instructions...",
-		true
-	)
-	
-	g_btn2 = CreateAbilityButton(
-		"btn_GlobalAbility02", 
-		{"guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel"},
-		{ "Test Title", "Test Description"},
-		"um test instructions...",
-		true
-	)
-	
-	g_btn3 = CreateAbilityButton(
-		"btn_GlobalAbility03", 
-		{"guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel"},
-		{ "Test Title", "Test Description"},
-		"um test instructions...",
-		true
-	)
-
-	g_btn4 = CreateAbilityButton(
-		"btn_GlobalAbility04", 
-		{"guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel"},
-		{ "Test Title", "Test Description"},
-		"um test instructions...",
-		true
-	)
-	
-	g_btn5 = CreateAbilityButton(
-		"btn_GlobalAbility05", 
-		{"guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel"},
-		{ "Test Title", "Test Description"},
-		"um test instructions...",
-		true
-	)]]
 end
 
 function Update_GlobalAbilities()
@@ -222,18 +209,6 @@ function Update_GlobalAbilities()
 		g_AllTrackedAbilities[i]:Update()
 
 	end
-	--[[if(Button_Exists(g_btn))then 
-
-		if(g_IsDoingAbility == false) then
-			if(Button_GetPressed(g_btn)) then
-				
-				print("Button Is Pressed!")
-				g_IsDoingAbility = true
-				Dev_DoTestAbility()
-				
-			end
-		end
-	end]]
 
 	Update_AllAbilityBuilders()
 
@@ -246,27 +221,20 @@ function CreateGlobalAbilityAndButton(_Player, _AbilityName, _WidgetName, _Textu
 
 	local ButtonID = Util_GlobalAbilityButton_Create(_WidgetName, _TextureTable, _TipTable, _Instructions, true, true, _Modal)
 	
-	local AbilityStruct = GlobalAbility:new(_Player, _AbilityName, _ButtonID, _Modal, _TargetFilter)
+	local AbilityStruct = GlobalAbility:new(_Player, _AbilityName, ButtonID, _Modal, _TargetFilter, table.getn(g_AllTrackedAbilities))
+
 	table.insert(g_AllTrackedAbilities, AbilityStruct)
 
 	return AbilityStruct
 
 end
 
---[[function Dev_DoTestAbility()
+--Other costs can be added when needed, but likely via a different function as this will just interact direct with resource gen system
+function FireCost(_Player, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls) 
 
+	_Player:AddFireCost(_RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls)
 
-	local pos = Button_GetPressedPosition(g_btn)
-	
-	if( pos ~= nil) then
-
-		ActivateAutoConstructionAbility(pos, g_AllPlayers[1], "guard_infantry_summon")
-
-	end
-	
-	g_IsDoingAbility = false
-
-end]]
+end
 
 function ActivateAutoConstructionAbility(_pos, _PlayerStruct, _structureEbps)
 
@@ -274,7 +242,7 @@ function ActivateAutoConstructionAbility(_pos, _PlayerStruct, _structureEbps)
 	local UniqueBuilderSGroup = GetUniqueSG("tmpBuilderGroup")
 	local UniqueBuildingEGroupName = EGroup_GetName(UniqueBuildingEGroup)
 	local UniqueBuilderSGroupName =  SGroup_GetName(UniqueBuilderSGroup)
-
+	
 	Entity_CreateBuildingPosition(_PlayerStruct.Player, UniqueBuildingEGroupName, _structureEbps, _pos, 0)
 
 	--If group size is 0 we have not created the above entity. Likely due to it being placed in a bad position. Must show error and stop function
