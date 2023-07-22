@@ -9,6 +9,9 @@ g_AllTrackedAbilityBuildersCount = 0
 g_IsDoingAbility = false --This NEEDS to be changed later as part of an ability class
 
 g_AllTrackedAbilities = {}
+g_LastActivatedPlayer = nil
+
+
 
 GlobalAbility = {}
 function GlobalAbility:new ( _OwnedPlayer, _AbilityName, _ButtonID, _IsModal, _TargetFilter, _PosInTrackedAbilities )
@@ -89,6 +92,9 @@ function GlobalAbility:OnPress()
 		end
 	end
 
+	g_LastActivatedPlayer = GetLocalPlayer()
+	
+	print("Button last pressed by Player "..g_LastActivatedPlayer.PlayerIndex.." at "..g_WorldTime) --Turn this into Log
 	self.DoAbility(targetPos, targetSquad, targetEntity)
 end
 
@@ -153,9 +159,64 @@ function Setup_GlobalAbilities()
 	Log(0, 0, debug_ResMatureCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 
 end
+function GetLocalPlayer()
+	local localPlayerIndex = Tut_GetLocalPlayerIndex()
 
-function Setup_AbilityButtons()
 	for i = 1, g_PlayerCount do
+		if(g_AllPlayers[i].PlayerIndex == localPlayerIndex) then
+			return g_AllPlayers[i]
+		end
+	end
+
+	print("PLAYER IS NILL!")
+	--Debug stuff here, can't find local player
+end
+function Setup_AbilityButtons()
+	
+	local AbilityStruct = CreateGlobalAbilityAndButton(
+		g_AllPlayers[1].Player, 
+		"GlobalAbility_Guard_SummonBunker", 
+		"btn_GlobalAbility01",
+		{"guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel"},
+		{ "Deploy Tunnel Network", "Fire Cost: Req: 100\n\n - Constructs a Tunnel Network at target location.\n - Tunnel Networks can transport infantry easily around the map.\n - Can be upgraded with Medi Bay or Repair Deck and can gain infiltration via Cammo Netting.\n - Can construct some infantry at a slower rate."},
+		"Left Click location on the ground to create structure.",
+		true,
+		"GROUND"
+	)
+	AbilityStruct.DoAbility = function( _pos, _targetSquad, _targetEntity )
+
+		--local Player = GetLocalPlayer()
+		if(g_LastActivatedPlayer.RaceDetails.RaceName == "guard_race") then
+			FireCost(g_LastActivatedPlayer, -100, 0, 0, 0, 0)
+			ActivateAutoConstructionAbility(_pos, g_LastActivatedPlayer, "guard_infantry_summon")
+		elseif(g_LastActivatedPlayer.RaceDetails.RaceName == "eldar_race") then
+			FireCost(g_LastActivatedPlayer, -100, 0, 0, 0, 0)
+			ActivateAutoConstructionAbility(_pos, g_LastActivatedPlayer, "eldar_webway_gate")
+		end
+	end
+
+	for i = 1, g_PlayerCount do
+		
+		if(g_AllPlayers[i].PlayerIndex == Tut_GetLocalPlayerIndex()) then
+			if(g_AllPlayers[i].RaceDetails.RaceName == "guard_race") then
+				UpdateAbilityIconGraphics(	
+				AbilityStruct.ButtonID,
+				{"guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel"},
+				{ "Deploy Tunnel Network", "Fire Cost: Req: 100\n\n - Constructs a Tunnel Network at target location.\n - Tunnel Networks can transport infantry easily around the map.\n - Can be upgraded with Medi Bay or Repair Deck and can gain infiltration via Cammo Netting.\n - Can construct some infantry at a slower rate."},
+				"Left Click location on the ground to create structure.")
+			elseif(g_AllPlayers[i].RaceDetails.RaceName == "eldar_race") then
+				UpdateAbilityIconGraphics(	
+				AbilityStruct.ButtonID,
+				{"eldar_icons/webway_gate_icon", "eldar_icons/webway_gate_icon", "eldar_icons/webway_gate_icon"},
+				{ "Summon Webway Gate", "Fire Cost: Req: 100\n\n - Create a Webway Gate at target location.\n - Webway Gate will automatically build itself."},
+				"Left Click location on the ground to create structure.")
+			else
+				print("Player race not valid for global abilities!") --Change this to an error log
+			end
+		end
+
+	end
+	--[[for i = 1, g_PlayerCount do
 		if(g_AllPlayers[i].PlayerIndex == Tut_GetLocalPlayerIndex()) then
 			local CurrentPlayer = g_AllPlayers[i]
 			if(g_AllPlayers[i].RaceDetails.RaceName == "guard_race") then
@@ -214,7 +275,7 @@ function Setup_AbilityButtons()
 				end
 			end
 		end
-	end
+	end]]
 end
 
 function Update_GlobalAbilities()
@@ -244,6 +305,29 @@ function CreateGlobalAbilityAndButton(_Player, _AbilityName, _WidgetName, _Textu
 	table.insert(g_AllTrackedAbilities, AbilityStruct)
 
 	return AbilityStruct
+
+end
+
+function UpdateAbilityIconGraphics(_BtnID, _TextureTable, _TipTable, _Instructions)
+
+	local debugFuncName = "UpdateAbilityIconGraphics"
+
+	if(_BtnID == nil) then
+
+		Log(2, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Button is nil! Cannot update graphics.")
+		return 
+
+	elseif(Button_Exists(_BtnID) == nil) then
+
+		Log(2, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Button does not exist! Cannot update graphics.")
+		return
+
+	end
+	Button_SetTextures(_BtnID, _TextureTable[1], _TextureTable[2], _TextureTable[3])
+	Button_SetTooltip(_BtnID, _TipTable[1], _TipTable[2])
+	Button_SetModalInstruction(_BtnID, _Instructions)
+
+	return buttonID
 
 end
 
