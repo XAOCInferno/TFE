@@ -34,11 +34,19 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP)
 		SquadBlueprint = _sBP,
 		SquadLoadout = Squad_Count(_sID),
 		SquadHasLeader = Squad_HasLeader(_sID),
+		SquadLeaderCount = Squad_CountLeaders(_sID),
 		SquadInitTime = g_WorldTime,	
-		
+
 		SquadAppliedCoverMods = {},
 		SquadAppliedCoverMods_IDs = {},
-		SquadAppliedCoverMods_Index = {}
+		SquadAppliedCoverMods_Index = {},
+
+		--Variables
+		IsUnderAttack = false,
+		PreviousSquadLoadout = Squad_Count(_sID),
+		PreviousSquadLeaderCount = Squad_CountLeaders(_sID),
+		PreviouslyAttackedByPlayers = {},
+		PreviouslyAttackedTime = 0
 	}
 	self.__index = self
 	return setmetatable(SquadDataObject, self)
@@ -76,46 +84,40 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 	local AddSGroupData = function(_sgroupid, _itemindex, _squadID)
 		
 		local newSquadGameID = Squad_GetGameID( _squadID )
-		local squadBP = Squad_GetBlueprintName( _squadID )				
-		local CriticalError = false
+		local squadBP = Squad_GetBlueprintName( _squadID )			
+		
 		if(TableContains(g_SquadBlueprintToIgnore, squadBP)) then return false end
 
 		if(squadBP == nil) then 
-			LogOnce(1, 0, debug_SquadManager_FileName, debugFuncName, "Can't squad BP is nil!")
+
+			LogOnce(1, 0, debug_SquadManager_FileName, debugFuncName, "Can't add squad data, BP is nil!")
 			return 
+
 		end
 		
 		for l = 1, TableLength(g_AllSquadsData[_PlayerIndex]) do
+
 			if(g_AllSquadsData[_PlayerIndex][l] == nil) then
+
 				table.remove(g_AllSquadsData[_PlayerIndex], l)	
 				return false
+
 			end
 			
 			if(g_AllSquadsData[_PlayerIndex][l].SquadUniqueID == newSquadGameID) then
-			
-				if(g_AllSquadsData[_PlayerIndex][l].SquadLoadout == 0) then					
-					table.remove(g_AllSquadsData[_PlayerIndex],l)
-					return false
-				end
-				
-				g_AllSquadsData[_PlayerIndex][l].SquadLoadout = Squad_Count(g_AllSquadsData[_PlayerIndex][l].SquadID)
-				g_AllSquadsData[_PlayerIndex][l].SquadHasLeader = Squad_HasLeader(g_AllSquadsData[_PlayerIndex][l].SquadID)
-				CriticalError = true			
+						
 				return false
-				
-			elseif(Squad_Exists(g_AllSquadsData[_PlayerIndex][l].SquadUniqueID) == false) then	--Does this work?
-				table.remove(g_AllSquadsData[_PlayerIndex], l)							
+										
 			end
 		end		
-		
-		if(CriticalError == false) then
-
-			local tmpData = SquadData:new( newSquadGameID, _sgroupid, _itemindex, _squadID, g_AllPlayers[_PlayerIndex].RaceDetails.RaceName, squadBP)
-			table.insert(g_AllSquadsData[_PlayerIndex], tmpData)	
 			
-		end
+		--Might need to create a unique sgroupid later...
+		local tmpData = SquadData:new( newSquadGameID, _sgroupid, _itemindex, _squadID, g_AllPlayers[_PlayerIndex].RaceDetails.RaceName, squadBP)
+		table.insert(g_AllSquadsData[_PlayerIndex], tmpData)	
+			
 	end
-							
+
+	Update_ExistingSquadDetails()		
 	SGroup_ForEachEx(Player_GetSquads(g_AllPlayers[_PlayerIndex].Player), AddSGroupData, true, false)				
 	
 	for k = 1, TableLength(g_AllSquadsData[_PlayerIndex]) do
@@ -132,4 +134,160 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 		
 	g_PlayerSquadCount[_PlayerIndex] = Player_GetActiveSquadCount(g_AllPlayers[_PlayerIndex].Player)
 		
+end
+
+function Update_ExistingSquadDetails()
+	for i = 1, g_PlayerCount do
+		for l = 1, TableLength(g_AllSquadsData[i]) do
+
+			--Simple check to avoid null ref
+			if(g_AllSquadsData[i][l] == nil) then
+
+				table.remove(g_AllSquadsData[i], l)	
+
+
+			--Squad has been destroyed since our last check, so we grant red resource.
+			elseif(Squad_Exists(g_AllSquadsData[i][l].SquadUniqueID) == false) then	--Does this work?
+				
+				Set_SquadCombatDetails(g_AllSquadsData[i][l], true)	
+				g_AllSquadsData[i][l].SquadHasPreviouslyExisted = true
+				table.remove(g_AllSquadsData[i], l)							
+			
+			--Squad exists and has more than 0 members so let's update their squad details.
+			else					
+				
+				g_AllSquadsData[i][l].SquadLoadout = Squad_Count(g_AllSquadsData[i][l].SquadID)
+				g_AllSquadsData[i][l].SquadHasLeader = Squad_HasLeader(g_AllSquadsData[i][l].SquadID)
+				g_AllSquadsData[i][l].SquadLeaderCount = Squad_CountLeaders(g_AllSquadsData[i][l].SquadID)
+				Set_SquadCombatDetails(g_AllSquadsData[i][l], false)		
+
+				--Squad exists but now has 0 members. At 0 members the squad is destroyed so this likely will never happen. If log isn't ever observed, delete this.
+				if(g_AllSquadsData[i][l].SquadLoadout == 0 and g_AllSquadsData[i][l].SquadHasPreviouslyExisted == true) then
+
+					Log(1, 0, debug_SquadManager_FileName, "Update_ExistingSquadDetails", "Squad has been destroyed but squad still exists?")	
+					Set_SquadCombatDetails(g_AllSquadsData[i][l], true)			
+					table.remove(g_AllSquadsData[i],l)	
+
+				else
+					--Squad is alive and we update their combat status to look for dead members etc
+					Set_SquadCombatDetails(g_AllSquadsData[i][l], false)
+
+				end
+			end
+
+		end		
+	end
+end
+
+function CheckForSquadLosses(SquadStruct)
+
+	local Losses = 0
+	local LeaderLosses = 0
+	
+	if(SquadStruct.PreviousSquadLoadout > SquadStruct.SquadLoadout) then
+
+		Losses = SquadStruct.PreviousSquadLoadout - SquadStruct.SquadLoadout
+
+	end
+	
+	if(SquadStruct.PreviousSquadLeaderCount > SquadStruct.SquadLeaderCount) then
+
+		LeaderLosses = SquadStruct.PreviousSquadLeaderCount - SquadStruct.SquadLeaderCount
+
+	end
+
+	SquadStruct.PreviousSquadLoadout = SquadStruct.SquadLoadout
+	SquadStruct.PreviousSquadLeaderCount = SquadStruct.SquadLeaderCount
+
+	return Losses, LeaderLosses
+
+end
+
+--Use 1 or 0 for SquadDead with 0 being false and 1 being true
+function UpdateSquadCombatDeathResources(RedReceiverPlayer, ModelLosses, LeaderLosses, SquadDead ) 
+
+	local TotalRed = 0
+	TotalRed = TotalRed + (0.5 * ModelLosses)
+	TotalRed = TotalRed + (1.5 * LeaderLosses)
+	TotalRed = TotalRed + (3 * SquadDead)
+
+	RedReceiverPlayer.CurrentResources.RT_Red = RedReceiverPlayer.CurrentResources.RT_Red + TotalRed	
+	print("Player "..RedReceiverPlayer.PlayerIndex.." current Red = "..RedReceiverPlayer.CurrentResources.RT_Red)
+
+end
+
+function Get_SquadLosses(_SquadStruct)
+
+	return _SquadStruct.PreviousSquadLoadout - _SquadStruct.SquadLoadout, _SquadStruct.SquadLeaderCount - _SquadStruct.PreviousSquadLeaderCount
+
+end
+
+function Set_SquadCombatDetails(_SquadStruct, _IsDead)
+	local ModelLosses = 0
+	local LeaderLosses = 0
+	local SquadDeath = 0
+
+	--Squad is dead. Time to give big reward to killers...
+	if(_IsDead) then
+
+		local AttackerPlayerLength = table.getn(_SquadStruct.PreviouslyAttackedByPlayers) or 0
+		if(AttackerPlayerLength == 0) then
+			Log(1, 0, debug_SquadManager_FileName, "Set_SquadCombatDetails", "No players have fought this squad, so who killed it?")	
+			return
+		end
+
+		for i = 1, AttackerPlayerLength do
+
+			ModelLosses, LeaderLosses = Get_SquadLosses(_SquadStruct)
+			print("Squad destroyed! Adding large Red for Player ".._SquadStruct.PreviouslyAttackedByPlayers[i].PlayerIndex..".")
+			UpdateSquadCombatDeathResources(_SquadStruct.PreviouslyAttackedByPlayers[i], ModelLosses, LeaderLosses, 1 )
+
+		end
+
+		return
+
+	end
+
+	--Squad is still alive so we need to calculate who is fighting them
+	if(Squad_IsUnderAttack(_SquadStruct.SquadID)) then
+			
+		local PlayersToRemove = {}
+		for i = 1, g_PlayerCount do
+			
+			if(Squad_IsUnderAttackByPlayer(_SquadStruct.SquadID, g_AllPlayers[i].Player)) then
+				
+				local contains, _  = TableContains(_SquadStruct.PreviouslyAttackedByPlayers, g_AllPlayers[i])
+				if(contains == false) then
+
+					table.insert(_SquadStruct.PreviouslyAttackedByPlayers, g_AllPlayers[i])
+
+				end
+
+				ModelLosses, LeaderLosses = CheckForSquadLosses(_SquadStruct)
+				if(ModelLosses > 0 or LeaderLosses > 0) then
+
+					UpdateSquadCombatDeathResources(g_AllPlayers[i], ModelLosses, LeaderLosses, 0 )		
+					print("Adding Red for Player "..g_AllPlayers[i].PlayerIndex..".")					
+	
+				end	
+			
+			else
+
+				--We don't know who attacked? we should calculate a player here based on distance perhaps, or just assign to assassin who is only one we know can do this.
+				table.insert(PlayersToRemove, g_AllPlayers[i])
+
+			end			
+
+		end
+
+		_SquadStruct.PreviouslyAttackedByPlayers = TableRemoveDuplicates(_SquadStruct.PreviouslyAttackedByPlayers, PlayersToRemove)
+
+	--It's been quite a long time since we've been in a fight so we shouldn't remember last fighting players, especially as we can be scuttled.
+	elseif(g_WorldTime - _SquadStruct.PreviouslyAttackedTime > 5)
+		
+		_SquadStruct.PreviouslyAttackedByPlayers = {}
+
+	end
+
+
 end

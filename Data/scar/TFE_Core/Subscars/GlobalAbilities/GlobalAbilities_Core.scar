@@ -148,18 +148,23 @@ function GlobalAbilityBuilder:Update()
 end
 
 function Setup_GlobalAbilities()
+
 	local debugFuncName = "Setup_GlobalAbilities"
 	
 	Log(0, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 
-	EventCue_DoEvent( 'warning', 'music/stinger_completeobjective', 'Global Abilities Activated!', 'Global Abilities Activated!.' )
 	Setup_AbilityButtons()
+	EventCue_DoEvent( 'warning', 'music/stinger_completeobjective', 'Global Abilities Activated!', 'Global Abilities Activated!.' )
 
 	
 	Log(0, 0, debug_ResMatureCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 
 end
-function GetLocalPlayer()
+
+function GetLocalPlayerStruct()
+
+	local debugFuncName = "GetLocalPlayerStruct"
+
 	local localPlayerIndex = Tut_GetLocalPlayerIndex()
 
 	for i = 1, g_PlayerCount do
@@ -168,10 +173,13 @@ function GetLocalPlayer()
 		end
 	end
 
-	print("PLAYER IS NILL!")
-	--Debug stuff here, can't find local player
+	Log(2, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Local player does not exist!")
+
 end
+
 function Setup_AbilityButtons()
+
+	local debugFuncName = "Setup_AbilityButtons"
 	
 	local AbilityStruct = CreateGlobalAbilityAndButton(
 		g_AllPlayers[1].Player, 
@@ -185,33 +193,39 @@ function Setup_AbilityButtons()
 	)
 	AbilityStruct.DoAbility = function( _pos, _targetSquad, _targetEntity )
 
-		--local Player = GetLocalPlayer()
+		--local Player = GetLocalPlayerStruct()
 		if(g_LastActivatedPlayer.RaceDetails.RaceName == "guard_race") then
-			FireCost(g_LastActivatedPlayer, -100, 0, 0, 0, 0)
+
+			FireCost(g_LastActivatedPlayer, 0, -100, 0, 0, 0, 0)
 			ActivateAutoConstructionAbility(_pos, g_LastActivatedPlayer, "guard_infantry_summon")
+
 		elseif(g_LastActivatedPlayer.RaceDetails.RaceName == "eldar_race") then
-			FireCost(g_LastActivatedPlayer, -100, 0, 0, 0, 0)
+
+			FireCost(g_LastActivatedPlayer, 0, -100, 0, 0, 0, 0)
 			ActivateAutoConstructionAbility(_pos, g_LastActivatedPlayer, "eldar_webway_gate")
+
 		end
 	end
 
 	for i = 1, g_PlayerCount do
-		
+		local RaceName = g_AllPlayers[i].RaceDetails.RaceName
 		if(g_AllPlayers[i].PlayerIndex == Tut_GetLocalPlayerIndex()) then
-			if(g_AllPlayers[i].RaceDetails.RaceName == "guard_race") then
+			if(RaceName == "guard_race") then
 				UpdateAbilityIconGraphics(	
 				AbilityStruct.ButtonID,
 				{"guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel", "guard_icons/guard_infantry_tunnel"},
 				{ "Deploy Tunnel Network", "Fire Cost: Req: 100\n\n - Constructs a Tunnel Network at target location.\n - Tunnel Networks can transport infantry easily around the map.\n - Can be upgraded with Medi Bay or Repair Deck and can gain infiltration via Cammo Netting.\n - Can construct some infantry at a slower rate."},
 				"Left Click location on the ground to create structure.")
-			elseif(g_AllPlayers[i].RaceDetails.RaceName == "eldar_race") then
+			elseif(RaceName == "eldar_race") then
 				UpdateAbilityIconGraphics(	
 				AbilityStruct.ButtonID,
 				{"eldar_icons/webway_gate_icon", "eldar_icons/webway_gate_icon", "eldar_icons/webway_gate_icon"},
 				{ "Summon Webway Gate", "Fire Cost: Req: 100\n\n - Create a Webway Gate at target location.\n - Webway Gate will automatically build itself."},
 				"Left Click location on the ground to create structure.")
 			else
-				print("Player race not valid for global abilities!") --Change this to an error log
+				
+				Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, RaceName.." not valid for global abilities!")
+
 			end
 		end
 
@@ -277,6 +291,24 @@ function Setup_AbilityButtons()
 		end
 	end]]
 end
+
+--Do this later, requires fire cost to be built into ability as well as being a function
+--[[function CheckGlobalAbilityRequirements()
+
+	for player = 1, g_PlayerCount do
+		if(g_AllPlayers[player].PlayerIndex = Tut_GetLocalPlayerIndex()) then
+
+			for i = 1, table.getn(g_AllTrackedAbilities) do
+
+				if(g_AllPlayers[player].CurrentResources.RT_Requisition < g_AllTrackedAbilities.FireCost)
+
+			end
+
+		end
+	end
+
+
+end]]
 
 function Update_GlobalAbilities()
 
