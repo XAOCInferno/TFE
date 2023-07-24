@@ -92,7 +92,7 @@ function GlobalAbility:OnPress()
 		end
 	end
 
-	g_LastActivatedPlayer = GetLocalPlayer()
+	g_LastActivatedPlayer = GetLocalPlayerStruct()
 	
 	print("Button last pressed by Player "..g_LastActivatedPlayer.PlayerIndex.." at "..g_WorldTime) --Turn this into Log
 	self.DoAbility(targetPos, targetSquad, targetEntity)
