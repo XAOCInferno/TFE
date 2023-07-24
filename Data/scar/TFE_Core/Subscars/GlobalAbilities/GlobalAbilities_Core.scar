@@ -178,7 +178,7 @@ function GetLocalPlayerStruct()
 end
 
 function Setup_AbilityButtons()
-
+	Dev_SetupAutoConstructor()
 	local debugFuncName = "Setup_AbilityButtons"
 	
 	local AbilityStruct = CreateGlobalAbilityAndButton(
@@ -195,9 +195,9 @@ function Setup_AbilityButtons()
 
 		--local Player = GetLocalPlayerStruct()
 		if(g_LastActivatedPlayer.RaceDetails.RaceName == "guard_race") then
-
-			FireCost(g_LastActivatedPlayer, 0, -100, 0, 0, 0, 0)
-			ActivateAutoConstructionAbility(_pos, g_LastActivatedPlayer, "guard_infantry_summon")
+			Dev_MoveSquadToPosition(g_AllPlayers[1], _pos)
+			--FireCost(g_LastActivatedPlayer, 0, -100, 0, 0, 0, 0)
+			--ActivateAutoConstructionAbility(_pos, g_LastActivatedPlayer, "guard_infantry_summon")
 
 		elseif(g_LastActivatedPlayer.RaceDetails.RaceName == "eldar_race") then
 
@@ -367,6 +367,29 @@ end
 function FireCost(_Player, _RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls) 
 
 	_Player:AddFireCost(_RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls)
+
+end
+
+devGlobalBuildertest = nil
+devGloblabuildertestStruct = nil
+UniqueBuilderSGroup = nil
+function Dev_SetupAutoConstructor(_PlayerStruct)
+	_PlayerStruct = g_AllPlayers[1]
+	UniqueBuilderSGroup = GetUniqueSG("tmpBuilderGroup")
+	local UniqueBuilderSGroupName =  SGroup_GetName(UniqueBuilderSGroup)
+	UniqueBuilderSGroup = Util_CreateSquadsAtPosition(_PlayerStruct.Player, UniqueBuilderSGroupName, "world_squad_global_builder", World_Pos(0,0,0), 1)
+	devGloblabuildertestStruct = GlobalAbilityBuilder:new( _PlayerStruct.Player, UniqueBuilderSGroup, UniqueBuilderSGroupName, "" )
+
+end
+
+function Dev_MoveSquadToPosition(player, pos)
+
+	Command_SquadPos( 
+		player.Player,
+		UniqueBuilderSGroup,
+		SCMD_Move,
+		pos
+	)	
 
 end
 
