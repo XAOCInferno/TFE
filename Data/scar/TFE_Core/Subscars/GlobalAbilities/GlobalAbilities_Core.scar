@@ -209,7 +209,7 @@ function Setup_AbilityButtons()
 
 	for i = 1, g_PlayerCount do
 		local RaceName = g_AllPlayers[i].RaceDetails.RaceName
-		if(g_AllPlayers[i].PlayerIndex == Tut_GetLocalPlayerIndex()) then
+		--[[if(g_AllPlayers[i].PlayerIndex == Tut_GetLocalPlayerIndex()) then
 			if(RaceName == "guard_race") then
 				UpdateAbilityIconGraphics(	
 				AbilityStruct.ButtonID,
@@ -227,7 +227,7 @@ function Setup_AbilityButtons()
 				Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, RaceName.." not valid for global abilities!")
 
 			end
-		end
+		end]]
 
 	end
 	--[[for i = 1, g_PlayerCount do
