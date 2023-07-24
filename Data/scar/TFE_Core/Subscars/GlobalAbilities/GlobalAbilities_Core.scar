@@ -364,9 +364,9 @@ function UpdateAbilityIconGraphics(_BtnID, _TextureTable, _TipTable, _Instructio
 end
 
 --Other costs can be added when needed, but likely via a different function as this will just interact direct with resource gen system
-function FireCost(_Player, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls) 
+function FireCost(_Player, _RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls) 
 
-	_Player:AddFireCost(_RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls)
+	_Player:AddFireCost(_RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls)
 
 end
 
