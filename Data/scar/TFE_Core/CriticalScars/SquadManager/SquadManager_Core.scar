@@ -283,7 +283,7 @@ function Set_SquadCombatDetails(_SquadStruct, _IsDead)
 		_SquadStruct.PreviouslyAttackedByPlayers = TableRemoveDuplicates(_SquadStruct.PreviouslyAttackedByPlayers, PlayersToRemove)
 
 	--It's been quite a long time since we've been in a fight so we shouldn't remember last fighting players, especially as we can be scuttled.
-	elseif(g_WorldTime - _SquadStruct.PreviouslyAttackedTime > 5)
+	elseif(g_WorldTime - _SquadStruct.PreviouslyAttackedTime > 5) then
 		
 		_SquadStruct.PreviouslyAttackedByPlayers = {}
 
