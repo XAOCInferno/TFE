@@ -166,19 +166,13 @@ function Core_GetAllPlayers()
 		
 	end
 
-	
 	for i = 1, g_PlayerCount do
 		--They need to be in reverse order so P1 is on top...
-		WinWarning_Add( "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[g_PlayerCount-i+1].PlayerIndex, g_AllPlayers[g_PlayerCount-i+1].Player, "", "", "" )
-		--WinWarning_Add( "UI_Accumulated_Red"..g_AllPlayers[g_PlayerCount-i+1].PlayerIndex, g_AllPlayers[g_PlayerCount-i+1].Player, "", "", "" )
+		WinWarning_Add( "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[g_PlayerCount-i+1].PlayerIndex, g_AllPlayers[g_PlayerCount-i+1].Player, "", "Mature and Upkeep Counter", "This counter shows the specified players mature and upkeep." )
+		WinWarning_Add( "UI_Accumulated_Red"..g_AllPlayers[g_PlayerCount-i+1].PlayerIndex, g_AllPlayers[g_PlayerCount-i+1].Player, "", "Red Counter", "This counter shows the ammount of gathered red for the player." )
 
 	end
-	
-	--Need this in another for loop so that the red is written bellow the player
-	for i = 1, g_PlayerCount do
-		--They need to be in reverse order so P1 is on top...
-		
-	end
+
 end
 
 function DoCriticalFunction(_Func, _SentFromFunc, _FuncName)
@@ -257,17 +251,18 @@ function Implement_UpkeepAndMature()
 
 			end
 
-			--[[if(WinWarning_Exists("UI_Accumulated_Red"..g_AllPlayers[Index].PlayerIndex)) then
+			if(WinWarning_Exists("UI_Accumulated_Red"..g_AllPlayers[Index].PlayerIndex)) then
 				
-				local DisplayTotalRed = g_AllPlayers[Index].CurrentAddResources.RT_Red
+				local DisplayTotalRed = g_AllPlayers[Index].CurrentResources.RT_Red
+				DisplayTotalRed = round(math.floor(DisplayTotalRed),1)
 
-				WinWarning_SetText( "UI_Accumulated_Red"..g_AllPlayers[Index].PlayerIndex, Loc_FormatText2( 20050001, g_AllPlayers[Index].DisplayName,  DisplayTotalRed  ))
+				WinWarning_SetText( "UI_Accumulated_Red"..g_AllPlayers[Index].PlayerIndex, Loc_FormatText2( 20050002, g_AllPlayers[Index].DisplayName,  DisplayTotalRed  ))
 
 			else
 
 				WinWarning_Add( "UI_Accumulated_Red"..g_AllPlayers[Index].PlayerIndex, g_AllPlayers[i].Player, "", "", "" )
 
-			end]]
+			end
 			
 			Player_AddResource(g_AllPlayers[Index].Player, RT_Requisition, g_AllPlayers[Index].CurrentAddResources.RT_Requisition * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
 			Player_AddResource(g_AllPlayers[Index].Player, RT_Power, g_AllPlayers[Index].CurrentAddResources.RT_Power * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
