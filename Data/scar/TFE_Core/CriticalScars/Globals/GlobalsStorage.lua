@@ -82,6 +82,10 @@ g_SquadBlueprintToIgnore =
 	"world_squad_global_dust_storm"
 }
 
+g_EntityBlueprintToIgnore = 
+{
+}
+
 g_AllSquadUpkeeps = 
 {
 	{},
@@ -108,6 +112,18 @@ g_AllSquadsData =
 	{}--Max of 8 players
 }
 
+g_AllEntityData = 
+{
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{}--Max of 8 players
+}
+
 g_PlayerSquadCount = 
 {
 	0,
@@ -120,3 +136,14 @@ g_PlayerSquadCount =
 	0--Max of 8 players
 }
 
+g_PlayerEntityCount = 
+{
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0--Max of 8 players
+}

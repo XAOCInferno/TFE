@@ -74,8 +74,6 @@ end
 function Set_PlayerSquads_Immediate(_PlayerIndex)	
 	local debugFuncName = "UpdatePlayerSquads_Immediate"
 	
-	g_LastSquadUpdateTime = g_WorldTime
-	
 	--We should only run the squad checker if the player is alive
 	if (not Player_IsAlive(g_AllPlayers[_PlayerIndex].Player)) then			
 		return nil					
@@ -100,7 +98,8 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 			if(g_AllSquadsData[_PlayerIndex][l] == nil) then
 
 				table.remove(g_AllSquadsData[_PlayerIndex], l)	
-				return false
+				--I don't think we need to return here?
+				--return false
 
 			end
 			
