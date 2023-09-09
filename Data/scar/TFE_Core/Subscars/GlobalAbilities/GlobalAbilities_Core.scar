@@ -247,6 +247,7 @@ function Setup_ActualGlobalAbilies()
 		elseif(RaceName == "ork_race") then	
 		--[[SISTERS GLOBALS]]
 		elseif(RaceName == "sisters_race") then	
+			
 		--[[SPACE MARINE GLOBALS]]
 		elseif(RaceName == "space_marine_race") then
 			local AbilityStruct_SpaceMarine1 = CreateGlobalAbility(
@@ -261,15 +262,17 @@ function Setup_ActualGlobalAbilies()
 
 				_pos = _self.LastCastedEntityPosition
 				local fxYOffset = 5 
+				local fxSpawnPos = _pos
 				local costSuccess = FireCost(_self.CasterPlayer, 0, 0, 0, 0, 0, 0)
 				if(costSuccess) then
+					fxSpawnPos.y = _pos.y + fxYOffset
+					World_FXEvent("data:Art/Events/Races/Space_Marines/Abilities/space_marine_global_basic_scan", fxSpawnPos)
 					ActivateSummonEntityAbility("marines_detection_field_hq", _self.CasterPlayer.Player, _pos)
-					_pos.y = _pos.y + fxYOffset
-					World_FXEvent("data:Art/Events/Races/Space_Marines/Abilities/space_marine_global_basic_scan", _pos)
 				else
 					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				end
 			end
+
 		--[[SPACE MARINE VETERANS GLOBALS]]
 		elseif(RaceName == "space_marine_veteran_race") then	
 		--[[TAU GLOBALS]]
