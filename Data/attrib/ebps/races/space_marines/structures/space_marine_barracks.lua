@@ -309,6 +309,7 @@ GameData["requirement_ext"]["requirements"]["required_10"]["structure_name"] = [
 GameData["research_ext"] = Reference([[ebpextensions\research_ext.lua]])
 GameData["research_ext"]["research_table"]["research_01"] = [[research\marine_melta_bomb_research.lua]]
 GameData["research_ext"]["research_table"]["research_02"] = [[research\marine_frag_grenade_research.lua]]
+GameData["research_ext"]["research_table"]["research_03"] = [[research\marine_grenade_specialism_research.lua]]
 GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
 GameData["sight_ext"]["sight_radius"] = 15
 GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])

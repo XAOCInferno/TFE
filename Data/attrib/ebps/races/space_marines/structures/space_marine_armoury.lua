@@ -252,7 +252,6 @@ GameData["research_ext"]["research_table"]["research_05"] = [[research\marine_ac
 GameData["research_ext"]["research_table"]["research_06"] = [[research\marine_sergeant_melee_upgrade_1.lua]]
 GameData["research_ext"]["research_table"]["research_07"] = [[research\marine_sergeant_melee_upgrade_1_advance_sp.lua]]
 GameData["research_ext"]["research_table"]["research_08"] = [[research\marine_sergeant_melee_upgrade_2.lua]]
-GameData["research_ext"]["research_table"]["research_09"] = [[research\marine_grenade_specialism_research.lua]]
 --GameData["research_ext"]["research_table"]["research_09"] = [[research\marine_quickening_research.lua]]
 GameData["research_ext"]["research_table"]["research_10"] = [[research\marine_health_upgrade_research_2.lua]]
 GameData["research_ext"]["research_table"]["research_11"] = [[research\marine_accuracy_upgrade_research_2.lua]]
