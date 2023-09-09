@@ -260,8 +260,6 @@ function Setup_ActualGlobalAbilies()
 			AbilityStruct_SpaceMarine1.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 
 				_pos = _self.LastCastedEntityPosition
-				local radius = 12
-				local duration = 10
 				local fxYOffset = 5 
 				local costSuccess = FireCost(_self.CasterPlayer, 0, 0, 0, 0, 0, 0)
 				if(costSuccess) then
