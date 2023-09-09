@@ -1,6 +1,5 @@
 GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
-GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\marines_hq_detection_scan.lua]]
 GameData["addon_ext"] = Reference([[ebpextensions\addon_ext.lua]])
 GameData["addon_ext"]["addons"]["addon_01"] = [[addons\space_marine_hq_addon_1.lua]]
 GameData["addon_ext"]["addons"]["addon_02"] = [[addons\space_marine_hq_addon_2.lua]]
