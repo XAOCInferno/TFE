@@ -233,7 +233,7 @@ function Setup_ActualGlobalAbilies()
 
 				_pos = _self.LastCastedEntityPosition
 
-				FireCost(_self.CasterPlayer, 0, -100, 0, 0, 0, 0)
+				local costSucess = FireCost(_self.CasterPlayer, 0, -100, 0, 0, 0, 0)
 				if(costSuccess) then
 					ActivateAutoConstructionAbility(_pos, _self.CasterPlayer, "eldar_webway_gate")
 				else
@@ -249,6 +249,29 @@ function Setup_ActualGlobalAbilies()
 		elseif(RaceName == "sisters_race") then	
 		--[[SPACE MARINE GLOBALS]]
 		elseif(RaceName == "space_marine_race") then
+			local AbilityStruct_SpaceMarine1 = CreateGlobalAbility(
+				g_AllPlayers[i], 
+				"GlobalAbility_SpaceMarine_BasicScan", 
+				"global_space_marine_basic_scan_entity",
+				table.getn(g_AllTrackedAbilities),
+				"GROUND"
+			)
+
+			AbilityStruct_SpaceMarine1.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				_pos = _self.LastCastedEntityPosition
+				local radius = 12
+				local duration = 10
+				local fxYOffset = 5 
+				local costSuccess = FireCost(_self.CasterPlayer, 0, 0, 0, 0, 0, 0)
+				if(costSuccess) then
+					ActivateSummonEntityAbility("marines_detection_field_hq", _self.CasterPlayer.Player, _pos)
+					_pos.y = _pos.y + fxYOffset
+					World_FXEvent("data:Art/Events/Races/Space_Marines/Abilities/space_marine_global_basic_scan", _pos)
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
 		--[[SPACE MARINE VETERANS GLOBALS]]
 		elseif(RaceName == "space_marine_veteran_race") then	
 		--[[TAU GLOBALS]]
@@ -299,16 +322,40 @@ end
 
 
 end]]
+function ActivateMultiSummonEntityAbility(_EBP, _Player, _Pos, _RandomOffsetPerEntity, _NumberOfEntities) 
 
-function ActivateMultiSummonSquadAbility(_SBP, _Player, _Pos, _RandomOffsetPerEntity, _NumberOfSquads, _Loadout) 
+	local AllCreatedEntities = {}
+	_Pos = World_Pos(_Pos.x, _Pos.y, _Pos.z)
+	for i = 1, _NumberOfEntities do
+		local tmpPos = _Pos
+		tmpPos.x = _Pos.x + World_GetRand(-_RandomOffsetPerEntity.x, _RandomOffsetPerEntity.x)
+		tmpPos.y = _Pos.y + World_GetRand(-_RandomOffsetPerEntity.y, _RandomOffsetPerEntity.y)
+		tmpPos.z = _Pos.z + World_GetRand(-_RandomOffsetPerEntity.z, _RandomOffsetPerEntity.z)
+		table.insert(AllCreatedEntities, ActivateSummonSquadAbility(_EBP, _Player, tmpPos, _Loadout))
+	end
+
+	return AllCreatedEntities
+
+end
+
+function ActivateSummonEntityAbility(_EBP, _Player, _Pos)
+	
+	_Pos = World_Pos(_Pos.x, _Pos.y, _Pos.z)
+	local entity = Entity_Create(_EBP, _Player, _Pos)
+	Entity_Spawn(entity)
+
+	return entity
+end
+
+function ActivateMultiSummonSquadAbility(_SBP, _Player, _Pos, _RandomOffsetPerSquad, _NumberOfSquads, _Loadout) 
 
 	local AllCreatedSquads = {}
 	_Pos = World_Pos(_Pos.x, _Pos.y, _Pos.z)
 	for i = 1, _NumberOfSquads do
 		local tmpPos = _Pos
-		tmpPos.x = _Pos.x + World_GetRand(-_RandomOffsetPerEntity.x, _RandomOffsetPerEntity.x)
-		tmpPos.y = _Pos.y + World_GetRand(-_RandomOffsetPerEntity.y, _RandomOffsetPerEntity.y)
-		tmpPos.z = _Pos.z + World_GetRand(-_RandomOffsetPerEntity.z, _RandomOffsetPerEntity.z)
+		tmpPos.x = _Pos.x + World_GetRand(-_RandomOffsetPerSquad.x, _RandomOffsetPerSquad.x)
+		tmpPos.y = _Pos.y + World_GetRand(-_RandomOffsetPerSquad.y, _RandomOffsetPerSquad.y)
+		tmpPos.z = _Pos.z + World_GetRand(-_RandomOffsetPerSquad.z, _RandomOffsetPerSquad.z)
 		table.insert(AllCreatedSquads, ActivateSummonSquadAbility(_SBP, _Player, tmpPos, _Loadout))
 	end
 
