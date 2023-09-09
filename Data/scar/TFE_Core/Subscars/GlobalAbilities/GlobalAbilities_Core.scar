@@ -188,31 +188,40 @@ function Setup_ActualGlobalAbilies()
 		if(SBP_Exists(GlobalAbilityCasterSBP)) then
 			Util_CreateSquadsAtPosition(g_AllPlayers[i].Player, SGroup_GetName(GetUniqueSG("GlobalAbilityCaster")), GlobalAbilityCasterSBP, World_Pos(0,0,0), 1)
 		else
-			Log(2, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Global Ability Caster EBP for race '"..RaceName.."' doesn't exist, make sure there is an entity called '"..GlobalAbilityCasterSBP.."'!")
+			Log(2, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Global Ability Caster SBP for race '"..RaceName.."' doesn't exist, make sure there is an entity called '"..GlobalAbilityCasterSBP.."' otherwise commander UI will be odd!")
 		end
-		
-		if(RaceName == "guard_race") then
 
-			local AbilityStruct = CreateGlobalAbility(
+		--[[CHAOS GLOBALS]]
+		if(RaceName == "chaos_marine_race") then
+
+		--[[DARK ELDAR GLOBALS]]
+		elseif(RaceName == "dark_eldar_race") then
+			local AbilityStruct_DarkEldar1 = CreateGlobalAbility(
 				g_AllPlayers[i], 
-				"GlobalAbility_Guard_SummonBunker", 
-				"global_guard_summon_bunker_entity",
+				"GlobalAbility_DarkEldar_SeedSouls", 
+				"global_dark_eldar_seed_souls_entity",
 				table.getn(g_AllTrackedAbilities),
 				"GROUND"
 			)
 
-			AbilityStruct.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+			AbilityStruct_DarkEldar1.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 
 				_pos = _self.LastCastedEntityPosition
-					
-				FireCost(_self.CasterPlayer, 0, -100, 0, 0, 0, 0)
-				ActivateAutoConstructionAbility(_pos, _self.CasterPlayer, "guard_infantry_summon")
-				
+
+				local costSuccess = FireCost(_self.CasterPlayer, 0, -100, 0, 0, 0, 0)
+
+				if(costSuccess) then
+					World_FXEvent("data:Art/Events/Races/dark_eldar/Ability/dark_eldar_global_seed_soul", _pos)
+					ActivateMultiSummonSquadAbility("dark_eldar_squad_slave_murdered_long", _self.CasterPlayer.Player, _pos, {x = 1, y = 0, z = 1}, 5, 0)
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
 			end
 
+		--[[ELDAR GLOBALS]]
 		elseif(RaceName == "eldar_race") then
 
-			local AbilityStruct = CreateGlobalAbility(
+			local AbilityStruct_Eldar1 = CreateGlobalAbility(
 				g_AllPlayers[i], 
 				"GlobalAbility_Eldar_SummonWebwayGate", 
 				"global_eldar_summon_webway_gate_entity",
@@ -220,14 +229,55 @@ function Setup_ActualGlobalAbilies()
 				"GROUND"
 			)
 
-			AbilityStruct.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+			AbilityStruct_Eldar1.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 
 				_pos = _self.LastCastedEntityPosition
 
 				FireCost(_self.CasterPlayer, 0, -100, 0, 0, 0, 0)
-				ActivateAutoConstructionAbility(_pos, _self.CasterPlayer, "eldar_webway_gate")
-
+				if(costSuccess) then
+					ActivateAutoConstructionAbility(_pos, _self.CasterPlayer, "eldar_webway_gate")
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
 			end
+		
+		--[[NECRON GLOBALS]]
+		elseif(RaceName == "necron_race") then	
+		--[[ORK GLOBALS]]
+		elseif(RaceName == "ork_race") then	
+		--[[SISTERS GLOBALS]]
+		elseif(RaceName == "sisters_race") then	
+		--[[SPACE MARINE GLOBALS]]
+		elseif(RaceName == "space_marine_race") then
+		--[[SPACE MARINE VETERANS GLOBALS]]
+		elseif(RaceName == "space_marine_veteran_race") then	
+		--[[TAU GLOBALS]]
+		elseif(RaceName == "tau_race") then
+		--[[GUARD GLOBALS]]
+		elseif(RaceName == "guard_race") then
+			
+			--Global 1
+			local AbilityStruct_Guard1 = CreateGlobalAbility(
+				g_AllPlayers[i], 
+				"GlobalAbility_Guard_SummonBunker", 
+				"global_guard_summon_bunker_entity",
+				table.getn(g_AllTrackedAbilities),
+				"GROUND"
+			)
+
+			AbilityStruct_Guard1.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				_pos = _self.LastCastedEntityPosition				
+				local costSuccess = FireCost(_self.CasterPlayer, 0, -100, 0, 0, 0, 0)
+
+				if(costSuccess) then
+					ActivateAutoConstructionAbility(_pos, _self.CasterPlayer, "guard_infantry_summon")
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
+		else
+			Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Race '"..RaceName.."' is undefined in if statement! Assuming it has no global abilities.")
 		end
 	end
 end
@@ -249,6 +299,28 @@ end
 
 
 end]]
+
+function ActivateMultiSummonSquadAbility(_SBP, _Player, _Pos, _RandomOffsetPerEntity, _NumberOfSquads, _Loadout) 
+
+	local AllCreatedSquads = {}
+	_Pos = World_Pos(_Pos.x, _Pos.y, _Pos.z)
+	for i = 1, _NumberOfSquads do
+		local tmpPos = _Pos
+		table.insert(AllCreatedSquads, ActivateSummonSquadAbility(_SBP, _Player, tmpPos, _Loadout))
+	end
+
+	return AllCreatedSquads
+
+end
+
+function ActivateSummonSquadAbility(_SBP, _Player, _Pos, _Loadout)
+	
+	_Pos = World_Pos(_Pos.x, _Pos.y, _Pos.z)
+	local squad = Squad_Create(_SBP, _Player, _Pos, _Loadout)
+	Squad_Spawn(squad, _Pos)
+
+	return squad
+end
 
 function Update_GlobalAbilities()
 
@@ -304,8 +376,14 @@ end
 --Other costs can be added when needed, but likely via a different function as this will just interact direct with resource gen system
 function FireCost(_Player, _RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls) 
 
-	_Player:AddFireCost(_RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls)
+	if(_Player:HasEnoughResources(_RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls)) then
 
+		_Player:AddFireCost(_RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls)
+		return true
+
+	end
+
+	return false
 end
 
 devGlobalBuildertest = nil
@@ -337,10 +415,9 @@ function ActivateAutoConstructionAbility(_pos, _PlayerStruct, _structureEbps)
 	local UniqueBuilderSGroup = GetUniqueSG("tmpBuilderGroup")
 	local UniqueBuildingEGroupName = EGroup_GetName(UniqueBuildingEGroup)
 	local UniqueBuilderSGroupName =  SGroup_GetName(UniqueBuilderSGroup)
-	print("HI")
-	print(_pos.x)
+
 	_pos = World_Pos(_pos.x,_pos.y,_pos.z)
-	print(_pos)
+
 	Entity_CreateBuildingPosition(_PlayerStruct.Player, UniqueBuildingEGroupName, _structureEbps, _pos, 0)
 
 	--If group size is 0 we have not created the above entity. Likely due to it being placed in a bad position. Must show error and stop function
