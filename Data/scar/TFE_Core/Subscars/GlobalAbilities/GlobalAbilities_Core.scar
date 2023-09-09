@@ -306,6 +306,9 @@ function ActivateMultiSummonSquadAbility(_SBP, _Player, _Pos, _RandomOffsetPerEn
 	_Pos = World_Pos(_Pos.x, _Pos.y, _Pos.z)
 	for i = 1, _NumberOfSquads do
 		local tmpPos = _Pos
+		tmpPos.x = _Pos.x + World_GetRand(-_RandomOffsetPerEntity.x, _RandomOffsetPerEntity.x)
+		tmpPos.y = _Pos.y + World_GetRand(-_RandomOffsetPerEntity.y, _RandomOffsetPerEntity.y)
+		tmpPos.z = _Pos.z + World_GetRand(-_RandomOffsetPerEntity.z, _RandomOffsetPerEntity.z)
 		table.insert(AllCreatedSquads, ActivateSummonSquadAbility(_SBP, _Player, tmpPos, _Loadout))
 	end
 
@@ -326,7 +329,6 @@ function Update_GlobalAbilities()
 
 	local debugFuncName = "Update_GlobalAbilities"
 
-	
 	for i = 1, table.getn(g_AllTrackedAbilities) do
 
 		g_AllTrackedAbilities[i]:Update()
