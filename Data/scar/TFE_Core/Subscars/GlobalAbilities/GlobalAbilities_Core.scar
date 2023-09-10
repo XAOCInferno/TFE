@@ -193,9 +193,17 @@ function Setup_ActualGlobalAbilies()
 
 		--[[CHAOS GLOBALS]]
 		if(RaceName == "chaos_marine_race") then
+			--T0 Secret Identity 
+			--T0 Target a squad and it gets infiltrated, possibly get some small extra benefits 
+			--Sigyl of the Rift to send it to the HQ? Or to transport between 2 locations? Perhaps ability for the Sorcerer?
+			--T1 Return to HQ
+			--T2 Target squad and for a duration if it comes near to bloodsplat, destroy it, spawn a rot fly that has number = to the number of bloodsplats in the area. bloodsplats near the rot fly will add another member to the squad or spawn another squad?..
+			--T2 Dark flames
+			--T3 Nuke 8 pointed star that damages out from the centre with KB. while active lighting randomly spawns in the circle, rocks spawn at the ends that are owned by the world or player?
 
 		--[[DARK ELDAR GLOBALS]]
 		elseif(RaceName == "dark_eldar_race") then
+			
 			local AbilityStruct_DarkEldar1 = CreateGlobalAbility(
 				g_AllPlayers[i], 
 				"GlobalAbility_DarkEldar_SeedSouls", 
@@ -217,10 +225,16 @@ function Setup_ActualGlobalAbilies()
 					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				end
 			end
+			
+			--[[T1 Target captured point without an lp, steal 100req and decap it. vs necron you steal 50 power]]
+			--[[T2 Foul Experiment Target an area, all souls in that area get destroyed and summon a zombie. zombie is tanky but looses HP over time, uncontrollable. if no souls are there, summon 3 zombies. zombie has no ui]]
+			--[[T2 Every vehicle currently alive and hellions gets a forcefield]]
+			--[[T3 Recharge all soul abilities instantly, gain 150 souls]]
 
 		--[[ELDAR GLOBALS]]
 		elseif(RaceName == "eldar_race") then
 
+			--Global 1		--WE NEED TO MAKE THIS MAKE A SOUND FOR ALL PLAYERS TO HEAR
 			local AbilityStruct_Eldar1 = CreateGlobalAbility(
 				g_AllPlayers[i], 
 				"GlobalAbility_Eldar_SummonWebwayGate", 
@@ -241,15 +255,63 @@ function Setup_ActualGlobalAbilies()
 				end
 			end
 		
+			--[[T1 Swift movement, all troops including allies get 20% speed bonus]]
+			--[[T2 Summon squad of wraithguard near a webway gate]]
+			--[[T2 Target area, all enemy squads get full silenced (remove all buffs from code and reset their modifiers) and silence them for 60s]]
+			--[[T3
+				Unique inspire for all units that provide special buffs depending on which it is
+					Ranger reload time 
+					Farseer & warlock ability cooldown
+					Guardian damage resistance
+					Dark reaper setup time to 0 
+					Fire dragons small range increase and dmg increase
+					Warp spiders really fast teleport cooldown
+					Seer council reinforce time decrease
+					Fire Prism reload time
+					Wraithlord bunch of healing
+					Falcon teleport time
+					Nightwing & platforms & vypers speed up
+					Turrets reload time
+					Avatar slight damage resist?
+				]]
+
 		--[[NECRON GLOBALS]]
 		elseif(RaceName == "necron_race") then	
+			--[[T0 Production Overload]]
+			--[[T1 Summon crystal]] 
+			--[[T2 Big gen ability to buff all necron]]
+			--[[T2 Summon a bunch of basic scarabs at target location]]
+			--[[T3 All troops have 100% revive chance including wraith and tomb spyder]]
+
 		--[[ORK GLOBALS]]
 		elseif(RaceName == "ork_race") then	
+			--[[T0 All troops get 20% cost reduction for 30s]]
+			--[[T1 Use ur choppa / use ur dakka]]
+			--[[T2 Summon 3 squad of feral boys at target location for free tie up]]
+			--[[T2 Cult of speed, increase speed of all vehicles by 30% also affects allies, decrease reload time by 30%]]
+			--[[T3 Summon boss banner, every 1s reinforce an entity or leader to squad nearby, when banner is destroyed all orks turn on eachother. when destroyed play the campaign voice lines for it]] 
+	
 		--[[SISTERS GLOBALS]]
 		elseif(RaceName == "sisters_race") then	
-			
+			--[[T0 summon a shrine that provides faith over time. troops near it also get morale resistance and a speed boost of 20%. shrine has HP and can be destroyed, use a small living saint shrine model for this]]
+			--[[T1 Blessed Armour - Target squad gets damage and morale resistance of 50% and restore their morale, lasts 40s]]
+			--[[T2 Target location and deploy 5 or 6 fire mines in the area]]
+			--[[T2 All flame based troops get a damage buff globally (cellestian, inferno pistol, penitent, immolator)]]
+			--[[T3
+				200 Req, 80 Power
+				Loyal Servant of the Imperium: Summon random loyalist troop, special version that is already fully upgraded to appropriate level, choose from pool of good units
+				Pool:
+					Grey Knights
+					Purifier
+					Purgation
+					Ogryn
+					Veteran of Typhon
+					Veterans of Aurelia
+			 ]]
+
 		--[[SPACE MARINE GLOBALS]]
 		elseif(RaceName == "space_marine_race") then
+
 			local AbilityStruct_SpaceMarine1 = CreateGlobalAbility(
 				g_AllPlayers[i], 
 				"GlobalAbility_SpaceMarine_BasicScan", 
@@ -273,14 +335,23 @@ function Setup_ActualGlobalAbilies()
 				end
 			end
 
+			--T1 For the emperor, damage buff and kb resistance
+			--T2 Single drop pod that does high KB to enemy and provides cover around it and decreases reinforce time, can be destroyed if focused. possibly make it able to produce tacs and maybe give it addons like tunnel
+			--T2 Blessing of omnissiah to heal all vehicles
+			--T3 EMP, in area stun all buildings and vehicles, prevent ranged shooting for 20s, prevent all tp, mechanical based infantry slowed down like nw, wg etc. AoE expanding 
+
 		--[[SPACE MARINE VETERANS GLOBALS]]
 		elseif(RaceName == "space_marine_veteran_race") then	
+			--[[T2 Reveal all enemy line of sight for a time?]]
+
 		--[[TAU GLOBALS]]
 		elseif(RaceName == "tau_race") then
+			--[[Reveal all gens line of sight and possibly lp line of sight too. would be good to have it so the gen under construction also ]]
+
 		--[[GUARD GLOBALS]]
 		elseif(RaceName == "guard_race") then
 			
-			--Global 1
+			--Global 1   --WE NEED TO MAKE THIS MAKE A SOUND FOR ALL PLAYERS TO HEAR
 			local AbilityStruct_Guard1 = CreateGlobalAbility(
 				g_AllPlayers[i], 
 				"GlobalAbility_Guard_SummonBunker", 
@@ -300,6 +371,16 @@ function Setup_ActualGlobalAbilies()
 					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				end
 			end
+
+			--[[T1 flare that lowers sight range of enemies]]
+			--[[T2 off-map artillery, select location and then 3 mouse locations will be selected to target the strike]]
+			--[[T2 deploy a valkyrie and reinforce all squads to full]]
+			--[[T3 PDF Reinforcements, valkyrie drop 1 goty leman russ with less hp than a regular leman, 2 PDF guardsmen squads fully reinforced with random weaponry, and colonel brom]]
+
+		--[[ORDO MALLEUS GLOBALS]]
+		elseif(RaceName == "inquisition_daemonhunt_race") then
+			--T0 restore abilities on target squad
+
 		else
 			Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Race '"..RaceName.."' is undefined in if statement! Assuming it has no global abilities.")
 		end
