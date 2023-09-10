@@ -379,7 +379,8 @@ function Setup_ActualGlobalAbilies()
 
 		--[[ORDO MALLEUS GLOBALS]]
 		elseif(RaceName == "inquisition_daemonhunt_race") then
-			--T0 restore abilities on target squad
+			--T0 Restore abilities on target squad
+			--T2 Buff all flame weaponry
 
 		else
 			Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Race '"..RaceName.."' is undefined in if statement! Assuming it has no global abilities.")
