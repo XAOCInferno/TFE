@@ -272,7 +272,7 @@ function Setup_ActualGlobalAbilies()
 
 				_pos = _self.LastCastedEntityPosition
 
-				local costSuccess = FireCost(_self.CasterPlayer, 0, -100, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, -30, -100, 0, 0, 0, 0)
 
 				if(costSuccess) then
 					World_FXEvent("data:Art/Events/Races/dark_eldar/Ability/dark_eldar_global_seed_soul", _pos)
@@ -303,7 +303,7 @@ function Setup_ActualGlobalAbilies()
 
 				_pos = _self.LastCastedEntityPosition
 
-				local costSucess = FireCost(_self.CasterPlayer, 0, -100, 0, 0, 0, 0)
+				local costSucess = FireCost(_self.CasterPlayer, -30, -100, 0, 0, 0, 0)
 				if(costSuccess) then
 					ActivateAutoConstructionAbility(_pos, _self.CasterPlayer, "eldar_webway_gate")
 				else
@@ -384,7 +384,7 @@ function Setup_ActualGlobalAbilies()
 				_self.AllMonolithFX = {}
 				_pos = _self.LastCastedEntityPosition
 
-				local costSuccess = FireCost(_self.CasterPlayer, 0, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, -30, 0, 0, 0, 0, 0)
 
 				if(costSuccess) then
 
@@ -457,7 +457,7 @@ function Setup_ActualGlobalAbilies()
 
 					if(MonolithFXAlreadyApplied == false) then
 						print("APPLYING FX!")
-						_self:ApplyMonolithFX(_self, AllEntitiesIndex[i])
+						--_self:ApplyMonolithFX(_self, AllEntitiesIndex[i])
 
 					end
 				end
@@ -512,7 +512,7 @@ function Setup_ActualGlobalAbilies()
 				_pos = _self.LastCastedEntityPosition
 				local fxYOffset = 5 
 				local fxSpawnPos = _pos
-				local costSuccess = FireCost(_self.CasterPlayer, 0, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, -30, 0, 0, 0, 0, 0)
 				if(costSuccess) then
 					fxSpawnPos.y = _pos.y + fxYOffset
 					World_FXEvent("data:Art/Events/Races/Space_Marines/Abilities/space_marine_global_basic_scan", fxSpawnPos)
@@ -550,7 +550,7 @@ function Setup_ActualGlobalAbilies()
 			AbilityStruct_Guard1.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 
 				_pos = _self.LastCastedEntityPosition				
-				local costSuccess = FireCost(_self.CasterPlayer, 0, -100, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, -30, -100, 0, 0, 0, 0)
 
 				if(costSuccess) then
 					ActivateAutoConstructionAbility(_pos, _self.CasterPlayer, "guard_infantry_summon")
