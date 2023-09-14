@@ -10,7 +10,7 @@ g_IsDoingAbility = false --This NEEDS to be changed later as part of an ability 
 
 g_AllTrackedAbilities = {}
 g_LastActivatedPlayer = nil
-
+g_GlobalAbilityMods = {}
 
 
 GlobalAbility = {}
@@ -25,15 +25,34 @@ function GlobalAbility:new ( _CasterPlayer, _AbilityName, _ActivationEntityBluep
 		TargetFilter = _TargetFilter,
 		PosInTrackedAbilities = _PosInTrackedAbilities,
 
+		--Constants not defined in constructor
+		AbilityDuration,
+		
 		--Varaiables
 		CurrentAcceptedEntityStruct,
-		LastCastedEntityPosition
+		LastCastedEntityPosition,
+		AbilityCastTime,
+		IsActive = false,
+
+			--Vars when ability is active
+		AppliedModifierIDs = {},
+		Tracking_AffectedEntities = {},
+		Tracking_AffectedEntities_Duration = {},
+		Tracking_AffectedSquads = {},
+		Tracking_AffectedSquads_Duration = {}
     }
 	self.__index = self
    	return setmetatable(GlobalAbilityObject, self)
 end
 
---Possibly override... But must include the "GetPressed"
+function GlobalAbility:ActivateTimedAbility()
+
+	self.AbilityCastTime = g_WorldTime
+	self.IsActive = g_WorldTime
+
+end
+
+--DON'T OVERRIDE!
 function GlobalAbility:Update()
 
 	local acceptedEntities, acceptedEPositions = Get_EntityDataFromEntityBP(self.ActivationEntityBlueprint, self.CasterPlayer.PlayerIndex + 1)
@@ -45,7 +64,32 @@ function GlobalAbility:Update()
 		DestroyEntityAndRemoveFromData(self.CasterPlayer, acceptedEPositions[i])
 
 	end
+
+	if(self.IsActive) then
+		if(g_WorldTime - self.ActivatedTime >=  self.Duration) then
+
+			self:TimedAbilityEnd(self)
+
+		else
+			
+			self:TimedAbilityUpdate(self)
+
+		end
+	end
 	
+end
+
+
+--Override this if you want unique behaviour. Best if you want a mod that applies for a set duration
+function GlobalAbility:TimedAbilityEnd(self)
+
+	Log(2, 0, debug_GlobalAbilitiesCore_FileName, self.AbilityName.."/TimedAbilityEnd", "Ability end behaviour undefined! Ensure you override the 'TimedAbilityEnd' function or this ability will not revert!")
+
+end
+
+--Override this if you want unique behaviour. Best if you want a mod that applies for a set duration
+function GlobalAbility:TimedAbilityUpdate(self)
+
 end
 
 --This is ran immediatly on pressing a button, it is not necessary but could be good if you want to add an effect such as a mouse cursor
@@ -67,6 +111,7 @@ function GlobalAbility:PrepareAbility()
 	local targetSquad = nil
 	local targetEntity = nil
 	--[[
+	
 	if(self.TargetFilter == "GROUND" or self.TargetFilter == 0) then
 
 		targetPos = Button_GetPressedPosition(self.ButtonID)
@@ -76,11 +121,15 @@ function GlobalAbility:PrepareAbility()
 		targetSquad = GetUniqueSG("TemporarySGroupAbilityTarget")
 		Button_GetPressedSquad(self.ButtonID, targetSquad) --Add functionality when necessary
 
-	elseif(self.TargetFilter == "ENTITY" or self.TargetFilter == 1) then
+	elseif(self.TargetFilter == "ENTITY" or self.TargetFilter == 2) then
 
 		targetEntity = GetUniqueEG("TemporaryEGroupAbilityTarget")
 		Button_GetPressedEntity(self.ButtonID, targetEntity) --Add functionality when necessary
 
+	elseif(self.TargetFilter == "NONE" or self.TargetFiler = 3) then
+		
+		--ADD FUNCTIONALITY!
+		
 	else
 
 		Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Target filter '"..self.TargetFilter.."' is invalid. Defaulting to 'GROUND'")
@@ -95,6 +144,13 @@ end
 function GlobalAbility:DoAbility( _self, _pos, _targetSquad, _targetEntity )
 
 	Log(1, 0, debug_GlobalAbilitiesCore_FileName, self.AbilityName.."/DoAbility", "Ability behaviour undefined! Ensure you override the 'DoAbility' function or this ability will do nothing.")
+
+end
+
+--Do override if ability has a duration
+function GlobalAbility:EndAbility( _self, _pos, _targetSquad, _targetEntity)
+
+	Log(2, 0, debug_GlobalAbilitiesCore_FileName, self.AbilityName.."/EndAbility", "Ability end behaviour undefined! Ensure you override the 'EndAbility' function or this ability will not revert!")
 
 end
 
@@ -277,6 +333,137 @@ function Setup_ActualGlobalAbilies()
 
 		--[[NECRON GLOBALS]]
 		elseif(RaceName == "necron_race") then	
+			
+			mod_NecronProductionOverload__modifier_01 = Modifier_Create(MAT_EntityType, "production_speed_modifier", MUT_Multiplication, 1, 3, "monolith")
+			table.insert(g_GlobalAbilityMods, mod_NecronProductionOverload__modifier_01)
+			mod_NecronProductionOverload__modifier_02 = Modifier_Create(MAT_EntityType, "production_speed_modifier", MUT_Multiplication, 1, 3, "necron_restored_monolith")
+			table.insert(g_GlobalAbilityMods, mod_NecronProductionOverload__modifier_02)
+			mod_NecronProductionOverload__modifier_03 = Modifier_Create(MAT_Player, "income_power_player_modifier", MUT_Multiplication, 1, 0.5, "")
+			table.insert(g_GlobalAbilityMods, mod_NecronProductionOverload__modifier_03)
+
+			local AbilityStruct_Necron1 = CreateGlobalAbility(
+				g_AllPlayers[i], 
+				"GlobalAbility_Necron_ProductionOverload", 
+				"global_necron_production_overload_entity",
+				table.getn(g_AllTrackedAbilities),
+				"NONE"
+			)
+
+			AbilityStruct_Necron1.ApplyMonolithFX = function(_self, _EntityPos)
+				print(EntityData)
+				print(_self.CasterPlayer)
+				print(_self.CasterPlayer.PlayerIndex)
+				print(EntityData[_self.CasterPlayer.PlayerIndex+1])
+				print(EntityData[_self.CasterPlayer.PlayerIndex+1][_EntityPos])
+				local _MonolithEntity = EntityData[_self.CasterPlayer.PlayerIndex+1][_EntityPos]
+				print(_MonolithEntity)
+				print(_MonolithEntity.EntityBlueprint)
+				print(_MonolithEntity.EntityPosition)
+				local FX = World_FXEvent("data:Art/Events/races/necron/abilities/monolith_production_boost", _MonolithEntity.EntityPosition)
+				local tmpEntry = 
+				{
+					Entity = _MonolithEntity,
+					FX = FX
+				}
+
+				table.insert(_self.AllMonolithFX, tmpEntry)
+				
+			end
+
+			AbilityStruct_Necron1.RemoveMonolithFX = function(_self, _posToRemove)
+
+				World_FXEventDestroy(_self.AllMonolithFX[_posToRemove].FX)
+				table.remove(_self.AllMonolithFX, _posToRemove)
+
+			end
+
+			AbilityStruct_Necron1.Duration = 3 --25
+			AbilityStruct_Necron1.AllMonolithFX = {}
+			AbilityStruct_Necron1.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+				_self.AppliedModifierIDs = {}
+				_self.AllMonolithFX = {}
+				_pos = _self.LastCastedEntityPosition
+
+				local costSuccess = FireCost(_self.CasterPlayer, 0, 0, 0, 0, 0, 0)
+
+				if(costSuccess) then
+
+					local modID_01 = Modifier_ApplyToPlayer(mod_NecronProductionOverload__modifier_01, _self.CasterPlayer.Player)
+					local modID_02 = Modifier_ApplyToPlayer(mod_NecronProductionOverload__modifier_02, _self.CasterPlayer.Player)
+					local modID_03 = Modifier_ApplyToPlayer(mod_NecronProductionOverload__modifier_03, _self.CasterPlayer.Player)
+					table.insert(_self.AppliedModifierIDs, modID_01)
+					table.insert(_self.AppliedModifierIDs, modID_02)
+					table.insert(_self.AppliedModifierIDs, modID_03)
+
+					_self.ActivatedTime = g_WorldTime
+					_self:ActivateTimedAbility()
+					print("Do ability done")
+
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
+
+			AbilityStruct_Necron1.TimedAbilityEnd = function( _self )
+
+				_self.IsActive = false
+				for i = 1, table.getn(_self.AppliedModifierIDs) do
+
+					Modifier_Remove(_self.AppliedModifierIDs[i])
+
+				end
+
+				for j = 1, table.getn(_self.AllMonolithFX) do
+
+					_self.RemoveMonolithFX(_self, j)
+
+				end
+				
+				print("End ability done")
+			end
+			
+			AbilityStruct_Necron1.TimedAbilityUpdate = function(_self)
+				for i = 1, table.getn(_self.AllMonolithFX) do
+
+					if(Entity_Exists(_self.AllMonolithFX[i].Entity.EntityID) == false ) then
+						
+						print("REMOVING FX!")
+						_self:RemoveMonolithFX(_self, i)
+
+					end
+
+				end
+
+				local AllMonolithEntities, AllMonolithEntities_Index = Get_EntityDataFromEntityBP("monolith", _self.CasterPlayer.PlayerIndex + 1)
+				print(AllMonolithEntities[1])
+				print(AllMonolithEntities[1].EntityUniqueID)
+				print(AllMonolithEntities[1].EntityPosition)
+				local AllRestoredMonolithEntities, AllRestoredMonolithEntities_Index = Get_EntityDataFromEntityBP("necron_restored_monolith", _self.CasterPlayer.PlayerIndex + 1)
+				local newTable = {AllMonolithEntities_Index, AllRestoredMonolithEntities_Index}
+				local AllEntitiesIndex = TableMerge(newTable)
+				newTable = {AllMonolithEntities, AllRestoredMonolithEntities}
+				local AllEntities = TableMerge(newTable)
+				for i = 1, TableLength(AllEntitiesIndex) do
+
+					local MonolithFXAlreadyApplied = false
+					for j = 1, TableLength(_self.AllMonolithFX) do
+
+						if(_self.AllMonolithFX[j].Entity == AllEntities[i]) then
+							print("FX ALREADY APPLIED!")
+							MonolithFXAlreadyApplied = true
+						end
+
+					end
+
+					if(MonolithFXAlreadyApplied == false) then
+						print("APPLYING FX!")
+						_self:ApplyMonolithFX(_self, AllEntitiesIndex[i])
+
+					end
+				end
+
+				print("TimedAbilityUpdate ability done")
+			end
 			--[[T0 Production Overload]]
 			--[[T1 Summon crystal]] 
 			--[[T2 Big gen ability to buff all necron]]
@@ -380,7 +567,11 @@ function Setup_ActualGlobalAbilies()
 		--[[ORDO MALLEUS GLOBALS]]
 		elseif(RaceName == "inquisition_daemonhunt_race") then
 			--T0 Restore abilities on target squad
+			--T1 Psychic assailment, increase range, sight, and range damage of squad
+			--T2 Spawn a relic on the map, can be captured by a squad and brought back to one of your structures for a benefit
 			--T2 Buff all flame weaponry
+			--Choose an enemy squad or structure and it can't produce a certain thing for awhile
+			--T3 Exterminatus?
 
 		else
 			Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Race '"..RaceName.."' is undefined in if statement! Assuming it has no global abilities.")

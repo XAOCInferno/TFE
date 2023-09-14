@@ -98,8 +98,27 @@ function TableMergeValues(_Tbl1, _Tbl2)
 	    	NewTable[i] = _Tbl1[i] + _Tbl2[i]
 		end
 	end
-
 end
+
+function TableMerge(_Tbls)
+
+	local debugFuncName = "TableMerge"
+	local newTable = {}
+	local nextTablePos = 1
+	print(_Tbls)
+	print(table.getn(_Tbls))
+	for i = 1, TableLength(_Tbls) do
+
+		for j = 1, TableLength(_Tbls[i]) do
+
+			newTable[nextTablePos] = _Tbls[i][j]
+			nextTablePos = nextTablePos + 1
+
+		end
+	end
+	return newTable
+end
+
 function round(num, numDecimalPlaces)
 	local mult = 10^(numDecimalPlaces or 0)
 	return math.floor(num * mult + 0.5) / mult

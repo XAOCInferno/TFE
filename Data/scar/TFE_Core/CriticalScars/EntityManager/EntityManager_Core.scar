@@ -162,7 +162,7 @@ function Get_EntityDataFromEntityBP(_EntityBP, _Player)
 	for i = 1, TableLength(g_AllEntityData[_Player]) do
 		
 		if(g_AllEntityData[_Player][i].EntityBlueprint == _EntityBP) then
-
+			
 			table.insert(tbl_AllEntityOfBP, g_AllEntityData[_Player][i])
 			table.insert(tbl_IndexOfAcceptedPositions, i)
 
@@ -183,5 +183,17 @@ function DestroyEntityAndRemoveFromData(_Player, _EntityLocation)
 
 	Entity_Destroy(g_AllEntityData[PlayerIndex][_EntityLocation].EntityID)
 	table.remove(g_AllEntityData[PlayerIndex][_EntityLocation])
+
+end
+
+function Entity_Exists(_EntityID)
+
+	if Entity_GetGameID(_EntityID) ~= 0 then
+		print("ENTITY EXISTS!!")
+		return true
+	end
+
+	print("ENTITY DOESN'T EXIST!!")
+	return false
 
 end
