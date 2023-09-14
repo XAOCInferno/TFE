@@ -25,5 +25,5 @@ GameData["ui_ext"]["minimap_enable"] = false
 GameData["ui_ext"]["minimap_teamcolor"] = true 
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_01"] = [[$4100095]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$4100094]]
-GameData["ui_ext"]["ui_info"]["icon_name"] = [[dark_eldar_icons/archon_icon]]
+GameData["ui_ext"]["ui_info"]["icon_name"] = [[command_icons/global_ability_empty_icon]]
 GameData["ui_ext"]["use_hero_ui"] = true 
