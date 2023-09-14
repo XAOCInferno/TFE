@@ -21,7 +21,7 @@ end
 
 
 SquadData = {}
-function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP)
+function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _player)
 
     local SquadDataObject = 
     {
@@ -36,6 +36,8 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP)
 		SquadHasLeader = Squad_HasLeader(_sID),
 		SquadLeaderCount = Squad_CountLeaders(_sID),
 		SquadInitTime = g_WorldTime,	
+		OwnedByPlayer = Squad_GetPlayerOwner(_sID),
+		OwnerPlayer = _player,
 
 		SquadAppliedCoverMods = {},
 		SquadAppliedCoverMods_IDs = {},
@@ -111,7 +113,7 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 		end		
 			
 		--Might need to create a unique sgroupid later...
-		local tmpData = SquadData:new( newSquadGameID, _sgroupid, _itemindex, _squadID, g_AllPlayers[_PlayerIndex].RaceDetails.RaceName, squadBP)
+		local tmpData = SquadData:new( newSquadGameID, _sgroupid, _itemindex, _squadID, g_AllPlayers[_PlayerIndex].RaceDetails.RaceName, squadBP, g_AllPlayers[_PlayerIndex])
 		table.insert(g_AllSquadsData[_PlayerIndex], tmpData)	
 			
 	end
@@ -203,7 +205,7 @@ function CheckForSquadLosses(SquadStruct)
 end
 
 --Use 1 or 0 for SquadDead with 0 being false and 1 being true
-function UpdateSquadCombatDeathResources(RedReceiverPlayer, ModelLosses, LeaderLosses, SquadDead ) 
+function UpdateSquadCombatDeathResources(RedReceiverPlayer, DefenderPlayer, ModelLosses, LeaderLosses, SquadDead ) 
 
 	local TotalRed = 0
 	TotalRed = TotalRed + (0.5 * ModelLosses)
@@ -212,6 +214,9 @@ function UpdateSquadCombatDeathResources(RedReceiverPlayer, ModelLosses, LeaderL
 
 	RedReceiverPlayer.CurrentResources.RT_Red = RedReceiverPlayer.CurrentResources.RT_Red + TotalRed	
 	print("Player "..RedReceiverPlayer.PlayerIndex.." current Red = "..RedReceiverPlayer.CurrentResources.RT_Red)
+
+	DefenderPlayer.CurrentResources.RT_Red = DefenderPlayer.CurrentResources.RT_Red + (TotalRed * 0.5)	
+	print("Player "..DefenderPlayer.PlayerIndex.." current Red = "..DefenderPlayer.CurrentResources.RT_Red)
 
 end
 
@@ -239,7 +244,7 @@ function Set_SquadCombatDetails(_SquadStruct, _IsDead)
 
 			ModelLosses, LeaderLosses = Get_SquadLosses(_SquadStruct)
 			print("Squad destroyed! Adding large Red for Player ".._SquadStruct.PreviouslyAttackedByPlayers[i].PlayerIndex..".")
-			UpdateSquadCombatDeathResources(_SquadStruct.PreviouslyAttackedByPlayers[i], ModelLosses, LeaderLosses, 1 )
+			UpdateSquadCombatDeathResources(_SquadStruct.PreviouslyAttackedByPlayers[i], _SquadStruct.OwnerPlayer, ModelLosses, LeaderLosses, 1 )
 
 		end
 
@@ -265,7 +270,7 @@ function Set_SquadCombatDetails(_SquadStruct, _IsDead)
 				ModelLosses, LeaderLosses = CheckForSquadLosses(_SquadStruct)
 				if(ModelLosses > 0 or LeaderLosses > 0) then
 
-					UpdateSquadCombatDeathResources(g_AllPlayers[i], ModelLosses, LeaderLosses, 0 )		
+					UpdateSquadCombatDeathResources(g_AllPlayers[i], _SquadStruct.OwnerPlayer, ModelLosses, LeaderLosses, 0 )		
 					print("Adding Red for Player "..g_AllPlayers[i].PlayerIndex..".")					
 	
 				end	
