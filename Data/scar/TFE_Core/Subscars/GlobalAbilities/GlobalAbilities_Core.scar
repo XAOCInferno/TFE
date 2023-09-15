@@ -583,7 +583,7 @@ function Setup_ActualGlobalAbilies()
 			AbilityStruct_SpaceMarine2.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 
 				_pos = _self.LastCastedEntityPosition
-				local costSuccess = FireCost(_self.CasterPlayer, -30, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
 				if(costSuccess) then
 					ActivateSummonEntityAbility("marines_blessing_of_omnissiah_ability_caster", _self.CasterPlayer.Player, _pos)
 				else
@@ -603,7 +603,7 @@ function Setup_ActualGlobalAbilies()
 			AbilityStruct_SpaceMarine3.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 
 				_pos = _self.LastCastedEntityPosition
-				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, -100, 0, 0, 0, 0, 0)
 				if(costSuccess) then
 					Util_CreateSquadsAndDropPodIn_GlobalAbility( _self.CasterPlayer.Player, SGroup_GetName(GetUniqueSG("GlobalAbility_SM_DropPod")), "space_marine_squad_drop_pod_emplacement", _pos, 1, 1 )
 					--World_FXEvent("data:Art/Events/Races/Space_Marines/Abilities/space_marine_global_basic_scan", fxSpawnPos)
