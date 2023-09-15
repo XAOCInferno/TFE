@@ -276,7 +276,7 @@ function Setup_ActualGlobalAbilies()
 
 				if(costSuccess) then
 					World_FXEvent("data:Art/Events/Races/dark_eldar/Ability/dark_eldar_global_seed_soul", _pos)
-					ActivateMultiSummonSquadAbility("dark_eldar_squad_slave_murdered_long", _self.CasterPlayer.Player, _pos, {x = 1, y = 0, z = 1}, 5, 0)
+					ActivateMultiSummonSquadAbility("dark_eldar_squad_slave_murdered_long", _self.CasterPlayer.Player, _pos, {x = 1, y = 0, z = 1}, 5, 0, 0)
 				else
 					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				end
@@ -353,6 +353,14 @@ function Setup_ActualGlobalAbilies()
 				g_AllPlayers[i], 
 				"GlobalAbility_Necron_SummonObelisk", 
 				"global_necron_summon_obelisk_entity",
+				table.getn(g_AllTrackedAbilities),
+				"NONE"
+			)
+
+			local AbilityStruct_Necron3 = CreateGlobalAbility(
+				g_AllPlayers[i], 
+				"GlobalAbility_Necron_ScarabSwarm", 
+				"global_necron_scarab_swarm_entity",
 				table.getn(g_AllTrackedAbilities),
 				"NONE"
 			)
@@ -479,11 +487,27 @@ function Setup_ActualGlobalAbilies()
 				
 				_pos = _self.LastCastedEntityPosition
 
-				local costSuccess = FireCost(_self.CasterPlayer, -30, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, -50, 0, 0, 0, 0, 0)
 
 				if(costSuccess) then
 
-					Entity_Spawn(Entity_Create("necron_summon_obelisk", _self.CasterPlayer.Player, _pos))					
+					ActivateSummonEntityAbility("necron_summon_obelisk", _self.CasterPlayer.Player, _pos)				
+
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
+
+
+			AbilityStruct_Necron3.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+				
+				_pos = _self.LastCastedEntityPosition
+
+				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+
+				if(costSuccess) then
+
+					ActivateMultiSummonSquadAbility("necron_scarab_ground_squad", _self.CasterPlayer.Player, _pos, {x = 1, y = 0, z = 1}, 3, 6, 9)		
 
 				else
 					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
@@ -691,16 +715,17 @@ function ActivateSummonEntityAbility(_EBP, _Player, _Pos)
 	return entity
 end
 
-function ActivateMultiSummonSquadAbility(_SBP, _Player, _Pos, _RandomOffsetPerSquad, _NumberOfSquads, _Loadout) 
+function ActivateMultiSummonSquadAbility(_SBP, _Player, _Pos, _RandomOffsetPerSquad, _NumberOfSquads, _LoadoutMin, _LoadoutMax) 
 
 	local AllCreatedSquads = {}
 	_Pos = World_Pos(_Pos.x, _Pos.y, _Pos.z)
 	for i = 1, _NumberOfSquads do
 		local tmpPos = _Pos
+		local loadout = World_GetRand(_LoadoutMin, _LoadoutMax)
 		tmpPos.x = _Pos.x + World_GetRand(-_RandomOffsetPerSquad.x, _RandomOffsetPerSquad.x)
 		tmpPos.y = _Pos.y + World_GetRand(-_RandomOffsetPerSquad.y, _RandomOffsetPerSquad.y)
 		tmpPos.z = _Pos.z + World_GetRand(-_RandomOffsetPerSquad.z, _RandomOffsetPerSquad.z)
-		table.insert(AllCreatedSquads, ActivateSummonSquadAbility(_SBP, _Player, tmpPos, _Loadout))
+		table.insert(AllCreatedSquads, ActivateSummonSquadAbility(_SBP, _Player, tmpPos, loadout))
 	end
 
 	return AllCreatedSquads
