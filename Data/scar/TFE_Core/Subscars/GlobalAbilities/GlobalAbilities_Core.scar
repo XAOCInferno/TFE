@@ -349,6 +349,14 @@ function Setup_ActualGlobalAbilies()
 				"NONE"
 			)
 
+			local AbilityStruct_Necron2 = CreateGlobalAbility(
+				g_AllPlayers[i], 
+				"GlobalAbility_Necron_SummonObelisk", 
+				"global_necron_summon_obelisk_entity",
+				table.getn(g_AllTrackedAbilities),
+				"NONE"
+			)
+
 			AbilityStruct_Necron1.ApplyMonolithFX = function(_self, _EntityPos)
 				print(EntityData)
 				print(_self.CasterPlayer)
@@ -464,6 +472,22 @@ function Setup_ActualGlobalAbilies()
 				end
 
 				print("TimedAbilityUpdate ability done")
+			end
+
+
+			AbilityStruct_Necron2.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+				
+				_pos = _self.LastCastedEntityPosition
+
+				local costSuccess = FireCost(_self.CasterPlayer, -30, 0, 0, 0, 0, 0)
+
+				if(costSuccess) then
+
+					Entity_Spawn(Entity_Create("necron_summon_obelisk", _self.CasterPlayer.Player, _pos))					
+
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
 			end
 			--[[T0 Production Overload]]
 			--[[T1 Summon crystal]] 
