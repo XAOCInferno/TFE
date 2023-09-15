@@ -340,8 +340,8 @@ function Setup_ActualGlobalAbilies()
 			table.insert(g_GlobalAbilityMods, mod_NecronProductionOverload__modifier_02)
 			mod_NecronProductionOverload__modifier_03 = Modifier_Create(MAT_Player, "income_power_player_modifier", MUT_Multiplication, 1, 0.5, "")
 			table.insert(g_GlobalAbilityMods, mod_NecronProductionOverload__modifier_03)
-
-			local AbilityStruct_Necron1 = CreateGlobalAbility(
+--return local here!!
+			AbilityStruct_Necron1 = CreateGlobalAbility(
 				g_AllPlayers[i], 
 				"GlobalAbility_Necron_ProductionOverload", 
 				"global_necron_production_overload_entity",
@@ -696,6 +696,7 @@ function Util_DropPod_GlobalAbility( sgroupname, pos )
 	Squad_DeepStrikeToPos( sgroupname, "space_marine_gobal_ability_drop_pod_building", pos )
 	
 end
+
 --Do this later, requires fire cost to be built into ability as well as being a function
 --[[function CheckGlobalAbilityRequirements()
 
@@ -711,8 +712,8 @@ end
 		end
 	end
 
-
 end]]
+
 function ActivateMultiSummonEntityAbility(_EBP, _Player, _Pos, _RandomOffsetPerEntity, _NumberOfEntities) 
 
 	local AllCreatedEntities = {}
@@ -763,9 +764,33 @@ function ActivateSummonSquadAbility(_SBP, _Player, _Pos, _Loadout)
 
 	return squad
 end
-
+timeSinceAbilityPress = 0
 function Update_GlobalAbilities()
+	emptySGroupID = SGroup_CreateIfNotFound("emptySGroup")
+	if(SGroup_Exists("GlobalAbilityCasterTest") == false) then
+		Util_CreateSquadsAtPosition(g_AllPlayers[1].Player, SGroup_GetName(SGroup_Create("GlobalAbilityCasterTest")), "world_squad_global_ability_caster_necron_race", World_Pos(0,0,0), 1)
+		Util_CreateSquadsAtPosition(g_AllPlayers[2].Player, SGroup_GetName(SGroup_Create("GlobalAbilityCasterTest2")), "world_squad_global_ability_caster_necron_race", World_Pos(0,0,0), 1)
+	end
+	if(SGroup_IsSelected("GlobalAbilityCasterTest") or SGroup_IsSelected("GlobalAbilityCasterTest2")) then
+		
+		print("UNSELECTING!!")
+		local timed = false
 
+		if(timed) then
+			W40k_SelectSGroup(emptySGroupID)
+			Cmd_CastAbilitySelf("GlobalAbilityCasterTest", "global_necron_production_overload")
+		elseif(timeSinceAbilityPress > 3) then
+
+			timeSinceAbilityPress = 0
+			W40k_SelectSGroup(emptySGroupID)
+			Cmd_CastAbilityPos("GlobalAbilityCasterTest", "global_necron_scarab_swarm", Misc_GetMouseOnTerrain())
+
+		else
+			timeSinceAbilityPress = timeSinceAbilityPress + 1
+			print(timeSinceAbilityPress)
+		end
+	end
+	
 	local debugFuncName = "Update_GlobalAbilities"
 
 	for i = 1, table.getn(g_AllTrackedAbilities) do
