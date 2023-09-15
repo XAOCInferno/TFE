@@ -404,7 +404,7 @@ function Setup_ActualGlobalAbilies()
 
 				if(costSuccess) then
 
-					local modID_01 = Modifier_ApplyToPlayer(mod_NecronProductionOverload__modifier_01, _self.CasterPlayer.Player)
+					--[[local modID_01 = Modifier_ApplyToPlayer(mod_NecronProductionOverload__modifier_01, _self.CasterPlayer.Player)
 					local modID_02 = Modifier_ApplyToPlayer(mod_NecronProductionOverload__modifier_02, _self.CasterPlayer.Player)
 					local modID_03 = Modifier_ApplyToPlayer(mod_NecronProductionOverload__modifier_03, _self.CasterPlayer.Player)
 					table.insert(_self.AppliedModifierIDs, modID_01)
@@ -412,7 +412,9 @@ function Setup_ActualGlobalAbilies()
 					table.insert(_self.AppliedModifierIDs, modID_03)
 
 					_self.ActivatedTime = g_WorldTime
-					_self:ActivateTimedAbility()
+					_self:ActivateTimedAbility()]]
+
+					ActivateSummonEntityAbility("necron_production_overload_ability_caster", _self.CasterPlayer.Player, _pos)	
 					print("Do ability done")
 
 				else
