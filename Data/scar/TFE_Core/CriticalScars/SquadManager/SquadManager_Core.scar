@@ -36,8 +36,9 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		SquadHasLeader = Squad_HasLeader(_sID),
 		SquadLeaderCount = Squad_CountLeaders(_sID),
 		SquadInitTime = g_WorldTime,	
-		OwnedByPlayer = Squad_GetPlayerOwner(_sID),
-		OwnerPlayer = _player,
+		OwnedByPlayer = Squad_GetPlayerOwner(_sID), --Duplicate functionality as bellow? I would prefere we kept this one
+		OwnerPlayer = _player, --Um do we need this./.???
+		IsSelected = Misc_IsSquadSelected(_sID),
 
 		SquadAppliedCoverMods = {},
 		SquadAppliedCoverMods_IDs = {},
@@ -52,6 +53,16 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 	}
 	self.__index = self
 	return setmetatable(SquadDataObject, self)
+end
+
+function SquadData:Update(_self)
+		
+	_self.SquadLoadout = Squad_Count(_self.SquadID)
+	_self.SquadHasLeader = Squad_HasLeader(_self.SquadID)
+	_self.SquadLeaderCount = Squad_CountLeaders(_self.SquadID)
+	_self.OwnedByPlayer = Squad_GetPlayerOwner(_self.SquadID)
+	_self.IsSelected = Misc_IsSquadSelected(_self.SquadID)
+
 end
 
 ---------------
@@ -155,11 +166,11 @@ function Update_ExistingSquadDetails()
 				table.remove(g_AllSquadsData[i], l)							
 			
 			--Squad exists and has more than 0 members so let's update their squad details.
-			else					
-				
-				g_AllSquadsData[i][l].SquadLoadout = Squad_Count(g_AllSquadsData[i][l].SquadID)
+			else						
+				g_AllSquadsData[i][l]:Update(g_AllSquadsData[i][l])
+				--[[g_AllSquadsData[i][l].SquadLoadout = Squad_Count(g_AllSquadsData[i][l].SquadID)
 				g_AllSquadsData[i][l].SquadHasLeader = Squad_HasLeader(g_AllSquadsData[i][l].SquadID)
-				g_AllSquadsData[i][l].SquadLeaderCount = Squad_CountLeaders(g_AllSquadsData[i][l].SquadID)
+				g_AllSquadsData[i][l].SquadLeaderCount = Squad_CountLeaders(g_AllSquadsData[i][l].SquadID)]]
 				Set_SquadCombatDetails(g_AllSquadsData[i][l], false)		
 
 				--Squad exists but now has 0 members. At 0 members the squad is destroyed so this likely will never happen. If log isn't ever observed, delete this.
@@ -212,7 +223,7 @@ function UpdateSquadCombatDeathResources(RedReceiverPlayer, DefenderPlayer, Mode
 	TotalRed = TotalRed + (1.5 * LeaderLosses)
 	TotalRed = TotalRed + (3 * SquadDead)
 	TotalRed = TotalRed * g_RedGainMultiplier
-	
+
 	RedReceiverPlayer.CurrentResources.RT_Red = RedReceiverPlayer.CurrentResources.RT_Red + TotalRed	
 	print("Player "..RedReceiverPlayer.PlayerIndex.." current Red = "..RedReceiverPlayer.CurrentResources.RT_Red)
 
@@ -295,4 +306,38 @@ function Set_SquadCombatDetails(_SquadStruct, _IsDead)
 	end
 
 
+end
+
+function GetAllSelectedSquads()
+	
+	local allSelectedSquads = {}
+
+	for playerIndex = 1, g_AllSquadsData do
+
+		for squadIndex = 1, g_AllSquadsData[playerIndex] do
+
+			if(g_AllSquadsData[playerIndex][squadIndex].IsSelected == true) then
+
+				table.insert(allSelectedSquads, g_AllSquadsData[playerIndex][squadIndex])
+
+			end
+
+		end
+
+	end
+
+	return allSelectedSquads
+	
+end
+
+function GetIfSquadSelected(_DesiredSquad)
+
+	local AllSelectedSquads = GetAllSelectedSquads()
+	local contains, _ = TableContains(AllSelectedSquads, _DesiredSquad)
+
+	if(contains == true) then
+		return true
+	end
+
+	return false
 end
