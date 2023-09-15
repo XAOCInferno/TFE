@@ -14,6 +14,8 @@ g_ResourceGenUpdateRate = 1
 g_WorldTime = 0
 g_WorldTimeFidelity = 0.2
 
+g_RedGainMultiplier = 5
+
 UnitCosting = { }
 ResourceGlobalNames = { }
 

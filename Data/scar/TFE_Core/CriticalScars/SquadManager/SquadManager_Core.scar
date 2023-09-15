@@ -211,7 +211,8 @@ function UpdateSquadCombatDeathResources(RedReceiverPlayer, DefenderPlayer, Mode
 	TotalRed = TotalRed + (0.5 * ModelLosses)
 	TotalRed = TotalRed + (1.5 * LeaderLosses)
 	TotalRed = TotalRed + (3 * SquadDead)
-
+	TotalRed = TotalRed * g_RedGainMultiplier
+	
 	RedReceiverPlayer.CurrentResources.RT_Red = RedReceiverPlayer.CurrentResources.RT_Red + TotalRed	
 	print("Player "..RedReceiverPlayer.PlayerIndex.." current Red = "..RedReceiverPlayer.CurrentResources.RT_Red)
 
