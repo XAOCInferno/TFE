@@ -1,7 +1,4 @@
 GameData = Inherit([[]])
-GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
-GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\necron_production_boost_monolith.lua]]
---GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\necron_disable_build_multi_nl.lua]]
 GameData["addon_ext"] = Reference([[ebpextensions\addon_ext.lua]])
 GameData["addon_ext"]["addons"]["addon_01"] = [[addons\addon_necron_hq_1.lua]]
 GameData["addon_ext"]["addons"]["addon_02"] = [[addons\addon_necron_hq_2.lua]]
