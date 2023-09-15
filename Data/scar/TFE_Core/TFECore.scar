@@ -85,18 +85,18 @@ end
 --Returns true if we have enough, false otherwise
 function PlayerDetails:HasEnoughResources( _RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls )
 
-	if(self.CurrentResources.RT_Red < _RT_Red 
-	or self.CurrentResources.RT_Requisition < _RT_Requsition
-	or self.CurrentResources.RT_Power < _RT_Power
-	or self.CurrentResources.RT_Pop < _RT_Pop
-	or self.CurrentResources.RT_Faith < _RT_Faith
-	or self.CurrentResources.RT_Souls < _RT_Souls) then
-		print("Red: "..self.CurrentResources.RT_Red.."| Required: ".._RT_Red)
-		print("Req: "..self.CurrentResources.RT_Requisition.."| Required: ".._RT_Requsition)
-		print("Power: "..self.CurrentResources.RT_Power.."| Required: ".._RT_Power)
-		print("Pop: "..self.CurrentResources.RT_Pop.."| Required: ".._RT_Pop)
-		print("Faith: "..self.CurrentResources.RT_Faith.."| Required: ".._RT_Faith)
-		print("Souls: "..self.CurrentResources.RT_Souls.."| Required: ".._RT_Souls)
+	if(self.CurrentResources.RT_Red < _RT_Red * -1 
+	or self.CurrentResources.RT_Requisition < _RT_Requsition * -1 
+	or self.CurrentResources.RT_Power < _RT_Power * -1 
+	or self.CurrentResources.RT_Pop < _RT_Pop * -1 
+	or self.CurrentResources.RT_Faith < _RT_Faith * -1 
+	or self.CurrentResources.RT_Souls < _RT_Souls * -1 ) then
+		print("Red: "..self.CurrentResources.RT_Red.."| Required: ".._RT_Red * -1)
+		print("Req: "..self.CurrentResources.RT_Requisition.."| Required: ".._RT_Requsition * -1)
+		print("Power: "..self.CurrentResources.RT_Power.."| Required: ".._RT_Power * -1)
+		print("Pop: "..self.CurrentResources.RT_Pop.."| Required: ".._RT_Pop * -1)
+		print("Faith: "..self.CurrentResources.RT_Faith.."| Required: ".._RT_Faith * -1)
+		print("Souls: "..self.CurrentResources.RT_Souls.."| Required: ".._RT_Souls * -1)
 		return false
 	end
 	
