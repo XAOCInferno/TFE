@@ -457,6 +457,7 @@ function Setup_ActualGlobalAbilies()
 
 					if(MonolithFXAlreadyApplied == false) then
 						print("APPLYING FX!")
+						--Not working???
 						--_self:ApplyMonolithFX(_self, AllEntitiesIndex[i])
 
 					end
@@ -501,8 +502,8 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_SpaceMarine1 = CreateGlobalAbility(
 				g_AllPlayers[i], 
-				"GlobalAbility_SpaceMarine_BasicScan", 
-				"global_space_marine_basic_scan_entity",
+				"GlobalAbility_SpaceMarines_BasicScan", 
+				"global_space_marines_basic_scan_entity",
 				table.getn(g_AllTrackedAbilities),
 				"GROUND"
 			)
@@ -517,6 +518,27 @@ function Setup_ActualGlobalAbilies()
 					fxSpawnPos.y = _pos.y + fxYOffset
 					World_FXEvent("data:Art/Events/Races/Space_Marines/Abilities/space_marine_global_basic_scan", fxSpawnPos)
 					ActivateSummonEntityAbility("marines_detection_field_hq", _self.CasterPlayer.Player, _pos)
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
+
+			local AbilityStruct_SpaceMarine3 = CreateGlobalAbility(
+				g_AllPlayers[i], 
+				"GlobalAbility_SpaceMarines_DropPod", 
+				"global_space_marines_drop_pod_entity",
+				table.getn(g_AllTrackedAbilities),
+				"GROUND"
+			)
+
+			AbilityStruct_SpaceMarine3.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				_pos = _self.LastCastedEntityPosition
+				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+				if(costSuccess) then
+					Util_CreateSquadsAndDropPodIn_GlobalAbility( _self.CasterPlayer.Player, SGroup_GetName(GetUniqueSG("GlobalAbility_SM_DropPod")), "space_marine_squad_drop_pod_emplacement", _pos, 1, 1 )
+					--World_FXEvent("data:Art/Events/Races/Space_Marines/Abilities/space_marine_global_basic_scan", fxSpawnPos)
+					
 				else
 					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				end
@@ -579,6 +601,30 @@ function Setup_ActualGlobalAbilies()
 	end
 end
 
+function Util_CreateSquadsAndDropPodIn_GlobalAbility( playerId, squadgroupName, squadBlueprint, pos, numsquads, loadout )
+	local groupID = _ScarUtil_Private.CreateSquads(
+		playerId,
+		squadgroupName,
+		squadBlueprint,
+		pos,
+		numsquads,
+		loadout,
+		false -- do not spawn
+	)
+	
+	Util_DropPod_GlobalAbility( squadgroupName, pos )
+	
+	return groupID
+end
+
+function Util_DropPod_GlobalAbility( sgroupname, pos )
+	-- depspawn
+	SGroup_DeSpawn( sgroupname )
+		
+	-- drop pod
+	Squad_DeepStrikeToPos( sgroupname, "space_marine_gobal_ability_drop_pod_building", pos )
+	
+end
 --Do this later, requires fire cost to be built into ability as well as being a function
 --[[function CheckGlobalAbilityRequirements()
 
