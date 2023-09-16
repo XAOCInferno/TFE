@@ -84,7 +84,7 @@ function GlobalAbility:Update()
 				self.HasBeenSelected = true
 				self.SelectedWorldtime = g_WorldTime
 				print("Hello!! "..self.SelectedWorldtime)
-			elseif(g_WorldTime - self.SelectedWorldtime > 2) then
+			elseif(g_WorldTime - self.SelectedWorldtime > g_TimedAbilityRequiredSelectTime) then
 				self.HasBeenSelected = false
 				print("Goodbye!! "..self.SelectedWorldtime)
 				self:PrepareAbility()
@@ -136,12 +136,14 @@ function GlobalAbility:PrepareAbility()
 	local debugFuncName = self.AbilityName.."/PrepareAbility"
 	ClearSelection()
 	self.OnPressImmediate()
-
+	self.LastCastedEntityPosition = Misc_GetMouseOnTerrain()
+--[[
 	if(self.CurrentAcceptedEntityStruct == nil) then
 		self.LastCastedEntityPosition = World_Pos(0,0,0)
 	else
 		self.LastCastedEntityPosition = self.CurrentAcceptedEntityStruct.EntityPosition
 	end
+	]]
 
 	local targetSquad = nil
 	local targetEntity = nil

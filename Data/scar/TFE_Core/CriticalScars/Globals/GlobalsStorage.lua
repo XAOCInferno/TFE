@@ -15,6 +15,7 @@ g_WorldTime = 0
 g_WorldTimeFidelity = 0.2
 
 g_RedGainMultiplier = 5
+g_TimedAbilityRequiredSelectTime = 1
 
 UnitCosting = { }
 ResourceGlobalNames = { }
