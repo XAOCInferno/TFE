@@ -587,6 +587,11 @@ list_hero_select_groups =
 	"btnHero_3",
 	"btnHero_4",
 	"btnHero_5",
+	"btnHero_6",
+	"btnHero_7",
+	"btnHero_8",
+	"btnHero_9",
+	"btnHero_10",
 }
 
 ----------------------------------------------------------------------------------------
