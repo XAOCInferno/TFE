@@ -18,6 +18,7 @@ GameData["moving_ext"]["turning_behavior_template"] = [[infantry]]
 GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
 GameData["sight_ext"]["sight_radius"] = 0
 GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
+GameData["sim_entity_ext"]["is_in_spatial_bucket"] = false
 GameData["type_ext"] = Reference([[ebpextensions\type_ext.lua]])
 GameData["ui_ext"] = Reference([[ebpextensions\ui_ext.lua]])
 GameData["ui_ext"]["minimap_enable"] = false 
