@@ -353,7 +353,7 @@ function Setup_ActualGlobalAbilies()
 				g_AllPlayers[i], 
 				"GlobalAbility_DarkEldar_SeedSouls", 
 				"global_dark_eldar_seed_souls_entity",
-				"TIMED",
+				"TARGETED",
 				"NONE",
 				table.getn(g_AllTrackedAbilities)
 			)
