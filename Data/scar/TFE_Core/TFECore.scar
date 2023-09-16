@@ -317,3 +317,11 @@ function Implement_UpkeepAndMature()
 end
 
 
+function ClearSelection() 
+
+	local g_EmptySGroupID = SGroup_CreateIfNotFound("emptySGroup")
+	W40k_SelectSGroup(g_EmptySGroupID)
+	
+end
+
+
