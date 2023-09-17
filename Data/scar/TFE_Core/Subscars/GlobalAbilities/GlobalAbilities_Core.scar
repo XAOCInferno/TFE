@@ -77,7 +77,7 @@ function GlobalAbility:Update()
 		DestroyEntityAndRemoveFromData(self.CasterPlayer, acceptedEPositions[i])
 
 	end
-
+--[[
 	if(Misc_IsSquadSelected(self.LinkedSquad)) then
 		if(self.ActivationType == "TIMED" or self.ActivationType == 0) then
 			self:PrepareAbility()
@@ -95,7 +95,7 @@ function GlobalAbility:Update()
 
 		end
 	end
-
+]]
 
 	if(self.IsActive) then
 		if(g_WorldTime - self.ActivatedTime >=  self.Duration) then

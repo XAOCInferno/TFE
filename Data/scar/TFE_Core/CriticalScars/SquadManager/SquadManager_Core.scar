@@ -40,7 +40,7 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		SquadInitTime = g_WorldTime,	
 		OwnedByPlayer = Squad_GetPlayerOwner(_sID), --Duplicate functionality as bellow? I would prefere we kept this one
 		OwnerPlayer = _player, --Um do we need this./.???
-		IsSelected = Misc_IsSquadSelected(_sID),
+		IsSelected_Unsynced = Misc_IsSquadSelected(_sID),
 
 		SquadAppliedCoverMods = {},
 		SquadAppliedCoverMods_IDs = {},
@@ -63,7 +63,7 @@ function SquadData:Update(_self)
 	_self.SquadHasLeader = Squad_HasLeader(_self.SquadID)
 	_self.SquadLeaderCount = Squad_CountLeaders(_self.SquadID)
 	_self.OwnedByPlayer = Squad_GetPlayerOwner(_self.SquadID)
-	_self.IsSelected = Misc_IsSquadSelected(_self.SquadID)
+	_self.IsSelected_Unsynced = Misc_IsSquadSelected(_self.SquadID)
 
 end
 
