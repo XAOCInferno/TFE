@@ -741,7 +741,7 @@ function Setup_ActualGlobalAbilies()
 			AbilityStruct_Necron5.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 				
 
-				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, -300, 0, 0, 0, 0, 0)
 
 				if(costSuccess) then
 
