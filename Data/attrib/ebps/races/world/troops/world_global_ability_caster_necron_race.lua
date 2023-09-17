@@ -4,6 +4,7 @@ GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\global_necron_p
 GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\global_necron_summon_obelisk.lua]]
 GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\global_necron_scarab_swarm.lua]]
 GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\necron_thermo_overcharge.lua]]
+GameData["ability_ext"]["abilities"]["ability_05"] = [[abilities\global_necron_eternal_march.lua]]
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
 GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 0

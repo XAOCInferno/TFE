@@ -22,7 +22,7 @@ function GlobalAbility:new ( _LinkedSquadBP, _CasterPlayer, _AbilityName, _Activ
     local GlobalAbilityObject = 
     {
     	--Constants
-		LinkedSquad = ActivateSummonSquadAbility(_LinkedSquadBP, _CasterPlayer.Player, World_Pos(0,0,0), 1),  -- Util_CreateSquadsAtPosition(_CasterPlayer, tmpSGroupName, _LinkedSquadBP, World_Pos(0,0,0), 1),
+		LinkedSquad = nil, --ActivateSummonSquadAbility(_LinkedSquadBP, _CasterPlayer.Player, World_Pos(0,0,0), 1),  -- Util_CreateSquadsAtPosition(_CasterPlayer, tmpSGroupName, _LinkedSquadBP, World_Pos(0,0,0), 1),
 		LinkedSquadBP = _LinkedSquadBP,
 		LinkedSquadGroup = tmpSGroupID,
 		LinkedSquadGroupName = tmpSGroupName,
@@ -53,7 +53,7 @@ function GlobalAbility:new ( _LinkedSquadBP, _CasterPlayer, _AbilityName, _Activ
 		SelectedWorldtime = 0
     }
 
-	SGroup_Add(GlobalAbilityObject.LinkedSquadGroup, GlobalAbilityObject.LinkedSquad)
+	--SGroup_Add(GlobalAbilityObject.LinkedSquadGroup, GlobalAbilityObject.LinkedSquad)
 	self.__index = self
    	return setmetatable(GlobalAbilityObject, self)
 end
@@ -509,6 +509,7 @@ function Setup_ActualGlobalAbilies()
 		--[[NECRON GLOBALS]]
 		elseif(RaceName == "necron_race") then	
 			local squadBP = "world_squad_global_ability_caster_necron_race"
+			ActivateSummonSquadAbility(squadBP, g_AllPlayers[i].Player, World_Pos(0,0,0), 1)
 			
 			mod_NecronProductionOverload__modifier_01 = Modifier_Create(MAT_EntityType, "production_speed_modifier", MUT_Multiplication, 1, 3, "monolith")
 			table.insert(g_GlobalAbilityMods, mod_NecronProductionOverload__modifier_01)

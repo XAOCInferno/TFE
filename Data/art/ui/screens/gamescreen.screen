@@ -6380,12 +6380,12 @@ Screen =
 								size =  
 								{
 									1,
-									0.75000,
+									1, --0.75000,
 								},
 								position =  
 								{
 									0,
-									0.25000,
+									0.0425,--0.25000,
 								},
 							},
 						},
@@ -8009,6 +8009,115 @@ Screen =
 											0.05451,
 										},
 									},
+									
+									{
+										visible = false,
+										type = "Button",
+										buttonType = "ClickOnPress",
+										text = "$9031",
+										wantAlternate = true,
+										HitArea =  
+										{
+											 
+											{
+												type = "Rectangle",
+												size =  
+												{
+													1,
+													1,
+												},
+												position =  
+												{
+													0,
+													0,
+												},
+											},
+										},
+										style =  
+										{
+											"UIStyles",
+											"cmd_Temp",
+										},
+										position =  
+										{
+											0.03,
+											0.03,
+										},
+										name = "CommandIcon13",
+										Presentation =  
+										{
+											Art =  
+											{
+												 
+												{
+													type = "Graphic",
+													ID = 350,
+													texture = "art/ui/textures/default.tga",
+													states =  
+													{
+														"Disabled",
+													},
+												},
+												 
+												{
+													type = "Graphic",
+													ID = 351,
+													texture = "art/ui/textures/taskbar/taskbar_share/cmd_temp.tga",
+													states =  
+													{
+														"Normal",
+														"Active",
+														"Hover",
+													},
+												},
+												 
+												{
+													type = "Rectangle",
+													ID = 352,
+													rectangleType = "Border",
+													states =  
+													{
+														"Active",
+													},
+												},
+												 
+												{
+													type = "Rectangle",
+													ID = 353,
+													colour =  
+													{
+														255,
+														255,
+														255,
+														255,
+													},
+													rectangleType = "Border",
+													states =  
+													{
+														"Hover",
+													},
+												},
+											},
+											Sound =  
+											{
+												 
+												{
+													sample = "taskbar_button_click",
+													event = "OnClick",
+												},
+												 
+												{
+													sample = "taskbar_button_click",
+													event = "OnClickAlternate",
+												},
+											},
+										},
+										size =  
+										{
+											0.04339,
+											0.05451,
+										},
+									},
 									 
 									{
 										visible = false,
@@ -8742,7 +8851,988 @@ Screen =
 									0.18000,
 								},
 							},
-							 
+
+
+
+
+							{
+								type = "Group",
+								HitArea =  
+								{
+									 
+									{
+										type = "Rectangle",
+										size =  
+										{
+											1,
+											1,
+										},
+										position =  
+										{
+											0,
+											0,
+										},
+									},
+								},
+								name = "grpCommandIconsGlobalAbilities",
+								position =  
+								{
+									0.77,
+									0.01, --0.01
+								},
+								Children =  
+								{
+									 
+									{
+										visible = false,
+										type = "Button",
+										buttonType = "ClickOnPress",
+										text = "$9020",
+										wantAlternate = true,
+										HitArea =  
+										{
+											 
+											{
+												type = "Rectangle",
+												size =  
+												{
+													1,
+													1,
+												},
+												position =  
+												{
+													0,
+													0,
+												},
+											},
+										},
+										style =  
+										{
+											"UIStyles",
+											"cmd_Temp",
+										},
+										position =  
+										{
+											-0.00021,
+											0.00312,
+										},
+										Presentation =  
+										{
+											Art =  
+											{
+												 
+												{
+													type = "Graphic",
+													ID = 306,
+													texture = "art/ui/textures/default.tga",
+													states =  
+													{
+														"Disabled",
+													},
+												},
+												 
+												{
+													type = "Graphic",
+													ID = 307,
+													texture = "art/ui/textures/taskbar/taskbar_share/cmd_temp.tga",
+													states =  
+													{
+														"Normal",
+														"Active",
+														"Hover",
+													},
+												},
+												 
+												{
+													type = "Rectangle",
+													ID = 308,
+													rectangleType = "Border",
+													states =  
+													{
+														"Active",
+													},
+												},
+												 
+												{
+													type = "Rectangle",
+													ID = 309,
+													colour =  
+													{
+														255,
+														255,
+														255,
+														255,
+													},
+													rectangleType = "Border",
+													states =  
+													{
+														"Hover",
+													},
+												},
+											},
+											Sound =  
+											{
+												 
+												{
+													sample = "taskbar_button_click",
+													event = "OnClick",
+												},
+												 
+												{
+													sample = "taskbar_button_click",
+													event = "OnClickAlternate",
+												},
+											},
+										},
+										name = "CommandIconGlobalAbility01",
+									},
+									 
+									{
+										visible = false,
+										type = "Button",
+										buttonType = "ClickOnPress",
+										text = "$9012",
+										wantAlternate = true,
+										HitArea =  
+										{
+											 
+											{
+												type = "Rectangle",
+												size =  
+												{
+													1,
+													1,
+												},
+												position =  
+												{
+													0,
+													0,
+												},
+											},
+										},
+										style =  
+										{
+											"UIStyles",
+											"cmd_Temp",
+										},
+										position =  
+										{
+											0.04462,
+											0.00312,
+										},
+										Presentation =  
+										{
+											Art =  
+											{
+												 
+												{
+													type = "Graphic",
+													ID = 310,
+													texture = "art/ui/textures/default.tga",
+													states =  
+													{
+														"Disabled",
+													},
+												},
+												 
+												{
+													type = "Graphic",
+													ID = 311,
+													texture = "art/ui/textures/taskbar/taskbar_share/cmd_temp.tga",
+													states =  
+													{
+														"Normal",
+														"Active",
+														"Hover",
+													},
+												},
+												 
+												{
+													type = "Rectangle",
+													ID = 312,
+													rectangleType = "Border",
+													states =  
+													{
+														"Active",
+													},
+												},
+												 
+												{
+													type = "Rectangle",
+													ID = 313,
+													colour =  
+													{
+														255,
+														255,
+														255,
+														255,
+													},
+													rectangleType = "Border",
+													states =  
+													{
+														"Hover",
+													},
+												},
+											},
+											Sound =  
+											{
+												 
+												{
+													sample = "taskbar_button_click",
+													event = "OnClick",
+												},
+												 
+												{
+													sample = "taskbar_button_click",
+													event = "OnClickAlternate",
+												},
+											},
+										},
+										name = "CommandIconGlobalAbility02",
+									},
+									 
+									{
+										visible = false,
+										type = "Button",
+										buttonType = "ClickOnPress",
+										text = "$9022",
+										wantAlternate = true,
+										HitArea =  
+										{
+											 
+											{
+												type = "Rectangle",
+												size =  
+												{
+													1,
+													1,
+												},
+												position =  
+												{
+													0,
+													0,
+												},
+											},
+										},
+										style =  
+										{
+											"UIStyles",
+											"cmd_Temp",
+										},
+										position =  
+										{
+											0.08945,
+											0.00312,
+										},
+										name = "CommandIconGlobalAbility03",
+										Presentation =  
+										{
+											Art =  
+											{
+												 
+												{
+													type = "Graphic",
+													ID = 314,
+													texture = "art/ui/textures/default.tga",
+													states =  
+													{
+														"Disabled",
+													},
+												},
+												 
+												{
+													type = "Graphic",
+													ID = 315,
+													texture = "art/ui/textures/taskbar/taskbar_share/cmd_temp.tga",
+													states =  
+													{
+														"Normal",
+														"Active",
+														"Hover",
+													},
+												},
+												 
+												{
+													type = "Rectangle",
+													ID = 316,
+													rectangleType = "Border",
+													states =  
+													{
+														"Active",
+													},
+												},
+												 
+												{
+													type = "Rectangle",
+													ID = 317,
+													colour =  
+													{
+														255,
+														255,
+														255,
+														255,
+													},
+													rectangleType = "Border",
+													states =  
+													{
+														"Hover",
+													},
+												},
+											},
+											Sound =  
+											{
+												 
+												{
+													sample = "taskbar_button_click",
+													event = "OnClick",
+												},
+												 
+												{
+													sample = "taskbar_button_click",
+													event = "OnClickAlternate",
+												},
+											},
+										},
+										size =  
+										{
+											0.04339,
+											0.05451,
+										},
+									},
+									 
+									{
+										visible = false,
+										type = "Button",
+										buttonType = "ClickOnPress",
+										text = "$9023",
+										wantAlternate = true,
+										HitArea =  
+										{
+											 
+											{
+												type = "Rectangle",
+												size =  
+												{
+													1,
+													1,
+												},
+												position =  
+												{
+													0,
+													0,
+												},
+											},
+										},
+										style =  
+										{
+											"UIStyles",
+											"cmd_Temp",
+										},
+										position =  
+										{
+											0.13428,
+											0.00312,
+										},
+										name = "CommandIconGlobalAbility04",
+										Presentation =  
+										{
+											Art =  
+											{
+												 
+												{
+													type = "Graphic",
+													ID = 318,
+													texture = "art/ui/textures/default.tga",
+													states =  
+													{
+														"Disabled",
+													},
+												},
+												 
+												{
+													type = "Graphic",
+													ID = 319,
+													texture = "art/ui/textures/taskbar/taskbar_share/cmd_temp.tga",
+													states =  
+													{
+														"Normal",
+														"Active",
+														"Hover",
+													},
+												},
+												 
+												{
+													type = "Rectangle",
+													ID = 320,
+													rectangleType = "Border",
+													states =  
+													{
+														"Active",
+													},
+												},
+												 
+												{
+													type = "Rectangle",
+													ID = 321,
+													colour =  
+													{
+														255,
+														255,
+														255,
+														255,
+													},
+													rectangleType = "Border",
+													states =  
+													{
+														"Hover",
+													},
+												},
+											},
+											Sound =  
+											{
+												 
+												{
+													sample = "taskbar_button_click",
+													event = "OnClick",
+												},
+												 
+												{
+													sample = "taskbar_button_click",
+													event = "OnClickAlternate",
+												},
+											},
+										},
+										size =  
+										{
+											0.04339,
+											0.05451,
+										},
+									},
+									 
+									{
+										visible = false,
+										type = "Button",
+										buttonType = "ClickOnPress",
+										text = "$9024",
+										wantAlternate = true,
+										HitArea =  
+										{
+											 
+											{
+												type = "Rectangle",
+												size =  
+												{
+													1,
+													1,
+												},
+												position =  
+												{
+													0,
+													0,
+												},
+											},
+										},
+										style =  
+										{
+											"UIStyles",
+											"cmd_Temp",
+										},
+										position =  
+										{
+											0.13428,--0.17911
+											0.05932,
+										},
+										Presentation =  
+										{
+											Art =  
+											{
+												 
+												{
+													type = "Graphic",
+													ID = 322,
+													texture = "art/ui/textures/default.tga",
+													states =  
+													{
+														"Disabled",
+													},
+												},
+												 
+												{
+													type = "Graphic",
+													ID = 323,
+													texture = "art/ui/textures/taskbar/taskbar_share/cmd_temp.tga",
+													states =  
+													{
+														"Normal",
+														"Active",
+														"Hover",
+													},
+												},
+												 
+												{
+													type = "Rectangle",
+													ID = 324,
+													rectangleType = "Border",
+													states =  
+													{
+														"Active",
+													},
+												},
+												 
+												{
+													type = "Rectangle",
+													ID = 325,
+													colour =  
+													{
+														255,
+														255,
+														255,
+														255,
+													},
+													rectangleType = "Border",
+													states =  
+													{
+														"Hover",
+													},
+												},
+											},
+											Sound =  
+											{
+												 
+												{
+													sample = "taskbar_button_click",
+													event = "OnClick",
+												},
+												 
+												{
+													sample = "taskbar_button_click",
+													event = "OnClickAlternate",
+												},
+											},
+										},
+										name = "CommandIconGlobalAbility05",
+									},		 									
+									 
+									{
+										visible = false,
+										type = "ProgressBar",
+										Progress =  
+										{
+											type = "ArtLabel",
+											name = "prgLbl_ProgressIconGlobalAbility01",
+											position =  
+											{
+												0,
+												0,
+											},
+											HitArea =  
+											{
+											},
+											Presentation =  
+											{
+												Art =  
+												{
+													 
+													{
+														type = "Graphic",
+														ID = 224795,
+														colour =  
+														{
+															255,
+															183,
+															19,
+															255,
+														},
+														texture = "art/ui/textures/art_gradient_ability.tga",
+														states =  
+														{
+															"Normal",
+															"Active",
+															"Hover",
+															"Disabled",
+														},
+													},
+													 
+													{
+														type = "Rectangle",
+														ID = 224796,
+														rectangleType = "Border",
+														states =  
+														{
+															"Normal",
+															"Active",
+															"Hover",
+															"Disabled",
+														},
+													},
+												},
+											},
+											size =  
+											{
+												0.03500,
+												0.00600,
+											},
+										},
+										HitArea =  
+										{
+										},
+										style =  
+										{
+											"UIStyles",
+											"cmd_AbilityProgress",
+										},
+										position =  
+										{
+											0.00398,
+											0.10209,
+										},
+										name = "ProgressIconGlobalAbility01",
+										size =  
+										{
+											0.03500,
+											0.00600,
+										},
+									},
+									 
+									{
+										visible = false,
+										type = "ProgressBar",
+										Progress =  
+										{
+											type = "ArtLabel",
+											name = "prgLbl_ProgressIconGlobalAbility02",
+											position =  
+											{
+												0,
+												0,
+											},
+											HitArea =  
+											{
+											},
+											Presentation =  
+											{
+												Art =  
+												{
+													 
+													{
+														type = "Graphic",
+														ID = 224814,
+														colour =  
+														{
+															255,
+															183,
+															19,
+															255,
+														},
+														texture = "art/ui/textures/art_gradient_ability.tga",
+														states =  
+														{
+															"Normal",
+															"Active",
+															"Hover",
+															"Disabled",
+														},
+													},
+													 
+													{
+														type = "Rectangle",
+														ID = 224815,
+														rectangleType = "Border",
+														states =  
+														{
+															"Normal",
+															"Active",
+															"Hover",
+															"Disabled",
+														},
+													},
+												},
+											},
+											size =  
+											{
+												0.03500,
+												0.00600,
+											},
+										},
+										HitArea =  
+										{
+										},
+										style =  
+										{
+											"UIStyles",
+											"cmd_AbilityProgress",
+										},
+										position =  
+										{
+											0.04888,
+											0.10209,
+										},
+										name = "ProgressIconGlobalAbility02",
+										size =  
+										{
+											0.03500,
+											0.00600,
+										},
+									},
+									 
+									{
+										visible = false,
+										type = "ProgressBar",
+										Progress =  
+										{
+											type = "ArtLabel",
+											name = "prgLbl_ProgressIconGlobalAbility03",
+											position =  
+											{
+												0,
+												0,
+											},
+											HitArea =  
+											{
+											},
+											Presentation =  
+											{
+												Art =  
+												{
+													 
+													{
+														type = "Graphic",
+														ID = 224814,
+														colour =  
+														{
+															255,
+															183,
+															19,
+															255,
+														},
+														texture = "art/ui/textures/art_gradient_ability.tga",
+														states =  
+														{
+															"Normal",
+															"Active",
+															"Hover",
+															"Disabled",
+														},
+													},
+													 
+													{
+														type = "Rectangle",
+														ID = 224815,
+														rectangleType = "Border",
+														states =  
+														{
+															"Normal",
+															"Active",
+															"Hover",
+															"Disabled",
+														},
+													},
+												},
+											},
+											size =  
+											{
+												0.03500,
+												0.00600,
+											},
+										},
+										HitArea =  
+										{
+										},
+										style =  
+										{
+											"UIStyles",
+											"cmd_AbilityProgress",
+										},
+										position =  
+										{
+											0.09391,--0.04888,
+											0.10209,
+										},
+										name = "ProgressIconGlobalAbility03",
+										size =  
+										{
+											0.03500,
+											0.00600,
+										},
+									},
+
+									{
+										visible = false,
+										type = "ProgressBar",
+										Progress =  
+										{
+											type = "ArtLabel",
+											name = "prgLbl_ProgressIconGlobalAbility04",
+											position =  
+											{
+												0,
+												0,
+											},
+											HitArea =  
+											{
+											},
+											Presentation =  
+											{
+												Art =  
+												{
+													 
+													{
+														type = "Graphic",
+														ID = 224814,
+														colour =  
+														{
+															255,
+															183,
+															19,
+															255,
+														},
+														texture = "art/ui/textures/art_gradient_ability.tga",
+														states =  
+														{
+															"Normal",
+															"Active",
+															"Hover",
+															"Disabled",
+														},
+													},
+													 
+													{
+														type = "Rectangle",
+														ID = 224815,
+														rectangleType = "Border",
+														states =  
+														{
+															"Normal",
+															"Active",
+															"Hover",
+															"Disabled",
+														},
+													},
+												},
+											},
+											size =  
+											{
+												0.03500,
+												0.00600,
+											},
+										},
+										HitArea =  
+										{
+										},
+										style =  
+										{
+											"UIStyles",
+											"cmd_AbilityProgress",
+										},
+										position =  
+										{
+											0.13982,
+											0.10209,
+										},
+										name = "ProgressIconGlobalAbility04",
+										size =  
+										{
+											0.03500,
+											0.00600,
+										},
+									},
+
+									{
+										visible = false,
+										type = "ProgressBar",
+										Progress =  
+										{
+											type = "ArtLabel",
+											name = "prgLbl_ProgressIconGlobalAbility05",
+											position =  
+											{
+												0,
+												0,
+											},
+											HitArea =  
+											{
+											},
+											Presentation =  
+											{
+												Art =  
+												{
+													 
+													{
+														type = "Graphic",
+														ID = 224501,
+														colour =  
+														{
+															255,
+															183,
+															19,
+															255,
+														},
+														texture = "art/ui/textures/art_gradient_ability.tga",
+														states =  
+														{
+															"Normal",
+															"Active",
+															"Hover",
+															"Disabled",
+														},
+													},
+													 
+													{
+														type = "Rectangle",
+														ID = 224502,
+														rectangleType = "Border",
+														states =  
+														{
+															"Normal",
+															"Active",
+															"Hover",
+															"Disabled",
+														},
+													},
+												},
+											},
+											size =  
+											{
+												0.03500,
+												0.00600,
+											},
+										},
+										HitArea =  
+										{
+										},
+										style =  
+										{
+											"UIStyles",
+											"cmd_AbilityProgress",
+										},
+										position =  
+										{
+											0.00398,--0.18573,
+											0.15992,
+										},
+										name = "ProgressIconGlobalAbility05",
+										size =  
+										{
+											0.03500,
+											0.00600,
+										},
+									},									 
+								},
+								style =  
+								{
+									"DefaultStyles",
+									"defStyleGroup",
+								},
+								Presentation =  
+								{
+								},
+								size =  
+								{
+									0.17983,
+									0.18000,
+								},
+							},
+
 							{
 								type = "Group",
 								HitArea =  
@@ -23568,7 +24658,7 @@ Screen =
 						position =  
 						{
 							0.725,
-							0.60,
+							0.725,
 						},
 						Children =  
 						{
@@ -23583,7 +24673,7 @@ Screen =
 										type = "Rectangle",
 										size =  
 										{
-											1,
+											3.75,
 											1,
 										},
 										position =  
@@ -23649,7 +24739,7 @@ Screen =
 										},
 										size =  
 										{
-											0.04213,
+											0.1579875, --0.04213,
 											0.07339,
 										},
 									},
@@ -23704,7 +24794,7 @@ Screen =
 										},
 										size =  
 										{
-											0.04213,
+											0.1579875, --0.04213,
 											0.07839,
 										},
 									},
@@ -23721,7 +24811,7 @@ Screen =
 												type = "Rectangle",
 												size =  
 												{
-													1,
+													3.75, --1,
 													1,
 												},
 												position =  
@@ -23775,7 +24865,7 @@ Screen =
 										},
 										size =  
 										{
-											0.04213,
+											0.1579875, --0.04213,
 											0.07339,
 										},
 									},
@@ -23859,8 +24949,8 @@ Screen =
 											},
 											size =  
 											{
-												0.03800,
-												0.00600,
+												0.0,
+												0.0,
 											},
 										},
 										HitArea =  
@@ -23883,8 +24973,8 @@ Screen =
 										name = "healthHero_1",
 										size =  
 										{
-											0.03800,
-											0.00600,
+											0.0,
+											0.0,
 										},
 									},
 									 
@@ -23967,8 +25057,8 @@ Screen =
 											},
 											size =  
 											{
-												0.03800,
-												0.00600,
+												0.0,
+												0.0,
 											},
 										},
 										HitArea =  
@@ -23991,8 +25081,8 @@ Screen =
 										name = "moraleHero_1",
 										size =  
 										{
-											0.03800,
-											0.00600,
+											0.0,
+											0.0,
 										},
 									},
 									 
@@ -24064,7 +25154,7 @@ Screen =
 										},
 										size =  
 										{
-											0.03819,
+											0.1432125, --0.03819,
 											0.05118,
 										},
 									},
@@ -24075,7 +25165,7 @@ Screen =
 								},
 								size =  
 								{
-									0.04440,
+									0.1665,--0.04440,
 									0.07590,
 								},
 							},
