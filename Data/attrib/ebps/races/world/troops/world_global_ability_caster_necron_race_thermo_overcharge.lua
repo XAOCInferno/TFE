@@ -1,8 +1,5 @@
 GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
-GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\global_necron_production_overload.lua]]
-GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\global_necron_summon_obelisk.lua]]
-GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\global_necron_scarab_swarm.lua]]
 GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\necron_thermo_overcharge.lua]]
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
@@ -29,5 +26,5 @@ GameData["ui_ext"]["minimap_enable"] = false
 GameData["ui_ext"]["minimap_teamcolor"] = true 
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_01"] = [[$4100095]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$4100094]]
-GameData["ui_ext"]["ui_info"]["icon_name"] = [[command_icons/global_ability_empty_icon]]
+GameData["ui_ext"]["ui_info"]["icon_name"] = [[necron_icons/necron_power_overload]]
 GameData["ui_ext"]["use_hero_ui"] = true 

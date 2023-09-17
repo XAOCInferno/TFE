@@ -22,12 +22,14 @@ end
 
 SquadData = {}
 function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _player)
-
+	local tmpSGroupID = GetUniqueSG("SquadData")
+	local tmpSGroupName = SGroup_GetName(tmpSGroupID)
+	SGroup_Add(tmpSGroupID, _sID)
     local SquadDataObject = 
     {
 		SquadUniqueID = _sGameID,	
-		SquadGroupID =_sGroupID,
-		SquadGroupName = SGroup_GetName(_sGroupID),	
+		SquadGroupID = tmpSGroupID,
+		SquadGroupName = tmpSGroupName,	
 		SquadIndex = _sIndex, 
 		SquadID = _sID,	
 		SquadUnitRace = _sRace,

@@ -52,6 +52,8 @@ function GlobalAbility:new ( _LinkedSquadBP, _CasterPlayer, _AbilityName, _Activ
 		HasBeenSelected = false,
 		SelectedWorldtime = 0
     }
+
+	SGroup_Add(GlobalAbilityObject.LinkedSquadGroup, GlobalAbilityObject.LinkedSquad)
 	self.__index = self
    	return setmetatable(GlobalAbilityObject, self)
 end
@@ -514,6 +516,10 @@ function Setup_ActualGlobalAbilies()
 			table.insert(g_GlobalAbilityMods, mod_NecronProductionOverload__modifier_02)
 			mod_NecronProductionOverload__modifier_03 = Modifier_Create(MAT_Player, "income_power_player_modifier", MUT_Multiplication, 1, 0.5, "")
 			table.insert(g_GlobalAbilityMods, mod_NecronProductionOverload__modifier_03)
+
+			
+			mod_NecronEternalMarch__modifier_01 = Modifier_Create(MAT_Squad, "health_get_back_up_modifier", MUT_Multiplication, 1, 1000, "")
+			table.insert(g_GlobalAbilityMods, mod_NecronEternalMarch__modifier_01)
 --return local here!!
 			AbilityStruct_Necron1 = CreateGlobalAbility(
 				squadBP.."_production_overload",
@@ -546,9 +552,9 @@ function Setup_ActualGlobalAbilies()
 			)	
 			
 			local AbilityStruct_Necron4 = CreateGlobalAbility(
-				squadBP,
+				squadBP.."_thermo_overcharge",
 				g_AllPlayers[i], 
-				"", 
+				"GlobalAbility_Necron_ThermoOvercharge", 
 				"",
 				"TIMED",
 				"NONE",
@@ -556,7 +562,7 @@ function Setup_ActualGlobalAbilies()
 			)	
 			
 			local AbilityStruct_Necron5 = CreateGlobalAbility(
-				squadBP,
+				squadBP.."_eternal_march",
 				g_AllPlayers[i], 
 				"", 
 				"",
@@ -564,6 +570,8 @@ function Setup_ActualGlobalAbilies()
 				"NONE",
 				table.getn(g_AllTrackedAbilities)
 			)
+
+			AbilityStruct_Necron5.Duration = 40
 
 			AbilityStruct_Necron1.ApplyMonolithFX = function(_self, _EntityPos)
 				print(EntityData)
@@ -700,7 +708,7 @@ function Setup_ActualGlobalAbilies()
 				end
 			end
 
-
+			
 			AbilityStruct_Necron3.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 				
 				_pos = _self.LastCastedEntityPosition
@@ -714,6 +722,76 @@ function Setup_ActualGlobalAbilies()
 				else
 					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				end
+			end
+
+			AbilityStruct_Necron4.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+				
+
+				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+
+				if(costSuccess) then
+
+					Cmd_CastAbilitySelf(_self.LinkedSquadGroupName, "necron_thermo_overcharge")	
+
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
+
+			AbilityStruct_Necron5.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+				
+
+				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+
+				if(costSuccess) then
+
+					_self.ActivatedTime = g_WorldTime
+					_self:ActivateTimedAbility()
+
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end	
+			
+			AbilityStruct_Necron5.TimedAbilityUpdate = function(_self)
+
+				local CasterPlayerIndex = _self.CasterPlayer.PlayerIndex + 1
+				for i = 1, g_PlayerSquadCount[CasterPlayerIndex] do
+
+					if(Squad_Exists(g_AllSquadsData[CasterPlayerIndex][i].SquadUniqueID) == true ) then
+
+						if(ModifierUtil_GetSquadApplierIndex(mod_NecronEternalMarch__modifier_01, g_AllSquadsData[CasterPlayerIndex][i].SquadID) == 0) then
+							print("ETERNAL MARCH APPLYING TO: "..g_AllSquadsData[CasterPlayerIndex][i].SquadGroupName)
+							local modID_01 = ModifierUtil_ApplyToSGroup(g_AllSquadsData[CasterPlayerIndex][i].SquadGroupID, mod_NecronEternalMarch__modifier_01, true)
+							table.insert(_self.AppliedModifierIDs, modID_01)
+
+						end
+					end
+
+				end
+			end
+
+			AbilityStruct_Necron5.TimedAbilityEnd = function( _self )
+
+				_self.IsActive = false
+
+				local CasterPlayerIndex = _self.CasterPlayer.PlayerIndex + 1
+				for i = 1, g_PlayerSquadCount[CasterPlayerIndex] do
+
+					if(Squad_Exists(g_AllSquadsData[CasterPlayerIndex][i].SquadUniqueID) == true ) then
+
+						if(ModifierUtil_GetSquadApplierIndex(mod_NecronEternalMarch__modifier_01, g_AllSquadsData[CasterPlayerIndex][i].SquadID) ~= 0) then
+							print("ETERNAL MARCH REMOVING ON: "..g_AllSquadsData[CasterPlayerIndex][i].SquadGroupName)
+							ModifierUtil_ApplyToSGroup(g_AllSquadsData[CasterPlayerIndex][i].SquadGroupID, mod_NecronEternalMarch__modifier_01, false)
+
+						end
+					end
+
+				end
+
+				_self.AppliedModifierIDs= {}
+				
+				print("End ability done")
 			end
 			--[[T0 Production Overload]]
 			--[[T1 Summon crystal]] 

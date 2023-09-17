@@ -1,0 +1,14 @@
+GameData = Inherit([[]])
+GameData["squad_blueprint_ext"] = Reference([[sbpextensions\squad_blueprint_ext.lua]])
+GameData["squad_cap_ext"] = Reference([[sbpextensions\squad_cap_ext.lua]])
+GameData["squad_cap_ext"]["support_cap_usage"] = 0
+GameData["squad_cover_ext"] = Reference([[sbpextensions\squad_cover_ext.lua]])
+GameData["squad_formation_ext"] = Reference([[sbpextensions\squad_formation_ext.lua]])
+GameData["squad_formation_ext"]["idle_formation"] = [[formations\block.lua]]
+GameData["squad_loadout_ext"] = Reference([[sbpextensions\squad_loadout_ext.lua]])
+GameData["squad_loadout_ext"]["trooper_base"]["type"] = [[ebps\races\world\troops\world_global_ability_caster_necron_race_eternal_march.lua]]
+GameData["squad_loadout_ext"]["unit_max"] = 1
+GameData["squad_loadout_ext"]["unit_min"] = 1
+GameData["squad_modifier_ext"] = Reference([[sbpextensions\squad_modifier_ext.lua]])
+GameData["squad_requirement_ext"] = Reference([[sbpextensions\squad_requirement_ext.lua]])
+GameData["squad_transportable_ext"] = Reference([[sbpextensions\squad_transportable_ext.lua]])
