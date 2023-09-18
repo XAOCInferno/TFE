@@ -8008,116 +8008,7 @@ Screen =
 											0.04339,
 											0.05451,
 										},
-									},
-									
-									{
-										visible = false,
-										type = "Button",
-										buttonType = "ClickOnPress",
-										text = "$9031",
-										wantAlternate = true,
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													1,
-													1,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										style =  
-										{
-											"UIStyles",
-											"cmd_Temp",
-										},
-										position =  
-										{
-											0.03,
-											0.03,
-										},
-										name = "CommandIcon13",
-										Presentation =  
-										{
-											Art =  
-											{
-												 
-												{
-													type = "Graphic",
-													ID = 350,
-													texture = "art/ui/textures/default.tga",
-													states =  
-													{
-														"Disabled",
-													},
-												},
-												 
-												{
-													type = "Graphic",
-													ID = 351,
-													texture = "art/ui/textures/taskbar/taskbar_share/cmd_temp.tga",
-													states =  
-													{
-														"Normal",
-														"Active",
-														"Hover",
-													},
-												},
-												 
-												{
-													type = "Rectangle",
-													ID = 352,
-													rectangleType = "Border",
-													states =  
-													{
-														"Active",
-													},
-												},
-												 
-												{
-													type = "Rectangle",
-													ID = 353,
-													colour =  
-													{
-														255,
-														255,
-														255,
-														255,
-													},
-													rectangleType = "Border",
-													states =  
-													{
-														"Hover",
-													},
-												},
-											},
-											Sound =  
-											{
-												 
-												{
-													sample = "taskbar_button_click",
-													event = "OnClick",
-												},
-												 
-												{
-													sample = "taskbar_button_click",
-													event = "OnClickAlternate",
-												},
-											},
-										},
-										size =  
-										{
-											0.04339,
-											0.05451,
-										},
-									},
+									},							
 									 
 									{
 										visible = false,
@@ -24866,6 +24757,39 @@ Screen =
 									0.07590,
 								},
 							},
+							
+						},
+						
+						style =  
+						{
+							"DefaultStyles",
+							"defStyleGroup",
+						},
+						Presentation =  
+						{
+						},
+						size =  
+						{
+							0.3252, --0.13008,
+							0.18290,
+						},
+					},
+
+
+
+					{
+						type = "Group",
+						HitArea =  
+						{
+						},
+						name = "grpHero2",
+						position =  
+						{
+							0.242,
+							0.0015, --0.16933,
+						},
+						Children =  
+						{
 							 
 							{
 								visible = false,
@@ -24894,7 +24818,7 @@ Screen =
 								},
 								position =  
 								{
-									0.05941,
+									0.00750,
 									0.00312,
 								},
 								Children =  
@@ -25002,7 +24926,7 @@ Screen =
 											0.07839,
 										},
 									},
-
+									 
 									{
 										type = "Button",
 										buttonType = "ClickOnPress",
@@ -25119,7 +25043,7 @@ Screen =
 													 
 													{
 														type = "Graphic",
-														ID = 226389,
+														ID = 226238,
 														colour =  
 														{
 															89,
@@ -25139,7 +25063,7 @@ Screen =
 													 
 													{
 														type = "Rectangle",
-														ID = 226390,
+														ID = 226239,
 														rectangleType = "Border",
 														states =  
 														{
@@ -25227,7 +25151,7 @@ Screen =
 													 
 													{
 														type = "Graphic",
-														ID = 226359,
+														ID = 226264,
 														colour =  
 														{
 															23,
@@ -25247,7 +25171,7 @@ Screen =
 													 
 													{
 														type = "Rectangle",
-														ID = 226360,
+														ID = 226265,
 														rectangleType = "Border",
 														states =  
 														{
@@ -25401,7 +25325,7 @@ Screen =
 								},
 								position =  
 								{
-									0.11132,
+									0.05941,
 									0.00312,
 								},
 								Children =  
@@ -25454,7 +25378,7 @@ Screen =
 											0.07339,
 										},
 									},
-									
+
 									{
 										type = "ArtLabel",
 										style =  
@@ -25626,7 +25550,7 @@ Screen =
 													 
 													{
 														type = "Graphic",
-														ID = 226296,
+														ID = 226389,
 														colour =  
 														{
 															89,
@@ -25646,7 +25570,7 @@ Screen =
 													 
 													{
 														type = "Rectangle",
-														ID = 226297,
+														ID = 226390,
 														rectangleType = "Border",
 														states =  
 														{
@@ -25734,7 +25658,7 @@ Screen =
 													 
 													{
 														type = "Graphic",
-														ID = 226322,
+														ID = 226359,
 														colour =  
 														{
 															23,
@@ -25754,7 +25678,7 @@ Screen =
 													 
 													{
 														type = "Rectangle",
-														ID = 226323,
+														ID = 226360,
 														rectangleType = "Border",
 														states =  
 														{
@@ -25908,7 +25832,7 @@ Screen =
 								},
 								position =  
 								{
-									0.16323,
+									0.11132,
 									0.00312,
 								},
 								Children =  
@@ -25961,7 +25885,7 @@ Screen =
 											0.07339,
 										},
 									},
-									 
+									
 									{
 										type = "ArtLabel",
 										style =  
@@ -26133,7 +26057,7 @@ Screen =
 													 
 													{
 														type = "Graphic",
-														ID = 226447,
+														ID = 226296,
 														colour =  
 														{
 															89,
@@ -26153,7 +26077,7 @@ Screen =
 													 
 													{
 														type = "Rectangle",
-														ID = 226448,
+														ID = 226297,
 														rectangleType = "Border",
 														states =  
 														{
@@ -26241,7 +26165,7 @@ Screen =
 													 
 													{
 														type = "Graphic",
-														ID = 226421,
+														ID = 226322,
 														colour =  
 														{
 															23,
@@ -26261,7 +26185,7 @@ Screen =
 													 
 													{
 														type = "Rectangle",
-														ID = 226422,
+														ID = 226323,
 														rectangleType = "Border",
 														states =  
 														{
@@ -26387,6 +26311,7 @@ Screen =
 									0.07590,
 								},
 							},
+							 
 							{
 								visible = false,
 								type = "Group",
@@ -26414,7 +26339,7 @@ Screen =
 								},
 								position =  
 								{
-									0.21514,
+									0.16323,
 									0.00312,
 								},
 								Children =  
@@ -26893,39 +26818,6 @@ Screen =
 									0.07590,
 								},
 							},
-						},
-						
-						style =  
-						{
-							"DefaultStyles",
-							"defStyleGroup",
-						},
-						Presentation =  
-						{
-						},
-						size =  
-						{
-							0.3252, --0.13008,
-							0.18290,
-						},
-					},
-
-
-
-					{
-						type = "Group",
-						HitArea =  
-						{
-						},
-						name = "grpHero2",
-						position =  
-						{
-							0.242,
-							0.0015, --0.16933,
-						},
-						Children =  
-						{
-							 
 							{
 								visible = false,
 								type = "Group",
@@ -26953,7 +26845,7 @@ Screen =
 								},
 								position =  
 								{
-									0.00750,
+									0.21514,
 									0.00312,
 								},
 								Children =  
@@ -27006,7 +26898,7 @@ Screen =
 											0.07339,
 										},
 									},
-
+									 
 									{
 										type = "ArtLabel",
 										style =  
@@ -27061,7 +26953,7 @@ Screen =
 											0.07839,
 										},
 									},
-									 
+
 									{
 										type = "Button",
 										buttonType = "ClickOnPress",
@@ -27178,7 +27070,7 @@ Screen =
 													 
 													{
 														type = "Graphic",
-														ID = 226238,
+														ID = 226447,
 														colour =  
 														{
 															89,
@@ -27198,7 +27090,7 @@ Screen =
 													 
 													{
 														type = "Rectangle",
-														ID = 226239,
+														ID = 226448,
 														rectangleType = "Border",
 														states =  
 														{
@@ -27286,7 +27178,7 @@ Screen =
 													 
 													{
 														type = "Graphic",
-														ID = 226264,
+														ID = 226421,
 														colour =  
 														{
 															23,
@@ -27306,7 +27198,7 @@ Screen =
 													 
 													{
 														type = "Rectangle",
-														ID = 226265,
+														ID = 226422,
 														rectangleType = "Border",
 														states =  
 														{
@@ -27423,2033 +27315,6 @@ Screen =
 									},
 								},
 								name = "Hero_6",
-								Presentation =  
-								{
-								},
-								size =  
-								{
-									0.04440,
-									0.07590,
-								},
-							},
-							 
-							{
-								visible = false,
-								type = "Group",
-								HitArea =  
-								{
-									 
-									{
-										type = "Rectangle",
-										size =  
-										{
-											1,
-											1,
-										},
-										position =  
-										{
-											0,
-											0,
-										},
-									},
-								},
-								style =  
-								{
-									"DefaultStyles",
-									"defStyleGroup",
-								},
-								position =  
-								{
-									0.05941,
-									0.00312,
-								},
-								Children =  
-								{
-									 
-									{
-										type = "ArtLabel",
-										style =  
-										{
-											"DefaultStyles",
-											"defStyleLabel",
-										},
-										position =  
-										{
-											0.00040,
-											0,
-										},
-										HitArea =  
-										{
-										},
-										name = "selHero_7",
-										Presentation =  
-										{
-											Art =  
-											{
-												 
-												{
-													type = "Rectangle",
-													ID = 190465,
-													colour =  
-													{
-														255,
-														250,
-														227,
-														128,
-													},
-													states =  
-													{
-														"Normal",
-														"Active",
-														"Hover",
-														"Disabled",
-													},
-												},
-											},
-										},
-										size =  
-										{
-											0.04213,
-											0.07339,
-										},
-									},
-
-									{
-										type = "ArtLabel",
-										style =  
-										{
-											"DefaultStyles",
-											"defStyleLabel",
-										},
-										position =  
-										{
-											0.00040,
-											-0.00175,
-										},
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													0,
-													0,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										name = "borderHero_7",
-										Presentation =  
-										{
-											Art =  
-											{
-												{
-													type = "Graphic",
-													ID = 623,
-													texture = "art/ui/textures/taskbar/taskbar_share/border_hero_generic.tga",
-													states =  
-													{
-														"Normal",
-														"Disabled",
-														"Active",
-														"Hover",
-													},
-												},
-											},
-										},
-										size =  
-										{
-											0.04213,
-											0.07839,
-										},
-									},
-
-									{
-										type = "Button",
-										buttonType = "ClickOnPress",
-										text = "",
-										wantAlternate = true,
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													1,
-													1,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										style =  
-										{
-											"DefaultStyles",
-											"defStyleButton",
-										},
-										position =  
-										{
-											0.00040,
-											0,
-										},
-										name = "btnHero_7",
-										Presentation =  
-										{
-											Art =  
-											{
-												 
-												{
-													type = "Rectangle",
-													ID = 191221,
-													colour =  
-													{
-														255,
-														255,
-														255,
-														255,
-													},
-													rectangleType = "Border",
-													states =  
-													{
-														"Hover",
-													},
-												},
-											},
-											Sound =  
-											{
-												 
-												{
-													sample = "taskbar_small_button_click",
-													event = "OnClick",
-												},
-											},
-										},
-										size =  
-										{
-											0.04213,
-											0.07339,
-										},
-									},
-									 
-									{
-										type = "ProgressBar",
-										style =  
-										{
-											"UIStyles",
-											"progressBar_Health",
-										},
-										position =  
-										{
-											0.00248,
-											0.05693,
-										},
-										Progress =  
-										{
-											type = "ArtLabel",
-											name = "prgLbl_healthHero_7",
-											position =  
-											{
-												0,
-												0,
-											},
-											HitArea =  
-											{
-												 
-												{
-													type = "Rectangle",
-													size =  
-													{
-														0,
-														0,
-													},
-													position =  
-													{
-														0,
-														0,
-													},
-												},
-											},
-											Presentation =  
-											{
-												Art =  
-												{
-													 
-													{
-														type = "Graphic",
-														ID = 226389,
-														colour =  
-														{
-															89,
-															255,
-															12,
-															255,
-														},
-														texture = "art/ui/textures/art_gradient_ability.tga",
-														states =  
-														{
-															"Normal",
-															"Active",
-															"Hover",
-															"Disabled",
-														},
-													},
-													 
-													{
-														type = "Rectangle",
-														ID = 226390,
-														rectangleType = "Border",
-														states =  
-														{
-															"Normal",
-															"Active",
-															"Hover",
-															"Disabled",
-														},
-													},
-												},
-											},
-											size =  
-											{
-												0.03800,
-												0.00600,
-											},
-										},
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													0,
-													0,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										name = "healthHero_7",
-										size =  
-										{
-											0.03800,
-											0.00600,
-										},
-									},
-									 
-									{
-										type = "ProgressBar",
-										style =  
-										{
-											"UIStyles",
-											"progressBar_Moral",
-										},
-										position =  
-										{
-											0.00248,
-											0.06531,
-										},
-										Progress =  
-										{
-											type = "ArtLabel",
-											name = "prgLbl_moraleHero_7",
-											position =  
-											{
-												0,
-												0,
-											},
-											HitArea =  
-											{
-												 
-												{
-													type = "Rectangle",
-													size =  
-													{
-														0,
-														0,
-													},
-													position =  
-													{
-														0,
-														0,
-													},
-												},
-											},
-											Presentation =  
-											{
-												Art =  
-												{
-													 
-													{
-														type = "Graphic",
-														ID = 226359,
-														colour =  
-														{
-															23,
-															197,
-															255,
-															255,
-														},
-														texture = "art/ui/textures/art_gradient_ability.tga",
-														states =  
-														{
-															"Normal",
-															"Active",
-															"Hover",
-															"Disabled",
-														},
-													},
-													 
-													{
-														type = "Rectangle",
-														ID = 226360,
-														rectangleType = "Border",
-														states =  
-														{
-															"Normal",
-															"Active",
-															"Hover",
-															"Disabled",
-														},
-													},
-												},
-											},
-											size =  
-											{
-												0.03800,
-												0.00600,
-											},
-										},
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													0,
-													0,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										name = "moraleHero_7",
-										size =  
-										{
-											0.03800,
-											0.00600,
-										},
-									},
-									 
-									{
-										type = "ArtLabel",
-										style =  
-										{
-											"DefaultStyles",
-											"defStyleLabel",
-										},
-										position =  
-										{
-											0.00238,
-											0.00347,
-										},
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													0,
-													0,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										name = "iconHero_7",
-										Presentation =  
-										{
-											Art =  
-											{
-												 
-												{
-													type = "Graphic",
-													ID = 623,
-													texture = "art/ui/textures/taskbar/taskbar_share/troop_placeholder.tga",
-													states =  
-													{
-														"Normal",
-														"Disabled",
-														"Active",
-														"Hover",
-													},
-												},
-												 
-												{
-													type = "Rectangle",
-													ID = 182609,
-													colour =  
-													{
-														255,
-														255,
-														255,
-														255,
-													},
-													rectangleType = "Border",
-													states =  
-													{
-														"Hover",
-													},
-												},
-											},
-										},
-										size =  
-										{
-											0.03819,
-											0.05118,
-										},
-									},
-								},
-								name = "Hero_7",
-								Presentation =  
-								{
-								},
-								size =  
-								{
-									0.04440,
-									0.07590,
-								},
-							},
-							 
-							{
-								visible = false,
-								type = "Group",
-								HitArea =  
-								{
-									 
-									{
-										type = "Rectangle",
-										size =  
-										{
-											1,
-											1,
-										},
-										position =  
-										{
-											0,
-											0,
-										},
-									},
-								},
-								style =  
-								{
-									"DefaultStyles",
-									"defStyleGroup",
-								},
-								position =  
-								{
-									0.11132,
-									0.00312,
-								},
-								Children =  
-								{
-									 
-									{
-										type = "ArtLabel",
-										style =  
-										{
-											"DefaultStyles",
-											"defStyleLabel",
-										},
-										position =  
-										{
-											0.00040,
-											0,
-										},
-										HitArea =  
-										{
-										},
-										name = "selHero_8",
-										Presentation =  
-										{
-											Art =  
-											{
-												 
-												{
-													type = "Rectangle",
-													ID = 190465,
-													colour =  
-													{
-														255,
-														250,
-														227,
-														128,
-													},
-													states =  
-													{
-														"Normal",
-														"Active",
-														"Hover",
-														"Disabled",
-													},
-												},
-											},
-										},
-										size =  
-										{
-											0.04213,
-											0.07339,
-										},
-									},
-									
-									{
-										type = "ArtLabel",
-										style =  
-										{
-											"DefaultStyles",
-											"defStyleLabel",
-										},
-										position =  
-										{
-											0.00040,
-											-0.00175,
-										},
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													0,
-													0,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										name = "borderHero_8",
-										Presentation =  
-										{
-											Art =  
-											{
-												{
-													type = "Graphic",
-													ID = 623,
-													texture = "art/ui/textures/taskbar/taskbar_share/border_hero_generic.tga",
-													states =  
-													{
-														"Normal",
-														"Disabled",
-														"Active",
-														"Hover",
-													},
-												},
-											},
-										},
-										size =  
-										{
-											0.04213,
-											0.07839,
-										},
-									},
-
-									{
-										type = "Button",
-										buttonType = "ClickOnPress",
-										text = "",
-										wantAlternate = true,
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													1,
-													1,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										style =  
-										{
-											"DefaultStyles",
-											"defStyleButton",
-										},
-										position =  
-										{
-											0.00040,
-											0,
-										},
-										name = "btnHero_8",
-										Presentation =  
-										{
-											Art =  
-											{
-												 
-												{
-													type = "Rectangle",
-													ID = 191221,
-													colour =  
-													{
-														255,
-														255,
-														255,
-														255,
-													},
-													rectangleType = "Border",
-													states =  
-													{
-														"Hover",
-													},
-												},
-											},
-											Sound =  
-											{
-												 
-												{
-													sample = "taskbar_small_button_click",
-													event = "OnClick",
-												},
-											},
-										},
-										size =  
-										{
-											0.04213,
-											0.07339,
-										},
-									},
-									 
-									{
-										type = "ProgressBar",
-										style =  
-										{
-											"UIStyles",
-											"progressBar_Health",
-										},
-										position =  
-										{
-											0.00248,
-											0.05693,
-										},
-										Progress =  
-										{
-											type = "ArtLabel",
-											name = "prgLbl_healthHero_8",
-											position =  
-											{
-												0,
-												0,
-											},
-											HitArea =  
-											{
-												 
-												{
-													type = "Rectangle",
-													size =  
-													{
-														0,
-														0,
-													},
-													position =  
-													{
-														0,
-														0,
-													},
-												},
-											},
-											Presentation =  
-											{
-												Art =  
-												{
-													 
-													{
-														type = "Graphic",
-														ID = 226296,
-														colour =  
-														{
-															89,
-															255,
-															12,
-															255,
-														},
-														texture = "art/ui/textures/art_gradient_ability.tga",
-														states =  
-														{
-															"Normal",
-															"Active",
-															"Hover",
-															"Disabled",
-														},
-													},
-													 
-													{
-														type = "Rectangle",
-														ID = 226297,
-														rectangleType = "Border",
-														states =  
-														{
-															"Normal",
-															"Active",
-															"Hover",
-															"Disabled",
-														},
-													},
-												},
-											},
-											size =  
-											{
-												0.03800,
-												0.00600,
-											},
-										},
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													0,
-													0,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										name = "healthHero_8",
-										size =  
-										{
-											0.03800,
-											0.00600,
-										},
-									},
-									 
-									{
-										type = "ProgressBar",
-										style =  
-										{
-											"UIStyles",
-											"progressBar_Moral",
-										},
-										position =  
-										{
-											0.00248,
-											0.06531,
-										},
-										Progress =  
-										{
-											type = "ArtLabel",
-											name = "prgLbl_moraleHero_8",
-											position =  
-											{
-												0,
-												0,
-											},
-											HitArea =  
-											{
-												 
-												{
-													type = "Rectangle",
-													size =  
-													{
-														0,
-														0,
-													},
-													position =  
-													{
-														0,
-														0,
-													},
-												},
-											},
-											Presentation =  
-											{
-												Art =  
-												{
-													 
-													{
-														type = "Graphic",
-														ID = 226322,
-														colour =  
-														{
-															23,
-															197,
-															255,
-															255,
-														},
-														texture = "art/ui/textures/art_gradient_ability.tga",
-														states =  
-														{
-															"Normal",
-															"Active",
-															"Hover",
-															"Disabled",
-														},
-													},
-													 
-													{
-														type = "Rectangle",
-														ID = 226323,
-														rectangleType = "Border",
-														states =  
-														{
-															"Normal",
-															"Active",
-															"Hover",
-															"Disabled",
-														},
-													},
-												},
-											},
-											size =  
-											{
-												0.03800,
-												0.00600,
-											},
-										},
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													0,
-													0,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										name = "moraleHero_8",
-										size =  
-										{
-											0.03800,
-											0.00600,
-										},
-									},
-									 
-									{
-										type = "ArtLabel",
-										style =  
-										{
-											"DefaultStyles",
-											"defStyleLabel",
-										},
-										position =  
-										{
-											0.00238,
-											0.00347,
-										},
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													0,
-													0,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										name = "iconHero_8",
-										Presentation =  
-										{
-											Art =  
-											{
-												 
-												{
-													type = "Graphic",
-													ID = 623,
-													texture = "art/ui/textures/taskbar/taskbar_share/troop_placeholder.tga",
-													states =  
-													{
-														"Normal",
-														"Disabled",
-														"Active",
-														"Hover",
-													},
-												},
-												 
-												{
-													type = "Rectangle",
-													ID = 182609,
-													colour =  
-													{
-														255,
-														255,
-														255,
-														255,
-													},
-													rectangleType = "Border",
-													states =  
-													{
-														"Hover",
-													},
-												},
-											},
-										},
-										size =  
-										{
-											0.03819,
-											0.05118,
-										},
-									},
-								},
-								name = "Hero_8",
-								Presentation =  
-								{
-								},
-								size =  
-								{
-									0.04440,
-									0.07590,
-								},
-							},
-							 
-							{
-								visible = false,
-								type = "Group",
-								HitArea =  
-								{
-									 
-									{
-										type = "Rectangle",
-										size =  
-										{
-											1,
-											1,
-										},
-										position =  
-										{
-											0,
-											0,
-										},
-									},
-								},
-								style =  
-								{
-									"DefaultStyles",
-									"defStyleGroup",
-								},
-								position =  
-								{
-									0.16323,
-									0.00312,
-								},
-								Children =  
-								{
-									 
-									{
-										type = "ArtLabel",
-										style =  
-										{
-											"DefaultStyles",
-											"defStyleLabel",
-										},
-										position =  
-										{
-											0.00040,
-											0,
-										},
-										HitArea =  
-										{
-										},
-										name = "selHero_9",
-										Presentation =  
-										{
-											Art =  
-											{
-												 
-												{
-													type = "Rectangle",
-													ID = 190465,
-													colour =  
-													{
-														255,
-														250,
-														227,
-														128,
-													},
-													states =  
-													{
-														"Normal",
-														"Active",
-														"Hover",
-														"Disabled",
-													},
-												},
-											},
-										},
-										size =  
-										{
-											0.04213,
-											0.07339,
-										},
-									},
-									 
-									{
-										type = "ArtLabel",
-										style =  
-										{
-											"DefaultStyles",
-											"defStyleLabel",
-										},
-										position =  
-										{
-											0.00040,
-											-0.00175,
-										},
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													0,
-													0,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										name = "borderHero_9",
-										Presentation =  
-										{
-											Art =  
-											{
-												{
-													type = "Graphic",
-													ID = 623,
-													texture = "art/ui/textures/taskbar/taskbar_share/border_hero_generic.tga",
-													states =  
-													{
-														"Normal",
-														"Disabled",
-														"Active",
-														"Hover",
-													},
-												},
-											},
-										},
-										size =  
-										{
-											0.04213,
-											0.07839,
-										},
-									},
-
-									{
-										type = "Button",
-										buttonType = "ClickOnPress",
-										text = "",
-										wantAlternate = true,
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													1,
-													1,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										style =  
-										{
-											"DefaultStyles",
-											"defStyleButton",
-										},
-										position =  
-										{
-											0.00040,
-											0,
-										},
-										name = "btnHero_9",
-										Presentation =  
-										{
-											Art =  
-											{
-												 
-												{
-													type = "Rectangle",
-													ID = 191221,
-													colour =  
-													{
-														255,
-														255,
-														255,
-														255,
-													},
-													rectangleType = "Border",
-													states =  
-													{
-														"Hover",
-													},
-												},
-											},
-											Sound =  
-											{
-												 
-												{
-													sample = "taskbar_small_button_click",
-													event = "OnClick",
-												},
-											},
-										},
-										size =  
-										{
-											0.04213,
-											0.07339,
-										},
-									},
-									 
-									{
-										type = "ProgressBar",
-										style =  
-										{
-											"UIStyles",
-											"progressBar_Health",
-										},
-										position =  
-										{
-											0.00248,
-											0.05693,
-										},
-										Progress =  
-										{
-											type = "ArtLabel",
-											name = "prgLbl_healthHero_9",
-											position =  
-											{
-												0,
-												0,
-											},
-											HitArea =  
-											{
-												 
-												{
-													type = "Rectangle",
-													size =  
-													{
-														0,
-														0,
-													},
-													position =  
-													{
-														0,
-														0,
-													},
-												},
-											},
-											Presentation =  
-											{
-												Art =  
-												{
-													 
-													{
-														type = "Graphic",
-														ID = 226447,
-														colour =  
-														{
-															89,
-															255,
-															12,
-															255,
-														},
-														texture = "art/ui/textures/art_gradient_ability.tga",
-														states =  
-														{
-															"Normal",
-															"Active",
-															"Hover",
-															"Disabled",
-														},
-													},
-													 
-													{
-														type = "Rectangle",
-														ID = 226448,
-														rectangleType = "Border",
-														states =  
-														{
-															"Normal",
-															"Active",
-															"Hover",
-															"Disabled",
-														},
-													},
-												},
-											},
-											size =  
-											{
-												0.03800,
-												0.00600,
-											},
-										},
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													0,
-													0,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										name = "healthHero_9",
-										size =  
-										{
-											0.03800,
-											0.00600,
-										},
-									},
-									 
-									{
-										type = "ProgressBar",
-										style =  
-										{
-											"UIStyles",
-											"progressBar_Moral",
-										},
-										position =  
-										{
-											0.00248,
-											0.06531,
-										},
-										Progress =  
-										{
-											type = "ArtLabel",
-											name = "prgLbl_moraleHero_9",
-											position =  
-											{
-												0,
-												0,
-											},
-											HitArea =  
-											{
-												 
-												{
-													type = "Rectangle",
-													size =  
-													{
-														0,
-														0,
-													},
-													position =  
-													{
-														0,
-														0,
-													},
-												},
-											},
-											Presentation =  
-											{
-												Art =  
-												{
-													 
-													{
-														type = "Graphic",
-														ID = 226421,
-														colour =  
-														{
-															23,
-															197,
-															255,
-															255,
-														},
-														texture = "art/ui/textures/art_gradient_ability.tga",
-														states =  
-														{
-															"Normal",
-															"Active",
-															"Hover",
-															"Disabled",
-														},
-													},
-													 
-													{
-														type = "Rectangle",
-														ID = 226422,
-														rectangleType = "Border",
-														states =  
-														{
-															"Normal",
-															"Active",
-															"Hover",
-															"Disabled",
-														},
-													},
-												},
-											},
-											size =  
-											{
-												0.03800,
-												0.00600,
-											},
-										},
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													0,
-													0,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										name = "moraleHero_9",
-										size =  
-										{
-											0.03800,
-											0.00600,
-										},
-									},
-									 
-									{
-										type = "ArtLabel",
-										style =  
-										{
-											"DefaultStyles",
-											"defStyleLabel",
-										},
-										position =  
-										{
-											0.00238,
-											0.00347,
-										},
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													0,
-													0,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										name = "iconHero_9",
-										Presentation =  
-										{
-											Art =  
-											{
-												 
-												{
-													type = "Graphic",
-													ID = 623,
-													texture = "art/ui/textures/taskbar/taskbar_share/troop_placeholder.tga",
-													states =  
-													{
-														"Normal",
-														"Disabled",
-														"Active",
-														"Hover",
-													},
-												},
-												 
-												{
-													type = "Rectangle",
-													ID = 182609,
-													colour =  
-													{
-														255,
-														255,
-														255,
-														255,
-													},
-													rectangleType = "Border",
-													states =  
-													{
-														"Hover",
-													},
-												},
-											},
-										},
-										size =  
-										{
-											0.03819,
-											0.05118,
-										},
-									},
-								},
-								name = "Hero_9",
-								Presentation =  
-								{
-								},
-								size =  
-								{
-									0.04440,
-									0.07590,
-								},
-							},
-							{
-								visible = false,
-								type = "Group",
-								HitArea =  
-								{
-									 
-									{
-										type = "Rectangle",
-										size =  
-										{
-											1,
-											1,
-										},
-										position =  
-										{
-											0,
-											0,
-										},
-									},
-								},
-								style =  
-								{
-									"DefaultStyles",
-									"defStyleGroup",
-								},
-								position =  
-								{
-									0.21514,
-									0.00312,
-								},
-								Children =  
-								{
-									 
-									{
-										type = "ArtLabel",
-										style =  
-										{
-											"DefaultStyles",
-											"defStyleLabel",
-										},
-										position =  
-										{
-											0.00040,
-											0,
-										},
-										HitArea =  
-										{
-										},
-										name = "selHero_10",
-										Presentation =  
-										{
-											Art =  
-											{
-												 
-												{
-													type = "Rectangle",
-													ID = 190465,
-													colour =  
-													{
-														255,
-														250,
-														227,
-														128,
-													},
-													states =  
-													{
-														"Normal",
-														"Active",
-														"Hover",
-														"Disabled",
-													},
-												},
-											},
-										},
-										size =  
-										{
-											0.04213,
-											0.07339,
-										},
-									},
-									 
-									{
-										type = "ArtLabel",
-										style =  
-										{
-											"DefaultStyles",
-											"defStyleLabel",
-										},
-										position =  
-										{
-											0.00040,
-											-0.00175,
-										},
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													0,
-													0,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										name = "borderHero_10",
-										Presentation =  
-										{
-											Art =  
-											{
-												{
-													type = "Graphic",
-													ID = 623,
-													texture = "art/ui/textures/taskbar/taskbar_share/border_hero_generic.tga",
-													states =  
-													{
-														"Normal",
-														"Disabled",
-														"Active",
-														"Hover",
-													},
-												},
-											},
-										},
-										size =  
-										{
-											0.04213,
-											0.07839,
-										},
-									},
-
-									{
-										type = "Button",
-										buttonType = "ClickOnPress",
-										text = "",
-										wantAlternate = true,
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													1,
-													1,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										style =  
-										{
-											"DefaultStyles",
-											"defStyleButton",
-										},
-										position =  
-										{
-											0.00040,
-											0,
-										},
-										name = "btnHero_10",
-										Presentation =  
-										{
-											Art =  
-											{
-												 
-												{
-													type = "Rectangle",
-													ID = 191221,
-													colour =  
-													{
-														255,
-														255,
-														255,
-														255,
-													},
-													rectangleType = "Border",
-													states =  
-													{
-														"Hover",
-													},
-												},
-											},
-											Sound =  
-											{
-												 
-												{
-													sample = "taskbar_small_button_click",
-													event = "OnClick",
-												},
-											},
-										},
-										size =  
-										{
-											0.04213,
-											0.07339,
-										},
-									},
-									 
-									{
-										type = "ProgressBar",
-										style =  
-										{
-											"UIStyles",
-											"progressBar_Health",
-										},
-										position =  
-										{
-											0.00248,
-											0.05693,
-										},
-										Progress =  
-										{
-											type = "ArtLabel",
-											name = "prgLbl_healthHero_10",
-											position =  
-											{
-												0,
-												0,
-											},
-											HitArea =  
-											{
-												 
-												{
-													type = "Rectangle",
-													size =  
-													{
-														0,
-														0,
-													},
-													position =  
-													{
-														0,
-														0,
-													},
-												},
-											},
-											Presentation =  
-											{
-												Art =  
-												{
-													 
-													{
-														type = "Graphic",
-														ID = 226447,
-														colour =  
-														{
-															89,
-															255,
-															12,
-															255,
-														},
-														texture = "art/ui/textures/art_gradient_ability.tga",
-														states =  
-														{
-															"Normal",
-															"Active",
-															"Hover",
-															"Disabled",
-														},
-													},
-													 
-													{
-														type = "Rectangle",
-														ID = 226448,
-														rectangleType = "Border",
-														states =  
-														{
-															"Normal",
-															"Active",
-															"Hover",
-															"Disabled",
-														},
-													},
-												},
-											},
-											size =  
-											{
-												0.03800,
-												0.00600,
-											},
-										},
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													0,
-													0,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										name = "healthHero_10",
-										size =  
-										{
-											0.03800,
-											0.00600,
-										},
-									},
-									 
-									{
-										type = "ProgressBar",
-										style =  
-										{
-											"UIStyles",
-											"progressBar_Moral",
-										},
-										position =  
-										{
-											0.00248,
-											0.06531,
-										},
-										Progress =  
-										{
-											type = "ArtLabel",
-											name = "prgLbl_moraleHero_10",
-											position =  
-											{
-												0,
-												0,
-											},
-											HitArea =  
-											{
-												 
-												{
-													type = "Rectangle",
-													size =  
-													{
-														0,
-														0,
-													},
-													position =  
-													{
-														0,
-														0,
-													},
-												},
-											},
-											Presentation =  
-											{
-												Art =  
-												{
-													 
-													{
-														type = "Graphic",
-														ID = 226421,
-														colour =  
-														{
-															23,
-															197,
-															255,
-															255,
-														},
-														texture = "art/ui/textures/art_gradient_ability.tga",
-														states =  
-														{
-															"Normal",
-															"Active",
-															"Hover",
-															"Disabled",
-														},
-													},
-													 
-													{
-														type = "Rectangle",
-														ID = 226422,
-														rectangleType = "Border",
-														states =  
-														{
-															"Normal",
-															"Active",
-															"Hover",
-															"Disabled",
-														},
-													},
-												},
-											},
-											size =  
-											{
-												0.03800,
-												0.00600,
-											},
-										},
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													0,
-													0,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										name = "moraleHero_10",
-										size =  
-										{
-											0.03800,
-											0.00600,
-										},
-									},
-									 
-									{
-										type = "ArtLabel",
-										style =  
-										{
-											"DefaultStyles",
-											"defStyleLabel",
-										},
-										position =  
-										{
-											0.00238,
-											0.00347,
-										},
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													0,
-													0,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										name = "iconHero_10",
-										Presentation =  
-										{
-											Art =  
-											{
-												 
-												{
-													type = "Graphic",
-													ID = 623,
-													texture = "art/ui/textures/taskbar/taskbar_share/troop_placeholder.tga",
-													states =  
-													{
-														"Normal",
-														"Disabled",
-														"Active",
-														"Hover",
-													},
-												},
-												 
-												{
-													type = "Rectangle",
-													ID = 182609,
-													colour =  
-													{
-														255,
-														255,
-														255,
-														255,
-													},
-													rectangleType = "Border",
-													states =  
-													{
-														"Hover",
-													},
-												},
-											},
-										},
-										size =  
-										{
-											0.03819,
-											0.05118,
-										},
-									},
-								},
-								name = "Hero_10",
 								Presentation =  
 								{
 								},
@@ -37908,8 +35773,8 @@ ToolInfo =
 			{
 			},
 			type = "ArtLabel",
-		},
-		 
+		}, 
+		
 		{
 			ArtGuides =  
 			{
@@ -37998,6 +35863,8 @@ ToolInfo =
 			type = "ArtLabel",
 		},
 		 
+
+
 		{
 			ArtGuides =  
 			{
@@ -38085,7 +35952,9 @@ ToolInfo =
 			},
 			type = "ArtLabel",
 		},
-		 
+
+
+
 		{
 			ArtGuides =  
 			{
@@ -38173,7 +36042,8 @@ ToolInfo =
 			},
 			type = "ArtLabel",
 		},
-		
+
+
 		{
 			ArtGuides =  
 			{
@@ -38263,6 +36133,7 @@ ToolInfo =
 		},
 
 
+
 		{
 			ArtGuides =  
 			{
@@ -38345,365 +36216,6 @@ ToolInfo =
 			{
 			},
 			name = "iconHero_6",
-			HitAreaGuides =  
-			{
-			},
-			type = "ArtLabel",
-		},
-		 
-
-
-		{
-			ArtGuides =  
-			{
-			},
-			name = "Hero_7",
-			HitAreaGuides =  
-			{
-			},
-			type = "Group",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "selHero_7",
-			HitAreaGuides =  
-			{
-			},
-			type = "ArtLabel",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "btnHero_7",
-			HitAreaGuides =  
-			{
-			},
-			type = "Button",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "healthHero_7",
-			HitAreaGuides =  
-			{
-			},
-			type = "ProgressBar",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "prgLbl_healthHero_7",
-			HitAreaGuides =  
-			{
-			},
-			type = "Component",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "moraleHero_7",
-			HitAreaGuides =  
-			{
-			},
-			type = "ProgressBar",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "prgLbl_moraleHero_7",
-			HitAreaGuides =  
-			{
-			},
-			type = "Component",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "iconHero_7",
-			HitAreaGuides =  
-			{
-			},
-			type = "ArtLabel",
-		},
-
-
-
-		{
-			ArtGuides =  
-			{
-			},
-			name = "Hero_8",
-			HitAreaGuides =  
-			{
-			},
-			type = "Group",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "selHero_8",
-			HitAreaGuides =  
-			{
-			},
-			type = "ArtLabel",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "btnHero_8",
-			HitAreaGuides =  
-			{
-			},
-			type = "Button",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "healthHero_8",
-			HitAreaGuides =  
-			{
-			},
-			type = "ProgressBar",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "prgLbl_healthHero_8",
-			HitAreaGuides =  
-			{
-			},
-			type = "Component",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "moraleHero_8",
-			HitAreaGuides =  
-			{
-			},
-			type = "ProgressBar",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "prgLbl_moraleHero_8",
-			HitAreaGuides =  
-			{
-			},
-			type = "Component",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "iconHero_8",
-			HitAreaGuides =  
-			{
-			},
-			type = "ArtLabel",
-		},
-
-
-		{
-			ArtGuides =  
-			{
-			},
-			name = "Hero_9",
-			HitAreaGuides =  
-			{
-			},
-			type = "Group",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "selHero_9",
-			HitAreaGuides =  
-			{
-			},
-			type = "ArtLabel",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "btnHero_9",
-			HitAreaGuides =  
-			{
-			},
-			type = "Button",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "healthHero_9",
-			HitAreaGuides =  
-			{
-			},
-			type = "ProgressBar",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "prgLbl_healthHero_9",
-			HitAreaGuides =  
-			{
-			},
-			type = "Component",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "moraleHero_9",
-			HitAreaGuides =  
-			{
-			},
-			type = "ProgressBar",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "prgLbl_moraleHero_9",
-			HitAreaGuides =  
-			{
-			},
-			type = "Component",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "iconHero_9",
-			HitAreaGuides =  
-			{
-			},
-			type = "ArtLabel",
-		},
-
-
-
-		{
-			ArtGuides =  
-			{
-			},
-			name = "Hero_10",
-			HitAreaGuides =  
-			{
-			},
-			type = "Group",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "selHero_10",
-			HitAreaGuides =  
-			{
-			},
-			type = "ArtLabel",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "btnHero_10",
-			HitAreaGuides =  
-			{
-			},
-			type = "Button",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "healthHero_10",
-			HitAreaGuides =  
-			{
-			},
-			type = "ProgressBar",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "prgLbl_healthHero_10",
-			HitAreaGuides =  
-			{
-			},
-			type = "Component",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "moraleHero_10",
-			HitAreaGuides =  
-			{
-			},
-			type = "ProgressBar",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "prgLbl_moraleHero_10",
-			HitAreaGuides =  
-			{
-			},
-			type = "Component",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "iconHero_10",
 			HitAreaGuides =  
 			{
 			},

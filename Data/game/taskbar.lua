@@ -254,7 +254,6 @@ list_commands =
 	"CommandIcon10",
 	"CommandIcon11",
 	"CommandIcon12",
-	"CommandIcon13",
 
 	"CommandIcon01Special", --Stance (Yellow,Blue,Orange,Red,Green)
 	"CommandIcon02Special", --Stance (Melee,Range)
@@ -297,7 +296,7 @@ list_builder_construction =
 commandsmall_buttons = 
 {
 
-	combat_stance	= list_commands[13],--7
+	combat_stance	= list_commands[13], --7
 	melee_stance  	= list_commands[14],--8
 
 	--move 			= list_commands[2], 
@@ -381,10 +380,6 @@ list_abilities =
     soul_ability_6, -- ABILITY14
 
 }
-
---[[list_global_abilities =
-{
-}]]
 
 -- progress positions must be in sync with above list_abilities list
 list_abilities_progress = 
@@ -619,10 +614,6 @@ list_hero_select_groups =
 	"btnHero_4",
 	"btnHero_5",
 	"btnHero_6",
-	"btnHero_7",
-	"btnHero_8",
-	"btnHero_9",
-	"btnHero_10",
 }
 
 ----------------------------------------------------------------------------------------
@@ -937,17 +928,11 @@ minimap =
 hero_ui = 
 {
 	{ bind = "race_image", ui = "borderHero_1", texture = "global_ability_caster_button" },
-	--{ bind = "race_image", ui = "iconHero_1", texture = "empty_icon" },
-	--{ bind = "race_image", ui = "btnHero_1", texture = "empty_icon" },
 	{ bind = "race_image", ui = "borderHero_2", texture = "border_hero" },
 	{ bind = "race_image", ui = "borderHero_3", texture = "border_hero" },
 	{ bind = "race_image", ui = "borderHero_4", texture = "border_hero" },
 	{ bind = "race_image", ui = "borderHero_5", texture = "border_hero" },
 	{ bind = "race_image", ui = "borderHero_6", texture = "border_hero" },
-	{ bind = "race_image", ui = "borderHero_7", texture = "border_hero" },
-	{ bind = "race_image", ui = "borderHero_8", texture = "border_hero" },
-	{ bind = "race_image", ui = "borderHero_9", texture = "border_hero" },
-	{ bind = "race_image", ui = "borderHero_10", texture = "border_hero" },
 
 	{ bind = "list", uilist = list_hero_select_groups,
 		content =
