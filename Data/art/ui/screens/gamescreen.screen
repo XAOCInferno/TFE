@@ -9339,8 +9339,8 @@ Screen =
 										},
 										position =  
 										{
-											0.13428,--0.17911
-											0.05932,
+											0.17911,
+											0.00312,
 										},
 										Presentation =  
 										{
@@ -9828,7 +9828,7 @@ Screen =
 								},
 								size =  
 								{
-									0.17983,
+									0.2247875, --0.17983,
 									0.18000,
 								},
 							},
@@ -24673,7 +24673,7 @@ Screen =
 										type = "Rectangle",
 										size =  
 										{
-											3.75,
+											1,
 											1,
 										},
 										position =  
@@ -24694,55 +24694,7 @@ Screen =
 									0.00312,
 								},
 								Children =  
-								{
-									 
-									{
-										type = "ArtLabel",
-										style =  
-										{
-											"DefaultStyles",
-											"defStyleLabel",
-										},
-										position =  
-										{
-											0.00040,
-											0,
-										},
-										HitArea =  
-										{
-										},
-										name = "selHero_1",
-										Presentation =  
-										{
-											Art =  
-											{
-												 
-												{
-													type = "Rectangle",
-													ID = 190465,
-													colour =  
-													{
-														255,
-														250,
-														227,
-														128,
-													},
-													states =  
-													{
-														"Normal",
-														"Active",
-														"Hover",
-														"Disabled",
-													},
-												},
-											},
-										},
-										size =  
-										{
-											0.1579875, --0.04213,
-											0.07339,
-										},
-									},
+								{						 
 
 									{
 										type = "ArtLabel",
@@ -24781,13 +24733,13 @@ Screen =
 												{
 													type = "Graphic",
 													ID = 623,
-													texture = "art/ui/textures/taskbar/taskbar_share/border_hero_generic.tga",
+													texture = "art/ui/textures/taskbar/taskbar_share/empty_icon.tga",
 													states =  
 													{
 														"Normal",
-														"Disabled",
-														"Active",
-														"Hover",
+														--"Disabled",
+														--"Active",
+														--"Hover",
 													},
 												},
 											},
@@ -24796,6 +24748,47 @@ Screen =
 										{
 											0.1579875, --0.04213,
 											0.07839,
+										},
+									},
+									{
+										type = "ArtLabel",
+										style =  
+										{
+											"DefaultStyles",
+											"defStyleLabel",
+										},
+										position =  
+										{
+											0.00040,
+											-0.00175,
+										},
+										HitArea =  
+										{
+										},
+										name = "selHero_1",
+										Presentation =  
+										{
+											Art =  
+											{
+												 
+												{
+													type = "Graphic",
+													ID = 623,
+													texture = "art/ui/textures/taskbar/taskbar_share/global_ability_caster_button_selected.tga",
+													states =  
+													{
+														"Normal",
+														"Active",
+														"Hover",
+														"Disabled",
+													},
+												},
+											},
+										},
+										size =  
+										{
+											0.1579875, --0.04213,
+											0.07339,
 										},
 									},
 									 
@@ -24838,16 +24831,9 @@ Screen =
 											{
 												 
 												{
-													type = "Rectangle",
-													ID = 191221,
-													colour =  
-													{
-														255,
-														255,
-														255,
-														255,
-													},
-													rectangleType = "Border",
+													type = "Graphic",
+													ID = 623,
+													texture = "art/ui/textures/taskbar/taskbar_share/global_ability_caster_hover_border.tga",
 													states =  
 													{
 														"Hover",
@@ -24868,296 +24854,7 @@ Screen =
 											0.1579875, --0.04213,
 											0.07339,
 										},
-									},
-									 
-									{
-										type = "ProgressBar",
-										style =  
-										{
-											"UIStyles",
-											"progressBar_Health",
-										},
-										position =  
-										{
-											0.00248,
-											0.05693,
-										},
-										Progress =  
-										{
-											type = "ArtLabel",
-											name = "prgLbl_healthHero_1",
-											position =  
-											{
-												0,
-												0,
-											},
-											HitArea =  
-											{
-												 
-												{
-													type = "Rectangle",
-													size =  
-													{
-														0,
-														0,
-													},
-													position =  
-													{
-														0,
-														0,
-													},
-												},
-											},
-											Presentation =  
-											{
-												Art =  
-												{
-													 
-													{
-														type = "Graphic",
-														ID = 226238,
-														colour =  
-														{
-															89,
-															255,
-															12,
-															255,
-														},
-														texture = "art/ui/textures/art_gradient_ability.tga",
-														states =  
-														{
-															"Normal",
-															"Active",
-															"Hover",
-															"Disabled",
-														},
-													},
-													 
-													{
-														type = "Rectangle",
-														ID = 226239,
-														rectangleType = "Border",
-														states =  
-														{
-															"Normal",
-															"Active",
-															"Hover",
-															"Disabled",
-														},
-													},
-												},
-											},
-											size =  
-											{
-												0.0,
-												0.0,
-											},
-										},
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													0,
-													0,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										name = "healthHero_1",
-										size =  
-										{
-											0.0,
-											0.0,
-										},
-									},
-									 
-									{
-										type = "ProgressBar",
-										style =  
-										{
-											"UIStyles",
-											"progressBar_Moral",
-										},
-										position =  
-										{
-											0.00248,
-											0.06531,
-										},
-										Progress =  
-										{
-											type = "ArtLabel",
-											name = "prgLbl_moraleHero_1",
-											position =  
-											{
-												0,
-												0,
-											},
-											HitArea =  
-											{
-												 
-												{
-													type = "Rectangle",
-													size =  
-													{
-														0,
-														0,
-													},
-													position =  
-													{
-														0,
-														0,
-													},
-												},
-											},
-											Presentation =  
-											{
-												Art =  
-												{
-													 
-													{
-														type = "Graphic",
-														ID = 226264,
-														colour =  
-														{
-															23,
-															197,
-															255,
-															255,
-														},
-														texture = "art/ui/textures/art_gradient_ability.tga",
-														states =  
-														{
-															"Normal",
-															"Active",
-															"Hover",
-															"Disabled",
-														},
-													},
-													 
-													{
-														type = "Rectangle",
-														ID = 226265,
-														rectangleType = "Border",
-														states =  
-														{
-															"Normal",
-															"Active",
-															"Hover",
-															"Disabled",
-														},
-													},
-												},
-											},
-											size =  
-											{
-												0.0,
-												0.0,
-											},
-										},
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													0,
-													0,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										name = "moraleHero_1",
-										size =  
-										{
-											0.0,
-											0.0,
-										},
-									},
-									 
-									{
-										type = "ArtLabel",
-										style =  
-										{
-											"DefaultStyles",
-											"defStyleLabel",
-										},
-										position =  
-										{
-											0.00238,
-											0.00347,
-										},
-										HitArea =  
-										{
-											 
-											{
-												type = "Rectangle",
-												size =  
-												{
-													0,
-													0,
-												},
-												position =  
-												{
-													0,
-													0,
-												},
-											},
-										},
-										name = "iconHero_1",
-										Presentation =  
-										{
-											Art =  
-											{
-												 
-												{
-													type = "Graphic",
-													ID = 623,
-													texture = "art/ui/textures/taskbar/taskbar_share/troop_placeholder.tga",
-													states =  
-													{
-														"Normal",
-														"Disabled",
-														"Active",
-														"Hover",
-													},
-												},
-												 
-												{
-													type = "Rectangle",
-													ID = 182609,
-													colour =  
-													{
-														255,
-														255,
-														255,
-														255,
-													},
-													rectangleType = "Border",
-													states =  
-													{
-														"Hover",
-													},
-												},
-											},
-										},
-										size =  
-										{
-											0.1432125, --0.03819,
-											0.05118,
-										},
-									},
+									},									
 								},
 								name = "Hero_1",
 								Presentation =  

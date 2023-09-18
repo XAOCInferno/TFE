@@ -936,11 +936,18 @@ minimap =
 
 hero_ui = 
 {
-	{ bind = "race_image", ui = "borderHero_1", texture = "border_hero" },
+	{ bind = "race_image", ui = "borderHero_1", texture = "global_ability_caster_button" },
+	--{ bind = "race_image", ui = "iconHero_1", texture = "empty_icon" },
+	--{ bind = "race_image", ui = "btnHero_1", texture = "empty_icon" },
 	{ bind = "race_image", ui = "borderHero_2", texture = "border_hero" },
 	{ bind = "race_image", ui = "borderHero_3", texture = "border_hero" },
 	{ bind = "race_image", ui = "borderHero_4", texture = "border_hero" },
 	{ bind = "race_image", ui = "borderHero_5", texture = "border_hero" },
+	{ bind = "race_image", ui = "borderHero_6", texture = "border_hero" },
+	{ bind = "race_image", ui = "borderHero_7", texture = "border_hero" },
+	{ bind = "race_image", ui = "borderHero_8", texture = "border_hero" },
+	{ bind = "race_image", ui = "borderHero_9", texture = "border_hero" },
+	{ bind = "race_image", ui = "borderHero_10", texture = "border_hero" },
 
 	{ bind = "list", uilist = list_hero_select_groups,
 		content =
