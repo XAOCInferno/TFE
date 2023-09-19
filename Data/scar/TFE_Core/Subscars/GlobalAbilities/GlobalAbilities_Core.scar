@@ -277,17 +277,15 @@ function Setup_ActualGlobalAbilies()
 	local RaceName = ""
 	for i = 1, g_PlayerCount do
 		RaceName = g_AllPlayers[i].RaceDetails.RaceName
-		local GlobalAbilityCasterSBP = "world_squad_global_ability_caster_"..RaceName
-		local squadBP = ""
-		if(SBP_Exists(GlobalAbilityCasterSBP)) then
-			--Util_CreateSquadsAtPosition(g_AllPlayers[i].Player, SGroup_GetName(GetUniqueSG("GlobalAbilityCaster")), GlobalAbilityCasterSBP, World_Pos(0,0,0), 1)
+		local squadBP = "world_squad_global_ability_caster_"..RaceName
+		if(SBP_Exists(squadBP)) then
+			ActivateSummonSquadAbility(squadBP, g_AllPlayers[i].Player, World_Pos(0,0,0), 1)
 		else
 			Log(2, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Global Ability Caster SBP for race '"..RaceName.."' doesn't exist, make sure there is an entity called '"..GlobalAbilityCasterSBP.."' otherwise commander UI will be odd!")
 		end
 
 		--[[CHAOS GLOBALS]]
 		if(RaceName == "chaos_marine_race") then
-			squadBP = "world_squad_global_ability_caster_chaos_marine_race"
 
 			local AbilityStruct_ChaosMarines1 = CreateGlobalAbility(
 				squadBP,
@@ -348,7 +346,7 @@ function Setup_ActualGlobalAbilies()
 
 		--[[DARK ELDAR GLOBALS]]
 		elseif(RaceName == "dark_eldar_race") then
-			squadBP = "world_squad_global_ability_caster_dark_eldar_race"
+			
 			local AbilityStruct_DarkEldar1 = CreateGlobalAbility(
 				squadBP.."_seed_souls",
 				g_AllPlayers[i], 
@@ -420,7 +418,6 @@ function Setup_ActualGlobalAbilies()
 
 		--[[ELDAR GLOBALS]]
 		elseif(RaceName == "eldar_race") then
-			squadBP = "world_squad_global_ability_caster_eldar_race"
 
 			--Global 1		--WE NEED TO MAKE THIS MAKE A SOUND FOR ALL PLAYERS TO HEAR
 			local AbilityStruct_Eldar1 = CreateGlobalAbility(
@@ -507,7 +504,6 @@ function Setup_ActualGlobalAbilies()
 
 		--[[NECRON GLOBALS]]
 		elseif(RaceName == "necron_race") then	
-			squadBP = "world_squad_global_ability_caster_necron_race"
 			
 			mod_NecronProductionOverload__modifier_01 = Modifier_Create(MAT_EntityType, "production_speed_modifier", MUT_Multiplication, 1, 3, "monolith")
 			table.insert(g_GlobalAbilityMods, mod_NecronProductionOverload__modifier_01)
@@ -800,7 +796,6 @@ function Setup_ActualGlobalAbilies()
 
 		--[[ORK GLOBALS]]
 		elseif(RaceName == "ork_race") then	
-			squadBP = "world_squad_global_ability_caster_ork_race"
 
 			local AbilityStruct_Ork1 = CreateGlobalAbility(
 				squadBP,
@@ -859,7 +854,6 @@ function Setup_ActualGlobalAbilies()
 	
 		--[[SISTERS GLOBALS]]
 		elseif(RaceName == "sisters_race") then	
-			squadBP = "world_squad_global_ability_caster_sisters_race"
 			
 			local AbilityStruct_Sisters1 = CreateGlobalAbility(
 				squadBP,
@@ -928,7 +922,6 @@ function Setup_ActualGlobalAbilies()
 
 		--[[SPACE MARINE GLOBALS]]
 		elseif(RaceName == "space_marine_race") then
-			squadBP = "world_squad_global_ability_caster_space_marine_race"
 
 			local AbilityStruct_SpaceMarine1 = CreateGlobalAbility(
 				squadBP.."_basic_scan",
@@ -1028,7 +1021,6 @@ function Setup_ActualGlobalAbilies()
 
 		--[[SPACE MARINE VETERANS GLOBALS]]
 		elseif(RaceName == "space_marine_veteran_race") then	
-			squadBP = "world_squad_global_ability_caster_space_marine_veteran_race"
 
 			local AbilityStruct_Veterans1 = CreateGlobalAbility(
 				squadBP,
@@ -1083,7 +1075,6 @@ function Setup_ActualGlobalAbilies()
 
 		--[[TAU GLOBALS]]
 		elseif(RaceName == "tau_race") then
-			squadBP = "world_squad_global_ability_caster_tau_race"
 			
 			local AbilityStruct_Tau1 = CreateGlobalAbility(
 				squadBP,
@@ -1138,7 +1129,6 @@ function Setup_ActualGlobalAbilies()
 
 		--[[GUARD GLOBALS]]
 		elseif(RaceName == "guard_race") then
-			squadBP = "world_squad_global_ability_caster_guard_race"
 			
 			--Global 1   --WE NEED TO MAKE THIS MAKE A SOUND FOR ALL PLAYERS TO HEAR
 			local AbilityStruct_Guard1 = CreateGlobalAbility(
@@ -1166,8 +1156,8 @@ function Setup_ActualGlobalAbilies()
 				g_AllPlayers[i], 
 				"", 
 				"",
-				"TIMED",
-				"NONE",
+				"TARGETED",
+				"GROUND",
 				table.getn(g_AllTrackedAbilities)
 			)
 
@@ -1203,6 +1193,150 @@ function Setup_ActualGlobalAbilies()
 				end
 			end
 
+			AbilityStruct_Guard2.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+	
+				_pos = _self.LastCastedEntityPosition
+
+				--[[ init ability globals ]]
+				_self.TimeToDoReinforceLogic = g_WorldTime + 5.5 --4s delay
+				_self.TimeToRemoveDropShip = g_WorldTime + 8 --10s delay
+				_self.Duration = 18 --This is when ability finally ends, so the cleanup
+				_self.HasReinforcedTroops = false
+				_self.HasRemovedDropShip = false	
+
+				--[[ create the drop ship ]]
+				local squadID = ActivateSummonSquadAbility("npc_valkyrie", _self.CasterPlayer.Player, _pos, 1)
+				local sgroupID = GetUniqueSG("npc_valkyrie")			
+				_self.DropPodSquadGroupID = sgroupID
+				local sgroupName = SGroup_GetName(sgroupID)
+				SGroup_Add(sgroupID, squadID)
+				Anim_PlaySGroupAnim(sgroupID, "sp_land")
+				SGroup_SetHealthInvulnerable(sgroupName, true)
+				
+				_self.ActivatedTime = g_WorldTime
+				_self:ActivateTimedAbility()
+
+			end
+			
+			AbilityStruct_Guard2.TimedAbilityUpdate = function(_self)
+			
+				if(_self.HasReinforcedTroops == false) then
+					if(g_WorldTime >= _self.TimeToDoReinforceLogic) then
+
+						_self.DeployTroops(_self)
+						_self.HasReinforcedTroops = true
+						
+					end
+				end	
+
+				if(_self.HasRemovedDropShip == false) then
+					if(g_WorldTime >= _self.TimeToRemoveDropShip) then
+
+						Anim_PlaySGroupAnim(_self.DropPodSquadGroupID, "sp_take_off")
+						_self.HasRemovedDropShip = true
+
+					end
+				end	
+			end
+			
+			AbilityStruct_Guard2.TimedAbilityEnd = function(_self)	
+
+				local sgName = SGroup_GetName(_self.DropPodSquadGroupID) 
+				SGroup_DeSpawn(sgName)
+				SGroup_DestroyAllSquads(sgName)
+
+			end
+			
+			AbilityStruct_Guard2.DeployTroops = function( _self )
+
+				_pos = _self.LastCastedEntityPosition
+
+				local validRespawnSquads = { "guard_squad_guardsmen", "guard_squad_guardsmen_rider","guard_squad_kasrkin" }
+				local validWeaponUpgrades = { "guard_grenade_launcher_guardsmen", "guard_plasma_gun_guardsmen", "guard_grenade_launcher_kasrkin", "guard_plasma_gun_kasrkin" }
+				local validHealSquads = { "guard_heavy_weapons_team_squad", "guard_squad_command_squad", "guard_squad_commissar", "guard_squad_enginseer", "guard_squad_priest", "guard_squad_psyker" }
+				local validAddLeaderSingularSquads = { "guard_squad_guardsmen", "guard_squad_guardsmen_rider","guard_squad_kasrkin" }
+				local validAddLeaderMultipleSquads = { "guard_squad_command_squad" }
+
+				--Later on we will need to make sure this squad inherits XP etc.
+				local RespawnSquadAtFull = function( sgroupid, itemindex, squadID )
+
+					local squadBP = Squad_GetBlueprintName(squadID)
+					local sgroupIDRespawn = GetUniqueSG("respawn_troopers")
+					local sgroupRespawnName = SGroup_GetName(sgroupIDRespawn)
+					local squadPos = Squad_GetPosition(squadID)
+					
+					local isValidRespawn, _ = TableContains(validRespawnSquads, squadBP)
+					local isValidHeal, _ = TableContains(validHealSquads, squadBP)
+					local isValidAddLeader, _ = TableContains(validAddLeaderSingularSquads, squadBP)
+					local isValidAddLeaderMultiple, _ = TableContains(validAddLeaderMultipleSquads, squadBP)
+
+					if(isValidRespawn) then
+						Squad_DeSpawn(squadID)
+						squadID = ActivateSummonSquadAbility(squadBP, _self.CasterPlayer.Player, squadPos, 1000)
+
+						for i = 1, TableLength(validWeaponUpgrades) do
+							if(Squad_CanUpgradeWeapon( squadID, validWeaponUpgrades[i] )) then 
+								local count = Squad_WeaponCount(squadID, validWeaponUpgrades[i])
+								if(count > 0) then
+									Squad_ForceUpgradeWeapons(squadID, validWeaponUpgrades[i], count)
+								end
+							end
+						end
+
+					else
+
+						SGroup_Remove(sgroupid, squadID)
+
+					end
+					
+					SGroup_Add(sgroupRespawnName, squadID)
+
+					if(isValidHeal) then
+
+						SGroup_SetAvgHealth(sgroupRespawnName, 1)
+
+					end
+
+					if(isValidAddLeader) then
+
+						Squad_AddLeader( squadID )
+
+					end
+
+					if(isValidAddLeaderMultiple) then
+						local currentLeaderCount = Squad_CountLeaders(squadID)
+						local extraLeaders = 0
+						local baseLeaders = 3
+						
+						if(Player_GetResearchState(_self.CasterPlayer.Player, "guard_research_command_squad_size") == RS_Complete) then
+							extraLeaders = 1
+						end
+
+						for i = 1 + currentLeaderCount, baseLeaders + extraLeaders do
+							print("ADDING LEADER! "..i)
+							local newLeaderIndex = i
+							if(newLeaderIndex > 3) then 
+								newLeaderIndex = World_GetRand(1,3)
+							end
+							Squad_AddLeaderAtIndex( squadID, newLeaderIndex )
+						end
+
+					end
+				end
+
+				local sgroupID = GetUniqueSG("reinforce_troopers")
+				local sgroupName = SGroup_GetName(sgroupID)
+				
+				_pos = World_Pos(_pos.x, _pos.y, _pos.z)
+				Player_GetAllSquadsNearPos(_self.CasterPlayer.Player, sgroupName, _pos, 15)
+				SGroup_ForEach( sgroupID, RespawnSquadAtFull )
+				SGroup_DestroyAllSquads(sgroupName)
+				SGroup_Destroy(sgroupName)
+				
+				--Rule_AddOneShot(Rule_IG_EmergencyDrop_TakeOff, 15)
+
+			end
+
 			--[[T1 flare that lowers sight range of enemies]]
 			--[[T2 off-map artillery, select location and then 3 mouse locations will be selected to target the strike]]
 			--[[T2 deploy a valkyrie and reinforce all squads to full]]
@@ -1210,7 +1344,6 @@ function Setup_ActualGlobalAbilies()
 
 		--[[ORDO MALLEUS GLOBALS]]
 		elseif(RaceName == "inquisition_daemonhunt_race") then
-			squadBP = "world_squad_global_ability_caster_inquisition_daemonhunt_race"
 			
 			local AbilityStruct_Inquisition1 = CreateGlobalAbility(
 				squadBP,
@@ -1271,9 +1404,6 @@ function Setup_ActualGlobalAbilies()
 		else
 			Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Race '"..RaceName.."' is undefined in if statement! Assuming it has no global abilities.")
 		end
-		if(squadBP ~= "") then
-			ActivateSummonSquadAbility(squadBP, g_AllPlayers[i].Player, World_Pos(0,0,0), 1)
-		end
 	end
 end
 
@@ -1328,7 +1458,7 @@ function ActivateMultiSummonEntityAbility(_EBP, _Player, _Pos, _RandomOffsetPerE
 		tmpPos.x = _Pos.x + World_GetRand(-_RandomOffsetPerEntity.x, _RandomOffsetPerEntity.x)
 		tmpPos.y = _Pos.y + World_GetRand(-_RandomOffsetPerEntity.y, _RandomOffsetPerEntity.y)
 		tmpPos.z = _Pos.z + World_GetRand(-_RandomOffsetPerEntity.z, _RandomOffsetPerEntity.z)
-		table.insert(AllCreatedEntities, ActivateSummonSquadAbility(_EBP, _Player, tmpPos, _Loadout))
+		table.insert(AllCreatedEntities, ActivateSummonEntityAbility(_EBP, _Player, tmpPos, _Loadout))
 	end
 
 	return AllCreatedEntities
