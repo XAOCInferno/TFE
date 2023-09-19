@@ -366,11 +366,11 @@ list_abilities =
     list_commands[11], -- 	ABILITY7
     list_commands[12], -- 	ABILITY8
 	
-    list_commands[16], -- 	GLOBAL ABILITY 1
-    list_commands[17], -- 	GLOBAL ABILITY 2
-    list_commands[18], -- 	GLOBAL ABILITY 3
-    list_commands[19], -- 	GLOBAL ABILITY 4
-    list_commands[20], -- 	GLOBAL ABILITY 5
+    list_commands[15], -- 	GLOBAL ABILITY 1
+    list_commands[16], -- 	GLOBAL ABILITY 2
+    list_commands[17], -- 	GLOBAL ABILITY 3
+    list_commands[18], -- 	GLOBAL ABILITY 4
+    list_commands[19], -- 	GLOBAL ABILITY 5
 	
     soul_ability_1, -- ABILITY9
     soul_ability_2, -- ABILITY10
@@ -392,6 +392,7 @@ list_abilities_progress =
     "ProgressIcon10", -- 	ABILITY2
     "ProgressIcon11", -- 	ABILITY3
     "ProgressIcon12", -- 	ABILITY4
+	
     "ProgressIconGlobalAbility01", -- 	GLOBAL ABILITY 1
     "ProgressIconGlobalAbility02", -- 	GLOBAL ABILITY 2
     "ProgressIconGlobalAbility03", -- 	GLOBAL ABILITY 3
