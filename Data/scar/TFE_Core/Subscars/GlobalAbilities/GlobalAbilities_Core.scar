@@ -1156,18 +1156,18 @@ function Setup_ActualGlobalAbilies()
 				g_AllPlayers[i], 
 				"", 
 				"",
-				"TARGETED",
-				"GROUND",
+				"TIMED",
+				"NONE",
 				table.getn(g_AllTrackedAbilities)
 			)
 
 			local AbilityStruct_Guard4 = CreateGlobalAbility(
 				squadBP,
 				g_AllPlayers[i], 
-				"", 
-				"",
-				"TIMED",
-				"NONE",
+				"GlobalAbility_Guard_ValkyrieReinforce", 
+				"global_guard_valkyrie_reinforce_entity",
+				"TARGETED",
+				"GROUND",
 				table.getn(g_AllTrackedAbilities)
 			)
 
@@ -1193,7 +1193,7 @@ function Setup_ActualGlobalAbilies()
 				end
 			end
 
-			AbilityStruct_Guard2.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+			AbilityStruct_Guard4.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 	
 				_pos = _self.LastCastedEntityPosition
 
@@ -1218,7 +1218,7 @@ function Setup_ActualGlobalAbilies()
 
 			end
 			
-			AbilityStruct_Guard2.TimedAbilityUpdate = function(_self)
+			AbilityStruct_Guard4.TimedAbilityUpdate = function(_self)
 			
 				if(_self.HasReinforcedTroops == false) then
 					if(g_WorldTime >= _self.TimeToDoReinforceLogic) then
@@ -1239,7 +1239,7 @@ function Setup_ActualGlobalAbilies()
 				end	
 			end
 			
-			AbilityStruct_Guard2.TimedAbilityEnd = function(_self)	
+			AbilityStruct_Guard4.TimedAbilityEnd = function(_self)	
 
 				local sgName = SGroup_GetName(_self.DropPodSquadGroupID) 
 				SGroup_DeSpawn(sgName)
@@ -1247,7 +1247,7 @@ function Setup_ActualGlobalAbilies()
 
 			end
 			
-			AbilityStruct_Guard2.DeployTroops = function( _self )
+			AbilityStruct_Guard4.DeployTroops = function( _self )
 
 				_pos = _self.LastCastedEntityPosition
 
@@ -1285,6 +1285,8 @@ function Setup_ActualGlobalAbilies()
 
 					else
 
+						Command_Squad(_self.CasterPlayer.Player, sgroupid, SCMD_CancelReinforcement) --This doesn't seem to be working, might have to respawn the general...
+						Squad_SetMorale(squadID, 1)
 						SGroup_Remove(sgroupid, squadID)
 
 					end
