@@ -6380,12 +6380,12 @@ Screen =
 								size =  
 								{
 									1,
-									1, --0.75000,
+									0.05, --1, --0.75000,
 								},
 								position =  
 								{
 									0,
-									0.0425,--0.25000,
+									0.06--0.0425,--0.25000,
 								},
 							},
 						},
@@ -6472,6 +6472,7 @@ Screen =
 								name = "grpCommandIconsSpecial",
 								position =  
 								{
+									--Wtf 2 positons???
 									0.8969, --0.80766,
 									0.107, --0.16500,
 
@@ -24549,7 +24550,7 @@ Screen =
 						position =  
 						{
 							0.725,
-							0.725,
+							0.72,
 						},
 						Children =  
 						{
@@ -24695,7 +24696,7 @@ Screen =
 												type = "Rectangle",
 												size =  
 												{
-													3.75, --1,
+													1,
 													1,
 												},
 												position =  

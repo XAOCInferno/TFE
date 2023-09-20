@@ -1144,10 +1144,10 @@ function Setup_ActualGlobalAbilies()
 			local AbilityStruct_Guard2 = CreateGlobalAbility(
 				squadBP,
 				g_AllPlayers[i], 
-				"", 
-				"",
-				"TIMED",
-				"NONE",
+				"GlobalAbility_Guard_DebuffFlare", 
+				"guard_flare_debuff_ability_caster",
+				"TARGETED",
+				"GROUND",
 				table.getn(g_AllTrackedAbilities)
 			)
 
@@ -1193,28 +1193,58 @@ function Setup_ActualGlobalAbilies()
 				end
 			end
 
+			AbilityStruct_Guard2.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				_pos = _self.LastCastedEntityPosition				
+				_self.Duration = 4
+				local costSuccess = FireCost(_self.CasterPlayer, -50, 0, 0, 0, 0, 0)
+
+				if(costSuccess) then
+					ActivateSummonEntityAbility("guard_flare_debuff_ability_caster", _self.CasterPlayer.Player, _pos)
+					_self.LoopingFX = World_FXEventLooping( "Races/guard/abilities/guard_debuff_flare_combo", _pos )
+					
+					_self.ActivatedTime = g_WorldTime
+					_self:ActivateTimedAbility()
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
+			
+			--Not working?
+			AbilityStruct_Guard2.TimedAbilityEnd = function(_self)	
+				print("STEDDDDDD")
+				World_FXEventDestroy(_self.LoopingFX) 
+				
+			end
+
 			AbilityStruct_Guard4.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 	
-				_pos = _self.LastCastedEntityPosition
+				_pos = _self.LastCastedEntityPosition		
+				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
 
-				--[[ init ability globals ]]
-				_self.TimeToDoReinforceLogic = g_WorldTime + 5.5 --4s delay
-				_self.TimeToRemoveDropShip = g_WorldTime + 8 --10s delay
-				_self.Duration = 18 --This is when ability finally ends, so the cleanup
-				_self.HasReinforcedTroops = false
-				_self.HasRemovedDropShip = false	
+				if(costSuccess) then
 
-				--[[ create the drop ship ]]
-				local squadID = ActivateSummonSquadAbility("npc_valkyrie", _self.CasterPlayer.Player, _pos, 1)
-				local sgroupID = GetUniqueSG("npc_valkyrie")			
-				_self.DropPodSquadGroupID = sgroupID
-				local sgroupName = SGroup_GetName(sgroupID)
-				SGroup_Add(sgroupID, squadID)
-				Anim_PlaySGroupAnim(sgroupID, "sp_land")
-				SGroup_SetHealthInvulnerable(sgroupName, true)
-				
-				_self.ActivatedTime = g_WorldTime
-				_self:ActivateTimedAbility()
+					--[[ init ability globals ]]
+					_self.TimeToDoReinforceLogic = g_WorldTime + 5.5 --4s delay
+					_self.TimeToRemoveDropShip = g_WorldTime + 8 --10s delay
+					_self.Duration = 18 --This is when ability finally ends, so the cleanup
+					_self.HasReinforcedTroops = false
+					_self.HasRemovedDropShip = false	
+
+					--[[ create the drop ship ]]
+					local squadID = ActivateSummonSquadAbility("npc_valkyrie", _self.CasterPlayer.Player, _pos, 1)
+					local sgroupID = GetUniqueSG("npc_valkyrie")			
+					_self.DropPodSquadGroupID = sgroupID
+					local sgroupName = SGroup_GetName(sgroupID)
+					SGroup_Add(sgroupID, squadID)
+					Anim_PlaySGroupAnim(sgroupID, "sp_land")
+					SGroup_SetHealthInvulnerable(sgroupName, true)
+					
+					_self.ActivatedTime = g_WorldTime
+					_self:ActivateTimedAbility()
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
 
 			end
 			
@@ -1251,10 +1281,10 @@ function Setup_ActualGlobalAbilies()
 
 				_pos = _self.LastCastedEntityPosition
 
-				local validRespawnSquads = { "guard_squad_guardsmen", "guard_squad_guardsmen_rider","guard_squad_kasrkin" }
+				local validRespawnSquads = { "guard_squad_command_squad", "guard_squad_guardsmen", "guard_squad_guardsmen_rider","guard_squad_kasrkin", "guard_squad_spotter", "guard_squad_ogryns" }
 				local validWeaponUpgrades = { "guard_grenade_launcher_guardsmen", "guard_plasma_gun_guardsmen", "guard_grenade_launcher_kasrkin", "guard_plasma_gun_kasrkin" }
-				local validHealSquads = { "guard_heavy_weapons_team_squad", "guard_squad_command_squad", "guard_squad_commissar", "guard_squad_enginseer", "guard_squad_priest", "guard_squad_psyker" }
-				local validAddLeaderSingularSquads = { "guard_squad_guardsmen", "guard_squad_guardsmen_rider","guard_squad_kasrkin" }
+				local validHealSquads = { "guard_squad_guardsmen", "guard_squad_assassin", "guard_heavy_weapons_team_squad", "guard_squad_command_squad", "guard_squad_commissar", "guard_squad_enginseer", "guard_squad_priest", "guard_squad_psyker" }
+				local validAddLeaderSingularSquads = { "guard_squad_guardsmen", "guard_squad_guardsmen_rider","guard_squad_kasrkin", "guard_squad_ogryns" }
 				local validAddLeaderMultipleSquads = { "guard_squad_command_squad" }
 
 				--Later on we will need to make sure this squad inherits XP etc.
@@ -1269,14 +1299,69 @@ function Setup_ActualGlobalAbilies()
 					local isValidHeal, _ = TableContains(validHealSquads, squadBP)
 					local isValidAddLeader, _ = TableContains(validAddLeaderSingularSquads, squadBP)
 					local isValidAddLeaderMultiple, _ = TableContains(validAddLeaderMultipleSquads, squadBP)
+					local currentLeaderCount = Squad_CountLeaders(squadID)
 
 					if(isValidRespawn) then
-						Squad_DeSpawn(squadID)
-						squadID = ActivateSummonSquadAbility(squadBP, _self.CasterPlayer.Player, squadPos, 1000)
+						local hasAttached = false
+						local attachedBP = nil
+						local allAttachedWeapons = {}						
 
+						--Get current weapons for the current squad
 						for i = 1, TableLength(validWeaponUpgrades) do
 							if(Squad_CanUpgradeWeapon( squadID, validWeaponUpgrades[i] )) then 
 								local count = Squad_WeaponCount(squadID, validWeaponUpgrades[i])
+								allAttachedWeapons[validWeaponUpgrades[i]] = count
+							end
+						end
+
+						if(Squad_IsAttached( squadID )) then
+							hasAttached = true
+							attachedBP = Squad_GetAttachedBlueprintName( squadID )
+						end						
+						
+						--Despawn and respawn squad at full size
+						Squad_DeSpawn(squadID)
+						local loadout = 1000
+						
+						--Special cases that have varying squad sizes. any units that have a change in squad size need special adjustments here in code as game not smart enough to work out mods
+						if(squadBP == "guard_squad_guardsmen") then
+							if(Player_GetResearchState(_self.CasterPlayer.Player, "guard_gu_members_t2") == RS_Complete) then
+								if(Player_GetResearchState(_self.CasterPlayer.Player, "guard_gu_members_t3") == RS_Complete) then
+									if(Player_GetResearchState(_self.CasterPlayer.Player, "guard_gu_members_t4") == RS_Complete) then
+										loadout = 13
+									else
+										loadout = 11
+									end
+								else
+									loadout = 9
+								end
+							else
+								loadout = 7
+							end
+						elseif(squadBP == "guard_squad_guardsmen_rider") then
+							if(Player_GetResearchState(_self.CasterPlayer.Player, "guard_upgrade_rider_melee") == RS_Complete) then
+								loadout = 9
+							else
+								loadout = 7
+							end
+						end
+
+						squadID = ActivateSummonSquadAbility(squadBP, _self.CasterPlayer.Player, squadPos, loadout)
+						SGroup_Add(sgroupRespawnName, squadID)
+
+						--Respawn the attached leader and attach him
+						if(hasAttached == true) then
+							local attachSquadID = ActivateSummonSquadAbility(attachedBP, _self.CasterPlayer.Player, squadPos, 1)
+							local sgroupIDAttach = GetUniqueSG("attach_troopers")
+							local sgroupIDAttachName = SGroup_GetName(sgroupIDAttach)
+							SGroup_Add(sgroupIDAttach, attachSquadID)
+							Cmd_AttachSquads( sgroupIDAttachName, sgroupRespawnName ) --Not working!!?? need to adjust later
+						end
+
+						--Try add weapons to the respawned squad, same as he had before
+						for i = 1, TableLength(validWeaponUpgrades) do
+							if(allAttachedWeapons[validWeaponUpgrades[i]] ~= nil) then 
+								local count = allAttachedWeapons[validWeaponUpgrades[i]]
 								if(count > 0) then
 									Squad_ForceUpgradeWeapons(squadID, validWeaponUpgrades[i], count)
 								end
@@ -1284,14 +1369,13 @@ function Setup_ActualGlobalAbilies()
 						end
 
 					else
-
-						Command_Squad(_self.CasterPlayer.Player, sgroupid, SCMD_CancelReinforcement) --This doesn't seem to be working, might have to respawn the general...
+						
+						SGroup_Add(sgroupRespawnName, squadID)
 						Squad_SetMorale(squadID, 1)
 						SGroup_Remove(sgroupid, squadID)
 
 					end
 					
-					SGroup_Add(sgroupRespawnName, squadID)
 
 					if(isValidHeal) then
 
@@ -1306,7 +1390,6 @@ function Setup_ActualGlobalAbilies()
 					end
 
 					if(isValidAddLeaderMultiple) then
-						local currentLeaderCount = Squad_CountLeaders(squadID)
 						local extraLeaders = 0
 						local baseLeaders = 3
 						
@@ -1315,7 +1398,7 @@ function Setup_ActualGlobalAbilies()
 						end
 
 						for i = 1 + currentLeaderCount, baseLeaders + extraLeaders do
-							print("ADDING LEADER! "..i)
+							
 							local newLeaderIndex = i
 							if(newLeaderIndex > 3) then 
 								newLeaderIndex = World_GetRand(1,3)
