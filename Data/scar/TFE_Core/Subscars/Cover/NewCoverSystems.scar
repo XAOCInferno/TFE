@@ -40,7 +40,7 @@ function Setup_CoverModifiers()
 	--
 	
 	--High Verticality Bonuses
-	mod_HighVert__modifier_01 = Modifier_Create(MAT_Squad, "accuracy_weapon_modifier", MUT_Multiplication, 1, 1.2, "")
+	mod_HighVert__modifier_01 = Modifier_Create(MAT_Squad, "accuracy_weapon_modifier", MUT_Multiplication, 1, 1.05, "")
 	table.insert(SquadModifiers, mod_HighVert__modifier_01)
 		
 	mod_HighVert__modifier_02 = Modifier_Create(MAT_Squad, "sight_radius_modifier", MUT_Multiplication, 0, 1.5, "")
@@ -60,7 +60,7 @@ function Setup_CoverModifiers()
 	--
 	
 	--Mid Verticality Bonuses
-	mod_MidVert__modifier_01 = Modifier_Create(MAT_Squad, "accuracy_weapon_modifier", MUT_Multiplication, 1, 1.1, "")
+	mod_MidVert__modifier_01 = Modifier_Create(MAT_Squad, "accuracy_weapon_modifier", MUT_Multiplication, 1, 1.025, "")
 	table.insert(SquadModifiers, mod_MidVert__modifier_01)	
 		
 	mod_MidVert__modifier_02 = Modifier_Create(MAT_Squad, "sight_radius_modifier", MUT_Multiplication, 0, 1.25, "")
