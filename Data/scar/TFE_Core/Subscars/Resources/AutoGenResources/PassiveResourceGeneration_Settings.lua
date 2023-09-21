@@ -11,11 +11,11 @@ function SpecificRaceResourceGenerationDetails:new (_RaceName, _HasPassiveResGen
 		RaceGlobals = ResourceGlobalNames[_RaceName],
 		MaxNumberOfGlobals = 
 		{
-			RT_Requistion = TableLength(ResourceGlobalNames[_RaceName].RT_Requistion),
-			RT_Power = TableLength(ResourceGlobalNames[_RaceName].RT_Power),
-			RT_Pop = TableLength(ResourceGlobalNames[_RaceName].RT_Pop),
-			RT_Faith = TableLength(ResourceGlobalNames[_RaceName].RT_Faith),
-			RT_Souls = TableLength(ResourceGlobalNames[_RaceName].RT_Souls)
+			RT_Requistion = 0,--TableLength(ResourceGlobalNames[_RaceName].RT_Requistion),
+			RT_Power = 0,--TableLength(ResourceGlobalNames[_RaceName].RT_Power),
+			RT_Pop = 0,--TableLength(ResourceGlobalNames[_RaceName].RT_Pop),
+			RT_Faith = 0,--TableLength(ResourceGlobalNames[_RaceName].RT_Faith),
+			RT_Souls = 0--TableLength(ResourceGlobalNames[_RaceName].RT_Souls)
 		},
 		RT_Requisition = _RT_Requisition,
 		RT_Power = _RT_Power,
@@ -43,7 +43,7 @@ end
 g_AllRaceResourcesSetup = {}
 g_FactionSpecificResourceGeneration = {	}
 function Setup_PassiveResourceGeneration_Settings(_PlayerRace)
-	
+	print("HIIIII")
 	if(TableContains(g_AllRaceResourcesSetup, _PlayerRace)) then
 		return 
 	end
@@ -108,7 +108,7 @@ function Setup_PassiveResourceGeneration_Settings(_PlayerRace)
 	
 
 	table.insert(g_AllRaceResourcesSetup, _PlayerRace)
-
+	print("HIIIII2")
 end
 
 

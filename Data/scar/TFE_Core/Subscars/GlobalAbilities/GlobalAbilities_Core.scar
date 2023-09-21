@@ -1,0 +1,1761 @@
+debug_GlobalAbilitiesCore_FileName = "GlobalAbilities_Core"
+
+import("TFE_Core/Subscars/GlobalAbilities/Imports/GlobalAbilities_Imports.scar")
+
+g_btn = ""
+
+g_AllTrackedAbilityBuilders = {}
+g_AllTrackedAbilityBuildersCount = 0
+g_IsDoingAbility = false --This NEEDS to be changed later as part of an ability class
+
+g_AllTrackedAbilities = {}
+g_LastActivatedPlayer = nil
+g_GlobalAbilityMods = {}
+
+
+GlobalAbility = {}
+
+
+function GlobalAbility:new ( _LinkedSquadBP, _CasterPlayer, _AbilityName, _ActivationEntityBlueprint, _ActivationType, _TargetFilter, _PosInTrackedAbilities )
+	local tmpSGroupID = GetUniqueSG("GlobalAbilityCaster")
+	local tmpSGroupName = SGroup_GetName(tmpSGroupID)
+    local GlobalAbilityObject = 
+    {
+    	--Constants
+		LinkedSquad = nil, --ActivateSummonSquadAbility(_LinkedSquadBP, _CasterPlayer.Player, World_Pos(0,0,0), 1),  -- Util_CreateSquadsAtPosition(_CasterPlayer, tmpSGroupName, _LinkedSquadBP, World_Pos(0,0,0), 1),
+		LinkedSquadBP = _LinkedSquadBP,
+		LinkedSquadGroup = tmpSGroupID,
+		LinkedSquadGroupName = tmpSGroupName,
+		CasterPlayer = _CasterPlayer,
+		AbilityName = _AbilityName,
+		ActivationEntityBlueprint = _ActivationEntityBlueprint,
+		ActivationType = _ActivationType,
+		TargetFilter = _TargetFilter,
+		PosInTrackedAbilities = _PosInTrackedAbilities,
+
+		--Constants not defined in constructor
+		AbilityDuration,
+		
+		--Varaiables
+		CurrentAcceptedEntityStruct,
+		LastCastedEntityPosition,
+		AbilityCastTime,
+		IsActive = false,
+
+			--Vars when ability is active
+		AppliedModifierIDs = {},
+		Tracking_AffectedEntities = {},
+		Tracking_AffectedEntities_Duration = {},
+		Tracking_AffectedSquads = {},
+		Tracking_AffectedSquads_Duration = {},
+
+		HasBeenSelected = false,
+		SelectedWorldtime = 0
+    }
+
+	--SGroup_Add(GlobalAbilityObject.LinkedSquadGroup, GlobalAbilityObject.LinkedSquad)
+	self.__index = self
+   	return setmetatable(GlobalAbilityObject, self)
+end
+
+function GlobalAbility:ActivateTimedAbility()
+
+	self.AbilityCastTime = g_WorldTime
+	self.IsActive = g_WorldTime
+
+end
+
+--DON'T OVERRIDE!
+function GlobalAbility:Update()
+
+	local acceptedEntities, acceptedEPositions = Get_EntityDataFromEntityBP(self.ActivationEntityBlueprint, self.CasterPlayer.PlayerIndex + 1)
+	for i = 1, table.getn(acceptedEntities) do
+
+		--Possibly destroy later? atm i think it's ok to destroy now 
+		self.CurrentAcceptedEntityStruct = acceptedEntities[i]
+		self:PrepareAbility()
+		DestroyEntityAndRemoveFromData(self.CasterPlayer, acceptedEPositions[i])
+
+	end
+--[[
+	if(Misc_IsSquadSelected(self.LinkedSquad)) then
+		if(self.ActivationType == "TIMED" or self.ActivationType == 0) then
+			self:PrepareAbility()
+		elseif(self.ActivationType == "TARGETED" or self.ActivationType == 1) then
+			if(self.HasBeenSelected == false) then
+				self.HasBeenSelected = true
+				self.SelectedWorldtime = g_WorldTime
+				print("Hello!! "..self.SelectedWorldtime)
+			elseif(g_WorldTime - self.SelectedWorldtime > g_TimedAbilityRequiredSelectTime) then
+				self.HasBeenSelected = false
+				print("Goodbye!! "..self.SelectedWorldtime)
+				self:PrepareAbility()
+			end
+		else
+
+		end
+	end
+]]
+
+	if(self.IsActive) then
+		if(g_WorldTime - self.ActivatedTime >=  self.Duration) then
+
+			self:TimedAbilityEnd(self)
+
+		else
+			
+			self:TimedAbilityUpdate(self)
+
+		end
+	end
+	
+end
+
+
+--Override this if you want unique behaviour. Best if you want a mod that applies for a set duration
+function GlobalAbility:TimedAbilityEnd(self)
+
+	Log(2, 0, debug_GlobalAbilitiesCore_FileName, self.AbilityName.."/TimedAbilityEnd", "Ability end behaviour undefined! Ensure you override the 'TimedAbilityEnd' function or this ability will not revert!")
+
+end
+
+--Override this if you want unique behaviour. Best if you want a mod that applies for a set duration
+function GlobalAbility:TimedAbilityUpdate(self)
+
+end
+
+--This is ran immediatly on pressing a button, it is not necessary but could be good if you want to add an effect such as a mouse cursor
+--By default this does nothing and doesn't log, this should be the case!
+--Override if you want functionality
+--Possibly add some default logic to do with cursor effects here
+function GlobalAbility:OnPressImmediate()
+
+end
+
+--You should probably not override this, although I guess you could..? 
+function GlobalAbility:PrepareAbility()
+
+	local debugFuncName = self.AbilityName.."/PrepareAbility"
+	
+	self.OnPressImmediate()
+
+	if(self.CurrentAcceptedEntityStruct == nil) then
+		self.LastCastedEntityPosition = World_Pos(0,0,0)
+	else
+		self.LastCastedEntityPosition = self.CurrentAcceptedEntityStruct.EntityPosition
+	end
+	
+
+	local targetSquad = nil
+	local targetEntity = nil
+	--[[
+	
+	if(self.TargetFilter == "GROUND" or self.TargetFilter == 0) then
+
+		targetPos = Button_GetPressedPosition(self.ButtonID)
+
+	elseif(self.TargetFilter == "SQUAD" or self.TargetFilter == 1) then
+
+		targetSquad = GetUniqueSG("TemporarySGroupAbilityTarget")
+		Button_GetPressedSquad(self.ButtonID, targetSquad) --Add functionality when necessary
+
+	elseif(self.TargetFilter == "ENTITY" or self.TargetFilter == 2) then
+
+		targetEntity = GetUniqueEG("TemporaryEGroupAbilityTarget")
+		Button_GetPressedEntity(self.ButtonID, targetEntity) --Add functionality when necessary
+
+	elseif(self.TargetFilter == "NONE" or self.TargetFiler = 3) then
+		
+		--ADD FUNCTIONALITY!
+		
+	else
+
+		Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Target filter '"..self.TargetFilter.."' is invalid. Defaulting to 'GROUND'")
+		targetPos = Button_GetPressedPosition(self.ButtonID)
+
+	end]]
+
+	self:DoAbility(self, self.LastCastedEntityPosition, targetSquad, targetEntity)
+end
+
+--Do override!
+function GlobalAbility:DoAbility( _self, _pos, _targetSquad, _targetEntity )
+
+	Log(1, 0, debug_GlobalAbilitiesCore_FileName, self.AbilityName.."/DoAbility", "Ability behaviour undefined! Ensure you override the 'DoAbility' function or this ability will do nothing.")
+
+end
+
+--Do override if ability has a duration
+function GlobalAbility:EndAbility( _self, _pos, _targetSquad, _targetEntity)
+
+	Log(2, 0, debug_GlobalAbilitiesCore_FileName, self.AbilityName.."/EndAbility", "Ability end behaviour undefined! Ensure you override the 'EndAbility' function or this ability will not revert!")
+
+end
+
+
+GlobalAbilityBuilder = {}
+function GlobalAbilityBuilder:new (_OwnedByPlayer, _SGroupID, _SGroupName, _TargetEGroupName, _PosInTrackedAbilityBuilders)
+
+    local GlobalAbilityBuilderObject = 
+    {
+    	--Constants
+		OwnedByPlayer = _OwnedByPlayer,
+		SGroupName = _SGroupName,
+	    SGroupID = _SGroupID,
+		TargetEGroupName = _TargetEGroupName,
+		PosInTrackedAbilityBuilders = PosInTrackedAbilityBuilders
+    }
+	self.__index = self
+   	return setmetatable(GlobalAbilityBuilderObject, self)
+end
+
+function GlobalAbilityBuilder:Update()
+	
+	if(Cmd_IsConstructingBuilding(self.SGroupName, true)) then
+
+		--We have started building it, don't need to issue order
+		SGroup_DestroyAllSquads(self.SGroupName)
+		SGroup_Destroy(self.SGroupID)
+
+		g_AllTrackedAbilityBuildersCount = g_AllTrackedAbilityBuildersCount - 1
+		table.remove(g_AllTrackedAbilityBuilders, PosInTrackedAbilityBuilders)
+
+	else
+		
+		-- issue order
+		Command_SquadEntity( 
+			self.OwnedByPlayer,
+			self.SGroupID,
+			SCMD_BuildStructure,
+			self.TargetEGroupName
+		)	
+
+	end
+end
+
+function Setup_GlobalAbilities()
+
+	local debugFuncName = "Setup_GlobalAbilities"
+	
+	Log(0, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+
+	Setup_ActualGlobalAbilies()
+	EventCue_DoEvent( 'warning', 'music/stinger_completeobjective', 'Global Abilities Activated!', 'Global Abilities Activated!.' )
+
+	
+	Log(0, 0, debug_ResMatureCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+
+end
+
+function GetLocalPlayerStruct()
+
+	local debugFuncName = "GetLocalPlayerStruct"
+
+	local localPlayerIndex = Tut_GetLocalPlayerIndex()
+
+	for i = 1, g_PlayerCount do
+		if(g_AllPlayers[i].PlayerIndex == localPlayerIndex) then
+			return g_AllPlayers[i]
+		end
+	end
+
+	Log(2, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Local player does not exist!")
+
+end
+
+function Setup_ActualGlobalAbilies()
+
+	local debugFuncName = "Setup_AbilityButtons"
+
+	Dev_SetupAutoConstructor()
+
+	for i = 1, g_PlayerCount do
+
+
+	end
+	
+	local RaceName = ""
+	for i = 1, g_PlayerCount do
+		RaceName = g_AllPlayers[i].RaceDetails.RaceName
+		local squadBP = "world_squad_global_ability_caster_"..RaceName
+		if(SBP_Exists(squadBP)) then
+			ActivateSummonSquadAbility(squadBP, g_AllPlayers[i].Player, World_Pos(0,0,0), 1)
+		else
+			Log(2, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Global Ability Caster SBP for race '"..RaceName.."' doesn't exist, make sure there is an entity called '"..GlobalAbilityCasterSBP.."' otherwise commander UI will be odd!")
+		end
+
+		--[[CHAOS GLOBALS]]
+		if(RaceName == "chaos_marine_race") then
+
+			local AbilityStruct_ChaosMarines1 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_ChaosMarines2 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_ChaosMarines3 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_ChaosMarines4 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_ChaosMarines5 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+			--T0 Secret Identity 
+			--T0 Target a squad and it gets infiltrated, possibly get some small extra benefits 
+			--Sigyl of the Rift to send it to the HQ? Or to transport between 2 locations? Perhaps ability for the Sorcerer?
+			--T1 Return to HQ
+			--T2 Target squad and for a duration if it comes near to bloodsplat, destroy it, spawn a rot fly that has number = to the number of bloodsplats in the area. bloodsplats near the rot fly will add another member to the squad or spawn another squad?..
+			--T2 Dark flames
+			--T3 Nuke 8 pointed star that damages out from the centre with KB. while active lighting randomly spawns in the circle, rocks spawn at the ends that are owned by the world or player?
+
+		--[[DARK ELDAR GLOBALS]]
+		elseif(RaceName == "dark_eldar_race") then
+			
+			local AbilityStruct_DarkEldar1 = CreateGlobalAbility(
+				squadBP.."_seed_souls",
+				g_AllPlayers[i], 
+				"GlobalAbility_DarkEldar_SeedSouls", 
+				"global_dark_eldar_seed_souls_entity",
+				"TARGETED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_DarkEldar2 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_DarkEldar3 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_DarkEldar4 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_DarkEldar5 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			AbilityStruct_DarkEldar1.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				_pos = _self.LastCastedEntityPosition
+
+				local costSuccess = FireCost(_self.CasterPlayer, -30, -100, 0, 0, 0, 0)
+
+				if(costSuccess) then
+					World_FXEvent("data:Art/Events/Races/dark_eldar/Ability/dark_eldar_global_seed_soul", _pos)
+					ActivateMultiSummonSquadAbility("dark_eldar_squad_slave_murdered_long", _self.CasterPlayer.Player, _pos, {x = 1, y = 0, z = 1}, 5, 0, 0)
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
+			
+			--[[T1 Target captured point without an lp, steal 100req and decap it. vs necron you steal 50 power]]
+			--[[T2 Foul Experiment Target an area, all souls in that area get destroyed and summon a zombie. zombie is tanky but looses HP over time, uncontrollable. if no souls are there, summon 3 zombies. zombie has no ui]]
+			--[[T2 Every vehicle currently alive and hellions gets a forcefield]]
+			--[[T3 Recharge all soul abilities instantly, gain 150 souls]]
+
+		--[[ELDAR GLOBALS]]
+		elseif(RaceName == "eldar_race") then
+
+			--Global 1		--WE NEED TO MAKE THIS MAKE A SOUND FOR ALL PLAYERS TO HEAR
+			local AbilityStruct_Eldar1 = CreateGlobalAbility(
+				squadBP.."_webway_gate",
+				g_AllPlayers[i], 
+				"GlobalAbility_Eldar_SummonWebwayGate", 
+				"global_eldar_summon_webway_gate_entity",
+				"TARGETED",
+				"GROUND",
+				table.getn(g_AllTrackedAbilities)
+			)
+			
+			local AbilityStruct_Eldar2 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+			
+			local AbilityStruct_Eldar3 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+			
+			local AbilityStruct_Eldar4 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+			
+			local AbilityStruct_Eldar5 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			AbilityStruct_Eldar1.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				_pos = _self.LastCastedEntityPosition
+
+				local costSucess = FireCost(_self.CasterPlayer, -30, -100, 0, 0, 0, 0)
+				if(costSuccess) then
+					ActivateAutoConstructionAbility(_pos, _self.CasterPlayer, "eldar_webway_gate")
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
+		
+			--[[T1 Swift movement, all troops including allies get 20% speed bonus]]
+			--[[T2 Summon squad of wraithguard near a webway gate]]
+			--[[T2 Target area, all enemy squads get full silenced (remove all buffs from code and reset their modifiers) and silence them for 60s]]
+			--[[T3
+				Unique inspire for all units that provide special buffs depending on which it is
+					Ranger reload time 
+					Farseer & warlock ability cooldown
+					Guardian damage resistance
+					Dark reaper setup time to 0 
+					Fire dragons small range increase and dmg increase
+					Warp spiders really fast teleport cooldown
+					Seer council reinforce time decrease
+					Fire Prism reload time
+					Wraithlord bunch of healing
+					Falcon teleport time
+					Nightwing & platforms & vypers speed up
+					Turrets reload time
+					Avatar slight damage resist?
+				]]
+
+		--[[NECRON GLOBALS]]
+		elseif(RaceName == "necron_race") then	
+			
+			mod_NecronProductionOverload__modifier_01 = Modifier_Create(MAT_EntityType, "production_speed_modifier", MUT_Multiplication, 1, 3, "monolith")
+			table.insert(g_GlobalAbilityMods, mod_NecronProductionOverload__modifier_01)
+			mod_NecronProductionOverload__modifier_02 = Modifier_Create(MAT_EntityType, "production_speed_modifier", MUT_Multiplication, 1, 3, "necron_restored_monolith")
+			table.insert(g_GlobalAbilityMods, mod_NecronProductionOverload__modifier_02)
+			mod_NecronProductionOverload__modifier_03 = Modifier_Create(MAT_Player, "income_power_player_modifier", MUT_Multiplication, 1, 0.5, "")
+			table.insert(g_GlobalAbilityMods, mod_NecronProductionOverload__modifier_03)
+
+			
+			mod_NecronEternalMarch__modifier_01 = Modifier_Create(MAT_Squad, "health_get_back_up_modifier", MUT_Multiplication, 1, 1000, "")
+			table.insert(g_GlobalAbilityMods, mod_NecronEternalMarch__modifier_01)
+--return local here!!
+			AbilityStruct_Necron1 = CreateGlobalAbility(
+				squadBP.."_production_overload",
+				g_AllPlayers[i], 
+				"GlobalAbility_Necron_ProductionOverload", 
+				"global_necron_production_overload_entity",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Necron2 = CreateGlobalAbility(
+				squadBP.."_summon_obelisk",
+				g_AllPlayers[i], 
+				"GlobalAbility_Necron_SummonObelisk", 
+				"global_necron_summon_obelisk_entity",
+				"TARGETED",
+				"GROUND",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Necron3 = CreateGlobalAbility(
+				squadBP.."_scarab_swarm",
+				g_AllPlayers[i], 
+				"GlobalAbility_Necron_ScarabSwarm", 
+				"global_necron_scarab_swarm_entity",
+				"TARGETED",
+				"GROUND",
+				table.getn(g_AllTrackedAbilities)
+			)	
+			
+			local AbilityStruct_Necron4 = CreateGlobalAbility(
+				squadBP.."_thermo_overcharge",
+				g_AllPlayers[i], 
+				"GlobalAbility_Necron_ThermoOvercharge", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)	
+			
+			local AbilityStruct_Necron5 = CreateGlobalAbility(
+				squadBP.."_eternal_march",
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			AbilityStruct_Necron5.Duration = 40
+
+			AbilityStruct_Necron1.ApplyMonolithFX = function(_self, _EntityPos)
+				print(EntityData)
+				print(_self.CasterPlayer)
+				print(_self.CasterPlayer.PlayerIndex)
+				print(EntityData[_self.CasterPlayer.PlayerIndex+1])
+				print(EntityData[_self.CasterPlayer.PlayerIndex+1][_EntityPos])
+				local _MonolithEntity = EntityData[_self.CasterPlayer.PlayerIndex+1][_EntityPos]
+				print(_MonolithEntity)
+				print(_MonolithEntity.EntityBlueprint)
+				print(_MonolithEntity.EntityPosition)
+				local FX = World_FXEvent("data:Art/Events/races/necron/abilities/monolith_production_boost", _MonolithEntity.EntityPosition)
+				local tmpEntry = 
+				{
+					Entity = _MonolithEntity,
+					FX = FX
+				}
+
+				table.insert(_self.AllMonolithFX, tmpEntry)
+				
+			end
+
+			AbilityStruct_Necron1.RemoveMonolithFX = function(_self, _posToRemove)
+
+				World_FXEventDestroy(_self.AllMonolithFX[_posToRemove].FX)
+				table.remove(_self.AllMonolithFX, _posToRemove)
+
+			end
+
+			AbilityStruct_Necron1.Duration = 3 --25
+			AbilityStruct_Necron1.AllMonolithFX = {}
+			AbilityStruct_Necron1.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+				_self.AppliedModifierIDs = {}
+				_self.AllMonolithFX = {}
+				_pos = _self.LastCastedEntityPosition
+
+				local costSuccess = FireCost(_self.CasterPlayer, -30, 0, 0, 0, 0, 0)
+
+				if(costSuccess) then
+
+					--[[local modID_01 = Modifier_ApplyToPlayer(mod_NecronProductionOverload__modifier_01, _self.CasterPlayer.Player)
+					local modID_02 = Modifier_ApplyToPlayer(mod_NecronProductionOverload__modifier_02, _self.CasterPlayer.Player)
+					local modID_03 = Modifier_ApplyToPlayer(mod_NecronProductionOverload__modifier_03, _self.CasterPlayer.Player)
+					table.insert(_self.AppliedModifierIDs, modID_01)
+					table.insert(_self.AppliedModifierIDs, modID_02)
+					table.insert(_self.AppliedModifierIDs, modID_03)
+
+					_self.ActivatedTime = g_WorldTime
+					_self:ActivateTimedAbility()]]
+
+					ActivateSummonEntityAbility("necron_production_overload_ability_caster", _self.CasterPlayer.Player, _pos)	
+					print("Do ability done")
+
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
+
+			AbilityStruct_Necron1.TimedAbilityEnd = function( _self )
+
+				_self.IsActive = false
+				for i = 1, table.getn(_self.AppliedModifierIDs) do
+
+					Modifier_Remove(_self.AppliedModifierIDs[i])
+
+				end
+
+				for j = 1, table.getn(_self.AllMonolithFX) do
+
+					_self.RemoveMonolithFX(_self, j)
+
+				end
+				
+				print("End ability done")
+			end
+			
+			AbilityStruct_Necron1.TimedAbilityUpdate = function(_self)
+				for i = 1, table.getn(_self.AllMonolithFX) do
+
+					if(Entity_Exists(_self.AllMonolithFX[i].Entity.EntityID) == false ) then
+						
+						print("REMOVING FX!")
+						_self:RemoveMonolithFX(_self, i)
+
+					end
+
+				end
+
+				local AllMonolithEntities, AllMonolithEntities_Index = Get_EntityDataFromEntityBP("monolith", _self.CasterPlayer.PlayerIndex + 1)
+				print(AllMonolithEntities[1])
+				print(AllMonolithEntities[1].EntityUniqueID)
+				print(AllMonolithEntities[1].EntityPosition)
+				local AllRestoredMonolithEntities, AllRestoredMonolithEntities_Index = Get_EntityDataFromEntityBP("necron_restored_monolith", _self.CasterPlayer.PlayerIndex + 1)
+				local newTable = {AllMonolithEntities_Index, AllRestoredMonolithEntities_Index}
+				local AllEntitiesIndex = TableMerge(newTable)
+				newTable = {AllMonolithEntities, AllRestoredMonolithEntities}
+				local AllEntities = TableMerge(newTable)
+				for i = 1, TableLength(AllEntitiesIndex) do
+
+					local MonolithFXAlreadyApplied = false
+					for j = 1, TableLength(_self.AllMonolithFX) do
+
+						if(_self.AllMonolithFX[j].Entity == AllEntities[i]) then
+							print("FX ALREADY APPLIED!")
+							MonolithFXAlreadyApplied = true
+						end
+
+					end
+
+					if(MonolithFXAlreadyApplied == false) then
+						print("APPLYING FX!")
+						--Not working???
+						--_self:ApplyMonolithFX(_self, AllEntitiesIndex[i])
+
+					end
+				end
+
+				print("TimedAbilityUpdate ability done")
+			end
+
+
+			AbilityStruct_Necron2.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+				
+				_pos = _self.LastCastedEntityPosition
+
+				local costSuccess = FireCost(_self.CasterPlayer, -50, 0, 0, 0, 0, 0)
+
+				if(costSuccess) then
+
+					ActivateSummonEntityAbility("necron_summon_obelisk", _self.CasterPlayer.Player, _pos)				
+
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
+
+			
+			AbilityStruct_Necron3.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+				
+				_pos = _self.LastCastedEntityPosition
+
+				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+
+				if(costSuccess) then
+
+					ActivateMultiSummonSquadAbility("necron_scarab_ground_squad", _self.CasterPlayer.Player, _pos, {x = 1, y = 0, z = 1}, 3, 6, 9)		
+
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
+
+			AbilityStruct_Necron4.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+				
+
+				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+
+				if(costSuccess) then
+
+					Cmd_CastAbilitySelf(_self.LinkedSquadGroupName, "necron_thermo_overcharge")	
+
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
+
+			AbilityStruct_Necron5.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+				
+
+				local costSuccess = FireCost(_self.CasterPlayer, -300, 0, 0, 0, 0, 0)
+
+				if(costSuccess) then
+
+					_self.ActivatedTime = g_WorldTime
+					_self:ActivateTimedAbility()
+
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end	
+			
+			AbilityStruct_Necron5.TimedAbilityUpdate = function(_self)
+
+				local CasterPlayerIndex = _self.CasterPlayer.PlayerIndex + 1
+				for i = 1, g_PlayerSquadCount[CasterPlayerIndex] do
+
+					if(Squad_Exists(g_AllSquadsData[CasterPlayerIndex][i].SquadUniqueID) == true ) then
+
+						if(ModifierUtil_GetSquadApplierIndex(mod_NecronEternalMarch__modifier_01, g_AllSquadsData[CasterPlayerIndex][i].SquadID) == 0) then
+							print("ETERNAL MARCH APPLYING TO: "..g_AllSquadsData[CasterPlayerIndex][i].SquadGroupName)
+							local modID_01 = ModifierUtil_ApplyToSGroup(g_AllSquadsData[CasterPlayerIndex][i].SquadGroupID, mod_NecronEternalMarch__modifier_01, true)
+							table.insert(_self.AppliedModifierIDs, modID_01)
+
+						end
+					end
+
+				end
+			end
+
+			AbilityStruct_Necron5.TimedAbilityEnd = function( _self )
+
+				_self.IsActive = false
+
+				local CasterPlayerIndex = _self.CasterPlayer.PlayerIndex + 1
+				for i = 1, g_PlayerSquadCount[CasterPlayerIndex] do
+
+					if(Squad_Exists(g_AllSquadsData[CasterPlayerIndex][i].SquadUniqueID) == true ) then
+
+						if(ModifierUtil_GetSquadApplierIndex(mod_NecronEternalMarch__modifier_01, g_AllSquadsData[CasterPlayerIndex][i].SquadID) ~= 0) then
+							print("ETERNAL MARCH REMOVING ON: "..g_AllSquadsData[CasterPlayerIndex][i].SquadGroupName)
+							ModifierUtil_ApplyToSGroup(g_AllSquadsData[CasterPlayerIndex][i].SquadGroupID, mod_NecronEternalMarch__modifier_01, false)
+
+						end
+					end
+
+				end
+
+				_self.AppliedModifierIDs= {}
+				
+				print("End ability done")
+			end
+			--[[T0 Production Overload]]
+			--[[T1 Summon crystal]] 
+			--[[T2 Big gen ability to buff all necron]]
+			--[[T2 Summon a bunch of basic scarabs at target location]]
+			--[[T3 All troops have 100% revive chance including wraith and tomb spyder]]
+
+		--[[ORK GLOBALS]]
+		elseif(RaceName == "ork_race") then	
+
+			local AbilityStruct_Ork1 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Ork2 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Ork3 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Ork4 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Ork5 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+			--[[T0 All troops get 20% cost reduction for 30s]]
+			--[[T1 Use ur choppa / use ur dakka]]
+			--[[T2 Summon 3 squad of feral boys at target location for free tie up]]
+			--[[T2 Cult of speed, increase speed of all vehicles by 30% also affects allies, decrease reload time by 30%]]
+			--[[T3 Summon boss banner, every 1s reinforce an entity or leader to squad nearby, when banner is destroyed all orks turn on eachother. when destroyed play the campaign voice lines for it]] 
+	
+		--[[SISTERS GLOBALS]]
+		elseif(RaceName == "sisters_race") then	
+			
+			local AbilityStruct_Sisters1 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Sisters2 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Sisters3 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Sisters4 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Sisters5 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+			--[[T0 summon a shrine that provides faith over time. troops near it also get morale resistance and a speed boost of 20%. shrine has HP and can be destroyed, use a small living saint shrine model for this]]
+			--[[T1 Blessed Armour - Target squad gets damage and morale resistance of 50% and restore their morale, lasts 40s]]
+			--[[T2 Target location and deploy 5 or 6 fire mines in the area]]
+			--[[T2 All flame based troops get a damage buff globally (cellestian, inferno pistol, penitent, immolator)]]
+			--[[T3
+				200 Req, 80 Power
+				Loyal Servant of the Imperium: Summon random loyalist troop, special version that is already fully upgraded to appropriate level, choose from pool of good units
+				Pool:
+					Grey Knights
+					Purifier
+					Purgation
+					Ogryn
+					Veteran of Typhon
+					Veterans of Aurelia
+			 ]]
+
+		--[[SPACE MARINE GLOBALS]]
+		elseif(RaceName == "space_marine_race") then
+
+			local AbilityStruct_SpaceMarine1 = CreateGlobalAbility(
+				squadBP.."_basic_scan",
+				g_AllPlayers[i], 
+				"GlobalAbility_SpaceMarines_BasicScan", 
+				"global_space_marines_basic_scan_entity",
+				"TARGETED",
+				"GROUND",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			AbilityStruct_SpaceMarine1.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				_pos = _self.LastCastedEntityPosition
+				local fxYOffset = 5 
+				local fxSpawnPos = _pos
+				local costSuccess = FireCost(_self.CasterPlayer, -30, 0, 0, 0, 0, 0)
+				if(costSuccess) then
+					fxSpawnPos.y = _pos.y + fxYOffset
+					World_FXEvent("data:Art/Events/Races/Space_Marines/Abilities/space_marine_global_basic_scan", fxSpawnPos)
+					ActivateSummonEntityAbility("marines_detection_field_hq", _self.CasterPlayer.Player, _pos)
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
+
+
+			local AbilityStruct_SpaceMarine2 = CreateGlobalAbility(
+				squadBP.."_blessings_of_omnissiah",
+				g_AllPlayers[i], 
+				"GlobalAbility_SpaceMarines_BlesingsOfOmnissiah", 
+				"global_space_marines_blessings_of_omnissiah_entity",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			AbilityStruct_SpaceMarine2.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				_pos = _self.LastCastedEntityPosition
+				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+				if(costSuccess) then
+					ActivateSummonEntityAbility("marines_blessing_of_omnissiah_ability_caster", _self.CasterPlayer.Player, _pos)
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
+
+
+			local AbilityStruct_SpaceMarine3 = CreateGlobalAbility(
+				squadBP.."_drop_pod",
+				g_AllPlayers[i], 
+				"GlobalAbility_SpaceMarines_DropPod", 
+				"global_space_marines_drop_pod_entity",
+				"TARGETED",
+				"GROUND",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			AbilityStruct_SpaceMarine3.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				_pos = _self.LastCastedEntityPosition
+				local costSuccess = FireCost(_self.CasterPlayer, -100, 0, 0, 0, 0, 0)
+				if(costSuccess) then
+					Util_CreateSquadsAndDropPodIn_GlobalAbility( _self.CasterPlayer.Player, SGroup_GetName(GetUniqueSG("GlobalAbility_SM_DropPod")), "space_marine_squad_drop_pod_emplacement", _pos, 1, 1 )
+					--World_FXEvent("data:Art/Events/Races/Space_Marines/Abilities/space_marine_global_basic_scan", fxSpawnPos)
+					
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end			
+			
+			local AbilityStruct_SpaceMarine4 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)	
+			
+			local AbilityStruct_SpaceMarine5 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			--T1 For the emperor, damage buff and kb resistance
+			--T2 Single drop pod that does high KB to enemy and provides cover around it and decreases reinforce time, can be destroyed if focused. possibly make it able to produce tacs and maybe give it addons like tunnel
+			--T2 Blessing of omnissiah to heal all vehicles
+			--T3 EMP, in area stun all buildings and vehicles, prevent ranged shooting for 20s, prevent all tp, mechanical based infantry slowed down like nw, wg etc. AoE expanding 
+
+		--[[SPACE MARINE VETERANS GLOBALS]]
+		elseif(RaceName == "space_marine_veteran_race") then	
+
+			local AbilityStruct_Veterans1 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Veterans2 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Veterans3 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Veterans4 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Veterans5 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+			--[[T2 Reveal all enemy line of sight for a time?]]
+
+		--[[TAU GLOBALS]]
+		elseif(RaceName == "tau_race") then
+			
+			local AbilityStruct_Tau1 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Tau2 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Tau3 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Tau4 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Tau5 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+			--[[Reveal all gens line of sight and possibly lp line of sight too. would be good to have it so the gen under construction also ]]
+
+		--[[GUARD GLOBALS]]
+		elseif(RaceName == "guard_race") then
+			
+			--Global 1   --WE NEED TO MAKE THIS MAKE A SOUND FOR ALL PLAYERS TO HEAR
+			local AbilityStruct_Guard1 = CreateGlobalAbility(
+				squadBP.."_tunnel_network",
+				g_AllPlayers[i], 
+				"GlobalAbility_Guard_SummonBunker", 
+				"global_guard_summon_bunker_entity",
+				"TARGETED",
+				"GROUND",
+				table.getn(g_AllTrackedAbilities)
+			)
+			
+			local AbilityStruct_Guard2 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"GlobalAbility_Guard_DebuffFlare", 
+				"guard_flare_debuff_ability_caster",
+				"TARGETED",
+				"GROUND",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Guard3 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Guard4 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"GlobalAbility_Guard_ValkyrieReinforce", 
+				"global_guard_valkyrie_reinforce_entity",
+				"TARGETED",
+				"GROUND",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Guard5 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			AbilityStruct_Guard1.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				_pos = _self.LastCastedEntityPosition				
+				local costSuccess = FireCost(_self.CasterPlayer, -30, -100, 0, 0, 0, 0)
+
+				if(costSuccess) then
+					ActivateAutoConstructionAbility(_pos, _self.CasterPlayer, "guard_infantry_summon")
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
+
+			AbilityStruct_Guard2.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				_pos = _self.LastCastedEntityPosition				
+				_self.Duration = 4
+				local costSuccess = FireCost(_self.CasterPlayer, -50, 0, 0, 0, 0, 0)
+
+				if(costSuccess) then
+					ActivateSummonEntityAbility("guard_flare_debuff_ability_caster", _self.CasterPlayer.Player, _pos)
+					_self.LoopingFX = World_FXEventLooping( "data:Art/Events/Races/guard/Abilities/guard_debuff_flare_combo", _pos )
+					World_FXEvent("data:Art/Events/Races/Space_Marines/Abilities/space_marine_global_basic_scan", fxSpawnPos)
+					
+					_self.ActivatedTime = g_WorldTime
+					_self:ActivateTimedAbility()
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
+			
+			--Not working?
+			AbilityStruct_Guard2.TimedAbilityEnd = function(_self)	
+				print("STEDDDDDD")
+				World_FXEventDestroy(_self.LoopingFX) 
+				
+			end
+
+			AbilityStruct_Guard4.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+	
+				_pos = _self.LastCastedEntityPosition		
+				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+
+				if(costSuccess) then
+
+					--[[ init ability globals ]]
+					_self.TimeToDoReinforceLogic = g_WorldTime + 5.5 --4s delay
+					_self.TimeToRemoveDropShip = g_WorldTime + 8 --10s delay
+					_self.Duration = 18 --This is when ability finally ends, so the cleanup
+					_self.HasReinforcedTroops = false
+					_self.HasRemovedDropShip = false	
+
+					--[[ create the drop ship ]]
+					local squadID = ActivateSummonSquadAbility("npc_valkyrie", _self.CasterPlayer.Player, _pos, 1)
+					local sgroupID = GetUniqueSG("npc_valkyrie")			
+					_self.DropPodSquadGroupID = sgroupID
+					local sgroupName = SGroup_GetName(sgroupID)
+					SGroup_Add(sgroupID, squadID)
+					Anim_PlaySGroupAnim(sgroupID, "sp_land")
+					SGroup_SetHealthInvulnerable(sgroupName, true)
+					
+					_self.ActivatedTime = g_WorldTime
+					_self:ActivateTimedAbility()
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+
+			end
+			
+			AbilityStruct_Guard4.TimedAbilityUpdate = function(_self)
+			
+				if(_self.HasReinforcedTroops == false) then
+					if(g_WorldTime >= _self.TimeToDoReinforceLogic) then
+
+						_self.DeployTroops(_self)
+						_self.HasReinforcedTroops = true
+						
+					end
+				end	
+
+				if(_self.HasRemovedDropShip == false) then
+					if(g_WorldTime >= _self.TimeToRemoveDropShip) then
+
+						Anim_PlaySGroupAnim(_self.DropPodSquadGroupID, "sp_take_off")
+						_self.HasRemovedDropShip = true
+
+					end
+				end	
+			end
+			
+			AbilityStruct_Guard4.TimedAbilityEnd = function(_self)	
+
+				local sgName = SGroup_GetName(_self.DropPodSquadGroupID) 
+				SGroup_DeSpawn(sgName)
+				SGroup_DestroyAllSquads(sgName)
+
+			end
+			
+			AbilityStruct_Guard4.DeployTroops = function( _self )
+
+				_pos = _self.LastCastedEntityPosition
+
+				local validRespawnSquads = { "guard_squad_command_squad", "guard_squad_guardsmen", "guard_squad_guardsmen_rider","guard_squad_kasrkin", "guard_squad_spotter", "guard_squad_ogryns" }
+				local validWeaponUpgrades = { "guard_grenade_launcher_guardsmen", "guard_plasma_gun_guardsmen", "guard_grenade_launcher_kasrkin", "guard_plasma_gun_kasrkin" }
+				local validHealSquads = { "guard_squad_guardsmen", "guard_squad_assassin", "guard_heavy_weapons_team_squad", "guard_squad_command_squad", "guard_squad_commissar", "guard_squad_enginseer", "guard_squad_priest", "guard_squad_psyker" }
+				local validAddLeaderSingularSquads = { "guard_squad_guardsmen", "guard_squad_guardsmen_rider","guard_squad_kasrkin", "guard_squad_ogryns" }
+				local validAddLeaderMultipleSquads = { "guard_squad_command_squad" }
+
+				--Later on we will need to make sure this squad inherits XP etc.
+				local RespawnSquadAtFull = function( sgroupid, itemindex, squadID )
+
+					local squadBP = Squad_GetBlueprintName(squadID)
+					local sgroupIDRespawn = GetUniqueSG("respawn_troopers")
+					local sgroupRespawnName = SGroup_GetName(sgroupIDRespawn)
+					local squadPos = Squad_GetPosition(squadID)
+					
+					local isValidRespawn, _ = TableContains(validRespawnSquads, squadBP)
+					local isValidHeal, _ = TableContains(validHealSquads, squadBP)
+					local isValidAddLeader, _ = TableContains(validAddLeaderSingularSquads, squadBP)
+					local isValidAddLeaderMultiple, _ = TableContains(validAddLeaderMultipleSquads, squadBP)
+					local currentLeaderCount = Squad_CountLeaders(squadID)
+
+					if(isValidRespawn) then
+						local hasAttached = false
+						local attachedBP = nil
+						local allAttachedWeapons = {}						
+
+						--Get current weapons for the current squad
+						for i = 1, TableLength(validWeaponUpgrades) do
+							if(Squad_CanUpgradeWeapon( squadID, validWeaponUpgrades[i] )) then 
+								local count = Squad_WeaponCount(squadID, validWeaponUpgrades[i])
+								allAttachedWeapons[validWeaponUpgrades[i]] = count
+							end
+						end
+
+						if(Squad_IsAttached( squadID )) then
+							hasAttached = true
+							attachedBP = Squad_GetAttachedBlueprintName( squadID )
+						end						
+						
+						--Despawn and respawn squad at full size
+						Squad_DeSpawn(squadID)
+						local loadout = 1000
+						
+						--Special cases that have varying squad sizes. any units that have a change in squad size need special adjustments here in code as game not smart enough to work out mods
+						if(squadBP == "guard_squad_guardsmen") then
+							if(Player_GetResearchState(_self.CasterPlayer.Player, "guard_gu_members_t2") == RS_Complete) then
+								if(Player_GetResearchState(_self.CasterPlayer.Player, "guard_gu_members_t3") == RS_Complete) then
+									if(Player_GetResearchState(_self.CasterPlayer.Player, "guard_gu_members_t4") == RS_Complete) then
+										loadout = 13
+									else
+										loadout = 11
+									end
+								else
+									loadout = 9
+								end
+							else
+								loadout = 7
+							end
+						elseif(squadBP == "guard_squad_guardsmen_rider") then
+							if(Player_GetResearchState(_self.CasterPlayer.Player, "guard_upgrade_rider_melee") == RS_Complete) then
+								loadout = 9
+							else
+								loadout = 7
+							end
+						end
+
+						squadID = ActivateSummonSquadAbility(squadBP, _self.CasterPlayer.Player, squadPos, loadout)
+						SGroup_Add(sgroupRespawnName, squadID)
+
+						--Respawn the attached leader and attach him
+						if(hasAttached == true) then
+							local attachSquadID = ActivateSummonSquadAbility(attachedBP, _self.CasterPlayer.Player, squadPos, 1)
+							local sgroupIDAttach = GetUniqueSG("attach_troopers")
+							local sgroupIDAttachName = SGroup_GetName(sgroupIDAttach)
+							SGroup_Add(sgroupIDAttach, attachSquadID)
+							Cmd_AttachSquads( sgroupIDAttachName, sgroupRespawnName ) --Not working!!?? need to adjust later
+						end
+
+						--Try add weapons to the respawned squad, same as he had before
+						for i = 1, TableLength(validWeaponUpgrades) do
+							if(allAttachedWeapons[validWeaponUpgrades[i]] ~= nil) then 
+								local count = allAttachedWeapons[validWeaponUpgrades[i]]
+								if(count > 0) then
+									Squad_ForceUpgradeWeapons(squadID, validWeaponUpgrades[i], count)
+								end
+							end
+						end
+
+					else
+						
+						SGroup_Add(sgroupRespawnName, squadID)
+						Squad_SetMorale(squadID, 1)
+						SGroup_Remove(sgroupid, squadID)
+
+					end
+					
+
+					if(isValidHeal) then
+
+						SGroup_SetAvgHealth(sgroupRespawnName, 1)
+
+					end
+
+					if(isValidAddLeader) then
+
+						Squad_AddLeader( squadID )
+
+					end
+
+					if(isValidAddLeaderMultiple) then
+						local extraLeaders = 0
+						local baseLeaders = 3
+						
+						if(Player_GetResearchState(_self.CasterPlayer.Player, "guard_research_command_squad_size") == RS_Complete) then
+							extraLeaders = 1
+						end
+
+						for i = 1 + currentLeaderCount, baseLeaders + extraLeaders do
+							
+							local newLeaderIndex = i
+							if(newLeaderIndex > 3) then 
+								newLeaderIndex = World_GetRand(1,3)
+							end
+							Squad_AddLeaderAtIndex( squadID, newLeaderIndex )
+						end
+
+					end
+				end
+
+				local sgroupID = GetUniqueSG("reinforce_troopers")
+				local sgroupName = SGroup_GetName(sgroupID)
+				
+				_pos = World_Pos(_pos.x, _pos.y, _pos.z)
+				Player_GetAllSquadsNearPos(_self.CasterPlayer.Player, sgroupName, _pos, 15)
+				SGroup_ForEach( sgroupID, RespawnSquadAtFull )
+				SGroup_DestroyAllSquads(sgroupName)
+				SGroup_Destroy(sgroupName)
+				
+				--Rule_AddOneShot(Rule_IG_EmergencyDrop_TakeOff, 15)
+
+			end
+
+			--[[T1 flare that lowers sight range of enemies]]
+			--[[T2 off-map artillery, select location and then 3 mouse locations will be selected to target the strike]]
+			--[[T2 deploy a valkyrie and reinforce all squads to full]]
+			--[[T3 PDF Reinforcements, valkyrie drop 1 goty leman russ with less hp than a regular leman, 2 PDF guardsmen squads fully reinforced with random weaponry, and colonel brom]]
+
+		--[[ORDO MALLEUS GLOBALS]]
+		elseif(RaceName == "inquisition_daemonhunt_race") then
+			
+			local AbilityStruct_Inquisition1 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+			
+			local AbilityStruct_Inquisition2 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Inquisition3 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Inquisition4 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+			
+			local AbilityStruct_Inquisition5 = CreateGlobalAbility(
+				squadBP,
+				g_AllPlayers[i], 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+			--T0 Restore abilities on target squad
+			--T1 Psychic assailment, increase range, sight, and range damage of squad
+			--T2 Spawn a relic on the map, can be captured by a squad and brought back to one of your structures for a benefit
+			--T2 Buff all flame weaponry
+			--Choose an enemy squad or structure and it can't produce a certain thing for awhile
+			--T3 Exterminatus?
+
+		else
+			Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Race '"..RaceName.."' is undefined in if statement! Assuming it has no global abilities.")
+		end
+	end
+end
+
+function Util_CreateSquadsAndDropPodIn_GlobalAbility( playerId, squadgroupName, squadBlueprint, pos, numsquads, loadout )
+	local groupID = _ScarUtil_Private.CreateSquads(
+		playerId,
+		squadgroupName,
+		squadBlueprint,
+		pos,
+		numsquads,
+		loadout,
+		false -- do not spawn
+	)
+	
+	Util_DropPod_GlobalAbility( squadgroupName, pos )
+	
+	return groupID
+end
+
+function Util_DropPod_GlobalAbility( sgroupname, pos )
+	-- depspawn
+	SGroup_DeSpawn( sgroupname )
+		
+	-- drop pod
+	Squad_DeepStrikeToPos( sgroupname, "space_marine_gobal_ability_drop_pod_building", pos )
+	
+end
+
+--Do this later, requires fire cost to be built into ability as well as being a function
+--[[function CheckGlobalAbilityRequirements()
+
+	for player = 1, g_PlayerCount do
+		if(g_AllPlayers[player].PlayerIndex = Tut_GetLocalPlayerIndex()) then
+
+			for i = 1, table.getn(g_AllTrackedAbilities) do
+
+				if(g_AllPlayers[player].CurrentResources.RT_Requisition < g_AllTrackedAbilities.FireCost)
+
+			end
+
+		end
+	end
+
+end]]
+
+function ActivateMultiSummonEntityAbility(_EBP, _Player, _Pos, _RandomOffsetPerEntity, _NumberOfEntities) 
+
+	local AllCreatedEntities = {}
+	_Pos = World_Pos(_Pos.x, _Pos.y, _Pos.z)
+	for i = 1, _NumberOfEntities do
+		local tmpPos = _Pos
+		tmpPos.x = _Pos.x + World_GetRand(-_RandomOffsetPerEntity.x, _RandomOffsetPerEntity.x)
+		tmpPos.y = _Pos.y + World_GetRand(-_RandomOffsetPerEntity.y, _RandomOffsetPerEntity.y)
+		tmpPos.z = _Pos.z + World_GetRand(-_RandomOffsetPerEntity.z, _RandomOffsetPerEntity.z)
+		table.insert(AllCreatedEntities, ActivateSummonEntityAbility(_EBP, _Player, tmpPos, _Loadout))
+	end
+
+	return AllCreatedEntities
+
+end
+
+function ActivateSummonEntityAbility(_EBP, _Player, _Pos)
+	
+	_Pos = World_Pos(_Pos.x, _Pos.y, _Pos.z)
+	local entity = Entity_Create(_EBP, _Player, _Pos)
+	Entity_Spawn(entity)
+
+	return entity
+end
+
+function ActivateMultiSummonSquadAbility(_SBP, _Player, _Pos, _RandomOffsetPerSquad, _NumberOfSquads, _LoadoutMin, _LoadoutMax) 
+
+	local AllCreatedSquads = {}
+	_Pos = World_Pos(_Pos.x, _Pos.y, _Pos.z)
+	for i = 1, _NumberOfSquads do
+		local tmpPos = _Pos
+		local loadout = World_GetRand(_LoadoutMin, _LoadoutMax)
+		tmpPos.x = _Pos.x + World_GetRand(-_RandomOffsetPerSquad.x, _RandomOffsetPerSquad.x)
+		tmpPos.y = _Pos.y + World_GetRand(-_RandomOffsetPerSquad.y, _RandomOffsetPerSquad.y)
+		tmpPos.z = _Pos.z + World_GetRand(-_RandomOffsetPerSquad.z, _RandomOffsetPerSquad.z)
+		table.insert(AllCreatedSquads, ActivateSummonSquadAbility(_SBP, _Player, tmpPos, loadout))
+	end
+
+	return AllCreatedSquads
+
+end
+
+function ActivateSummonSquadAbility(_SBP, _Player, _Pos, _Loadout)
+	
+	_Pos = World_Pos(_Pos.x, _Pos.y, _Pos.z)
+	local squad = Squad_Create(_SBP, _Player, _Pos, _Loadout)
+	Squad_Spawn(squad, _Pos)
+
+	return squad
+end
+timeSinceAbilityPress = 0
+function Update_GlobalAbilities()
+	--[[	--Maybe we could do this for singleplayer?
+	emptySGroupID = SGroup_CreateIfNotFound("emptySGroup")
+	if(SGroup_Exists("GlobalAbilityCasterTest") == false) then
+		Util_CreateSquadsAtPosition(g_AllPlayers[1].Player, SGroup_GetName(SGroup_Create("GlobalAbilityCasterTest")), "world_squad_global_ability_caster_necron_race", World_Pos(0,0,0), 1)
+		Util_CreateSquadsAtPosition(g_AllPlayers[2].Player, SGroup_GetName(SGroup_Create("GlobalAbilityCasterTest2")), "world_squad_global_ability_caster_necron_race", World_Pos(0,0,0), 1)
+	end
+	if(SGroup_IsSelected("GlobalAbilityCasterTest") or SGroup_IsSelected("GlobalAbilityCasterTest2")) then
+		
+		print("UNSELECTING!!")
+		local timed = false
+
+		if(timed) then
+			W40k_SelectSGroup(emptySGroupID)
+			Cmd_CastAbilitySelf("GlobalAbilityCasterTest", "global_necron_production_overload")
+		elseif(timeSinceAbilityPress > 3) then
+
+			timeSinceAbilityPress = 0
+			W40k_SelectSGroup(emptySGroupID)
+			Cmd_CastAbilityPos("GlobalAbilityCasterTest", "global_necron_scarab_swarm", Misc_GetMouseOnTerrain())
+
+		else
+			timeSinceAbilityPress = timeSinceAbilityPress + 1
+			print(timeSinceAbilityPress)
+		end
+	end]]
+	
+	local debugFuncName = "Update_GlobalAbilities"
+
+	for i = 1, table.getn(g_AllTrackedAbilities) do
+
+		g_AllTrackedAbilities[i]:Update()
+
+	end
+
+	Update_AllAbilityBuilders()
+
+end
+
+
+function CreateGlobalAbility(_LinkedSquadBP, _Player, _AbilityName, _ActivationEntityBP, _ActivationType, _TargetFilter)
+
+	local debugFuncName = "CreateGlobalAbility"
+	
+	local AbilityStruct = GlobalAbility:new(_LinkedSquadBP, _Player, _AbilityName, _ActivationEntityBP, _ActivationType, _TargetFilter, table.getn(g_AllTrackedAbilities))
+
+	table.insert(g_AllTrackedAbilities, AbilityStruct)
+
+	return AbilityStruct
+
+end
+
+function UpdateAbilityIconGraphics(_BtnID, _TextureTable, _TipTable, _Instructions)
+
+	local debugFuncName = "UpdateAbilityIconGraphics"
+
+	if(_BtnID == nil) then
+
+		Log(2, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Button is nil! Cannot update graphics.")
+		return 
+
+	elseif(Button_Exists(_BtnID) == nil) then
+
+		Log(2, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Button does not exist! Cannot update graphics.")
+		return
+
+	end
+	Button_SetTextures(_BtnID, _TextureTable[1], _TextureTable[2], _TextureTable[3])
+	Button_SetTooltip(_BtnID, _TipTable[1], _TipTable[2])
+	Button_SetModalInstruction(_BtnID, _Instructions)
+
+	return buttonID
+
+end
+
+--Other costs can be added when needed, but likely via a different function as this will just interact direct with resource gen system
+function FireCost(_Player, _RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls) 
+
+	if(_Player:HasEnoughResources(_RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls)) then
+
+		_Player:AddFireCost(_RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls)
+		return true
+
+	end
+
+	return false
+end
+
+devGlobalBuildertest = nil
+devGloblabuildertestStruct = nil
+UniqueBuilderSGroup = nil
+function Dev_SetupAutoConstructor(_PlayerStruct)
+	_PlayerStruct = g_AllPlayers[1]
+	UniqueBuilderSGroup = GetUniqueSG("tmpBuilderGroup")
+	local UniqueBuilderSGroupName =  SGroup_GetName(UniqueBuilderSGroup)
+	UniqueBuilderSGroup = Util_CreateSquadsAtPosition(_PlayerStruct.Player, UniqueBuilderSGroupName, "world_squad_global_builder", World_Pos(0,0,0), 1)
+	devGloblabuildertestStruct = GlobalAbilityBuilder:new( _PlayerStruct.Player, UniqueBuilderSGroup, UniqueBuilderSGroupName, "" )
+
+end
+
+function Dev_MoveSquadToPosition(player, pos)
+
+	Command_SquadPos( 
+		player.Player,
+		UniqueBuilderSGroup,
+		SCMD_Move,
+		pos
+	)	
+
+end
+
+function ActivateAutoConstructionAbility(_pos, _PlayerStruct, _structureEbps)
+
+	local UniqueBuildingEGroup = GetUniqueEG("tmpBuildingEGroup")
+	local UniqueBuilderSGroup = GetUniqueSG("tmpBuilderGroup")
+	local UniqueBuildingEGroupName = EGroup_GetName(UniqueBuildingEGroup)
+	local UniqueBuilderSGroupName =  SGroup_GetName(UniqueBuilderSGroup)
+
+	_pos = World_Pos(_pos.x,_pos.y,_pos.z)
+
+	Entity_CreateBuildingPosition(_PlayerStruct.Player, UniqueBuildingEGroupName, _structureEbps, _pos, 0)
+
+	--If group size is 0 we have not created the above entity. Likely due to it being placed in a bad position. Must show error and stop function
+	if(EGroup_Count(UniqueBuildingEGroup) == 0) then
+
+		UIWarning_Show( "FAILED TO CAST SUMMON ABILITY.\nCannot place structure at that position." )
+		return
+
+	end
+
+	Util_CreateSquadsAtPosition(_PlayerStruct.Player, UniqueBuilderSGroupName, "world_squad_global_builder", _pos, 1)
+
+	table.insert(g_AllTrackedAbilityBuilders, GlobalAbilityBuilder:new( _PlayerStruct.Player, UniqueBuilderSGroup, UniqueBuilderSGroupName, UniqueBuildingEGroupName ))
+	g_AllTrackedAbilityBuildersCount = g_AllTrackedAbilityBuildersCount + 1
+
+end
+
+function Update_AllAbilityBuilders()
+
+	for i = 1, g_AllTrackedAbilityBuildersCount do
+
+		g_AllTrackedAbilityBuilders[i]:Update()
+
+	end
+end
+
+
+function Util_GlobalAbilityButton_Create(_widgetName, _textureTable, _tipTable, _instructions, _visible, _enabled, _modal)
+
+	local debugFuncName = "Util_GlobalAbilityButton_Create"
+
+	local buttonID = Button_Add(_widgetName, _visible, _enabled, _modal)
+
+	if(buttonID == nil) then
+
+		Log(2, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Button is nil after creation! pcall has been tripped, likely invalid arguments.")
+		return 
+
+	elseif(Button_Exists(buttonID) == nil) then
+
+		Log(2, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Button does not exist after creation! Widget is likely in use.")
+		return
+
+	end
+
+	Button_SetVisible(buttonID, _visible)
+	Button_SetTextures(buttonID, _textureTable[1], _textureTable[2], _textureTable[3])
+	Button_SetTooltip(buttonID, _tipTable[1], _tipTable[2])
+	Button_SetModalInstruction(buttonID, _instructions)
+
+	return buttonID
+
+end

@@ -23,11 +23,23 @@ function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
 	    Player = _Player,
 	    PlayerIndex = _PlayerIndex,
 	    DisplayName = _DisplayName,
-	    RaceDetails = _RaceDetails,   
-	    
+	    RaceDetails = _RaceDetails,   	   
+
 	    --Variables
+		--Is this even being used anymore? just here for future..?
+		CurrentResources = 
+	    {
+			RT_Red = 30,
+	    	RT_Requisition = 0,
+	    	RT_Power =  0,
+	    	RT_Pop =  0,
+	    	RT_Faith = 0, 
+	    	RT_Souls = 0
+	    },
+
 	    CurrentNumberOfResearchedGlobals = 
 	    {
+			RT_Red = 0,
 	    	RT_Requisition = 0,
 	    	RT_Power =  0,
 	    	RT_Pop =  0,
@@ -37,6 +49,17 @@ function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
 	    
 	    CurrentAddResources = 
 	    {
+			RT_Red = 0,
+	    	RT_Requisition = 0,
+	    	RT_Power =  0,
+	    	RT_Pop =  0,
+	    	RT_Faith = 0, 
+	    	RT_Souls = 0
+	    },
+	    
+	    CurrentFireCosts = 
+	    {
+			RT_Red = 0,
 	    	RT_Requisition = 0,
 	    	RT_Power =  0,
 	    	RT_Pop =  0,
@@ -48,15 +71,59 @@ function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
 	return setmetatable(PlayerDetailsObject, self)
 end
 
+function PlayerDetails:AddFireCost( _RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls )
+
+	self.CurrentFireCosts.RT_Red = self.CurrentFireCosts.RT_Red + _RT_Red
+	self.CurrentFireCosts.RT_Requisition = self.CurrentFireCosts.RT_Requisition + _RT_Requsition
+	self.CurrentFireCosts.RT_Power = self.CurrentFireCosts.RT_Power + _RT_Power
+	self.CurrentFireCosts.RT_Pop = self.CurrentFireCosts.RT_Pop + _RT_Pop
+	self.CurrentFireCosts.RT_Faith = self.CurrentFireCosts.RT_Faith + _RT_Faith
+	self.CurrentFireCosts.RT_Souls = self.CurrentFireCosts.RT_Souls + _RT_Souls
+
+end
+
+--Returns true if we have enough, false otherwise
+function PlayerDetails:HasEnoughResources( _RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls )
+
+	if(self.CurrentResources.RT_Red < _RT_Red * -1 
+	or self.CurrentResources.RT_Requisition < _RT_Requsition * -1 
+	or self.CurrentResources.RT_Power < _RT_Power * -1 
+	or self.CurrentResources.RT_Pop < _RT_Pop * -1 
+	or self.CurrentResources.RT_Faith < _RT_Faith * -1 
+	or self.CurrentResources.RT_Souls < _RT_Souls * -1 ) then
+		print("Red: "..self.CurrentResources.RT_Red.."| Required: ".._RT_Red * -1)
+		print("Req: "..self.CurrentResources.RT_Requisition.."| Required: ".._RT_Requsition * -1)
+		print("Power: "..self.CurrentResources.RT_Power.."| Required: ".._RT_Power * -1)
+		print("Pop: "..self.CurrentResources.RT_Pop.."| Required: ".._RT_Pop * -1)
+		print("Faith: "..self.CurrentResources.RT_Faith.."| Required: ".._RT_Faith * -1)
+		print("Souls: "..self.CurrentResources.RT_Souls.."| Required: ".._RT_Souls * -1)
+		return false
+	end
+	
+	return true
+
+end
+
 function PlayerDetails:ClearCurrentResourceBonuses()
 	self.CurrentAddResources = 
-	    	{
-	    		RT_Requisition = 0,
-	    		RT_Power =  0,
-	    		RT_Pop =  0,
-	    		RT_Faith = 0, 
-	    		RT_Souls = 0
-	    	}
+    {
+	    RT_Requisition = 0,
+	    RT_Power =  0,
+	    RT_Pop =  0,
+	    RT_Faith = 0, 
+		RT_Souls = 0,
+		RT_Red = 0
+	}
+
+	self.CurrentFireCosts = 
+	{
+	    RT_Requisition = 0,
+	    RT_Power =  0,
+	    RT_Pop =  0,
+	    RT_Faith = 0, 
+	    RT_Souls = 0,
+		RT_Red = 0
+	 }
 end
 
 
@@ -75,18 +142,20 @@ end
 
 function Core_Init_Load()
 	local debugFuncName = "Core_Init_Load"	
-
 	if(DoCriticalFunction(Core_GetAllPlayers, debug_TFECore_FileName, debugFuncName.."/Core_GetAllPlayers")) then return end
 	if(DoBasicFunction(Setup_AlphaLegion, debug_TFECore_FileName, debugFuncName.."/Setup_AlphaLegion")) then Log(2, 0, debug_TFECore_FileName, debugFuncName, "Alpha Legion failed to setup!")  end
 	if(DoCriticalFunction(Setup_PassiveResourceGeneration, debug_TFECore_FileName, debugFuncName.."/Setup_PassiveResourceGeneration")) then return end
-	if(DoCriticalFunction(Setup_SquadManager, debug_TFECore_FileName, debugFuncName.."/Setup_SquadManager")) then return end
+	Setup_SquadManager()
+	Setup_EntityManager()
+	--if(DoCriticalFunction(Setup_SquadManager, debug_TFECore_FileName, debugFuncName.."/Setup_SquadManager")) then return end
 	if(DoCriticalFunction(Setup_GlobalsStorage, debug_TFECore_FileName, debugFuncName.."/Setup_GlobalsStorage")) then return end
 	if(DoCriticalFunction(Setup_StrategicPoints, debug_TFECore_FileName, debugFuncName.."/Setup_StrategicPoints")) then return end
 	if(DoCriticalFunction(Setup_MatureSystem, debug_TFECore_FileName, debugFuncName.."/Setup_MatureSystem")) then return end
 	if(DoCriticalFunction(Setup_UpkeepSystem, debug_TFECore_FileName, debugFuncName.."/Setup_UpkeepSystem")) then return end
 	if(DoCriticalFunction(Setup_NewCoverSystem, debug_TFECore_FileName, debugFuncName.."/Setup_NewCoverSystem")) then return end
-	if(DoBasicFunction(Setup_WeatherSystems, debug_TFECore_FileName, debugFuncName.."/Setup_WeatherSystems")) then return end
-	
+	DoBasicFunction(Setup_WeatherSystems, debug_TFECore_FileName, debugFuncName.."/Setup_WeatherSystems")
+	--DoBasicFunction(Setup_GlobalAbilities, debug_TFECore_FileName, debugFuncName.."/Setup_GlobalAbilities")
+	Setup_GlobalAbilities()
 end
 
 function Core_CheckForSecondaryScars()
@@ -119,12 +188,13 @@ function Core_GetAllPlayers()
 		
 	end
 
-	
 	for i = 1, g_PlayerCount do
 		--They need to be in reverse order so P1 is on top...
-		WinWarning_Add( "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[g_PlayerCount-i+1].PlayerIndex, g_AllPlayers[g_PlayerCount-i+1].Player, "", "", "" )
+		WinWarning_Add( "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[g_PlayerCount-i+1].PlayerIndex, g_AllPlayers[g_PlayerCount-i+1].Player, "", "Mature and Upkeep Counter", "This counter shows the specified players mature and upkeep." )
+		WinWarning_Add( "UI_Accumulated_Red"..g_AllPlayers[g_PlayerCount-i+1].PlayerIndex, g_AllPlayers[g_PlayerCount-i+1].Player, "", "Red Counter", "This counter shows the ammount of gathered red for the player." )
 
 	end
+
 end
 
 function DoCriticalFunction(_Func, _SentFromFunc, _FuncName)
@@ -161,12 +231,16 @@ function Core_MainLoop()
 	g_PreviousMainLoopHasCompleted = false
 
 	if(DoCriticalFunction(Set_UpdatedGameTime, debug_TFECore_FileName, "Core_MainLoop/Set_UpdatedGameTime")) then return end
-	if(DoCriticalFunction(Set_AllSquads_Immediate, debug_TFECore_FileName, "Core_MainLoop/Set_AllSquads_Immediate")) then return end
+	--if(DoCriticalFunction(Set_AllSquads_Immediate, debug_TFECore_FileName, "Core_MainLoop/Set_AllSquads_Immediate")) then return end
+	Set_AllSquads_Immediate()
+	Set_AllEntities_Immediate()
 	if(DoCriticalFunction(Set_AllSquadCoverModifiers, debug_TFECore_FileName, "Core_MainLoop/Set_AllSquadCoverModifiers")) then return end
 	if(DoCriticalFunction(Set_PlayerUpkeep, debug_TFECore_FileName, "Core_MainLoop/Set_PlayerUpkeep")) then return end 
 	if(DoCriticalFunction(Set_ResourceMature, debug_TFECore_FileName, "Core_MainLoop/Set_ResourceMature")) then return end
 	if(DoCriticalFunction(Implement_UpkeepAndMature, debug_TFECore_FileName, "Core_MainLoop/Implement_UpkeepAndMature")) then return end
 	DoBasicFunction(Set_Weather, debug_TFECore_FileName, "Core_MainLoop/Set_Weather")
+	--DoBasicFunction(Update_GlobalAbilities, debug_TFECore_FileName, "Core_MainLoop/Update_GlobalAbilities")
+	Update_GlobalAbilities()
 	g_PreviousMainLoopHasCompleted = true	
 	
 end
@@ -199,14 +273,40 @@ function Implement_UpkeepAndMature()
 				WinWarning_Add( "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex, g_AllPlayers[i].Player, "", "", "" )
 
 			end
+
+			if(WinWarning_Exists("UI_Accumulated_Red"..g_AllPlayers[Index].PlayerIndex)) then
+				
+				local DisplayTotalRed = g_AllPlayers[Index].CurrentResources.RT_Red
+				DisplayTotalRed = round(math.floor(DisplayTotalRed),1)
+
+				WinWarning_SetText( "UI_Accumulated_Red"..g_AllPlayers[Index].PlayerIndex, Loc_FormatText2( 20050002, g_AllPlayers[Index].DisplayName,  DisplayTotalRed  ))
+
+			else
+
+				WinWarning_Add( "UI_Accumulated_Red"..g_AllPlayers[Index].PlayerIndex, g_AllPlayers[i].Player, "", "", "" )
+
+			end
 			
+
 			Player_AddResource(g_AllPlayers[Index].Player, RT_Requisition, g_AllPlayers[Index].CurrentAddResources.RT_Requisition * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
 			Player_AddResource(g_AllPlayers[Index].Player, RT_Power, g_AllPlayers[Index].CurrentAddResources.RT_Power * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
 			Player_AddResource(g_AllPlayers[Index].Player, RT_Pop, g_AllPlayers[Index].CurrentAddResources.RT_Pop * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
 			Player_AddResource(g_AllPlayers[Index].Player, RT_Faith, g_AllPlayers[Index].CurrentAddResources.RT_Faith * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
 			Player_AddResource(g_AllPlayers[Index].Player, RT_Souls, g_AllPlayers[Index].CurrentAddResources.RT_Souls * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
-			
+
+			g_AllPlayers[Index].CurrentResources.RT_Red = g_AllPlayers[Index].CurrentResources.RT_Red + g_AllPlayers[Index].CurrentFireCosts.RT_Red
+			Player_AddResource(g_AllPlayers[Index].Player, RT_Requisition, g_AllPlayers[Index].CurrentFireCosts.RT_Requisition )
+			Player_AddResource(g_AllPlayers[Index].Player, RT_Power, g_AllPlayers[Index].CurrentFireCosts.RT_Power )
+			Player_AddResource(g_AllPlayers[Index].Player, RT_Pop, g_AllPlayers[Index].CurrentFireCosts.RT_Pop )
+			Player_AddResource(g_AllPlayers[Index].Player, RT_Faith, g_AllPlayers[Index].CurrentFireCosts.RT_Faith )
+			Player_AddResource(g_AllPlayers[Index].Player, RT_Souls, g_AllPlayers[Index].CurrentFireCosts.RT_Souls )
 			g_AllPlayers[Index]:ClearCurrentResourceBonuses()
+			
+			g_AllPlayers[Index].CurrentResources.RT_Requisition = Player_GetResource(g_AllPlayers[Index].Player, RT_Requisition)
+			g_AllPlayers[Index].CurrentResources.RT_Power = Player_GetResource(g_AllPlayers[Index].Player, RT_Power)
+			g_AllPlayers[Index].CurrentResources.RT_Pop = Player_GetResource(g_AllPlayers[Index].Player, RT_Pop)
+			g_AllPlayers[Index].CurrentResources.RT_Faith = Player_GetResource(g_AllPlayers[Index].Player, RT_Faith)
+			g_AllPlayers[Index].CurrentResources.RT_Souls = Player_GetResource(g_AllPlayers[Index].Player, RT_Souls)
 		else
 
 			WinWarning_Remove("UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex)
@@ -214,6 +314,14 @@ function Implement_UpkeepAndMature()
 		end
 	end
 
+end
+
+
+function ClearSelection() 
+
+	local g_EmptySGroupID = SGroup_CreateIfNotFound("emptySGroup")
+	W40k_SelectSGroup(g_EmptySGroupID)
+	
 end
 
 
