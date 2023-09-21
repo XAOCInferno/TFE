@@ -5,13 +5,13 @@ g_AllTornadoMkrs = {}
 g_AllTornados = {}
 g_CurrentTornadoMarkerGroup = {}
 
-g_TimeRequiredToSpawnTornadoMax = 28
-g_CurrentTimeRequiredToSpawnTornadoMax = 28 
+g_TimeRequiredToSpawnTornadoMax = 34
+g_CurrentTimeRequiredToSpawnTornadoMax = 34 
 g_TornadoSpawnTimeModifier_Multiplication = 1
 
 
-g_TimeRequiredToDoDustStormMax = 340
-g_CurrentTimeRequiredToDoDustStormMax = 340
+g_TimeRequiredToDoDustStormMax = 500
+g_CurrentTimeRequiredToDoDustStormMax = 500
 g_DustStormTimeModifier_Multiplication = 1
 g_DustStormDuration = 105
 g_DustStormEndTime = 0
@@ -174,7 +174,7 @@ function DustStormUpdate()
 
 		if(g_WorldTime - g_TimeRequiredToDoDustStormMax > 0 and g_IsDoingDustStorm == false) then
 
-			g_CurrentTimeRequiredToDoDustStormMax = g_WorldTime + (g_TimeRequiredToDoDustStormMax + World_GetRand(-30,90))
+			g_CurrentTimeRequiredToDoDustStormMax = g_WorldTime + (g_TimeRequiredToDoDustStormMax + World_GetRand(-30,150))
 			StartGlobalDust()
 
 		elseif(g_IsDoingDustStorm and g_WorldTime > g_DustStormEndTime) then
