@@ -20,9 +20,9 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["shoot_motion_variable_name
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["vertical_aim_motion_variable_name"] = [[]]
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
-GameData["cost_ext"]["time_cost"]["cost"]["power"] = 45
+GameData["cost_ext"]["time_cost"]["cost"]["power"] = 50
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
-GameData["cost_ext"]["time_cost"]["time_seconds"] = 9
+GameData["cost_ext"]["time_cost"]["time_seconds"] = 9.3
 GameData["cover_ext"] = Reference([[ebpextensions\cover_ext.lua]])
 GameData["cover_ext"]["cover_blocking"]["modifiers"]["modifier_01"] = Reference([[modifiers\no_modifier.lua]])
 GameData["cover_ext"]["cover_blocking"]["modifiers"]["modifier_01"]["shield_of_faith"] = false
