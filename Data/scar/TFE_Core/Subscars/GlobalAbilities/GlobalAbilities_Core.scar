@@ -340,8 +340,8 @@ function Setup_ActualGlobalAbilies()
 			--T0 Target a squad and it gets infiltrated, possibly get some small extra benefits 
 			--Sigyl of the Rift to send it to the HQ? Or to transport between 2 locations? Perhaps ability for the Sorcerer?
 			--T1 Return to HQ
-			--T2 Target squad and for a duration if it comes near to bloodsplat, destroy it, spawn a rot fly that has number = to the number of bloodsplats in the area. bloodsplats near the rot fly will add another member to the squad or spawn another squad?..
-			--T2 Dark flames
+			--T2 Target an area, spawn a rot fly that has number = to the number of bloodsplats in the area and destroy those bloodsplats. bloodsplats near the rot fly will add another member to the squad or spawn another squad?..
+			--T2 Dark flames <- we can't do this as we can't do directional globals
 			--T3 Nuke 8 pointed star that damages out from the centre with KB. while active lighting randomly spawns in the circle, rocks spawn at the ends that are owned by the world or player?
 
 		--[[DARK ELDAR GLOBALS]]
@@ -415,6 +415,8 @@ function Setup_ActualGlobalAbilies()
 			--[[T2 Foul Experiment Target an area, all souls in that area get destroyed and summon a zombie. zombie is tanky but looses HP over time, uncontrollable. if no souls are there, summon 3 zombies. zombie has no ui]]
 			--[[T2 Every vehicle currently alive and hellions gets a forcefield]]
 			--[[T3 Recharge all soul abilities instantly, gain 150 souls]]
+
+			--^Should 1 of these be more overtly aggressive?
 
 		--[[ELDAR GLOBALS]]
 		elseif(RaceName == "eldar_race") then
@@ -500,7 +502,7 @@ function Setup_ActualGlobalAbilies()
 					Nightwing & platforms & vypers speed up
 					Turrets reload time
 					Avatar slight damage resist?
-				]]
+				 ^- maybe change this as neron global for thermo felt bad]]
 
 		--[[NECRON GLOBALS]]
 		elseif(RaceName == "necron_race") then	
@@ -790,7 +792,7 @@ function Setup_ActualGlobalAbilies()
 			end
 			--[[T0 Production Overload]]
 			--[[T1 Summon crystal]] 
-			--[[T2 Big gen ability to buff all necron]]
+			--[[T2 Big gen ability to buff all necron <- this needs to be changed later]]
 			--[[T2 Summon a bunch of basic scarabs at target location]]
 			--[[T3 All troops have 100% revive chance including wraith and tomb spyder]]
 
@@ -909,7 +911,7 @@ function Setup_ActualGlobalAbilies()
 			--[[T2 Target location and deploy 5 or 6 fire mines in the area]]
 			--[[T2 All flame based troops get a damage buff globally (cellestian, inferno pistol, penitent, immolator)]]
 			--[[T3
-				200 Req, 80 Power
+				200 Req, 80 Power --Is this necessary?
 				Loyal Servant of the Imperium: Summon random loyalist troop, special version that is already fully upgraded to appropriate level, choose from pool of good units
 				Pool:
 					Grey Knights
@@ -1425,6 +1427,7 @@ function Setup_ActualGlobalAbilies()
 
 			--[[T1 flare that lowers sight range of enemies]]
 			--[[T2 off-map artillery, select location and then 3 mouse locations will be selected to target the strike]]
+			--^^ change this to the chinese artillery global
 			--[[T2 deploy a valkyrie and reinforce all squads to full]]
 			--[[T3 PDF Reinforcements, valkyrie drop 1 goty leman russ with less hp than a regular leman, 2 PDF guardsmen squads fully reinforced with random weaponry, and colonel brom]]
 
