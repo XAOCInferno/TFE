@@ -1201,7 +1201,8 @@ function Setup_ActualGlobalAbilies()
 
 				if(costSuccess) then
 					ActivateSummonEntityAbility("guard_flare_debuff_ability_caster", _self.CasterPlayer.Player, _pos)
-					_self.LoopingFX = World_FXEventLooping( "Races/guard/abilities/guard_debuff_flare_combo", _pos )
+					_self.LoopingFX = World_FXEventLooping( "data:Art/Events/Races/guard/Abilities/guard_debuff_flare_combo", _pos )
+					World_FXEvent("data:Art/Events/Races/Space_Marines/Abilities/space_marine_global_basic_scan", fxSpawnPos)
 					
 					_self.ActivatedTime = g_WorldTime
 					_self:ActivateTimedAbility()
