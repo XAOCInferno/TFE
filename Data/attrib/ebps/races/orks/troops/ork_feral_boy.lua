@@ -5,6 +5,7 @@ GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\ork_waagh_charg
 GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\ork_waagh_charge_extraweapondmg.lua]]
 GameData["ability_ext"]["abilities"]["ability_05"] = [[abilities\ork_waagh_charge_extra_speed.lua]]
 GameData["ability_ext"]["abilities"]["ability_06"] = [[abilities\ork_waagh_charge_extra_healthregen.lua]]
+GameData["ability_ext"]["abilities"]["ability_07"] = [[abilities\ork_waaagh_infantry_noicon.lua]]
 GameData["ability_ext"]["abilities"]["ability_11"] = [[abilities\generic_auto_force_reload_melee.lua]]
 --GameData["ability_ext"]["abilities"]["ability_12"] = [[abilities\generic_stonewall_type_melee.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])

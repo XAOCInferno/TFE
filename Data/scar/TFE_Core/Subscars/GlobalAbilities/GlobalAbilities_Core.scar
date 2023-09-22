@@ -810,6 +810,19 @@ function Setup_ActualGlobalAbilies()
 				table.getn(g_AllTrackedAbilities)
 			)
 
+			AbilityStruct_Ork1.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+				
+				_pos = _self.LastCastedEntityPosition
+
+				local costSuccess = FireCost(_self.CasterPlayer, -30, 0, 0, 0, 0, 0)
+
+				if(costSuccess) then
+					ActivateSummonEntityAbility("ork_production_cost_reduction_ability_caster", _self.CasterPlayer.Player, _pos)
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
+
 			local AbilityStruct_Ork2 = CreateGlobalAbility(
 				squadBP,
 				g_AllPlayers[i], 
@@ -829,6 +842,28 @@ function Setup_ActualGlobalAbilies()
 				"NONE",
 				table.getn(g_AllTrackedAbilities)
 			)
+
+			AbilityStruct_Ork3.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+				
+				_pos = _self.LastCastedEntityPosition
+
+				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+
+				if(costSuccess) then
+
+					local squadIDs = ActivateMultiSummonSquadAbility("ork_squad_feral_boy", _self.CasterPlayer.Player, _pos, {x = 1, y = 0, z = 1}, 3, 9, 9)
+					local SGroupID = GetUniqueSG("GlobalAbility_FeralBoyzSummoned")
+					local SGroupName = SGroup_GetName(SGroupID)
+					for i = 1, TableLength(squadIDs) do
+						SGroup_Add(SGroupID, squadIDs[i])
+					end
+
+					Cmd_CastAbilitySelf(SGroupName, "ork_waaagh_infantry_noicon")
+
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
 
 			local AbilityStruct_Ork4 = CreateGlobalAbility(
 				squadBP,
