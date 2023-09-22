@@ -341,7 +341,7 @@ function Setup_ActualGlobalAbilies()
 			--Sigyl of the Rift to send it to the HQ? Or to transport between 2 locations? Perhaps ability for the Sorcerer?
 			--T1 Return to HQ
 			--T2 Target an area, spawn a rot fly that has number = to the number of bloodsplats in the area and destroy those bloodsplats. bloodsplats near the rot fly will add another member to the squad or spawn another squad?..
-			--T2 Dark flames <- we can't do this as we can't do directional globals
+			--T2 Boon of chaos. applies boon of chaos based on what's happening in AoE. khorne for combat, nurgle for healing, slaanesh for neutral, tzeentch random
 			--T3 Nuke 8 pointed star that damages out from the centre with KB. while active lighting randomly spawns in the circle, rocks spawn at the ends that are owned by the world or player?
 
 		--[[DARK ELDAR GLOBALS]]
@@ -792,6 +792,7 @@ function Setup_ActualGlobalAbilies()
 			end
 			--[[T0 Production Overload]]
 			--[[T1 Summon crystal]] 
+			--[[T2 Time Rift: Slowly revert all structures in the area back to their original construction state. Afterwards they start recbuilding themselves. Cannot affect HQ]]
 			--[[T2 Big gen ability to buff all necron <- this needs to be changed later]]
 			--[[T2 Summon a bunch of basic scarabs at target location]]
 			--[[T3 All troops have 100% revive chance including wraith and tomb spyder]]
@@ -802,8 +803,8 @@ function Setup_ActualGlobalAbilies()
 			local AbilityStruct_Ork1 = CreateGlobalAbility(
 				squadBP,
 				g_AllPlayers[i], 
-				"", 
-				"",
+				"GlobalAbility_Ork_ProductionCostReduction", 
+				"global_ork_production_cost_reduction_entity",
 				"TIMED",
 				"NONE",
 				table.getn(g_AllTrackedAbilities)
@@ -812,8 +813,8 @@ function Setup_ActualGlobalAbilies()
 			local AbilityStruct_Ork2 = CreateGlobalAbility(
 				squadBP,
 				g_AllPlayers[i], 
-				"", 
-				"",
+				"GlobalAbility_Ork_UseYourChoppasAndDakka", 
+				"global_ork_use_your_choppas_and_dakka_entity",
 				"TIMED",
 				"NONE",
 				table.getn(g_AllTrackedAbilities)
@@ -822,8 +823,8 @@ function Setup_ActualGlobalAbilies()
 			local AbilityStruct_Ork3 = CreateGlobalAbility(
 				squadBP,
 				g_AllPlayers[i], 
-				"", 
-				"",
+				"GlobalAbility_Ork_FeralBoyz", 
+				"global_ork_feral_boyz_entity",
 				"TIMED",
 				"NONE",
 				table.getn(g_AllTrackedAbilities)
@@ -832,8 +833,8 @@ function Setup_ActualGlobalAbilies()
 			local AbilityStruct_Ork4 = CreateGlobalAbility(
 				squadBP,
 				g_AllPlayers[i], 
-				"", 
-				"",
+				"GlobalAbility_Ork_CultOfSpeed", 
+				"global_ork_cult_of_speed_entity",
 				"TIMED",
 				"NONE",
 				table.getn(g_AllTrackedAbilities)
