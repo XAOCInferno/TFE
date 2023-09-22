@@ -38,6 +38,7 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		SquadHasLeader = Squad_HasLeader(_sID),
 		SquadLeaderCount = Squad_CountLeaders(_sID),
 		SquadInitTime = g_WorldTime,	
+		SquadPosition = Squad_GetPosition(_sID),
 		OwnedByPlayer = Squad_GetPlayerOwner(_sID), --Duplicate functionality as bellow? I would prefere we kept this one
 		OwnerPlayer = _player, --Um do we need this./.???
 		IsSelected_Unsynced = Misc_IsSquadSelected(_sID),
@@ -62,6 +63,7 @@ function SquadData:Update(_self)
 	_self.SquadLoadout = Squad_Count(_self.SquadID)
 	_self.SquadHasLeader = Squad_HasLeader(_self.SquadID)
 	_self.SquadLeaderCount = Squad_CountLeaders(_self.SquadID)
+	_self.SquadPosition = Squad_GetPosition(_self.SquadID)
 	_self.OwnedByPlayer = Squad_GetPlayerOwner(_self.SquadID)
 	_self.IsSelected_Unsynced = Misc_IsSquadSelected(_self.SquadID)
 
@@ -343,3 +345,194 @@ function GetIfSquadSelected(_DesiredSquad)
 
 	return false
 end
+
+--Use for AoE 
+function GetAllSquadsInArea(_player, _pos, _proximity)
+	
+	SquadsInRange = {}
+	for i = 1, g_PlayerSquadCount[_player] do
+		if(World_DistancePointToPoint(_pos, g_AllSquadsData[_player][i].SquadPosition) <= _proximity) then
+			print(g_AllSquadsData[_player][i].SquadBlueprint.." Is in range.")
+			table.insert(SquadsInRange, g_AllSquadsData[_player][i])
+		end
+	end
+
+end
+
+--Use for AoE 
+function GetAllSquadsInAreaFromPlayerTable(_players, _pos, _proximity)
+	
+	SquadsInRange = {}
+	for j = 1, TableLength(_players) do
+		for i = 1, g_PlayerSquadCount[j] do
+			if(World_DistancePointToPoint(_pos, g_AllSquadsData[j][i].SquadPosition) <= _proximity) then
+				print(g_AllSquadsData[j][i].SquadBlueprint.." Is in range.")
+				table.insert(SquadsInRange, g_AllSquadsData[j][i])
+			end
+		end
+	end
+
+end
+
+--Use for single target
+function GetClosestSquadToPos(_player, _pos, _maxDistance)
+
+	local debugFuncName = "GetClosestSquadToPos"	
+
+	if(TableLength(g_PlayerSquadCount[_player]) == 0) then
+
+		Log(1, 0, debug_SquadManager_FileName, debugFuncName, "No squads are near that position as player has no squads.")
+		return nil
+		
+	end
+
+	ClosestSquad = nil
+	ShortestDistance = 10000
+	for i = 1, g_PlayerSquadCount[_player] do
+		local DistanceToPoint = World_DistancePointToPoint(_pos, g_AllSquadsData[_player][i].SquadPosition)
+		if(DistanceToPoint <= ShortestDistance and DistanceToPoint < _maxDistance) then
+			print(g_AllSquadsData[_player][i].SquadBlueprint.." Is closer with distance of "..DistanceToPoint)
+			ShortestDistance = DistanceToPoint
+			ClosestSquad = g_AllSquadsData[_player][i].SquadPosition
+		end
+	end
+
+	
+	if(ClosestSquad == nil) then
+
+		Log(1, 0, debug_SquadManager_FileName, debugFuncName, "No squads are in range of that position. You may need to increae the max distance.")
+
+	end
+
+	return ClosestSquad 
+end
+
+--Use for single target in given group
+function GetClosestSquadInSquadTableToPos(_squads, _pos, _maxDistance)
+
+	local debugFuncName = "GetClosestSquadInSquadTableToPos"	
+
+	if(TableLength(_squads) == 0) then
+
+		Log(1, 0, debug_SquadManager_FileName, debugFuncName, "No squads are near that position as player has no squads.")
+		return nil
+		
+	end
+	
+	ClosestSquad = nil
+	ShortestDistance = 10000
+	for i = 1, TableLength(_squads) do
+		local point1 = World_Pos(_squads[i].SquadPosition.x, _squads[i].SquadPosition.y, _squads[i].SquadPosition.z )
+		local point2 = World_Pos(_pos.x, _pos.y, _pos.z )
+		local DistanceToPoint = World_DistancePointToPoint(point1, point2)
+		print(DistanceToPoint)
+		if(DistanceToPoint <= ShortestDistance and DistanceToPoint < _maxDistance) then
+			print(_squads[i].SquadBlueprint.." Is closer with distance of "..DistanceToPoint)
+			ShortestDistance = DistanceToPoint
+			ClosestSquad = _squads[i]
+		end
+	end
+
+	if(ClosestSquad == nil) then
+
+		Log(1, 0, debug_SquadManager_FileName, debugFuncName, "No squads are in range of that position. You may need to increae the max distance.")
+
+	end
+
+	return ClosestSquad 
+end
+
+function GetAllSquadsOfArmourType(_player, _acceptedArmourTypes)
+
+	local debugFuncName = "GetAllSquadsOfArmourType"
+
+	local AllSquadsOfArmourType = {}
+	for i = 1, TableLength(_acceptedArmourTypes) do
+
+		for j = 1, g_PlayerSquadCount[_player] do
+
+			if(Squad_HasArmourType(g_AllSquadsData[_player][j].SquadID, _acceptedArmourTypes[i])) then
+
+				table.insert(AllSquadsOfArmourType, g_AllSquadsData[_player][j])
+
+			end
+
+		end
+
+	end
+
+	if(TableLength(AllSquadsOfArmourType) == 0) then
+
+		Log(1, 0, debug_SquadManager_FileName, debugFuncName, "No squads of the specified armour types exist.")
+
+	end
+
+end
+
+function GetAllSquadsOfArmourTypeFromSquadTable(_squads, _acceptedArmourTypes)
+
+	local debugFuncName = "GetAllSquadsOfArmourType"
+
+	if(TableLength(_squads) == 0) then
+
+		Log(1, 0, debug_SquadManager_FileName, debugFuncName, "_squads table is nil.")
+		return nil
+		
+	end
+
+	local AllSquadsOfArmourType = {}
+	for i = 1, TableLength(_acceptedArmourTypes) do
+
+		for j = 1, _squads do
+
+			if(Squad_HasArmourType(_squads[j].SquadID, _acceptedArmourTypes[i])) then
+
+				table.insert(AllSquadsOfArmourType, _squads[j])
+
+			end
+			
+		end
+
+	end
+
+	if(TableLength(AllSquadsOfArmourType) == 0) then
+
+		Log(1, 0, debug_SquadManager_FileName, debugFuncName, "No squads of the specified armour types exist.")
+
+	end
+
+	return AllSquadsOfArmourType
+
+end
+
+function GetAllSquadsOfArmourTypeFromPlayerTable(_players, _acceptedArmourTypes)
+
+	local debugFuncName = "GetAllSquadsOfArmourTypeFromPlayerTable"
+
+	local AllSquadsOfArmourType = {}
+	for i = 1, TableLength(_acceptedArmourTypes) do
+		for p = 1, TableLength(_players) do
+			local pIndex = _players[p].PlayerIndex+1
+			--Continue from here, the max limit in this loop is wrong ofc lol..
+			for j = 1, TableLength(g_AllSquadsData[pIndex]) do
+				print("Index: "..pIndex)
+				if(Squad_HasArmourType(g_AllSquadsData[pIndex][j].SquadID, _acceptedArmourTypes[i])) then
+
+					table.insert(AllSquadsOfArmourType, g_AllSquadsData[pIndex][j])
+
+				end
+				
+			end
+		end
+	end
+
+	if(TableLength(AllSquadsOfArmourType) == 0) then
+
+		Log(1, 0, debug_SquadManager_FileName, debugFuncName, "No squads of the specified armour types exist.")
+
+	end
+
+	return AllSquadsOfArmourType
+
+end
+

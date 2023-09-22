@@ -316,7 +316,7 @@ function Implement_UpkeepAndMature()
 
 end
 
-
+--Not online synced!!
 function ClearSelection() 
 
 	local g_EmptySGroupID = SGroup_CreateIfNotFound("emptySGroup")
@@ -324,4 +324,34 @@ function ClearSelection()
 	
 end
 
+--R_ENEMY, R_ALLY, R_NEUTRAL, R_UNDEFINED. 
+function GetAllPlayerRelationships(_player)
+
+	local debugFuncName = "GetAllPlayerRelationships"
+
+	local own = { _player }
+	local allies = {}
+	local enemies = {}
+	local neutral = {}
+
+	for i = 1, g_PlayerCount do
+		local nextPlayer = g_AllPlayers[i].Player
+		if(nextPlayer ~= _player.Player) then
+			if(Player_IsAlive(nextPlayer)) then
+				local tmpRelationship = Player_GetRelationship(_player.Player, nextPlayer)
+				if(tmpRelationship == R_ALLY) then
+					table.insert(allies, g_AllPlayers[i])
+				elseif(tmpRelationship == R_ENEMY) then
+					table.insert(enemies, g_AllPlayers[i])
+				elseif(tmpRelationship == R_NEUTRAL) then
+					table.insert(neutral, g_AllPlayers[i])
+				else
+					Log(1, 0, debug_SquadManager_FileName, debugFuncName, "Player: ".._player.DisplayName.." has an undefined relationship with "..nextPlayer.DisplayName)
+				end
+			end
+		end
+	end
+	
+	return own, allies, enemies, neutral
+end
 

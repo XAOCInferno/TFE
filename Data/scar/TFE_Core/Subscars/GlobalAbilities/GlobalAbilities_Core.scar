@@ -40,7 +40,7 @@ function GlobalAbility:new ( _LinkedSquadBP, _CasterPlayer, _AbilityName, _Activ
 		CurrentAcceptedEntityStruct,
 		LastCastedEntityPosition,
 		AbilityCastTime,
-		IsActive = false,
+		TimedAbilityIsActive = false,
 
 			--Vars when ability is active
 		AppliedModifierIDs = {},
@@ -61,7 +61,7 @@ end
 function GlobalAbility:ActivateTimedAbility()
 
 	self.AbilityCastTime = g_WorldTime
-	self.IsActive = g_WorldTime
+	self.TimedAbilityIsActive = g_WorldTime
 
 end
 
@@ -97,9 +97,10 @@ function GlobalAbility:Update()
 	end
 ]]
 
-	if(self.IsActive) then
+	if(self.TimedAbilityIsActive) then
 		if(g_WorldTime - self.ActivatedTime >=  self.Duration) then
 
+			self.TimedAbilityIsActive = false
 			self:TimedAbilityEnd(self)
 
 		else
@@ -629,7 +630,6 @@ function Setup_ActualGlobalAbilies()
 
 			AbilityStruct_Necron1.TimedAbilityEnd = function( _self )
 
-				_self.IsActive = false
 				for i = 1, table.getn(_self.AppliedModifierIDs) do
 
 					Modifier_Remove(_self.AppliedModifierIDs[i])
@@ -769,8 +769,6 @@ function Setup_ActualGlobalAbilies()
 			end
 
 			AbilityStruct_Necron5.TimedAbilityEnd = function( _self )
-
-				_self.IsActive = false
 
 				local CasterPlayerIndex = _self.CasterPlayer.PlayerIndex + 1
 				for i = 1, g_PlayerSquadCount[CasterPlayerIndex] do
@@ -997,29 +995,75 @@ function Setup_ActualGlobalAbilies()
 				end
 			end
 
+			mod_MarinesForTheEmperor__modifier_01 = Modifier_Create(MAT_Squad, "max_damage_weapon_modifier", MUT_Multiplication, 1, 1.4, "")
+			table.insert(g_GlobalAbilityMods, mod_MarinesForTheEmperor__modifier_01)
+			mod_MarinesForTheEmperor__modifier_02 = Modifier_Create(MAT_Squad, "min_damage_weapon_modifier", MUT_Multiplication, 1, 1.4, "")
+			table.insert(g_GlobalAbilityMods, mod_MarinesForTheEmperor__modifier_02)
+			mod_MarinesForTheEmperor__modifier_03 = Modifier_Create(MAT_Squad, "accuracy_ranged_weapon_modifier", MUT_Multiplication, 1, 1.05, "")
+			table.insert(g_GlobalAbilityMods, mod_MarinesForTheEmperor__modifier_03)
+			mod_MarinesForTheEmperor__modifier_04 = Modifier_Create(MAT_Squad, "special_attack_physics_mass", MUT_Multiplication, 1, 1.2, "")
+			table.insert(g_GlobalAbilityMods, mod_MarinesForTheEmperor__modifier_04)
+			mod_MarinesForTheEmperor__modifier_05 = Modifier_Create(MAT_Squad, "morale_maximum_squad_modifier", MUT_Multiplication, 1, 1.2, "")
+			table.insert(g_GlobalAbilityMods, mod_MarinesForTheEmperor__modifier_05)
+			mod_MarinesForTheEmperor__modifier_06 = Modifier_Create(MAT_Squad, "morale_rate_squad_modifier", MUT_Multiplication, 1, 1.4, "")
+			table.insert(g_GlobalAbilityMods, mod_MarinesForTheEmperor__modifier_06)
 
 			local AbilityStruct_SpaceMarine2 = CreateGlobalAbility(
-				squadBP.."_blessings_of_omnissiah",
+				squadBP.."_for_the_emperor",
 				g_AllPlayers[i], 
-				"GlobalAbility_SpaceMarines_BlesingsOfOmnissiah", 
-				"global_space_marines_blessings_of_omnissiah_entity",
-				"TIMED",
-				"NONE",
+				"GlobalAbility_SpaceMarines_ForTheEmperor", 
+				"global_space_marines_for_the_emperor_entity",
+				"TARGETED",
+				"GROUND",
 				table.getn(g_AllTrackedAbilities)
 			)
 
 			AbilityStruct_SpaceMarine2.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 
 				_pos = _self.LastCastedEntityPosition
-				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+
+				local costSuccess = FireCost(_self.CasterPlayer, -50, 0, 0, 0, 0, 0)
 				if(costSuccess) then
-					ActivateSummonEntityAbility("marines_blessing_of_omnissiah_ability_caster", _self.CasterPlayer.Player, _pos)
+					local AcceptedArmourTypes = {"tp_commander", "tp_infantry_heavy_med", "tp_infantry_heavy_high", "tp_infantry_med", "tp_infantry_high" }
+					local own, allies, _, _ = GetAllPlayerRelationships(_self.CasterPlayer)
+					allies = TableMerge({allies, own})
+					local SquadsWithAcceptedArmour = GetAllSquadsOfArmourTypeFromPlayerTable(allies, AcceptedArmourTypes)
+					local ClosestSquad = GetClosestSquadInSquadTableToPos(SquadsWithAcceptedArmour, _pos, 10)
+					
+					if(ClosestSquad ~= nil) then
+						World_FXEvent("data:Art/Events/Races/Space_Marines/Abilities/space_marine_global_basic_scan", _pos)
+						print("WE GOT A CLOSE SQUAD LOL SHOULD APPLY MODS NOW!")
+						_self.TargetSquad = ClosestSquad
+						_self.Duration = 30
+						_self.AppliedMods = {}
+						table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_MarinesForTheEmperor__modifier_01, _self.TargetSquad.SquadID))
+						table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_MarinesForTheEmperor__modifier_02, _self.TargetSquad.SquadID))
+						table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_MarinesForTheEmperor__modifier_03, _self.TargetSquad.SquadID))
+						table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_MarinesForTheEmperor__modifier_04, _self.TargetSquad.SquadID))
+						table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_MarinesForTheEmperor__modifier_05, _self.TargetSquad.SquadID))
+						table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_MarinesForTheEmperor__modifier_06, _self.TargetSquad.SquadID))
+
+						
+						_self.ActivatedTime = g_WorldTime
+						_self:ActivateTimedAbility()
+					else
+						Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to no targets in area.")
+					end
+
 				else
 					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				end
 			end
 
-
+			AbilityStruct_SpaceMarine2.TimedAbilityEnd = function( _self )
+				print(_self.AbilityName.. " finished.")
+				for i = 1, TableLength(_self.AppliedMods) do
+					if(Modifier_Exists(_self.AppliedMods[i])) then
+						Modifier_Remove(_self.AppliedMods[i])
+					end
+				end
+			end
+			
 			local AbilityStruct_SpaceMarine3 = CreateGlobalAbility(
 				squadBP.."_drop_pod",
 				g_AllPlayers[i], 
@@ -1041,17 +1085,28 @@ function Setup_ActualGlobalAbilies()
 				else
 					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				end
-			end			
-			
+			end		
+
 			local AbilityStruct_SpaceMarine4 = CreateGlobalAbility(
-				squadBP,
+				squadBP.."_blessings_of_omnissiah",
 				g_AllPlayers[i], 
-				"", 
-				"",
+				"GlobalAbility_SpaceMarines_BlesingsOfOmnissiah", 
+				"global_space_marines_blessings_of_omnissiah_entity",
 				"TIMED",
 				"NONE",
 				table.getn(g_AllTrackedAbilities)
-			)	
+			)
+
+			AbilityStruct_SpaceMarine4.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				_pos = _self.LastCastedEntityPosition
+				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+				if(costSuccess) then
+					ActivateSummonEntityAbility("marines_blessing_of_omnissiah_ability_caster", _self.CasterPlayer.Player, _pos)
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
 			
 			local AbilityStruct_SpaceMarine5 = CreateGlobalAbility(
 				squadBP,
