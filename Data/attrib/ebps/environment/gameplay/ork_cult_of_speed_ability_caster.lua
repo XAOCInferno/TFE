@@ -1,0 +1,9 @@
+GameData = Inherit([[]])
+GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
+GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\ork_cult_of_speed_global_passive.lua]]
+GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
+GameData["entity_blueprint_ext"]["animator"] = [[]]
+GameData["suicide_ext"] = Reference([[ebpextensions\suicide_ext.lua]])
+GameData["suicide_ext"]["lifetime"] = 30
+GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
+GameData["type_ext"] = Reference([[ebpextensions\type_ext.lua]])

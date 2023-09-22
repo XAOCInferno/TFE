@@ -840,6 +840,17 @@ function Setup_ActualGlobalAbilies()
 				table.getn(g_AllTrackedAbilities)
 			)
 
+			AbilityStruct_Ork4.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				_pos = _self.LastCastedEntityPosition
+				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+				if(costSuccess) then
+					ActivateSummonEntityAbility("ork_cult_of_speed_ability_caster", _self.CasterPlayer.Player, _pos)
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
+
 			local AbilityStruct_Ork5 = CreateGlobalAbility(
 				squadBP,
 				g_AllPlayers[i], 
