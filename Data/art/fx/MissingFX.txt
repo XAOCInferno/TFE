@@ -1,0 +1,12 @@
+FX -- type (witch_hunter_fx\judgementchair\vitrail_armature) not found. Replacing it with default FX (badfx).
+	vitrail_armature
+	art/ebps/races/witch_hunters/troops/judgementchair
+FX -- type (witch_hunter_fx\environnement\dust_ground_01_fp) not found. Replacing it with default FX (badfx).
+	dust
+	art/ebps/races/witch_hunters/structures/arbites_hq
+FX -- type (witch_hunter_fx\covent\covent_radial_specular_01) not found. Replacing it with default FX (badfx).
+	radial_specular
+	art/ebps/races/witch_hunters/structures/covent
+FX -- type (gameplay\star_child_halo) not found. Replacing it with default FX (badfx).
+	space_dragons_halo
+	art/ebps/environment/gameplay/relic
