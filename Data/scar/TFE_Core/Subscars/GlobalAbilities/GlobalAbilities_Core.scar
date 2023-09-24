@@ -1017,7 +1017,9 @@ function Setup_ActualGlobalAbilies()
 				"GROUND",
 				table.getn(g_AllTrackedAbilities)
 			)
-
+	
+			modFX_MarinesForTheEmperor__modifier_01 = Modifier_Create(MAT_Squad, "ability_fighting_juice_event", MUT_Enable, 1, 1, "")	
+			
 			AbilityStruct_SpaceMarine2.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 
 				_pos = _self.LastCastedEntityPosition
@@ -1025,16 +1027,22 @@ function Setup_ActualGlobalAbilies()
 				local costSuccess = FireCost(_self.CasterPlayer, -50, 0, 0, 0, 0, 0)
 				if(costSuccess) then
 					local AcceptedArmourTypes = {"tp_commander", "tp_infantry_heavy_med", "tp_infantry_heavy_high", "tp_infantry_med", "tp_infantry_high" }
-					local own, allies, _, _ = GetAllPlayerRelationships(_self.CasterPlayer)
-					allies = TableMerge({allies, own})
-					local SquadsWithAcceptedArmour = GetAllSquadsOfArmourTypeFromPlayerTable(allies, AcceptedArmourTypes)
+					
+					local own, _, _, _ = GetAllPlayerRelationships(_self.CasterPlayer)		
+					--Later on should we allow this to be applied to all loyalist factions? just got to consider the FX spillover.	
+					--allies = TableMerge({allies, own})		
+					local SquadsWithAcceptedArmour = GetAllSquadsOfArmourTypeFromPlayerTable(own, AcceptedArmourTypes)
 					local ClosestSquad = GetClosestSquadInSquadTableToPos(SquadsWithAcceptedArmour, _pos, 10)
 					
 					if(ClosestSquad ~= nil) then
 						World_FXEvent("data:Art/Events/Races/Space_Marines/Abilities/space_marine_global_basic_scan", _pos)
-						print("WE GOT A CLOSE SQUAD LOL SHOULD APPLY MODS NOW!")
+						_self.ModFX = Modifier_ApplyToSquad(modFX_MarinesForTheEmperor__modifier_01, ClosestSquad.SquadID)
+						
 						_self.TargetSquad = ClosestSquad
 						_self.Duration = 30
+						_self.FX_RefireRate = 0.1
+						_self.FX_LastFireTime = 0
+						_self.FX_Table = {}
 						_self.AppliedMods = {}
 						table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_MarinesForTheEmperor__modifier_01, _self.TargetSquad.SquadID))
 						table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_MarinesForTheEmperor__modifier_02, _self.TargetSquad.SquadID))
@@ -1057,6 +1065,13 @@ function Setup_ActualGlobalAbilies()
 
 			AbilityStruct_SpaceMarine2.TimedAbilityEnd = function( _self )
 				print(_self.AbilityName.. " finished.")
+				if(Modifier_Exists(_self.ModFX)) then
+					Modifier_Remove(_self.ModFX)
+				end
+				for i = 1, TableLength(_self.FX_Table) do
+					World_FXEventDestroy(_self.FX_Table[i])
+				end
+				
 				for i = 1, TableLength(_self.AppliedMods) do
 					if(Modifier_Exists(_self.AppliedMods[i])) then
 						Modifier_Remove(_self.AppliedMods[i])
