@@ -32,6 +32,9 @@ models =
 
 	race_9 = "space_marine_veteran_race",
 	model_9 = "Art/UI/3D_Models/space_marine_veteran",
+	
+	race_10 = "inquisition_daemonhunt_race",
+	model_10 = "Art/UI/3D_Models/Inquisitor_Frontend",
 }
 
 light =

@@ -86,6 +86,21 @@ playlist =
 		"music_invasion_theme",
 		"stinger_pressure_stinger",
 		"stinger_tensedanger",
+		
+		--[[Inquisition Hunters Additions]]
+		"ad_arma",
+		"reclamation",
+		"the_restless",
+		"torrents_of_wrath",
+		"idh_domus_astra_telepatica",
+		"idh_word_of_the_ecclesiarchy",
+		"2nd_campaign",
+		"new_horizon",
+		"escalation",
+		"sl_track_2",
+		"sl_track_3",
+		"daemonhunters",
+		"capitol_imperialis",
 
 	},
 	
