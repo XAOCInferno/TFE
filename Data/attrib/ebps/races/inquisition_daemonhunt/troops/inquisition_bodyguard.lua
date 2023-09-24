@@ -4,6 +4,7 @@ GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\inquisition_gre
 GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\inquisition_crack_grenades_bodyguards.lua]]
 GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\inquisition_grenade_empyrean_brain_mine.lua]]
 GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\inquisition_bodyguards_aura.lua]]
+GameData["ability_ext"]["abilities"]["ability_10"] = [[abilities\generic_auto_force_reload.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Main]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["hardpoint_weapon_variant_motion_name"] = [[Weapon_Range_Upgrade_Main]]

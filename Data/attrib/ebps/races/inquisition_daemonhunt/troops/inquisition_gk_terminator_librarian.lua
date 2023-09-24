@@ -7,6 +7,7 @@ GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\inquisition_lib
 GameData["ability_ext"]["abilities"]["ability_05"] = [[abilities\inquisition_lib_mental_fortress.lua]]
 GameData["ability_ext"]["abilities"]["ability_06"] = [[abilities\inquisition_lib_psychic_overload.lua]]
 GameData["ability_ext"]["abilities"]["ability_07"] = [[abilities\inquisition_lib_quickening.lua]]
+GameData["ability_ext"]["abilities"]["ability_10"] = [[abilities\generic_auto_force_reload_leader.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["complex_upgrades"] = true 
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Main]]

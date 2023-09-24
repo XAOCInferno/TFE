@@ -1,5 +1,6 @@
 GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
+GameData["ability_ext"]["abilities"]["ability_10"] = [[abilities\generic_vehicle_cover.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Main]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["hardpoint_weapon_variant_motion_name"] = [[Weapon_Range_Upgrade_Main]]
@@ -461,6 +462,10 @@ GameData["health_ext"]["usable_body_indicator_event"] = nil
 GameData["health_ext"]["usable_body_indicator_pre_event"] = nil
 GameData["infiltration_ext"] = Reference([[ebpextensions\infiltration_ext.lua]])
 GameData["modifier_ext"] = Reference([[ebpextensions\modifier_ext.lua]])
+GameData["modifier_apply_ext"] = Reference([[ebpextensions\modifier_apply_ext.lua]])
+GameData["modifier_apply_ext"]["modifiers"]["modifier_01"] = Reference([[modifiers\health_meleedamage_received_modifier.lua]])
+GameData["modifier_apply_ext"]["modifiers"]["modifier_01"]["shield_of_faith"] = false
+GameData["modifier_apply_ext"]["modifiers"]["modifier_01"]["value"] = 1.4
 GameData["moving_ext"] = Reference([[ebpextensions\moving_ext.lua]])
 GameData["moving_ext"]["acceleration_time"] = 0.6999999881
 GameData["moving_ext"]["deceleration_time"] = 0.6999999881
