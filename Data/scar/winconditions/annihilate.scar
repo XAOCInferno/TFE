@@ -74,6 +74,11 @@ _Annihilate =
 		"guard_turret_heavy_bolter",
 		"guard_infantry_summon",
 		
+		"inquisition_imperial_icon",
+		"inquisition_purification_decree",
+		"inquisition_warp_generator",
+		"inquisition_warp_reactor",
+		
 		"necron_listening_post",
 		"necron_summoning_core",
 		"necron_plasma_generator",
