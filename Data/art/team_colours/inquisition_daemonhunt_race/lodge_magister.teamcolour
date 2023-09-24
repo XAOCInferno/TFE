@@ -1,0 +1,42 @@
+LocalInfo =  
+{
+	badge_name = "inquisition_daemonhunt_race/lodge_magister_badge",
+	associated_race = "inquisition_daemonhunt_race",
+	banner_name = "inquisition_daemonhunt_race/lodge_magister_banner",
+}
+UnitCustomization =  
+{
+	pattern_name = "default",
+	force_name = "Lodge Magister",
+	Eyes =  
+	{
+		b = 211,
+		g = 211,
+		r = 214,
+	},
+	Weapons =  
+	{
+		b = 1,
+		g = 0,
+		r = 0,
+	},
+	Primary =  
+	{
+		b = 5,
+		g = 17,
+		r = 100,
+	},
+	Trim =  
+	{
+		b = 6,
+		g = 9,
+		r = 77,
+	},
+	Secondary =  
+	{
+		b = 23,
+		g = 21,
+		r = 20,
+	},
+}
+

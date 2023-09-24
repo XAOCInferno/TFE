@@ -1,0 +1,42 @@
+LocalInfo =  
+{
+	badge_name = "inquisition_daemonhunt_race/lodge_purificatio_badge",
+	associated_race = "inquisition_daemonhunt_race",
+	banner_name = "inquisition_daemonhunt_race/lodge_purificatio_banner",
+}
+UnitCustomization =  
+{
+	pattern_name = "default",
+	force_name = "Lodge Purificatio",
+	Eyes =  
+	{
+		b = 140,
+		g = 24,
+		r = 19,
+	},
+	Weapons =  
+	{
+		b = 192,
+		g = 188,
+		r = 173,
+	},
+	Primary =  
+	{
+		b = 179,
+		g = 168,
+		r = 162,
+	},
+	Trim =  
+	{
+		b = 0,
+		g = 5,
+		r = 7,
+	},
+	Secondary =  
+	{
+		b = 7,
+		g = 30,
+		r = 145,
+	},
+}
+

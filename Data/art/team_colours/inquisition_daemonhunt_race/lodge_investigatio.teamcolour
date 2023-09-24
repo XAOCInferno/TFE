@@ -1,0 +1,42 @@
+LocalInfo =  
+{
+	badge_name = "inquisition_daemonhunt_race/lodge_investigatio_badge",
+	associated_race = "inquisition_daemonhunt_race",
+	banner_name = "inquisition_daemonhunt_race/lodge_investigatio_banner",
+}
+UnitCustomization =  
+{
+	pattern_name = "default",
+	force_name = "Lodge Investigatio",
+	Eyes =  
+	{
+		b = 236,
+		g = 44,
+		r = 56,
+	},
+	Weapons =  
+	{
+		b = 0,
+		g = 0,
+		r = 1,
+	},
+	Primary =  
+	{
+		b = 170,
+		g = 157,
+		r = 135,
+	},
+	Trim =  
+	{
+		b = 193,
+		g = 202,
+		r = 214,
+	},
+	Secondary =  
+	{
+		b = 22,
+		g = 35,
+		r = 145,
+	},
+}
+

@@ -1,0 +1,42 @@
+LocalInfo =  
+{
+	badge_name = "inquisition_daemonhunt_race/lodge_invocatio_badge",
+	associated_race = "inquisition_daemonhunt_race",
+	banner_name = "inquisition_daemonhunt_race/lodge_invocatio_banner",
+}
+UnitCustomization =  
+{
+	pattern_name = "default",
+	force_name = "Lodge Invocatio",
+	Eyes =  
+	{
+		b = 17,
+		g = 20,
+		r = 179,
+	},
+	Weapons =  
+	{
+		b = 0,
+		g = 1,
+		r = 3,
+	},
+	Primary =  
+	{
+		b = 33,
+		g = 74,
+		r = 105,
+	},
+	Trim =  
+	{
+		b = 6,
+		g = 12,
+		r = 18,
+	},
+	Secondary =  
+	{
+		b = 4,
+		g = 5,
+		r = 74,
+	},
+}
+

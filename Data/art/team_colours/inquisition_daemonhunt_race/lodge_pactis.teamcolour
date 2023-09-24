@@ -1,0 +1,42 @@
+LocalInfo =  
+{
+	badge_name = "inquisition_daemonhunt_race/lodge_pactis_badge",
+	associated_race = "inquisition_daemonhunt_race",
+	banner_name = "inquisition_daemonhunt_race/lodge_pactis_banner",
+}
+UnitCustomization =  
+{
+	pattern_name = "default",
+	force_name = "Lodge Pactis",
+	Eyes =  
+	{
+		b = 33,
+		g = 97,
+		r = 34,
+	},
+	Weapons =  
+	{
+		b = 192,
+		g = 188,
+		r = 173,
+	},
+	Primary =  
+	{
+		b = 23,
+		g = 22,
+		r = 21,
+	},
+	Trim =  
+	{
+		b = 18,
+		g = 54,
+		r = 67,
+	},
+	Secondary =  
+	{
+		b = 5,
+		g = 7,
+		r = 145,
+	},
+}
+

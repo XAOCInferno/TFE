@@ -1,0 +1,42 @@
+LocalInfo =  
+{
+	badge_name = "inquisition_daemonhunt_race/lodge_destructio_badge",
+	associated_race = "inquisition_daemonhunt_race",
+	banner_name = "inquisition_daemonhunt_race/lodge_destructio_banner",
+}
+UnitCustomization =  
+{
+	pattern_name = "default",
+	force_name = "Lodge Destructio",
+	Eyes =  
+	{
+		b = 36,
+		g = 54,
+		r = 44,
+	},
+	Weapons =  
+	{
+		b = 168,
+		g = 172,
+		r = 174,
+	},
+	Primary =  
+	{
+		b = 5,
+		g = 8,
+		r = 146,
+	},
+	Trim =  
+	{
+		b = 0,
+		g = 5,
+		r = 7,
+	},
+	Secondary =  
+	{
+		b = 6,
+		g = 131,
+		r = 219,
+	},
+}
+

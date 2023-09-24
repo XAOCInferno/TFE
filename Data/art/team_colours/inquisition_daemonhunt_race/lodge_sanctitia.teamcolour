@@ -1,0 +1,42 @@
+LocalInfo =  
+{
+	badge_name = "inquisition_daemonhunt_race/lodge_sanctitia_badge",
+	associated_race = "inquisition_daemonhunt_race",
+	banner_name = "inquisition_daemonhunt_race/lodge_sanctitia_banner",
+}
+UnitCustomization =  
+{
+	pattern_name = "default",
+	force_name = "Lodge Sanctitia",
+	Eyes =  
+	{
+		b = 36,
+		g = 54,
+		r = 44,
+	},
+	Weapons =  
+	{
+		b = 2,
+		g = 2,
+		r = 3,
+	},
+	Primary =  
+	{
+		b = 0,
+		g = 0,
+		r = 100,
+	},
+	Trim =  
+	{
+		b = 0,
+		g = 4,
+		r = 120,
+	},
+	Secondary =  
+	{
+		b = 151,
+		g = 7,
+		r = 7,
+	},
+}
+

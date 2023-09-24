@@ -1,0 +1,42 @@
+LocalInfo =  
+{
+	badge_name = "inquisition_daemonhunt_race/lodge_sapiens_badge",
+	associated_race = "inquisition_daemonhunt_race",
+	banner_name = "inquisition_daemonhunt_race/lodge_sapiens_banner",
+}
+UnitCustomization =  
+{
+	pattern_name = "default",
+	force_name = "Lodge Sapiens",
+	Eyes =  
+	{
+		b = 171,
+		g = 241,
+		r = 245,
+	},
+	Weapons =  
+	{
+		b = 0,
+		g = 0,
+		r = 0,
+	},
+	Primary =  
+	{
+		b = 22,
+		g = 119,
+		r = 176,
+	},
+	Trim =  
+	{
+		b = 11,
+		g = 55,
+		r = 97,
+	},
+	Secondary =  
+	{
+		b = 0,
+		g = 0,
+		r = 3,
+	},
+}
+
