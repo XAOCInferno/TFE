@@ -831,6 +831,101 @@ function Setup_ActualGlobalAbilies()
 				table.getn(g_AllTrackedAbilities)
 			)
 
+			mod_UseYourDakkaAndChoppa_Ranged__modifier_01 = Modifier_Create(MAT_Squad, "accuracy_ranged_weapon_modifier", MUT_Multiplication, 1, 1.15, "")
+			table.insert(g_GlobalAbilityMods, mod_UseYourDakkaAndChoppa_Ranged__modifier_01)
+			mod_UseYourDakkaAndChoppa_Ranged__modifier_02 = Modifier_Create(MAT_Squad, "reload_time_weapon_modifier", MUT_Multiplication, 1, 0.7, "")
+			table.insert(g_GlobalAbilityMods, mod_UseYourDakkaAndChoppa_Ranged__modifier_02)
+
+			mod_UseYourDakkaAndChoppa_Melee__modifier_01 = Modifier_Create(MAT_Squad, "max_damage_weapon_modifier", MUT_Multiplication, 1, 1.4, "")
+			table.insert(g_GlobalAbilityMods, mod_UseYourDakkaAndChoppa_Melee__modifier_01)
+			mod_UseYourDakkaAndChoppa_Melee__modifier_02 = Modifier_Create(MAT_Squad, "min_damage_weapon_modifier", MUT_Multiplication, 1, 1.2, "")
+			table.insert(g_GlobalAbilityMods, mod_UseYourDakkaAndChoppa_Melee__modifier_02)
+			mod_UseYourDakkaAndChoppa_Melee__modifier_03 = Modifier_Create(MAT_Squad, "health_meleedamage_received_modifier", MUT_Multiplication, 1, 0.8, "")
+			table.insert(g_GlobalAbilityMods, mod_UseYourDakkaAndChoppa_Melee__modifier_03)
+			mod_UseYourDakkaAndChoppa_Melee__modifier_04 = Modifier_Create(MAT_Squad, "special_attack_physics_mass", MUT_Multiplication, 1, 1.15, "")
+			table.insert(g_GlobalAbilityMods, mod_UseYourDakkaAndChoppa_Melee__modifier_04)
+
+			mod_UseYourDakkaAndChoppa_Generic__modifier_01 = Modifier_Create(MAT_Squad, "morale_rate_squad_modifier", MUT_Multiplication, 1, 1.4, "")
+			table.insert(g_GlobalAbilityMods, mod_UseYourDakkaAndChoppa_Generic__modifier_01)
+			modFX_UseYourDakkaAndChoppa_Generic__modifier_01 = Modifier_Create(MAT_Squad, "ability_fighting_juice_event", MUT_Enable, 1, 1, "")	
+			table.insert(g_GlobalAbilityMods, modFX_UseYourDakkaAndChoppa_Generic__modifier_01)
+
+
+			AbilityStruct_Ork2.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				_pos = _self.LastCastedEntityPosition
+
+				local costSuccess = FireCost(_self.CasterPlayer, -50, 0, 0, 0, 0, 0)
+				if(costSuccess) then
+					local AcceptedArmourTypes = {"tp_commander", "tp_infantry_heavy_med", "tp_infantry_heavy_high", "tp_infantry_med", "tp_infantry_high" }
+					local RangedUnits = {"ork_flash_gitz_squad", "ork_squad_burnaboy", "ork_squad_shoota_boy", "ork_squad_tankbusta"}
+					local MeleeUnits = {"ork_squad_armored_nob", "ork_squad_bad_dok", "ork_squad_feral_boy", "ork_squad_mek_boy", "ork_squad_nob", "ork_squad_slugga", "ork_squad_stikkbomba", "ork_squad_stormboy", "ork_squad_warboss" }
+					local own, allies, _, _ = GetAllPlayerRelationships(_self.CasterPlayer)		
+					allies = TableMerge({allies, own})		
+					local SquadsWithAcceptedArmour = GetAllSquadsOfArmourTypeFromPlayerTable(own, AcceptedArmourTypes, true)
+					local ClosestSquad = GetClosestSquadInSquadTableToPos(SquadsWithAcceptedArmour, _pos, 10)
+					
+					if(ClosestSquad ~= nil) then
+						World_FXEvent("data:Art/Events/Races/Space_Marines/Abilities/space_marine_global_basic_scan", _pos)
+						
+						_self.TargetSquad = ClosestSquad
+						local targetBP = _self.TargetSquad.SquadBlueprint
+						if(TableContains(RangedUnits, targetBP)) then
+							_self.TargetSquadAttackType = "RANGED"
+						elseif(TableContains(MeleeUnits, targetBP)) then
+							_self.TargetSquadAttackType = "MELEE"
+						else					
+							Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to determine if troop is a melee or ranged troop! Ensure SquadBP '"..targetBP.."' is present in code. Randomly assigning between melee or range.")		
+							if(World_GetRand(0,100) > 50) then
+								_self.TargetSquadAttackType = "RANGED"
+							else
+								_self.TargetSquadAttackType = "MELEE"
+							end
+						end
+						_self.Duration = 20
+						_self.FX_RefireRate = 0.1
+						_self.FX_LastFireTime = 0
+						_self.FX_Table = {}
+						_self.AppliedMods = {}
+
+						if(_self.TargetSquadAttackType == "RANGED") then
+							table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_UseYourDakkaAndChoppa_Ranged__modifier_01, _self.TargetSquad.SquadID))
+							table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_UseYourDakkaAndChoppa_Ranged__modifier_02, _self.TargetSquad.SquadID))
+						elseif(_self.TargetSquadAttackType == "MELEE") then
+							table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_UseYourDakkaAndChoppa_Melee__modifier_01, _self.TargetSquad.SquadID))
+							table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_UseYourDakkaAndChoppa_Melee__modifier_02, _self.TargetSquad.SquadID))
+							table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_UseYourDakkaAndChoppa_Melee__modifier_03, _self.TargetSquad.SquadID))
+							table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_UseYourDakkaAndChoppa_Melee__modifier_04, _self.TargetSquad.SquadID))
+						end
+
+						table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_UseYourDakkaAndChoppa_Generic__modifier_01, _self.TargetSquad.SquadID))
+						table.insert(_self.AppliedMods, Modifier_ApplyToSquad(modFX_UseYourDakkaAndChoppa_Generic__modifier_01, _self.TargetSquad.SquadID))
+						
+						_self.ActivatedTime = g_WorldTime
+						_self:ActivateTimedAbility()
+					else
+						Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to no targets in area.")
+					end
+
+				else
+					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				end
+			end
+
+			AbilityStruct_Ork2.TimedAbilityEnd = function( _self )
+				
+				for i = 1, TableLength(_self.FX_Table) do
+					World_FXEventDestroy(_self.FX_Table[i])
+				end
+				
+				for i = 1, TableLength(_self.AppliedMods) do
+					if(Modifier_Exists(_self.AppliedMods[i])) then
+						Modifier_Remove(_self.AppliedMods[i])
+					end
+				end
+			end
+			
+
 			local AbilityStruct_Ork3 = CreateGlobalAbility(
 				squadBP,
 				g_AllPlayers[i], 
@@ -999,7 +1094,7 @@ function Setup_ActualGlobalAbilies()
 			table.insert(g_GlobalAbilityMods, mod_MarinesForTheEmperor__modifier_01)
 			mod_MarinesForTheEmperor__modifier_02 = Modifier_Create(MAT_Squad, "min_damage_weapon_modifier", MUT_Multiplication, 1, 1.4, "")
 			table.insert(g_GlobalAbilityMods, mod_MarinesForTheEmperor__modifier_02)
-			mod_MarinesForTheEmperor__modifier_03 = Modifier_Create(MAT_Squad, "accuracy_ranged_weapon_modifier", MUT_Multiplication, 1, 1.05, "")
+			mod_MarinesForTheEmperor__modifier_03 = Modifier_Create(MAT_Squad, "accuracy_ranged_weapon_modifier", MUT_Multiplication, 1, 1.025, "")
 			table.insert(g_GlobalAbilityMods, mod_MarinesForTheEmperor__modifier_03)
 			mod_MarinesForTheEmperor__modifier_04 = Modifier_Create(MAT_Squad, "special_attack_physics_mass", MUT_Multiplication, 1, 1.2, "")
 			table.insert(g_GlobalAbilityMods, mod_MarinesForTheEmperor__modifier_04)
@@ -1007,6 +1102,8 @@ function Setup_ActualGlobalAbilies()
 			table.insert(g_GlobalAbilityMods, mod_MarinesForTheEmperor__modifier_05)
 			mod_MarinesForTheEmperor__modifier_06 = Modifier_Create(MAT_Squad, "morale_rate_squad_modifier", MUT_Multiplication, 1, 1.4, "")
 			table.insert(g_GlobalAbilityMods, mod_MarinesForTheEmperor__modifier_06)
+			modFX_MarinesForTheEmperor__modifier_01 = Modifier_Create(MAT_Squad, "ability_fighting_juice_event", MUT_Enable, 1, 1, "")	
+			table.insert(g_GlobalAbilityMods, modFX_MarinesForTheEmperor__modifier_01)
 
 			local AbilityStruct_SpaceMarine2 = CreateGlobalAbility(
 				squadBP.."_for_the_emperor",
@@ -1018,20 +1115,19 @@ function Setup_ActualGlobalAbilies()
 				table.getn(g_AllTrackedAbilities)
 			)
 	
-			modFX_MarinesForTheEmperor__modifier_01 = Modifier_Create(MAT_Squad, "ability_fighting_juice_event", MUT_Enable, 1, 1, "")	
 			
 			AbilityStruct_SpaceMarine2.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 
 				_pos = _self.LastCastedEntityPosition
 
-				local costSuccess = FireCost(_self.CasterPlayer, -50, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, -75, 0, 0, 0, 0, 0)
 				if(costSuccess) then
 					local AcceptedArmourTypes = {"tp_commander", "tp_infantry_heavy_med", "tp_infantry_heavy_high", "tp_infantry_med", "tp_infantry_high" }
 					
 					local own, _, _, _ = GetAllPlayerRelationships(_self.CasterPlayer)		
 					--Later on should we allow this to be applied to all loyalist factions? just got to consider the FX spillover.	
 					--allies = TableMerge({allies, own})		
-					local SquadsWithAcceptedArmour = GetAllSquadsOfArmourTypeFromPlayerTable(own, AcceptedArmourTypes)
+					local SquadsWithAcceptedArmour = GetAllSquadsOfArmourTypeFromPlayerTable(own, AcceptedArmourTypes, true)
 					local ClosestSquad = GetClosestSquadInSquadTableToPos(SquadsWithAcceptedArmour, _pos, 10)
 					
 					if(ClosestSquad ~= nil) then

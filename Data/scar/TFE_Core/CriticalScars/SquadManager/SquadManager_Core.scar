@@ -39,6 +39,7 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		SquadLeaderCount = Squad_CountLeaders(_sID),
 		SquadInitTime = g_WorldTime,	
 		SquadPosition = Squad_GetPosition(_sID),
+		SquadIsAttached = Squad_IsAttached(_sID),
 		OwnedByPlayer = Squad_GetPlayerOwner(_sID), --Duplicate functionality as bellow? I would prefere we kept this one
 		OwnerPlayer = _player, --Um do we need this./.???
 		IsSelected_Unsynced = Misc_IsSquadSelected(_sID),
@@ -64,8 +65,9 @@ function SquadData:Update(_self)
 	_self.SquadHasLeader = Squad_HasLeader(_self.SquadID)
 	_self.SquadLeaderCount = Squad_CountLeaders(_self.SquadID)
 	_self.SquadPosition = Squad_GetPosition(_self.SquadID)
+	_self.SquadIsAttached = Squad_IsAttached(_self.SquadID)
 	_self.OwnedByPlayer = Squad_GetPlayerOwner(_self.SquadID)
-	_self.IsSelected_Unsynced = Misc_IsSquadSelected(_self.SquadID)
+	_self.IsSelected_Unsynced = Misc_IsSquadSelected(_self.SquadID) --Not online synced!
 
 end
 
@@ -505,7 +507,7 @@ function GetAllSquadsOfArmourTypeFromSquadTable(_squads, _acceptedArmourTypes)
 
 end
 
-function GetAllSquadsOfArmourTypeFromPlayerTable(_players, _acceptedArmourTypes)
+function GetAllSquadsOfArmourTypeFromPlayerTable(_players, _acceptedArmourTypes, _allowAttached)
 
 	local debugFuncName = "GetAllSquadsOfArmourTypeFromPlayerTable"
 
@@ -515,11 +517,13 @@ function GetAllSquadsOfArmourTypeFromPlayerTable(_players, _acceptedArmourTypes)
 			local pIndex = _players[p].PlayerIndex+1
 			--Continue from here, the max limit in this loop is wrong ofc lol..
 			for j = 1, TableLength(g_AllSquadsData[pIndex]) do
-				print("Index: "..pIndex)
+				
 				if(Squad_HasArmourType(g_AllSquadsData[pIndex][j].SquadID, _acceptedArmourTypes[i])) then
-
-					table.insert(AllSquadsOfArmourType, g_AllSquadsData[pIndex][j])
-
+					
+					if(_allowAttached == true or g_AllSquadsData[pIndex][j].SquadIsAttached == false) then
+						table.insert(AllSquadsOfArmourType, g_AllSquadsData[pIndex][j])
+					end
+					
 				end
 				
 			end
