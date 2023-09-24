@@ -1,0 +1,14 @@
+GameData = Inherit([[]])
+GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
+GameData["entity_blueprint_ext"]["animator"] = [[Races/inquisition_daemonhunt/Troops/Inquisition_TH_Transporter]]
+GameData["entity_blueprint_ext"]["scale_x"] = 2
+GameData["entity_blueprint_ext"]["scale_z"] = 2
+GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
+GameData["sim_entity_ext"]["is_in_spatial_bucket"] = false
+GameData["squad_hold_ext"] = Reference([[ebpextensions\squad_hold_ext.lua]])
+GameData["squad_hold_ext"]["acceptable_type_01"] = Reference([[type_transportable\transport_inquisition_land_raider.lua]])
+GameData["squad_hold_ext"]["show_decorator"] = false
+GameData["squad_hold_ext"]["underground_time"] = 0
+GameData["type_ext"] = Reference([[ebpextensions\type_ext.lua]])
+GameData["type_ext"]["can_be_possessed_by_enemy"] = false
+GameData["type_ext"]["type_surface"] = Reference([[type_surface\tp_heavy_metal_armour.lua]])

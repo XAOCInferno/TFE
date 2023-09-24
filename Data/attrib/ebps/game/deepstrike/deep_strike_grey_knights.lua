@@ -1,0 +1,16 @@
+GameData = Inherit([[]])
+GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
+GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
+GameData["cost_ext"]["time_cost"]["cost"]["power"] = 20
+GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
+GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
+GameData["entity_blueprint_ext"]["animator"] = [[Environment\All\Deep_Strike]]
+GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
+GameData["sim_entity_ext"]["is_in_spatial_bucket"] = false
+GameData["squad_hold_ext"] = Reference([[ebpextensions\squad_hold_ext.lua]])
+GameData["squad_hold_ext"]["acceptable_type_01"] = Reference([[type_transportable\transport_inquisition_grey_knights.lua]])
+GameData["squad_hold_ext"]["acceptable_type_02"] = Reference([[type_transportable\transport_dreadnought.lua]])
+GameData["squad_hold_ext"]["nr_available_spots"] = 2
+GameData["squad_hold_ext"]["show_decorator"] = false
+GameData["squad_hold_ext"]["underground_time"] = 0
+GameData["type_ext"] = Reference([[ebpextensions\type_ext.lua]])
