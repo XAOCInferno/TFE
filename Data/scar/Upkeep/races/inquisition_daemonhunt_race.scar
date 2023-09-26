@@ -1,0 +1,199 @@
+--[[Race file. Costs are deducted every 1s. For ease an standardisation to DoW1 income, write these numbers as cost per 10s.]]
+--[[Numbers must be negative, positive numbers will be added to resources instead.]]
+
+ResourceGlobalNames.space_marine_race = 
+{
+	RT_Requistion = 
+	{
+		First = "marine_requisition_research_1",
+		Second = "marine_requisition_research_2",
+	},
+
+	RT_Power = 
+	{
+		First = "marine_power_research_1",
+		Second = "marine_power_research_2",
+	}
+	
+}
+
+UnitCosting.space_marine_race =
+{
+	-- Skirmish units
+	space_marine_squad_servitor =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	space_marine_squad_scout =
+	{
+		CostEntity = { Req = -0.2, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -0.35, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	space_marine_squad_tactical =
+	{
+		CostEntity = { Req = -0.38, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.15, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -0.9, Power = -0.3, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	space_marine_squad_assault =
+	{
+		CostEntity = { Req = -0.5, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.25, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -0.85, Power = -0.23, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	space_marine_squad_grey_knights =
+	{
+		CostEntity = { Req = -0.52, Power = -0.1, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.4, Power = -0.7, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	space_marine_squad_terminator =
+	{
+		CostEntity = { Req = -0.65, Power = -0.2, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -2.2, Power = -0.9, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	space_marine_squad_terminator_assault =
+	{
+		CostEntity = { Req = -0.88, Power = -0.23, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.8, Power = -1, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	-- Attachable
+	space_marine_squad_skull_probe =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	space_marine_squad_apothecary =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -0.6, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	space_marine_squad_force_commander =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -3.1, Power = -1, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	space_marine_squad_terminator_fc =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -4.8, Power = -1.5, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	space_marine_squad_fc_terminator_assault =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -5.2, Power = -1.5, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	space_marine_squad_chaplain =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -2.8, Power = -0.8, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	space_marine_squad_librarian =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -3.2, Power = -1, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	-- Vehicles
+	space_marine_squad_rhino =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -0.32, Power = -0.4, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	space_marine_squad_land_speeder =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.4, Power = -0.65, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	space_marine_squad_land_speeder_tempest = 
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -2.1, Power = -1.7, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	space_marine_squad_dreadnought =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -3.9, Power = -2.8, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	space_marine_squad_dreadnought_hellfire =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -3.2, Power = -2.4, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	space_marine_squad_predator =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -3, Power = -3.6, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	space_marine_squad_whirlwind =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -2.8, Power = -3.2, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	space_marine_squad_land_raider =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -5, Power = -6.6, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+
+
+	-- Campaign units
+	space_marine_squad_force_commander_advance_sp =
+	{
+	},
+	-- StrongholdSquads
+	space_marine_squad_assault_sp_dxp3 =
+	{
+	},
+	space_marine_squad_rhino_sp_ = 
+	{
+	},
+	-- BonusSquads
+	space_marine_squad_scout_advance_sp =
+	{
+	},
+	space_marine_squad_veteran_sp =
+	{
+	},
+	space_marine_squad_assault_veteran_sp =
+	{
+	},
+	space_marine_squad_grey_knights_hg_dxp3 =
+	{
+	},
+	space_marine_squad_terminator_assault_veteran_sp =
+	{
+	},
+	space_marine_squad_apothecary_veteran_stronghold_sp =
+	{
+	},
+	space_marine_squad_librarian_advance_sp =
+	{
+	},
+	space_marine_squad_land_speeder_advance_sp =
+	{
+	},
+	space_marine_squad_dreadnought_hellfire_advance_sp =
+	{
+	},
+}
+
