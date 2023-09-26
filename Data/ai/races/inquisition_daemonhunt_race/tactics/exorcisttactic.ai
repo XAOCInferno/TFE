@@ -1,0 +1,56 @@
+----------------------------------------
+-- File: 'exorcisttactic.ai'
+-- Edited by Gambit @ 06.11.2018
+
+class 'ExorcistTactic' (DaemonhuntInfantryGKTactic)
+
+ExorcistGK = {}
+
+function ExorcistTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("GK Exorcist Tactic")
+	self.greadesTMR = g_iGMT
+	self.m_iTransportable = 1
+end
+
+
+function ExorcistTactic:InitAbilities()
+
+	if (ExorcistGK.demoralize == nil) then
+		ExorcistGK.grenades = cpu_manager.stats:GetAbilityID( "inquisition_krak_grenades" )
+		ExorcistGK.demoralize = cpu_manager.stats:GetAbilityID( "inquisition_demoralize" )
+	end
+end
+
+
+function ExorcistTactic:DoAbilities()
+
+	local pos = self.squad_ai:GetPosition()
+	if self.squad_ai:IsInCombat() or cpu_manager.terrain_analyzer:HasThreat(pos, 45) then
+
+		-- Throw grenades BEYOND a minimum distance. Exorcists have async abilities, so we want to throw them "away" 
+		if g_iGMT > self.greadesTMR + 8 and self.squad_ai:CanDoAbility(ExorcistGK.grenades) then
+			local oSquad = Ability.Filters.CloseSquadEnemy(pos, 25, 1)
+			if oSquad ~= nil and distance_sqr(oSquad:GetPosition(), pos) > 60 then
+				self.squad_ai:DoSpecialAbilitySquad(ExorcistGK.grenades, oSquad:GetSquad())
+				self.greadesTMR = g_iGMT; return
+			else
+				oSquad = Ability.Filters.CloseVehicleEnemy(pos, 25, 1)
+				if oSquad ~= nil and distance_sqr(oSquad:GetPosition(), pos) > 60 then
+					self.squad_ai:DoSpecialAbilitySquad(ExorcistGK.grenades, oSquad:GetSquad())
+					self.greadesTMR = g_iGMT; return
+				else
+					oSquad = Ability.Filters.CloseMonsterEnemy(pos, 25, 1)
+					if oSquad ~= nil and distance_sqr(oSquad:GetPosition(), pos) > 60 then
+						self.squad_ai:DoSpecialAbilitySquad(ExorcistGK.grenades, oSquad:GetSquad())
+						self.greadesTMR = g_iGMT; return
+					end
+				end
+			end
+		end
+
+		if self.squad_ai:CanDoAbility(ExorcistGK.demoralize) then
+			Ability.DoAbilityTarget( self.squad_ai, ExorcistGK.demoralize, Ability.Filters.CloseInfantryEnemy, 6 )
+		end
+	end
+end

@@ -1,0 +1,73 @@
+----------------------------------------
+-- File: 'apothecarytactic.ai'
+-- Created by Gambit @ 31.03.2017
+
+class 'ApothecaryGKTactic' (DaemonhuntInfantryGKTactic)
+
+ApothecaryGK = {}
+
+function ApothecaryGKTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("GK Apothecary Tactic")
+	self.m_iTransportable = 1
+end
+
+function ApothecaryGKTactic:InitAbilities()
+
+	if ApothecaryGK.healing_id == nil then
+		ApothecaryGK.healing_id = cpu_manager.stats:GetAbilityID( "inquisition_healing_touch" )	
+	end
+end
+
+
+function ApothecaryGKTactic:DoAbilities()
+
+	-- Make a healing attempt
+	if self.squad_ai:CanDoAbility(ApothecaryGK.healing_id) then
+		-- Find: nearby (25) + wounded + non-vehicle + more that 3 members squad. For Commanders apply even for 1 member.
+		local oSquad = cpu_manager.cpu_player:FindFirstHurtSquad(self.squad_ai:GetPosition(), 25)
+		if oSquad ~= nil and oSquad:GetHealthPercentage() < 0.75 then
+			local oStats = oSquad:GetStats()
+			local oClass = nil
+			if oStats ~= nil then oClass = oStats:GetClass() end
+			if oClass ~= nil then
+				if oClass == UnitStatsAI.UC_Commander then
+					self.squad_ai:DoSpecialAbilitySquad(ApothecaryGK.healing_id, oSquad:GetSquad())
+				elseif oSquad:GetNumTroopers() > 3 then
+					if oClass ~= UnitStatsAI.UC_VehicleLow and oClass ~= UnitStatsAI.UC_VehicleMed
+					and oClass ~= UnitStatsAI.UC_VehicleHigh and oClass ~= UnitStatsAI.UC_AirMed then
+						self.squad_ai:DoSpecialAbilitySquad(ApothecaryGK.healing_id, oSquad:GetSquad())
+					end
+				end
+			end
+		end
+		-- 
+		if not self.squad_ai:IsAttached() and self.squad_ai:GetHealthPercentage() < 0.25 then
+			self.squad_ai:DoSpecialAbilitySquad(ApothecaryGK.healing_id, self.squad_ai:GetSquad())
+		end
+	end
+
+	-- Call basic DoAbilities methods
+	InfantryTactic.DoAbilities(self)
+end
+
+
+function ApothecaryGKTactic:Update()
+
+	if (self:IsComplete()) then
+		return
+	end
+	
+	-- State machine
+	if (not InfantryTactic.Update( self )) then
+		return
+	end
+		
+	-- Attach from scratch
+	if (self:TryAttachSquad(true, true, 50, 100, nil) ~= nil) then
+		return
+	end
+	if (self:TryAttachSquad(false, true, 50, 100, self.m_fCommanderAttachHealth) == nil) then
+		self:TryAttachSquadMelee()
+	end
+end

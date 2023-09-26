@@ -1,0 +1,67 @@
+----------------------------------------
+-- File: 'DHLordtactic.ai'
+-- Edited by Thudmeizer @ 15.06.2009
+
+class 'DHLordTactic' (DaemonhuntInfantryTactic)
+
+DHLord = {}
+
+function DHLordTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("DHLord Tactic")
+end
+
+-- Assassinate win condition -- never attack
+function DHLordTactic:IsAttacker()
+	return (not cpu_manager.assassinate and self:IsCommanderAttacker())
+end
+
+-- Assassinate win condition -- never defend
+function DHLordTactic:IsDefender()
+	return (not cpu_manager.assassinate and self:IsCommanderDefender())
+end
+
+function DHLordTactic:InitAbilities()
+
+	if (DHLord.banish_id == nil) then
+	    DHLord.banish_id = cpu_manager.stats:GetAbilityID( "inquisition_inquisitor_lord_banish" )	
+	end
+
+	if (DHLord.wrath_id == nil) then
+	    DHLord.wrath_id = cpu_manager.stats:GetAbilityID( "inquisition_inquisitor_lord_emperor_wrath" )	
+	end
+end
+
+function DHLordTactic:DoAbilities()
+
+	Ability.DoAbilityPos( self.squad_ai, DHLord.banish_id, Ability.Filters.CloseMonsterEnemy, 1 )
+	Ability.DoAbilityPos( self.squad_ai, DHLord.banish_id, Ability.Filters.CloseCommanderEnemy, 1 )  
+	Ability.DoAbilityArea( self.squad_ai, DHLord.wrath_id, Ability.Filters.CloseEnemy, 15, 2 )
+end
+
+function DHLordTactic:Update()
+
+	if (self:IsComplete()) then
+		return
+	end
+	
+	-- State machine
+	if (not InfantryTactic.Update( self )) then
+		return
+	end
+		
+	-- Assassinate win condition -- never attach to a squad
+	if (not cpu_manager.assassinate) then
+		
+		-- Attach to melee in tier3+
+		if (cpu_manager:GetTierLevel() > 2) then
+		
+			if (self:TryAttachSquad(true, true, 50, 100, nil) ~= nil) then
+				return
+			end
+		end
+		if (self:TryAttachSquad(false, true, 50, 100, self.m_fCommanderAttachHealth) == nil) then
+			self:TryAttachSquadMelee()
+		end
+	end
+end

@@ -1,0 +1,38 @@
+----------------------------------------
+-- File: 'landraidertactic.ai'
+-- Edited by Thudmeizer         @ 20.12.2008
+
+class 'DHLandRaiderTactic' (DaemonhuntVehicleTactic)
+
+DHLandRaider = {}
+
+function DHLandRaiderTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("DH Land Raider Tactic")
+	
+	-- Vehicle is a heavy transport
+	self.m_iTransportVehicle = 3
+	self.m_iTransportSlots = 2
+end
+
+function DHLandRaiderTactic:InitAbilities()
+
+	-- Init ability ID's
+	if (DHLandRaider.spirit_id == nil) then
+		DHLandRaider.spirit_id = cpu_manager.stats:GetAbilityID( "inquisition_machine_spirit" )
+	end
+end
+
+function DHLandRaiderTactic:DoAbilities()
+
+	-- Check if I can use machine spirit while stationary
+	if (self.squad_ai:WasRecentlyHurt() and not self.squad_ai:IsInStateMove() and not self.squad_ai:IsInStateAttackMove()) then
+		
+		if (self.squad_ai:CanDoAbility(DHLandRaider.spirit_id)) then
+			self.squad_ai:DoSpecialAbility(DHLandRaider.spirit_id)
+		end	  
+	end
+	
+	-- Do basic abilities
+	DaemonhuntVehicleTactic.DoAbilities(self)
+end

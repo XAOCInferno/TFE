@@ -1,0 +1,45 @@
+----------------------------------------
+-- File: 'acolytetactic.ai'
+-- Created by Gambit @ 31.03.2017
+
+class 'AcolyteGKTactic' (DaemonhuntInfantryGKTactic)
+
+AcolyteGK = {}
+
+function AcolyteGKTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Acolyte Tactic")
+	self.m_iTransportable = 1
+end
+
+function AcolyteGKTactic:IsAttacker()
+	return self:IsCommanderAttacker()
+end
+
+function AcolyteGKTactic:IsDefender()
+	return self:IsCommanderDefender()
+end
+
+
+function AcolyteGKTactic:InitAbilities()
+
+	if (AcolyteGK.trance == nil) then
+	    AcolyteGK.trance = cpu_manager.stats:GetAbilityID( "inquisition_trance" )	
+	end
+end
+
+
+function AcolyteGKTactic:DoAbilities()
+
+	if self.squad_ai:CanDoAbility(AcolyteGK.trance) and self.squad_ai:WasRecentlyHurt() then
+		if (self.squad_ai:IsInCombat() and self.squad_ai:GetHealthPercentage() < 0.35) then
+			self.squad_ai:DoSpecialAbility(AcolyteGK.trance)
+		else
+			local iPos = self.squad_ai:GetPosition()
+			if cpu_manager.terrain_analyzer:HasThreat(iPos, 50) and
+			not cpu_manager.terrain_analyzer:HasThreat(iPos, 20) then
+				self.squad_ai:DoSpecialAbility(AcolyteGK.trance)
+			end
+		end
+	end
+end

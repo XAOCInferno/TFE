@@ -1,0 +1,100 @@
+----------------------------------------
+-- File: 'paladingktactic.ai'
+-- Created by Gambit @ 3.03.2017
+
+class 'PaladinGKTactic' (DaemonhuntInfantryGKTactic)
+
+PaladinGK = {}
+
+function PaladinGKTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Paladin Tactic")
+	self.m_iTransportable = 1
+end
+
+
+function PaladinGKTactic:InitAbilities()
+
+	if PaladinGK.holocaust_id == nil then
+		PaladinGK.holocaust_id = cpu_manager.stats:GetAbilityID( "inquisition_holocaust" )
+		PaladinGK.sanctuary_id = cpu_manager.stats:GetAbilityID( "inquisition_sanctuary_targeted_ability" )
+		--PaladinGK.healing_id = cpu_manager.stats:GetAbilityID( "inquisition_healing_touch" )
+	end
+end
+
+
+function PaladinGKTactic:DoAbilities()
+
+	if self.squad_ai:CanDoAbility(PaladinGK.holocaust_id) then
+		Ability.DoAbilityPos( self.squad_ai, PaladinGK.holocaust_id, Ability.Filters.CloseSquadEnemy, 3 ) 
+		Ability.DoAbilityPos( self.squad_ai, PaladinGK.holocaust_id, Ability.Filters.CloseCommanderEnemy, 1 ) 
+		Ability.DoAbilityPos( self.squad_ai, PaladinGK.holocaust_id, Ability.Filters.CloseMonsterEnemy, 1 ) 
+	end
+
+	if self.squad_ai:CanDoAbility(PaladinGK.sanctuary_id) and self.squad_ai:IsInCombat() then
+		if resource_manager:GetResourceAmount():Get(ResourceAmount.RT_Requisition) > 350 then
+			local selfPos = self.squad_ai:GetPosition()
+			-- First, try the ability directly on the Paladins, if of low health
+			if self.squad_ai:GetHealthPercentage() < 0.55 and self.squad_ai:GetNumTroopers() > 3 then
+				self.squad_ai:DoSpecialAbilityPos(PaladinGK.sanctuary_id, selfPos)
+			-- Else, scan for nearby Daemons presence, regardless squad health
+			else
+				local oGreaterDaemon = function(oSquad, iCount)
+					local oStats = oSquad:GetStats()
+					if oStats == nil then return false end
+					return oStats:GetClass() == UnitStatsAI.UC_MonsterHigh
+				end
+				local greaterDaemon = cpu_manager:GetClosestSquad(selfPos, 16, oGreaterDaemon, 1)
+				if greaterDaemon ~= nil then
+					self.squad_ai:DoSpecialAbilityPos(PaladinGK.sanctuary_id, greaterDaemon:GetPosition())
+				else local lesserDaemon = Ability.Filters.CloseMonsterEnemy(selfPos, 16, 6)
+					if lesserDaemon ~= nil then
+						self.squad_ai:DoSpecialAbilityPos(PaladinGK.sanctuary_id, lesserDaemon:GetPosition())
+					end
+				end
+			end
+		end
+	end
+
+	-- Call basic DoAbilities methods
+	DaemonhuntInfantryGKTactic.DoAbilities(self)
+end
+
+
+function PaladinGKTactic:Upgrade()
+
+	-- Check if we are reinforcing
+	if (self.squad_ai:IsReinforcing() or not self.squad_ai:HasUpgradableTrooper()) then
+		return
+	end
+
+	-- If I am broken, don't upgrade!
+	if (self:IsAffectedByMorale() and self.squad_ai:IsBroken()) then
+		return
+	end	
+	
+	-- Only upgrade in healthy state
+	if (self.squad_ai:GetNumTroopers() < self.squad_ai:GetMaxTroopers() * 0.6 or self.squad_ai:GetHealthPercentage() < 0.5) then
+		return
+	end
+	
+	-- Set upgrade direction
+	local eUpgradeType = UnitStatsAI.UC_VehicleMed
+	if (math.random(1, 2) == 2) then
+
+		-- Figure out my enemy's favourite class
+		local oEnemy = cpu_manager:FindClosestEnemyPlayer()
+		if (oEnemy ~= nil) then
+			eUpgradeType = oEnemy:GetMajorityClassType()
+		end
+	end
+
+	-- Try to upgrade
+	self.squad_ai:DoBestUpgrade(eUpgradeType)
+end
+
+
+-- Arkhan 03.2006: Inherited method used by commanders which are able to jump with an attached squad
+function PaladinGKTactic:CanJumpAttached()
+	return true
+end

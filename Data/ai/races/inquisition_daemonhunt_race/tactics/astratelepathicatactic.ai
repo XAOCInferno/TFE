@@ -1,0 +1,93 @@
+----------------------------------------
+-- File: 'astratelepathicatactic.ai'
+-- Edited by Thudmeizer		@ 23.02.2009
+
+class 'AstraTelepathicaTactic' (BaseTactic)
+
+function AstraTelepathicaTactic:__init( base_ai ) super( base_ai )
+
+	self:SetName("Astra Telepathica Tactic")
+
+	self.m_iHQID = cpu_manager.stats:GetBuildingID("inquisition_tower_hq")
+end
+
+function AstraTelepathicaTactic:CanDeepStrikeTroops()
+	return (cpu_manager.player_stats:GetNumBasesByBPID(self.m_iHQID, true) > 0)
+end
+
+function AstraTelepathicaTactic:InitAbilities()
+	
+	-- Init abilities
+	if (self.m_iExterminatusID == nil) then
+		self.m_iExterminatusID = cpu_manager.stats:GetAbilityID( "inquisition_exterminatus" )
+	end
+
+	if (self.m_iMegameltaID == nil) then
+		self.m_iMegameltaID = cpu_manager.stats:GetAbilityID( "inquisition_mega_melta" )
+	end
+end
+
+
+function AstraTelepathicaTactic:DoAbilities()
+
+	-- Check if we have enough resources
+	if resource_manager:GetResourceAmount():Get(ResourceAmount.RT_Requisition) < 450
+	or resource_manager:GetResourceAmount():Get(ResourceAmount.RT_Power) < 350 then
+		return
+	end
+
+	local iPos = self.base_ai:GetPosition()
+	-- Inquisition Exterminatus orbital attack
+	if self.base_ai:CanDoAbility(self.m_iExterminatusID) then
+		local iRange = self.base_ai:GetAbilityRange(self.m_iExterminatusID)
+		-- Try to activate the exterminatus orbital attack - infantry
+		local oSquad = Ability.Filters.CloseInfantryEnemy(iPos, iRange, 6)
+		if oSquad ~= nil then
+			if oSquad:IsInCombat() or oSquad:IsCapturing() then
+				if self.base_ai:DoSpecialAbilitySquad(self.m_iExterminatusID, oSquad:GetSquad()) then
+					return
+				end
+			end
+		end
+		-- Try to activate the exterminatus orbital attack - monsters
+		oSquad = Ability.Filters.CloseMonsterEnemy(iPos, iRange, 5)
+		if oSquad ~= nil then
+			-- Only try to detect if the unit is attacking or capturing
+			if oSquad:IsInCombat() or oSquad:IsCapturing() then
+				if self.base_ai:DoSpecialAbilitySquad(self.m_iExterminatusID, oSquad:GetSquad()) then
+					return
+				end
+			end
+		end
+	end
+
+	-- Inquisition Mega Melta orbital attack
+	if self.base_ai:CanDoAbility(self.m_iMegameltaID) then
+		local iRange = self.base_ai:GetAbilityRange(self.m_iMegameltaID)
+		-- Try to activate the mega melta torpedo attack - vehicles
+		local oSquad = Ability.Filters.CloseVehicleEnemy(iPos, iRange, 1)
+		if oSquad ~= nil then
+			if oSquad:IsInCombat() then
+				if self.base_ai:DoSpecialAbilitySquad(self.m_iMegameltaID, oSquad:GetSquad()) then
+					return
+				end
+			end
+		end
+		-- Try to activate the mega melta torpedo attack - buildings
+		local oEntity = cpu_manager.cpu_player:FindFirstBaseEnemy(iPos, iRange, 1)
+		if oEntity ~= nil and cpu_manager.cpu_player:FindFirstHurtSquad(oEntity:GetPosition(), 30) ~= nil then
+			if self.base_ai:DoSpecialAbilityEntity(self.m_iMegameltaID, oEntity:GetEntity()) then
+				return
+			end
+		end
+		-- Try to activate the mega melta torpedo attack - ANY enemy !
+		local oSquad = Ability.Filters.CloseEnemy(iPos, iRange, 4)
+		if oSquad ~= nil then
+			if oSquad:IsInCombat() then
+				if self.base_ai:DoSpecialAbilitySquad(self.m_iMegameltaID, oSquad:GetSquad()) then
+					return
+				end
+			end
+		end
+	end
+end

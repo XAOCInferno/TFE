@@ -1,0 +1,127 @@
+----------------------------------------
+-- File: 'bodyguardtactic.ai'
+-- Edited by Thudmeizer @ 23.02.2009
+
+class 'BodyGuardTactic' (DaemonhuntInfantryTactic)
+
+BodyGuard = {}
+
+function BodyGuardTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("BodyGuard Tactic")
+end
+
+
+function BodyGuardTactic:InitAbilities()
+
+	if (BodyGuard.frag_id == nil) then
+	    BodyGuard.frag_id = cpu_manager.stats:GetAbilityID( "inquisition_frag_grenades_bodyguards" )	
+	end
+
+	if (BodyGuard.crack_id == nil) then
+	    BodyGuard.crack_id = cpu_manager.stats:GetAbilityID( "inquisition_crack_grenades_bodyguards" )	
+	end
+
+	if (BodyGuard.rally_id == nil) then
+	    BodyGuard.rally_id = cpu_manager.stats:GetAbilityID( "inquisition_rally" )	
+	end
+end
+
+
+function BodyGuardTactic:DoAbilities()
+	
+	-- print(" BodyGuardTactic:DoAbilities")
+	
+	--[[ if we have Acolyte or Banisher, than we can frag-grenades infiltrated units as well.
+	if (self.squad_ai:GetLeaderCount(2) + self.squad_ai:GetLeaderCount(3) )  > 0 then
+		Ability.DoAbilityTarget( self.squad_ai, BodyGuard.frag_id, Ability.Filters.CloseInfiltratedEnemy, 3 )		
+	end]]
+
+	if self.squad_ai:IsInCombat() then
+		Ability.DoAbilityTarget( self.squad_ai, BodyGuard.frag_id, Ability.Filters.CloseSquadEnemy, 3 )
+		Ability.DoAbilityTarget( self.squad_ai, BodyGuard.frag_id, Ability.Filters.CloseCommanderEnemy, 1 )
+		Ability.DoAbilityTarget( self.squad_ai, BodyGuard.frag_id, Ability.Filters.CloseMonsterEnemy, 3 )
+
+		Ability.DoAbilityTarget( self.squad_ai, BodyGuard.crack_id, Ability.Filters.CloseVehicleEnemy, 1 )
+		Ability.DoAbilityTargetEntity( self.squad_ai, BodyGuard.crack_id, Ability.EntityFilters.CloseBaseEntityEnemy, 1)
+	end
+
+	-- Call basic DoAbilities methods
+	DaemonhuntInfantryTactic.DoAbilities(self)
+end
+
+
+-- Assumes 2 Leaders to choose from!
+function BodyGuardTactic:Reinforce()
+
+	-- always try for the actual leader first
+	if not self.squad_ai:IsReinforcing() then
+
+		-- try for different types of squad members
+		local acolyteIndex = 0
+		local exorcistIndex = 1
+	
+		local numAcolytes = self.squad_ai:GetLeaderCount( acolyteIndex )
+		local numExorcist = self.squad_ai:GetLeaderCount( exorcistIndex )
+
+		-- Desired number of each leader type
+		local desiredAcolytes = 1
+		local desiredExorcist = 1
+
+		-- Desired order of reinforcing
+		if numAcolytes < desiredAcolytes then
+			if self.squad_ai:CanReinforce( true, acolyteIndex ) then
+				self.squad_ai:DoReinforce( true, acolyteIndex )
+			end
+		elseif numExorcist < desiredExorcist then
+			if self.squad_ai:CanReinforce( true, exorcistIndex ) then
+				self.squad_ai:DoReinforce( true, exorcistIndex )
+			end
+		end
+	end
+
+	-- continue with the regular members
+	if not self.squad_ai:IsReinforcing() then
+		if self.squad_ai:CanReinforce( false, 0 ) then
+		   self.squad_ai:DoReinforce( false, 0 )
+		end
+	end
+end
+
+
+function BodyGuardTactic:CheckForBroken()
+
+	if (self.squad_ai:IsBroken()) then
+	
+		-- Check if I can repair my morale
+		if (self.squad_ai:CanDoAbility( BodyGuard.rally_id )) then
+			self.squad_ai:DoSpecialAbility( BodyGuard.rally_id )
+		end
+	end
+   
+	-- Call basic broken check method
+	InfantryTactic.CheckForBroken(self)
+end
+
+
+function BodyGuardTactic:Upgrade()
+
+ 	-- If I am broken, don't upgrade!
+	if (self:IsAffectedByMorale() and self.squad_ai:IsBroken()) then
+		return
+	end
+
+	-- If there are no resources available, don't upgrade!
+	if (not Tactic.Options.can_reinforce) then
+		return
+	end
+
+	if (not self.squad_ai:IsReinforcing() and cpu_manager:GetTierLevel() >= 2) then
+	  
+		-- Try for upgrade if we've a leader and more than 6 troopers
+		if self.squad_ai:HasUpgradableTrooper() and (self.squad_ai:GetLeaderCount(0) == 1 or self.squad_ai:GetLeaderCount(1) == 1) then
+			local class_type = cpu_manager:FindClosestEnemyPlayer():GetMajorityClassType()
+			self.squad_ai:DoBestUpgrade( class_type )
+		end
+	end
+end

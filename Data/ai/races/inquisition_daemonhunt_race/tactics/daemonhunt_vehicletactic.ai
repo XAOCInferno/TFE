@@ -1,0 +1,145 @@
+----------------------------------------
+-- File: 'daemonhuntvehicletactic.ai'
+-- Edited by Thudmeizer         @ 20.12.2008
+
+class 'DaemonhuntVehicleTactic' (VehicleTactic)
+
+function DaemonhuntVehicleTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Daemonhunt Vehicle Tactic")
+
+	-- Set vehicle options
+	local sSquadName = squad_ai:GetSquadName()
+	if (sSquadName == "inquisition_squad_dreadnought_assault" or
+		sSquadName == "inquisition_squad_dreadnought_support") then
+		
+		-- Vehicles are transportable and can deepstrike	
+		self.m_iTransportable = 3
+		self.m_iTransportable = 4
+		self.m_iDeepStrikeBlueprintID = cpu_manager.stats:GetBuildingID( "inquisition_grey_knights_teleporter" )
+
+	elseif (sSquadName == "inquisition_squad_land_raider" or
+			sSquadName == "inquisition_squad_land_raider_crusader") then
+
+		-- Vehicles can deepstrike	
+		self.m_iDeepStrikeBlueprintID = cpu_manager.stats:GetBuildingID( "inquisition_astra_telepathica" )
+	end
+end
+
+-- Check if the vehicle should dance away in melee
+function DaemonhuntVehicleTactic:CheckVehicleDance(sName)
+
+	if (sName == "inquisition_squad_rhino" or
+	    sName == "inquisition_squad_chimera_transport" or	    
+	  --  sName == "inquisition_squad_dreadnought_assault" or
+	    sName == "inquisition_squad_dreadnought_support") then
+		return true
+	end
+	return false
+end
+
+
+-- Updated function that takes the number of occupied slots per squad, into account.
+function DaemonhuntVehicleTactic:LoadSquad(oSquad, iSquadStrength)
+	-- Update transport data
+	self.m_iLoadedTroopStrength = self.m_iLoadedTroopStrength + iSquadStrength
+	self.m_iUsedTransportSlots = self.m_iUsedTransportSlots + (OccupiedSlotsIDH[oSquad:GetSquadName()] or 1)
+	self.m_iUnloadTries = 2
+	-- Load squad
+	cpu_manager:DoMove(self.squad_ai, oSquad:GetPosition(), false, "Load troops")
+	for oEntity in self.squad_ai:GetEntities() do
+		oSquad:DoDefault(oEntity)
+		break
+	end
+	self.m_iMoveDelay = g_iGMT - 3
+end
+
+
+function DaemonhuntVehicleTactic:MoveToDisengage()
+
+	local maxd = 100
+	local mind = 40
+	local safe_radius = 35
+	local jump_ok = false
+	local squad_pos = self.squad_ai:GetPosition()
+	
+ 	
+	local deviate = false
+	
+	-- No SP, check for friendly squad
+	local move_pos = nil
+	if (jump_ok and self.squad_ai:WasRecentlyHurt()) then
+	
+		local squad_filter = function( squad_ai )
+			return not cpu_manager.terrain_analyzer:HasThreat( squad_ai:GetPosition(), 35 )
+		end
+	
+		-- Check for friendly squad
+		move_pos = cpu_manager:GetClosestSquadWithin( squad_pos, mind, maxd, squad_filter )
+		if (CpuManager.AISettings.bUseMapDB and move_pos == nil and jump_ok) then
+		
+			-- No friendly squad and SP, do compass move
+			move_pos = self:CompassMove( maxd - 5 )
+		end
+	else
+		deviate = true
+	end
+	
+	-- Check if we already have a move pos
+  local vBasePos = nil
+	if (move_pos == nil) then
+    
+	  -- JONES
+    -- Search for maintenance servitors
+		--[[
+    local aBuilders = cpu_manager:GetAvailableBuilders()
+    
+    if (table.getn(aBuilders) > 0) then
+      local distance_max = 1000
+      local best_index = 1
+      
+      for iLoop1 in aBuilders do
+        local oSquad = aBuilders[iLoop1]
+        local aBuilders_pos = oSquad:GetPosition()
+        local aDist = distance_sqr(squad_pos, aBuilders_pos)
+        if aDist < distance_max then
+          distance_max = aDist
+          best_index = iLoop1
+        end
+      end
+      
+      vBasePos = aBuilders[best_index]:GetPosition()
+    else 
+    -- Иначе по старому алгоритму шагаем к своим. 
+      aitrace( "Daemonhunt Vehicle Tactic: No repair servitors found YET, move to HQ" )
+		-- Get closest strat to retreat
+		  vBasePos = cpu_manager:FindClosestFriendlyBaseOrStrategicPoint(squad_pos, cpu_manager.start_pos, true, false)  
+    end
+    ]]
+		aitrace( "Daemonhunt Vehicle Tactic: No repair servitors found YET, need to implement" )
+    vBasePos = cpu_manager:FindClosestFriendlyBaseOrStrategicPoint(squad_pos, cpu_manager.start_pos, true, false)  
+		
+    if (vBasePos ~= nil) then
+			move_pos = Vector3f(vBasePos)
+		end
+	end
+	
+	-- We have a valid destination
+	if (move_pos ~= nil) then
+	
+		local safe_point = Vector3f( move_pos )
+		
+		-- Deviate as we can't jump directly on SP (x/z)
+		if deviate then
+			safe_point.x = safe_point.x + deviate_pos( 5 )
+			safe_point.z = safe_point.z + deviate_pos( 5 )
+		end
+
+		cpu_manager:DoMove( self.squad_ai, move_pos, false, "Disengage", false )
+
+		self.safe_point = Vector3f( move_pos )
+		return true
+	end
+	
+	return false
+end

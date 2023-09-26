@@ -1,0 +1,107 @@
+----------------------------------------
+-- File: 'scholarstactic.ai'
+-- Edited by Thudmeizer @ 03.04.2007
+
+class 'ScholarsTactic' (DaemonhuntInfantryTactic)
+
+Scholars = {}
+
+function ScholarsTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Scholars Tactic")
+end
+
+function ScholarsTactic:InitAbilities()
+
+	if (Scholars.rad_id == nil) then
+	    Scholars.rad_id = cpu_manager.stats:GetAbilityID( "inquisition_grenade_rad" )	
+	end
+
+	if (Scholars.mind_crack_id == nil) then
+	    Scholars.mind_crack_id = cpu_manager.stats:GetAbilityID( "inquisition_grenade_empyrean_brain_mine" )	
+	end
+
+end
+
+function ScholarsTactic:DoAbilities()
+
+	--print(" ScholarsTactic:DoAbilities")
+	
+	Ability.DoAbilityTarget( self.squad_ai, Scholars.rad_id, Ability.Filters.CloseCommanderEnemy, 1 )
+	Ability.DoAbilityTarget( self.squad_ai, Scholars.rad_id, Ability.Filters.CloseSquadEnemy, 4 )
+	Ability.DoAbilityTarget( self.squad_ai, Scholars.rad_id, Ability.Filters.CloseMonsterEnemy, 1 )
+
+	Ability.DoAbilityTarget( self.squad_ai, Scholars.mind_crack_id, Ability.Filters.CloseCommanderEnemy, 1 )
+	Ability.DoAbilityTarget( self.squad_ai, Scholars.mind_crack_id, Ability.Filters.CloseSquadEnemy, 3)
+	
+	-- Call basic DoAbilities methods
+	DaemonhuntInfantryTactic.DoAbilities(self)
+end
+
+
+function ScholarsTactic:IsAttacker()
+	return self:IsCommanderAttacker()
+end
+
+function ScholarsTactic:IsDefender()
+	return self:IsCommanderDefender()
+end
+
+-- Assumes 4 Leaders to choose from (add more if desired)!
+function ScholarsTactic:Reinforce()
+
+  --always try for the actual leader first
+	if not self.squad_ai:IsReinforcing() then
+		if self.squad_ai:CanReinforce( false, 0 ) then
+		   self.squad_ai:DoReinforce( false, 0 )
+		end
+	end
+
+	if not self.squad_ai:IsReinforcing() then
+
+		-- try for different types of squad members
+		local calculusIndex = 0
+		local sskullIndex = 1
+		local exorcistIndex = 2
+		local astropathIndex = 3
+	
+		local numCalculus = self.squad_ai:GetLeaderCount( calculusIndex )
+		local numSskull = self.squad_ai:GetLeaderCount( sskullIndex )
+		local numExorcist = self.squad_ai:GetLeaderCount( exorcistIndex )
+		local numAstropath = self.squad_ai:GetLeaderCount( astropathIndex )
+
+		-- Desired number of each leader type
+		local desiredCalculus = 1 
+		local desiredSskull = 1
+		local desiredExorcist = 1
+		local desiredAstropath = 1
+
+		--[[local squadMax = self.squad_ai:GetMaxLeaderCount()
+		if squadMax > 6 then
+			-- 3rd member and up - we want 1 and 1 more
+			desiredExorcist = 3
+			desiredAstropath = 4
+		end]]
+
+		-- Desired order of reinforcing
+		if numCalculus < desiredCalculus then
+			if self.squad_ai:CanReinforce( true, calculusIndex ) then
+				self.squad_ai:DoReinforce( true, calculusIndex )
+			end
+		elseif numSskull < desiredSskull then
+			if self.squad_ai:CanReinforce( true, sskullIndex ) then
+				self.squad_ai:DoReinforce( true, sskullIndex )
+			end
+		elseif numExorcist < desiredExorcist or numAstropath < desiredAstropath then
+			if self.squad_ai:CanReinforce( true, exorcistIndex ) or self.squad_ai:CanReinforce( true, astropathIndex ) then
+				self.squad_ai:DoReinforce( true, exorcistIndex )
+				self.squad_ai:DoReinforce( true, astropathIndex )
+			end
+		end
+	end
+end
+
+function ScholarsTactic:CanOnlyDecap()
+		return true -- false --
+end
+

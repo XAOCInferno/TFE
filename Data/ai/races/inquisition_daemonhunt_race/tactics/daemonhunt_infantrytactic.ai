@@ -1,0 +1,185 @@
+----------------------------------------
+-- File: 'Daemonhuntinfantrytactic.ai'
+-- Edited by Thudmeizer		@ 04.09.2010
+
+class 'DaemonhuntInfantryTactic' (InfantryTactic)
+
+DaemonhuntInfantryAbility =
+{
+    FragBombID = cpu_manager.stats:GetAbilityID("inquisition_frag_grenades_stormtroopers")
+    ,CrackBombID = cpu_manager.stats:GetAbilityID("inquisition_crack_grenades_stormtroopers")
+}
+
+function DaemonhuntInfantryTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Daemonhunt Infantry Tactic")
+
+	-- Set infantry options
+	local sSquadName = squad_ai:GetSquadName()
+	if (sSquadName == "inquisition_squad_bodyguard" or
+		sSquadName == "inquisition_squad_shock_troops" or
+		sSquadName == "inquisition_squad_scholars" or
+		sSquadName == "inquisition_squad_death_cultist") then
+		
+		-- Squads are transportable
+		self.m_iTransportable = 1
+		self.m_iTransportable = 2
+
+	elseif (sSquadName == "inquisition_squad_inquisitor_lord") then
+
+		-- Squads are transportable
+		self.m_iTransportable = 1
+		self.m_iTransportable = 2
+		self.m_iTransportable = 3
+		self.m_iTransportable = 4
+
+	elseif (sSquadName == "inquisition_squad_shock_troops") then
+		self.m_iDeepStrikeBlueprintID = cpu_manager.stats:GetBuildingID( "inquisition_watch" )
+
+	elseif (sSquadName == "inquisition_squad_grey_knights" or
+			sSquadName == "inquisition_squad_grey_knights_terminator" or
+			sSquadName == "inquisition_squad_gk_chaplain" or
+			sSquadName == "inquisition_squad_gk_librarian" or
+			sSquadName == "inquisition_squad_grey_knight_hero") then
+		
+		-- Squads are transportable and can deepstrike	
+		self.m_iTransportable = 3
+		self.m_iTransportable = 4
+		self.m_iDeepStrikeBlueprintID = cpu_manager.stats:GetBuildingID( "inquisition_grey_knights_teleporter" )
+	end
+
+    self.fragBombLastUse = g_iGMT
+    self.crackBombLastUse = g_iGMT
+end
+
+function DaemonhuntInfantryTactic:AddTargetAbilities()
+
+end
+
+function DaemonhuntInfantryTactic:AddCommanders()
+	table.insert(self.commander, { "inquisition_squad_inquisitor_lord", true })
+	table.insert(self.commander, { "inquisition_squad_grey_knight_hero", false })
+	table.insert(self.commander, { "inquisition_squad_gk_chaplain", false })
+	table.insert(self.commander, { "inquisition_squad_gk_librarian", false })
+	table.insert(self.commander, { "inquisition_squad_death_cultist", false })
+end
+
+function DaemonhuntInfantryTactic:DoAbilities()
+
+	-- I might have these attached
+	if (self.squad_ai:IsAttached()) then
+	
+		if (self.squad_ai:HasSquadAttached("inquisition_squad_inquisitor_lord")) then
+			DHLordTactic.InitAbilities( self )
+			DHLordTactic.DoAbilities( self )
+		elseif (self.squad_ai:HasSquadAttached("inquisition_squad_grey_knight_hero")) then
+			GKHeroTactic.InitAbilities( self )
+			GKHeroTactic.DoAbilities( self )
+		elseif (self.squad_ai:HasSquadAttached("inquisition_squad_gk_chaplain")) then
+			ChaplainGKTactic.InitAbilities( self )
+			ChaplainGKTactic.DoAbilities( self )
+		elseif (self.squad_ai:HasSquadAttached("inquisition_squad_gk_librarian")) then
+			LibrarianGKTactic.InitAbilities( self )
+			LibrarianGKTactic.DoAbilities( self )
+		end
+	end
+
+	self:DoThrowGrenades()
+	
+	-- Detach commander from broken/capturing
+	--[[
+	if ((self.squad_ai:IsBroken() or self.squad_ai:IsCapturing()) and
+		(self.squad_ai:IsInCombat() or self.squad_ai:WasRecentlyHurt())) then 
+		
+		self.squad_ai:DoDetachSquad()
+		self.squad_ai:DoSetDefaultMeleeStance()
+	end
+	]]
+	
+	-- Call basic DoAbilities methods
+	InfantryTactic.DoAbilities(self)
+end
+
+function DaemonhuntInfantryTactic:DoThrowGrenades()
+
+    if self.squad_ai:IsInCombat() then
+        
+        if ( g_iGMT > self.fragBombLastUse + 30 ) then
+            if Ability.DoAbilityTarget( self.squad_ai, DaemonhuntInfantryAbility.FragBombID, Ability.Filters.CloseCommanderEnemy, 1 ) 
+            or Ability.DoAbilityTarget( self.squad_ai, DaemonhuntInfantryAbility.FragBombID, Ability.Filters.CloseSquadEnemy, 1 )
+            or Ability.DoAbilityTarget( self.squad_ai, DaemonhuntInfantryAbility.FragBombID, Ability.Filters.CloseMonsterEnemy, 1 )
+            then
+                self.fragBombLastUse = g_iGMT 
+            end
+        end
+    
+        if ( g_iGMT > self.crackBombLastUse + 65 ) then        
+            if Ability.DoAbilityTarget( self.squad_ai, DaemonhuntInfantryAbility.CrackBombID, Ability.Filters.CloseVehicleEnemy, 1 )
+            or Ability.DoAbilityTargetEntity( self.squad_ai, DaemonhuntInfantryAbility.CrackBombID, Ability.EntityFilters.CloseBaseEntityEnemy, 1 )
+            then
+                self.crackBombLastUse = g_iGMT
+            end
+        end    
+    end
+end
+
+function DaemonhuntInfantryTactic:CheckForBroken()
+
+	-- Detach commander from broken/capturing
+	if ((self.squad_ai:IsBroken() or self.squad_ai:IsCapturing()) and
+		(self.squad_ai:IsInCombat() or self.squad_ai:WasRecentlyHurt())) then 
+		
+		self.squad_ai:DoDetachSquad()
+		self.squad_ai:DoSetDefaultMeleeStance()
+	end
+	
+	-- Call basic broken check method
+	InfantryTactic.CheckForBroken(self)
+end
+
+
+
+function DaemonhuntInfantryTactic:Upgrade()
+
+	-- Check if we have free ressources
+	if (not Tactic.Options.can_reinforce) then
+		return
+	end
+	
+	-- If I am broken, don't upgrade!
+	if (self:IsAffectedByMorale() and self.squad_ai:IsBroken()) then
+		return
+	end
+	
+	-- Don't upgrade squads with less than 6 troopers
+	if (self.squad_ai:GetSquadName() == "inquisition_squad_servitor_ranged" and self.squad_ai:GetNumTroopers() < 6) then
+		return
+	end
+	
+	-- Don't upgrade squads with less than 7 troopers
+	if (self.squad_ai:GetSquadName() == "inquisition_squad_shock_troops" and self.squad_ai:GetNumTroopers() < 7) then
+		return
+	end
+	
+	if (not self.squad_ai:IsReinforcing() and self.squad_ai:HasUpgradableTrooper() and self.squad_ai:GetNumTroopers() > 3) then
+		
+		-- Figure out my enemy's favourite class
+		local enemy = cpu_manager:FindClosestEnemyPlayer()
+		if (enemy == nil) then
+			return
+		end
+		local class_type = enemy:GetMajorityClassType()
+		
+		-- Larkins hard counter upgrade for HeavyInfantryMed 
+		if (class_type < UnitStatsAI.UC_HeavyInfantryMed) then	  
+		  
+			local enemy_race = enemy:GetPlayerRaceName()
+			if (enemy_race == "space_marine_race" or enemy_race == "chaos_marine_race" or enemy_race == "necron_race" or enemy_race == "templar_race") then
+		    	class_type = UnitStatsAI.UC_HeavyInfantryMed
+		  	end
+		end
+		
+		-- Do best upgrade
+		self.squad_ai:DoBestUpgrade(class_type)
+	end
+end

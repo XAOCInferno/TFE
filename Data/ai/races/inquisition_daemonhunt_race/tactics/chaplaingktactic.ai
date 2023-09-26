@@ -1,0 +1,65 @@
+----------------------------------------
+-- File: 'chaplaingktactic.ai'
+-- Edited by Gambit @ 31.03.2017
+
+class 'ChaplainGKTactic' (DaemonhuntInfantryTactic)
+
+ChaplainGK = {}
+
+function ChaplainGKTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("GK Chaplain Tactic")
+	self.m_iTransportable = 3
+	self.m_iTransportable = 4
+	self.m_iDeepStrikeBlueprintID = cpu_manager.stats:GetBuildingID( "inquisition_grey_knights_teleporter" )
+end
+
+function ChaplainGKTactic:IsAttacker()
+	return self:IsCommanderAttacker()
+end
+
+function ChaplainGKTactic:IsDefender()
+	return self:IsCommanderDefender()
+end
+
+function ChaplainGKTactic:InitAbilities()
+
+	if (ChaplainGK.demoralize == nil) then
+		ChaplainGK.demoralize = cpu_manager.stats:GetAbilityID( "inquisition_demoralize" )
+	end
+end
+
+
+function ChaplainGKTactic:DoAbilities()
+
+	-- If we are dying, lower requisites for attacks
+	if (self.squad_ai:WasRecentlyHurt() and self.squad_ai:GetHealthPercentage() < 0.4) then
+		Ability.DoAbilityTarget( self.squad_ai, ChaplainGK.demoralize, Ability.Filters.CloseInfantryEnemy, 4 )
+	else
+		Ability.DoAbilityTarget( self.squad_ai, ChaplainGK.demoralize, Ability.Filters.CloseInfantryEnemy, 6 )
+	end
+end
+
+
+function ChaplainGKTactic:Update()
+
+	if (self:IsComplete()) then
+		return
+	end
+	
+	-- State machine
+	if (not InfantryTactic.Update(self)) then
+		return
+	end
+	
+	-- Check if we are in serious trouble
+	self:EmergencyRetreat()
+
+	-- Try to attach
+	if (self:TryAttachSquad(true, true, 50, 100, nil) ~= nil) then
+		return
+	end
+	if (self:TryAttachSquad(false, true, 50, 100, self.m_fCommanderAttachHealth) == nil) then
+		self:TryAttachSquadMelee()
+	end
+end

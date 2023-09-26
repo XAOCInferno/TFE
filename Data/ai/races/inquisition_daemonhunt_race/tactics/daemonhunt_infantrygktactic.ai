@@ -1,0 +1,136 @@
+-----------------------------------------
+-- File: 'daemonhunt_infantrygktactic.ai'
+-- Created by Gambit		@ 31.03.2017
+
+class 'DaemonhuntInfantryGKTactic' (InfantryTactic)
+
+DaemonhuntInfantryGK = {}
+
+function DaemonhuntInfantryGKTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Daemonhunt Infantry GK Tactic")
+
+	-- ALL Squads are transportable by the Stormraven
+		self.m_iTransportable = 1
+
+	-- All Terminator-armoured squads can DS from the GK Teleporter building
+	local sSquadName = squad_ai:GetSquadName()
+	if (sSquadName == "inquisition_squad_grey_knight_hero_gk" or
+		sSquadName == "inquisition_squad_grey_knights_apothecary" or
+		sSquadName == "inquisition_squad_grey_knights_librarian" or
+		sSquadName == "inquisition_squad_grey_knights_paladin" or
+		sSquadName == "inquisition_squad_grey_knights_paladin_ktgm" or
+		sSquadName == "inquisition_squad_grey_knights_terminator_gk") then
+		self.m_iDeepStrikeBlueprintID = cpu_manager.stats:GetBuildingID( "inquisition_grey_knights_teleporter_gk" )
+	end
+end
+
+
+function DaemonhuntInfantryGKTactic:AddTargetAbilities()
+end
+
+
+function DaemonhuntInfantryGKTactic:AddCommanders()
+	table.insert(self.commander, { "inquisition_squad_inquisitor_lord_cs", true })
+	table.insert(self.commander, { "inquisition_squad_grey_knights_librarian", false })
+	table.insert(self.commander, { "inquisition_squad_grey_knight_hero_gk", false })
+end
+
+
+function DaemonhuntInfantryGKTactic:InitAbilities()
+
+	if DaemonhuntInfantryGK.astral_aim == nil then
+		DaemonhuntInfantryGK.astral_aim = cpu_manager.stats:GetAbilityID( "inquisition_astral_aim" )
+		DaemonhuntInfantryGK.cleansing_flame = cpu_manager.stats:GetAbilityID( "inquisition_cleansing_flame" )
+		DaemonhuntInfantryGK.nemesis_id = cpu_manager.stats:GetAbilityID( "inquisition_brother_captain_nemesis_gk" )	
+		DaemonhuntInfantryGK.hammerhand = cpu_manager.stats:GetAbilityID( "inquisition_hammerhand" )
+		DaemonhuntInfantryGK.fragGrenandes = cpu_manager.stats:GetAbilityID( "inquisition_frag_grenades_purgator" )
+		DaemonhuntInfantryGK.meltaBombs = cpu_manager.stats:GetAbilityID( "inquisition_melta_bombs_interceptors" )
+		DaemonhuntInfantryGK.empyreanMines = cpu_manager.stats:GetAbilityID( "inquisition_grenade_empyrean_brain_mine_gk" )
+	end
+end
+
+
+function DaemonhuntInfantryGKTactic:DoAbilities()
+
+	-- I might have these attached, that have abilities that they may cast
+	if (self.squad_ai:IsAttached()) then
+		if (self.squad_ai:HasSquadAttached("inquisition_squad_grey_knights_apothecary")) then
+			ApothecaryGKTactic.InitAbilities( self )
+			ApothecaryGKTactic.DoAbilities( self )
+		elseif (self.squad_ai:HasSquadAttached("inquisition_squad_grey_knights_librarian")) then
+			LibrarianTermiTactic.InitAbilities( self )
+			LibrarianTermiTactic.DoAbilities( self )
+		elseif (self.squad_ai:HasSquadAttached("inquisition_squad_grey_knight_hero_gk")) then
+			GKHeroGKTactic.InitAbilities( self )
+			GKHeroGKTactic.DoAbilities( self )
+		end
+	end
+
+	-- Casting Astral Aim for Purgators
+	if self.squad_ai:CanDoAbility(DaemonhuntInfantryGK.astral_aim) and self.squad_ai:IsAttacking() then
+		if Ability.Filters.CloseEnemy(self.squad_ai:GetPosition(), 18, 1) == nil
+		and self.squad_ai:GetMeleeStance() == SquadAI.MSTANCE_Ranged then
+			self.squad_ai:DoSpecialAbility(DaemonhuntInfantryGK.astral_aim)
+		end
+	end
+
+	-- Casting Cleansing Flames for Purifiers
+	if self.squad_ai:CanDoAbility(DaemonhuntInfantryGK.cleansing_flame) and self.squad_ai:IsInCombat() then
+		Ability.DoAbilityTarget( self.squad_ai, DaemonhuntInfantryGK.cleansing_flame, Ability.Filters.CloseSquadEnemy, 3 ) 
+		Ability.DoAbilityTarget( self.squad_ai, DaemonhuntInfantryGK.cleansing_flame, Ability.Filters.CloseMonsterEnemy, 2 )
+	end
+
+	-- Casting Nemesis for Terminators
+	if self.squad_ai:CanDoAbility(DaemonhuntInfantryGK.nemesis_id) and self.squad_ai:IsInCombat() then
+		Ability.DoAbilityTarget( self.squad_ai, DaemonhuntInfantryGK.nemesis_id, Ability.Filters.CloseSquadEnemy, 3 ) 
+		Ability.DoAbilityTarget( self.squad_ai, DaemonhuntInfantryGK.nemesis_id, Ability.Filters.CloseMonsterEnemy, 1 )
+		Ability.DoAbilityTarget( self.squad_ai, DaemonhuntInfantryGK.nemesis_id, Ability.Filters.CloseVehicleEnemy, 2 )
+	end
+	-- Casting Hammerhand for Terminators
+	if self.squad_ai:CanDoAbility(DaemonhuntInfantryGK.hammerhand) and self.squad_ai:IsInCombat() then
+		if Ability.Filters.CloseVehicleEnemy(self.squad_ai:GetPosition(), 6, 1) ~= nil
+		and self.squad_ai:GetMeleeStance() == SquadAI.MSTANCE_Assault then
+			self.squad_ai:DoSpecialAbility(DaemonhuntInfantryGK.hammerhand)
+		end
+	end
+
+	self:DoThrowGrenades()
+
+	-- Call basic DoAbilities methods
+	InfantryTactic.DoAbilities(self)
+end
+
+
+function DaemonhuntInfantryGKTactic:DoThrowGrenades()
+
+    if self.squad_ai:IsInCombat() then
+		if self.squad_ai:CanDoAbility(DaemonhuntInfantryGK.fragGrenandes) then
+			Ability.DoAbilityTarget(self.squad_ai, DaemonhuntInfantryGK.fragGrenandes, Ability.Filters.CloseSquadEnemy, 1)
+			Ability.DoAbilityTarget(self.squad_ai, DaemonhuntInfantryGK.fragGrenandes, Ability.Filters.CloseMonsterEnemy, 1)
+		end
+		if self.squad_ai:CanDoAbility(DaemonhuntInfantryGK.meltaBombs) then
+			Ability.DoAbilityTarget(self.squad_ai, DaemonhuntInfantryGK.meltaBombs, Ability.Filters.CloseVehicleEnemy, 1 )
+			Ability.DoAbilityTargetEntity(self.squad_ai, DaemonhuntInfantryGK.meltaBombs, Ability.EntityFilters.CloseBaseEntityEnemy, 1)
+		end
+		if self.squad_ai:CanDoAbility(DaemonhuntInfantryGK.empyreanMines) then
+			Ability.DoAbilityTarget( self.squad_ai, DaemonhuntInfantryGK.empyreanMines, Ability.Filters.CloseCommanderEnemy, 1 )
+			Ability.DoAbilityTarget( self.squad_ai, DaemonhuntInfantryGK.empyreanMines, Ability.Filters.CloseSquadEnemy, 3)
+		end
+    end
+end
+
+
+function DaemonhuntInfantryGKTactic:CheckForBroken()
+
+	-- Detach commander from broken/capturing
+	if ((self.squad_ai:IsBroken() or self.squad_ai:IsCapturing()) and
+		(self.squad_ai:IsInCombat() or self.squad_ai:WasRecentlyHurt())) then 
+		
+		self.squad_ai:DoDetachSquad()
+		self.squad_ai:DoSetDefaultMeleeStance()
+	end
+
+	-- Call basic broken check method
+	InfantryTactic.CheckForBroken(self)
+end

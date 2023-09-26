@@ -1,0 +1,36 @@
+----------------------------------------
+-- File: 'Archivisttactic.ai'
+-- Edited by Thudmeizer @ 20.01.2007
+
+class 'ArchivistTactic' (EngineerTactic)
+
+function ArchivistTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Archivist Tactic")
+end
+
+function ArchivistTactic:CanRepair()
+	return true
+end
+
+function ArchivistTactic:ValidMove( vDestination )
+	
+	aitrace("Move Engineer to "..tostring(vDestination.x)..", "..tostring(vDestination.z))
+	
+	-- Check distance and jump capability
+	self.m_vDestination = Vector3f(vDestination)
+	local vMyPos = self.squad_ai:GetPosition()
+	if (distance_sqr(vMyPos, vDestination) > sqr(50) and self.squad_ai:CanJump()) then
+	
+		-- Jump only if locked, injured or with threat in range
+		if (self.squad_ai:IsLocked() or self.squad_ai:WasRecentlyHurt() or cpu_manager.terrain_analyzer:HasThreat(vMyPos, 35)) then
+			
+			-- Try to jump
+			if (cpu_manager:JumpBuilder(self.squad_ai, vDestination)) then
+				self.m_bBusy = true
+				return
+			end
+		end
+	end
+	self.squad_ai:DoMove(vDestination)
+end

@@ -1,0 +1,91 @@
+----------------------------------------
+-- File: 'gkherogktactic.ai'
+-- Edited by Gambit @ 31.03.2017
+
+class 'GKHeroGKTactic' (DaemonhuntInfantryGKTactic)
+
+GKHeroGK = {}
+
+function GKHeroGKTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("GK Hero Tactic")
+	self.m_iTransportable = 1
+end
+
+-- GKHero is allowed to retreat even directly after a jump
+function GKHeroGKTactic:SetTarget( target, variant_type )
+
+	self.variant_type = variant_type
+	self.target = Vector3f(target)
+	self.m_iMoveDelay = 0
+	self.last_jump = 0
+end
+
+function GKHeroGKTactic:IsAttacker()
+	return self:IsCommanderAttacker()
+end
+
+function GKHeroGKTactic:IsDefender()
+	return self:IsCommanderDefender()
+end
+
+function GKHeroGKTactic:JumpAttack()
+
+	if (cpu_manager.assassinate) or (not cpu_manager.assassinate) then
+		Tactic.JumpAttack(self)
+	end
+end
+
+function GKHeroGKTactic:InitAbilities()
+
+	if (GKHeroGK.purge_id == nil) then
+	    GKHeroGK.purge_id = cpu_manager.stats:GetAbilityID( "inquisition_grey_knight_hero_purge" )	
+	end
+
+	if (GKHeroGK.purify_id == nil) then
+	    GKHeroGK.purify_id = cpu_manager.stats:GetAbilityID( "inquisition_grey_knight_hero_purify" )	
+	end
+end
+
+function GKHeroGKTactic:DoAbilities()
+	
+	Ability.DoAbilityPos( self.squad_ai, GKHeroGK.purge_id, Ability.Filters.CloseSquadEnemy, 3 ) 
+	Ability.DoAbilityPos( self.squad_ai, GKHeroGK.purge_id, Ability.Filters.CloseMonsterEnemy, 1 ) 
+
+	Ability.DoAbilityTarget( self.squad_ai, GKHeroGK.purify_id, Ability.Filters.CloseSquadEnemy, 1 ) 
+	Ability.DoAbilityTarget( self.squad_ai, GKHeroGK.purify_id, Ability.Filters.CloseCommanderEnemy, 1 ) 
+	Ability.DoAbilityTarget( self.squad_ai, GKHeroGK.purify_id, Ability.Filters.CloseMonsterEnemy, 1 ) 
+
+	--we are dying, lower requisites for attacks
+	if (self.squad_ai:WasRecentlyHurt() and self.squad_ai:GetHealthPercentage() < 0.4) then
+		Ability.DoAbilityPos( self.squad_ai, GKHeroGK.purge_id, Ability.Filters.CloseSquadEnemy, 1 ) 
+	end
+end
+
+function GKHeroGKTactic:Update()
+
+	if (self:IsComplete()) then
+		return
+	end
+	
+	-- State machine
+	if (not InfantryTactic.Update(self)) then
+		return
+	end
+	
+	-- Check if we are in serious trouble
+	self:EmergencyRetreat()
+
+	-- Try to attach
+	if (self:TryAttachSquad(true, true, 50, 100, nil) ~= nil) then
+		return
+	end
+	if (self:TryAttachSquad(false, true, 50, 100, self.m_fCommanderAttachHealth) == nil) then
+		self:TryAttachSquadMelee()
+	end
+end
+
+-- Arkhan 03.2006: Inherited method used by commanders which are able to jump with an attached squad
+function GKHeroGKTactic:CanJumpAttached()
+	return true
+end

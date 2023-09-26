@@ -1,0 +1,81 @@
+----------------------------------------
+-- File: 'librariangktactic.ai'
+-- Edited by Gambit @ 31.03.2017
+
+class 'LibrarianGKTactic' (DaemonhuntInfantryTactic)
+
+LibrarianGK = {}
+
+function LibrarianGKTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("GK Librarian Tactic")
+	self.m_iTransportable = 3
+	self.m_iTransportable = 4
+	self.m_iDeepStrikeBlueprintID = cpu_manager.stats:GetBuildingID( "inquisition_grey_knights_teleporter" )
+end
+
+function LibrarianGKTactic:IsAttacker()
+	return self:IsCommanderAttacker()
+end
+
+function LibrarianGKTactic:IsDefender()
+	return self:IsCommanderDefender()
+end
+
+function LibrarianGKTactic:InitAbilities()
+
+	if (LibrarianGK.smite == nil) then
+		LibrarianGK.smite = cpu_manager.stats:GetAbilityID("inquisition_lib_smite")
+		LibrarianGK.weaken_resolve = cpu_manager.stats:GetAbilityID("inquisition_lib_weaken_resolve")
+		LibrarianGK.word_emperor = cpu_manager.stats:GetAbilityID("inquisition_lib_word_of_emperor")
+	end
+end
+
+
+function LibrarianGKTactic:DoAbilities()
+
+	if self.squad_ai:IsInCombat() or self.squad_ai:WasRecentlyHurt() then
+		if self.squad_ai:CanDoAbility(LibrarianGK.smite) then
+			if Ability.DoAbilityPos( self.squad_ai, LibrarianGK.smite, Ability.Filters.CloseInfantryEnemy, 4 )
+			or Ability.DoAbilityPos( self.squad_ai, LibrarianGK.smite, Ability.Filters.CloseMonsterEnemy, 4 ) then
+				return
+			end
+		end
+		if self.squad_ai:CanDoAbility(LibrarianGK.word_emperor) then
+			if (self.squad_ai:GetHealthPercentage() < 0.4 or Ability.Filters.CloseLowHealth(self.squad_ai:GetPosition(), 16, 4) ~= nil ) then
+				Ability.DoAbility( self.squad_ai, LibrarianGK.word_emperor, Ability.Filters.IsInCombat )
+				return
+			end
+		end
+		if self.squad_ai:CanDoAbility(LibrarianGK.weaken_resolve) then
+			if Ability.DoAbilityTarget( self.squad_ai, LibrarianGK.weaken_resolve, Ability.Filters.CloseInfantryEnemy, 5 )
+			or Ability.DoAbilityTarget( self.squad_ai, LibrarianGK.weaken_resolve, Ability.Filters.CloseMonsterEnemy, 5 ) then
+				return
+			end
+		end
+	end
+end
+
+
+function LibrarianGKTactic:Update()
+
+	if (self:IsComplete()) then
+		return
+	end
+	
+	-- State machine
+	if (not InfantryTactic.Update(self)) then
+		return
+	end
+	
+	-- Check if we are in serious trouble
+	self:EmergencyRetreat()
+
+	-- Try to attach
+	if (self:TryAttachSquad(true, true, 50, 100, nil) ~= nil) then
+		return
+	end
+	if (self:TryAttachSquad(false, true, 50, 100, self.m_fCommanderAttachHealth) == nil) then
+		self:TryAttachSquadMelee()
+	end
+end

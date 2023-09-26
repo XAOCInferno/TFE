@@ -1,0 +1,42 @@
+----------------------------------------
+-- File: 'dhchimeratactic.ai'
+-- Edited by Thudmeizer		@ 04.09.2010
+
+class 'DHChimeraTactic' (DaemonhuntVehicleTactic)
+
+DHChimera = {}
+
+
+function DHChimeraTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("DH Chimera Tactic")
+	
+	-- Vehicle is a light transport
+	self.m_iTransportVehicle = 2
+	self.m_iTransportSlots = 2
+end
+
+
+function DHChimeraTactic:InitAbilities()
+
+	if (DHChimera.smoke_id == nil) then
+	    DHChimera.smoke_id = cpu_manager.stats:GetAbilityID( "inquisition_smoke_launcher_chimera" )	
+	end
+end
+
+function DHChimeraTactic:DoAbilities()
+
+	-- Check if we can throw smoke
+	if (self.squad_ai:CanDoAbility(DHChimera.smoke_id)) then
+	
+		-- Search a squad
+		local iRange = self.squad_ai:GetAbilityRange(DHChimera.smoke_id)
+		local oUnit = Ability.Filters.CloseHurt(self.squad_ai:GetPosition(), iRange, 1)
+		if (oUnit ~= nil and oUnit:IsInCombat() and cpu_manager:GetUnitStrength(oUnit) > 150) then
+			self.squad_ai:DoSpecialAbilitySquad(DHChimera.smoke_id, oUnit:GetSquad())
+		end
+	end
+
+	-- Do basic abilities
+	DaemonhuntVehicleTactic.DoAbilities(self)
+end

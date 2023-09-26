@@ -1,0 +1,96 @@
+IDH_Ability = 
+{
+  --pass these filters into the functions below to figure out the target to do special ability on
+  Filters = 
+  {
+	
+	CloseInfantryEnemyRange = function(vPosition, iTolerance, iCount)
+	
+		-- Make sure that count is valid
+		if (iCount == nil) then
+			iCount = 1
+		end
+		
+		-- Quick check
+		if (not cpu_manager:CloseEnemyUnits(vPosition, iTolerance)) then
+			return nil
+		end
+		
+		local oFunctor = function(oSquad, iCount)
+			return ( oSquad:IsRanged() and oSquad:GetNumTroopers() >= iCount)
+		end
+		return cpu_manager:GetClosestSquad(vPosition, iTolerance, oFunctor, iCount)
+	end,
+	
+	
+	CloseVehicleMedEnemy = function(vPosition, iTolerance, iCount)
+
+		-- Make sure that count is valid
+		if (iCount == nil) then
+			iCount = 1
+		end
+
+		-- Quick check
+		if (not cpu_manager:CloseEnemyUnits(vPosition, iTolerance)) then
+			return nil
+		end
+
+		local oSquad = cpu_manager.cpu_player:FindFirstVehicleEnemy(vPosition, iTolerance, iCount)
+
+		if (oSquad ~= nil) then        
+			local oStats = oSquad:GetStats()
+			if (oStats ~= nil) and ((oStats:GetClass() == UnitStatsAI.UC_VehicleMed) and oSquad:GetNumTroopers() >= iCount) then
+				 return oSquad  
+			end
+		end
+		return nil
+	end,
+
+	CloseVehicleHighEnemy = function(vPosition, iTolerance, iCount)
+
+		-- Make sure that count is valid
+		if (iCount == nil) then
+			iCount = 1
+		end
+
+		-- Quick check
+		if (not cpu_manager:CloseEnemyUnits(vPosition, iTolerance)) then
+			return nil
+		end
+
+		local oSquad = cpu_manager.cpu_player:FindFirstVehicleEnemy(vPosition, iTolerance, iCount)
+
+		if (oSquad ~= nil) then        
+			local oStats = oSquad:GetStats()
+			if (oStats ~= nil) and ((oStats:GetClass() == UnitStatsAI.UC_VehicleHigh) and oSquad:GetNumTroopers() >= iCount) then
+				 return oSquad  
+			end
+		end
+		return nil
+	end,
+	
+    
+  },
+}
+
+
+--[[
+	CloseHurt = function( position, tolerance, count )
+	CloseLowHealth = function(vPosition, iTolerance, iCount)
+	CloseInfiltrator = function(vPosition, iTolerance, iCount)
+	CloseInCombat = function(vPosition, iTolerance, iCount)
+	CloseEnemy = function(vPosition, iTolerance, iCount)
+	CloseVehicleEnemy = function(vPosition, iTolerance, iCount)
+	CloseInfantryEnemy = function(vPosition, iTolerance, iCount)
+	CloseSquadEnemy = function(vPosition, iTolerance, iCount)
+	CloseCommanderEnemy = function(vPosition, iTolerance, iCount)
+	CloseBroken = function(vPosition, iTolerance, iCount)
+	CloseInfantryEnemyCC = function(vPosition, iTolerance, iCount)
+	CloseVehicleHighEnemy = function(vPosition, iTolerance, iCount)
+	CloseMonsterHighEnemy = function(vPosition, iTolerance, iCount)
+	CloseMonsterEnemy = function(vPosition, iTolerance, iCount)
+	CloseInfiltratedEnemy = function(vPosition, iTolerance, iCount)
+	CloseStrategicPoint = function( position, range, args )
+	IsInCombat = function( squad_ai )
+	CloseFaithfulUnits = function( position, range, args )
+  ]]

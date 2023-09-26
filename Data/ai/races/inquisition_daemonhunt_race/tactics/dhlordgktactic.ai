@@ -1,0 +1,82 @@
+----------------------------------------
+-- File: 'dhlordgktactic.ai'
+-- Created by Gambit @ 31.03.2017
+
+class 'DHLordGKTactic' (DaemonhuntInfantryGKTactic)
+
+DHLordGK = {}
+
+function DHLordGKTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Inquisitor Lord Squad Tactic")
+	self.m_iTransportable = 1
+end
+
+-- Assassinate win condition -- never attack
+function DHLordGKTactic:IsAttacker()
+	return (not cpu_manager.assassinate and self:IsCommanderAttacker())
+end
+
+-- Assassinate win condition -- never defend
+function DHLordGKTactic:IsDefender()
+	return (not cpu_manager.assassinate and self:IsCommanderDefender())
+end
+
+
+function DHLordGKTactic:InitAbilities()
+
+	if (DHLordGK.banish_id == nil) then
+	    DHLordGK.banish_id = cpu_manager.stats:GetAbilityID( "inquisition_inquisitor_lord_banish" )	
+	end
+
+	if (DHLordGK.wrath_id == nil) then
+	    DHLordGK.wrath_id = cpu_manager.stats:GetAbilityID( "inquisition_inquisitor_lord_emperor_wrath" )	
+	end
+end
+
+
+function DHLordGKTactic:DoAbilities()
+
+	Ability.DoAbilityPos( self.squad_ai, DHLordGK.banish_id, Ability.Filters.CloseMonsterEnemy, 1 )
+	Ability.DoAbilityPos( self.squad_ai, DHLordGK.banish_id, Ability.Filters.CloseCommanderEnemy, 1 )  
+	Ability.DoAbilityArea( self.squad_ai, DHLordGK.wrath_id, Ability.Filters.CloseEnemy, 15, 2 )
+end
+
+
+function DHLordGKTactic:Reinforce()
+
+	-- Allow free reinforcing during harassing time
+	if (g_iGMT > DefendChokePointPlan.HarassingTime * 60) then
+
+		-- If there are no resources available, don't upgrade!
+		if (not Tactic.Options.can_reinforce) then
+			return
+		end
+	end
+
+	if (not self.squad_ai:IsReinforcing()) then
+
+		-- Always try for the actual leader first
+		if (self.squad_ai:CanReinforce( false, 0 )) then
+			self.squad_ai:DoReinforce( false, 0 )
+			return
+		end
+
+		if self.squad_ai:GetLeaderCount(0) == 0 and self.squad_ai:CanReinforce( true, 0 ) then
+			self.squad_ai:DoReinforce( true, 0 )
+			return
+		end
+		if self.squad_ai:GetLeaderCount(1) == 0 and self.squad_ai:CanReinforce( true, 1 ) then
+			self.squad_ai:DoReinforce( true, 1 )
+			return
+		end
+		if self.squad_ai:GetLeaderCount(2) == 0 and self.squad_ai:CanReinforce( true, 2 ) then
+			self.squad_ai:DoReinforce( true, 2 )
+			return
+		end
+		if self.squad_ai:GetLeaderCount(3) == 0 and self.squad_ai:CanReinforce( true, 3 ) then
+			self.squad_ai:DoReinforce( true, 3 )
+			return
+		end
+	end
+end

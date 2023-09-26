@@ -1,0 +1,37 @@
+----------------------------------------
+-- File: 'gktermietactic.ai'
+-- Edited by Thudmeizer @ 23.02.2009
+
+class 'GKTermieTactic' (DaemonhuntInfantryTactic)
+
+GKTermie = {}
+
+function GKTermieTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("GKTermie Tactic")
+end
+
+function GKTermieTactic:InitAbilities()
+
+	if (GKTermie.nemesis_id == nil) then
+	    GKTermie.nemesis_id = cpu_manager.stats:GetAbilityID( "inquisition_brother_captain_nemesis" )	
+	end
+end
+
+function GKTermieTactic:DoAbilities()
+	
+	if (self.squad_ai:IsInCombat()) then
+		Ability.DoAbilityTarget( self.squad_ai, GKTermie.nemesis_id, Ability.Filters.CloseSquadEnemy, 3 ) 
+		Ability.DoAbilityTarget( self.squad_ai, GKTermie.nemesis_id, Ability.Filters.CloseMonsterEnemy, 1 )
+		Ability.DoAbilityTarget( self.squad_ai, GKTermie.nemesis_id, Ability.Filters.CloseVehicleEnemy, 2 )
+	end
+
+	--we are dying, lower requisites for attacks
+	if self.squad_ai:WasRecentlyHurt() and self.squad_ai:GetHealthPercentage() < 0.4 then
+        	Ability.DoAbilityTarget( self.squad_ai, GKTermie.nemesis_id, Ability.Filters.CloseSquadEnemy, 1 )
+		Ability.DoAbilityTarget( self.squad_ai, GKTermie.nemesis_id, Ability.Filters.CloseVehicleEnemy, 1 )
+	end
+	
+	-- Call basic DoAbilities methods
+	DaemonhuntInfantryTactic.DoAbilities(self)
+end

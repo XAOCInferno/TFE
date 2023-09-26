@@ -1,0 +1,62 @@
+----------------------------------------
+-- File: 'interceptortactic.ai'
+-- Created by Gambit @ 29.03.2017
+
+class 'InterceptorGKTactic' (DaemonhuntInfantryGKTactic)
+
+InterceptorGK = {}
+
+function InterceptorGKTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Interceptors Tactic")
+	self.m_iTransportable = 1
+end
+
+function InterceptorGKTactic:InitAbilities()
+
+	if (InterceptorGK.warp_quake == nil) then
+	    InterceptorGK.warp_quake = cpu_manager.stats:GetAbilityID( "inquisition_warp_quake" )	
+	end
+end
+
+function InterceptorGKTactic:DoAbilities()
+-- The following, is for making it targeted... But visually is awful
+--self.squad_ai:DoSpecialAbilitySquad(InterceptorGK.warp_quake, self.squad_ai:GetSquad())
+
+	-- Disable jumping for nearby enemy squads
+	if self.squad_ai:CanDoAbility(InterceptorGK.warp_quake) and self.squad_ai:IsInCombat() then
+		if not self.squad_ai:IsBroken() and self.squad_ai:GetNumTroopers() > 4 and self.squad_ai:GetHealthPercentage() > 0.6 then
+			local iPos = self.squad_ai:GetPosition()
+			local oSquad = cpu_manager.cpu_player:FindFirstInfantryEnemy(iPos, 20, 1)
+			if oSquad ~= nil then
+				if oSquad:CanJump() then
+					self.squad_ai:DoSpecialAbility(InterceptorGK.warp_quake)
+					return
+				end
+			end
+			oSquad = cpu_manager.cpu_player:FindFirstCommanderEnemy(iPos, 20, 1)
+			if oSquad ~= nil then
+				if oSquad:CanJump() then
+					self.squad_ai:DoSpecialAbility(InterceptorGK.warp_quake)
+					return
+				end
+			end
+			local isDaemon = function(oSquad, iCount)
+				local oStats = oSquad:GetStats()
+				if oStats == nil then return false end
+				local oClass = oStats:GetClass()
+				return oClass == UnitStatsAI.UC_MonsterHigh or oClass == UnitStatsAI.UC_MonsterMed
+			end
+			oSquad = cpu_manager:GetClosestSquad(iPos, 20, isDaemon, 1)
+			if oSquad ~= nil then
+				if oSquad:CanJump() then
+					self.squad_ai:DoSpecialAbility(InterceptorGK.warp_quake)
+					return
+				end
+			end
+		end
+	end
+
+	-- Call basic DoAbilities methods
+	DaemonhuntInfantryGKTactic.DoAbilities(self)
+end

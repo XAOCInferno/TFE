@@ -1,0 +1,48 @@
+----------------------------------------
+-- File: 'brotherhoodchampiontactic.ai'
+-- Created by Gambit @ 12.07.2017
+
+class 'BrotherhoodChampionTactic' (DaemonhuntInfantryGKTactic)
+
+BrotherhoodChampionGK = {}
+
+function BrotherhoodChampionTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Brotherhood Champion")
+	self.m_iTransportable = 1
+end
+
+function BrotherhoodChampionTactic:IsAttacker()
+	return self:IsCommanderAttacker()
+end
+
+function BrotherhoodChampionTactic:IsDefender()
+	return self:IsCommanderDefender()
+end
+
+
+function BrotherhoodChampionTactic:Update()
+
+	if (self:IsComplete()) then
+		return
+	end
+	
+	-- State machine
+	if (not InfantryTactic.Update(self)) then
+		return
+	end
+	
+	-- Check if we are in serious trouble
+	self:EmergencyRetreat()
+
+	-- Attach to melee in tier2+
+	if (cpu_manager:GetTierLevel() > 1) then
+	
+		if (self:TryAttachSquad(true, true, 50, 100, nil) ~= nil) then
+			return
+		end
+	end
+	if (self:TryAttachSquad(false, true, 50, 100, self.m_fCommanderAttachHealth) == nil) then
+		self:TryAttachSquadMelee()
+	end
+end

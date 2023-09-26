@@ -1,0 +1,320 @@
+----------------------------------------
+-- File: 'techmarinetactic.ai'
+-- Created by Gambit @ 23.03.2017
+
+class 'TechmarineGKTactic' (EngineerTactic)
+
+TechmarineGK = {}
+
+function TechmarineGKTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Techmarine Tactic")
+	self.m_iTransportable = 1
+
+	-- Engineer Tactic Settings, modify as required
+	self.go_to_post = false
+	self.m_vDestination = nil
+	self.iBusy = g_iGMT
+	self.iRepairSuperVehiclesWhenInCombat = true  --> Will repair super vehicles, even if in combat
+	self.iRepairStrongVehiclesWhenInCombat = true  --> Will also repair super vehicles if true
+	self.iRepairVehicleRange = 40   --> The range within which the squad will perform the vehicle repairs
+	self.isBuildingsRepairer  = true  --> Will also repair nearby structures if true
+	self.isBuildingsAssistant  = true  --> Will also help build nearby unfinished structures if true
+	self.iFixBuildingsRange = 40  --> The range within which the squad will perform building duties
+	self:InitAbilities()
+end
+
+
+function TechmarineGKTactic:IsAttacker()
+	return g_iGMT > self.iBusy + 6
+end
+
+
+function TechmarineGKTactic:IsDefender()
+	return g_iGMT > self.iBusy + 6
+end
+
+
+function TechmarineGKTactic:InitAbilities()
+	if TechmarineGK.iFragGrenadesID == nil then
+		TechmarineGK.iFragGrenadesID = cpu_manager.stats:GetAbilityID( "inquisition_frag_grenades_techmarine" )
+		TechmarineGK.iMeltaBombsID = cpu_manager.stats:GetAbilityID( "inquisition_melta_bombs_techmarine" )
+	end
+end
+
+
+function TechmarineGKTactic:DoAbilities()
+	if self.squad_ai:CanDoAbility(TechmarineGK.iFragGrenadesID) then
+		Ability.DoAbilityTarget(self.squad_ai, TechmarineGK.iFragGrenadesID, Ability.Filters.CloseSquadEnemy, 1)
+		Ability.DoAbilityTarget(self.squad_ai, TechmarineGK.iFragGrenadesID, Ability.Filters.CloseMonsterEnemy, 1)
+	end
+	if self.squad_ai:CanDoAbility(TechmarineGK.iMeltaBombsID) then
+		Ability.DoAbilityTarget(self.squad_ai, TechmarineGK.iMeltaBombsID, Ability.Filters.CloseVehicleEnemy, 1 )
+		Ability.DoAbilityTargetEntity(self.squad_ai, TechmarineGK.iMeltaBombsID, Ability.EntityFilters.CloseBaseEntityEnemy, 1)
+	end
+end
+
+
+-----------------------------------------
+-- Update tactic for dual-duty squads  --
+-----------------------------------------
+
+function TechmarineGKTactic:Update()
+
+	-- State machine
+	if not Tactic.Update( self ) then
+		return false
+	end
+
+	-- Check if locked, and not attacked while being so, so that to fulfil his tasks
+	if (self.squad_ai:IsLocked() and not self.squad_ai:WasRecentlyHurt()) then
+		return true
+   	end
+
+	self:CheckForBroken()
+
+	-- Reinforce squads
+	self:Reinforce()
+
+	-- Upgrade weapons
+	self:Upgrade()
+
+	-- Do abilities even if this means interrupting engineer duties.
+	self:DoAbilities()
+
+	-- Perform engineer duties
+	if self:DoEngineerDuties() then
+		return true
+	end
+
+	-- Check if locked, and not attacked while being so, so that to fulfil his tasks
+	if (self.squad_ai:IsLocked() and not self.squad_ai:WasRecentlyHurt()) then
+		return true
+   	end
+
+	if self.squad_ai:CanJump() then
+		self.tolerance_default = self.squad_ai:GetJumpDistance()
+	else
+		self.tolerance_default = 100
+	end
+
+	self:SyncSubState()
+
+	-- If not already in substate
+	if (self.stateID == Tactic.StateID.NoState) then
+	   
+		-- Check dance mode
+		if (CpuManager.AISettings.iDancing == 2) then
+		 	self:CheckForDeath()
+			if (self.stateID == Tactic.StateID.NoState) then
+				self:CheckForDance()
+				if (self.stateID == Tactic.StateID.NoState) then
+					self:CheckForStealthTroops()
+				end
+			end
+		elseif (CpuManager.AISettings.iDancing == 1 and g_iGMT > self.m_iDancing + 10) then
+			self:CheckForDeath()
+			if (self.stateID == Tactic.StateID.NoState) then
+				self:CheckForDance()
+				if (self.stateID == Tactic.StateID.NoState) then
+					self:CheckForStealthTroops()
+				end
+			end
+		end
+	end
+
+	-- Check stance
+	self:UpdateStance()
+
+	-- If no tasks after a while, or attacked while building a structure, engage closest enemy.
+	if not (self:IsMoving() or self.squad_ai:IsInCombat()) and g_iGMT > self.iBusy + 12 then
+		self:EngageClosestEnemyIfNeeded()
+	end
+
+	-- Return success
+	return true
+end
+
+
+function TechmarineGKTactic:Reinforce()
+
+	-- If there are no resources available, don't upgrade!
+	if (not Tactic.Options.can_reinforce) then
+		return
+	end
+
+	if (not self.squad_ai:IsReinforcing()) then
+
+		-- Always try for the actual leader first
+		if (self.squad_ai:CanReinforce( false, 0 )) then
+			self.squad_ai:DoReinforce( false, 0 )
+			return
+		end
+
+		if self.squad_ai:GetLeaderCount(0) == 0 and self.squad_ai:CanReinforce( true, 0 ) then
+			self.squad_ai:DoReinforce( true, 0 )
+			return
+		end
+		if self.squad_ai:GetLeaderCount(1) == 0 and self.squad_ai:CanReinforce( true, 1 ) then
+			self.squad_ai:DoReinforce( true, 1 )
+			return
+		end
+		if self.squad_ai:GetLeaderCount(2) == 0 and self.squad_ai:CanReinforce( true, 2 ) then
+			self.squad_ai:DoReinforce( true, 2 )
+			return
+		end
+		local lastLeader = math.random(0, 2)
+		if self.squad_ai:CanReinforce( true, lastLeader ) then
+			self.squad_ai:DoReinforce( true, lastLeader )
+		end
+	end
+end
+
+
+------------------------------------------------
+-- Code for dual-duty squads (also engineers) --
+------------------------------------------------
+
+-- Moves the squad to engage the enemy.
+function TechmarineGKTactic:EngageClosestEnemyIfNeeded()
+    local oHurtSquad = cpu_manager.cpu_player:FindFirstHurtSquad( self.squad_ai:GetPosition(), 512 )
+    if (oHurtSquad ~= nil) then
+		--self.squad_ai:DoMove(oHurtSquad:GetPosition())
+	end
+end
+
+
+-- Performs the repair and building tasks
+function TechmarineGKTactic:DoEngineerDuties()
+	-- Assisting boolean, so that not to call GetDmgdOrUnfnsdBuildingWithin twice
+	local iCheck = true
+
+	-- Try to repair a nearby damaged vehicle. If no vehicle, find a damaged building
+	if self.squad_ai:CanRepair() then
+		-- First, find the closest vehicle that can be repaired
+		local oVehicleToRepair = self:GetDamagedVehicleWithin(self.iRepairVehicleRange)
+		if (oVehicleToRepair ~= nil) then
+			-- Prefer to repair a powerful vehicle, even in battle
+			local superVehicle = false
+			local strongVehicle = false
+			if self.iRepairSuperVehiclesWhenInCombat then
+				local vStats = oVehicleToRepair:GetStats()
+				if  vStats ~= nil then
+					local vClass = vStats:GetClass()
+					if vClass ~= nil then
+						if vClass == UnitStatsAI.UC_VehicleHigh then
+							superVehicle = true
+						end
+					end
+				end
+			elseif self.iRepairStrongVehiclesWhenInCombat then
+				local vStats = oVehicleToRepair:GetStats()
+				if  vStats ~= nil then
+					local vClass = vStats:GetClass()
+					if vClass ~= nil then
+						if vClass == UnitStatsAI.UC_VehicleMed then
+							strongVehicle = true
+						end
+					end
+				end
+			end
+			if not self.squad_ai:IsInCombat() or superVehicle or strongVehicle then
+				aitrace("EngineerTactic: Repairing vehicle...")
+				self.squad_ai:DoRepairSquad(oVehicleToRepair)
+				self.iBusy = g_iGMT
+				self.m_bBusy = true
+				return true
+			end
+		end
+		-- Then, find the closest building that can be repaired
+		if self.isBuildingsRepairer then
+			self:GetDmgdOrUnfnsdBuildingWithin(self.iFixBuildingsRange)
+			iCheck = false
+			if not self.squad_ai:IsInCombat() then
+				local oBuildingToRepair = self:GetDamagedBuilding()
+				if (oBuildingToRepair ~= nil) then
+					aitrace("EngineerTactic: Repairing building...")
+					self.squad_ai:DoRepairBase(oBuildingToRepair)
+					self.iBusy = g_iGMT
+					self.m_bBusy = true
+					return true
+				end
+			end
+		end
+	end
+	-- Then, try to help finish a building
+	if self.isBuildingsAssistant then
+		if self.squad_ai:IsEngineer() and not self.squad_ai:IsInCombat() then
+			if iCheck then
+				self:GetDmgdOrUnfnsdBuildingWithin(self.iFixBuildingsRange)
+			end
+			local oBuildingToFinish = self:GetUnfinishedBuilding()
+			if (oBuildingToFinish ~= nil) then
+				aitrace("EngineerTactic: Help finishing a building...")
+				self.squad_ai:DoFinishBuilding(oBuildingToFinish)
+				self.iBusy = g_iGMT
+				self.m_bBusy = true
+				return true
+			end
+		end
+	end
+end
+
+
+-- Called directly to find an ally repairable and damaged squad within range.
+function TechmarineGKTactic:GetDamagedVehicleWithin(iRange)
+local iEngineerSquadPosition = self.squad_ai:GetPosition()
+for oPlayer in cpu_manager.stats:GetPlayerStats() do
+	if not oPlayer:IsPlayerDead() then
+		if not cpu_manager.player_stats:IsEnemy(oPlayer) then
+			for oSquad in oPlayer:GetSquads() do
+				if oSquad:IsValid() then
+					if oSquad:CanBeRepaired() and oSquad:GetHealthPercentage() < 1.0 then
+						if distance_sqr(oSquad:GetPosition(),iEngineerSquadPosition) < iRange*iRange then 
+							return oSquad
+						end
+					end
+				end
+			end
+		end
+	end
+end
+return nil
+end
+
+
+-- Called indirectly, to find an ally repairable and damaged building, or an unfinished within range.
+function TechmarineGKTactic:GetDmgdOrUnfnsdBuildingWithin(iRange)
+self.damagedBuilding = nil
+self.unfinishedBuilding = nil
+local iEngineerSquadPosition = self.squad_ai:GetPosition()
+for oPlayer in cpu_manager.stats:GetPlayerStats() do
+	if (not oPlayer:IsPlayerDead()) then
+		if (not cpu_manager.player_stats:IsEnemy(oPlayer)) then
+			for oBuilding in oPlayer:GetBases() do
+				if oBuilding:IsValid() then
+					if distance_sqr(oBuilding:GetPosition(),iEngineerSquadPosition) < iRange*iRange then
+						if (self.isBuildingsRepairer and oBuilding:CanBeRepaired() and oBuilding:GetHealthPercentage() < 1.0) then
+							self.damagedBuilding = oBuilding
+							return
+						elseif (self.isBuildingsAssistant and not oBuilding:IsConstructionDone()) then
+							self.unfinishedBuilding = oBuilding:GetEntity()
+							return
+						end
+					end
+				end
+			end
+		end
+	end
+end
+end
+
+
+function TechmarineGKTactic:GetDamagedBuilding()
+	return self.damagedBuilding
+end
+
+
+function TechmarineGKTactic:GetUnfinishedBuilding()
+	return self.unfinishedBuilding
+end

@@ -1,0 +1,16 @@
+----------------------------------------
+-- File: 'dhwatchtactic.ai'
+-- Edited by Thudmeizer		@ 20.12.2008
+
+class 'DHWatchTactic' (BaseTactic)
+
+function DHWatchTactic:__init( base_ai ) super( base_ai )
+
+	self:SetName("DH Watch")
+
+	self.m_iHQID = cpu_manager.stats:GetBuildingID("inquisition_tower_hq")
+end
+
+function DHWatchTactic:CanDeepStrikeTroops()
+	return (cpu_manager.player_stats:GetNumBasesByBPID(self.m_iHQID, true) > 0)
+end

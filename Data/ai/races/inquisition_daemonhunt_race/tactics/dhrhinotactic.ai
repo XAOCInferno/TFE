@@ -1,0 +1,73 @@
+----------------------------------------
+-- File: 'DHRhinotactic.ai'
+-- Edited by Thudmeizer @ 20.12.2008
+
+class 'DHRhinoTactic' (DaemonhuntVehicleTactic)
+
+DHRhino = {}
+
+function DHRhinoTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("DH Rhino Tactic")
+
+	-- Vehicle is a light transport
+	self.m_iTransportVehicle = 1
+	self.m_iTransportSlots = 1
+end
+
+function DHRhinoTactic:InitAbilities()
+
+	if (DHRhino.repair_id == nil) then
+	    DHRhino.repair_id = cpu_manager.stats:GetAbilityID( "inquisition_rhino_self_repair" )	
+	end
+
+	if (DHRhino.smoke_id == nil) then
+	    DHRhino.smoke_id = cpu_manager.stats:GetAbilityID( "inquisition_smoke_launchers" )	
+	end
+	
+	if (DHRhino.hkmissiles_id == nil) then
+		DHRhino.hkmissiles_id = cpu_manager.stats:GetAbilityID( "inquisition_hk_missiles" )	
+	end
+end
+
+function DHRhinoTactic:DoAbilities()
+
+	-- Check if we are attacking and not in home base
+	if (self.squad_ai:IsAttacking() and self.squad_ai:CanDoAbility(DHRhino.hkmissiles_id)) then
+		
+		-- print(" DHRhinoTactic:DoAbilities")
+		
+		-- Launch HK Missiles at either Vehicles or Buildings
+		Ability.DoAbilityTarget(self.squad_ai, DHRhino.hkmissiles_id, Ability.Filters.CloseVehicleEnemy, 2)
+		Ability.DoAbilityTargetEntity( self.squad_ai, DHRhino.hkmissiles_id, Ability.EntityFilters.CloseBaseEntityEnemy, 2)
+		
+		
+		Ability.DoAbilityTarget(self.squad_ai, DHRhino.hkmissiles_id, IDH_Ability.Filters.CloseVehicleHighEnemy, 1)  
+		Ability.DoAbilityTarget(self.squad_ai, DHRhino.hkmissiles_id, IDH_Ability.Filters.CloseVehicleMedEnemy, 1)
+		Ability.DoAbilityTargetEntity( self.squad_ai, DHRhino.hkmissiles_id, Ability.EntityFilters.CloseBaseEntityEnemy, 3)
+	end
+	
+
+	-- Rhino Repair!
+	if (self.squad_ai:WasRecentlyHurt() and self.squad_ai:GetHealthPercentage() < 0.5) then
+
+		if (self.squad_ai:CanDoAbility( DHRhino.repair_id )) then
+			self.squad_ai:DoSpecialAbility( DHRhino.repair_id )
+		end
+	end
+
+	-- Check if we can throw smoke
+	if (self.squad_ai:CanDoAbility(DHRhino.smoke_id)) then
+	
+		-- Search a squad
+		local iRange = self.squad_ai:GetAbilityRange(DHRhino.smoke_id)
+		local oUnit = Ability.Filters.CloseHurt(self.squad_ai:GetPosition(), iRange, 1)
+		if (oUnit ~= nil and oUnit:IsInCombat() and cpu_manager:GetUnitStrength(oUnit) > 150) then
+			self.squad_ai:DoSpecialAbilitySquad(DHRhino.smoke_id, oUnit:GetSquad())
+		end
+	end
+
+	-- Do basic abilities
+	DaemonhuntVehicleTactic.DoAbilities(self)
+end
+

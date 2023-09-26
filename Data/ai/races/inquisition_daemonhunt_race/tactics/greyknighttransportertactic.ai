@@ -1,0 +1,28 @@
+----------------------------------------
+-- File: 'greyknighttransportertactic.ai'
+-- Edited by Thudmeizer		@ 20.12.2008
+
+class 'GreyKnightTransporterTactic' (BaseTactic)
+
+function GreyKnightTransporterTactic:__init( base_ai ) super( base_ai )
+
+	self:SetName("Grey Knight Transporter")
+
+	-- Building can deepstrike troops, these are used for the updated code
+	self.timeDelay = g_iGMT
+	self.buildingDS_ID = self.base_ai:GetID()
+end
+
+
+-- Updated method to disallow crowding, around DS-capable buildings
+function GreyKnightTransporterTactic:CanDeepStrikeTroops()
+	local build_channel = build_manager:GetBuildChannelFromID(self.buildingDS_ID)
+	if build_channel ~= nil then
+		if build_channel:CanDeepStrike() and g_iGMT > self.timeDelay + 6 then
+			return false
+		else
+			self.timeDelay = g_iGMT
+			return true
+		end
+	end
+end

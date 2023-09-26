@@ -1,0 +1,56 @@
+----------------------------------------
+-- File: 'shocktrooptactic.ai'
+-- Edited by Thudmeizer @ 04.09.2010
+
+class 'ShockTrooperTactic' (DaemonhuntInfantryTactic)
+
+ShockTrooper = {}
+
+function ShockTrooperTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Shock Trooper Tactic")
+end
+
+function ShockTrooperTactic:InitAbilities()
+
+	--[[if (ShockTrooper.frag_id == nil) then
+	    ShockTrooper.frag_id = cpu_manager.stats:GetAbilityID( "inquisition_frag_grenades_stormtroopers" )	
+	end
+
+	if (ShockTrooper.crack_id == nil) then
+	    ShockTrooper.crack_id = cpu_manager.stats:GetAbilityID( "inquisition_crack_grenades_stormtroopers" )	
+	end]]
+
+	if (ShockTrooper.rally_id == nil) then
+	    ShockTrooper.rally_id = cpu_manager.stats:GetAbilityID( "inquisition_rally" )	
+	end
+end
+
+function ShockTrooperTactic:DoAbilities()
+
+	--[[Ability.DoAbilityTarget( self.squad_ai, ShockTrooper.frag_id, Ability.Filters.CloseSquadEnemy, 1 )
+	Ability.DoAbilityTarget( self.squad_ai, ShockTrooper.frag_id, Ability.Filters.CloseCommanderEnemy, 1 )
+	Ability.DoAbilityTarget( self.squad_ai, ShockTrooper.frag_id, Ability.Filters.CloseMonsterEnemy, 1 )
+
+	Ability.DoAbilityTarget( self.squad_ai, ShockTrooper.crack_id, Ability.Filters.CloseVehicleEnemy, 1 )
+	Ability.DoAbilityTargetEntity( self.squad_ai, ShockTrooper.crack_id, Ability.EntityFilters.CloseBaseEntityEnemy, 1)]]
+
+	self:DoThrowGrenades()
+	
+	-- Call basic DoAbilities methods
+	DaemonhuntInfantryTactic.DoAbilities(self)
+end
+
+function ShockTrooperTactic:CheckForBroken()
+
+	if (self.squad_ai:IsBroken()) then
+	
+		-- Check if I can repair my morale
+		if (self.squad_ai:CanDoAbility( ShockTrooper.rally_id )) then
+			self.squad_ai:DoSpecialAbility( ShockTrooper.rally_id )
+		end
+	end
+   
+	-- Call basic broken check method
+	InfantryTactic.CheckForBroken(self)
+end

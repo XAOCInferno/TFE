@@ -1,0 +1,333 @@
+----------------------------------------
+-- File: 'librariantermitactic.ai'
+-- Edited by Gambit @ 31.03.2017
+
+class 'LibrarianTermiTactic' (DaemonhuntInfantryGKTactic)
+
+LibrarianTermi = {}
+
+function LibrarianTermiTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Librarian Terminator Tactic")
+	self.GKLibrarianSpellSetChosenTactic = -1
+	self.CommandmentUnitTarget = nil
+	self.m_iTransportable = 1
+	self.m_iDeepStrikeBlueprintID = cpu_manager.stats:GetBuildingID( "inquisition_grey_knights_teleporter_gk" )
+	
+	self.book1_id = cpu_manager.stats:GetAddOnID("inquisition_librarian_psy_set1")
+	self.book2_id = cpu_manager.stats:GetAddOnID("inquisition_librarian_psy_set2")
+	self.book3_id = cpu_manager.stats:GetAddOnID("inquisition_librarian_psy_set3")
+	self.book4_id = cpu_manager.stats:GetAddOnID("inquisition_librarian_psy_set4")
+	self.hasChosenBook = false
+end
+
+
+function LibrarianTermiTactic:AutoBuildAddOn( addonSlot )
+	for e in self.squad_ai:GetEntities() do
+		local buildChannelLibrarian = build_manager:GetBuildChannelFromID(e:GetID())
+		if (buildChannelLibrarian ~= nil) then
+			local addOnID = buildChannelLibrarian:GetItemIDAt(BuildChannelAI.PQ_AddOn, addonSlot)
+			if (buildChannelLibrarian:IsBuilding() == 0 and buildChannelLibrarian:CanAddToQueue(BuildChannelAI.PQ_AddOn, addOnID) == BuildChannelAI.CANBUILD_Ok) then
+				buildChannelLibrarian:BuildAddOn(addOnID)
+				self.hasChosenBook = true
+				self.GKLibrarianSpellSetChosenTactic = addonSlot
+				return
+			end
+		end
+	end
+	return
+end
+
+
+-- GKHero is allowed to retreat even directly after a jump
+function LibrarianTermiTactic:SetTarget( target, variant_type )
+
+	self.variant_type = variant_type
+	self.target = Vector3f(target)
+	self.m_iMoveDelay = 0
+	self.last_jump = 0
+end
+
+function LibrarianTermiTactic:IsAttacker()
+	return self:IsCommanderAttacker()
+end
+
+function LibrarianTermiTactic:IsDefender()
+	return self:IsCommanderDefender()
+end
+
+function LibrarianTermiTactic:JumpAttack()
+
+	if (cpu_manager.assassinate) or (not cpu_manager.assassinate) then
+		Tactic.JumpAttack(self)
+	end
+end
+
+function LibrarianTermiTactic:InitAbilities()
+
+	if (LibrarianTermi.commandment == nil) then
+		LibrarianTermi.word_emperor = cpu_manager.stats:GetAbilityID("inquisition_librarian_word_of_emperor")
+		LibrarianTermi.commandment = cpu_manager.stats:GetAbilityID("inquisition_librarian_dark_commandment")
+		LibrarianTermi.instability = cpu_manager.stats:GetAbilityID("inquisition_librarian_force_instability")
+		LibrarianTermi.imprisonment = cpu_manager.stats:GetAbilityID("inquisition_librarian_imprisonment_new")
+		LibrarianTermi.fortress = cpu_manager.stats:GetAbilityID("inquisition_librarian_mental_fortress")
+		LibrarianTermi.force_will = cpu_manager.stats:GetAbilityID("inquisition_librarian_force_will")
+		LibrarianTermi.resolve = cpu_manager.stats:GetAbilityID("inquisition_librarian_weaken_resolve")
+		LibrarianTermi.smite = cpu_manager.stats:GetAbilityID("inquisition_librarian_smite")
+		LibrarianTermi.storm = cpu_manager.stats:GetAbilityID("inquisition_librarian_inquisition")
+	end
+end
+
+
+function LibrarianTermiTactic:DoAbilities()
+
+	--  Liber Constitutum Imperialis Powers
+	--if self.GKLibrarianSpellSetChosenTactic == 0 then
+		local iPos = self.squad_ai:GetPosition()
+		if self.squad_ai:CanDoAbility(LibrarianTermi.word_emperor) and self.squad_ai:WasRecentlyHurt() then
+			if (self.squad_ai:GetHealthPercentage() < 0.4 or Ability.Filters.CloseLowHealth(iPos, 16, 4) ~= nil ) then
+				Ability.DoAbility( self.squad_ai, LibrarianTermi.word_emperor, Ability.Filters.IsInCombat )
+			end
+		end
+		if self.squad_ai:CanDoAbility(LibrarianTermi.fortress) and self.squad_ai:IsInCombat() then
+			if Ability.Filters.CloseInfantryEnemy(iPos, 6, 1) ~= nil then
+				Ability.DoAbility( self.squad_ai, LibrarianTermi.fortress, Ability.Filters.IsInCombat )
+			end
+		end
+		--return
+	--end
+
+	-- Liber Mithrus Powers
+	--if self.GKLibrarianSpellSetChosenTactic == 1 then
+		if self.squad_ai:IsInCombat() or self.squad_ai:WasRecentlyHurt() then
+			if self.squad_ai:CanDoAbility(LibrarianTermi.smite) then
+				if Ability.DoAbilityPos( self.squad_ai, LibrarianTermi.smite, Ability.Filters.CloseInfantryEnemy, 4 )
+				or Ability.DoAbilityPos( self.squad_ai, LibrarianTermi.smite, Ability.Filters.CloseMonsterEnemy, 4 ) then
+					return
+				end
+			end
+			if self.squad_ai:CanDoAbility(LibrarianTermi.storm) then
+				if Ability.DoAbilityPos( self.squad_ai, LibrarianTermi.storm, Ability.Filters.CloseInfantryEnemy, 6 )
+				or Ability.DoAbilityPos( self.squad_ai, LibrarianTermi.storm, Ability.Filters.CloseMonsterEnemy, 6 ) then
+					return
+				end
+			end
+		end
+		--return
+	--end
+
+	-- Liber Primus Ordo Seclorum Powers
+	--if self.GKLibrarianSpellSetChosenTactic == 2 then
+		if self.squad_ai:CanDoAbility(LibrarianTermi.force_will) and self.squad_ai:WasRecentlyHurt() then
+			Ability.DoAbilityPos( self.squad_ai, LibrarianTermi.force_will, Ability.Filters.CloseInfantryEnemy, 8 )
+			Ability.DoAbilityPos( self.squad_ai, LibrarianTermi.force_will, Ability.Filters.CloseMonsterEnemy, 8 )
+		end
+		if self.squad_ai:CanDoAbility(LibrarianTermi.resolve) and self.squad_ai:WasRecentlyHurt() then
+			Ability.DoAbilityTarget( self.squad_ai, LibrarianTermi.resolve, Ability.Filters.CloseInfantryEnemy, 5 )
+			Ability.DoAbilityTarget( self.squad_ai, LibrarianTermi.resolve, Ability.Filters.CloseMonsterEnemy, 5 )
+		end
+		--return
+	--end
+
+	-- Liber Daemonica Powers
+	if self.CommandmentTMR == nil then self.CommandmentTMR = g_iGMT end
+	--if self.GKLibrarianSpellSetChosenTactic == 3 then
+		if self.CommandmentUnitTarget ~= nil then
+			if g_iGMT > self.CommandmentTMR + 15 then
+				self.CommandmentUnitTarget = nil
+			end
+		end
+		if self.squad_ai:CanDoAbility(LibrarianTermi.commandment) then
+			local iRange = self.squad_ai:GetAbilityRange(LibrarianTermi.commandment)
+			local oUnit = Ability2.Filters.CloseMonsterEnemy(self.squad_ai:GetPosition(), iRange, 5)
+			if oUnit ~= nil then
+				self.squad_ai:DoSpecialAbilitySquad(LibrarianTermi.commandment, oUnit:GetSquad())
+				return
+			else
+				local oUnit = Ability2.Filters.CloseMonsterHighEnemy(self.squad_ai:GetPosition(), iRange, 1)
+				if oUnit ~= nil then
+					self.squad_ai:DoSpecialAbilitySquad(LibrarianTermi.commandment, oUnit:GetSquad())
+					self.CommandmentUnitTarget = oUnit
+					self.CommandmentTMR = g_iGMT
+					return
+				end
+			end
+		end
+		if self.squad_ai:CanDoAbility(LibrarianTermi.instability) then
+			local iRange = self.squad_ai:GetAbilityRange(LibrarianTermi.instability)
+			local oUnit = Ability2.Filters.CloseMonsterEnemy(self.squad_ai:GetPosition(), iRange, 5)
+			if oUnit ~= nil then
+				self.squad_ai:DoSpecialAbilitySquad(LibrarianTermi.instability, oUnit:GetSquad())
+				return
+			end
+		end
+		if self.squad_ai:CanDoAbility(LibrarianTermi.imprisonment)
+		and (not self.squad_ai:WasRecentlyHurt() or self.squad_ai:GetHealthPercentage() > 0.5) then
+			local iRange = self.squad_ai:GetAbilityRange(LibrarianTermi.imprisonment) + 5
+			local iPos = self.squad_ai:GetPosition()
+			local oUnit = Ability2.Filters.CloseMonsterHighEnemy(iPos, iRange, 1)
+			if oUnit ~= nil and cpu_manager:GetUnitStrength(oUnit) > 300 and distance_sqr(iPos, oUnit:GetPosition())> 80
+			and (self.CommandmentUnitTarget == nil or oUnit:GetID() ~= self.CommandmentUnitTarget:GetID()) then
+				self.squad_ai:DoSpecialAbilitySquad(LibrarianTermi.imprisonment, oUnit:GetSquad())
+				return
+			end
+		elseif not self.squad_ai:IsAttached() and self.squad_ai:WasRecentlyHurt() then
+			-- check first if we are performing Imprisonment (thus most possibly disabled disabled), but we must stop!
+			if self.squad_ai:IsUsingAbility(LibrarianTermi.imprisonment) and self.squad_ai:GetHealthPercentage() < 0.5 then
+				self.squad_ai:DoStop()
+			end
+		end
+	--end
+end
+
+function LibrarianTermiTactic:Update()
+
+	if (self:IsComplete()) then
+		return
+	end
+	
+	-- State machine
+	if (not InfantryTactic.Update(self)) then
+		return
+	end
+
+--[[ Special local method to build addons (the 4 books)
+		*********** SPELLBOOKS ADDONS LIST ***********
+	SLOT	SPELLBOOK ADDON NAME			Entity Addon Line
+	  0		Liber Constitutum Imperialis	[addon_01]
+	  1		Liber Mithrus					[addon_02]
+	  2		Liber Primus Ordo Seclorum		[addon_03]
+	  3		Liber Daemonica					[addon_04]
+	Note: Each slot (starting from 0) corresponds to a spellbook
+	addon (starting from 01 on the entity's addon_ext list)]]
+
+	if not self.hasChosenBook then
+		-- This check does not work...
+		--[[for e in self.squad_ai:GetEntities() do
+			if e:HasAddOn(self.book1_id) or e:HasAddOn(self.book2_id)
+			or e:HasAddOn(self.book3_id) or e:HasAddOn(self.book4_id) then
+				self.hasChosenBook = true
+			end
+		end]]
+		local set1_probability, set2_probability, set3_probability = 3, 3, 3
+		-- The g_Inq_Daemonic_Discipline is determined in daemonhuntbuildbasestrategy.ai
+		local choice = math.random( 1, set1_probability + set2_probability + set3_probability + g_Inq_Daemonic_Discipline )
+		if choice <= set1_probability then
+			self:AutoBuildAddOn(0)
+		elseif choice <= set1_probability + set2_probability then
+			self:AutoBuildAddOn(1)
+		elseif choice <= set1_probability + set2_probability + set3_probability then
+			self:AutoBuildAddOn(2)
+		else
+			self:AutoBuildAddOn(3)
+		end
+	end
+
+	-- Check if we are in serious trouble
+	self:EmergencyRetreat()
+
+	-- Try to attach
+	if (self:TryAttachSquad(true, true, 50, 100, nil) ~= nil) then
+		return
+	end
+	if (self:TryAttachSquad(false, true, 50, 100, self.m_fCommanderAttachHealth) == nil) then
+		self:TryAttachSquadMelee()
+	end
+end
+
+-- Arkhan 03.2006: Inherited method used by commanders which are able to jump with an attached squad
+function LibrarianTermiTactic:CanJumpAttached()
+	return true
+end
+
+---------------------------------------------------------
+
+Ability2 = 
+{
+Filters = 
+{
+	CloseMonsterEnemy = function(vPosition, iTolerance, iCount)
+
+		-- Make sure that count is valid
+		if (iCount == nil) then
+			iCount = 1
+		end
+
+		-- Quick check
+		if (not cpu_manager:CloseEnemyUnits(vPosition, iTolerance)) then
+			return nil
+		end
+
+		local oFunctor = function(oSquad, iCount)
+			local oStats = oSquad:GetStats()
+			if (oStats == nil) then
+				return false
+			end
+			return ((oStats:GetClass() == UnitStatsAI.UC_MonsterHigh or oStats:GetClass() == UnitStatsAI.UC_MonsterMed) and oSquad:GetNumTroopers() >= iCount)
+		end
+		return LibrarianTermiTactic:GetClosestEnemySquad(vPosition, iTolerance, oFunctor, iCount)
+	end,
+
+
+	CloseMonsterHighEnemy = function(vPosition, iTolerance, iCount)
+
+		-- Make sure that count is valid
+		if (iCount == nil) then
+			iCount = 1
+		end
+
+		-- Quick check
+		if (not cpu_manager:CloseEnemyUnits(vPosition, iTolerance)) then
+			return nil
+		end
+
+		local oFunctor = function(oSquad, iCount)
+			local oStats = oSquad:GetStats()
+			if (oStats == nil) then
+				return false
+			end
+			return (oStats:GetClass() == UnitStatsAI.UC_MonsterHigh and oSquad:GetNumTroopers() >= iCount)
+		end
+		return LibrarianTermiTactic:GetClosestEnemySquad(vPosition, iTolerance, oFunctor, iCount)
+	end,
+}
+}
+
+
+function LibrarianTermiTactic:GetClosestEnemySquad(vPosition, iRange, oFunctor, iCount)
+
+	-- Init variables
+	local oEnemySquad = nil
+	local vCurrentPos = Vector3f()
+	local iCurrentDistanceSqr = 0
+	local iRangeSqr = sqr(iRange)
+
+	if (iCount == nil) then
+		iCount = 1
+	end
+
+	-- Compute all enemy squads from all players
+	for iEnemyPlayer in cpu_manager.stats:GetPlayerStats() do
+		if not iEnemyPlayer:IsPlayerDead() then
+			if cpu_manager.player_stats:IsEnemy(iEnemyPlayer) then
+				for oSquad in iEnemyPlayer:GetSquads() do
+					-- Check requirements
+					if (oSquad:IsValid() and oFunctor(oSquad, iCount)) then	      
+						-- Check if squad is in range
+						local vSquadPos = oSquad:GetPosition()
+						local iDistanceSqr = distance_sqr(vSquadPos, vPosition)
+						if (iDistanceSqr <= iRangeSqr) then
+							-- Check if it's closer than the last one
+							if (oEnemySquad == nil or iDistanceSqr < iCurrentDistanceSqr) then
+								oEnemySquad = oSquad
+								vCurrentPos = vSquadPos
+								iCurrentDistanceSqr = iDistanceSqr
+							end
+						end
+					end
+				end                
+			end          
+		end
+	end
+	return oEnemySquad
+end

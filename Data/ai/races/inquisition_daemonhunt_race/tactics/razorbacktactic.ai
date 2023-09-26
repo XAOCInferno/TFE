@@ -1,0 +1,53 @@
+----------------------------------------
+-- File: 'razorbacktactic.ai'
+-- Edited by Gambit @ 10.11.2018
+
+class 'RazorbackTactic' (DaemonhuntVehicleGKTactic)
+
+GKRazorback = {}
+
+function RazorbackTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Grey Knights Razorback Tactic")
+
+	-- Vehicle is a light transport
+	self.m_iTransportVehicle = 1
+	self.m_iTransportSlots = 1
+end
+
+
+function RazorbackTactic:InitAbilities()
+
+	if (GKRazorback.smoke_id == nil) then
+	    GKRazorback.smoke_id = cpu_manager.stats:GetAbilityID( "inquisition_smoke_launchers" )	
+	end
+	
+	if (GKRazorback.hkmissiles_id == nil) then
+		GKRazorback.hkmissiles_id = cpu_manager.stats:GetAbilityID( "inquisition_hk_missiles_razorback" )	
+	end
+end
+
+function RazorbackTactic:DoAbilities()
+
+	-- Check if we are attacking and not in home base
+	if (self.squad_ai:IsAttacking() and self.squad_ai:CanDoAbility(GKRazorback.hkmissiles_id)) then
+		-- Launch HK Missiles at either Vehicles or Buildings
+		Ability.DoAbilityTarget(self.squad_ai, GKRazorback.hkmissiles_id, Ability.Filters.CloseVehicleEnemy, 2)
+		Ability.DoAbilityTargetEntity( self.squad_ai, GKRazorback.hkmissiles_id, Ability.EntityFilters.CloseBaseEntityEnemy, 2)
+		Ability.DoAbilityTarget(self.squad_ai, GKRazorback.hkmissiles_id, IDH_Ability.Filters.CloseVehicleHighEnemy, 1)  
+		Ability.DoAbilityTarget(self.squad_ai, GKRazorback.hkmissiles_id, IDH_Ability.Filters.CloseVehicleMedEnemy, 1)
+		Ability.DoAbilityTargetEntity( self.squad_ai, GKRazorback.hkmissiles_id, Ability.EntityFilters.CloseBaseEntityEnemy, 3)
+	end
+	
+	-- Check if we can throw smoke
+	if (self.squad_ai:CanDoAbility(GKRazorback.smoke_id)) then
+	
+		-- Search a squad
+		local iRange = self.squad_ai:GetAbilityRange(GKRazorback.smoke_id)
+		local oUnit = Ability.Filters.CloseHurt(self.squad_ai:GetPosition(), iRange, 1)
+		if (oUnit ~= nil and oUnit:IsInCombat() and cpu_manager:GetUnitStrength(oUnit) > 150) then
+			self.squad_ai:DoSpecialAbilitySquad(GKRazorback.smoke_id, oUnit:GetSquad())
+		end
+	end
+end
+
