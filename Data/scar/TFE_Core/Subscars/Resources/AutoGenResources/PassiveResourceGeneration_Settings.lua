@@ -43,7 +43,7 @@ end
 g_AllRaceResourcesSetup = {}
 g_FactionSpecificResourceGeneration = {	}
 function Setup_PassiveResourceGeneration_Settings(_PlayerRace)
-	print("HIIIII")
+
 	if(TableContains(g_AllRaceResourcesSetup, _PlayerRace)) then
 		return 
 	end
@@ -104,11 +104,16 @@ function Setup_PassiveResourceGeneration_Settings(_PlayerRace)
 		local TauRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("tau_race",false,0,0,0,0,0)	
 		g_FactionSpecificResourceGeneration["tau_race"] = TauRace_PassiveResourceGeneration
 		
+	elseif(_PlayerRace == "inquisition_daemonhunt_race") then
+	
+		local InquisitionDaemonhuntRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("inquisition_daemonhunt_race",false,0,0,0,0,0)	
+		g_FactionSpecificResourceGeneration["inquisition_daemonhunt_race"] = InquisitionDaemonhuntRace_PassiveResourceGeneration
+		
 	end
 	
 
 	table.insert(g_AllRaceResourcesSetup, _PlayerRace)
-	print("HIIIII2")
+	
 end
 
 
