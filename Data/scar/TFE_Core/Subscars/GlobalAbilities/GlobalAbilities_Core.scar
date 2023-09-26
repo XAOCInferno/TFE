@@ -919,8 +919,10 @@ function Setup_ActualGlobalAbilies()
 				end
 				
 				for i = 1, TableLength(_self.AppliedMods) do
-					if(Modifier_Exists(_self.AppliedMods[i])) then
-						Modifier_Remove(_self.AppliedMods[i])
+					if(_self.AppliedMods[i] ~= nil) then
+						if(Modifier_Exists(_self.AppliedMods[i])) then
+							pcall(Modifier_Remove, _self.AppliedMods[i])
+						end
 					end
 				end
 			end
@@ -1161,16 +1163,22 @@ function Setup_ActualGlobalAbilies()
 
 			AbilityStruct_SpaceMarine2.TimedAbilityEnd = function( _self )
 				print(_self.AbilityName.. " finished.")
-				if(Modifier_Exists(_self.ModFX)) then
-					Modifier_Remove(_self.ModFX)
+				
+				if(_self.ModFX ~= nil) then
+					if(Modifier_Exists(_self.ModFX)) then
+						pcall(Modifier_Remove, _self.ModFX)
+					end
 				end
+
 				for i = 1, TableLength(_self.FX_Table) do
 					World_FXEventDestroy(_self.FX_Table[i])
 				end
 				
 				for i = 1, TableLength(_self.AppliedMods) do
-					if(Modifier_Exists(_self.AppliedMods[i])) then
-						Modifier_Remove(_self.AppliedMods[i])
+					if(_self.AppliedMods[i] ~= nil) then
+						if(Modifier_Exists(_self.AppliedMods[i])) then
+							pcall(Modifier_Remove, _self.AppliedMods[i])
+						end
 					end
 				end
 			end
@@ -1428,7 +1436,7 @@ function Setup_ActualGlobalAbilies()
 			
 			--Not working?
 			AbilityStruct_Guard2.TimedAbilityEnd = function(_self)	
-				print("STEDDDDDD")
+
 				World_FXEventDestroy(_self.LoopingFX) 
 				
 			end
