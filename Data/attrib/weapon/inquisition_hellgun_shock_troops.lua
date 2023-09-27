@@ -49,7 +49,7 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_10"]["armour_piercing_value"] = 3
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_10"]["armour_type"] = Reference([[type_armour\tp_monster_high.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_10"]["armour_type"]["screen_name_id"] = [[$90106]] -- Daemon
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_11"]["armour_piercing_value"] = 32.75
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_11"]["armour_piercing_value"] = 28.75
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_11"]["armour_type"] = Reference([[type_armour\tp_building_low.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_11"]["armour_type"]["screen_name_id"] = [[$90102]] -- Building
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_12"]["armour_piercing_value"] = 10
@@ -68,7 +68,7 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] =
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 14.5
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 10
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 0.200000003
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 0.05000000075
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 2.25
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events\laspistol_hit]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry02"]["event"] = [[Unit_Impact_events\laspistol_hit]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry03"]["event"] = [[Unit_Impact_events\laspistol_hit]]
