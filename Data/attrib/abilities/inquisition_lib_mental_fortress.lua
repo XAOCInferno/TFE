@@ -20,7 +20,6 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_06"] 
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry05"] = Reference([[tables\hit_event_entry.lua]])
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry05"]["surface"] = Reference([[type_surface\tp_monolith.lua]])
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_01"]["modifier"] = Reference([[modifiers\special_attack_physics_mass.lua]])
-
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_01"]["modifier"]["shield_of_faith"] = false
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_01"]["modifier"]["value"] = 100
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_02"]["modifier"]["shield_of_faith"] = false
@@ -131,7 +130,7 @@ GameData["target_leader_in_squad"] = false
 GameData["target_self"] = false
 GameData["target_self_shazam"] = false
 GameData["ui_hotkey_name"] = [[marine_grey_knights]]
-GameData["ui_index_hint"] = 5
+GameData["ui_index_hint"] = 1
 GameData["ui_info"] = Reference([[tables\ui_info_table.lua]])
 GameData["ui_info"]["help_text_list"]["text_01"] = [[$16022191]] -- - By materialising his indomitable devotion, the Librarian projects a force field around him.
 GameData["ui_info"]["help_text_list"]["text_02"] = [[$16022192]] -- - It affects all that attempt to confront the caster in close combat.. 
