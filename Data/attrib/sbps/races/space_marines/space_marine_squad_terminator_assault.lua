@@ -496,4 +496,4 @@ GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$97164]] --
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$97165]] -- - Foregoes ranged weaponry for additional close combat damage and defense.
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$97166]] -- - Effective against most unit types in close combat.
 GameData["squad_ui_ext"]["ui_info"]["icon_name"] = [[space_marine_icons/terminator_assault_icon]]
-GameData["squad_ui_ext"]["ui_info"]["screen_name_id"] = [[$666900]]
+GameData["squad_ui_ext"]["ui_info"]["screen_name_id"] = [[$97160]]
