@@ -8,6 +8,7 @@ GameData["activation"] = Reference([[type_abilityactivation\tp_ability_activatio
 GameData["anticipation_event_name"] = [[]]
 GameData["anticipation_lead_time"] = 0
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
+GameData["area_effect"]["area_effect_information"]["area_type"] = Reference([[type_areaeffect\tp_area_effect_squad.lua]])
 GameData["area_effect"]["area_effect_information"]["filter_type"] = Reference([[type_areafilter\tp_area_filter_enemy.lua]])
 GameData["area_effect"]["area_effect_information"]["remove_modifiers_with_source_entity"] = true 
 GameData["area_effect"]["area_effect_information"]["start_from_caster"] = false

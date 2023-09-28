@@ -10,7 +10,7 @@ GameData["area_effect"]["area_effect_information"]["area_effect_events"]["rock"]
 GameData["area_effect"]["area_effect_information"]["area_effect_events"]["water"] = [[aura\mental_fortress]]
 GameData["area_effect"]["area_effect_information"]["filter_type"] = Reference([[type_areafilter\tp_area_filter_enemy.lua]])
 GameData["area_effect"]["area_effect_information"]["area_type"] = Reference([[type_areaeffect\tp_area_effect_circle.lua]])
-GameData["area_effect"]["area_effect_information"]["radius"] = 3.75
+GameData["area_effect"]["area_effect_information"]["radius"] = 5.5
 GameData["area_effect"]["area_effect_information"]["remove_modifiers_with_source_entity"] = true 
 GameData["area_effect"]["area_effect_information"]["start_from_caster"] = true 
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_01"] = Reference([[type_armour\tp_infantry_low.lua]])
@@ -52,7 +52,6 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_14"]["armour_type"] = Reference([[type_armour\tp_building_high.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_15"]["armour_type"] = Reference([[type_armour\tp_air_med.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 20
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry05"] = Reference([[tables\hit_event_entry.lua]])
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry05"]["surface"] = Reference([[type_surface\tp_monolith.lua]])
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_01"]["modifier"]["shield_of_faith"] = false
@@ -137,7 +136,7 @@ GameData["darklance_delay"] = 0
 GameData["direction"] = 0
 GameData["direction_arc_left"] = 180
 GameData["direction_arc_right"] = 180
-GameData["duration_time"] = 16
+GameData["duration_time"] = 20
 GameData["enemy_opacity_while_active"] = 1
 GameData["entity_busy_time"] = 0
 GameData["friendly_opacity_while_active"] = 1
