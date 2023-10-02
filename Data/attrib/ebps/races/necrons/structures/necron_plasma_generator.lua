@@ -341,7 +341,7 @@ GameData["modifier_apply_ext"]["modifiers_idle"]["modifier_45"]["shield_of_faith
 GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_01"] = Reference([[modifiers\cost_time_modifier.lua]])
 GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_01"]["shield_of_faith"] = false
 GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_01"]["target_type_name"] = [[necron_plasma_generator]]
-GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_01"]["value"] = 1.185000029
+GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_01"]["value"] = 1.19000029
 GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_02"] = Reference([[modifiers\cost_power_modifier.lua]])
 GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_02"]["shield_of_faith"] = false
 GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_02"]["target_type_name"] = [[necron_plasma_generator]]
@@ -434,7 +434,7 @@ GameData["resource_ext"]["decay_green_event"] = [[aura/Pulse_GREEN]]
 GameData["resource_ext"]["decay_lower_limit_percentage"] = 0.6 --0.4499999881
 GameData["resource_ext"]["decay_red_event"] = [[aura/Pulse_RED_objective]]
 GameData["resource_ext"]["decay_to_lower_limit_time"] = 2000 --1100
-GameData["resource_ext"]["power_per_second"] = 0.6 --0.9
+GameData["resource_ext"]["power_per_second"] = 0.575 --0.9
 GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
 GameData["sight_ext"]["sight_radius"] = 15
 --GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
