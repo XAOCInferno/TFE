@@ -20,7 +20,7 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_01"
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_02"]["name_for_this_weapon_choice"] = [[Eldar_Power_Sword]]
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
-GameData["cost_ext"]["time_cost"]["cost"]["power"] = 13.3333333
+GameData["cost_ext"]["time_cost"]["cost"]["power"] = 6.666664
 GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 63.33333333
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
 GameData["cost_ext"]["time_cost"]["time_seconds"] = 10
