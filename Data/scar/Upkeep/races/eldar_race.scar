@@ -29,7 +29,7 @@ UnitCosting.eldar_race =
 	eldar_guardian_squad =
 	{
 		CostEntity = { Req = -0.33, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -0.6, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -0.5, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = -0.6, Power = -0.1, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_squad_rangers =
@@ -46,8 +46,8 @@ UnitCosting.eldar_race =
 	},
 	eldar_squad_dark_reapers =
 	{
-		CostEntity = { Req = -0.35, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -1.35, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.34, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.32, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = -0.8, Power = -0.2, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_squad_fire_dragon = 
@@ -58,8 +58,8 @@ UnitCosting.eldar_race =
 	},
 	eldar_squad_warp_spider =
 	{
-		CostEntity = { Req = -0.42, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -1.4, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.4, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.38, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = -0.85, Power = -0.3, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_harlequin_squad =
