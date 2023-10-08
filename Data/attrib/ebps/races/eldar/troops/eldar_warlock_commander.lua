@@ -946,6 +946,6 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$97854]] -- - Res
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$97855]] -- - Each Warlock in squad reduces ability recharge time for all, including any attached units.
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$97856]] -- - Effective against all unit types.
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_06"] = [[$575651]]
-GameData["ui_ext"]["ui_info"]["icon_name"] = [[eldar_icons/warlock_icon]]
+GameData["ui_ext"]["ui_info"]["icon_name"] = [[eldar_icons/eldar_warlock_commander_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$97850]] -- Seer Council
 GameData["ui_ext"]["use_hero_ui"] = true 

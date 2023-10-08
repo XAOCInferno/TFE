@@ -477,5 +477,5 @@ GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_02"] = [[$575602]]
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$97854]] -- - Resilient unit that benefits from most Warlock upgrades.
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$97855]] -- - Each Warlock in squad reduces ability recharge time for all, including any attached units.
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$97856]] -- - Effective against all unit types.
-GameData["squad_ui_ext"]["ui_info"]["icon_name"] = [[eldar_icons/seer_council_icon]]
+GameData["squad_ui_ext"]["ui_info"]["icon_name"] = [[eldar_icons/eldar_warlock_commander_icon]]
 GameData["squad_ui_ext"]["ui_info"]["screen_name_id"] = [[$97850]] -- Seer Council
