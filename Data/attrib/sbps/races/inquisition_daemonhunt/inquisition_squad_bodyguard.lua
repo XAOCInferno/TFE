@@ -389,7 +389,6 @@ GameData["squad_leader_ext"]["leader_2"]["cost_time"]["cost"]["requisition"] = 7
 GameData["squad_leader_ext"]["leader_2"]["cost_time"]["time_seconds"] = 15
 GameData["squad_leader_ext"]["leader_2"]["leader"]["type"] = [[ebps\races\inquisition_daemonhunt\troops\inquisition_scholars_exorcist.lua]]
 GameData["squad_leader_ext"]["max_leaders"] = 2
-GameData["squad_leader_ext"]["multi_with_reinforce"] = true 
 GameData["squad_leader_ext"]["multi_with_upgrades"] = true 
 GameData["squad_loadout_ext"] = Reference([[sbpextensions\squad_loadout_ext.lua]])
 GameData["squad_loadout_ext"]["trooper_base"]["type"] = [[ebps\races\inquisition_daemonhunt\troops\inquisition_bodyguard.lua]]
