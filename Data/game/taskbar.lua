@@ -461,22 +461,26 @@ list_leader_upgrades =
 
 list_multileader_upgrades =
 {
-	"AddLeader", -- 		REINFORCE LEADER
 	"Upgrade01",
 	"Upgrade02",
 	"Upgrade03",
 	"Upgrade04",
+	"AddLeader", -- 		REINFORCE LEADER
 }
 
 list_multileader_upgrades2 =
 {
 	"AddLeader", -- 		REINFORCE LEADER
+	--"Upgrade01",
 	"Upgrade02",
+	"Upgrade03",
+	"Upgrade04",
 }
 
 list_multibase_upgrades =
 {
-	"AddLeader", -- 		REINFORCE LEADER
+	"Reinforce", -- 		REINFORCE TROOPER
+	--"AddLeader", -- 		REINFORCE LEADER
 }
 
 list_production_queue = 
