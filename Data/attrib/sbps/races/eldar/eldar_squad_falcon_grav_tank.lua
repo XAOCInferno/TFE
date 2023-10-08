@@ -374,14 +374,14 @@ GameData["squad_cover_ext"]["cover_stealth"]["modifiers"]["modifier_45"]["shield
 GameData["squad_formation_ext"] = Reference([[sbpextensions\squad_formation_ext.lua]])
 GameData["squad_formation_ext"]["idle_formation"] = [[formations\block.lua]]
 GameData["squad_jump_ext"] = Reference([[sbpextensions\squad_jump_ext.lua]])
-GameData["squad_jump_ext"]["breakdown_time"] = 1.3670000136
+GameData["squad_jump_ext"]["breakdown_time"] = 0.5
 GameData["squad_jump_ext"]["charge_jump_cost_max"] = 60
 GameData["squad_jump_ext"]["charge_jump_cost_min"] = 60
 GameData["squad_jump_ext"]["charge_max"] = 90
 GameData["squad_jump_ext"]["charge_regeneration"] = 1
 GameData["squad_jump_ext"]["jump_distance_max"] = 50
 GameData["squad_jump_ext"]["jump_time_max"] = 2
-GameData["squad_jump_ext"]["setup_time"] = 1.4329999983
+GameData["squad_jump_ext"]["setup_time"] = 0.5
 GameData["squad_loadout_ext"] = Reference([[sbpextensions\squad_loadout_ext.lua]])
 GameData["squad_loadout_ext"]["trooper_base"]["type"] = [[ebps\races\eldar\troops\eldar_falcon_grav_tank.lua]]
 GameData["squad_loadout_ext"]["unit_max"] = 1
