@@ -444,6 +444,7 @@ list_weapon_upgrades =
 -- ILE
 list_weapon_upgrades2 =
 {
+	"Upgrade01",
 	"Upgrade03",
 	"Upgrade04",
 }
@@ -460,6 +461,7 @@ list_leader_upgrades =
 
 list_multileader_upgrades =
 {
+	"AddLeader", -- 		REINFORCE LEADER
 	"Upgrade01",
 	"Upgrade02",
 	"Upgrade03",
@@ -468,7 +470,7 @@ list_multileader_upgrades =
 
 list_multileader_upgrades2 =
 {
-	"Upgrade01",
+	"AddLeader", -- 		REINFORCE LEADER
 	"Upgrade02",
 }
 
