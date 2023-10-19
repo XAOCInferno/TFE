@@ -1,7 +1,7 @@
 GameData = Inherit([[]])
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
-GameData["cost_ext"]["time_cost"]["cost"]["power"] = 160
+GameData["cost_ext"]["time_cost"]["cost"]["power"] = 150
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
 GameData["cost_ext"]["time_cost"]["time_seconds"] = 42
 GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
@@ -246,6 +246,7 @@ GameData["requirement_ext"]["requirements"]["required_10"]["is_display_requireme
 GameData["requirement_ext"]["requirements"]["required_10"]["structure_name"] = [[ebps\races\necrons\structures\monolith.lua]]
 GameData["research_ext"] = Reference([[ebpextensions\research_ext.lua]])
 GameData["research_ext"]["research_table"]["research_01"] = [[research\necron_scarab_infiltration.lua]]
+GameData["research_ext"]["research_table"]["research_02"] = [[research\necron_deathmark_accuracy.lua]]
 GameData["spawner_ext"] = Reference([[ebpextensions\spawner_ext.lua]])
 GameData["spawner_ext"]["squad_table"]["squad_01"] = [[sbps\races\necrons\necron_cryptek_squad.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_02"] = [[sbps\races\necrons\necron_scarab_ground_squad.lua]]
