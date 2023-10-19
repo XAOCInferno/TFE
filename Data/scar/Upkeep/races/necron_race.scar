@@ -36,6 +36,12 @@ UnitCosting.necron_race =
 		CostSquad = { Req = 0, Power = -0.8775, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
+	necron_deathmark_squad =
+	{
+		CostEntity = { Req = 0, Power = -0.57, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = -0.9, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
 	necron_immortal_squad =
 	{
 		CostEntity = { Req = 0, Power = -0.405, Pop = 0, Faith = 0, Souls = 0 },
@@ -52,6 +58,12 @@ UnitCosting.necron_race =
 	{
 		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 		CostSquad = { Req = 0, Power = -3.9, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	necron_cryptek_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = -2, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	necron_pariah_lord_squad =

@@ -18,9 +18,9 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_04"] 
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_05"] = Reference([[type_armour\tp_infantry_high.lua]])
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_06"] = Reference([[type_armour\tp_infantry_low.lua]])
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_07"] = Reference([[type_armour\tp_infantry_med.lua]])
-GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_08"] = Reference([[type_armour\tp_vehicle_low.lua]])
+--[[GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_08"] = Reference([[type_armour\tp_vehicle_low.lua]])
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_09"] = Reference([[type_armour\tp_vehicle_med.lua]])
-GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_10"] = Reference([[type_armour\tp_vehicle_high.lua]])
+GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_10"] = Reference([[type_armour\tp_vehicle_high.lua]])]]
 --[[GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[generic/blackstone_hex_event_lvl4]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry02"]["event"] = [[generic/blackstone_hex_event_lvl4]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry03"]["event"] = [[generic/blackstone_hex_event_lvl4]]

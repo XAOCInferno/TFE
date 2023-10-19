@@ -275,6 +275,8 @@ function Setup_ActualGlobalAbilies()
 
 	end
 	
+	
+
 	local RaceName = ""
 	for i = 1, g_PlayerCount do
 		RaceName = g_AllPlayers[i].RaceDetails.RaceName
@@ -518,8 +520,27 @@ function Setup_ActualGlobalAbilies()
 			
 			mod_NecronEternalMarch__modifier_01 = Modifier_Create(MAT_Squad, "health_get_back_up_modifier", MUT_Multiplication, 1, 1000, "")
 			table.insert(g_GlobalAbilityMods, mod_NecronEternalMarch__modifier_01)
---return local here!!
-			AbilityStruct_Necron1 = CreateGlobalAbility(
+
+
+			--[[Non race specific]]
+			AbilityStruct_NecronCryptekSummonScarabOnHit = CreateGlobalAbility(
+				"Necron_Cryptek_Summon_Scarab_On_Hit",
+				g_AllPlayers[i], 
+				"Necron_CryptekSummonScarabOnHit", 
+				"necron_cryptek_summon_scarab_entity",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+					
+			AbilityStruct_NecronCryptekSummonScarabOnHit.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+				
+				_pos = _self.LastCastedEntityPosition
+				ActivateSummonSquadAbility("necron_scarab_ground_squad", g_AllPlayers[i].Player, _pos, 1)
+
+			end
+
+			local AbilityStruct_Necron1 = CreateGlobalAbility(
 				squadBP.."_production_overload",
 				g_AllPlayers[i], 
 				"GlobalAbility_Necron_ProductionOverload", 
@@ -568,8 +589,6 @@ function Setup_ActualGlobalAbilies()
 				"NONE",
 				table.getn(g_AllTrackedAbilities)
 			)
-
-			AbilityStruct_Necron5.Duration = 40
 
 			AbilityStruct_Necron1.ApplyMonolithFX = function(_self, _EntityPos)
 				print(EntityData)
@@ -735,6 +754,7 @@ function Setup_ActualGlobalAbilies()
 				end
 			end
 
+			AbilityStruct_Necron5.Duration = 40
 			AbilityStruct_Necron5.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 				
 

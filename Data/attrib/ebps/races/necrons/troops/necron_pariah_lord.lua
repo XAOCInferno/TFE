@@ -931,6 +931,6 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$20010127]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$20010128]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$20010129]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_06"] = [[$20010130]]
-GameData["ui_ext"]["ui_info"]["icon_name"] = [[necron_icons/necron_pariah_icon]]
+GameData["ui_ext"]["ui_info"]["icon_name"] = [[necron_icons/necron_pariah_lord_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$20010124]]
 GameData["ui_ext"]["use_hero_ui"] = true
