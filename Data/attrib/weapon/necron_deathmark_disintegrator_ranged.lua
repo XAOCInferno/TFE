@@ -66,10 +66,10 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_15"]["armour_type"] = Reference([[type_armour\tp_air_med.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_15"]["armour_type"]["screen_name_id"] = [[$4450037]]
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 250
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 200
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 225
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 190
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 20
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 135
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 110
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Guard\Weapons\exitus_rifle_hit_flesh]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry02"]["event"] = [[Guard\Weapons\exitus_rifle_hit_flesh]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry03"]["event"] = [[Unit_Impact_events\impact_autocannon_all]]
