@@ -472,10 +472,11 @@ GameData["requirement_ext"]["requirements"]["required_10"]["is_display_requireme
 GameData["requirement_ext"]["requirements"]["required_10"]["structure_name"] = [[ebps\races\inquisition_daemonhunt\structures\inquisition_tower_hq.lua]]
 GameData["research_ext"] = Reference([[ebpextensions\research_ext.lua]])
 GameData["research_ext"]["research_table"]["research_01"] = [[research\inquisition_psybolt_ammunition.lua]]
-GameData["research_ext"]["research_table"]["research_02"] = [[research\inquisition_gk_squad_size.lua]]
+GameData["research_ext"]["research_table"]["research_02"] = [[research\inquisition_gk_squad_size_1.lua]]
 GameData["research_ext"]["research_table"]["research_03"] = [[research\inquisition_grey_knights_melee_upgreade.lua]]
 GameData["research_ext"]["research_table"]["research_04"] = [[research\inquisition_quickening_research.lua]]
 GameData["research_ext"]["research_table"]["research_05"] = [[research\inquisition_blessed_aegis_seals_research.lua]]
+GameData["research_ext"]["research_table"]["research_06"] = [[research\inquisition_gk_squad_size_2.lua]]
 GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
 GameData["sight_ext"]["sight_radius"] = 25
 GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
