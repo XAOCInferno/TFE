@@ -79,7 +79,7 @@ function Set_PlayerEntities_Immediate(_PlayerIndex)
 		--Should we keep this? are some entities ok to not have BP? unsure.
 		if(entityBP == nil) then 
 			--any point having this log if it's LogOnce?
-			LogOnce(1, 0, debug_EntityManager_FileName, debugFuncName, "Can't add entity data, BP is nil!")
+			LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_EntityManager_FileName, debugFuncName, "Can't add entity data, BP is nil!")
 			return 
 
 		end
@@ -88,7 +88,7 @@ function Set_PlayerEntities_Immediate(_PlayerIndex)
 
 			if(g_AllEntityData[_PlayerIndex][l] == nil) then
 
-				Log(1, 0, debug_EntityManager_FileName, debugFuncName, "Entity is found null during adding.")
+				Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_EntityManager_FileName, debugFuncName, "Entity is found null during adding.")
 				table.remove(g_AllEntityData[_PlayerIndex], l)	
 				--I don't think we still need to return here?
 				--return false 
@@ -97,7 +97,7 @@ function Set_PlayerEntities_Immediate(_PlayerIndex)
 			
 			if(g_AllEntityData[_PlayerIndex][l].EntityUniqueID == newEntityGameID) then
 						
-				--LogOnce(1, 0, debug_EntityManager_FileName, debugFuncName, "Entity is already stored in data!")
+				--LogOnce(eLOG_TYPE_WARNING, eLOG_FULL, debug_EntityManager_FileName, debugFuncName, "Entity is already stored in data!")
 				return false
 										
 			end
@@ -105,7 +105,7 @@ function Set_PlayerEntities_Immediate(_PlayerIndex)
 		
 		local tmpData = EntityData:new( newEntityGameID, _egroupid, _itemindex, _entityID, g_AllPlayers[_PlayerIndex].RaceDetails.RaceName, entityBP)
 		
-		Log(0, 0, debug_EntityManager_FileName, debugFuncName, "Entity data created for entity: "..tmpData.EntityBlueprint)
+		Log(eLOG_TYPE_INFO, eLOG_FULL, debug_EntityManager_FileName, debugFuncName, "Entity data created for entity: "..tmpData.EntityBlueprint)
 		table.insert(g_AllEntityData[_PlayerIndex], tmpData)	
 			
 	end
@@ -120,7 +120,7 @@ function Set_PlayerEntities_Immediate(_PlayerIndex)
 			--Should there be a different check for entity instead of health?
 			if(g_AllEntityData[_PlayerIndex][k].EntityBlueprint == nil or g_AllEntityData[_PlayerIndex][k].EntityHealthCurrent == 0 or shouldIgnore) then
 
-				Log(1, 0, debug_EntityManager_FileName, debugFuncName, "Entity is destroyed, removing.")
+				Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_EntityManager_FileName, debugFuncName, "Entity is destroyed, removing.")
 				table.remove(g_AllEntityData[_PlayerIndex], k)
 				
 			end
@@ -139,7 +139,7 @@ function Update_ExistingEntityDetails()
 			--Simple check to avoid null ref
 			if(g_AllEntityData[i][l] == nil) then
 				
-				Log(1, 0, debug_EntityManager_FileName, debugFuncName, "Entity is nil, assuming it is destroyed and removing.")
+				Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_EntityManager_FileName, debugFuncName, "Entity is nil, assuming it is destroyed and removing.")
 				table.remove(g_AllEntityData[i], l)	
 
 			else
@@ -177,7 +177,7 @@ function DestroyEntityAndRemoveFromData(_Player, _EntityLocation)
 	local debugFuncName = "DestroyEntityAndRemoveFromData"
 	local PlayerIndex = _Player.PlayerIndex + 1
 	if(g_AllEntityData[PlayerIndex][_EntityLocation] == nil) then
-		Log(2, 0, debug_EntityManager_FileName, debugFuncName, "Entity is nil, cannot destroy and returning!")
+		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, debug_EntityManager_FileName, debugFuncName, "Entity is nil, cannot destroy and returning!")
 		return 
 	end
 

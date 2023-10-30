@@ -107,7 +107,7 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 
 		if(squadBP == nil) then 
 
-			LogOnce(1, 0, debug_SquadManager_FileName, debugFuncName, "Can't add squad data, BP is nil!")
+			LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_SquadManager_FileName, debugFuncName, "Can't add squad data, BP is nil!")
 			return 
 
 		end
@@ -182,7 +182,7 @@ function Update_ExistingSquadDetails()
 				--Squad exists but now has 0 members. At 0 members the squad is destroyed so this likely will never happen. If log isn't ever observed, delete this.
 				if(g_AllSquadsData[i][l].SquadLoadout == 0 and g_AllSquadsData[i][l].SquadHasPreviouslyExisted == true) then
 
-					Log(1, 0, debug_SquadManager_FileName, "Update_ExistingSquadDetails", "Squad has been destroyed but squad still exists?")	
+					Log(eLOG_TYPE_INFO, eLOG_FULL, debug_SquadManager_FileName, "Update_ExistingSquadDetails", "Squad has been destroyed but squad still exists?")	
 					Set_SquadCombatDetails(g_AllSquadsData[i][l], true)			
 					table.remove(g_AllSquadsData[i],l)	
 

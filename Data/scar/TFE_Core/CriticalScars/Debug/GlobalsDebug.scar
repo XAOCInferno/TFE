@@ -1,6 +1,39 @@
 debug_GlobalsDebug_FileName = "GlobalsDebug"
 
-g_WrittenLogs = {}
+--Log Type ENUMS
+eLOG_TYPE_INFO = 0
+eLOG_LOG_TYPE_WARNING = 1
+eLOG_LOG_TYPE_ERROR = 2
+eLOG_LOG_TYPE_CRITICAL = 3
+
+--Verbosity ENUMS
+eLOG_FULL = 0
+eLOG_VERBOSE = 1
+eLOG_SIMPLE = 2
+eLOG_MOD_ONLY = 3
+eLOG_NONE = 4
+
+local LogTypes = {}
+LogTypes[0] = "i" --Basic Log
+LogTypes[1] = "?" --Concern / Warning
+LogTypes[2] = "!!" --Basic Error
+LogTypes[3] = "!!!!" --Severe Error
+local LogTypesLength = TableLength(LogTypes)
+
+local WrittenLogs = {}
+
+local function GetLogType(_LogType)
+
+	if(_LogType > LogTypesLength) then
+
+		Log(eLOG_SIMPLE, eLOG_LOG_TYPE_WARNING, debug_GlobalsDebug_FileName, "GetLogType", "Log type of '".._LogType.."' is invalid! Number must be bellow "..LogTypesLength)
+		return "nil"
+
+	end
+
+	return LogTypes[0]
+
+end
 
 --Writes a custom log to the console
 function Log(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
@@ -8,17 +41,17 @@ function Log(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
 		if(_Verbosity == 0) then
 			
 			--Warning type, Mod Name, world time, function path, line
-			print("("..g_LogTypes[_LogType]..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) ".._ModuleName.."/".._FunctionName..":  ".._Line)
+			print("("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) ".._ModuleName.."/".._FunctionName..":  ".._Line)
 			
 		elseif(_Verbosity == 1) then
 		
 			--Warning type, Mod Name, world time, line
-			print("("..g_LogTypes[_LogType]..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) ".._Line)
+			print("("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) ".._Line)
 			
 		elseif(_Verbosity == 2) then
 		
 			--Warning type, Mod Name, line
-			print("("..g_LogTypes[_LogType]..") ["..g_ModAbbreviation.."] ".._Line)
+			print("("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ".._Line)
 			
 		elseif(_Verbosity == 3) then	
 		
@@ -43,11 +76,11 @@ end
 function LogOnce(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
 
 	local LogID = _Verbosity.._ModuleName.._FunctionName.._Line
-	contains, _ = TableContains(g_WrittenLogs, LogID)
+	contains, _ = TableContains(WrittenLogs, LogID)
 	if(contains) then 
 		return true 
 	else
-		table.insert(g_WrittenLogs, LogID)
+		table.insert(WrittenLogs, LogID)
 		Log(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
 	end
 	
@@ -57,13 +90,13 @@ function LogError(_ModuleName, _FunctionName, _Line)
 	
 	g_DebugMode = true --Error is so severe we should force debug on!
 	UIWarning_Show( "--------------------------------------------\n------TFE CORE FATAL ERROR------\n-----------CORE STOPPED------------\n--------------------------------------------" )
-	Log(3, 0, _ModuleName, _FunctionName, _Line)
-	Log(1, 4, "", "", "|")
-	Log(1, 4, "", "", "--------------------------------------------")
-	Log(1, 4, "", "", "------TFE CORE FATAL ERROR------")
-	Log(1, 4, "", "", "-----------CORE STOPPED------------")
-	Log(1, 4, "", "", "--------------------------------------------")
-	Log(1, 4, "", "", "|")
+	Log(eLOG_LOG_TYPE_CRITICAL, eLOG_FULL, _ModuleName, _FunctionName, _Line)
+	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "", "", "|")
+	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "", "", "--------------------------------------------")
+	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "", "", "------TFE CORE FATAL ERROR------")
+	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "", "", "-----------CORE STOPPED------------")
+	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "", "", "--------------------------------------------")
+	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "", "", "|")
 	ErrorPause()
 
 end

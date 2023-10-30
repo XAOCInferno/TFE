@@ -152,11 +152,11 @@ end
 function Setup_NewCoverSystem()	
 	local debugFuncName = "Setup_NewCoverSystem"
 	
-	Log(0, 0, debug_NewCoverSystems_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_NewCoverSystems_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 
 	Setup_CoverModifiers()
 	
-	Log(0, 0, debug_NewCoverSystems_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_NewCoverSystems_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 	
 end
 
@@ -168,19 +168,21 @@ function IsSquadInvalid(TargetSquad)
 	
 	if (TargetSquad == nil) then
 	
-		LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Loadout is Nil!")
+		LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_NewCoverSystems_FileName, debugFuncName, "Squad Loadout is Nil!")
 		CriticalError = true
+	
 	else
+
 		if(TargetSquad.SquadLoadout == 0) then				
    
-			LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Squad Struct is empty!")
+			LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_NewCoverSystems_FileName, debugFuncName, "Squad Struct is empty!")
 			CriticalError = true
 			
 		end
 		
 		if(pcall(Squad_GetCoverType, TargetSquad.SquadID, 0 ) == false) then
 	
-			LogOnce(1, 0, debug_NewCoverSystems_FileName, debugFuncName, "Can't get squad Cover!")
+			LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_FULL,debug_NewCoverSystems_FileName, debugFuncName, "Can't get squad Cover!")
 			CriticalError = true
 		
 		end
@@ -213,7 +215,7 @@ function CalculateSquadCoverModifiersAndApply(TargetSquad)
 			local keyOffset = key-1	
 			if(mod == nil) then
 				
-				LogOnce(2, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..modKey.." Is Nil! Cannot Add.")
+				LogOnce(eLOG_LOG_TYPE_ERROR, eLOG_VERBOSE, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..modKey.." Is Nil! Cannot Add.")
 				
 			else
 				local containsSquad, _ = TableContains(TargetSquad.SquadAppliedCoverMods, mod)
@@ -273,7 +275,7 @@ function Set_CoverModifiers(TargetSquad, ModsToRemove, ModsToAdd)
 	for debugRemovePos, removeMod in pairs(ModsToRemove) do
 		if(removeMod == nil) then
 			
-			LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugRemovePos.." Is Nil! Cannot Remove.")
+			LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugRemovePos.." Is Nil! Cannot Remove.")
 			
 		else
 			
@@ -285,7 +287,7 @@ function Set_CoverModifiers(TargetSquad, ModsToRemove, ModsToAdd)
 
 			else
 				
-				LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugRemovePos.." Is not applied! Cannot remove.")
+				LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugRemovePos.." Is not applied! Cannot remove.")
 					
 			end	
 		end			
@@ -295,7 +297,7 @@ function Set_CoverModifiers(TargetSquad, ModsToRemove, ModsToAdd)
 	for debugAddPos, addMod in pairs(ModsToAdd) do
 		if(addMod == nil) then
 			
-			LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugAddPos.." Is Nil! Cannot Add.")
+			LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugAddPos.." Is Nil! Cannot Add.")
 			
 		else
 			
@@ -307,7 +309,7 @@ function Set_CoverModifiers(TargetSquad, ModsToRemove, ModsToAdd)
 				
 			else
 				
-				LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugAddPos.." Is Applied! Cannot Apply Again.")
+				LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugAddPos.." Is Applied! Cannot Apply Again.")
 
 			end	
 			
@@ -324,8 +326,10 @@ function RemoveCoverMod(removeMod, tmpStruct, modIndex)
 		local functionSuccess = pcall(Modifier_Remove, tmpStruct.SquadAppliedCoverMods_IDs[modIndex])
 		
 		if (functionSuccess == false) then 
-			LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..modIndex.." Can't be removed for unknown reason! Triggered pcall.")
+
+			LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..modIndex.." Can't be removed for unknown reason! Triggered pcall.")
 			return 
+
 		end
 		
 	end
@@ -344,8 +348,10 @@ function ApplyCoverMod(addMod, tmpStruct, modIndex)
 		-- Apply modifier
 		local functionSuccess, tmpModID = pcall(Modifier_ApplyToSquad, addMod, tmpStruct.SquadID)
 		if (functionSuccess == false) then 
-			LogOnce(1, 1, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..modIndex.." Can't be added for unknown reason! Triggered pcall.")
+			
+			LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..modIndex.." Can't be added for unknown reason! Triggered pcall.")
 			return 
+
 		end
 	
 		-- Get modifier index

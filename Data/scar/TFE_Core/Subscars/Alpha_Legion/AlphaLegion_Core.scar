@@ -7,7 +7,7 @@ import("TFE_Core/Subscars/Alpha_Legion/Imports/AlphaLegion_Imports.scar")
 function Setup_AlphaLegion()
 	local debugFuncName = "Setup_AlphaLegion"
 	
-	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 	
 	for i = 1, g_PlayerCount do
 
@@ -25,7 +25,7 @@ function Setup_AlphaLegion()
 		end
 	end
 	
-	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 
 end
 
