@@ -324,6 +324,7 @@ GameData["spawner_ext"]["squad_table"]["squad_04"] = [[sbps\races\space_marines\
 GameData["spawner_ext"]["squad_table"]["squad_05"] = [[sbps\races\space_marines\space_marine_squad_terminator.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_06"] = [[sbps\races\space_marines\space_marine_squad_terminator_assault.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_07"] = [[sbps\races\space_marines\space_marine_squad_grey_knights.lua]]
+GameData["spawner_ext"]["squad_table"]["squad_08"] = [[sbps\races\space_marines\space_marine_squad_devastator.lua]]
 GameData["squad_hold_ext"] = Reference([[ebpextensions\squad_hold_ext.lua]])
 GameData["squad_hold_ext"]["acceptable_type_01"] = Reference([[type_transportable\transport_terminator.lua]])
 GameData["squad_hold_ext"]["holds_produced_squads"] = true 

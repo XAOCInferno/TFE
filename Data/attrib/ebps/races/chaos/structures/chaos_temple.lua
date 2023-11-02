@@ -273,6 +273,7 @@ GameData["spawner_ext"]["squad_table"]["squad_08"] = [[sbps\races\chaos\chaos_sq
 GameData["spawner_ext"]["squad_table"]["squad_09"] = [[sbps\races\chaos\chaos_squad_noise_marine.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_10"] = [[sbps\races\chaos\chaos_squad_cultist_flame.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_11"] = [[sbps\races\chaos\chaos_AL_Operative_squad.lua]]
+GameData["spawner_ext"]["squad_table"]["squad_12"] = [[sbps\races\chaos\chaos_havocs_squad.lua]]
 GameData["structure_buildable_ext"] = Reference([[ebpextensions\structure_buildable_ext.lua]])
 GameData["structure_buildable_ext"]["build_menu_priority"] = 2
 GameData["structure_buildable_ext"]["return_power_percent"] = 0.1000000015
