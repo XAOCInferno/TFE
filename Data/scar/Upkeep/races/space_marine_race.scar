@@ -28,25 +28,25 @@ UnitCosting.space_marine_race =
 	},
 	space_marine_squad_scout =
 	{
-		CostEntity = { Req = -0.2, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -0.35, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.18, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -0.31, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	space_marine_squad_tactical =
 	{
-		CostEntity = { Req = -0.38, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -1.15, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -0.9, Power = -0.3, Pop = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.35, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.1, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -0.85, Power = -0.3, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	space_marine_squad_assault =
 	{
-		CostEntity = { Req = -0.5, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -1.25, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -0.85, Power = -0.23, Pop = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.44, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.15, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -0.8, Power = -0.23, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	space_marine_squad_grey_knights =
 	{
-		CostEntity = { Req = -0.52, Power = -0.1, Pop = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.5, Power = -0.1, Pop = 0, Faith = 0, Souls = 0 },
 		CostSquad = { Req = -1.4, Power = -0.7, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
