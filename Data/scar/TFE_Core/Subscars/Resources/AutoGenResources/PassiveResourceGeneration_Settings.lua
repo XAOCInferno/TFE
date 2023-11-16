@@ -3,7 +3,7 @@ debug_PassiveResourceGeneration_Settings_FileName = "PassiveResourceGeneration_S
 SpecificRaceResourceGenerationDetails = {}
 function SpecificRaceResourceGenerationDetails:new (_RaceName, _HasPassiveResGen, _RT_Requisition, _RT_Power, _RT_Pop, _RT_Souls, _RT_Faith)
 	
-	Log(0, 0, debug_PassiveResourceGeneration_Settings_FileName, "SpecificRaceResourceGenerationDetails:Constructor",  "Importing race: '".._RaceName.."'...")
+	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_PassiveResourceGeneration_Settings_FileName, "SpecificRaceResourceGenerationDetails:Constructor",  "Importing race: '".._RaceName.."'...")
 	
     local o = 
     {
@@ -35,7 +35,7 @@ function SpecificRaceResourceGenerationDetails:new (_RaceName, _HasPassiveResGen
 	
 	self.__index = self
 	
-	Log(0, 0, debug_PassiveResourceGeneration_Settings_FileName, "SpecificRaceResourceGenerationDetails:Constructor",  "Importing race: '".._RaceName.."' Success!")
+	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_PassiveResourceGeneration_Settings_FileName, "SpecificRaceResourceGenerationDetails:Constructor",  "Importing race: '".._RaceName.."' Success!")
 	
     return setmetatable(o, self)
 end
