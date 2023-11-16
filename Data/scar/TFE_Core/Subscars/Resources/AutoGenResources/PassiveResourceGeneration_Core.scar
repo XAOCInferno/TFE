@@ -3,12 +3,15 @@ debug_PassiveResourceGeneration_Core_FileName = "PassiveResourceGeneration_Core"
 import("TFE_Core/Subscars/Resources/AutoGenResources/PassiveResourceGeneration_Settings.lua")
 
 function Setup_PassiveResourceGeneration()
+
 	local debugFuncName = "Setup_PassiveResourceGeneration"
 
 	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_PassiveResourceGeneration_Core_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 	
 	for i = 1, g_PlayerCount do
+
 		Setup_PassiveResourceGeneration_Settings(g_AllPlayers[i].RaceDetails.RaceName)
+
 	end
 	
 	Rule_AddInterval(Set_PassiveResources, g_ResourceGenUpdateRate)	
@@ -37,6 +40,7 @@ function Set_PassiveResources()
 					g_AllPlayers[i].Player.CurrentAddResources.RT_Faith = g_AllPlayers[i].Player.CurrentAddResources.RT_Faith + RaceResStruct.RT_Faith
 					
 				end
+
 			end
 		
 		end
@@ -44,6 +48,9 @@ function Set_PassiveResources()
 	end
 	
 	if pcall(AddResources) == false then
+
 		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, debug_PassiveResourceGeneration_Core_FileName, "Set_PassiveResources", "Cannot add passive resources!")
+
 	end
+	
 end

@@ -38,6 +38,7 @@ function SpecificRaceResourceGenerationDetails:new (_RaceName, _HasPassiveResGen
 	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_PassiveResourceGeneration_Settings_FileName, "SpecificRaceResourceGenerationDetails:Constructor",  "Importing race: '".._RaceName.."' Success!")
 	
     return setmetatable(o, self)
+
 end
 
 g_AllRaceResourcesSetup = {}
@@ -45,7 +46,9 @@ g_FactionSpecificResourceGeneration = {	}
 function Setup_PassiveResourceGeneration_Settings(_PlayerRace)
 
 	if(TableContains(g_AllRaceResourcesSetup, _PlayerRace)) then
+
 		return 
+		
 	end
 
 	import('Upkeep/races/'.._PlayerRace..'.scar')

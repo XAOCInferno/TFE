@@ -2,12 +2,17 @@ debug_ResUpkeepCore_FileName = "ResUpkeep_Core"
 
 
 function Setup_UpkeepSystem()
+	
 	local debugFuncName = "ActivateUpkeepSystem"
 		
 	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_ResUpkeepCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+
 	for i = 1, g_PlayerCount do
+
 		import('Upkeep/races/'..g_AllPlayers[i].RaceDetails.RaceName..'.scar')
+
 	end
+
 	EventCue_DoEvent( 'warning', 'music/stinger_completeobjective', 'Army Upkeep Activated!', 'Your army will now drain resources.' )
 	
 	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_ResUpkeepCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
@@ -33,15 +38,19 @@ function Set_PlayerUpkeep()
 				
 				LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_ResUpkeepCore_FileName, debugFuncName, "Struct: '"..tmpStruct.."' does not have a Unique ID!")		
 				
-			else		
+			else
+
 				local SquadLifetimeAsPercent = 1
 				local SquadLifetime = GetWorldLifetime(tmpStruct.SquadInitTime) 
 
-				if(SquadLifetime < g_TimeTakenForMaxUpkeep) then			
+				if(SquadLifetime < g_TimeTakenForMaxUpkeep) then	
+
 					SquadLifetimeAsPercent = SquadLifetime / g_MatureMaxLifetime
+
 				end
 				
 				if(UnitCosting[tmpStruct.SquadUnitRace] ~= nil) then
+
 					if(UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint] ~= nil) then
 
 						local BlueprintCostDetails = UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint]						
@@ -50,6 +59,7 @@ function Set_PlayerUpkeep()
 						local LeaderUpkeep = { Req = 0,	Power = 0, Pop = 0,	Souls = 0, Faith = 0 }
 
 						if (tmpStruct.SquadHasLeader) then 
+
 							if(UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader ~= nil) then
 								
 								local LeaderUpkeep = BlueprintCostDetails.CostLeader 
@@ -59,6 +69,7 @@ function Set_PlayerUpkeep()
 								LogOnce(eLOG_LOG_TYPE_ERROR, eLOG_FULL, debug_ResUpkeepCore_FileName, debugFuncName, "SquadBP '"..tmpStruct.SquadBlueprint.."' does not have LEADER Upkeep data!")								
 							
 							end
+
 						end
 
 						local LeaderCount = SGroup_CountLeaders(tmpStruct.SquadGroupName)
@@ -85,13 +96,18 @@ function Set_PlayerUpkeep()
 						LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_ResUpkeepCore_FileName, debugFuncName, "SquadBP for ID: '"..tmpStruct.SquadUniqueID.."' does not have a Blueprint!")
 
 					end
+
 				else
 				
 					LogOnce(eLOG_LOG_TYPE_ERROR, eLOG_FULL, debug_ResUpkeepCore_FileName, debugFuncName, "Race '"..tmpStruct.SquadUnitRace.."' does not have Upkeep data!")
 					
 				end	
+
 			end
-		end			
+
+		end	
+
 	end
+
 end
 

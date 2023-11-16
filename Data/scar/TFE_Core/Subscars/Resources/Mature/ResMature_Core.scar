@@ -1,6 +1,7 @@
 debug_ResMatureCore_FileName = "ResMature_Core"
 
 function Setup_MatureSystem()
+
 	local debugFuncName = "Setup_MatureSystem"
 	
 	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_ResMatureCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
@@ -19,16 +20,20 @@ local function Get_StrategicPointsStatus()
 		if(not World_OwnsEntity(g_AllStrategicPointsStructs[i].ID)) then
 		
 			local TmpOwner = Entity_GetPlayerOwner(g_AllStrategicPointsStructs[i].ID)
+
 			local OwnerPlayer = World_GetPlayerIndex(TmpOwner)
+
 			if(g_AllStrategicPointsStructs[i].OwnedBy ~= OwnerPlayer) then
 				g_AllStrategicPointsStructs[i].InitTime = g_WorldTime	
-				g_AllStrategicPointsStructs[i].OwnedBy = OwnerPlayer	
+				g_AllStrategicPointsStructs[i].OwnedBy = OwnerPlayer
+
 			end
 
 		elseif(g_AllStrategicPointsStructs[i].OwnedBy ~= -1) then
 			
 			g_AllStrategicPointsStructs[i].OwnedBy = -1
-			g_AllStrategicPointsStructs[i].InitTime = g_WorldTime	
+			g_AllStrategicPointsStructs[i].InitTime = g_WorldTime
+
 		end
 
 	end
@@ -41,6 +46,7 @@ function Set_ResourceMature()
 	for j = 1, g_PlayerCount do
 
 		for z = 1, g_NumberStratPoints do
+
 			if(g_AllStrategicPointsStructs[z].OwnedBy == g_AllPlayers[j].PlayerIndex) then
 				
 				local MaxBonusReq = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Requisition
@@ -93,7 +99,11 @@ function Set_ResourceMature()
 				g_AllPlayers[j].CurrentAddResources.RT_Souls =  g_AllPlayers[j].CurrentAddResources.RT_Souls + CapTimeAsBonusSouls
 				g_AllPlayers[j].CurrentAddResources.RT_Faith =  g_AllPlayers[j].CurrentAddResources.RT_Faith + CapTimeAsBonusFaith
 				--print("CapTime = "..CapTimeAsMaturePercent.." And New Req from it = "..CapTimeAsBonusReq.." Capped at = "..MaxBonusReq.Req)
+				
 			end
+
 		end
+
 	end	
+
 end
