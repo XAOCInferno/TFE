@@ -22,6 +22,9 @@ local LogTypesLength = TableLength(LogTypes)
 
 local WrittenLogs = {}
 
+local StacktracePath = "@"
+local StacktraceStack = {}
+
 local function GetLogType(_LogType)
 
 	if(_LogType > LogTypesLength) then
@@ -35,9 +38,42 @@ local function GetLogType(_LogType)
 
 end
 
+function AddStacktrace(_FunctionName)
+
+	table.insert(StacktraceStack, _FunctionName)
+
+end
+
+function RemoveStacktrace()
+
+	table.remove(StacktraceStack, table.getn(StacktraceStack))
+
+end
+
+function ClearStacktrace()
+
+	StacktracePath = "@"
+	StacktraceStack = {}
+
+end
+
+local function SetStacktracePath()
+
+	StacktracePath = "@"
+	for i = 1, table.getn(StacktraceStack) do
+
+		StacktracePath = StacktracePath.."/"..StacktraceStack[i]
+
+	end
+	--StacktracePath[1] = ""
+end
+
 --Writes a custom log to the console
 function Log(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
+	SetStacktracePath()
+	print("("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) "..StacktracePath..":  ".._Line)
 
+--[[
 	if(g_DebugMode) then
 
 		if(_Verbosity == 0) then
@@ -73,7 +109,7 @@ function Log(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
 		end
 
 	end
-
+]]
 end
 
 

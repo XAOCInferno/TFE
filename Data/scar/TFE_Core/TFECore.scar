@@ -141,7 +141,9 @@ function Core_Game_Load()
 end
 
 function Core_Init_Load()
+
 	local debugFuncName = "Core_Init_Load"	
+	
 	if(DoCriticalFunction(Core_GetAllPlayers, debug_TFECore_FileName, debugFuncName.."/Core_GetAllPlayers")) then return end
 	if(DoBasicFunction(Setup_AlphaLegion, debug_TFECore_FileName, debugFuncName.."/Setup_AlphaLegion")) then Log(2, 0, debug_TFECore_FileName, debugFuncName, "Alpha Legion failed to setup!")  end
 	if(DoCriticalFunction(Setup_PassiveResourceGeneration, debug_TFECore_FileName, debugFuncName.."/Setup_PassiveResourceGeneration")) then return end
@@ -154,6 +156,7 @@ function Core_Init_Load()
 	if(DoCriticalFunction(Setup_NewCoverSystem, debug_TFECore_FileName, debugFuncName.."/Setup_NewCoverSystem")) then return end
 	DoBasicFunction(Setup_WeatherSystems, debug_TFECore_FileName, debugFuncName.."/Setup_WeatherSystems")
 	DoBasicFunction(Setup_GlobalAbilities, debug_TFECore_FileName, debugFuncName.."/Setup_GlobalAbilities")
+
 end
 
 function Core_CheckForSecondaryScars()
@@ -167,7 +170,7 @@ function Core_CheckForSecondaryScars()
 end
 
 function Core_GetAllPlayers()
-
+		
 	for i = 1, g_PlayerCount do
 
 		local Player = World_GetPlayerAt(i-1)
@@ -181,12 +184,15 @@ function Core_GetAllPlayers()
 
 		--Move this later
 		if (UnitCosting[RaceName] == nil) then
+
 			pcall(import, 'upkeep/races/'..RaceName..'.scar')
+
 		end
 		
 	end
 
 	for i = 1, g_PlayerCount do
+		
 		--They need to be in reverse order so P1 is on top...
 		WinWarning_Add( "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[g_PlayerCount-i+1].PlayerIndex, g_AllPlayers[g_PlayerCount-i+1].Player, "", "Mature and Upkeep Counter", "This counter shows the specified players mature and upkeep." )
 		WinWarning_Add( "UI_Accumulated_Red"..g_AllPlayers[g_PlayerCount-i+1].PlayerIndex, g_AllPlayers[g_PlayerCount-i+1].Player, "", "Red Counter", "This counter shows the ammount of gathered red for the player." )
@@ -197,27 +203,43 @@ end
 
 function DoCriticalFunction(_Func, _SentFromFunc, _FuncName)
 
+	AddStacktrace(_FuncName)
+
+	local Success = true
+
 	if(pcall(_Func) == false) then
 		 
 		LogError(_SentFromFunc, _FuncName, "Cannot run CRITICAL function '".._FuncName.."'!") 
-		return true
+		
+		Success = false
 
 	end
 
-	return false
+	RemoveStacktrace()
+
+	return Success
+
 end
 
 
 function DoBasicFunction(_Func, _SentFromFunc, _FuncName)
+	
+	AddStacktrace(_FuncName)
+
+	local Success = true
 
 	if(pcall(_Func) == false) then
 
 		Log(2, 0, _SentFromFunc, _FuncName, "Cannot run function '".._FuncName.."'!") 
-		return true
+
+		Success = false
 
 	end
 
-	return false
+	RemoveStacktrace()
+
+	return Success
+
 end
 
 function Core_MainLoop()
