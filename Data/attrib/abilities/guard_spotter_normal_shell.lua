@@ -159,8 +159,6 @@ GameData["execute_table"]["weapon_damage_table"]["modifiers"]["modifier_09"]["mo
 GameData["execute_table"]["weapon_damage_table"]["modifiers"]["modifier_10"] = Reference([[tables\time_modify_entry.lua]])
 GameData["execute_table"]["weapon_damage_table"]["modifiers"]["modifier_10"]["modifier"]["shield_of_faith"] = false
 GameData["fire_cost"] = Reference([[tables\cost_table.lua]])
-GameData["fire_cost"]["power"] = 15
-GameData["fire_cost"]["requisition"] = 45
 GameData["friendly_opacity_while_active"] = 1
 GameData["initial_delay_time"] = 4
 GameData["looping_event_name"] = [[]]
@@ -175,7 +173,7 @@ GameData["projectile_spawn_pos"]["y"] = 4.650000095
 GameData["projectile_spawn_pos"]["z"] = 4.760000229
 GameData["random_offset"] = 0
 GameData["range"] = 35
-GameData["recharge_time"] = 30
+GameData["recharge_time"] = 40
 GameData["recharge_timer_global"] = true
 GameData["recharge_timer_id"] = 0123
 GameData["refresh_time"] = 1

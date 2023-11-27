@@ -13,7 +13,7 @@ GameData["area_effect"]["area_effect_information"]["area_effect_events"]["grass"
 GameData["area_effect"]["area_effect_information"]["area_effect_events"]["rock"] = [[races\space_marines\abilities\scout_blind_gnade]]
 GameData["area_effect"]["area_effect_information"]["area_effect_events"]["water"] = [[races\space_marines\abilities\scout_blind_gnade]]
 GameData["area_effect"]["area_effect_information"]["area_type"] = Reference([[type_areaeffect\tp_area_effect_circle.lua]])
-GameData["area_effect"]["area_effect_information"]["radius"] = 12
+GameData["area_effect"]["area_effect_information"]["radius"] = 14
 GameData["area_effect"]["area_effect_information"]["remove_modifiers_with_source_entity"] = true 
 GameData["area_effect"]["area_effect_information"]["start_from_caster"] = false
 GameData["area_effect"]["throw_data"]["direction_angle_random"] = 20
@@ -66,11 +66,11 @@ GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_02"]["max_lifeti
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_02"]["modifier"] = Reference([[modifiers\sight_radius_modifier.lua]])
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_02"]["modifier"]["application_type"] = Reference([[type_modifierapplicationtype\tp_mod_apply_to_squad.lua]])
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_02"]["modifier"]["shield_of_faith"] = false
-GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_02"]["modifier"]["value"] = 0.3000000015
+GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_02"]["modifier"]["value"] = 0.05
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_03"]["max_lifetime"] = 12
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_03"]["modifier"] = Reference([[modifiers\keen_sight_radius_modifier.lua]])
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_03"]["modifier"]["application_type"] = Reference([[type_modifierapplicationtype\tp_mod_apply_to_squad.lua]])
-GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_03"]["modifier"]["value"] = 0.3000000015
+GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_03"]["modifier"]["value"] = 0.05
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_04"]["max_lifetime"] = 12
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_04"]["modifier"] = Reference([[modifiers\max_range_weapon_modifier.lua]])
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_04"]["modifier"]["application_type"] = Reference([[type_modifierapplicationtype\tp_mod_apply_to_squad.lua]])
@@ -171,8 +171,6 @@ GameData["execute_table"]["weapon_damage_table"]["modifiers"]["modifier_09"]["mo
 GameData["execute_table"]["weapon_damage_table"]["modifiers"]["modifier_10"] = Reference([[tables\time_modify_entry.lua]])
 GameData["execute_table"]["weapon_damage_table"]["modifiers"]["modifier_10"]["modifier"]["shield_of_faith"] = false
 GameData["fire_cost"] = Reference([[tables\cost_table.lua]])
-GameData["fire_cost"]["power"] = 20
-GameData["fire_cost"]["requisition"] = 50
 GameData["friendly_opacity_while_active"] = 1
 GameData["initial_delay_time"] = 2.7
 GameData["looping_event_name"] = [[]]
