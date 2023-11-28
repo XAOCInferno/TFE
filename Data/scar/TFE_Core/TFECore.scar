@@ -3,6 +3,8 @@ debug_TFECore_FileName = "TFECore"
 RaceDetails = {}
 function RaceDetails:new (_RaceName, _RaceIndex, _RaceResourceInfo)
 
+	AddStacktrace("RaceDetails:new")
+
     local RaceDetailsObject = 
     {
     	--Constants
@@ -10,12 +12,17 @@ function RaceDetails:new (_RaceName, _RaceIndex, _RaceResourceInfo)
 	    RaceIndex = _RaceIndex,
 	    RaceResourceInfo = _RaceResourceInfo 
     }
+
 	self.__index = self
+	RemoveStacktrace()
    	return setmetatable(RaceDetailsObject, self)
+	
 end
 
 PlayerDetails = {}
 function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
+
+	AddStacktrace("PlayerDetails:new")
 
     local PlayerDetailsObject = 
     {
@@ -67,11 +74,18 @@ function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
 	    	RT_Souls = 0
 	    }
     }
+
 	self.__index = self
+
+	RemoveStacktrace()
+
 	return setmetatable(PlayerDetailsObject, self)
+
 end
 
 function PlayerDetails:AddFireCost( _RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls )
+
+	AddStacktrace("PlayerDetails:AddFireCost")
 
 	self.CurrentFireCosts.RT_Red = self.CurrentFireCosts.RT_Red + _RT_Red
 	self.CurrentFireCosts.RT_Requisition = self.CurrentFireCosts.RT_Requisition + _RT_Requsition
@@ -80,10 +94,16 @@ function PlayerDetails:AddFireCost( _RT_Red, _RT_Requsition, _RT_Power, _RT_Pop,
 	self.CurrentFireCosts.RT_Faith = self.CurrentFireCosts.RT_Faith + _RT_Faith
 	self.CurrentFireCosts.RT_Souls = self.CurrentFireCosts.RT_Souls + _RT_Souls
 
+	RemoveStacktrace()
+
 end
 
 --Returns true if we have enough, false otherwise
 function PlayerDetails:HasEnoughResources( _RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls )
+
+	AddStacktrace("PlayerDetails:HasEnoughResources")
+
+	local CostSuccess = true
 
 	if(self.CurrentResources.RT_Red < _RT_Red * -1 
 	or self.CurrentResources.RT_Requisition < _RT_Requsition * -1 
@@ -97,14 +117,19 @@ function PlayerDetails:HasEnoughResources( _RT_Red, _RT_Requsition, _RT_Power, _
 		print("Pop: "..self.CurrentResources.RT_Pop.."| Required: ".._RT_Pop * -1)
 		print("Faith: "..self.CurrentResources.RT_Faith.."| Required: ".._RT_Faith * -1)
 		print("Souls: "..self.CurrentResources.RT_Souls.."| Required: ".._RT_Souls * -1)
-		return false
-	end
+		CostSuccess = false
+	end	
 	
-	return true
+	RemoveStacktrace()
+
+	return CostSuccess
 
 end
 
 function PlayerDetails:ClearCurrentResourceBonuses()
+
+	AddStacktrace("PlayerDetails:ClearCurrentResourceBonuses")
+
 	self.CurrentAddResources = 
     {
 	    RT_Requisition = 0,
@@ -124,6 +149,9 @@ function PlayerDetails:ClearCurrentResourceBonuses()
 	    RT_Souls = 0,
 		RT_Red = 0
 	 }
+
+	 RemoveStacktrace()
+
 end
 
 
@@ -131,16 +159,21 @@ import("TFE_Core/Imports/TFECore_Imports.scar")
 
 
 function Core_Game_Load()
+
+	AddStacktrace("Core_Game_Load")
 	
 	local debugFuncName = "Core_Game_Load"	
 	
 	DoBasicFunction(Core_CheckForSecondaryScars, debug_TFECore_FileName, debugFuncName)
-	g_PreviousMainLoopHasCompleted = true
 	Rule_AddInterval(Core_MainLoop, g_WorldTimeFidelity)
+
+	RemoveStacktrace()
 	
 end
 
 function Core_Init_Load()
+
+	AddStacktrace("Core_Init_Load")
 
 	local debugFuncName = "Core_Init_Load"	
 	
@@ -157,6 +190,8 @@ function Core_Init_Load()
 	DoBasicFunction(Setup_WeatherSystems, debug_TFECore_FileName, debugFuncName.."/Setup_WeatherSystems")
 	DoBasicFunction(Setup_GlobalAbilities, debug_TFECore_FileName, debugFuncName.."/Setup_GlobalAbilities")
 
+	RemoveStacktrace()
+	
 end
 
 function Core_CheckForSecondaryScars()
@@ -203,7 +238,7 @@ end
 
 function DoCriticalFunction(_Func, _SentFromFunc, _FuncName)
 
-	AddStacktrace(_FuncName)
+	AddStacktrace("DoCriticalFunction")
 
 	local Success = true
 
@@ -224,7 +259,7 @@ end
 
 function DoBasicFunction(_Func, _SentFromFunc, _FuncName)
 	
-	AddStacktrace(_FuncName)
+	AddStacktrace("DoBasicFunction")
 
 	local Success = true
 
@@ -244,36 +279,37 @@ end
 
 function Core_MainLoop()
 	
-	if(g_PreviousMainLoopHasCompleted == false) then
-		return
-	end
-		
-	g_PreviousMainLoopHasCompleted = false
+	AddStacktrace("Core_MainLoop")
 
 	if(DoCriticalFunction(Set_UpdatedGameTime, debug_TFECore_FileName, "Core_MainLoop/Set_UpdatedGameTime")) then return end
-	--if(DoCriticalFunction(Set_AllSquads_Immediate, debug_TFECore_FileName, "Core_MainLoop/Set_AllSquads_Immediate")) then return end
-	Set_AllSquads_Immediate()
-	Set_AllEntities_Immediate()
+	if(DoCriticalFunction(Set_AllSquads_Immediate, debug_TFECore_FileName, "Core_MainLoop/Set_AllSquads_Immediate")) then return end
+	if(DoCriticalFunction(Set_AllEntities_Immediate, debug_TFECore_FileName, "Core_MainLoop/Set_AllEntities_Immediate")) then return end
 	if(DoCriticalFunction(Set_AllSquadCoverModifiers, debug_TFECore_FileName, "Core_MainLoop/Set_AllSquadCoverModifiers")) then return end
 	if(DoCriticalFunction(Set_PlayerUpkeep, debug_TFECore_FileName, "Core_MainLoop/Set_PlayerUpkeep")) then return end 
 	if(DoCriticalFunction(Set_ResourceMature, debug_TFECore_FileName, "Core_MainLoop/Set_ResourceMature")) then return end
 	if(DoCriticalFunction(Implement_UpkeepAndMature, debug_TFECore_FileName, "Core_MainLoop/Implement_UpkeepAndMature")) then return end
 	DoBasicFunction(Set_Weather, debug_TFECore_FileName, "Core_MainLoop/Set_Weather")
-	--DoBasicFunction(Update_GlobalAbilities, debug_TFECore_FileName, "Core_MainLoop/Update_GlobalAbilities")
-	Update_GlobalAbilities()
-	g_PreviousMainLoopHasCompleted = true	
+	DoBasicFunction(Update_GlobalAbilities, debug_TFECore_FileName, "Core_MainLoop/Update_GlobalAbilities")
+	
+	RemoveStacktrace()
 	
 end
 
 function ErrorPause()
 
+	AddStacktrace("ErrorPause")
+
 	g_ModRunning = false
 	Rule_RemoveAll()
+
+	RemoveStacktrace()
 
 end
 
 
 function Implement_UpkeepAndMature()
+
+	AddStacktrace("Implement_UpkeepAndMature")
 	
 	for i = 1, g_PlayerCount do
 		local Index = g_PlayerCount - i +1
@@ -332,20 +368,29 @@ function Implement_UpkeepAndMature()
 			WinWarning_Remove("UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex)
 
 		end
+
 	end
+	
+	RemoveStacktrace()
 
 end
 
---Not online synced!!
+--Not online synced!! We should probably never use this... 
 function ClearSelection() 
+
+	AddStacktrace("ClearSelection")
 
 	local g_EmptySGroupID = SGroup_CreateIfNotFound("emptySGroup")
 	W40k_SelectSGroup(g_EmptySGroupID)
 	
+	RemoveStacktrace()
+
 end
 
 --R_ENEMY, R_ALLY, R_NEUTRAL, R_UNDEFINED. 
 function GetAllPlayerRelationships(_player)
+
+	AddStacktrace("GetAllPlayerRelationships")
 
 	local debugFuncName = "GetAllPlayerRelationships"
 
@@ -372,6 +417,8 @@ function GetAllPlayerRelationships(_player)
 		end
 	end
 	
+	RemoveStacktrace()
 	return own, allies, enemies, neutral
+	
 end
 
