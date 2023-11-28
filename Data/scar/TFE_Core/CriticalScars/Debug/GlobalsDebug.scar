@@ -27,14 +27,24 @@ local StacktraceStack = {}
 
 local function GetLogType(_LogType)
 
+	AddStacktrace("GetLogType")
+
+	local ReturnValue = "nil"
+
 	if(_LogType > LogTypesLength) then
 
 		Log(eLOG_SIMPLE, eLOG_LOG_TYPE_WARNING, debug_GlobalsDebug_FileName, "GetLogType", "Log type of '".._LogType.."' is invalid! Number must be bellow "..LogTypesLength)
-		return "nil"
+
+	else
+
+		ReturnValue = LogTypes[0]
 
 	end
 
-	return LogTypes[0]
+	
+	RemoveStacktrace()
+	
+	return ReturnValue
 
 end
 
@@ -52,12 +62,19 @@ end
 
 function ClearStacktrace()
 
+	AddStacktrace("ClearStacktrace")
+
 	StacktracePath = "@"
 	StacktraceStack = {}
 
+	RemoveStacktrace()
+
 end
 
+--[[Get the full path as a string]]
 local function SetStacktracePath()
+
+	AddStacktrace("SetStacktracePath")
 
 	StacktracePath = "@"
 	for i = 1, table.getn(StacktraceStack) do
@@ -65,13 +82,21 @@ local function SetStacktracePath()
 		StacktracePath = StacktracePath.."/"..StacktraceStack[i]
 
 	end
-	--StacktracePath[1] = ""
+
+	RemoveStacktrace()
+
 end
 
 --Writes a custom log to the console
 function Log(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
+
+	AddStacktrace("Log")
+
 	SetStacktracePath()
+
 	print("("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) "..StacktracePath..":  ".._Line)
+
+	RemoveStacktrace()
 
 --[[
 	if(g_DebugMode) then
@@ -116,24 +141,26 @@ end
 --Writes a custom log to the console, if it hasn't been written before
 function LogOnce(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
 
+	AddStacktrace("LogOnce")
+	
 	local LogID = _Verbosity.._ModuleName.._FunctionName.._Line
 	contains, _ = TableContains(WrittenLogs, LogID)
 
-	if(contains) then 
-
-		return true 
-
-	else
+	if(!contains) then
 
 		table.insert(WrittenLogs, LogID)
 		Log(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
 
 	end
 	
+	RemoveStacktrace()
+
 end
 
 function LogError(_ModuleName, _FunctionName, _Line)
 	
+	AddStacktrace("LogError")
+
 	g_DebugMode = true --Error is so severe we should force debug on!
 	UIWarning_Show( "--------------------------------------------\n------TFE CORE FATAL ERROR------\n-----------CORE STOPPED------------\n--------------------------------------------" )
 	Log(eLOG_LOG_TYPE_CRITICAL, eLOG_FULL, _ModuleName, _FunctionName, _Line)
@@ -145,12 +172,18 @@ function LogError(_ModuleName, _FunctionName, _Line)
 	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "", "", "|")
 	ErrorPause()
 
+	RemoveStacktrace()
+
 end
 
 --This function will do something illegal that should warrant game to crash
 --Good to use this to check for thoroughness of error checking
 function DoFatalError()
 
+	AddStacktrace("DoFatalError")
+
 	print(""..{}.."")
+
+	RemoveStacktrace()
 
 end
