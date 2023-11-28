@@ -10,6 +10,8 @@ debug_EntityManager_FileName = "EntityManager_Core.scar"
 EntityData = {}
 function EntityData:new (_eGameID, _eGroupID, _eIndex, _eID, _eRace, _eBP)
 
+	AddStacktrace("EntityData:new")
+
     local EntityDataObject = 
     {
 		EntityUniqueID = _eGameID,	
@@ -22,11 +24,17 @@ function EntityData:new (_eGameID, _eGroupID, _eIndex, _eID, _eRace, _eBP)
 		EntityPosition = Entity_GetPosition(_eID),
 		EntityPositionInt = Entity_GetPosition(_eID)
 	}
+
 	self.__index = self
+
+	RemoveStacktrace()
+
 	return setmetatable(EntityDataObject, self)
 end
 
 function EntityData:Update()
+
+	AddStacktrace("EntityData:Update")
 
 	local privateUpdate = function()
 	
@@ -37,7 +45,10 @@ function EntityData:Update()
 
 	end
 
+	RemoveStacktrace()
+	
 	return pcall(privateUpdate)
+
 end
 
 ---------------
@@ -45,21 +56,32 @@ end
 ---------------
 function Setup_EntityManager()
 	
+	AddStacktrace("Setup_EntityManager")
+
 	Set_AllEntities_Immediate()
+
+	RemoveStacktrace()
 
 end
 
 function Set_AllEntities_Immediate()
 	
+	AddStacktrace("Set_AllEntities_Immediate")
+
 	for i = 1, g_PlayerCount do
 		
 		Set_PlayerEntities_Immediate(i)
 		
 	end
 
+	RemoveStacktrace()
+
 end
 
 function Set_PlayerEntities_Immediate(_PlayerIndex)	
+
+	AddStacktrace("Set_PlayerEntities_Immediate")
+
 	local debugFuncName = "Set_PlayerEntities_Immediate"
 	
 	g_LastEntityUpdateTime = g_WorldTime
@@ -74,12 +96,19 @@ function Set_PlayerEntities_Immediate(_PlayerIndex)
 		local newEntityGameID = Entity_GetGameID( _entityID )
 		local entityBP = Entity_GetBlueprintName( _entityID )			
 		
-		if(TableContains(g_EntityBlueprintToIgnore, entityBP)) then return false end
+		if(TableContains(g_EntityBlueprintToIgnore, entityBP)) then 
+
+			RemoveStacktrace()
+			return false 
+
+		end
 
 		--Should we keep this? are some entities ok to not have BP? unsure.
 		if(entityBP == nil) then 
 			--any point having this log if it's LogOnce?
 			LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_EntityManager_FileName, debugFuncName, "Can't add entity data, BP is nil!")
+
+			RemoveStacktrace()
 			return 
 
 		end
@@ -98,6 +127,7 @@ function Set_PlayerEntities_Immediate(_PlayerIndex)
 			if(g_AllEntityData[_PlayerIndex][l].EntityUniqueID == newEntityGameID) then
 						
 				--LogOnce(eLOG_TYPE_WARNING, eLOG_FULL, debug_EntityManager_FileName, debugFuncName, "Entity is already stored in data!")
+				RemoveStacktrace()
 				return false
 										
 			end
@@ -129,9 +159,14 @@ function Set_PlayerEntities_Immediate(_PlayerIndex)
 		
 	g_PlayerEntityCount[_PlayerIndex] = TableLength(g_AllEntityData[_PlayerIndex])
 		
+	RemoveStacktrace()
+
 end
 
 function Update_ExistingEntityDetails()
+	
+	AddStacktrace("Update_ExistingEntityDetails")
+
 	local debugFuncName = "Update_ExistingEntityDetails"
 	for i = 1, g_PlayerCount do
 		for l = 1, TableLength(g_AllEntityData[i]) do
@@ -152,10 +187,15 @@ function Update_ExistingEntityDetails()
 			end
 		end		
 	end
+
+	RemoveStacktrace()
+
 end
 
 
 function Get_EntityDataFromEntityBP(_EntityBP, _Player)
+
+	AddStacktrace("Get_EntityDataFromEntityBP")
 
 	local tbl_AllEntityOfBP = {}
 	local tbl_IndexOfAcceptedPositions = {}
@@ -169,31 +209,48 @@ function Get_EntityDataFromEntityBP(_EntityBP, _Player)
 		end
 	end
 
+	RemoveStacktrace()
+
 	return tbl_AllEntityOfBP, tbl_IndexOfAcceptedPositions
+
 end
 
 function DestroyEntityAndRemoveFromData(_Player, _EntityLocation)
 
+	AddStacktrace("DestroyEntityAndRemoveFromData")
+
 	local debugFuncName = "DestroyEntityAndRemoveFromData"
 	local PlayerIndex = _Player.PlayerIndex + 1
 	if(g_AllEntityData[PlayerIndex][_EntityLocation] == nil) then
+
 		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, debug_EntityManager_FileName, debugFuncName, "Entity is nil, cannot destroy and returning!")
-		return 
+
+	else
+
+		Entity_Destroy(g_AllEntityData[PlayerIndex][_EntityLocation].EntityID)
+		table.remove(g_AllEntityData[PlayerIndex][_EntityLocation])
+		
 	end
 
-	Entity_Destroy(g_AllEntityData[PlayerIndex][_EntityLocation].EntityID)
-	table.remove(g_AllEntityData[PlayerIndex][_EntityLocation])
+	RemoveStacktrace()
 
 end
 
 function Entity_Exists(_EntityID)
 
-	if Entity_GetGameID(_EntityID) ~= 0 then
-		print("ENTITY EXISTS!!")
-		return true
-	end
+	AddStacktrace("Entity_Exists")
+	
+	local EntityExists = false
 
-	print("ENTITY DOESN'T EXIST!!")
-	return false
+	if Entity_GetGameID(_EntityID) ~= 0 then
+
+		print("ENTITY EXISTS!!")
+		EntityExists = true
+		
+	end
+	
+	RemoveStacktrace()
+
+	return EntityExists
 
 end
