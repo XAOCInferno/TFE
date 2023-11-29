@@ -18,19 +18,30 @@ local UsedUniqueEntityIDs = {}
 ---------------
 function Setup_GlobalsStorage()
 
+	AddStacktrace("Setup_GlobalsStorage")
+
 	Set_UpdatedGameTime()
+
+	RemoveStacktrace()
 
 end
 
 function Set_UpdatedGameTime()
 
+	AddStacktrace("Set_UpdatedGameTime")
+
 	g_PreviousWorldTime = g_WorldTime
 	g_WorldTime = World_GetGameTime()
 	g_TimeSinceWorldTimeUpdate = g_WorldTime - g_PreviousWorldTime
 
+	RemoveStacktrace()
+	
 end
 
 function Setup_StrategicPoints()
+
+	AddStacktrace("Setup_StrategicPoints")
+
 	local debugFuncName = "Setup_StrategicPoints"
 	
 	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_GlobalsStorage_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
@@ -48,14 +59,22 @@ function Setup_StrategicPoints()
 	EGroup_Destroy("tmpAllStratPoints")
 	
 	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_GlobalsStorage_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+
+	RemoveStacktrace()
+
 end
 
 --Used to tell the difference between a time and the world time, EG: get how long something has been alive for
 function GetWorldLifetime(StartTime)
+
+	--Simple Getter functions don't need StackTrace
 	return g_WorldTime - StartTime
+
 end
 
 function GetUniqueSG(BaseSGName)
+
+	AddStacktrace("GetUniqueSG")
 
 	local debugFuncName = "GetUniqueSG"
 	
@@ -73,11 +92,14 @@ function GetUniqueSG(BaseSGName)
 	
 	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_GlobalsStorage_FileName, debugFuncName, "Assigned Unique Squad ID: "..UniqueSG)
 	
+	RemoveStacktrace()
 	return SGroup_Create(UniqueSG)
 	
 end
 
 function GetUniqueEG(BaseEGName)
+
+	AddStacktrace("GetUniqueEG")
 
 	local debugFuncName = "GetUniqueEG"
 	
@@ -94,6 +116,8 @@ function GetUniqueEG(BaseEGName)
 	table.insert(UsedUniqueEntityIDs,UniqueEG) 
 	
 	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_GlobalsStorage_FileName, debugFuncName, "Assigned Unique Entity ID: "..UniqueEG)
+	
+	RemoveStacktrace()
 	
 	return EGroup_Create(UniqueEG)
 	
