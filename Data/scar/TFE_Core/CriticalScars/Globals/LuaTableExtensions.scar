@@ -2,7 +2,7 @@ debug_LuaTableExtensions_FileName = "LuaTableExtensions"
 
 function TableClear(_Tbl)
 
-	AddStacktrace("TableClear")
+	pcall(AddStacktrace, "TableClear")
 
 	for i in pairs (_Tbl) do
 
@@ -10,14 +10,14 @@ function TableClear(_Tbl)
 
 	end
 
-	RemoveStacktrace()
+	pcall(RemoveStacktrace)
 
 end
 
 
 function TableHasItemAtPositionOrID(_Tbl, _ItemPositionOrID)
-	
-	AddStacktrace("TableHasItemAtPositionOrID")
+
+	pcall(AddStacktrace, "TableHasItemAtPositionOrID")
 
 	local debugFuncName = "TableHasItemAtPositionOrID"
 
@@ -37,7 +37,7 @@ function TableHasItemAtPositionOrID(_Tbl, _ItemPositionOrID)
 
 	end
 	
-	RemoveStacktrace()
+	pcall(RemoveStacktrace)
 
 	return ReturnNoErrorNorNil
 
@@ -46,7 +46,7 @@ end
 
 function TableContains(_Tbl, _Desired)
 
-	AddStacktrace("TableHasItemAtPositionOrID")
+	pcall(AddStacktrace, "TableHasItemAtPositionOrID")
 
 	local debugFuncName = "TableContains"
 
@@ -73,7 +73,7 @@ function TableContains(_Tbl, _Desired)
 
 	end
 
-	RemoveStacktrace()
+	pcall(RemoveStacktrace)
 
 	return Success, ReturnIndex
 
@@ -81,8 +81,8 @@ end
 
 
 function TableRemoveDuplicates(_BaseTbl, _CompareTbl)
-	
-	AddStacktrace("TableRemoveDuplicates")
+
+	pcall(AddStacktrace, "TableRemoveDuplicates")
 
 	local debugFuncName = "TableRemoveDuplicates"
 	
@@ -110,7 +110,7 @@ function TableRemoveDuplicates(_BaseTbl, _CompareTbl)
 
 	end
 	
-	RemoveStacktrace()
+	pcall(RemoveStacktrace)
 
 	return _BaseTbl
 

@@ -146,7 +146,7 @@ function LogOnce(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
 	local LogID = _Verbosity.._ModuleName.._FunctionName.._Line
 	contains, _ = TableContains(WrittenLogs, LogID)
 
-	if(!contains) then
+	if(contains == false) then
 
 		table.insert(WrittenLogs, LogID)
 		Log(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
