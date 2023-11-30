@@ -3,7 +3,9 @@ debug_ResUpkeepCore_FileName = "ResUpkeep_Core"
 
 function Setup_UpkeepSystem()
 	
-	local debugFuncName = "ActivateUpkeepSystem"
+	AddStacktrace("Setup_UpkeepSystem")
+
+	local debugFuncName = "Setup_UpkeepSystem"
 		
 	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_ResUpkeepCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 
@@ -17,11 +19,15 @@ function Setup_UpkeepSystem()
 	
 	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_ResUpkeepCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 
+	RemoveStacktrace()
+
 end
 
 
 function Set_PlayerUpkeep()
 	
+	AddStacktrace("Set_PlayerUpkeep")
+
 	local debugFuncName = "Set_PlayerUpkeep"	
 	
 	for i = 1, g_PlayerCount do
@@ -108,6 +114,8 @@ function Set_PlayerUpkeep()
 		end	
 
 	end
+
+	RemoveStacktrace()
 
 end
 

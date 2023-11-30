@@ -12,6 +12,8 @@ g_ModsByCover = {}
 
 function Setup_CoverModifiers()
 
+	AddStacktrace("Setup_CoverModifiers")
+
 	--Generic shield modifier to show you're in cover, to be replaced later with a special verticality one
 	mod_PositiveCover = Modifier_Create(MAT_Squad, "cover_event_modifier", MUT_Enable, 1, 1, "")
 	table.insert(SquadModifiers, mod_PositiveCover)
@@ -146,10 +148,15 @@ function Setup_CoverModifiers()
 		}
 	}
 
+	RemoveStacktrace()
+
 end
 
 
 function Setup_NewCoverSystem()	
+
+	AddStacktrace("Setup_NewCoverSystem")
+
 	local debugFuncName = "Setup_NewCoverSystem"
 	
 	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_NewCoverSystems_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
@@ -158,9 +165,13 @@ function Setup_NewCoverSystem()
 	
 	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_NewCoverSystems_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 	
+	RemoveStacktrace()
+
 end
 
 function IsSquadInvalid(TargetSquad)
+
+	AddStacktrace("IsSquadInvalid")
 
 	local debugFuncName = "IsSquadInvalid"
 
@@ -189,6 +200,8 @@ function IsSquadInvalid(TargetSquad)
 		
 	end
 
+	RemoveStacktrace()
+
 	return CriticalError
 
 end
@@ -196,63 +209,75 @@ end
 
 function CalculateSquadCoverModifiersAndApply(TargetSquad)
 
+	AddStacktrace("CalculateSquadCoverModifiersAndApply")
+
 	local debugFuncName = "CalculateSquadCoverModifiersAndApply"
 	
+	--Should this squad is invalid check be outside the function?
+	if(IsSquadInvalid(TargetSquad) == false) then
 
-	if(IsSquadInvalid(TargetSquad)) then
-		return
-	end	
+		local ModsToAdd = {}
+		local ModsToRemove = {}	
 
-	local ModsToAdd = {}
-	local ModsToRemove = {}	
-
-	CoverID = Squad_GetCoverType(TargetSquad.SquadID, 0 )
-		
-	for key, coverMods in pairs(g_ModsByCover) do
-		
-		for modKey, mod in pairs(coverMods) do
+		CoverID = Squad_GetCoverType(TargetSquad.SquadID, 0 )
 			
-			local keyOffset = key-1	
-			if(mod == nil) then
-				
-				LogOnce(eLOG_LOG_TYPE_ERROR, eLOG_VERBOSE, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..modKey.." Is Nil! Cannot Add.")
-				
-			else
-				local containsSquad, _ = TableContains(TargetSquad.SquadAppliedCoverMods, mod)
-				if(keyOffset == CoverID) then
+		for key, coverMods in pairs(g_ModsByCover) do
 			
-					local contains, _ = TableContains(ModsToAdd, mod)
-					if(contains == false and containsSquad == false) then
+			for modKey, mod in pairs(coverMods) do
+				
+				local keyOffset = key-1	
+				
+				if(mod == nil) then
 					
-						table.insert(ModsToAdd, mod)	
-						
-					end   
+					LogOnce(eLOG_LOG_TYPE_ERROR, eLOG_VERBOSE, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..modKey.." Is Nil! Cannot Add.")
 					
 				else
 
-					local contains, _ = TableContains(ModsToRemove, mod)
-					if(contains == false and containsSquad == true) then
-					
-						table.insert(ModsToRemove, mod)
+					local containsSquad, _ = TableContains(TargetSquad.SquadAppliedCoverMods, mod)
+
+					if(keyOffset == CoverID) then
+				
+						local contains, _ = TableContains(ModsToAdd, mod)
+
+						if(contains == false and containsSquad == false) then
 						
+							table.insert(ModsToAdd, mod)	
+							
+						end   
+						
+					else
+
+						local contains, _ = TableContains(ModsToRemove, mod)
+
+						if(contains == false and containsSquad == true) then
+						
+							table.insert(ModsToRemove, mod)
+							
+						end
+
 					end
+						
+				end	
+											
+			end					
+			
+			--Remove mod if we are about to apply it	
+			ModsToRemove = TableRemoveDuplicates(ModsToRemove, ModsToAdd)
 
-				end
-					
-			end	
-										
-		end					
-		
-		--Remove mod if we are about to apply it	
-		ModsToRemove = TableRemoveDuplicates(ModsToRemove, ModsToAdd)
+			--Do remove and apply modifier logic
+			Set_CoverModifiers(TargetSquad, ModsToRemove, ModsToAdd)	
 
-		--Do remove and apply modifier logic
-		Set_CoverModifiers(TargetSquad, ModsToRemove, ModsToAdd)	
-
+		end
 	end
+
+	RemoveStacktrace()
+
 end
 
 function Set_AllSquadCoverModifiers()
+
+	AddStacktrace("Set_AllSquadCoverModifiers")
+
 	local debugFuncName = "Set_AllSquadCoverModifiers"
 
 	for i = 1, g_PlayerCount do
@@ -265,14 +290,21 @@ function Set_AllSquadCoverModifiers()
 					
 	   	end		
 	end
+
+	RemoveStacktrace()
+
 end
 
 
 function Set_CoverModifiers(TargetSquad, ModsToRemove, ModsToAdd)
+	
+	AddStacktrace("Set_CoverModifiers")
+
 	local debugFuncName = "Set_CoverModifiers"
 					
 	--REMOVE--
 	for debugRemovePos, removeMod in pairs(ModsToRemove) do
+
 		if(removeMod == nil) then
 			
 			LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugRemovePos.." Is Nil! Cannot Remove.")
@@ -295,6 +327,7 @@ function Set_CoverModifiers(TargetSquad, ModsToRemove, ModsToAdd)
 	
 	--APPLY--
 	for debugAddPos, addMod in pairs(ModsToAdd) do
+
 		if(addMod == nil) then
 			
 			LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..debugAddPos.." Is Nil! Cannot Add.")
@@ -315,38 +348,53 @@ function Set_CoverModifiers(TargetSquad, ModsToRemove, ModsToAdd)
 			
 		end			
 	end	
+
+	RemoveStacktrace()
+
 end
 
 
 function RemoveCoverMod(removeMod, tmpStruct, modIndex)
 
+	AddStacktrace("RemoveCoverMod")
+
 	local debugFuncName = "RemoveCoverMod"	
+	local functionSuccess = false
+
 	if (Modifier_Exists(tmpStruct.SquadAppliedCoverMods_IDs[modIndex])) then
 	
-		local functionSuccess = pcall(Modifier_Remove, tmpStruct.SquadAppliedCoverMods_IDs[modIndex])
-		
-		if (functionSuccess == false) then 
-
-			LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..modIndex.." Can't be removed for unknown reason! Triggered pcall.")
-			return 
-
-		end
+		functionSuccess = pcall(Modifier_Remove, tmpStruct.SquadAppliedCoverMods_IDs[modIndex])		
 		
 	end
 	
-	table.remove(tmpStruct.SquadAppliedCoverMods, modIndex)
-	table.remove(tmpStruct.SquadAppliedCoverMods_IDs, modIndex)
-	table.remove(tmpStruct.SquadAppliedCoverMods_Index, modIndex)
+	if (functionSuccess == true) then 
+
+		table.remove(tmpStruct.SquadAppliedCoverMods, modIndex)
+		table.remove(tmpStruct.SquadAppliedCoverMods_IDs, modIndex)
+		table.remove(tmpStruct.SquadAppliedCoverMods_Index, modIndex)
+
+	else
+
+		LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..modIndex.." Can't be removed for unknown reason! Triggered pcall.") 
+
+	end
+
+	RemoveStacktrace()
 
 end
 
 
 function ApplyCoverMod(addMod, tmpStruct, modIndex)
 
+	AddStacktrace("ApplyCoverMod")
+
 	local debugFuncName = "ApplyCoverMod"	
+
 	if (ModifierUtil_GetSquadApplierIndex( addMod, tmpStruct.SquadID ) == 0) then
+
 		-- Apply modifier
 		local functionSuccess, tmpModID = pcall(Modifier_ApplyToSquad, addMod, tmpStruct.SquadID)
+
 		if (functionSuccess == false) then 
 			
 			LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, debug_NewCoverSystems_FileName, debugFuncName, "Cover mod at pos: "..modIndex.." Can't be added for unknown reason! Triggered pcall.")
@@ -363,5 +411,8 @@ function ApplyCoverMod(addMod, tmpStruct, modIndex)
 		table.insert(tmpStruct.SquadAppliedCoverMods_Index, tmpModIndex)	
 
 	end
+
+	RemoveStacktrace()
+
 end
 

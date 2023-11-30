@@ -4,6 +4,8 @@ import("TFE_Core/Subscars/Resources/AutoGenResources/PassiveResourceGeneration_S
 
 function Setup_PassiveResourceGeneration()
 
+	AddStacktrace("Setup_PassiveResourceGeneration")
+
 	local debugFuncName = "Setup_PassiveResourceGeneration"
 
 	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_PassiveResourceGeneration_Core_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
@@ -18,12 +20,18 @@ function Setup_PassiveResourceGeneration()
 	
 	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_PassiveResourceGeneration_Core_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 	
+	RemoveStacktrace()
+
 end
 
 
 function Set_PassiveResources()
 
+	AddStacktrace("Set_PassiveResources")
+
 	local AddResources = function()
+
+		AddStacktrace("AddResources")
 			
 		for i = 1, g_PlayerCount do
 		
@@ -44,6 +52,8 @@ function Set_PassiveResources()
 			end
 		
 		end
+
+		RemoveStacktrace()
 		
 	end
 	
@@ -52,5 +62,7 @@ function Set_PassiveResources()
 		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, debug_PassiveResourceGeneration_Core_FileName, "Set_PassiveResources", "Cannot add passive resources!")
 
 	end
+
+	RemoveStacktrace()
 	
 end

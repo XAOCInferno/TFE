@@ -2,6 +2,8 @@ debug_ResMatureCore_FileName = "ResMature_Core"
 
 function Setup_MatureSystem()
 
+	AddStacktrace("Setup_MatureSystem")
+
 	local debugFuncName = "Setup_MatureSystem"
 	
 	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_ResMatureCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
@@ -10,9 +12,13 @@ function Setup_MatureSystem()
 	
 	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_ResMatureCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
 
+	RemoveStacktrace()
+
 end
 
 local function Get_StrategicPointsStatus()
+
+	AddStacktrace("Get_StrategicPointsStatus")
 
 	for i = 1, g_NumberStratPoints do
 		--[[Firstly check if control has switched.]]
@@ -37,9 +43,14 @@ local function Get_StrategicPointsStatus()
 		end
 
 	end
+	
+	RemoveStacktrace()
+
 end
 
 function Set_ResourceMature()
+
+	AddStacktrace("Set_ResourceMature")
 
 	Get_StrategicPointsStatus()
 
@@ -105,5 +116,7 @@ function Set_ResourceMature()
 		end
 
 	end	
+
+	RemoveStacktrace()
 
 end
