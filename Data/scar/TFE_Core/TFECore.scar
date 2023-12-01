@@ -176,22 +176,33 @@ function Core_Init_Load()
 	AddStacktrace("Core_Init_Load")
 
 	local debugFuncName = "Core_Init_Load"	
-	
-	if(DoCriticalFunction(Core_GetAllPlayers, debug_TFECore_FileName, debugFuncName.."/Core_GetAllPlayers")) then return end
-	if(DoBasicFunction(Setup_AlphaLegion, debug_TFECore_FileName, debugFuncName.."/Setup_AlphaLegion")) then Log(2, 0, debug_TFECore_FileName, debugFuncName, "Alpha Legion failed to setup!")  end
-	if(DoCriticalFunction(Setup_PassiveResourceGeneration, debug_TFECore_FileName, debugFuncName.."/Setup_PassiveResourceGeneration")) then return end
-	if(DoCriticalFunction(Setup_EntityManager, debug_TFECore_FileName, debugFuncName.."/Setup_EntityManager")) then return end
-	if(DoCriticalFunction(Setup_SquadManager, debug_TFECore_FileName, debugFuncName.."/Setup_SquadManager")) then return end
-	if(DoCriticalFunction(Setup_GlobalsStorage, debug_TFECore_FileName, debugFuncName.."/Setup_GlobalsStorage")) then return end
-	if(DoCriticalFunction(Setup_StrategicPoints, debug_TFECore_FileName, debugFuncName.."/Setup_StrategicPoints")) then return end
-	if(DoCriticalFunction(Setup_MatureSystem, debug_TFECore_FileName, debugFuncName.."/Setup_MatureSystem")) then return end
-	if(DoCriticalFunction(Setup_UpkeepSystem, debug_TFECore_FileName, debugFuncName.."/Setup_UpkeepSystem")) then return end
-	if(DoCriticalFunction(Setup_NewCoverSystem, debug_TFECore_FileName, debugFuncName.."/Setup_NewCoverSystem")) then return end
+	Core_GetAllPlayers()
+	--if(DoCriticalFunction(Core_GetAllPlayers, debug_TFECore_FileName, debugFuncName.."/Core_GetAllPlayers")) then return false end
+	Setup_AlphaLegion()
+	--if(DoBasicFunction(Setup_AlphaLegion, debug_TFECore_FileName, debugFuncName.."/Setup_AlphaLegion")) then Log(2, 0, debug_TFECore_FileName, debugFuncName, "Alpha Legion failed to setup!") end
+	Setup_PassiveResourceGeneration()
+	--if(DoCriticalFunction(Setup_PassiveResourceGeneration, debug_TFECore_FileName, debugFuncName.."/Setup_PassiveResourceGeneration")) then return false end
+	Setup_EntityManager()
+	--if(DoCriticalFunction(Setup_EntityManager, debug_TFECore_FileName, debugFuncName.."/Setup_EntityManager")) then return false end
+	Setup_SquadManager()
+	--if(DoCriticalFunction(Setup_SquadManager, debug_TFECore_FileName, debugFuncName.."/Setup_SquadManager")) then return false end
+	Setup_GlobalsStorage()
+	--if(DoCriticalFunction(Setup_GlobalsStorage, debug_TFECore_FileName, debugFuncName.."/Setup_GlobalsStorage")) then return false end
+	Setup_StrategicPoints()
+	--if(DoCriticalFunction(Setup_StrategicPoints, debug_TFECore_FileName, debugFuncName.."/Setup_StrategicPoints")) then return false end
+	Setup_MatureSystem()
+	--if(DoCriticalFunction(Setup_MatureSystem, debug_TFECore_FileName, debugFuncName.."/Setup_MatureSystem")) then return false end
+	Setup_UpkeepSystem()
+	--if(DoCriticalFunction(Setup_UpkeepSystem, debug_TFECore_FileName, debugFuncName.."/Setup_UpkeepSystem")) then return false end
+	Setup_NewCoverSystem()
+	--if(DoCriticalFunction(Setup_NewCoverSystem, debug_TFECore_FileName, debugFuncName.."/Setup_NewCoverSystem")) then return false end
 	DoBasicFunction(Setup_WeatherSystems, debug_TFECore_FileName, debugFuncName.."/Setup_WeatherSystems")
 	DoBasicFunction(Setup_GlobalAbilities, debug_TFECore_FileName, debugFuncName.."/Setup_GlobalAbilities")
 
 	RemoveStacktrace()
-	
+
+	return true	
+
 end
 
 function Core_CheckForSecondaryScars()

@@ -18,7 +18,7 @@ LogTypes[0] = "i" --Basic Log
 LogTypes[1] = "?" --Concern / Warning
 LogTypes[2] = "!!" --Basic Error
 LogTypes[3] = "!!!!" --Severe Error
-local LogTypesLength = TableLength(LogTypes)
+local LogTypesLength = table.getn(LogTypes)
 
 local WrittenLogs = {}
 
@@ -137,14 +137,48 @@ function Log(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
 ]]
 end
 
+local TableContainsOverride = function(_Tbl, _Desired)
+
+	pcall(AddStacktrace, "TableContainsOverride")
+
+	local debugFuncName = "TableContainsOverride"
+
+	local ReturnIndex = 0
+	local Success = false
+
+	if(_Tbl ~= nil) then 
+
+		for index, item in pairs (_Tbl) do
+
+	    	if(item == _Desired) then
+
+				Success = true
+				ReturnIndex = index
+				break
+
+	    	end
+
+		end
+
+	else	
+
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_LuaTableExtensions_FileName, debugFuncName,  "Table is nil, returning false as default.")
+
+	end
+
+	pcall(RemoveStacktrace)
+
+	return Success, ReturnIndex
+
+end
 
 --Writes a custom log to the console, if it hasn't been written before
 function LogOnce(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
-
+	
 	AddStacktrace("LogOnce")
 	
 	local LogID = _Verbosity.._ModuleName.._FunctionName.._Line
-	contains, _ = TableContains(WrittenLogs, LogID)
+	contains, _ = TableContainsOverride(WrittenLogs, LogID)
 
 	if(contains == false) then
 

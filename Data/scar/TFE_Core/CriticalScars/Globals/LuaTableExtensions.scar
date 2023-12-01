@@ -46,7 +46,7 @@ end
 
 function TableContains(_Tbl, _Desired)
 
-	pcall(AddStacktrace, "TableHasItemAtPositionOrID")
+	pcall(AddStacktrace, "TableContains")
 
 	local debugFuncName = "TableContains"
 

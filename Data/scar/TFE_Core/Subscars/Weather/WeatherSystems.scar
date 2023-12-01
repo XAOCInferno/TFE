@@ -301,7 +301,7 @@ function TornadoIfIdleMove(tornado)
 
 	AddStacktrace("TornadoIfIdleMove")
 	
-	if(SGroup_Exists(tornado.SquadGroupName) == true && SGroup_CheckActiveCommand( tornado.SquadGroupName, SQUADSTATEID_Move, true) == false) then
+	if(SGroup_Exists(tornado.SquadGroupName) == true and SGroup_CheckActiveCommand( tornado.SquadGroupName, SQUADSTATEID_Move, true) == false) then
 
 		SetTornadoDestination(tornado)
 
@@ -348,7 +348,7 @@ function Util_CreateSquadsAtCustomMarkerEx(playerId, squadgroupName, squadBluepr
 
 	AddStacktrace("Util_CreateSquadsAtCustomMarkerEx")
 
-	return Util_CreateSquadsAtPositionEx( 
+	local newSquad = Util_CreateSquadsAtPositionEx( 
 		playerId,
 		squadgroupName,
 		squadBlueprint,
@@ -358,6 +358,8 @@ function Util_CreateSquadsAtCustomMarkerEx(playerId, squadgroupName, squadBluepr
 	)
 
 	RemoveStacktrace()
+
+	return newSquad
 
 end
 

@@ -3,7 +3,6 @@
 ---------
 debug_GlobalsStorage_FileName = "GlobalsStorage.scar"
 
-
 --------------------
 --Settings imports--
 --------------------
@@ -75,7 +74,6 @@ end
 function GetUniqueSG(BaseSGName)
 
 	AddStacktrace("GetUniqueSG")
-
 	local debugFuncName = "GetUniqueSG"
 	
 	BaseSGName = BaseSGName or "UniqueSG."
