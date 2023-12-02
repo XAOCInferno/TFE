@@ -14,7 +14,7 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
 GameData["cost_ext"]["time_cost"]["cost"]["power"] = 45
-GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 120
+GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 110
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
 GameData["cost_ext"]["time_cost"]["time_seconds"] = 40
 GameData["cover_ext"] = Reference([[ebpextensions\cover_ext.lua]])
@@ -454,7 +454,7 @@ GameData["health_ext"]["armour"] = 100
 GameData["health_ext"]["can_be_repaired"] = true 
 GameData["health_ext"]["death_event"] = [[unit_death_events/sink_into_ground]]
 GameData["health_ext"]["display_health_bar"] = true 
-GameData["health_ext"]["hitpoints"] = 800
+GameData["health_ext"]["hitpoints"] = 750
 GameData["health_ext"]["keep_persistent_body"] = false
 GameData["health_ext"]["poison_event"] = [[art\events\Chaos\BiotoxBomb_aura_Large]]
 GameData["health_ext"]["poison_spread_delay"] = 2
