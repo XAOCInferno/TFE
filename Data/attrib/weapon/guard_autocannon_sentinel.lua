@@ -37,7 +37,7 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_06"]["armour_piercing_value"] = 50
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_06"]["armour_type"] = Reference([[type_armour\tp_vehicle_low.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_06"]["armour_type"]["screen_name_id"] = [[$90107]] -- Vehicle
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_07"]["armour_piercing_value"] = 45
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_07"]["armour_piercing_value"] = 40
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_07"]["armour_type"] = Reference([[type_armour\tp_vehicle_med.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_07"]["armour_type"]["screen_name_id"] = [[$90107]] -- Vehicle
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_08"]["armour_piercing_value"] = 12.5
@@ -145,7 +145,7 @@ GameData["kill_enemy_at_percent_life_target_filter"]["entry_13"]["screen_name_id
 GameData["kill_enemy_at_percent_life_target_filter"]["entry_14"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["kill_enemy_at_percent_life_target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["linger_on_target_after_fire_time"] = 0
-GameData["max_range"] = 29.75
+GameData["max_range"] = 29
 GameData["max_traverse_down"] = -40
 GameData["max_traverse_left"] = -1
 GameData["max_traverse_right"] = 1
@@ -165,7 +165,7 @@ GameData["raider_weapon_index"] = 0
 GameData["random_aim_on_create"] = false
 GameData["rear_facing"] = false
 GameData["reload_show_progress"] = false
-GameData["reload_time"] = 1.2
+GameData["reload_time"] = 1.4
 GameData["setup_time"] = 0
 GameData["shot_delay_time"] = 0
 GameData["show_in_reinforce"] = false
