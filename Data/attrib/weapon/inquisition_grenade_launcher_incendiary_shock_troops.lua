@@ -7,7 +7,7 @@ GameData["area_effect"]["area_effect_information"]["area_effect_events"]["grass"
 GameData["area_effect"]["area_effect_information"]["area_effect_events"]["rock"] = [[Sisters\PhosphorGrenade_Impact]]
 GameData["area_effect"]["area_effect_information"]["area_effect_events"]["water"] = [[Sisters\PhosphorGrenade_Impact]]
 GameData["area_effect"]["area_effect_information"]["area_type"] = Reference([[type_areaeffect\tp_area_effect_circle.lua]])
-GameData["area_effect"]["area_effect_information"]["radius"] = 9
+GameData["area_effect"]["area_effect_information"]["radius"] = 7
 GameData["area_effect"]["area_effect_information"]["remove_modifiers_with_source_entity"] = true 
 GameData["area_effect"]["area_effect_information"]["start_from_caster"] = false
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_01"]["screen_name_id"] = [[$90100]] -- Armour
@@ -71,8 +71,8 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_15"]["armour_type"] = Reference([[type_armour\tp_air_med.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_15"]["armour_type"]["screen_name_id"] = [[$4450037]] -- Aircraft
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 46
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 38
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 26
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 18
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 8
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 18.75
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_01"]["max_lifetime"] = 10
@@ -80,7 +80,6 @@ GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_01"]["modifier"]
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_01"]["modifier"]["exclusive"] = false 
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_01"]["modifier"]["shield_of_faith"] = false
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_01"]["modifier"]["usage_type"] = Reference([[type_modifierusagetype\tp_mod_usage_addition.lua]])
-GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_01"]["max_lifetime"] = 1.5
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_02"]["max_lifetime"] = 3
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_02"]["modifier"] = Reference([[modifiers\flamer_hit_event.lua]])
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_02"]["modifier"]["shield_of_faith"] = false
