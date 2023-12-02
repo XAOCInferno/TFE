@@ -32,10 +32,10 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_01"
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\ork_big_shoota_trukk.lua]]
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
-GameData["cost_ext"]["time_cost"]["cost"]["power"] = 90
-GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 145
+GameData["cost_ext"]["time_cost"]["cost"]["power"] = 55
+GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 120
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
-GameData["cost_ext"]["time_cost"]["time_seconds"] = 30
+GameData["cost_ext"]["time_cost"]["time_seconds"] = 27
 GameData["cover_ext"] = Reference([[ebpextensions\cover_ext.lua]])
 GameData["cover_ext"]["cover_blocking"]["modifiers"]["modifier_01"]["shield_of_faith"] = false
 GameData["cover_ext"]["cover_blocking"]["modifiers"]["modifier_02"]["shield_of_faith"] = false

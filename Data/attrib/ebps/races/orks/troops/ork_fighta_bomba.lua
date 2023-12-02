@@ -47,7 +47,7 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_04"]["weapon_table"]["weapon_01"
 GameData["combat_ext"]["hardpoints"]["hardpoint_04"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\ork_big_shoota_fighta_bomba_rear_gun.lua]]
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
-GameData["cost_ext"]["time_cost"]["cost"]["power"] = 300
+GameData["cost_ext"]["time_cost"]["cost"]["power"] = 280
 GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 150
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
 GameData["cost_ext"]["time_cost"]["time_seconds"] = 42
