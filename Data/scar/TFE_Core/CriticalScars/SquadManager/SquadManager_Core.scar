@@ -1,8 +1,3 @@
----------
---DEBUG--
----------
-debug_SquadManager_FileName = "SquadManager_Core.scar"
-
 ----------------------
 --Class Constructors--
 ----------------------
@@ -15,16 +10,22 @@ function StrategicPoint:new (_ID, _OwnedBy, _InitTime)
 	    OwnedBy = _OwnedBy,
 	    InitTime = _InitTime
     }
+
 	self.__index = self
     return setmetatable(StrategicPointObject, self)
+
 end
 
 
 SquadData = {}
 function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _player)
+
+	AddStacktrace("SquadData:new")
+
 	local tmpSGroupID = GetUniqueSG("SquadData")
 	local tmpSGroupName = SGroup_GetName(tmpSGroupID)
 	SGroup_Add(tmpSGroupID, _sID)
+
     local SquadDataObject = 
     {
 		SquadUniqueID = _sGameID,	
@@ -55,12 +56,19 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		PreviouslyAttackedByPlayers = {},
 		PreviouslyAttackedTime = 0
 	}
+
 	self.__index = self
+
+	RemoveStacktrace()
+
 	return setmetatable(SquadDataObject, self)
+
 end
 
 function SquadData:Update(_self)
 		
+	AddStacktrace("SquadData:Update")
+
 	_self.SquadLoadout = Squad_Count(_self.SquadID)
 	_self.SquadHasLeader = Squad_HasLeader(_self.SquadID)
 	_self.SquadLeaderCount = Squad_CountLeaders(_self.SquadID)
@@ -69,6 +77,8 @@ function SquadData:Update(_self)
 	_self.OwnedByPlayer = Squad_GetPlayerOwner(_self.SquadID)
 	_self.IsSelected_Unsynced = Misc_IsSquadSelected(_self.SquadID) --Not online synced!
 
+	RemoveStacktrace()
+
 end
 
 ---------------
@@ -76,86 +86,126 @@ end
 ---------------
 function Setup_SquadManager()
 	
+	AddStacktrace("Setup_SquadManager")
+
 	Set_AllSquads_Immediate()
+
+	RemoveStacktrace()
 
 end
 
 function Set_AllSquads_Immediate()
 	
+	AddStacktrace("Set_AllSquads_Immediate")
+
 	for i = 1, g_PlayerCount do
 		
 		Set_PlayerSquads_Immediate(i)
 		
 	end
 
+	RemoveStacktrace()
+
 end
 
 function Set_PlayerSquads_Immediate(_PlayerIndex)	
-	local debugFuncName = "UpdatePlayerSquads_Immediate"
-	
-	--We should only run the squad checker if the player is alive
-	if (not Player_IsAlive(g_AllPlayers[_PlayerIndex].Player)) then			
-		return nil					
-	end
-				
+
+	AddStacktrace("Set_PlayerSquads_Immediate")
+					
 	local AddSGroupData = function(_sgroupid, _itemindex, _squadID)
 		
+		AddStacktrace("AddSGroupData")
+
 		local newSquadGameID = Squad_GetGameID( _squadID )
 		local squadBP = Squad_GetBlueprintName( _squadID )			
-		
-		if(TableContains(g_SquadBlueprintToIgnore, squadBP)) then return false end
+		local addNewSquadData = true
+		local criticalError = false
 
-		if(squadBP == nil) then 
+		if(TableContains(g_SquadBlueprintToIgnore, squadBP)) then 
 
-			LogOnce(1, 0, debug_SquadManager_FileName, debugFuncName, "Can't add squad data, BP is nil!")
-			return 
+			criticalError = true
 
 		end
+
+		if(squadBP ~= nil) then
 		
-		for l = 1, TableLength(g_AllSquadsData[_PlayerIndex]) do
+			for l = 1, TableLength(g_AllSquadsData[_PlayerIndex]) do
 
-			if(g_AllSquadsData[_PlayerIndex][l] == nil) then
+				--Do we need this functionality here? It should probably be in a seperate Update.
+				if(g_AllSquadsData[_PlayerIndex][l] == nil) then
 
-				table.remove(g_AllSquadsData[_PlayerIndex], l)	
-				--I don't think we need to return here?
-				--return false
+					table.remove(g_AllSquadsData[_PlayerIndex], l)	
+					--I don't think we need to return here?
+					--return false
 
-			end
-			
-			if(g_AllSquadsData[_PlayerIndex][l].SquadUniqueID == newSquadGameID) then
-						
-				return false
-										
-			end
-		end		
-			
-		--Might need to create a unique sgroupid later...
-		local tmpData = SquadData:new( newSquadGameID, _sgroupid, _itemindex, _squadID, g_AllPlayers[_PlayerIndex].RaceDetails.RaceName, squadBP, g_AllPlayers[_PlayerIndex])
-		table.insert(g_AllSquadsData[_PlayerIndex], tmpData)	
-			
-	end
-
-	Update_ExistingSquadDetails()		
-	SGroup_ForEachEx(Player_GetSquads(g_AllPlayers[_PlayerIndex].Player), AddSGroupData, true, false)				
-	
-	for k = 1, TableLength(g_AllSquadsData[_PlayerIndex]) do
-		if(g_AllSquadsData[_PlayerIndex][k] ~= nil) then
-			
-			local shouldIgnore, _ = TableContains(g_SquadBlueprintToIgnore, g_AllSquadsData[_PlayerIndex][k].SquadBlueprint)
-			if(g_AllSquadsData[_PlayerIndex][k].SquadBlueprint == nil or g_AllSquadsData[_PlayerIndex][k].SquadLoadout == 0 or shouldIgnore) then
-
-				table.remove(g_AllSquadsData[_PlayerIndex], k)
+				end
 				
+				if(g_AllSquadsData[_PlayerIndex][l].SquadUniqueID == newSquadGameID) then
+							
+					criticalError = true
+					break
+											
+				end
+
 			end
+
+		else
+
+			LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Can't add squad data, BP is nil!")
+			criticalError = true
+
+		end		
+		
+		if(criticalError == false) then
+
+			--Might need to create a unique sgroupid later...
+			local tmpData = SquadData:new( newSquadGameID, _sgroupid, _itemindex, _squadID, g_AllPlayers[_PlayerIndex].RaceDetails.RaceName, squadBP, g_AllPlayers[_PlayerIndex])
+			table.insert(g_AllSquadsData[_PlayerIndex], tmpData)	
+
 		end
+
+		RemoveStacktrace()
+
 	end
+
+
+	
+	--We should only run the squad checker if the player is alive
+	if (Player_IsAlive(g_AllPlayers[_PlayerIndex].Player)) then
+
+		Update_ExistingSquadDetails()		
+		SGroup_ForEachEx(Player_GetSquads(g_AllPlayers[_PlayerIndex].Player), AddSGroupData, true, false)				
 		
-	g_PlayerSquadCount[_PlayerIndex] = Player_GetActiveSquadCount(g_AllPlayers[_PlayerIndex].Player)
-		
+		for k = 1, TableLength(g_AllSquadsData[_PlayerIndex]) do
+
+			if(g_AllSquadsData[_PlayerIndex][k] ~= nil) then
+				
+				local shouldIgnore, _ = TableContains(g_SquadBlueprintToIgnore, g_AllSquadsData[_PlayerIndex][k].SquadBlueprint)
+
+				if(g_AllSquadsData[_PlayerIndex][k].SquadBlueprint == nil or g_AllSquadsData[_PlayerIndex][k].SquadLoadout == 0 or shouldIgnore) then
+
+					table.remove(g_AllSquadsData[_PlayerIndex], k)
+					
+				end
+
+			end
+
+		end
+			
+		g_PlayerSquadCount[_PlayerIndex] = Player_GetActiveSquadCount(g_AllPlayers[_PlayerIndex].Player)
+
+	end
+
+	RemoveStacktrace()
+
 end
 
 function Update_ExistingSquadDetails()
+
+	AddStacktrace("Update_ExistingSquadDetails")
+
 	for i = 1, g_PlayerCount do
+
 		for l = 1, TableLength(g_AllSquadsData[i]) do
 
 			--Simple check to avoid null ref
@@ -182,7 +232,7 @@ function Update_ExistingSquadDetails()
 				--Squad exists but now has 0 members. At 0 members the squad is destroyed so this likely will never happen. If log isn't ever observed, delete this.
 				if(g_AllSquadsData[i][l].SquadLoadout == 0 and g_AllSquadsData[i][l].SquadHasPreviouslyExisted == true) then
 
-					Log(1, 0, debug_SquadManager_FileName, "Update_ExistingSquadDetails", "Squad has been destroyed but squad still exists?")	
+					Log(eLOG_TYPE_INFO, eLOG_FULL, "Squad has been destroyed but squad still exists?")	
 					Set_SquadCombatDetails(g_AllSquadsData[i][l], true)			
 					table.remove(g_AllSquadsData[i],l)	
 
@@ -193,11 +243,17 @@ function Update_ExistingSquadDetails()
 				end
 			end
 
-		end		
+		end	
+
 	end
+
+	RemoveStacktrace()
+
 end
 
 function CheckForSquadLosses(SquadStruct)
+
+	AddStacktrace("CheckForSquadLosses")
 
 	local Losses = 0
 	local LeaderLosses = 0
@@ -217,12 +273,16 @@ function CheckForSquadLosses(SquadStruct)
 	SquadStruct.PreviousSquadLoadout = SquadStruct.SquadLoadout
 	SquadStruct.PreviousSquadLeaderCount = SquadStruct.SquadLeaderCount
 
+	RemoveStacktrace()
+
 	return Losses, LeaderLosses
 
 end
 
 --Use 1 or 0 for SquadDead with 0 being false and 1 being true
 function UpdateSquadCombatDeathResources(RedReceiverPlayer, DefenderPlayer, ModelLosses, LeaderLosses, SquadDead ) 
+
+	AddStacktrace("CheckForSquadLosses")
 
 	local TotalRed = 0
 	TotalRed = TotalRed + (0.5 * ModelLosses)
@@ -231,20 +291,27 @@ function UpdateSquadCombatDeathResources(RedReceiverPlayer, DefenderPlayer, Mode
 	TotalRed = TotalRed * g_RedGainMultiplier
 
 	RedReceiverPlayer.CurrentResources.RT_Red = RedReceiverPlayer.CurrentResources.RT_Red + TotalRed	
-	print("Player "..RedReceiverPlayer.PlayerIndex.." current Red = "..RedReceiverPlayer.CurrentResources.RT_Red)
-
 	DefenderPlayer.CurrentResources.RT_Red = DefenderPlayer.CurrentResources.RT_Red + (TotalRed * 0.5)	
-	print("Player "..DefenderPlayer.PlayerIndex.." current Red = "..DefenderPlayer.CurrentResources.RT_Red)
+
+	--Debug	
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Player "..RedReceiverPlayer.PlayerIndex.." current Red = "..RedReceiverPlayer.CurrentResources.RT_Red)
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Player "..DefenderPlayer.PlayerIndex.." current Red = "..DefenderPlayer.CurrentResources.RT_Red)
+
+	RemoveStacktrace()
 
 end
 
 function Get_SquadLosses(_SquadStruct)
 
+	--We don't need to add Stacktrace here as simple getter
 	return _SquadStruct.PreviousSquadLoadout - _SquadStruct.SquadLoadout, _SquadStruct.SquadLeaderCount - _SquadStruct.PreviousSquadLeaderCount
 
 end
 
 function Set_SquadCombatDetails(_SquadStruct, _IsDead)
+	
+	AddStacktrace("Set_SquadCombatDetails")
+
 	local ModelLosses = 0
 	local LeaderLosses = 0
 	local SquadDeath = 0
@@ -253,25 +320,25 @@ function Set_SquadCombatDetails(_SquadStruct, _IsDead)
 	if(_IsDead) then
 
 		local AttackerPlayerLength = table.getn(_SquadStruct.PreviouslyAttackedByPlayers) or 0
+
 		if(AttackerPlayerLength == 0) then
-			Log(1, 0, debug_SquadManager_FileName, "Set_SquadCombatDetails", "No players have fought this squad, so who killed it?")	
-			return
+
+			Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "No players have fought this squad, so who killed it?")	
+			
+		else
+
+			for i = 1, AttackerPlayerLength do
+
+				ModelLosses, LeaderLosses = Get_SquadLosses(_SquadStruct)
+				Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Squad destroyed! Adding large Red for Player ".._SquadStruct.PreviouslyAttackedByPlayers[i].PlayerIndex..".")	
+				UpdateSquadCombatDeathResources(_SquadStruct.PreviouslyAttackedByPlayers[i], _SquadStruct.OwnerPlayer, ModelLosses, LeaderLosses, 1 )
+
+			end
+
 		end
-
-		for i = 1, AttackerPlayerLength do
-
-			ModelLosses, LeaderLosses = Get_SquadLosses(_SquadStruct)
-			print("Squad destroyed! Adding large Red for Player ".._SquadStruct.PreviouslyAttackedByPlayers[i].PlayerIndex..".")
-			UpdateSquadCombatDeathResources(_SquadStruct.PreviouslyAttackedByPlayers[i], _SquadStruct.OwnerPlayer, ModelLosses, LeaderLosses, 1 )
-
-		end
-
-		return
-
-	end
 
 	--Squad is still alive so we need to calculate who is fighting them
-	if(Squad_IsUnderAttack(_SquadStruct.SquadID)) then
+	elseif(Squad_IsUnderAttack(_SquadStruct.SquadID)) then
 			
 		local PlayersToRemove = {}
 		for i = 1, g_PlayerCount do
@@ -279,6 +346,7 @@ function Set_SquadCombatDetails(_SquadStruct, _IsDead)
 			if(Squad_IsUnderAttackByPlayer(_SquadStruct.SquadID, g_AllPlayers[i].Player)) then
 				
 				local contains, _  = TableContains(_SquadStruct.PreviouslyAttackedByPlayers, g_AllPlayers[i])
+
 				if(contains == false) then
 
 					table.insert(_SquadStruct.PreviouslyAttackedByPlayers, g_AllPlayers[i])
@@ -286,10 +354,12 @@ function Set_SquadCombatDetails(_SquadStruct, _IsDead)
 				end
 
 				ModelLosses, LeaderLosses = CheckForSquadLosses(_SquadStruct)
+
 				if(ModelLosses > 0 or LeaderLosses > 0) then
 
 					UpdateSquadCombatDeathResources(g_AllPlayers[i], _SquadStruct.OwnerPlayer, ModelLosses, LeaderLosses, 0 )		
-					print("Adding Red for Player "..g_AllPlayers[i].PlayerIndex..".")					
+					
+					Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Adding Red for Player "..g_AllPlayers[i].PlayerIndex..".")					
 	
 				end	
 			
@@ -311,11 +381,14 @@ function Set_SquadCombatDetails(_SquadStruct, _IsDead)
 
 	end
 
+	RemoveStacktrace()
 
 end
 
 function GetAllSelectedSquads()
 	
+	AddStacktrace("GetAllSelectedSquads")
+
 	local allSelectedSquads = {}
 
 	for playerIndex = 1, g_AllSquadsData do
@@ -332,123 +405,167 @@ function GetAllSelectedSquads()
 
 	end
 
+	RemoveStacktrace()
+
 	return allSelectedSquads
 	
 end
 
 function GetIfSquadSelected(_DesiredSquad)
 
+	AddStacktrace("GetIfSquadSelected")
+
 	local AllSelectedSquads = GetAllSelectedSquads()
 	local contains, _ = TableContains(AllSelectedSquads, _DesiredSquad)
 
-	if(contains == true) then
-		return true
-	end
+	RemoveStacktrace()
 
-	return false
+	return contains
 end
 
 --Use for AoE 
 function GetAllSquadsInArea(_player, _pos, _proximity)
 	
+	AddStacktrace("GetAllSquadsInArea")	
+
 	SquadsInRange = {}
+
 	for i = 1, g_PlayerSquadCount[_player] do
+
 		if(World_DistancePointToPoint(_pos, g_AllSquadsData[_player][i].SquadPosition) <= _proximity) then
-			print(g_AllSquadsData[_player][i].SquadBlueprint.." Is in range.")
+
+			Log(eLOG_TYPE_INFO, eLOG_VERBOSE, g_AllSquadsData[_player][i].SquadBlueprint.." Is in range.")	
 			table.insert(SquadsInRange, g_AllSquadsData[_player][i])
+
 		end
+
 	end
+
+	RemoveStacktrace()
 
 end
 
 --Use for AoE 
 function GetAllSquadsInAreaFromPlayerTable(_players, _pos, _proximity)
 	
+	AddStacktrace("GetAllSquadsInAreaFromPlayerTable")
+
 	SquadsInRange = {}
+
 	for j = 1, TableLength(_players) do
+
 		for i = 1, g_PlayerSquadCount[j] do
+
 			if(World_DistancePointToPoint(_pos, g_AllSquadsData[j][i].SquadPosition) <= _proximity) then
-				print(g_AllSquadsData[j][i].SquadBlueprint.." Is in range.")
+
+				Log(eLOG_TYPE_INFO, eLOG_VERBOSE, g_AllSquadsData[j][i].SquadBlueprint.." Is in range.")	
 				table.insert(SquadsInRange, g_AllSquadsData[j][i])
+
 			end
+
 		end
+
 	end
+
+	RemoveStacktrace()
 
 end
 
 --Use for single target
 function GetClosestSquadToPos(_player, _pos, _maxDistance)
 
-	local debugFuncName = "GetClosestSquadToPos"	
+	AddStacktrace("GetClosestSquadToPos")
 
 	if(TableLength(g_PlayerSquadCount[_player]) == 0) then
 
-		Log(1, 0, debug_SquadManager_FileName, debugFuncName, "No squads are near that position as player has no squads.")
-		return nil
-		
-	end
-
-	ClosestSquad = nil
-	ShortestDistance = 10000
-	for i = 1, g_PlayerSquadCount[_player] do
-		local DistanceToPoint = World_DistancePointToPoint(_pos, g_AllSquadsData[_player][i].SquadPosition)
-		if(DistanceToPoint <= ShortestDistance and DistanceToPoint < _maxDistance) then
-			print(g_AllSquadsData[_player][i].SquadBlueprint.." Is closer with distance of "..DistanceToPoint)
-			ShortestDistance = DistanceToPoint
-			ClosestSquad = g_AllSquadsData[_player][i].SquadPosition
-		end
-	end
-
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "No squads are near that position as player has no squads.")
 	
-	if(ClosestSquad == nil) then
+	else
 
-		Log(1, 0, debug_SquadManager_FileName, debugFuncName, "No squads are in range of that position. You may need to increae the max distance.")
+		ClosestSquad = nil
+		ShortestDistance = 10000
+
+		for i = 1, g_PlayerSquadCount[_player] do
+
+			local DistanceToPoint = World_DistancePointToPoint(_pos, g_AllSquadsData[_player][i].SquadPosition)
+
+			if(DistanceToPoint <= ShortestDistance and DistanceToPoint < _maxDistance) then
+
+				--We should probably remove this log as it will spew info to other players...
+				Log(eLOG_TYPE_INFO, eLOG_VERBOSE, g_AllSquadsData[_player][i].SquadBlueprint.." Is closer with distance of "..DistanceToPoint)
+				ShortestDistance = DistanceToPoint
+				ClosestSquad = g_AllSquadsData[_player][i].SquadPosition
+
+			end
+
+		end
+
+		
+		if(ClosestSquad == nil) then
+
+			Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "No squads are in range of that position. You may need to increae the max distance.")
+
+		end
 
 	end
+
+	RemoveStacktrace()
 
 	return ClosestSquad 
+
 end
 
 --Use for single target in given group
 function GetClosestSquadInSquadTableToPos(_squads, _pos, _maxDistance)
 
-	local debugFuncName = "GetClosestSquadInSquadTableToPos"	
+	AddStacktrace("GetClosestSquadInSquadTableToPos")	
 
-	if(TableLength(_squads) == 0) then
+	if(TableLength(_squads) ~= 0) then
+	
+		ClosestSquad = nil
+		ShortestDistance = 10000
 
-		Log(1, 0, debug_SquadManager_FileName, debugFuncName, "No squads are near that position as player has no squads.")
-		return nil
+		for i = 1, TableLength(_squads) do
+
+			local point1 = World_Pos(_squads[i].SquadPosition.x, _squads[i].SquadPosition.y, _squads[i].SquadPosition.z )
+			local point2 = World_Pos(_pos.x, _pos.y, _pos.z )
+			local DistanceToPoint = World_DistancePointToPoint(point1, point2)
+
+			if(DistanceToPoint <= ShortestDistance and DistanceToPoint < _maxDistance) then
+
+				--We should probably remove this log as laggy + will spew info in the console for other players...
+				Log(eLOG_TYPE_INFO, eLOG_VERBOSE, _squads[i].SquadBlueprint.." Is closer with distance of "..DistanceToPoint)
+				ShortestDistance = DistanceToPoint
+				ClosestSquad = _squads[i]
+
+			end
+
+		end
+
+		if(ClosestSquad == nil) then
+
+			Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "No squads are in range of that position. You may need to increae the max distance.")
+
+		end
+
+	else
+		
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "No squads are near that position as player has no squads.")
 		
 	end
-	
-	ClosestSquad = nil
-	ShortestDistance = 10000
-	for i = 1, TableLength(_squads) do
-		local point1 = World_Pos(_squads[i].SquadPosition.x, _squads[i].SquadPosition.y, _squads[i].SquadPosition.z )
-		local point2 = World_Pos(_pos.x, _pos.y, _pos.z )
-		local DistanceToPoint = World_DistancePointToPoint(point1, point2)
-		print(DistanceToPoint)
-		if(DistanceToPoint <= ShortestDistance and DistanceToPoint < _maxDistance) then
-			print(_squads[i].SquadBlueprint.." Is closer with distance of "..DistanceToPoint)
-			ShortestDistance = DistanceToPoint
-			ClosestSquad = _squads[i]
-		end
-	end
 
-	if(ClosestSquad == nil) then
-
-		Log(1, 0, debug_SquadManager_FileName, debugFuncName, "No squads are in range of that position. You may need to increae the max distance.")
-
-	end
+	RemoveStacktrace()
 
 	return ClosestSquad 
+
 end
 
 function GetAllSquadsOfArmourType(_player, _acceptedArmourTypes)
 
-	local debugFuncName = "GetAllSquadsOfArmourType"
+	AddStacktrace("GetAllSquadsOfArmourType")
 
 	local AllSquadsOfArmourType = {}
+
 	for i = 1, TableLength(_acceptedArmourTypes) do
 
 		for j = 1, g_PlayerSquadCount[_player] do
@@ -465,43 +582,50 @@ function GetAllSquadsOfArmourType(_player, _acceptedArmourTypes)
 
 	if(TableLength(AllSquadsOfArmourType) == 0) then
 
-		Log(1, 0, debug_SquadManager_FileName, debugFuncName, "No squads of the specified armour types exist.")
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "No squads of the specified armour types exist.")
 
 	end
+
+	RemoveStacktrace()
 
 end
 
 function GetAllSquadsOfArmourTypeFromSquadTable(_squads, _acceptedArmourTypes)
 
-	local debugFuncName = "GetAllSquadsOfArmourType"
+	AddStacktrace("GetAllSquadsOfArmourTypeFromSquadTable")
 
-	if(TableLength(_squads) == 0) then
+	if(TableLength(_squads) ~= 0) then
 
-		Log(1, 0, debug_SquadManager_FileName, debugFuncName, "_squads table is nil.")
-		return nil
-		
-	end
+		local AllSquadsOfArmourType = {}
 
-	local AllSquadsOfArmourType = {}
-	for i = 1, TableLength(_acceptedArmourTypes) do
+		for i = 1, TableLength(_acceptedArmourTypes) do
 
-		for j = 1, _squads do
+			for j = 1, _squads do
 
-			if(Squad_HasArmourType(_squads[j].SquadID, _acceptedArmourTypes[i])) then
+				if(Squad_HasArmourType(_squads[j].SquadID, _acceptedArmourTypes[i])) then
 
-				table.insert(AllSquadsOfArmourType, _squads[j])
+					table.insert(AllSquadsOfArmourType, _squads[j])
 
+				end
+				
 			end
-			
+
 		end
 
+		if(TableLength(AllSquadsOfArmourType) == 0) then
+
+			Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "No squads of the specified armour types exist.")
+
+		end
+
+	else
+
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "_squads table is nil.")
+		return nil
+	
 	end
 
-	if(TableLength(AllSquadsOfArmourType) == 0) then
-
-		Log(1, 0, debug_SquadManager_FileName, debugFuncName, "No squads of the specified armour types exist.")
-
-	end
+	RemoveStacktrace()
 
 	return AllSquadsOfArmourType
 
@@ -509,32 +633,42 @@ end
 
 function GetAllSquadsOfArmourTypeFromPlayerTable(_players, _acceptedArmourTypes, _allowAttached)
 
-	local debugFuncName = "GetAllSquadsOfArmourTypeFromPlayerTable"
+	AddStacktrace("GetAllSquadsOfArmourTypeFromPlayerTable")
 
 	local AllSquadsOfArmourType = {}
+
 	for i = 1, TableLength(_acceptedArmourTypes) do
+
 		for p = 1, TableLength(_players) do
+
 			local pIndex = _players[p].PlayerIndex+1
 			--Continue from here, the max limit in this loop is wrong ofc lol..
+
 			for j = 1, TableLength(g_AllSquadsData[pIndex]) do
 				
 				if(Squad_HasArmourType(g_AllSquadsData[pIndex][j].SquadID, _acceptedArmourTypes[i])) then
 					
 					if(_allowAttached == true or g_AllSquadsData[pIndex][j].SquadIsAttached == false) then
+
 						table.insert(AllSquadsOfArmourType, g_AllSquadsData[pIndex][j])
+
 					end
 					
 				end
 				
 			end
+
 		end
+
 	end
 
 	if(TableLength(AllSquadsOfArmourType) == 0) then
 
-		Log(1, 0, debug_SquadManager_FileName, debugFuncName, "No squads of the specified armour types exist.")
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "No squads of the specified armour types exist.")
 
 	end
+	
+	RemoveStacktrace()
 
 	return AllSquadsOfArmourType
 

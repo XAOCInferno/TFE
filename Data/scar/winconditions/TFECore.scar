@@ -5,29 +5,48 @@ import("TFE_Core/TFECore.scar");
 
 function Core_InitSetup()
 
+	AddStacktrace("Core_InitSetup")
+
 	local debugFuncName = "Core_InitSetup"
 	
-	Log(0, 0, debug_WinCondition_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Starting: '"..debugFuncName.."'...")
 	
 	FOW_Reset()
-	Core_Init_Load()
+
+	local SetupSuccess = Core_Init_Load()
 	
-	Log(0, 0, debug_WinCondition_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'...")
+	if(SetupSuccess) then
+
+		Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Finished: '"..debugFuncName.."'...")
+
+	else
+
+		Log(eLOG_LOG_TYPE_CRITICAL, eLOG_FULL,  "Failed to finish CORE_INIT_LOAD")
+
+	end
 	
+	RemoveStacktrace()
+
 end
 
+--Is this used anymore?
 function Core_GameSetup()
+
+	AddStacktrace("Core_GameSetup")
 
 	local debugFuncName = "Core_GameSetup"
 	
-	Log(0, 0, debug_WinCondition_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Starting: '"..debugFuncName.."'...")
 	
 	Core_Game_Load()
 	
-	Log(0, 0, debug_WinCondition_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'...")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Finished: '"..debugFuncName.."'...")
+
+	RemoveStacktrace()
 
 end
 
+--Is this used anymore?
 function OnGameSetup()
 
 	Core_GameSetup()

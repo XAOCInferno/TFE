@@ -1,112 +1,181 @@
-debug_LuaTableExtensions_FileName = "LuaTableExtensions"
-
 function TableClear(_Tbl)
 
+	pcall(AddStacktrace, "TableClear")
+
 	for i in pairs (_Tbl) do
+
     	table.remove(_Tbl,i)
+
 	end
 
+	pcall(RemoveStacktrace)
+
 end
+
 
 function TableHasItemAtPositionOrID(_Tbl, _ItemPositionOrID)
-	
-	local debugFuncName = "TableHasItemAtPositionOrID"
 
-	if(_Tbl == nil) then 		
-		Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Table is nil, returning false as default.")
-		return nil, nil 
+	pcall(AddStacktrace, "TableHasItemAtPositionOrID")
+
+	local ReturnSuccess = true
+	if(_Tbl == nil) then 
+
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, "Table is nil, returning false as default.")
+		ReturnSuccess = false 
+
 	else
+
 		if(_Tbl[_ItemPositionOrID] == nil) then
-			return false
+			
+			ReturnSuccess = false
+
 		end
+
 	end
 	
-	return true
+	pcall(RemoveStacktrace)
+
+	return ReturnNoErrorNorNil
 
 end
+
 
 function TableContains(_Tbl, _Desired)
 
-	local debugFuncName = "TableContains"
+	pcall(AddStacktrace, "TableContains")
 
-	if(_Tbl == nil) then 		
-		Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Table is nil, returning false as default.")
-		return false, 0 
-	else
+	local ReturnIndex = 0
+	local Success = false
+
+	if(_Tbl ~= nil) then 
+
 		for index, item in pairs (_Tbl) do
-	    	if(item == _Desired) then				
-	    		return true, index
+
+	    	if(item == _Desired) then
+
+				Success = true
+				ReturnIndex = index
+				break
+
 	    	end
+
 		end
+
+	else	
+
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, "Table is nil, returning false as default.")
+
 	end
-	return false, 0
+
+	pcall(RemoveStacktrace)
+
+	return Success, ReturnIndex
 
 end
 
+
 function TableRemoveDuplicates(_BaseTbl, _CompareTbl)
-	local debugFuncName = "TableRemoveDuplicates"
+
+	pcall(AddStacktrace, "TableRemoveDuplicates")
 	
-	if(_BaseTbl == nil) then 		
-		Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Add Table is Nil!")
-		return 
-	elseif(_CompareTbl == nil) then 		
-		Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Compare Table is Nil!")
-		return
+	if(_BaseTbl == nil) then 
+		
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_TYPE_INFO, "Add Table is Nil!")
+		
+	elseif(_CompareTbl == nil) then
+
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_TYPE_INFO, "Compare Table is Nil!")
+
 	else
+
 		for index, item in pairs (_BaseTbl) do
+
 	    	local contains, _ = TableContains(_CompareTbl, item)
+
 	    	if(contains == true) then
+
 	    		table.remove(_BaseTbl, index)
+
 	    	end
+
 		end
+
 	end
 	
+	pcall(RemoveStacktrace)
+
 	return _BaseTbl
 
 end
 
 function TableLength(_Tbl)
 
-	if(_Tbl == nil) then 	
-		Log(1, 0, debug_LuaTableExtensions_FileName, "TableLength",  "Table is Nil!")
-		return 1000
+	AddStacktrace("TableLength")
+
+	local count = 0
+	if(_Tbl == nil) then 
+
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, "Table is Nil!")
+		count = 1000 --Should we really enforce a count of 1000 here? Shouldn't we assume 0?
+
 	end
 	
-	local count = 0
-	for _ in pairs(_Tbl) do count = count + 1 end
+	for _ in pairs(_Tbl) do 
+
+		count = count + 1 
+
+	end
+
+	RemoveStacktrace()
+
 	return count
 	
 end
 
 function TableMergeValues(_Tbl1, _Tbl2)
 
-	local debugFuncName = "TableMergeValues"
+	AddStacktrace("TableMergeValues")
+
 	local NewTable = _Tbl1
 	
-	if(_Tbl1 == nil) then 		
-		Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Table1 is nil!.")
-		return _Tbl2
-	elseif(_Tbl2 == nil) then 		
-		Log(1, 0, debug_LuaTableExtensions_FileName, debugFuncName,  "Table2 is nil!")
-		return _Tbl1
+	if(_Tbl1 == nil) then
+
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, "Table1 is nil!.")
+		NewTable = _Tbl2
+
+	elseif(_Tbl2 == nil) then 	
+
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, "Table2 is nil!")
+
 	else
+
 		for i, _ in pairs (_Tbl1) do
+
 	    	if(_Tbl2[i] == nil) then
-	    		return NewTable
+
+	    		break
+
 	    	end
 	    		
 	    	NewTable[i] = _Tbl1[i] + _Tbl2[i]
+
 		end
+
 	end
+
+	RemoveStacktrace()
+
+	return NewTable
+
 end
 
 function TableMerge(_Tbls)
 
-	local debugFuncName = "TableMerge"
+	AddStacktrace("TableMerge")
+
 	local newTable = {}
 	local nextTablePos = 1
-	print(_Tbls)
-	print(table.getn(_Tbls))
+
 	for i = 1, TableLength(_Tbls) do
 
 		for j = 1, TableLength(_Tbls[i]) do
@@ -115,11 +184,23 @@ function TableMerge(_Tbls)
 			nextTablePos = nextTablePos + 1
 
 		end
+
 	end
+
+	RemoveStacktrace()
+
 	return newTable
+
 end
 
 function round(num, numDecimalPlaces)
+
+	AddStacktrace("round")
+
 	local mult = 10^(numDecimalPlaces or 0)
+	
+	RemoveStacktrace()
+
 	return math.floor(num * mult + 0.5) / mult
+	
 end

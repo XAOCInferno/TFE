@@ -1,13 +1,11 @@
-debug_AlphaLegionCore_FileName = "AlphaLegion_Core"
-
-
 import("TFE_Core/Subscars/Alpha_Legion/Imports/AlphaLegion_Imports.scar")
 
 
 function Setup_AlphaLegion()
-	local debugFuncName = "Setup_AlphaLegion"
 	
-	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	AddStacktrace("Setup_AlphaLegion")
+	
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Starting: 'Setup_AlphaLegion'...")
 	
 	for i = 1, g_PlayerCount do
 
@@ -22,26 +20,37 @@ function Setup_AlphaLegion()
 				Restrict_AlphaLegion(g_AllPlayers[i].Player)				
 				
 			end
+
 		end
+		
 	end
 	
-	Log(0, 0, debug_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Finished: 'Setup_AlphaLegion'!")
+
+	RemoveStacktrace()
 
 end
 
 function Restrict_AlphaLegion(_Player)
 
+	AddStacktrace("Restrict_AlphaLegion")
+
 	Player_RestrictResearch(_Player, "chaos_AL_secret_identity")
 	Player_RestrictSquad(_Player, "chaos_al_marine_squad")
 	Player_RestrictSquad(_Player, "chaos_squad_lord_AL")
 	Player_RestrictSquad(_Player, "chaos_AL_Operative_squad")
+
+	RemoveStacktrace()
 		
 end
 
 function Restrict_BaseChaos(_Player)
 
-	--Nothing needed yet..
+	AddStacktrace("Restrict_BaseChaos")
+
 	Player_RestrictSquad(_Player, "chaos_marine_squad")
 	Player_RestrictSquad(_Player, "chaos_squad_lord")
+
+	RemoveStacktrace()
 	
 end

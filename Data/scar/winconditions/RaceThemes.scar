@@ -3,15 +3,25 @@ import("RaceThemes/RacePrefs.lua")
 function OnInit()
 
 	for i = 1, World_GetPlayerCount() do
+		
 		local CurrentPlayer = World_GetPlayerAt(i-1)
+
 		if(Tut_GetLocalPlayerIndex() == World_GetPlayerIndex(CurrentPlayer)) then
+
 			for j = 1, table.getn(g_AllRaceStinger) do
+
 				if(g_AllRaces[j] == Player_GetRaceName(CurrentPlayer)) then
+
 					Sound_PlayStinger(g_AllRaceStinger[j])
+
 				end
+
 			end
+
 		end
+
 	end
+
 end
 
 Scar_AddInit(OnInit)

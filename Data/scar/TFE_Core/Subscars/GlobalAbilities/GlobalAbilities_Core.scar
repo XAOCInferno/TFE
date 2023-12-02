@@ -17,8 +17,12 @@ GlobalAbility = {}
 
 
 function GlobalAbility:new ( _LinkedSquadBP, _CasterPlayer, _AbilityName, _ActivationEntityBlueprint, _ActivationType, _TargetFilter, _PosInTrackedAbilities )
+	
+	AddStacktrace("GlobalAbility:new")
+
 	local tmpSGroupID = GetUniqueSG("GlobalAbilityCaster")
 	local tmpSGroupName = SGroup_GetName(tmpSGroupID)
+
     local GlobalAbilityObject = 
     {
     	--Constants
@@ -55,20 +59,31 @@ function GlobalAbility:new ( _LinkedSquadBP, _CasterPlayer, _AbilityName, _Activ
 
 	--SGroup_Add(GlobalAbilityObject.LinkedSquadGroup, GlobalAbilityObject.LinkedSquad)
 	self.__index = self
+
+	RemoveStacktrace()
+
    	return setmetatable(GlobalAbilityObject, self)
+
 end
 
 function GlobalAbility:ActivateTimedAbility()
 
+	AddStacktrace("GlobalAbility:ActivateTimedAbility")
+
 	self.AbilityCastTime = g_WorldTime
 	self.TimedAbilityIsActive = g_WorldTime
 
+	RemoveStacktrace()
+	
 end
 
 --DON'T OVERRIDE!
 function GlobalAbility:Update()
 
+	AddStacktrace("GlobalAbility:Update")
+
 	local acceptedEntities, acceptedEPositions = Get_EntityDataFromEntityBP(self.ActivationEntityBlueprint, self.CasterPlayer.PlayerIndex + 1)
+
 	for i = 1, table.getn(acceptedEntities) do
 
 		--Possibly destroy later? atm i think it's ok to destroy now 
@@ -77,6 +92,8 @@ function GlobalAbility:Update()
 		DestroyEntityAndRemoveFromData(self.CasterPlayer, acceptedEPositions[i])
 
 	end
+
+	--Archived old code for when pressing the buttons to trigger. We can probably get rid of this.
 --[[
 	if(Misc_IsSquadSelected(self.LinkedSquad)) then
 		if(self.ActivationType == "TIMED" or self.ActivationType == 0) then
@@ -98,6 +115,7 @@ function GlobalAbility:Update()
 ]]
 
 	if(self.TimedAbilityIsActive) then
+
 		if(g_WorldTime - self.ActivatedTime >=  self.Duration) then
 
 			self.TimedAbilityIsActive = false
@@ -109,14 +127,20 @@ function GlobalAbility:Update()
 
 		end
 	end
-	
+
+	RemoveStacktrace()
+
 end
 
 
 --Override this if you want unique behaviour. Best if you want a mod that applies for a set duration
 function GlobalAbility:TimedAbilityEnd(self)
 
-	Log(2, 0, debug_GlobalAbilitiesCore_FileName, self.AbilityName.."/TimedAbilityEnd", "Ability end behaviour undefined! Ensure you override the 'TimedAbilityEnd' function or this ability will not revert!")
+	AddStacktrace("GlobalAbility:TimedAbilityEnd")
+
+	Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, self.AbilityName.."/TimedAbilityEnd", "Ability end behaviour undefined! Ensure you override the 'TimedAbilityEnd' function or this ability will not revert!")
+		
+	RemoveStacktrace()
 
 end
 
@@ -136,14 +160,18 @@ end
 --You should probably not override this, although I guess you could..? 
 function GlobalAbility:PrepareAbility()
 
-	local debugFuncName = self.AbilityName.."/PrepareAbility"
+	AddStacktrace("GlobalAbility:PrepareAbility")
 	
 	self.OnPressImmediate()
 
 	if(self.CurrentAcceptedEntityStruct == nil) then
+
 		self.LastCastedEntityPosition = World_Pos(0,0,0)
+
 	else
+
 		self.LastCastedEntityPosition = self.CurrentAcceptedEntityStruct.EntityPosition
+
 	end
 	
 
@@ -171,31 +199,43 @@ function GlobalAbility:PrepareAbility()
 		
 	else
 
-		Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Target filter '"..self.TargetFilter.."' is invalid. Defaulting to 'GROUND'")
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Target filter '"..self.TargetFilter.."' is invalid. Defaulting to 'GROUND'")
 		targetPos = Button_GetPressedPosition(self.ButtonID)
 
 	end]]
 
 	self:DoAbility(self, self.LastCastedEntityPosition, targetSquad, targetEntity)
+
+	RemoveStacktrace()
+
 end
 
 --Do override!
 function GlobalAbility:DoAbility( _self, _pos, _targetSquad, _targetEntity )
 
-	Log(1, 0, debug_GlobalAbilitiesCore_FileName, self.AbilityName.."/DoAbility", "Ability behaviour undefined! Ensure you override the 'DoAbility' function or this ability will do nothing.")
+	AddStacktrace("GlobalAbility:DoAbility")
 
+	Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, self.AbilityName.."/DoAbility", "Ability behaviour undefined! Ensure you override the 'DoAbility' function or this ability will do nothing.")
+	
+	RemoveStacktrace()
 end
 
 --Do override if ability has a duration
 function GlobalAbility:EndAbility( _self, _pos, _targetSquad, _targetEntity)
 
-	Log(2, 0, debug_GlobalAbilitiesCore_FileName, self.AbilityName.."/EndAbility", "Ability end behaviour undefined! Ensure you override the 'EndAbility' function or this ability will not revert!")
+	AddStacktrace("GlobalAbility:EndAbility")
+
+	Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, self.AbilityName.."/EndAbility", "Ability end behaviour undefined! Ensure you override the 'EndAbility' function or this ability will not revert!")
+
+	RemoveStacktrace()
 
 end
 
 
 GlobalAbilityBuilder = {}
 function GlobalAbilityBuilder:new (_OwnedByPlayer, _SGroupID, _SGroupName, _TargetEGroupName, _PosInTrackedAbilityBuilders)
+
+	AddStacktrace("GlobalAbilityBuilder:new")
 
     local GlobalAbilityBuilderObject = 
     {
@@ -206,12 +246,19 @@ function GlobalAbilityBuilder:new (_OwnedByPlayer, _SGroupID, _SGroupName, _Targ
 		TargetEGroupName = _TargetEGroupName,
 		PosInTrackedAbilityBuilders = PosInTrackedAbilityBuilders
     }
+
 	self.__index = self
+
+	RemoveStacktrace()
+
    	return setmetatable(GlobalAbilityBuilderObject, self)
+
 end
 
 function GlobalAbilityBuilder:Update()
 	
+	AddStacktrace("GlobalAbilityBuilder:Update")
+
 	if(Cmd_IsConstructingBuilding(self.SGroupName, true)) then
 
 		--We have started building it, don't need to issue order
@@ -232,59 +279,82 @@ function GlobalAbilityBuilder:Update()
 		)	
 
 	end
+
+	RemoveStacktrace()
+
 end
 
 function Setup_GlobalAbilities()
 
-	local debugFuncName = "Setup_GlobalAbilities"
+	AddStacktrace("Setup_GlobalAbilities")
 	
-	Log(0, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Starting: 'Setup_GlobalAbilities'...")
 
 	Setup_ActualGlobalAbilies()
 	EventCue_DoEvent( 'warning', 'music/stinger_completeobjective', 'Global Abilities Activated!', 'Global Abilities Activated!.' )
 
-	
-	Log(0, 0, debug_ResMatureCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Finished: 'Setup_GlobalAbilities'!")
+
+	RemoveStacktrace()
 
 end
 
 function GetLocalPlayerStruct()
 
-	local debugFuncName = "GetLocalPlayerStruct"
+	AddStacktrace("GetLocalPlayerStruct")
 
 	local localPlayerIndex = Tut_GetLocalPlayerIndex()
+	local localPlayer = nil
 
 	for i = 1, g_PlayerCount do
+
 		if(g_AllPlayers[i].PlayerIndex == localPlayerIndex) then
-			return g_AllPlayers[i]
+
+			localPlayer = g_AllPlayers[i]
+			break
+
 		end
+
 	end
 
-	Log(2, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Local player does not exist!")
+	if(localPlayer == nil) then
+
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Local player does not exist!")
+
+	end
+
+	RemoveStacktrace()
+
+	return localPlayer
 
 end
 
 function Setup_ActualGlobalAbilies()
 
-	local debugFuncName = "Setup_AbilityButtons"
+	AddStacktrace("Setup_ActualGlobalAbilies")
 
 	Dev_SetupAutoConstructor()
 
+	--WTF was this for..?
 	for i = 1, g_PlayerCount do
 
 
-	end
-	
-	
+	end	
 
 	local RaceName = ""
 	for i = 1, g_PlayerCount do
+
 		RaceName = g_AllPlayers[i].RaceDetails.RaceName
 		local squadBP = "world_squad_global_ability_caster_"..RaceName
+		
 		if(SBP_Exists(squadBP)) then
+			
 			ActivateSummonSquadAbility(squadBP, g_AllPlayers[i].Player, World_Pos(0,0,0), 1)
+		
 		else
-			Log(2, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Global Ability Caster SBP for race '"..RaceName.."' doesn't exist, make sure there is an entity called '"..GlobalAbilityCasterSBP.."' otherwise commander UI will be odd!")
+
+			Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Global Ability Caster SBP for race '"..RaceName.."' doesn't exist, make sure there is an entity called '"..GlobalAbilityCasterSBP.."' otherwise commander UI will be odd!")
+		
 		end
 
 		--[[CHAOS GLOBALS]]
@@ -407,11 +477,16 @@ function Setup_ActualGlobalAbilies()
 				local costSuccess = FireCost(_self.CasterPlayer, -30, -100, 0, 0, 0, 0)
 
 				if(costSuccess) then
+
 					World_FXEvent("data:Art/Events/Races/dark_eldar/Ability/dark_eldar_global_seed_soul", _pos)
 					ActivateMultiSummonSquadAbility("dark_eldar_squad_slave_murdered_long", _self.CasterPlayer.Player, _pos, {x = 1, y = 0, z = 1}, 5, 0, 0)
+				
 				else
-					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				
 				end
+
 			end
 			
 			--[[T1 Target captured point without an lp, steal 100req and decap it. vs necron you steal 50 power]]
@@ -483,7 +558,7 @@ function Setup_ActualGlobalAbilies()
 				if(costSuccess) then
 					ActivateAutoConstructionAbility(_pos, _self.CasterPlayer, "eldar_webway_gate")
 				else
-					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				end
 			end
 		
@@ -643,7 +718,7 @@ function Setup_ActualGlobalAbilies()
 					print("Do ability done")
 
 				else
-					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				end
 			end
 
@@ -720,7 +795,7 @@ function Setup_ActualGlobalAbilies()
 					ActivateSummonEntityAbility("necron_summon_obelisk", _self.CasterPlayer.Player, _pos)				
 
 				else
-					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				end
 			end
 
@@ -736,8 +811,11 @@ function Setup_ActualGlobalAbilies()
 					ActivateMultiSummonSquadAbility("necron_scarab_ground_squad", _self.CasterPlayer.Player, _pos, {x = 1, y = 0, z = 1}, 3, 6, 9)		
 
 				else
-					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				
 				end
+
 			end
 
 			AbilityStruct_Necron4.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
@@ -750,8 +828,11 @@ function Setup_ActualGlobalAbilies()
 					Cmd_CastAbilitySelf(_self.LinkedSquadGroupName, "necron_thermo_overcharge")	
 
 				else
-					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				
 				end
+
 			end
 
 			AbilityStruct_Necron5.Duration = 40
@@ -766,8 +847,11 @@ function Setup_ActualGlobalAbilies()
 					_self:ActivateTimedAbility()
 
 				else
-					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				
 				end
+
 			end	
 			
 			AbilityStruct_Necron5.TimedAbilityUpdate = function(_self)
@@ -835,10 +919,15 @@ function Setup_ActualGlobalAbilies()
 				local costSuccess = FireCost(_self.CasterPlayer, -30, 0, 0, 0, 0, 0)
 
 				if(costSuccess) then
+
 					ActivateSummonEntityAbility("ork_production_cost_reduction_ability_caster", _self.CasterPlayer.Player, _pos)
+				
 				else
-					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				
 				end
+
 			end
 
 			local AbilityStruct_Ork2 = CreateGlobalAbility(
@@ -891,17 +980,29 @@ function Setup_ActualGlobalAbilies()
 						_self.TargetSquad = ClosestSquad
 						local targetBP = _self.TargetSquad.SquadBlueprint
 						if(TableContains(RangedUnits, targetBP)) then
+							
 							_self.TargetSquadAttackType = "RANGED"
+						
 						elseif(TableContains(MeleeUnits, targetBP)) then
+							
 							_self.TargetSquadAttackType = "MELEE"
+						
 						else					
-							Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to determine if troop is a melee or ranged troop! Ensure SquadBP '"..targetBP.."' is present in code. Randomly assigning between melee or range.")		
+							
+							Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to determine if troop is a melee or ranged troop! Ensure SquadBP '"..targetBP.."' is present in code. Randomly assigning between melee or range.")		
+							
 							if(World_GetRand(0,100) > 50) then
+								
 								_self.TargetSquadAttackType = "RANGED"
+							
 							else
+								
 								_self.TargetSquadAttackType = "MELEE"
+							
 							end
+
 						end
+
 						_self.Duration = 20
 						_self.FX_RefireRate = 0.1
 						_self.FX_LastFireTime = 0
@@ -909,13 +1010,17 @@ function Setup_ActualGlobalAbilies()
 						_self.AppliedMods = {}
 
 						if(_self.TargetSquadAttackType == "RANGED") then
+							
 							table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_UseYourDakkaAndChoppa_Ranged__modifier_01, _self.TargetSquad.SquadID))
 							table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_UseYourDakkaAndChoppa_Ranged__modifier_02, _self.TargetSquad.SquadID))
+
 						elseif(_self.TargetSquadAttackType == "MELEE") then
+							
 							table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_UseYourDakkaAndChoppa_Melee__modifier_01, _self.TargetSquad.SquadID))
 							table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_UseYourDakkaAndChoppa_Melee__modifier_02, _self.TargetSquad.SquadID))
 							table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_UseYourDakkaAndChoppa_Melee__modifier_03, _self.TargetSquad.SquadID))
 							table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_UseYourDakkaAndChoppa_Melee__modifier_04, _self.TargetSquad.SquadID))
+						
 						end
 
 						table.insert(_self.AppliedMods, Modifier_ApplyToSquad(mod_UseYourDakkaAndChoppa_Generic__modifier_01, _self.TargetSquad.SquadID))
@@ -923,12 +1028,15 @@ function Setup_ActualGlobalAbilies()
 						
 						_self.ActivatedTime = g_WorldTime
 						_self:ActivateTimedAbility()
+					
 					else
-						Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to no targets in area.")
+
+						Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to no targets in area.")
+					
 					end
 
 				else
-					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				end
 			end
 
@@ -976,8 +1084,11 @@ function Setup_ActualGlobalAbilies()
 					Cmd_CastAbilitySelf(SGroupName, "ork_waaagh_infantry_noicon")
 
 				else
-					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				
 				end
+
 			end
 
 			local AbilityStruct_Ork4 = CreateGlobalAbility(
@@ -994,10 +1105,15 @@ function Setup_ActualGlobalAbilies()
 
 				_pos = _self.LastCastedEntityPosition
 				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+				
 				if(costSuccess) then
+					
 					ActivateSummonEntityAbility("ork_cult_of_speed_ability_caster", _self.CasterPlayer.Player, _pos)
+				
 				else
-					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				
 				end
 			end
 
@@ -1103,13 +1219,19 @@ function Setup_ActualGlobalAbilies()
 				local fxYOffset = 5 
 				local fxSpawnPos = _pos
 				local costSuccess = FireCost(_self.CasterPlayer, -30, 0, 0, 0, 0, 0)
+				
 				if(costSuccess) then
+
 					fxSpawnPos.y = _pos.y + fxYOffset
 					World_FXEvent("data:Art/Events/Races/Space_Marines/Abilities/space_marine_global_basic_scan", fxSpawnPos)
 					ActivateSummonEntityAbility("marines_detection_field_hq", _self.CasterPlayer.Player, _pos)
+				
 				else
-					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				
 				end
+
 			end
 
 			mod_MarinesForTheEmperor__modifier_01 = Modifier_Create(MAT_Squad, "max_damage_weapon_modifier", MUT_Multiplication, 1, 1.4, "")
@@ -1172,13 +1294,19 @@ function Setup_ActualGlobalAbilies()
 						
 						_self.ActivatedTime = g_WorldTime
 						_self:ActivateTimedAbility()
+					
 					else
-						Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to no targets in area.")
+
+						Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to no targets in area.")
+					
 					end
 
 				else
-					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				
 				end
+
 			end
 
 			AbilityStruct_SpaceMarine2.TimedAbilityEnd = function( _self )
@@ -1217,13 +1345,18 @@ function Setup_ActualGlobalAbilies()
 
 				_pos = _self.LastCastedEntityPosition
 				local costSuccess = FireCost(_self.CasterPlayer, -100, 0, 0, 0, 0, 0)
+
 				if(costSuccess) then
+
 					Util_CreateSquadsAndDropPodIn_GlobalAbility( _self.CasterPlayer.Player, SGroup_GetName(GetUniqueSG("GlobalAbility_SM_DropPod")), "space_marine_squad_drop_pod_emplacement", _pos, 1, 1 )
 					--World_FXEvent("data:Art/Events/Races/Space_Marines/Abilities/space_marine_global_basic_scan", fxSpawnPos)
 					
 				else
-					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				
 				end
+
 			end		
 
 			local AbilityStruct_SpaceMarine4 = CreateGlobalAbility(
@@ -1240,11 +1373,17 @@ function Setup_ActualGlobalAbilies()
 
 				_pos = _self.LastCastedEntityPosition
 				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+				
 				if(costSuccess) then
+					
 					ActivateSummonEntityAbility("marines_blessing_of_omnissiah_ability_caster", _self.CasterPlayer.Player, _pos)
+				
 				else
-					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				
 				end
+
 			end
 			
 			local AbilityStruct_SpaceMarine5 = CreateGlobalAbility(
@@ -1430,10 +1569,15 @@ function Setup_ActualGlobalAbilies()
 				local costSuccess = FireCost(_self.CasterPlayer, -30, -100, 0, 0, 0, 0)
 
 				if(costSuccess) then
+
 					ActivateAutoConstructionAbility(_pos, _self.CasterPlayer, "guard_infantry_summon")
+				
 				else
-					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				
 				end
+
 			end
 
 			AbilityStruct_Guard2.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
@@ -1443,15 +1587,20 @@ function Setup_ActualGlobalAbilies()
 				local costSuccess = FireCost(_self.CasterPlayer, -50, 0, 0, 0, 0, 0)
 
 				if(costSuccess) then
+
 					ActivateSummonEntityAbility("guard_flare_debuff_ability_caster", _self.CasterPlayer.Player, _pos)
 					_self.LoopingFX = World_FXEventLooping( "data:Art/Events/Races/guard/Abilities/guard_debuff_flare_combo", _pos )
 					World_FXEvent("data:Art/Events/Races/Space_Marines/Abilities/space_marine_global_basic_scan", fxSpawnPos)
 					
 					_self.ActivatedTime = g_WorldTime
 					_self:ActivateTimedAbility()
+				
 				else
-					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				
 				end
+
 			end
 			
 			--Not working?
@@ -1486,8 +1635,11 @@ function Setup_ActualGlobalAbilies()
 					
 					_self.ActivatedTime = g_WorldTime
 					_self:ActivateTimedAbility()
+				
 				else
-					Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				
 				end
 
 			end
@@ -1732,12 +1884,21 @@ function Setup_ActualGlobalAbilies()
 			--T3 Exterminatus?
 
 		else
-			Log(1, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Race '"..RaceName.."' is undefined in if statement! Assuming it has no global abilities.")
+
+			Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Race '"..RaceName.."' is undefined in if statement! Assuming it has no global abilities.")
+		
 		end
+
 	end
+
+	RemoveStacktrace()
+
 end
 
 function Util_CreateSquadsAndDropPodIn_GlobalAbility( playerId, squadgroupName, squadBlueprint, pos, numsquads, loadout )
+
+	AddStacktrace("Util_CreateSquadsAndDropPodIn_GlobalAbility")
+
 	local groupID = _ScarUtil_Private.CreateSquads(
 		playerId,
 		squadgroupName,
@@ -1750,16 +1911,24 @@ function Util_CreateSquadsAndDropPodIn_GlobalAbility( playerId, squadgroupName, 
 	
 	Util_DropPod_GlobalAbility( squadgroupName, pos )
 	
+	RemoveStacktrace()
+
 	return groupID
+
 end
 
 function Util_DropPod_GlobalAbility( sgroupname, pos )
+
+	AddStacktrace("Util_DropPod_GlobalAbility")
+
 	-- depspawn
 	SGroup_DeSpawn( sgroupname )
 		
 	-- drop pod
 	Squad_DeepStrikeToPos( sgroupname, "space_marine_gobal_ability_drop_pod_building", pos )
 	
+	RemoveStacktrace()
+
 end
 
 --Do this later, requires fire cost to be built into ability as well as being a function
@@ -1781,15 +1950,23 @@ end]]
 
 function ActivateMultiSummonEntityAbility(_EBP, _Player, _Pos, _RandomOffsetPerEntity, _NumberOfEntities) 
 
+	AddStacktrace("ActivateMultiSummonEntityAbility")
+
 	local AllCreatedEntities = {}
+	
 	_Pos = World_Pos(_Pos.x, _Pos.y, _Pos.z)
+
 	for i = 1, _NumberOfEntities do
+
 		local tmpPos = _Pos
 		tmpPos.x = _Pos.x + World_GetRand(-_RandomOffsetPerEntity.x, _RandomOffsetPerEntity.x)
 		tmpPos.y = _Pos.y + World_GetRand(-_RandomOffsetPerEntity.y, _RandomOffsetPerEntity.y)
 		tmpPos.z = _Pos.z + World_GetRand(-_RandomOffsetPerEntity.z, _RandomOffsetPerEntity.z)
 		table.insert(AllCreatedEntities, ActivateSummonEntityAbility(_EBP, _Player, tmpPos, _Loadout))
+		
 	end
+
+	RemoveStacktrace()
 
 	return AllCreatedEntities
 
@@ -1797,25 +1974,36 @@ end
 
 function ActivateSummonEntityAbility(_EBP, _Player, _Pos)
 	
+	AddStacktrace("ActivateSummonEntityAbility")
+
 	_Pos = World_Pos(_Pos.x, _Pos.y, _Pos.z)
 	local entity = Entity_Create(_EBP, _Player, _Pos)
 	Entity_Spawn(entity)
+
+	RemoveStacktrace()
 
 	return entity
 end
 
 function ActivateMultiSummonSquadAbility(_SBP, _Player, _Pos, _RandomOffsetPerSquad, _NumberOfSquads, _LoadoutMin, _LoadoutMax) 
 
+	AddStacktrace("ActivateMultiSummonSquadAbility")
+
 	local AllCreatedSquads = {}
 	_Pos = World_Pos(_Pos.x, _Pos.y, _Pos.z)
+
 	for i = 1, _NumberOfSquads do
+
 		local tmpPos = _Pos
 		local loadout = World_GetRand(_LoadoutMin, _LoadoutMax)
 		tmpPos.x = _Pos.x + World_GetRand(-_RandomOffsetPerSquad.x, _RandomOffsetPerSquad.x)
 		tmpPos.y = _Pos.y + World_GetRand(-_RandomOffsetPerSquad.y, _RandomOffsetPerSquad.y)
 		tmpPos.z = _Pos.z + World_GetRand(-_RandomOffsetPerSquad.z, _RandomOffsetPerSquad.z)
 		table.insert(AllCreatedSquads, ActivateSummonSquadAbility(_SBP, _Player, tmpPos, loadout))
+
 	end
+
+	RemoveStacktrace()
 
 	return AllCreatedSquads
 
@@ -1823,14 +2011,23 @@ end
 
 function ActivateSummonSquadAbility(_SBP, _Player, _Pos, _Loadout)
 	
+	AddStacktrace("ActivateSummonSquadAbility")
+
 	_Pos = World_Pos(_Pos.x, _Pos.y, _Pos.z)
 	local squad = Squad_Create(_SBP, _Player, _Pos, _Loadout)
 	Squad_Spawn(squad, _Pos)
 
+	RemoveStacktrace()
+
 	return squad
 end
+
+--What is this variable? is it needed anymore? why is it defined so low in the code!?
 timeSinceAbilityPress = 0
 function Update_GlobalAbilities()
+	
+	AddStacktrace("Update_GlobalAbilities")
+
 	--[[	--Maybe we could do this for singleplayer?
 	emptySGroupID = SGroup_CreateIfNotFound("emptySGroup")
 	if(SGroup_Exists("GlobalAbilityCasterTest") == false) then
@@ -1856,8 +2053,6 @@ function Update_GlobalAbilities()
 			print(timeSinceAbilityPress)
 		end
 	end]]
-	
-	local debugFuncName = "Update_GlobalAbilities"
 
 	for i = 1, table.getn(g_AllTrackedAbilities) do
 
@@ -1867,16 +2062,20 @@ function Update_GlobalAbilities()
 
 	Update_AllAbilityBuilders()
 
+	RemoveStacktrace()
+	
 end
 
 
 function CreateGlobalAbility(_LinkedSquadBP, _Player, _AbilityName, _ActivationEntityBP, _ActivationType, _TargetFilter)
 
-	local debugFuncName = "CreateGlobalAbility"
+	AddStacktrace("CreateGlobalAbility")
 	
 	local AbilityStruct = GlobalAbility:new(_LinkedSquadBP, _Player, _AbilityName, _ActivationEntityBP, _ActivationType, _TargetFilter, table.getn(g_AllTrackedAbilities))
 
 	table.insert(g_AllTrackedAbilities, AbilityStruct)
+
+	RemoveStacktrace()
 
 	return AbilityStruct
 
@@ -1884,22 +2083,25 @@ end
 
 function UpdateAbilityIconGraphics(_BtnID, _TextureTable, _TipTable, _Instructions)
 
-	local debugFuncName = "UpdateAbilityIconGraphics"
+	AddStacktrace("UpdateAbilityIconGraphics")
 
 	if(_BtnID == nil) then
 
-		Log(2, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Button is nil! Cannot update graphics.")
-		return 
+		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Button is nil! Cannot update graphics.")
 
 	elseif(Button_Exists(_BtnID) == nil) then
 
-		Log(2, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Button does not exist! Cannot update graphics.")
-		return
+		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Button does not exist! Cannot update graphics.")
+
+	else
+
+		Button_SetTextures(_BtnID, _TextureTable[1], _TextureTable[2], _TextureTable[3])
+		Button_SetTooltip(_BtnID, _TipTable[1], _TipTable[2])
+		Button_SetModalInstruction(_BtnID, _Instructions)
 
 	end
-	Button_SetTextures(_BtnID, _TextureTable[1], _TextureTable[2], _TextureTable[3])
-	Button_SetTooltip(_BtnID, _TipTable[1], _TipTable[2])
-	Button_SetModalInstruction(_BtnID, _Instructions)
+
+	RemoveStacktrace()
 
 	return buttonID
 
@@ -1908,29 +2110,44 @@ end
 --Other costs can be added when needed, but likely via a different function as this will just interact direct with resource gen system
 function FireCost(_Player, _RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls) 
 
+	AddStacktrace("FireCost")
+
+	local Success = false
+
 	if(_Player:HasEnoughResources(_RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls)) then
 
 		_Player:AddFireCost(_RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls)
-		return true
+		Success = true
 
 	end
 
-	return false
+	RemoveStacktrace()
+
+	return Success
+
 end
 
+--What are these variable assignments doing here? should be in settings...!
 devGlobalBuildertest = nil
 devGloblabuildertestStruct = nil
 UniqueBuilderSGroup = nil
 function Dev_SetupAutoConstructor(_PlayerStruct)
+
+	AddStacktrace("Dev_SetupAutoConstructor")
+
 	_PlayerStruct = g_AllPlayers[1]
 	UniqueBuilderSGroup = GetUniqueSG("tmpBuilderGroup")
 	local UniqueBuilderSGroupName =  SGroup_GetName(UniqueBuilderSGroup)
 	UniqueBuilderSGroup = Util_CreateSquadsAtPosition(_PlayerStruct.Player, UniqueBuilderSGroupName, "world_squad_global_builder", World_Pos(0,0,0), 1)
 	devGloblabuildertestStruct = GlobalAbilityBuilder:new( _PlayerStruct.Player, UniqueBuilderSGroup, UniqueBuilderSGroupName, "" )
 
+	RemoveStacktrace()
+
 end
 
 function Dev_MoveSquadToPosition(player, pos)
+
+	AddStacktrace("Dev_MoveSquadToPosition")
 
 	Command_SquadPos( 
 		player.Player,
@@ -1939,9 +2156,13 @@ function Dev_MoveSquadToPosition(player, pos)
 		pos
 	)	
 
+	RemoveStacktrace()
+
 end
 
 function ActivateAutoConstructionAbility(_pos, _PlayerStruct, _structureEbps)
+
+	AddStacktrace("ActivateAutoConstructionAbility")
 
 	local UniqueBuildingEGroup = GetUniqueEG("tmpBuildingEGroup")
 	local UniqueBuilderSGroup = GetUniqueSG("tmpBuilderGroup")
@@ -1956,49 +2177,59 @@ function ActivateAutoConstructionAbility(_pos, _PlayerStruct, _structureEbps)
 	if(EGroup_Count(UniqueBuildingEGroup) == 0) then
 
 		UIWarning_Show( "FAILED TO CAST SUMMON ABILITY.\nCannot place structure at that position." )
-		return
+
+	else
+
+		Util_CreateSquadsAtPosition(_PlayerStruct.Player, UniqueBuilderSGroupName, "world_squad_global_builder", _pos, 1)
+
+		table.insert(g_AllTrackedAbilityBuilders, GlobalAbilityBuilder:new( _PlayerStruct.Player, UniqueBuilderSGroup, UniqueBuilderSGroupName, UniqueBuildingEGroupName ))
+		g_AllTrackedAbilityBuildersCount = g_AllTrackedAbilityBuildersCount + 1
 
 	end
 
-	Util_CreateSquadsAtPosition(_PlayerStruct.Player, UniqueBuilderSGroupName, "world_squad_global_builder", _pos, 1)
-
-	table.insert(g_AllTrackedAbilityBuilders, GlobalAbilityBuilder:new( _PlayerStruct.Player, UniqueBuilderSGroup, UniqueBuilderSGroupName, UniqueBuildingEGroupName ))
-	g_AllTrackedAbilityBuildersCount = g_AllTrackedAbilityBuildersCount + 1
+	RemoveStacktrace()
 
 end
 
 function Update_AllAbilityBuilders()
+
+	AddStacktrace("Update_AllAbilityBuilders")
 
 	for i = 1, g_AllTrackedAbilityBuildersCount do
 
 		g_AllTrackedAbilityBuilders[i]:Update()
 
 	end
+
+	RemoveStacktrace()
+
 end
 
 
 function Util_GlobalAbilityButton_Create(_widgetName, _textureTable, _tipTable, _instructions, _visible, _enabled, _modal)
 
-	local debugFuncName = "Util_GlobalAbilityButton_Create"
+	AddStacktrace("Util_GlobalAbilityButton_Create")
 
 	local buttonID = Button_Add(_widgetName, _visible, _enabled, _modal)
 
 	if(buttonID == nil) then
 
-		Log(2, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Button is nil after creation! pcall has been tripped, likely invalid arguments.")
-		return 
+		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Button is nil after creation! pcall has been tripped, likely invalid arguments.")
 
 	elseif(Button_Exists(buttonID) == nil) then
 
-		Log(2, 0, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Button does not exist after creation! Widget is likely in use.")
-		return
+		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Button does not exist after creation! Widget is likely in use.")
+
+	else
+
+		Button_SetVisible(buttonID, _visible)
+		Button_SetTextures(buttonID, _textureTable[1], _textureTable[2], _textureTable[3])
+		Button_SetTooltip(buttonID, _tipTable[1], _tipTable[2])
+		Button_SetModalInstruction(buttonID, _instructions)
 
 	end
 
-	Button_SetVisible(buttonID, _visible)
-	Button_SetTextures(buttonID, _textureTable[1], _textureTable[2], _textureTable[3])
-	Button_SetTooltip(buttonID, _tipTable[1], _tipTable[2])
-	Button_SetModalInstruction(buttonID, _instructions)
+	RemoveStacktrace()
 
 	return buttonID
 

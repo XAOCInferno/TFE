@@ -1,26 +1,33 @@
-debug_PassiveResourceGeneration_Core_FileName = "PassiveResourceGeneration_Core"
-
 import("TFE_Core/Subscars/Resources/AutoGenResources/PassiveResourceGeneration_Settings.lua")
 
 function Setup_PassiveResourceGeneration()
-	local debugFuncName = "Setup_PassiveResourceGeneration"
 
-	Log(0, 0, debug_PassiveResourceGeneration_Core_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	AddStacktrace("Setup_PassiveResourceGeneration")
+
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Starting: 'Setup_PassiveResourceGeneration'...")
 	
 	for i = 1, g_PlayerCount do
+
 		Setup_PassiveResourceGeneration_Settings(g_AllPlayers[i].RaceDetails.RaceName)
+
 	end
 	
 	Rule_AddInterval(Set_PassiveResources, g_ResourceGenUpdateRate)	
 	
-	Log(0, 0, debug_PassiveResourceGeneration_Core_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Finished: 'Setup_PassiveResourceGeneration'!")
 	
+	RemoveStacktrace()
+
 end
 
 
 function Set_PassiveResources()
 
+	AddStacktrace("Set_PassiveResources")
+
 	local AddResources = function()
+
+		AddStacktrace("AddResources")
 			
 		for i = 1, g_PlayerCount do
 		
@@ -37,13 +44,21 @@ function Set_PassiveResources()
 					g_AllPlayers[i].Player.CurrentAddResources.RT_Faith = g_AllPlayers[i].Player.CurrentAddResources.RT_Faith + RaceResStruct.RT_Faith
 					
 				end
+
 			end
 		
 		end
+
+		RemoveStacktrace()
 		
 	end
 	
 	if pcall(AddResources) == false then
-		Log(2, 0, debug_PassiveResourceGeneration_Core_FileName, "Set_PassiveResources", "Cannot add passive resources!")
+
+		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, debug_PassiveResourceGeneration_Core_FileName, "Set_PassiveResources", "Cannot add passive resources!")
+
 	end
+
+	RemoveStacktrace()
+	
 end

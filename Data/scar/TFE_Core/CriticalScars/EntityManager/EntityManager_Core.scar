@@ -1,14 +1,11 @@
----------
---DEBUG--
----------
-debug_EntityManager_FileName = "EntityManager_Core.scar"
-
 ----------------------
 --Class Constructors--
 ----------------------
 
 EntityData = {}
 function EntityData:new (_eGameID, _eGroupID, _eIndex, _eID, _eRace, _eBP)
+
+	AddStacktrace("EntityData:new")
 
     local EntityDataObject = 
     {
@@ -22,11 +19,17 @@ function EntityData:new (_eGameID, _eGroupID, _eIndex, _eID, _eRace, _eBP)
 		EntityPosition = Entity_GetPosition(_eID),
 		EntityPositionInt = Entity_GetPosition(_eID)
 	}
+
 	self.__index = self
+
+	RemoveStacktrace()
+
 	return setmetatable(EntityDataObject, self)
 end
 
 function EntityData:Update()
+
+	AddStacktrace("EntityData:Update")
 
 	local privateUpdate = function()
 	
@@ -37,7 +40,10 @@ function EntityData:Update()
 
 	end
 
+	RemoveStacktrace()
+	
 	return pcall(privateUpdate)
+
 end
 
 ---------------
@@ -45,117 +51,158 @@ end
 ---------------
 function Setup_EntityManager()
 	
+	AddStacktrace("Setup_EntityManager")
+
 	Set_AllEntities_Immediate()
+
+	RemoveStacktrace()
 
 end
 
 function Set_AllEntities_Immediate()
 	
+	AddStacktrace("Set_AllEntities_Immediate")
+
 	for i = 1, g_PlayerCount do
 		
 		Set_PlayerEntities_Immediate(i)
 		
 	end
 
+	RemoveStacktrace()
+
 end
 
 function Set_PlayerEntities_Immediate(_PlayerIndex)	
-	local debugFuncName = "Set_PlayerEntities_Immediate"
+
+	AddStacktrace("Set_PlayerEntities_Immediate")
 	
 	g_LastEntityUpdateTime = g_WorldTime
 	
-	--We should only run the Entity checker if the player is alive
-	if (not Player_IsAlive(g_AllPlayers[_PlayerIndex].Player)) then			
-		return nil					
-	end
-				
 	local AddEGroupData = function(_egroupid, _itemindex, _entityID)
 		
+		AddStacktrace("AddEGroupData")
+
 		local newEntityGameID = Entity_GetGameID( _entityID )
 		local entityBP = Entity_GetBlueprintName( _entityID )			
-		
-		if(TableContains(g_EntityBlueprintToIgnore, entityBP)) then return false end
+		local addNewDataEntry = true
 
 		--Should we keep this? are some entities ok to not have BP? unsure.
-		if(entityBP == nil) then 
+		if(entityBP == nil) then
+
+			addNewDataEntry = false
 			--any point having this log if it's LogOnce?
-			LogOnce(1, 0, debug_EntityManager_FileName, debugFuncName, "Can't add entity data, BP is nil!")
-			return 
+			LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Can't add entity data, BP is nil!")
+
+		elseif(TableContains(g_EntityBlueprintToIgnore, entityBP) == false) then 
+		
+			for l = 1, table.getn(g_AllEntityData[_PlayerIndex]) do
+
+				if(g_AllEntityData[_PlayerIndex][l] == nil) then
+
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Entity is found null during adding.")
+					table.remove(g_AllEntityData[_PlayerIndex], l)	
+					addNewDataEntry = false
+					--I don't think we still need to return here?
+					--return false 
+
+				end
+
+				--We already have a data entry for this unit
+				if(g_AllEntityData[_PlayerIndex][l].EntityUniqueID == newEntityGameID) then
+					
+					--LogOnce(eLOG_TYPE_WARNING, eLOG_FULL, "Entity is already stored in data!")
+					addNewDataEntry = false
+					break
+											
+				end
+
+			end	
+
+		end	
+		
+		if(addNewDataEntry) then
+
+			local tmpData = EntityData:new( newEntityGameID, _egroupid, _itemindex, _entityID, g_AllPlayers[_PlayerIndex].RaceDetails.RaceName, entityBP)
+			
+			Log(eLOG_TYPE_INFO, eLOG_VERBOSE, "Entity data created for entity: "..tmpData.EntityBlueprint)
+			table.insert(g_AllEntityData[_PlayerIndex], tmpData)
 
 		end
-		
-		for l = 1, table.getn(g_AllEntityData[_PlayerIndex]) do
 
-			if(g_AllEntityData[_PlayerIndex][l] == nil) then
-
-				Log(1, 0, debug_EntityManager_FileName, debugFuncName, "Entity is found null during adding.")
-				table.remove(g_AllEntityData[_PlayerIndex], l)	
-				--I don't think we still need to return here?
-				--return false 
-
-			end
-			
-			if(g_AllEntityData[_PlayerIndex][l].EntityUniqueID == newEntityGameID) then
-						
-				--LogOnce(1, 0, debug_EntityManager_FileName, debugFuncName, "Entity is already stored in data!")
-				return false
-										
-			end
-		end		
-		
-		local tmpData = EntityData:new( newEntityGameID, _egroupid, _itemindex, _entityID, g_AllPlayers[_PlayerIndex].RaceDetails.RaceName, entityBP)
-		
-		Log(0, 0, debug_EntityManager_FileName, debugFuncName, "Entity data created for entity: "..tmpData.EntityBlueprint)
-		table.insert(g_AllEntityData[_PlayerIndex], tmpData)	
+		RemoveStacktrace()
 			
 	end
 
-	Update_ExistingEntityDetails()		
-	EGroup_ForEachEx(Player_GetEntities(g_AllPlayers[_PlayerIndex].Player), AddEGroupData, true, false)				
-	
-	for k = 1, TableLength(g_AllEntityData[_PlayerIndex]) do
-		if(g_AllEntityData[_PlayerIndex][k] ~= nil) then
-			
-			local shouldIgnore, _ = TableContains(g_EntityBlueprintToIgnore, g_AllEntityData[_PlayerIndex][k].EntityBlueprint)
-			--Should there be a different check for entity instead of health?
-			if(g_AllEntityData[_PlayerIndex][k].EntityBlueprint == nil or g_AllEntityData[_PlayerIndex][k].EntityHealthCurrent == 0 or shouldIgnore) then
+	--We should only run the Entity checker if the player is alive
+	if (Player_IsAlive(g_AllPlayers[_PlayerIndex].Player)) then		
 
-				Log(1, 0, debug_EntityManager_FileName, debugFuncName, "Entity is destroyed, removing.")
-				table.remove(g_AllEntityData[_PlayerIndex], k)
+		Update_ExistingEntityDetails()		
+		EGroup_ForEachEx(Player_GetEntities(g_AllPlayers[_PlayerIndex].Player), AddEGroupData, true, false)				
+		
+		for k = 1, TableLength(g_AllEntityData[_PlayerIndex]) do
+
+			if(g_AllEntityData[_PlayerIndex][k] ~= nil) then
 				
+				local shouldIgnore, _ = TableContains(g_EntityBlueprintToIgnore, g_AllEntityData[_PlayerIndex][k].EntityBlueprint)
+				--Should there be a different check for entity instead of health?
+
+				if(g_AllEntityData[_PlayerIndex][k].EntityBlueprint == nil or g_AllEntityData[_PlayerIndex][k].EntityHealthCurrent == 0 or shouldIgnore) then
+
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, "Entity is destroyed, removing.")
+					table.remove(g_AllEntityData[_PlayerIndex], k)
+					
+				end
+
 			end
+
 		end
+			
+		g_PlayerEntityCount[_PlayerIndex] = TableLength(g_AllEntityData[_PlayerIndex])
+
 	end
-		
-	g_PlayerEntityCount[_PlayerIndex] = TableLength(g_AllEntityData[_PlayerIndex])
-		
+
+	RemoveStacktrace()
+
 end
 
 function Update_ExistingEntityDetails()
-	local debugFuncName = "Update_ExistingEntityDetails"
+	
+	AddStacktrace("Update_ExistingEntityDetails")
+
 	for i = 1, g_PlayerCount do
+
 		for l = 1, TableLength(g_AllEntityData[i]) do
 
 			--Simple check to avoid null ref
 			if(g_AllEntityData[i][l] == nil) then
 				
-				Log(1, 0, debug_EntityManager_FileName, debugFuncName, "Entity is nil, assuming it is destroyed and removing.")
+				Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, "Entity is nil, assuming it is destroyed and removing.")
 				table.remove(g_AllEntityData[i], l)	
 
 			else
 
 				--Logic will run, but if there is an error (entity no longer exists) then we remove it
 				if(g_AllEntityData[i][l]:Update() == false) then
+
 					table.remove(g_AllEntityData[i], l)	
+
 				end
 
 			end
-		end		
+
+		end	
+
 	end
+
+	RemoveStacktrace()
+
 end
 
 
 function Get_EntityDataFromEntityBP(_EntityBP, _Player)
+
+	AddStacktrace("Get_EntityDataFromEntityBP")
 
 	local tbl_AllEntityOfBP = {}
 	local tbl_IndexOfAcceptedPositions = {}
@@ -167,33 +214,50 @@ function Get_EntityDataFromEntityBP(_EntityBP, _Player)
 			table.insert(tbl_IndexOfAcceptedPositions, i)
 
 		end
+
 	end
 
+	RemoveStacktrace()
+
 	return tbl_AllEntityOfBP, tbl_IndexOfAcceptedPositions
+
 end
 
 function DestroyEntityAndRemoveFromData(_Player, _EntityLocation)
 
-	local debugFuncName = "DestroyEntityAndRemoveFromData"
+	AddStacktrace("DestroyEntityAndRemoveFromData")
+
 	local PlayerIndex = _Player.PlayerIndex + 1
+
 	if(g_AllEntityData[PlayerIndex][_EntityLocation] == nil) then
-		Log(2, 0, debug_EntityManager_FileName, debugFuncName, "Entity is nil, cannot destroy and returning!")
-		return 
+
+		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Entity is nil, cannot destroy and returning!")
+
+	else
+
+		Entity_Destroy(g_AllEntityData[PlayerIndex][_EntityLocation].EntityID)
+		table.remove(g_AllEntityData[PlayerIndex][_EntityLocation])
+		
 	end
 
-	Entity_Destroy(g_AllEntityData[PlayerIndex][_EntityLocation].EntityID)
-	table.remove(g_AllEntityData[PlayerIndex][_EntityLocation])
+	RemoveStacktrace()
 
 end
 
 function Entity_Exists(_EntityID)
 
-	if Entity_GetGameID(_EntityID) ~= 0 then
-		print("ENTITY EXISTS!!")
-		return true
-	end
+	AddStacktrace("Entity_Exists")
+	
+	local EntityExists = false
 
-	print("ENTITY DOESN'T EXIST!!")
-	return false
+	if Entity_GetGameID(_EntityID) ~= 0 then
+
+		EntityExists = true
+		
+	end
+	
+	RemoveStacktrace()
+
+	return EntityExists
 
 end

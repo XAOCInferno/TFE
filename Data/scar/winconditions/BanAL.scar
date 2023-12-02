@@ -4,7 +4,7 @@ function OnGameSetup()
 
 	if(g_AlphaLegionSpawnChance == 1000) then
 	
-		Log(1, 0, debug_BanAL_FileName, debugFuncName, "Ban AL and Force AL active at same time. Defaulting to Ban AL")
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_SIMPLE, "Ban AL and Force AL active at same time. Defaulting to Ban AL")
 		
 	end
 	

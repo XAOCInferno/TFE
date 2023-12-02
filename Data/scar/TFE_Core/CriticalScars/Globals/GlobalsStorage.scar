@@ -1,9 +1,3 @@
----------
---DEBUG--
----------
-debug_GlobalsStorage_FileName = "GlobalsStorage.scar"
-
-
 --------------------
 --Settings imports--
 --------------------
@@ -18,22 +12,31 @@ local UsedUniqueEntityIDs = {}
 ---------------
 function Setup_GlobalsStorage()
 
+	AddStacktrace("Setup_GlobalsStorage")
+
 	Set_UpdatedGameTime()
+
+	RemoveStacktrace()
 
 end
 
 function Set_UpdatedGameTime()
 
+	AddStacktrace("Set_UpdatedGameTime")
+
 	g_PreviousWorldTime = g_WorldTime
 	g_WorldTime = World_GetGameTime()
 	g_TimeSinceWorldTimeUpdate = g_WorldTime - g_PreviousWorldTime
 
+	RemoveStacktrace()
+	
 end
 
 function Setup_StrategicPoints()
-	local debugFuncName = "Setup_StrategicPoints"
+
+	AddStacktrace("Setup_StrategicPoints")
 	
-	Log(0, 0, debug_GlobalsStorage_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	Log(eLOG_TYPE_INFO, eLOG_FULL, "Starting: 'Setup_StrategicPoints'...")
 	
 	local SetupNewPoint = function(eSquadGroupID, i, eSquadID)
 		
@@ -47,17 +50,23 @@ function Setup_StrategicPoints()
 	EGroup_ForEachEx(EGroup_FromName("tmpAllStratPoints"),  SetupNewPoint, true, true)
 	EGroup_Destroy("tmpAllStratPoints")
 	
-	Log(0, 0, debug_GlobalsStorage_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+	Log(eLOG_TYPE_INFO, eLOG_FULL,  "Finished: 'Setup_StrategicPoints'!")
+
+	RemoveStacktrace()
+
 end
 
 --Used to tell the difference between a time and the world time, EG: get how long something has been alive for
 function GetWorldLifetime(StartTime)
+
+	--Simple Getter functions don't need StackTrace
 	return g_WorldTime - StartTime
+
 end
 
 function GetUniqueSG(BaseSGName)
 
-	local debugFuncName = "GetUniqueSG"
+	AddStacktrace("GetUniqueSG")
 	
 	BaseSGName = BaseSGName or "UniqueSG."
 	local UniqueSG = BaseSGName	
@@ -71,15 +80,16 @@ function GetUniqueSG(BaseSGName)
 	
 	table.insert(UsedUniqueSquadIDs,UniqueSG) 
 	
-	Log(0, 0, debug_GlobalsStorage_FileName, debugFuncName, "Assigned Unique Squad ID: "..UniqueSG)
+	Log(eLOG_TYPE_INFO, eLOG_FULL, "Assigned Unique Squad ID: "..UniqueSG)
 	
+	RemoveStacktrace()
 	return SGroup_Create(UniqueSG)
 	
 end
 
 function GetUniqueEG(BaseEGName)
 
-	local debugFuncName = "GetUniqueEG"
+	AddStacktrace("GetUniqueEG")
 	
 	BaseEGName = BaseEGName or "UniqueEG."
 	local UniqueEG = BaseEGName	
@@ -93,7 +103,9 @@ function GetUniqueEG(BaseEGName)
 	
 	table.insert(UsedUniqueEntityIDs,UniqueEG) 
 	
-	Log(0, 0, debug_GlobalsStorage_FileName, debugFuncName, "Assigned Unique Entity ID: "..UniqueEG)
+	Log(eLOG_TYPE_INFO, eLOG_FULL, "Assigned Unique Entity ID: "..UniqueEG)
+	
+	RemoveStacktrace()
 	
 	return EGroup_Create(UniqueEG)
 	
