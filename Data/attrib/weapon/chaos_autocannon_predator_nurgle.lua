@@ -65,8 +65,8 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_15"]["armour_type"] = Reference([[type_armour\tp_air_med.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_15"]["armour_type"]["screen_name_id"] = [[$4450037]]
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 165
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 135
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 170
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 140
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 5
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 14
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events\Impact_Autocannon_Flesh]]
