@@ -1,13 +1,8 @@
-debug_ResUpkeepCore_FileName = "ResUpkeep_Core"
-
-
 function Setup_UpkeepSystem()
 	
 	AddStacktrace("Setup_UpkeepSystem")
-
-	local debugFuncName = "Setup_UpkeepSystem"
 		
-	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_ResUpkeepCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Starting: 'Setup_UpkeepSystem'...")
 
 	for i = 1, g_PlayerCount do
 
@@ -17,7 +12,7 @@ function Setup_UpkeepSystem()
 
 	EventCue_DoEvent( 'warning', 'music/stinger_completeobjective', 'Army Upkeep Activated!', 'Your army will now drain resources.' )
 	
-	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_ResUpkeepCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Finished: 'Setup_UpkeepSystem'!")
 
 	RemoveStacktrace()
 
@@ -27,8 +22,6 @@ end
 function Set_PlayerUpkeep()
 	
 	AddStacktrace("Set_PlayerUpkeep")
-
-	local debugFuncName = "Set_PlayerUpkeep"	
 	
 	for i = 1, g_PlayerCount do
 	
@@ -38,11 +31,11 @@ function Set_PlayerUpkeep()
 
 			if(tmpStruct == nil) then
 					
-				LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_ResUpkeepCore_FileName, debugFuncName,  "Struct for Player: "..i.." at position "..j.." is Nil!")				
+				LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Struct for Player: "..i.." at position "..j.." is Nil!")				
 				
 			elseif(tmpStruct.SquadUniqueID == nil) then
 				
-				LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_ResUpkeepCore_FileName, debugFuncName, "Struct: '"..tmpStruct.."' does not have a Unique ID!")		
+				LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Struct: '"..tmpStruct.."' does not have a Unique ID!")		
 				
 			else
 
@@ -72,7 +65,7 @@ function Set_PlayerUpkeep()
 							
 							elseif(g_DebugMode) then
 														
-								LogOnce(eLOG_LOG_TYPE_ERROR, eLOG_FULL, debug_ResUpkeepCore_FileName, debugFuncName, "SquadBP '"..tmpStruct.SquadBlueprint.."' does not have LEADER Upkeep data!")								
+								LogOnce(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "SquadBP '"..tmpStruct.SquadBlueprint.."' does not have LEADER Upkeep data!")								
 							
 							end
 
@@ -99,13 +92,13 @@ function Set_PlayerUpkeep()
 						
 					else
 
-						LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_ResUpkeepCore_FileName, debugFuncName, "SquadBP for ID: '"..tmpStruct.SquadUniqueID.."' does not have a Blueprint!")
+						LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "SquadBP for ID: '"..tmpStruct.SquadUniqueID.."' does not have a Blueprint!")
 
 					end
 
 				else
 				
-					LogOnce(eLOG_LOG_TYPE_ERROR, eLOG_FULL, debug_ResUpkeepCore_FileName, debugFuncName, "Race '"..tmpStruct.SquadUnitRace.."' does not have Upkeep data!")
+					LogOnce(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Race '"..tmpStruct.SquadUnitRace.."' does not have Upkeep data!")
 					
 				end	
 

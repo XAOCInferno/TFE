@@ -1,14 +1,10 @@
-debug_PassiveResourceGeneration_Core_FileName = "PassiveResourceGeneration_Core"
-
 import("TFE_Core/Subscars/Resources/AutoGenResources/PassiveResourceGeneration_Settings.lua")
 
 function Setup_PassiveResourceGeneration()
 
 	AddStacktrace("Setup_PassiveResourceGeneration")
 
-	local debugFuncName = "Setup_PassiveResourceGeneration"
-
-	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_PassiveResourceGeneration_Core_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Starting: 'Setup_PassiveResourceGeneration'...")
 	
 	for i = 1, g_PlayerCount do
 
@@ -18,7 +14,7 @@ function Setup_PassiveResourceGeneration()
 	
 	Rule_AddInterval(Set_PassiveResources, g_ResourceGenUpdateRate)	
 	
-	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_PassiveResourceGeneration_Core_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Finished: 'Setup_PassiveResourceGeneration'!")
 	
 	RemoveStacktrace()
 

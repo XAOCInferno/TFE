@@ -1,16 +1,12 @@
-debug_ResMatureCore_FileName = "ResMature_Core"
-
 function Setup_MatureSystem()
 
 	AddStacktrace("Setup_MatureSystem")
-
-	local debugFuncName = "Setup_MatureSystem"
 	
-	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_ResMatureCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Starting: 'Setup_MatureSystem'...")
 
 	EventCue_DoEvent( 'warning', 'music/stinger_completeobjective', 'Resource Mature Activated!', 'Capped points will increase in value until decapped.' )
 	
-	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_ResMatureCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Finished: 'Setup_MatureSystem'!")
 
 	RemoveStacktrace()
 

@@ -1,8 +1,3 @@
----------
---DEBUG--
----------
-debug_GlobalsStorage_FileName = "GlobalsStorage.scar"
-
 --------------------
 --Settings imports--
 --------------------
@@ -40,10 +35,8 @@ end
 function Setup_StrategicPoints()
 
 	AddStacktrace("Setup_StrategicPoints")
-
-	local debugFuncName = "Setup_StrategicPoints"
 	
-	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_GlobalsStorage_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	Log(eLOG_TYPE_INFO, eLOG_FULL, "Starting: 'Setup_StrategicPoints'...")
 	
 	local SetupNewPoint = function(eSquadGroupID, i, eSquadID)
 		
@@ -57,7 +50,7 @@ function Setup_StrategicPoints()
 	EGroup_ForEachEx(EGroup_FromName("tmpAllStratPoints"),  SetupNewPoint, true, true)
 	EGroup_Destroy("tmpAllStratPoints")
 	
-	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_GlobalsStorage_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+	Log(eLOG_TYPE_INFO, eLOG_FULL,  "Finished: 'Setup_StrategicPoints'!")
 
 	RemoveStacktrace()
 
@@ -74,7 +67,6 @@ end
 function GetUniqueSG(BaseSGName)
 
 	AddStacktrace("GetUniqueSG")
-	local debugFuncName = "GetUniqueSG"
 	
 	BaseSGName = BaseSGName or "UniqueSG."
 	local UniqueSG = BaseSGName	
@@ -88,7 +80,7 @@ function GetUniqueSG(BaseSGName)
 	
 	table.insert(UsedUniqueSquadIDs,UniqueSG) 
 	
-	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_GlobalsStorage_FileName, debugFuncName, "Assigned Unique Squad ID: "..UniqueSG)
+	Log(eLOG_TYPE_INFO, eLOG_FULL, "Assigned Unique Squad ID: "..UniqueSG)
 	
 	RemoveStacktrace()
 	return SGroup_Create(UniqueSG)
@@ -98,8 +90,6 @@ end
 function GetUniqueEG(BaseEGName)
 
 	AddStacktrace("GetUniqueEG")
-
-	local debugFuncName = "GetUniqueEG"
 	
 	BaseEGName = BaseEGName or "UniqueEG."
 	local UniqueEG = BaseEGName	
@@ -113,7 +103,7 @@ function GetUniqueEG(BaseEGName)
 	
 	table.insert(UsedUniqueEntityIDs,UniqueEG) 
 	
-	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_GlobalsStorage_FileName, debugFuncName, "Assigned Unique Entity ID: "..UniqueEG)
+	Log(eLOG_TYPE_INFO, eLOG_FULL, "Assigned Unique Entity ID: "..UniqueEG)
 	
 	RemoveStacktrace()
 	

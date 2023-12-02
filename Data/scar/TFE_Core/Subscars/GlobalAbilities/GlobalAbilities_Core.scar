@@ -138,7 +138,7 @@ function GlobalAbility:TimedAbilityEnd(self)
 
 	AddStacktrace("GlobalAbility:TimedAbilityEnd")
 
-	Log(eLOG_SIMPLE, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, self.AbilityName.."/TimedAbilityEnd", "Ability end behaviour undefined! Ensure you override the 'TimedAbilityEnd' function or this ability will not revert!")
+	Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, self.AbilityName.."/TimedAbilityEnd", "Ability end behaviour undefined! Ensure you override the 'TimedAbilityEnd' function or this ability will not revert!")
 		
 	RemoveStacktrace()
 
@@ -161,8 +161,6 @@ end
 function GlobalAbility:PrepareAbility()
 
 	AddStacktrace("GlobalAbility:PrepareAbility")
-
-	local debugFuncName = self.AbilityName.."/PrepareAbility"
 	
 	self.OnPressImmediate()
 
@@ -201,7 +199,7 @@ function GlobalAbility:PrepareAbility()
 		
 	else
 
-		Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Target filter '"..self.TargetFilter.."' is invalid. Defaulting to 'GROUND'")
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Target filter '"..self.TargetFilter.."' is invalid. Defaulting to 'GROUND'")
 		targetPos = Button_GetPressedPosition(self.ButtonID)
 
 	end]]
@@ -217,7 +215,7 @@ function GlobalAbility:DoAbility( _self, _pos, _targetSquad, _targetEntity )
 
 	AddStacktrace("GlobalAbility:DoAbility")
 
-	Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, self.AbilityName.."/DoAbility", "Ability behaviour undefined! Ensure you override the 'DoAbility' function or this ability will do nothing.")
+	Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, self.AbilityName.."/DoAbility", "Ability behaviour undefined! Ensure you override the 'DoAbility' function or this ability will do nothing.")
 	
 	RemoveStacktrace()
 end
@@ -227,7 +225,7 @@ function GlobalAbility:EndAbility( _self, _pos, _targetSquad, _targetEntity)
 
 	AddStacktrace("GlobalAbility:EndAbility")
 
-	Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, self.AbilityName.."/EndAbility", "Ability end behaviour undefined! Ensure you override the 'EndAbility' function or this ability will not revert!")
+	Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, self.AbilityName.."/EndAbility", "Ability end behaviour undefined! Ensure you override the 'EndAbility' function or this ability will not revert!")
 
 	RemoveStacktrace()
 
@@ -289,15 +287,13 @@ end
 function Setup_GlobalAbilities()
 
 	AddStacktrace("Setup_GlobalAbilities")
-
-	local debugFuncName = "Setup_GlobalAbilities"
 	
-	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Starting: 'Setup_GlobalAbilities'...")
 
 	Setup_ActualGlobalAbilies()
 	EventCue_DoEvent( 'warning', 'music/stinger_completeobjective', 'Global Abilities Activated!', 'Global Abilities Activated!.' )
 
-	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_ResMatureCore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Finished: 'Setup_GlobalAbilities'!")
 
 	RemoveStacktrace()
 
@@ -307,31 +303,35 @@ function GetLocalPlayerStruct()
 
 	AddStacktrace("GetLocalPlayerStruct")
 
-	local debugFuncName = "GetLocalPlayerStruct"
-
 	local localPlayerIndex = Tut_GetLocalPlayerIndex()
+	local localPlayer = nil
 
 	for i = 1, g_PlayerCount do
 
 		if(g_AllPlayers[i].PlayerIndex == localPlayerIndex) then
 
-			return g_AllPlayers[i]
+			localPlayer = g_AllPlayers[i]
+			break
 
 		end
 
 	end
 
-	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Local player does not exist!")
+	if(localPlayer == nil) then
+
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Local player does not exist!")
+
+	end
 
 	RemoveStacktrace()
+
+	return localPlayer
 
 end
 
 function Setup_ActualGlobalAbilies()
 
 	AddStacktrace("Setup_ActualGlobalAbilies")
-
-	local debugFuncName = "Setup_ActualGlobalAbilies"
 
 	Dev_SetupAutoConstructor()
 
@@ -353,7 +353,7 @@ function Setup_ActualGlobalAbilies()
 		
 		else
 
-			Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Global Ability Caster SBP for race '"..RaceName.."' doesn't exist, make sure there is an entity called '"..GlobalAbilityCasterSBP.."' otherwise commander UI will be odd!")
+			Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Global Ability Caster SBP for race '"..RaceName.."' doesn't exist, make sure there is an entity called '"..GlobalAbilityCasterSBP.."' otherwise commander UI will be odd!")
 		
 		end
 
@@ -483,7 +483,7 @@ function Setup_ActualGlobalAbilies()
 				
 				else
 
-					Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				
 				end
 
@@ -558,7 +558,7 @@ function Setup_ActualGlobalAbilies()
 				if(costSuccess) then
 					ActivateAutoConstructionAbility(_pos, _self.CasterPlayer, "eldar_webway_gate")
 				else
-					Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				end
 			end
 		
@@ -718,7 +718,7 @@ function Setup_ActualGlobalAbilies()
 					print("Do ability done")
 
 				else
-					Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				end
 			end
 
@@ -795,7 +795,7 @@ function Setup_ActualGlobalAbilies()
 					ActivateSummonEntityAbility("necron_summon_obelisk", _self.CasterPlayer.Player, _pos)				
 
 				else
-					Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				end
 			end
 
@@ -812,7 +812,7 @@ function Setup_ActualGlobalAbilies()
 
 				else
 
-					Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				
 				end
 
@@ -829,7 +829,7 @@ function Setup_ActualGlobalAbilies()
 
 				else
 
-					Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				
 				end
 
@@ -848,7 +848,7 @@ function Setup_ActualGlobalAbilies()
 
 				else
 
-					Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				
 				end
 
@@ -924,7 +924,7 @@ function Setup_ActualGlobalAbilies()
 				
 				else
 
-					Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				
 				end
 
@@ -989,7 +989,7 @@ function Setup_ActualGlobalAbilies()
 						
 						else					
 							
-							Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to determine if troop is a melee or ranged troop! Ensure SquadBP '"..targetBP.."' is present in code. Randomly assigning between melee or range.")		
+							Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to determine if troop is a melee or ranged troop! Ensure SquadBP '"..targetBP.."' is present in code. Randomly assigning between melee or range.")		
 							
 							if(World_GetRand(0,100) > 50) then
 								
@@ -1031,12 +1031,12 @@ function Setup_ActualGlobalAbilies()
 					
 					else
 
-						Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to no targets in area.")
+						Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to no targets in area.")
 					
 					end
 
 				else
-					Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				end
 			end
 
@@ -1085,7 +1085,7 @@ function Setup_ActualGlobalAbilies()
 
 				else
 
-					Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				
 				end
 
@@ -1112,7 +1112,7 @@ function Setup_ActualGlobalAbilies()
 				
 				else
 
-					Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				
 				end
 			end
@@ -1228,7 +1228,7 @@ function Setup_ActualGlobalAbilies()
 				
 				else
 					
-					Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				
 				end
 
@@ -1297,13 +1297,13 @@ function Setup_ActualGlobalAbilies()
 					
 					else
 
-						Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to no targets in area.")
+						Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to no targets in area.")
 					
 					end
 
 				else
 
-					Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				
 				end
 
@@ -1345,13 +1345,15 @@ function Setup_ActualGlobalAbilies()
 
 				_pos = _self.LastCastedEntityPosition
 				local costSuccess = FireCost(_self.CasterPlayer, -100, 0, 0, 0, 0, 0)
+
 				if(costSuccess) then
+
 					Util_CreateSquadsAndDropPodIn_GlobalAbility( _self.CasterPlayer.Player, SGroup_GetName(GetUniqueSG("GlobalAbility_SM_DropPod")), "space_marine_squad_drop_pod_emplacement", _pos, 1, 1 )
 					--World_FXEvent("data:Art/Events/Races/Space_Marines/Abilities/space_marine_global_basic_scan", fxSpawnPos)
 					
 				else
 
-					Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				
 				end
 
@@ -1378,7 +1380,7 @@ function Setup_ActualGlobalAbilies()
 				
 				else
 
-					Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				
 				end
 
@@ -1572,7 +1574,7 @@ function Setup_ActualGlobalAbilies()
 				
 				else
 
-					Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				
 				end
 
@@ -1595,7 +1597,7 @@ function Setup_ActualGlobalAbilies()
 				
 				else
 
-					Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				
 				end
 
@@ -1636,7 +1638,7 @@ function Setup_ActualGlobalAbilies()
 				
 				else
 
-					Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 				
 				end
 
@@ -1883,7 +1885,7 @@ function Setup_ActualGlobalAbilies()
 
 		else
 
-			Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Race '"..RaceName.."' is undefined in if statement! Assuming it has no global abilities.")
+			Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Race '"..RaceName.."' is undefined in if statement! Assuming it has no global abilities.")
 		
 		end
 
@@ -2051,8 +2053,6 @@ function Update_GlobalAbilities()
 			print(timeSinceAbilityPress)
 		end
 	end]]
-	
-	local debugFuncName = "Update_GlobalAbilities"
 
 	for i = 1, table.getn(g_AllTrackedAbilities) do
 
@@ -2070,8 +2070,6 @@ end
 function CreateGlobalAbility(_LinkedSquadBP, _Player, _AbilityName, _ActivationEntityBP, _ActivationType, _TargetFilter)
 
 	AddStacktrace("CreateGlobalAbility")
-
-	local debugFuncName = "CreateGlobalAbility"
 	
 	local AbilityStruct = GlobalAbility:new(_LinkedSquadBP, _Player, _AbilityName, _ActivationEntityBP, _ActivationType, _TargetFilter, table.getn(g_AllTrackedAbilities))
 
@@ -2087,15 +2085,13 @@ function UpdateAbilityIconGraphics(_BtnID, _TextureTable, _TipTable, _Instructio
 
 	AddStacktrace("UpdateAbilityIconGraphics")
 
-	local debugFuncName = "UpdateAbilityIconGraphics"
-
 	if(_BtnID == nil) then
 
-		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Button is nil! Cannot update graphics.")
+		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Button is nil! Cannot update graphics.")
 
 	elseif(Button_Exists(_BtnID) == nil) then
 
-		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Button does not exist! Cannot update graphics.")
+		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Button does not exist! Cannot update graphics.")
 
 	else
 
@@ -2214,17 +2210,15 @@ function Util_GlobalAbilityButton_Create(_widgetName, _textureTable, _tipTable, 
 
 	AddStacktrace("Util_GlobalAbilityButton_Create")
 
-	local debugFuncName = "Util_GlobalAbilityButton_Create"
-
 	local buttonID = Button_Add(_widgetName, _visible, _enabled, _modal)
 
 	if(buttonID == nil) then
 
-		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Button is nil after creation! pcall has been tripped, likely invalid arguments.")
+		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Button is nil after creation! pcall has been tripped, likely invalid arguments.")
 
 	elseif(Button_Exists(buttonID) == nil) then
 
-		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, debug_GlobalAbilitiesCore_FileName, debugFuncName, "Button does not exist after creation! Widget is likely in use.")
+		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Button does not exist after creation! Widget is likely in use.")
 
 	else
 

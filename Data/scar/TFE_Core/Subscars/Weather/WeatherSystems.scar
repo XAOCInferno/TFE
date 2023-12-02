@@ -1,4 +1,3 @@
-debug_NewCoverSystems_FileName = "WeatherSystems"
 g_TornadoSquadBP = "world_squad_tornado"
 g_DustStormSquadBP = "world_squad_global_dust_storm"
 g_AllTornadoMkrs = {}
@@ -123,16 +122,14 @@ function GetAllMarkers()
 
 	AddStacktrace("GetAllMarkers")
 
-	local debugFuncName = "GetAllMarkers"
-
 	if(Marker_Exists("WorldCentre", "basic_marker")) then
 
 		g_WorldRootMarker = Marker_FromName("WorldCentre", "basic_marker")
-		Log(eLOG_TYPE_INFO, eLOG_FULL, debug_NewCoverSystems_FileName, debugFuncName, "World root marker found, global weather supported.") 
+		Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "World root marker found, global weather supported.") 
 
 	else
 
-		Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_NewCoverSystems_FileName, debugFuncName, "World root marker can't be found, global weather not supported. To allow support, use Mission Editor to add a marker called 'WorldRoot' of type 'basic_marker'.") 
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "World root marker can't be found, global weather not supported. To allow support, use Mission Editor to add a marker called 'WorldRoot' of type 'basic_marker'.") 
 	
 	end
 

@@ -1,5 +1,3 @@
-debug_TFECore_FileName = "TFECore"
-
 RaceDetails = {}
 function RaceDetails:new (_RaceName, _RaceIndex, _RaceResourceInfo)
 
@@ -14,7 +12,9 @@ function RaceDetails:new (_RaceName, _RaceIndex, _RaceResourceInfo)
     }
 
 	self.__index = self
+
 	RemoveStacktrace()
+
    	return setmetatable(RaceDetailsObject, self)
 	
 end
@@ -160,11 +160,9 @@ import("TFE_Core/Imports/TFECore_Imports.scar")
 
 function Core_Game_Load()
 
-	AddStacktrace("Core_Game_Load")
+	AddStacktrace("Core_Game_Load")	
 	
-	local debugFuncName = "Core_Game_Load"	
-	
-	DoBasicFunction(Core_CheckForSecondaryScars, debug_TFECore_FileName, debugFuncName)
+	DoBasicFunction(Core_CheckForSecondaryScars)
 	Rule_AddInterval(Core_MainLoop, g_WorldTimeFidelity)
 
 	RemoveStacktrace()
@@ -175,29 +173,18 @@ function Core_Init_Load()
 
 	AddStacktrace("Core_Init_Load")
 
-	local debugFuncName = "Core_Init_Load"	
-	Core_GetAllPlayers()
-	--if(DoCriticalFunction(Core_GetAllPlayers, debug_TFECore_FileName, debugFuncName.."/Core_GetAllPlayers")) then return false end
-	Setup_AlphaLegion()
-	--if(DoBasicFunction(Setup_AlphaLegion, debug_TFECore_FileName, debugFuncName.."/Setup_AlphaLegion")) then Log(2, 0, debug_TFECore_FileName, debugFuncName, "Alpha Legion failed to setup!") end
-	Setup_PassiveResourceGeneration()
-	--if(DoCriticalFunction(Setup_PassiveResourceGeneration, debug_TFECore_FileName, debugFuncName.."/Setup_PassiveResourceGeneration")) then return false end
-	Setup_EntityManager()
-	--if(DoCriticalFunction(Setup_EntityManager, debug_TFECore_FileName, debugFuncName.."/Setup_EntityManager")) then return false end
-	Setup_SquadManager()
-	--if(DoCriticalFunction(Setup_SquadManager, debug_TFECore_FileName, debugFuncName.."/Setup_SquadManager")) then return false end
-	Setup_GlobalsStorage()
-	--if(DoCriticalFunction(Setup_GlobalsStorage, debug_TFECore_FileName, debugFuncName.."/Setup_GlobalsStorage")) then return false end
-	Setup_StrategicPoints()
-	--if(DoCriticalFunction(Setup_StrategicPoints, debug_TFECore_FileName, debugFuncName.."/Setup_StrategicPoints")) then return false end
-	Setup_MatureSystem()
-	--if(DoCriticalFunction(Setup_MatureSystem, debug_TFECore_FileName, debugFuncName.."/Setup_MatureSystem")) then return false end
-	Setup_UpkeepSystem()
-	--if(DoCriticalFunction(Setup_UpkeepSystem, debug_TFECore_FileName, debugFuncName.."/Setup_UpkeepSystem")) then return false end
-	Setup_NewCoverSystem()
-	--if(DoCriticalFunction(Setup_NewCoverSystem, debug_TFECore_FileName, debugFuncName.."/Setup_NewCoverSystem")) then return false end
-	DoBasicFunction(Setup_WeatherSystems, debug_TFECore_FileName, debugFuncName.."/Setup_WeatherSystems")
-	DoBasicFunction(Setup_GlobalAbilities, debug_TFECore_FileName, debugFuncName.."/Setup_GlobalAbilities")
+	if(DoCriticalFunction(Core_GetAllPlayers) == false) then return false end
+	if(DoBasicFunction(Setup_AlphaLegion) == false) then Log(2, 0, debug_TFECore_FileName, debugFuncName, "Alpha Legion failed to setup!") end
+	if(DoCriticalFunction(Setup_PassiveResourceGeneration) == false) then return false end
+	if(DoCriticalFunction(Setup_EntityManager) == false) then return false end
+	if(DoCriticalFunction(Setup_SquadManager) == false) then return false end
+	if(DoCriticalFunction(Setup_GlobalsStorage) == false) then return false end
+	if(DoCriticalFunction(Setup_StrategicPoints) == false) then return false end
+	if(DoCriticalFunction(Setup_MatureSystem) == false) then return false end
+	if(DoCriticalFunction(Setup_UpkeepSystem) == false) then return false end
+	if(DoCriticalFunction(Setup_NewCoverSystem) == false) then return false end
+	DoBasicFunction(Setup_WeatherSystems)
+	DoBasicFunction(Setup_GlobalAbilities)
 
 	RemoveStacktrace()
 
@@ -207,16 +194,22 @@ end
 
 function Core_CheckForSecondaryScars()
 
+	AddStacktrace("Core_CheckForSecondaryScars")
+	
 	if g_TrueRandomRace_Enabled == true then
 
 		TrueRandomRace_Setup()
 	
 	end
 
+	RemoveStacktrace()
+
 end
 
 function Core_GetAllPlayers()
 		
+	AddStacktrace("Core_GetAllPlayers")
+
 	for i = 1, g_PlayerCount do
 
 		local Player = World_GetPlayerAt(i-1)
@@ -245,9 +238,11 @@ function Core_GetAllPlayers()
 
 	end
 
+	RemoveStacktrace()
+
 end
 
-function DoCriticalFunction(_Func, _SentFromFunc, _FuncName)
+function DoCriticalFunction(_Func)
 
 	AddStacktrace("DoCriticalFunction")
 
@@ -255,7 +250,7 @@ function DoCriticalFunction(_Func, _SentFromFunc, _FuncName)
 
 	if(pcall(_Func) == false) then
 		 
-		LogError(_SentFromFunc, _FuncName, "Cannot run CRITICAL function '".._FuncName.."'!") 
+		LogError("Cannot run CRITICAL function!") 
 		
 		Success = false
 
@@ -268,7 +263,7 @@ function DoCriticalFunction(_Func, _SentFromFunc, _FuncName)
 end
 
 
-function DoBasicFunction(_Func, _SentFromFunc, _FuncName)
+function DoBasicFunction(_Func)
 	
 	AddStacktrace("DoBasicFunction")
 
@@ -276,7 +271,7 @@ function DoBasicFunction(_Func, _SentFromFunc, _FuncName)
 
 	if(pcall(_Func) == false) then
 
-		Log(2, 0, _SentFromFunc, _FuncName, "Cannot run function '".._FuncName.."'!") 
+		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Cannot run function!") 
 
 		Success = false
 
@@ -292,13 +287,13 @@ function Core_MainLoop()
 	
 	AddStacktrace("Core_MainLoop")
 
-	if(DoCriticalFunction(Set_UpdatedGameTime, debug_TFECore_FileName, "Core_MainLoop/Set_UpdatedGameTime")) then return end
-	if(DoCriticalFunction(Set_AllSquads_Immediate, debug_TFECore_FileName, "Core_MainLoop/Set_AllSquads_Immediate")) then return end
-	if(DoCriticalFunction(Set_AllEntities_Immediate, debug_TFECore_FileName, "Core_MainLoop/Set_AllEntities_Immediate")) then return end
-	if(DoCriticalFunction(Set_AllSquadCoverModifiers, debug_TFECore_FileName, "Core_MainLoop/Set_AllSquadCoverModifiers")) then return end
-	if(DoCriticalFunction(Set_PlayerUpkeep, debug_TFECore_FileName, "Core_MainLoop/Set_PlayerUpkeep")) then return end 
-	if(DoCriticalFunction(Set_ResourceMature, debug_TFECore_FileName, "Core_MainLoop/Set_ResourceMature")) then return end
-	if(DoCriticalFunction(Implement_UpkeepAndMature, debug_TFECore_FileName, "Core_MainLoop/Implement_UpkeepAndMature")) then return end
+	if(DoCriticalFunction(Set_UpdatedGameTime, debug_TFECore_FileName, "Core_MainLoop/Set_UpdatedGameTime") == false) then return end
+	if(DoCriticalFunction(Set_AllSquads_Immediate, debug_TFECore_FileName, "Core_MainLoop/Set_AllSquads_Immediate") == false) then return end
+	if(DoCriticalFunction(Set_AllEntities_Immediate, debug_TFECore_FileName, "Core_MainLoop/Set_AllEntities_Immediate") == false) then return end
+	if(DoCriticalFunction(Set_AllSquadCoverModifiers, debug_TFECore_FileName, "Core_MainLoop/Set_AllSquadCoverModifiers") == false) then return end
+	if(DoCriticalFunction(Set_PlayerUpkeep, debug_TFECore_FileName, "Core_MainLoop/Set_PlayerUpkeep") == false) then return end 
+	if(DoCriticalFunction(Set_ResourceMature, debug_TFECore_FileName, "Core_MainLoop/Set_ResourceMature") == false) then return end
+	if(DoCriticalFunction(Implement_UpkeepAndMature, debug_TFECore_FileName, "Core_MainLoop/Implement_UpkeepAndMature") == false) then return end
 	DoBasicFunction(Set_Weather, debug_TFECore_FileName, "Core_MainLoop/Set_Weather")
 	DoBasicFunction(Update_GlobalAbilities, debug_TFECore_FileName, "Core_MainLoop/Update_GlobalAbilities")
 	
@@ -403,32 +398,47 @@ function GetAllPlayerRelationships(_player)
 
 	AddStacktrace("GetAllPlayerRelationships")
 
-	local debugFuncName = "GetAllPlayerRelationships"
-
 	local own = { _player }
 	local allies = {}
 	local enemies = {}
 	local neutral = {}
 
 	for i = 1, g_PlayerCount do
+
 		local nextPlayer = g_AllPlayers[i].Player
+
 		if(nextPlayer ~= _player.Player) then
+
 			if(Player_IsAlive(nextPlayer)) then
+
 				local tmpRelationship = Player_GetRelationship(_player.Player, nextPlayer)
+
 				if(tmpRelationship == R_ALLY) then
+
 					table.insert(allies, g_AllPlayers[i])
+
 				elseif(tmpRelationship == R_ENEMY) then
+
 					table.insert(enemies, g_AllPlayers[i])
+
 				elseif(tmpRelationship == R_NEUTRAL) then
+
 					table.insert(neutral, g_AllPlayers[i])
+
 				else
-					Log(1, 0, debug_SquadManager_FileName, debugFuncName, "Player: ".._player.DisplayName.." has an undefined relationship with "..nextPlayer.DisplayName)
+
+					Log(eLOG_TYPE_WARNING, eLOG_VERBOSE, "Player: ".._player.DisplayName.." has an undefined relationship with "..nextPlayer.DisplayName)
+
 				end
 			end
+
 		end
+
 	end
+
 	
 	RemoveStacktrace()
+
 	return own, allies, enemies, neutral
 	
 end

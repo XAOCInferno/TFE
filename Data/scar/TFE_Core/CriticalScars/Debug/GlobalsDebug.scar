@@ -1,5 +1,3 @@
-debug_GlobalsDebug_FileName = "GlobalsDebug"
-
 --Log Type ENUMS
 eLOG_TYPE_INFO = 0
 eLOG_LOG_TYPE_WARNING = 1
@@ -33,11 +31,11 @@ local function GetLogType(_LogType)
 
 	if(_LogType > LogTypesLength) then
 
-		Log(eLOG_SIMPLE, eLOG_LOG_TYPE_WARNING, debug_GlobalsDebug_FileName, "GetLogType", "Log type of '".._LogType.."' is invalid! Number must be bellow "..LogTypesLength)
+		Log(eLOG_SIMPLE, eLOG_LOG_TYPE_WARNING, "Log type of '".._LogType.."' is invalid! Number must be bellow "..LogTypesLength)
 
 	else
 
-		ReturnValue = LogTypes[0]
+		ReturnValue = LogTypes[_LogType]
 
 	end
 
@@ -72,14 +70,40 @@ function ClearStacktrace()
 end
 
 --[[Get the full path as a string]]
-local function SetStacktracePath()
+local function SetStacktracePath(_Verbosity)
 
 	AddStacktrace("SetStacktracePath")
 
 	StacktracePath = "@"
-	for i = 1, table.getn(StacktraceStack) do
+	if(_Verbosity == eLOG_FULL) then
 
-		StacktracePath = StacktracePath.."/"..StacktraceStack[i]
+		for i = 1, table.getn(StacktraceStack) do
+
+			StacktracePath = StacktracePath.."/"..StacktraceStack[i]
+
+		end
+
+		StacktracePath = StacktracePath.."\n"
+
+	elseif(_Verbosity == eLOG_VERBOSE) then
+
+		local StacktraceStackLength = table.getn(StacktraceStack)
+		
+		for i = StacktraceStackLength-4, StacktraceStackLength-2 do
+
+			if (i > 0) then
+
+				StacktracePath = StacktracePath.."/"..StacktraceStack[i]
+
+			end
+
+		end
+
+		StacktracePath = StacktracePath.."\n"
+
+	else
+
+		StacktracePath = ""
 
 	end
 
@@ -88,13 +112,20 @@ local function SetStacktracePath()
 end
 
 --Writes a custom log to the console
-function Log(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
+function Log(_LogType, _Verbosity, _Line)
 
 	AddStacktrace("Log")
 
-	SetStacktracePath()
+	SetStacktracePath(_Verbosity)
+	if(_Verbosity == eLOG_NONE) then
 
-	print("("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) "..StacktracePath..":  ".._Line)
+		print(_Line)
+
+	else	
+
+		print("\n[[\n\v  ("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s)\n\v  ".._Line.."\n"..StacktracePath.."]]")
+	
+	end
 
 	RemoveStacktrace()
 
@@ -141,8 +172,6 @@ local TableContainsOverride = function(_Tbl, _Desired)
 
 	pcall(AddStacktrace, "TableContainsOverride")
 
-	local debugFuncName = "TableContainsOverride"
-
 	local ReturnIndex = 0
 	local Success = false
 
@@ -162,7 +191,7 @@ local TableContainsOverride = function(_Tbl, _Desired)
 
 	else	
 
-		Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, debug_LuaTableExtensions_FileName, debugFuncName,  "Table is nil, returning false as default.")
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, "Table is nil, returning false as default.")
 
 	end
 
@@ -173,17 +202,18 @@ local TableContainsOverride = function(_Tbl, _Desired)
 end
 
 --Writes a custom log to the console, if it hasn't been written before
-function LogOnce(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
+function LogOnce(_LogType, _Verbosity, _Line)
 	
 	AddStacktrace("LogOnce")
-	
-	local LogID = _Verbosity.._ModuleName.._FunctionName.._Line
+	SetStacktracePath(_Verbosity)
+
+	local LogID = StacktracePath.._Line
 	contains, _ = TableContainsOverride(WrittenLogs, LogID)
 
 	if(contains == false) then
 
 		table.insert(WrittenLogs, LogID)
-		Log(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
+		Log(_LogType, _Verbosity, _Line)
 
 	end
 	
@@ -191,19 +221,19 @@ function LogOnce(_LogType, _Verbosity, _ModuleName, _FunctionName, _Line)
 
 end
 
-function LogError(_ModuleName, _FunctionName, _Line)
+function LogError(_Line)
 	
 	AddStacktrace("LogError")
 
 	g_DebugMode = true --Error is so severe we should force debug on!
 	UIWarning_Show( "--------------------------------------------\n------TFE CORE FATAL ERROR------\n-----------CORE STOPPED------------\n--------------------------------------------" )
-	Log(eLOG_LOG_TYPE_CRITICAL, eLOG_FULL, _ModuleName, _FunctionName, _Line)
-	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "", "", "|")
-	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "", "", "--------------------------------------------")
-	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "", "", "------TFE CORE FATAL ERROR------")
-	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "", "", "-----------CORE STOPPED------------")
-	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "", "", "--------------------------------------------")
-	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "", "", "|")
+	Log(eLOG_LOG_TYPE_CRITICAL, eLOG_FULL, _Line)
+	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "|")
+	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "--------------------------------------------")
+	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "------TFE CORE FATAL ERROR------")
+	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "-----------CORE STOPPED------------")
+	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "--------------------------------------------")
+	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "|")
 	ErrorPause()
 
 	RemoveStacktrace()

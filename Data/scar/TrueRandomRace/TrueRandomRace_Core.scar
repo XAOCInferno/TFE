@@ -1,8 +1,3 @@
----------
---DEBUG--
----------
-debug_TrueRandomRace_FileName = "TrueRandomRace_Core.scar"
-
 --------------------
 ------imports-------
 --------------------
@@ -11,8 +6,9 @@ import("TrueRandomRace/RacePrefs.lua")
 
 function TrueRandomRace_Setup()
 
-	local debugFuncName = "TrueRandomRace_Setup"	
-	Log(0, 0, debug_TrueRandomRace_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	AddStacktrace("TrueRandomRace_Setup")
+
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Starting: 'TrueRandomRace_Setup'...")
 	
 	CheckForValidListContents()
 	
@@ -23,8 +19,6 @@ function TrueRandomRace_Setup()
 		local newRace = 0
 		
 		if(tblLength == 0) then
-		
-			Log(1, 0, debug_TrueRandomRace_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
 			
 			newRaceIndex = World_GetRand(1, table.getn(availableRaces))
 			newRace = g_TRR_AllRaces[newRaceIndex]
@@ -42,17 +36,28 @@ function TrueRandomRace_Setup()
 		
 	end
 	
-	Log(0, 0, debug_TrueRandomRace_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Finished: '.TrueRandomRace_Setup'!")
+
+	RemoveStacktrace()
 
 end
 
 function CheckForValidListContents() 
 
+	AddStacktrace("CheckForValidListContents")
+
 	if(table.getn(g_TRR_AllRaces) == 0) then
+
 		g_TRR_Allraces = { "space_marine_race", "chaos_marine_race" }
+
 	end
 	
 	if(table.getn(g_TRR_AllPaints) == 0) then
+
 		g_TRR_AllPaints = { "default_0" }
+
 	end
+
+	RemoveStacktrace()
+
 end

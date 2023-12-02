@@ -1,16 +1,11 @@
-debug_AlphaLegionCore_FileName = "AlphaLegion_Core"
-
-
 import("TFE_Core/Subscars/Alpha_Legion/Imports/AlphaLegion_Imports.scar")
 
 
 function Setup_AlphaLegion()
 	
 	AddStacktrace("Setup_AlphaLegion")
-
-	local debugFuncName = "Setup_AlphaLegion"
 	
-	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_TFECore_FileName, debugFuncName, "Starting: '"..debugFuncName.."'...")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Starting: 'Setup_AlphaLegion'...")
 	
 	for i = 1, g_PlayerCount do
 
@@ -25,10 +20,12 @@ function Setup_AlphaLegion()
 				Restrict_AlphaLegion(g_AllPlayers[i].Player)				
 				
 			end
+
 		end
+		
 	end
 	
-	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_TFECore_FileName, debugFuncName, "Finished: '"..debugFuncName.."'!")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Finished: 'Setup_AlphaLegion'!")
 
 	RemoveStacktrace()
 
