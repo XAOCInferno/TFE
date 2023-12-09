@@ -1,5 +1,8 @@
 GameData = Inherit([[]])
 GameData["modifiers"] = Reference([[tables\modifier_table.lua]])
+GameData["modifiers"]["modifier_01"] = Reference([[modifiers\income_requisition_player_modifier.lua]])
+GameData["modifiers"]["modifier_01"]["shield_of_faith"] = false
+GameData["modifiers"]["modifier_01"]["value"] = 1.05
 GameData["modifiers"]["modifier_15"] = Reference([[modifiers\speed_maximum_modifier.lua]])
 GameData["modifiers"]["modifier_15"]["application_type"] = Reference([[type_modifierapplicationtype\tp_mod_apply_to_entity_type.lua]])
 GameData["modifiers"]["modifier_15"]["shield_of_faith"] = false

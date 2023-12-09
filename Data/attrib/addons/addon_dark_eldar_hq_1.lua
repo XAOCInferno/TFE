@@ -1,6 +1,11 @@
 GameData = Inherit([[]])
 GameData["add_on_motion_name"] = [[]]
 GameData["modifiers"] = Reference([[tables\modifier_table.lua]])
+GameData["modifiers"]["modifier_01"] = Reference([[modifiers\resource_per_tick_requisition_modifier.lua]])
+GameData["modifiers"]["modifier_01"]["application_type"] = Reference([[type_modifierapplicationtype\tp_mod_apply_to_entity.lua]])
+GameData["modifiers"]["modifier_01"]["shield_of_faith"] = false
+GameData["modifiers"]["modifier_01"]["usage_type"] = Reference([[type_modifierusagetype\tp_mod_usage_addition.lua]])
+GameData["modifiers"]["modifier_01"]["value"] = 5
 GameData["requirements"] = Reference([[tables\requirements.lua]])
 GameData["requirements"]["required_1"] = Reference([[requirements\required_structure_either.lua]])
 GameData["requirements"]["required_1"]["structure_name_either"] = [[ebps\races\dark_eldar\structures\dark_eldar_hall_of_blood.lua]]
