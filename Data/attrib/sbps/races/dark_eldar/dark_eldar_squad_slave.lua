@@ -467,6 +467,7 @@ GameData["squad_requirement_ext"]["requirements"]["required_11"]["is_display_req
 GameData["squad_requirement_ext"]["requirements"]["required_11"]["structure_name"] = [[ebps\races\dark_eldar\structures\dark_eldar_hq.lua]]
 GameData["squad_transportable_ext"] = Reference([[sbpextensions\squad_transportable_ext.lua]])
 GameData["squad_transportable_ext"]["activate_transport_ability"] = true 
+GameData["squad_transportable_ext"]["transport_type"] = Reference([[type_transportable\transport_slave.lua]])
 GameData["squad_ui_ext"] = Reference([[sbpextensions\squad_ui_ext.lua]])
 GameData["squad_ui_ext"]["multi_select_priority"] = 20
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_01"] = [[$4050053]]
