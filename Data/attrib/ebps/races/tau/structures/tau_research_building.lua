@@ -257,7 +257,6 @@ GameData["research_ext"]["research_table"]["research_03"] = [[research\tau_impro
 GameData["research_ext"]["research_table"]["research_04"] = [[research\tau_improved_metallurgy.lua]]
 GameData["research_ext"]["research_table"]["research_05"] = [[research\tau_targeting_optics.lua]]
 GameData["research_ext"]["research_table"]["research_06"] = [[research\tau_missile_barrage_research.lua]]
-GameData["research_ext"]["research_table"]["research_07"] = [[research\tau_feral_leap_research.lua]]
 GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
 GameData["sight_ext"]["sight_radius"] = 15
 GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])

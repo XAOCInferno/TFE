@@ -1,7 +1,7 @@
 GameData = Inherit([[]])
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
-GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 165
+GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 130
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
 GameData["cost_ext"]["time_cost"]["time_seconds"] = 30
 GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
@@ -243,6 +243,7 @@ GameData["requirement_ext"]["requirements"]["required_1"] = Reference([[requirem
 GameData["requirement_ext"]["requirements"]["required_1"]["is_display_requirement"] = true 
 GameData["requirement_ext"]["requirements"]["required_1"]["structure_name"] = [[ebps\races\tau\structures\tau_hq.lua]]
 GameData["research_ext"] = Reference([[ebpextensions\research_ext.lua]])
+GameData["research_ext"]["research_table"]["research_07"] = [[research\tau_feral_leap_research.lua]]
 GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
 GameData["sight_ext"]["sight_radius"] = 30
 GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
