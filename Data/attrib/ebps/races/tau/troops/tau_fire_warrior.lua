@@ -1,6 +1,6 @@
 GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
-GameData["ability_ext"]["abilities"]["ability_12"] = [[abilities\generic_stonewall_type_ranged.lua]]
+GameData["ability_ext"]["abilities"]["ability_11"] = [[abilities\generic_auto_force_reload_special_weapon.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Main]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["hardpoint_weapon_variant_motion_name"] = [[Weapon_Range_Upgrade_Main]]
@@ -449,7 +449,7 @@ GameData["health_ext"] = Reference([[ebpextensions\health_ext.lua]])
 GameData["health_ext"]["armour"] = 100
 GameData["health_ext"]["death_event"] = [[data:/art/events/unit_death_events/sink_into_ground.events]]
 GameData["health_ext"]["display_health_bar"] = true 
-GameData["health_ext"]["hitpoints"] = 360
+GameData["health_ext"]["hitpoints"] = 370
 GameData["health_ext"]["morale_death"] = 40
 GameData["health_ext"]["poison_damage"] = 0.8000000119
 GameData["health_ext"]["poison_damage_duration"] = 15
