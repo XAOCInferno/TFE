@@ -2,6 +2,7 @@ GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
 GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\tau_snare_trap.lua]]
 GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\tau_target_acquired.lua]]
+GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\tau_commander_snare_grenade.lua]]
 GameData["ability_ext"]["abilities"]["ability_11"] = [[abilities\generic_auto_force_reload_tau_commander.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["complex_upgrades"] = true 

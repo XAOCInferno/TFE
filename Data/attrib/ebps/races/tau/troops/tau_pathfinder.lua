@@ -24,7 +24,7 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_01"
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\tau_pathfinder_melee.lua]]
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
-GameData["cost_ext"]["time_cost"]["cost"]["power"] = 8.33333333333
+GameData["cost_ext"]["time_cost"]["cost"]["power"] = 3.34
 GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 60
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
 GameData["cost_ext"]["time_cost"]["time_seconds"] = 8
@@ -457,7 +457,7 @@ GameData["health_ext"]["armour"] = 100
 GameData["health_ext"]["death_event"] = [[data:/art/events/unit_death_events/sink_into_ground.events]]
 GameData["health_ext"]["display_health_bar"] = true 
 GameData["health_ext"]["hitpoints"] = 373.25
-GameData["health_ext"]["morale_death"] = 40
+GameData["health_ext"]["morale_death"] = 30
 GameData["health_ext"]["poison_damage"] = 0.8000000119
 GameData["health_ext"]["poison_damage_duration"] = 15
 GameData["health_ext"]["poison_event"] = [[art\events\Chaos\BiotoxBomb_aura_Large]]
