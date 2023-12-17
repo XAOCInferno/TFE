@@ -1,6 +1,11 @@
 GameData = Inherit([[]])
 GameData["modifiers"] = Reference([[tables\modifier_table.lua]])
 GameData["requirements"] = Reference([[tables\requirements.lua]])
+GameData["requirements"]["required_3"] = Reference([[requirements\required_research.lua]])
+GameData["requirements"]["required_3"]["research_name"] = [[research\tau_tier2_research.lua]]
+GameData["requirements"]["required_10"] = Reference([[requirements\required_structure.lua]])
+GameData["requirements"]["required_10"]["is_display_requirement"] = true 
+GameData["requirements"]["required_10"]["structure_name"] = [[ebps\races\tau\structures\tau_research_building.lua]]
 GameData["time_cost"] = Reference([[tables\time_cost_table.lua]])
 GameData["time_cost"]["cost"]["faith"] = 0
 GameData["time_cost"]["cost"]["power"] = 100
