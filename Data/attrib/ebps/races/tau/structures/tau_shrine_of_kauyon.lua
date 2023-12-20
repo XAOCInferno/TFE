@@ -1,10 +1,10 @@
 GameData = Inherit([[]])
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
-GameData["cost_ext"]["time_cost"]["cost"]["power"] = 340
-GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 450
+GameData["cost_ext"]["time_cost"]["cost"]["power"] = 275
+GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 350
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
-GameData["cost_ext"]["time_cost"]["time_seconds"] = 145
+GameData["cost_ext"]["time_cost"]["time_seconds"] = 120
 GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
 GameData["entity_blueprint_ext"]["animator"] = [[Races/Tau/Structures/Tau_Shrine_of_Kauyon]]
 GameData["entity_blueprint_ext"]["scale_x"] = 4
