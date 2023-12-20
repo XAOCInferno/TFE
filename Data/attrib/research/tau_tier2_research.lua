@@ -1,15 +1,11 @@
 GameData = Inherit([[]])
 GameData["modifiers"] = Reference([[tables\modifier_table.lua]])
-GameData["modifiers"]["modifier_01"] = Reference([[modifiers\max_leaders_squad_modifier.lua]])
-GameData["modifiers"]["modifier_01"]["shield_of_faith"] = false
-GameData["modifiers"]["modifier_01"]["target_type_name"] = [[tau_fire_warrior_squad]]
-GameData["modifiers"]["modifier_01"]["value"] = 1
 GameData["modifiers"]["modifier_02"] = Reference([[modifiers\support_cap_player_modifier.lua]])
 GameData["modifiers"]["modifier_02"]["shield_of_faith"] = false
-GameData["modifiers"]["modifier_02"]["value"] = 4
+GameData["modifiers"]["modifier_02"]["value"] = 3
 GameData["modifiers"]["modifier_03"] = Reference([[modifiers\squad_cap_player_modifier.lua]])
 GameData["modifiers"]["modifier_03"]["shield_of_faith"] = false
-GameData["modifiers"]["modifier_03"]["value"] = 3
+GameData["modifiers"]["modifier_03"]["value"] = 2
 GameData["requirements"] = Reference([[tables\requirements.lua]])
 GameData["time_cost"] = Reference([[tables\time_cost_table.lua]])
 GameData["time_cost"]["cost"]["faith"] = 0
