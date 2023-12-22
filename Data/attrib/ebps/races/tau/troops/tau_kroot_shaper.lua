@@ -707,6 +707,7 @@ GameData["syncdeath_ext"] = Reference([[ebpextensions\syncdeath_ext.lua]])
 GameData["syncdeath_ext"]["syncdeathinfos"]["syncdeathinfo_02"]["dead_motion_name"] = [[]]
 GameData["syncdeath_ext"]["syncdeathinfos"]["syncdeathinfo_02"]["synckill_id"] = Reference([[type_synckillids\sk_none.lua]])
 GameData["synckill_ext"] = Reference([[ebpextensions\synckill_ext.lua]])
+GameData["synckill_ext"]["chance"] = 0.8
 GameData["synckill_ext"]["synckillinfos"]["synckillinfo_01"]["killer_motion_name"] = [[]]
 GameData["synckill_ext"]["synckillinfos"]["synckillinfo_01"]["synckill_id"] = Reference([[type_synckillids\sk_none.lua]])
 GameData["synckill_ext"]["synckillinfos"]["synckillinfo_02"]["dead_zombie_time"] = 5.599999905
