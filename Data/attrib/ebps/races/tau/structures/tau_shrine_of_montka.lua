@@ -260,6 +260,7 @@ GameData["requirement_ext"]["requirements"]["required_10"] = Reference([[require
 GameData["requirement_ext"]["requirements"]["required_10"]["is_display_requirement"] = true 
 GameData["requirement_ext"]["requirements"]["required_10"]["structure_name"] = [[ebps\races\tau\structures\tau_hq.lua]]
 GameData["requirement_ext"]["requirements"]["required_11"] = Reference([[requirements\required_cap.lua]])
+GameData["requirement_ext"]["requirements"]["required_11"]["max_cap"] = 1
 GameData["research_ext"] = Reference([[ebpextensions\research_ext.lua]])
 GameData["research_ext"]["research_table"]["research_01"] = [[research\tau_teachings_of_montka_research.lua]]
 GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
