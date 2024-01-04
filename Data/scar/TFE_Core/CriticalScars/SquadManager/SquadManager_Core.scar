@@ -121,7 +121,9 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 		local addNewSquadData = true
 		local criticalError = false
 
-		if(TableContains(g_SquadBlueprintToIgnore, squadBP)) then 
+		local shouldIgnore, _ TableContains(g_SquadBlueprintToIgnore, squadBP)
+		
+		if(shouldIgnore) then 
 
 			criticalError = true
 

@@ -1,0 +1,235 @@
+import("TFE_Core/Subscars/Achievements/Imports/Achievements_Imports.scar")
+
+eACHIEVEMENT_STATUS_COMPLETE = OS_Complete
+eACHIEVEMENT_STATUS_FAILED = OS_Failed
+eACHIEVEMENT_STATUS_ONGOING = 3
+
+eACHIEVEMENT_VIEW_ACTIVE = 0
+eACHIEVEMENT_VIEW_HIDDEN = 1
+
+g_AllTrackedAchievements = {}
+
+AchievementDetails = {}
+function AchievementDetails:new (_ViewState, _ObjectiveTable)
+
+	AddStacktrace("AchievementDetails:new")
+
+    local AchievementDetailsObject = 
+    {
+    	--Constants
+	    Name = _Name,
+	    Description = _Description,
+		ViewState = _ViewState,
+		ObjectiveTable = _ObjectiveTable, --[[ obj_table = { title_id = 400009, short_desc_id = 400010, help_tip_id = 400011 } ]]
+
+		--Variables
+		HasCompleted = false	
+	}
+
+	self.__index = self
+
+	if(_ViewState == eACHIEVEMENT_VIEW_ACTIVE) then
+			
+		Objective_Add(_ObjectiveTable, false)
+	
+	end
+
+	RemoveStacktrace()
+
+   	return setmetatable(AchievementDetailsObject, self)
+	
+end
+
+function AchievementDetails:Update()
+
+	AddStacktrace("AchievementDetails:Update")
+
+	if(self.HasCompleted == false) then
+
+		local AchievementStatus, CompletionPlayerStruct = self.Get_AchievementStatus()
+
+		if(AchievementStatus == eACHIEVEMENT_COMPLETE or AchievementStatus == eACHIEVEMENT_FAILED) then
+
+			self:CompleteAchievement(AchievementStatus, CompletionPlayerStruct)
+
+		end
+
+	end
+
+	RemoveStacktrace()
+	
+end
+
+function AchievementDetails:Get_AchievementStatus()
+
+	AddStacktrace("AchievementDetails:Update_AchievementStatus")
+
+	--Override me!
+
+	RemoveStacktrace()
+
+end
+
+function AchievementDetails:CompleteAchievement(_AchievementStatus, _Player)
+	
+	self.HasCompleted = true	
+
+	if(_AchievementStatus == eACHIEVEMENT_COMPLETE) then
+
+		if(self.ViewState == eACHIEVEMENT_VIEW_ACTIVE) then
+
+			Util_ObjectiveComplete(self.ObjectiveTable.title_id)
+
+		end
+
+		self.EndSuccess(_Player)
+
+	else
+
+		if(self.ViewState == eACHIEVEMENT_VIEW_ACTIVE) then
+
+			Util_ObjectiveFail(self.ObjectiveTable.title_id)
+
+		end
+
+		self.EndFailure(_Player)
+
+	end
+
+end
+
+function AchievementDetails:EndSuccess(_Player)
+
+	AddStacktrace("AchievementDetails:Update")
+
+	--Override me, otherwise we wont get any reward...
+
+	RemoveStacktrace()
+	
+end
+
+function AchievementDetails:EndFailure(_Player)
+
+	AddStacktrace("AchievementDetails:Update")
+
+	--Override me if you want to do something on a failure, usually we wont care?
+
+	RemoveStacktrace()
+	
+end
+
+function Setup_Achievements()
+	
+	AddStacktrace("Setup_Achievements")
+	
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Starting: 'Setup_Achievements'...")
+
+	local Generic_Achievement_KillUnits = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 0, short_desc_id = 0, help_tip_id = 0 } )
+	local Generic_Achievement_RazeBuildings = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 1, short_desc_id = 1, help_tip_id = 1 } )
+	local Generic_Achievement_ExpensiveArmy = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 2, short_desc_id = 2, help_tip_id = 2 } )
+
+	Generic_Achievement_KillUnits.Get_AchievementStatus = function( _self )
+		
+		for i = 1, g_PlayerCount do
+			--Not working.
+			if(Stats_PlayerUnitsKilled(g_AllPlayers[i].PlayerIndex) >= 10) then
+
+				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
+
+			end
+
+		end
+
+		return eACHIEVEMENT_STATUS_ONGOING
+
+	end
+
+	Generic_Achievement_KillUnits.EndSuccess = function( _self, _PlayerStruct )
+
+		_PlayerStruct.CurrentAddResources.RT_Requisition = _PlayerStruct.CurrentAddResources.RT_Requisition + 50
+
+	end
+
+	Generic_Achievement_RazeBuildings.Get_AchievementStatus = function( _self )
+		
+		for i = 1, g_PlayerCount do
+			--Not working.
+			if(Stats_PlayerStructuresRazed(g_AllPlayers[i].PlayerIndex) >= 3) then
+
+				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
+
+			end
+
+		end
+
+		return eACHIEVEMENT_STATUS_ONGOING
+
+	end
+	
+	Generic_Achievement_RazeBuildings.EndSuccess = function( _self, _PlayerStruct )
+
+		_PlayerStruct.CurrentAddResources.RT_Requisition = _PlayerStruct.CurrentAddResources.RT_Requisition + 25
+		_PlayerStruct.CurrentAddResources.RT_Power = _PlayerStruct.CurrentAddResources.RT_Power + 25
+
+	end
+
+	Generic_Achievement_ExpensiveArmy.Get_AchievementStatus = function( _self )
+		
+		for i = 1, g_PlayerCount do
+
+			local ArmyCostScore = 0
+			ArmyCostScore = ArmyCostScore + (Stats_ActiveArmyCost(g_AllPlayers[i].Player, RT_Requisition) * 0.4)
+			ArmyCostScore = ArmyCostScore + Stats_ActiveArmyCost(g_AllPlayers[i].Player, RT_Power)
+
+			if(ArmyCostScore > 300) then
+
+				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
+
+			end
+
+		end
+
+		return eACHIEVEMENT_STATUS_ONGOING
+
+	end
+
+	Generic_Achievement_ExpensiveArmy.EndSuccess = function( _self, _PlayerStruct )
+
+		_PlayerStruct.CurrentAddResources.RT_Power = _PlayerStruct.CurrentAddResources.RT_Power + 40
+
+	end
+
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Finished: 'Setup_Achievements'!")
+
+	RemoveStacktrace()
+
+end
+
+
+function CreateAchievement(_ViewState, _ObjectiveTable)
+
+	AddStacktrace("CreateAchievement")
+	
+	local AchievementStruct = AchievementDetails:new(_ViewState, _ObjectiveTable)
+
+	table.insert(g_AllTrackedAchievements, AchievementStruct)
+
+	RemoveStacktrace()
+
+	return AchievementStruct
+
+end
+
+function Update_Achievements()
+	
+	AddStacktrace("Update_Achievements")
+	
+	for i = 1, table.getn(g_AllTrackedAchievements) do
+
+		g_AllTrackedAchievements[i]:Update()
+
+	end
+
+	RemoveStacktrace()
+
+end

@@ -185,6 +185,8 @@ function Core_Init_Load()
 	if(DoCriticalFunction(Setup_NewCoverSystem) == false) then return false end
 	DoBasicFunction(Setup_WeatherSystems)
 	DoBasicFunction(Setup_GlobalAbilities)
+	--DoBasicFunction(Setup_Achievements)
+	Setup_Achievements()
 
 	RemoveStacktrace()
 
@@ -287,16 +289,18 @@ function Core_MainLoop()
 	
 	AddStacktrace("Core_MainLoop")
 
-	if(DoCriticalFunction(Set_UpdatedGameTime, debug_TFECore_FileName, "Core_MainLoop/Set_UpdatedGameTime") == false) then return end
-	if(DoCriticalFunction(Set_AllSquads_Immediate, debug_TFECore_FileName, "Core_MainLoop/Set_AllSquads_Immediate") == false) then return end
-	if(DoCriticalFunction(Set_AllEntities_Immediate, debug_TFECore_FileName, "Core_MainLoop/Set_AllEntities_Immediate") == false) then return end
-	if(DoCriticalFunction(Set_AllSquadCoverModifiers, debug_TFECore_FileName, "Core_MainLoop/Set_AllSquadCoverModifiers") == false) then return end
-	if(DoCriticalFunction(Set_PlayerUpkeep, debug_TFECore_FileName, "Core_MainLoop/Set_PlayerUpkeep") == false) then return end 
-	if(DoCriticalFunction(Set_ResourceMature, debug_TFECore_FileName, "Core_MainLoop/Set_ResourceMature") == false) then return end
-	if(DoCriticalFunction(Implement_UpkeepAndMature, debug_TFECore_FileName, "Core_MainLoop/Implement_UpkeepAndMature") == false) then return end
-	DoBasicFunction(Set_Weather, debug_TFECore_FileName, "Core_MainLoop/Set_Weather")
-	DoBasicFunction(Update_GlobalAbilities, debug_TFECore_FileName, "Core_MainLoop/Update_GlobalAbilities")
-	
+	if(DoCriticalFunction(Set_UpdatedGameTime) == false) then return end
+	if(DoCriticalFunction(Set_AllSquads_Immediate) == false) then return end
+	if(DoCriticalFunction(Set_AllEntities_Immediate) == false) then return end
+	if(DoCriticalFunction(Set_AllSquadCoverModifiers) == false) then return end
+	if(DoCriticalFunction(Set_PlayerUpkeep, debug_TFECore_FileName) == false) then return end 
+	if(DoCriticalFunction(Set_ResourceMature, debug_TFECore_FileName) == false) then return end
+	if(DoCriticalFunction(Implement_UpkeepAndMature, debug_TFECore_FileName) == false) then return end
+	DoBasicFunction(Set_Weather)
+	DoBasicFunction(Update_GlobalAbilities)
+	--DoBasicFunction(Update_Achievements)
+	Update_Achievements()
+
 	RemoveStacktrace()
 	
 end
