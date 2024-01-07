@@ -284,7 +284,7 @@ end
 --Use 1 or 0 for SquadDead with 0 being false and 1 being true
 function UpdateSquadCombatDeathResources(RedReceiverPlayer, DefenderPlayer, ModelLosses, LeaderLosses, SquadDead ) 
 
-	AddStacktrace("CheckForSquadLosses")
+	AddStacktrace("UpdateSquadCombatDeathResources")
 
 	local TotalRed = 0
 	TotalRed = TotalRed + (0.5 * ModelLosses)
@@ -303,6 +303,25 @@ function UpdateSquadCombatDeathResources(RedReceiverPlayer, DefenderPlayer, Mode
 
 end
 
+--Use 1 or 0 for SquadDead with 0 being false and 1 being true
+function UpdateSquadCombatDeathStats(AtackerPlayer, DefenderPlayer, ModelLosses, LeaderLosses, CommanderLosses, SquadDead ) 
+
+	AddStacktrace("UpdateSquadCombatDeathStats")
+
+	AtackerPlayer.StatsManager.UnitsKilled = AtackerPlayer.StatsManager.UnitsKilled + ModelLosses
+	AtackerPlayer.StatsManager.LeadersKilled = AtackerPlayer.StatsManager.LeadersKilled + LeaderLosses
+	AtackerPlayer.StatsManager.CommandersKilled = AtackerPlayer.StatsManager.CommandersKilled + CommanderLosses
+	AtackerPlayer.StatsManager.SquadsKilled = AtackerPlayer.StatsManager.SquadsKilled + SquadDead
+
+	DefenderPlayer.StatsManager.UnitsLost = AtackerPlayer.StatsManager.UnitsLost + ModelLosses
+	DefenderPlayer.StatsManager.LeadersLost = AtackerPlayer.StatsManager.LeadersLost + LeaderLosses
+	DefenderPlayer.StatsManager.CommandersLost = AtackerPlayer.StatsManager.CommandersLost + CommanderLosses
+	DefenderPlayer.StatsManager.SquadsLost = AtackerPlayer.StatsManager.SquadsLost + SquadDead
+
+	RemoveStacktrace()
+
+end
+
 function Get_SquadLosses(_SquadStruct)
 
 	--We don't need to add Stacktrace here as simple getter
@@ -310,12 +329,19 @@ function Get_SquadLosses(_SquadStruct)
 
 end
 
+--[[
+	TODO!!!
+	I am concerned this may be applying multiple times due to multiple players being the aggressor
+	Please test in multiplayer to be certain
+	If so will require a small change to how we apply red and stats
+]]
 function Set_SquadCombatDetails(_SquadStruct, _IsDead)
 	
 	AddStacktrace("Set_SquadCombatDetails")
 
 	local ModelLosses = 0
 	local LeaderLosses = 0
+	local CommanderLosses = 0 --Functionality to be added
 	local SquadDeath = 0
 
 	--Squad is dead. Time to give big reward to killers...
@@ -334,6 +360,7 @@ function Set_SquadCombatDetails(_SquadStruct, _IsDead)
 				ModelLosses, LeaderLosses = Get_SquadLosses(_SquadStruct)
 				Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Squad destroyed! Adding large Red for Player ".._SquadStruct.PreviouslyAttackedByPlayers[i].PlayerIndex..".")	
 				UpdateSquadCombatDeathResources(_SquadStruct.PreviouslyAttackedByPlayers[i], _SquadStruct.OwnerPlayer, ModelLosses, LeaderLosses, 1 )
+				UpdateSquadCombatDeathStats(_SquadStruct.PreviouslyAttackedByPlayers[i], _SquadStruct.OwnerPlayer, ModelLosses, LeaderLosses, CommanderLosses, 1 )
 
 			end
 
@@ -359,7 +386,8 @@ function Set_SquadCombatDetails(_SquadStruct, _IsDead)
 
 				if(ModelLosses > 0 or LeaderLosses > 0) then
 
-					UpdateSquadCombatDeathResources(g_AllPlayers[i], _SquadStruct.OwnerPlayer, ModelLosses, LeaderLosses, 0 )		
+					UpdateSquadCombatDeathResources(g_AllPlayers[i], _SquadStruct.OwnerPlayer, ModelLosses, LeaderLosses, 0 )	
+					UpdateSquadCombatDeathStats(g_AllPlayers[i], _SquadStruct.OwnerPlayer, ModelLosses, LeaderLosses, CommanderLosses, 0 )	
 					
 					Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Adding Red for Player "..g_AllPlayers[i].PlayerIndex..".")					
 	

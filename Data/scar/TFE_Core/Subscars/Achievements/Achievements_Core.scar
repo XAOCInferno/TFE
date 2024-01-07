@@ -82,7 +82,7 @@ function AchievementDetails:CompleteAchievement(_AchievementStatus, _Player)
 
 		end
 
-		self.EndSuccess(_Player)
+		self:EndSuccess(_Player)
 
 	else
 
@@ -92,7 +92,7 @@ function AchievementDetails:CompleteAchievement(_AchievementStatus, _Player)
 
 		end
 
-		self.EndFailure(_Player)
+		self:EndFailure(_Player)
 
 	end
 
@@ -127,12 +127,14 @@ function Setup_Achievements()
 	local Generic_Achievement_KillUnits = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 0, short_desc_id = 0, help_tip_id = 0 } )
 	local Generic_Achievement_RazeBuildings = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 1, short_desc_id = 1, help_tip_id = 1 } )
 	local Generic_Achievement_ExpensiveArmy = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 2, short_desc_id = 2, help_tip_id = 2 } )
+	local Generic_Achievement_KDRatio = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 3, short_desc_id = 3, help_tip_id = 3 } )
+	local Generic_Achievement_FirstBlood = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 4, short_desc_id = 4, help_tip_id = 4 } )
 
 	Generic_Achievement_KillUnits.Get_AchievementStatus = function( _self )
 		
 		for i = 1, g_PlayerCount do
 			--Not working.
-			if(Stats_PlayerUnitsKilled(g_AllPlayers[i].PlayerIndex) >= 10) then
+			if (g_AllPlayers[i].StatsManager.UnitsKilled >= 10) then
 
 				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
 
@@ -154,8 +156,8 @@ function Setup_Achievements()
 		
 		for i = 1, g_PlayerCount do
 			--Not working.
-			if(Stats_PlayerStructuresRazed(g_AllPlayers[i].PlayerIndex) >= 3) then
-
+			if (g_AllPlayers[i].StatsManager.StructuresRazed >= 3) then
+					
 				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
 
 			end
@@ -178,10 +180,10 @@ function Setup_Achievements()
 		for i = 1, g_PlayerCount do
 
 			local ArmyCostScore = 0
-			ArmyCostScore = ArmyCostScore + (Stats_ActiveArmyCost(g_AllPlayers[i].Player, RT_Requisition) * 0.4)
-			ArmyCostScore = ArmyCostScore + Stats_ActiveArmyCost(g_AllPlayers[i].Player, RT_Power)
+			ArmyCostScore = ArmyCostScore + (g_AllPlayers[i].StatsManager.ActiveArmyCost.RT_Requisition * 0.4)
+			ArmyCostScore = ArmyCostScore + g_AllPlayers[i].StatsManager.ActiveArmyCost.RT_Power
 
-			if(ArmyCostScore > 300) then
+			if (ArmyCostScore > 300) then
 
 				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
 
@@ -199,6 +201,50 @@ function Setup_Achievements()
 
 	end
 
+	Generic_Achievement_KDRatio.Get_AchievementStatus = function( _self )
+		
+		for i = 1, g_PlayerCount do
+			 
+			if (g_AllPlayers[i].StatsManager.UnitsKilled >= 10 and g_AllPlayers[i].StatsManager.UnitsKilled / g_AllPlayers[i].StatsManager.UnitsLost > 1.5) then
+
+				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
+
+			end
+
+		end
+
+		return eACHIEVEMENT_STATUS_ONGOING
+
+	end
+
+	Generic_Achievement_KDRatio.EndSuccess = function( _self, _PlayerStruct )
+
+		_PlayerStruct.CurrentAddResources.RT_Requisition = _PlayerStruct.CurrentAddResources.RT_Requisition + 50
+
+	end
+
+	Generic_Achievement_KDRatio.Get_AchievementStatus = function( _self )
+		
+		for i = 1, g_PlayerCount do
+			 
+			if (g_AllPlayers[i].StatsManager.UnitsKilled >= 1 ) then
+
+				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
+
+			end
+
+		end
+
+		return eACHIEVEMENT_STATUS_ONGOING
+
+	end
+
+	Generic_Achievement_KDRatio.EndSuccess = function( _self, _PlayerStruct )
+
+		_PlayerStruct.CurrentAddResources.RT_Requisition = _PlayerStruct.CurrentAddResources.RT_Requisition + 25
+
+	end
+	
 	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Finished: 'Setup_Achievements'!")
 
 	RemoveStacktrace()
