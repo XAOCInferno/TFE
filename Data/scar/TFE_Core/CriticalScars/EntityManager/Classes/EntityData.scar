@@ -1,0 +1,47 @@
+----------------------
+--Class Constructors--
+----------------------
+
+EntityData = {}
+function EntityData:new (_eGameID, _eGroupID, _eIndex, _eID, _eRace, _eBP)
+
+	AddStacktrace("EntityData:new")
+
+    local EntityDataObject = 
+    {
+		EntityUniqueID = _eGameID,	
+		EntityGroupID =_eGroupID,
+		EntityGroupName = EGroup_GetName(_eGroupID),	
+		EntityIndex = _eIndex, 
+		EntityID = _eID,	
+		EntityUnitRace = _eRace,
+		EntityBlueprint = _eBP,
+		EntityPosition = Entity_GetPosition(_eID),
+		EntityPositionInt = Entity_GetPosition(_eID)
+	}
+
+	self.__index = self
+
+	RemoveStacktrace()
+
+	return setmetatable(EntityDataObject, self)
+end
+
+function EntityData:Update()
+
+	AddStacktrace("EntityData:Update")
+
+	local privateUpdate = function()
+	
+		self.EntityPosition = Entity_GetPosition(self.EntityID)
+		self.EntityPositionInt.x = math.floor(self.EntityPosition.x)
+		self.EntityPositionInt.y = math.floor(self.EntityPosition.y)
+		self.EntityPositionInt.z = math.floor(self.EntityPosition.z)
+
+	end
+
+	RemoveStacktrace()
+	
+	return pcall(privateUpdate)
+
+end

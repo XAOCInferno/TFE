@@ -1,0 +1,4 @@
+--[[Classes]]
+import("TFE_Core/CriticalScars/SquadManager/Classes/StrategicPoint.scar")
+import("TFE_Core/CriticalScars/SquadManager/Classes/SquadData.scar")
+

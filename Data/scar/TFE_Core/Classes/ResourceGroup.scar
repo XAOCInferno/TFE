@@ -1,0 +1,33 @@
+ResourceGroup = {}
+function ResourceGroup:new(_RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls)
+
+	AddStacktrace("ResourceGroup:new")
+
+	local ResourceGroupObject = 
+	{
+		RT_Red = _RT_Red,
+	    RT_Requisition = _RT_Requsition,
+	    RT_Power =  _RT_Power,
+	    RT_Pop =  _RT_Pop,
+	    RT_Faith = _RT_Faith, 
+	    RT_Souls = _RT_Souls
+	}
+
+	self.__index = self
+
+	RemoveStacktrace()
+
+   	return setmetatable(ResourceGroupObject, self)
+
+end
+
+function ResourceGroup:Set(_RT_Red, _RT_Requisition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls)
+
+	self.RT_Red = _RT_Red
+	self.RT_Requisition = _RT_Requisition
+	self.RT_Power = _RT_Power
+	self.RT_Pop = _RT_Pop
+	self.RT_Faith = _RT_Faith
+	self.RT_Souls = _RT_Souls
+
+end

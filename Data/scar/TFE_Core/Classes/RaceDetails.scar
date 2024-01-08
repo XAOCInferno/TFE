@@ -1,0 +1,20 @@
+RaceDetails = {}
+function RaceDetails:new (_RaceName, _RaceIndex, _RaceResourceInfo)
+
+	AddStacktrace("RaceDetails:new")
+
+    local RaceDetailsObject = 
+    {
+    	--Constants
+	    RaceName = _RaceName,
+	    RaceIndex = _RaceIndex,
+	    RaceResourceInfo = _RaceResourceInfo 
+    }
+
+	self.__index = self
+
+	RemoveStacktrace()
+
+   	return setmetatable(RaceDetailsObject, self)
+	
+end

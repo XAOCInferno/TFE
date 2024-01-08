@@ -1,0 +1,137 @@
+PlayerDetails = {}
+function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
+
+	AddStacktrace("PlayerDetails:new")
+
+    local PlayerDetailsObject = 
+    {
+    	--Constants
+	    Player = _Player,
+	    PlayerIndex = _PlayerIndex,
+	    DisplayName = _DisplayName,
+	    RaceDetails = _RaceDetails,   	   
+		StatsManager = nil,
+
+	    --Variables
+		--Is this even being used anymore? just here for future..?
+		CurrentResources = 
+	    {
+			RT_Red = 30,
+	    	RT_Requisition = 0,
+	    	RT_Power =  0,
+	    	RT_Pop =  0,
+	    	RT_Faith = 0, 
+	    	RT_Souls = 0
+	    },
+
+	    CurrentNumberOfResearchedGlobals = 
+	    {
+			RT_Red = 0,
+	    	RT_Requisition = 0,
+	    	RT_Power =  0,
+	    	RT_Pop =  0,
+	    	RT_Faith = 0, 
+	    	RT_Souls = 0
+	    },
+	    
+	    CurrentAddResources = 
+	    {
+			RT_Red = 0,
+	    	RT_Requisition = 0,
+	    	RT_Power =  0,
+	    	RT_Pop =  0,
+	    	RT_Faith = 0, 
+	    	RT_Souls = 0
+	    },
+	    
+	    CurrentFireCosts = 
+	    {
+			RT_Red = 0,
+	    	RT_Requisition = 0,
+	    	RT_Power =  0,
+	    	RT_Pop =  0,
+	    	RT_Faith = 0, 
+	    	RT_Souls = 0
+	    }
+    }
+
+	PlayerDetailsObject.StatsManager = StatsManager:new(PlayerDetailsObject)
+
+	self.__index = self
+
+	RemoveStacktrace()
+
+	return setmetatable(PlayerDetailsObject, self)
+
+end
+
+function PlayerDetails:AddFireCost( _RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls )
+
+	AddStacktrace("PlayerDetails:AddFireCost")
+
+	self.CurrentFireCosts.RT_Red = self.CurrentFireCosts.RT_Red + _RT_Red
+	self.CurrentFireCosts.RT_Requisition = self.CurrentFireCosts.RT_Requisition + _RT_Requsition
+	self.CurrentFireCosts.RT_Power = self.CurrentFireCosts.RT_Power + _RT_Power
+	self.CurrentFireCosts.RT_Pop = self.CurrentFireCosts.RT_Pop + _RT_Pop
+	self.CurrentFireCosts.RT_Faith = self.CurrentFireCosts.RT_Faith + _RT_Faith
+	self.CurrentFireCosts.RT_Souls = self.CurrentFireCosts.RT_Souls + _RT_Souls
+
+	RemoveStacktrace()
+
+end
+
+--Returns true if we have enough, false otherwise
+function PlayerDetails:HasEnoughResources( _RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls )
+
+	AddStacktrace("PlayerDetails:HasEnoughResources")
+
+	local CostSuccess = true
+
+	if(self.CurrentResources.RT_Red < _RT_Red * -1 
+	or self.CurrentResources.RT_Requisition < _RT_Requsition * -1 
+	or self.CurrentResources.RT_Power < _RT_Power * -1 
+	or self.CurrentResources.RT_Pop < _RT_Pop * -1 
+	or self.CurrentResources.RT_Faith < _RT_Faith * -1 
+	or self.CurrentResources.RT_Souls < _RT_Souls * -1 ) then
+		print("Red: "..self.CurrentResources.RT_Red.."| Required: ".._RT_Red * -1)
+		print("Req: "..self.CurrentResources.RT_Requisition.."| Required: ".._RT_Requsition * -1)
+		print("Power: "..self.CurrentResources.RT_Power.."| Required: ".._RT_Power * -1)
+		print("Pop: "..self.CurrentResources.RT_Pop.."| Required: ".._RT_Pop * -1)
+		print("Faith: "..self.CurrentResources.RT_Faith.."| Required: ".._RT_Faith * -1)
+		print("Souls: "..self.CurrentResources.RT_Souls.."| Required: ".._RT_Souls * -1)
+		CostSuccess = false
+	end	
+	
+	RemoveStacktrace()
+
+	return CostSuccess
+
+end
+
+function PlayerDetails:ClearCurrentResourceBonuses()
+
+	AddStacktrace("PlayerDetails:ClearCurrentResourceBonuses")
+
+	self.CurrentAddResources = 
+    {
+	    RT_Requisition = 0,
+	    RT_Power =  0,
+	    RT_Pop =  0,
+	    RT_Faith = 0, 
+		RT_Souls = 0,
+		RT_Red = 0
+	}
+
+	self.CurrentFireCosts = 
+	{
+	    RT_Requisition = 0,
+	    RT_Power =  0,
+	    RT_Pop =  0,
+	    RT_Faith = 0, 
+	    RT_Souls = 0,
+		RT_Red = 0
+	 }
+
+	 RemoveStacktrace()
+
+end

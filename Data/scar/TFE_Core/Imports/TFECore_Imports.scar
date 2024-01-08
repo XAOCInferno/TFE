@@ -37,3 +37,13 @@ import("TFE_Core/Subscars/GlobalAbilities/GlobalAbilities_Core.scar")
 import("TFE_Core/Subscars/Achievements/Achievements_Core.scar")
 ----------------------------------
 ----------------------------------
+
+
+
+----------------------------------
+--Classes-------------------------
+----------------------------------
+import("TFE_Core/Classes/PlayerDetails.scar")
+import("TFE_Core/Classes/RaceDetails.scar")
+import("TFE_Core/Classes/ResourceGroup.scar")
+import("TFE_Core/Classes/StatsManager.scar")

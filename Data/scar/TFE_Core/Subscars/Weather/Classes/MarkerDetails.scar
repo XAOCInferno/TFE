@@ -1,0 +1,20 @@
+MarkerDetails = {}
+function MarkerDetails:new (_MarkerID, _MarkerName, _MarkerType)
+
+	AddStacktrace("MarkerDetails:new")
+
+    local MarkerDetailsObject = 
+    {
+    	--Constants
+	    MarkerID = _MarkerID,
+	    MarkerName = _MarkerName,
+		MarkerType = _MarkerType,
+    }
+
+	self.__index = self
+
+	RemoveStacktrace()
+	
+   	return setmetatable(MarkerDetailsObject, self)
+
+end

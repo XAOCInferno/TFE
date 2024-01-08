@@ -1,0 +1,63 @@
+SquadData = {}
+function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _player)
+
+	AddStacktrace("SquadData:new")
+
+	local tmpSGroupID = GetUniqueSG("SquadData")
+	local tmpSGroupName = SGroup_GetName(tmpSGroupID)
+	SGroup_Add(tmpSGroupID, _sID)
+
+    local SquadDataObject = 
+    {
+		SquadUniqueID = _sGameID,	
+		SquadGroupID = tmpSGroupID,
+		SquadGroupName = tmpSGroupName,	
+		SquadIndex = _sIndex, 
+		SquadID = _sID,	
+		SquadUnitRace = _sRace,
+		SquadBlueprint = _sBP,
+		SquadLoadout = Squad_Count(_sID),
+		SquadHasLeader = Squad_HasLeader(_sID),
+		SquadLeaderCount = Squad_CountLeaders(_sID),
+		SquadInitTime = g_WorldTime,	
+		SquadPosition = Squad_GetPosition(_sID),
+		SquadIsAttached = Squad_IsAttached(_sID),
+		OwnedByPlayer = Squad_GetPlayerOwner(_sID), --Duplicate functionality as bellow? I would prefere we kept this one
+		OwnerPlayer = _player, --Um do we need this./.???
+		IsSelected_Unsynced = Misc_IsSquadSelected(_sID),
+
+		SquadAppliedCoverMods = {},
+		SquadAppliedCoverMods_IDs = {},
+		SquadAppliedCoverMods_Index = {},
+
+		--Variables
+		IsUnderAttack = false,
+		PreviousSquadLoadout = Squad_Count(_sID),
+		PreviousSquadLeaderCount = Squad_CountLeaders(_sID),
+		PreviouslyAttackedByPlayers = {},
+		PreviouslyAttackedTime = 0
+	}
+
+	self.__index = self
+
+	RemoveStacktrace()
+
+	return setmetatable(SquadDataObject, self)
+
+end
+
+function SquadData:Update(_self)
+		
+	AddStacktrace("SquadData:Update")
+
+	_self.SquadLoadout = Squad_Count(_self.SquadID)
+	_self.SquadHasLeader = Squad_HasLeader(_self.SquadID)
+	_self.SquadLeaderCount = Squad_CountLeaders(_self.SquadID)
+	_self.SquadPosition = Squad_GetPosition(_self.SquadID)
+	_self.SquadIsAttached = Squad_IsAttached(_self.SquadID)
+	_self.OwnedByPlayer = Squad_GetPlayerOwner(_self.SquadID)
+	_self.IsSelected_Unsynced = Misc_IsSquadSelected(_self.SquadID) --Not online synced!
+
+	RemoveStacktrace()
+
+end

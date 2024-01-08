@@ -1,0 +1,51 @@
+GlobalAbilityBuilder = {}
+function GlobalAbilityBuilder:new (_OwnedByPlayer, _SGroupID, _SGroupName, _TargetEGroupName, _PosInTrackedAbilityBuilders)
+
+	AddStacktrace("GlobalAbilityBuilder:new")
+
+    local GlobalAbilityBuilderObject = 
+    {
+    	--Constants
+		OwnedByPlayer = _OwnedByPlayer,
+		SGroupName = _SGroupName,
+	    SGroupID = _SGroupID,
+		TargetEGroupName = _TargetEGroupName,
+		PosInTrackedAbilityBuilders = PosInTrackedAbilityBuilders
+    }
+
+	self.__index = self
+
+	RemoveStacktrace()
+
+   	return setmetatable(GlobalAbilityBuilderObject, self)
+
+end
+
+function GlobalAbilityBuilder:Update()
+	
+	AddStacktrace("GlobalAbilityBuilder:Update")
+
+	if(Cmd_IsConstructingBuilding(self.SGroupName, true)) then
+
+		--We have started building it, don't need to issue order
+		SGroup_DestroyAllSquads(self.SGroupName)
+		SGroup_Destroy(self.SGroupID)
+
+		g_AllTrackedAbilityBuildersCount = g_AllTrackedAbilityBuildersCount - 1
+		table.remove(g_AllTrackedAbilityBuilders, PosInTrackedAbilityBuilders)
+
+	else
+		
+		-- issue order
+		Command_SquadEntity( 
+			self.OwnedByPlayer,
+			self.SGroupID,
+			SCMD_BuildStructure,
+			self.TargetEGroupName
+		)	
+
+	end
+
+	RemoveStacktrace()
+
+end

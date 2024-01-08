@@ -1,3 +1,5 @@
+import("TFE_Core/Subscars/Weather/Imports/WeatherSystems_Imports.scar")
+
 g_TornadoSquadBP = "world_squad_tornado"
 g_DustStormSquadBP = "world_squad_global_dust_storm"
 g_AllTornadoMkrs = {}
@@ -20,54 +22,6 @@ g_GlobalDustStormSquad = 0
 local g_WorldRootMarker = nil
 
 local MarkersSetupComplete = false
-
-MarkerDetails = {}
-function MarkerDetails:new (_MarkerID, _MarkerName, _MarkerType)
-
-	AddStacktrace("MarkerDetails:new")
-
-    local MarkerDetailsObject = 
-    {
-    	--Constants
-	    MarkerID = _MarkerID,
-	    MarkerName = _MarkerName,
-		MarkerType = _MarkerType,
-    }
-
-	self.__index = self
-
-	RemoveStacktrace()
-	
-   	return setmetatable(MarkerDetailsObject, self)
-
-end
-
-TornadoDetails = {}
-function TornadoDetails:new (_sGameID, _sGroupID, _sIndex, _sID, _MarkerGroup, _PosInTornadoStorage)
-
-	AddStacktrace("TornadoDetails:new")
-
-    local TornadoDetailsObject = 
-    {
-    	--Constants
-		SquadUniqueID = _sGameID,	
-		SquadGroupID =_sGroupID,
-		SquadGroupName = SGroup_GetName(_sGroupID),	
-		SquadIndex = _sIndex, 
-		SquadID = _sID,	
-		SquadInitTime = g_WorldTime,	
-		MarkerGroup = _MarkerGroup,
-		PosInTornadoStorage = _PosInTornadoStorage,
-		CurrentMarkerIndex = 1,
-    }
-
-	self.__index = self
-
-	RemoveStacktrace()
-
-   	return setmetatable(TornadoDetailsObject, self)
-	
-end
 
 function Setup_WeatherSystems()
 

@@ -1,0 +1,108 @@
+AchievementDetails = {} --Can I make this local?
+function AchievementDetails:new (_ViewState, _ObjectiveTable)
+
+	AddStacktrace("AchievementDetails:new")
+
+    local AchievementDetailsObject = 
+    {
+    	--Constants
+	    Name = _Name,
+	    Description = _Description,
+		ViewState = _ViewState,
+		ObjectiveTable = _ObjectiveTable, --[[ obj_table = { title_id = 400009, short_desc_id = 400010, help_tip_id = 400011 } ]]
+
+		--Variables
+		HasCompleted = false	
+	}
+
+	self.__index = self
+
+	if(_ViewState == eACHIEVEMENT_VIEW_ACTIVE) then
+			
+		Objective_Add(_ObjectiveTable, false)
+	
+	end
+
+	RemoveStacktrace()
+
+   	return setmetatable(AchievementDetailsObject, self)
+	
+end
+
+function AchievementDetails:Update()
+
+	AddStacktrace("AchievementDetails:Update")
+
+	if(self.HasCompleted == false) then
+
+		local AchievementStatus, CompletionPlayerStruct = self.Get_AchievementStatus()
+
+		if(AchievementStatus == eACHIEVEMENT_COMPLETE or AchievementStatus == eACHIEVEMENT_FAILED) then
+
+			self:CompleteAchievement(AchievementStatus, CompletionPlayerStruct)
+
+		end
+
+	end
+
+	RemoveStacktrace()
+	
+end
+
+function AchievementDetails:Get_AchievementStatus()
+
+	AddStacktrace("AchievementDetails:Update_AchievementStatus")
+
+	--Override me!
+
+	RemoveStacktrace()
+
+end
+
+function AchievementDetails:CompleteAchievement(_AchievementStatus, _Player)
+	
+	self.HasCompleted = true	
+
+	if(_AchievementStatus == eACHIEVEMENT_COMPLETE) then
+
+		if(self.ViewState == eACHIEVEMENT_VIEW_ACTIVE) then
+
+			Util_ObjectiveComplete(self.ObjectiveTable.title_id)
+
+		end
+
+		self:EndSuccess(_Player)
+
+	else
+
+		if(self.ViewState == eACHIEVEMENT_VIEW_ACTIVE) then
+
+			Util_ObjectiveFail(self.ObjectiveTable.title_id)
+
+		end
+
+		self:EndFailure(_Player)
+
+	end
+
+end
+
+function AchievementDetails:EndSuccess(_Player)
+
+	AddStacktrace("AchievementDetails:Update")
+
+	--Override me, otherwise we wont get any reward...
+
+	RemoveStacktrace()
+	
+end
+
+function AchievementDetails:EndFailure(_Player)
+
+	AddStacktrace("AchievementDetails:Update")
+
+	--Override me if you want to do something on a failure, usually we wont care?
+
+	RemoveStacktrace()
+	
+end

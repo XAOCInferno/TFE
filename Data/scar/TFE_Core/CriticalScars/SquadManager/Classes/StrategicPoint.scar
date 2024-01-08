@@ -1,0 +1,14 @@
+StrategicPoint = {}
+function StrategicPoint:new (_ID, _OwnedBy, _InitTime)
+
+    local StrategicPointObject = 
+    {
+	    ID = _ID,
+	    OwnedBy = _OwnedBy,
+	    InitTime = _InitTime
+    }
+
+	self.__index = self
+    return setmetatable(StrategicPointObject, self)
+
+end

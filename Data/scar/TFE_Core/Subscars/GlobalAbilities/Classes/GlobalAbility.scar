@@ -1,0 +1,216 @@
+
+GlobalAbility = {}
+function GlobalAbility:new ( _LinkedSquadBP, _CasterPlayer, _AbilityName, _ActivationEntityBlueprint, _ActivationType, _TargetFilter, _PosInTrackedAbilities )
+	
+	AddStacktrace("GlobalAbility:new")
+
+	local tmpSGroupID = GetUniqueSG("GlobalAbilityCaster")
+	local tmpSGroupName = SGroup_GetName(tmpSGroupID)
+
+    local GlobalAbilityObject = 
+    {
+    	--Constants
+		LinkedSquad = nil, --ActivateSummonSquadAbility(_LinkedSquadBP, _CasterPlayer.Player, World_Pos(0,0,0), 1),  -- Util_CreateSquadsAtPosition(_CasterPlayer, tmpSGroupName, _LinkedSquadBP, World_Pos(0,0,0), 1),
+		LinkedSquadBP = _LinkedSquadBP,
+		LinkedSquadGroup = tmpSGroupID,
+		LinkedSquadGroupName = tmpSGroupName,
+		CasterPlayer = _CasterPlayer,
+		AbilityName = _AbilityName,
+		ActivationEntityBlueprint = _ActivationEntityBlueprint,
+		ActivationType = _ActivationType,
+		TargetFilter = _TargetFilter,
+		PosInTrackedAbilities = _PosInTrackedAbilities,
+
+		--Constants not defined in constructor
+		AbilityDuration,
+		
+		--Varaiables
+		CurrentAcceptedEntityStruct,
+		LastCastedEntityPosition,
+		AbilityCastTime,
+		TimedAbilityIsActive = false,
+
+			--Vars when ability is active
+		AppliedModifierIDs = {},
+		Tracking_AffectedEntities = {},
+		Tracking_AffectedEntities_Duration = {},
+		Tracking_AffectedSquads = {},
+		Tracking_AffectedSquads_Duration = {},
+
+		HasBeenSelected = false,
+		SelectedWorldtime = 0
+    }
+
+	--SGroup_Add(GlobalAbilityObject.LinkedSquadGroup, GlobalAbilityObject.LinkedSquad)
+	self.__index = self
+
+	RemoveStacktrace()
+
+   	return setmetatable(GlobalAbilityObject, self)
+
+end
+
+function GlobalAbility:ActivateTimedAbility()
+
+	AddStacktrace("GlobalAbility:ActivateTimedAbility")
+
+	self.AbilityCastTime = g_WorldTime
+	self.TimedAbilityIsActive = g_WorldTime
+
+	RemoveStacktrace()
+	
+end
+
+--DON'T OVERRIDE!
+function GlobalAbility:Update()
+
+	AddStacktrace("GlobalAbility:Update")
+
+	local acceptedEntities, acceptedEPositions = Get_EntityDataFromEntityBP(self.ActivationEntityBlueprint, self.CasterPlayer.PlayerIndex + 1)
+
+	for i = 1, table.getn(acceptedEntities) do
+
+		--Possibly destroy later? atm i think it's ok to destroy now 
+		self.CurrentAcceptedEntityStruct = acceptedEntities[i]
+		self:PrepareAbility()
+		DestroyEntityAndRemoveFromData(self.CasterPlayer, acceptedEPositions[i])
+
+	end
+
+	--Archived old code for when pressing the buttons to trigger. We can probably get rid of this.
+--[[
+	if(Misc_IsSquadSelected(self.LinkedSquad)) then
+		if(self.ActivationType == "TIMED" or self.ActivationType == 0) then
+			self:PrepareAbility()
+		elseif(self.ActivationType == "TARGETED" or self.ActivationType == 1) then
+			if(self.HasBeenSelected == false) then
+				self.HasBeenSelected = true
+				self.SelectedWorldtime = g_WorldTime
+				print("Hello!! "..self.SelectedWorldtime)
+			elseif(g_WorldTime - self.SelectedWorldtime > g_TimedAbilityRequiredSelectTime) then
+				self.HasBeenSelected = false
+				print("Goodbye!! "..self.SelectedWorldtime)
+				self:PrepareAbility()
+			end
+		else
+
+		end
+	end
+]]
+
+	if(self.TimedAbilityIsActive) then
+
+		if(g_WorldTime - self.ActivatedTime >=  self.Duration) then
+
+			self.TimedAbilityIsActive = false
+			self:TimedAbilityEnd(self)
+
+		else
+			
+			self:TimedAbilityUpdate(self)
+
+		end
+	end
+
+	RemoveStacktrace()
+
+end
+
+
+--Override this if you want unique behaviour. Best if you want a mod that applies for a set duration
+function GlobalAbility:TimedAbilityEnd(self)
+
+	AddStacktrace("GlobalAbility:TimedAbilityEnd")
+
+	Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, self.AbilityName.."/TimedAbilityEnd", "Ability end behaviour undefined! Ensure you override the 'TimedAbilityEnd' function or this ability will not revert!")
+		
+	RemoveStacktrace()
+
+end
+
+--Override this if you want unique behaviour. Best if you want a mod that applies for a set duration
+function GlobalAbility:TimedAbilityUpdate(self)
+
+end
+
+--This is ran immediatly on pressing a button, it is not necessary but could be good if you want to add an effect such as a mouse cursor
+--By default this does nothing and doesn't log, this should be the case!
+--Override if you want functionality
+--Possibly add some default logic to do with cursor effects here
+function GlobalAbility:OnPressImmediate()
+
+end
+
+--You should probably not override this, although I guess you could..? 
+function GlobalAbility:PrepareAbility()
+
+	AddStacktrace("GlobalAbility:PrepareAbility")
+	
+	self.OnPressImmediate()
+
+	if(self.CurrentAcceptedEntityStruct == nil) then
+
+		self.LastCastedEntityPosition = World_Pos(0,0,0)
+
+	else
+
+		self.LastCastedEntityPosition = self.CurrentAcceptedEntityStruct.EntityPosition
+
+	end
+	
+
+	local targetSquad = nil
+	local targetEntity = nil
+	--[[
+	
+	if(self.TargetFilter == "GROUND" or self.TargetFilter == 0) then
+
+		targetPos = Button_GetPressedPosition(self.ButtonID)
+
+	elseif(self.TargetFilter == "SQUAD" or self.TargetFilter == 1) then
+
+		targetSquad = GetUniqueSG("TemporarySGroupAbilityTarget")
+		Button_GetPressedSquad(self.ButtonID, targetSquad) --Add functionality when necessary
+
+	elseif(self.TargetFilter == "ENTITY" or self.TargetFilter == 2) then
+
+		targetEntity = GetUniqueEG("TemporaryEGroupAbilityTarget")
+		Button_GetPressedEntity(self.ButtonID, targetEntity) --Add functionality when necessary
+
+	elseif(self.TargetFilter == "NONE" or self.TargetFiler = 3) then
+		
+		--ADD FUNCTIONALITY!
+		
+	else
+
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Target filter '"..self.TargetFilter.."' is invalid. Defaulting to 'GROUND'")
+		targetPos = Button_GetPressedPosition(self.ButtonID)
+
+	end]]
+
+	self:DoAbility(self, self.LastCastedEntityPosition, targetSquad, targetEntity)
+
+	RemoveStacktrace()
+
+end
+
+--Do override!
+function GlobalAbility:DoAbility( _self, _pos, _targetSquad, _targetEntity )
+
+	AddStacktrace("GlobalAbility:DoAbility")
+
+	Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, self.AbilityName.."/DoAbility", "Ability behaviour undefined! Ensure you override the 'DoAbility' function or this ability will do nothing.")
+	
+	RemoveStacktrace()
+end
+
+--Do override if ability has a duration
+function GlobalAbility:EndAbility( _self, _pos, _targetSquad, _targetEntity)
+
+	AddStacktrace("GlobalAbility:EndAbility")
+
+	Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, self.AbilityName.."/EndAbility", "Ability end behaviour undefined! Ensure you override the 'EndAbility' function or this ability will not revert!")
+
+	RemoveStacktrace()
+
+end

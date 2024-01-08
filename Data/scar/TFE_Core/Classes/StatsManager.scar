@@ -1,0 +1,77 @@
+StatsManager = {}
+function StatsManager:new (_Parent)
+
+	AddStacktrace("StatsManager:new")
+
+	local StatsManagerObject = 
+	{
+		--Constants
+		Parent = _Parent,
+
+		--Variables
+		ActiveArmyCost = ResourceGroup:new(0, 0, 0, 0, 0, 0),
+		ResourcesGathered = ResourceGroup:new(0, 0, 0, 0, 0, 0),
+		--ResourcesGatheredScore = ResourceGroup:new(0, 0, 0, 0, 0, 0), --Seemingly causes a crash so we can't use this one probably
+		ResourcesSpent = ResourceGroup:new(0, 0, 0, 0, 0, 0),
+		ResourcesTributed = ResourceGroup:new(0, 0, 0, 0, 0, 0),
+		StructuresLost = 0,
+		StructuresRazed = 0,
+		UnitsKilled = 0,
+		LeadersKilled = 0,
+		CommandersKilled = 0,
+		SquadsKilled = 0,
+		UnitsLost = 0,
+		LeadersLost = 0,
+		CommandersLost = 0,
+		SquadsLost = 0,
+		HasWon = false
+
+	}
+
+	self.__index = self
+
+	RemoveStacktrace()
+
+   	return setmetatable(StatsManagerObject, self)
+
+end
+
+function StatsManager:Update()
+	
+	self.ActiveArmyCost:Set(0, Stats_ActiveArmyCost(self.Parent.Player, RT_Requisition), Stats_ActiveArmyCost(self.Parent.Player, RT_Power), Stats_ActiveArmyCost(self.Parent.Player, RT_Pop), 0, 0)
+	self.ResourcesGathered:Set(0, Stats_PlayerResGathered(self.Parent.PlayerIndex, RT_Requisition), Stats_PlayerResGathered(self.Parent.PlayerIndex, RT_Power), Stats_PlayerResGathered(self.Parent.PlayerIndex, RT_Pop), 0, 0)
+	--self.ResourcesGatheredScore:Set(0, Stats_PlayerResScore(self.Parent.PlayerIndex, RT_Requisition), Stats_PlayerResScore(self.Parent.PlayerIndex, RT_Power), Stats_PlayerResScore(self.Parent.PlayerIndex, RT_Pop), 0, 0)
+	self.ResourcesSpent:Set(0, Stats_PlayerResSpent(self.Parent.PlayerIndex, RT_Requisition), Stats_PlayerResSpent(self.Parent.PlayerIndex, RT_Power), Stats_PlayerResSpent(self.Parent.PlayerIndex, RT_Pop), 0, 0)
+	self.ResourcesTributed:Set(0, Stats_PlayerResTributed(self.Parent.PlayerIndex, RT_Requisition), Stats_PlayerResTributed(self.Parent.PlayerIndex, RT_Power), Stats_PlayerResTributed(self.Parent.PlayerIndex, RT_Pop), 0, 0)
+	--self.StructuresLost = Stats_PlayerStructuresLost(self.Parent.PlayerIndex)
+	--self.StructuresRazed = Stats_PlayerStructuresRazed(self.Parent.PlayerIndex)
+	--self.UnitsKilled = Stats_PlayerUnitsKilled(self.Parent.PlayerIndex)
+	--self.UnitsLost = Stats_PlayerUnitsLost(self.Parent.PlayerIndex)
+	self.HasWon = Stats_PlayerWon(self.Parent.PlayerIndex)
+
+end
+
+function StatsManager:DebugDumpInfo()
+
+	AddStacktrace("StatsManager:DebugDumpInfo")
+
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Army Cost: Red|"..self.ActiveArmyCost.RT_Red.."  Req|"..self.ActiveArmyCost.RT_Requisition.."  Power|"..self.ActiveArmyCost.RT_Power.."  Pop|"..self.ActiveArmyCost.RT_Pop.."  Faith|"..self.ActiveArmyCost.RT_Faith.."  Souls|"..self.ActiveArmyCost.RT_Souls)
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Res Gathered: Red|"..self.ResourcesGathered.RT_Red.."  Req|"..self.ResourcesGathered.RT_Requisition.."  Power|"..self.ResourcesGathered.RT_Power.."  Pop|"..self.ResourcesGathered.RT_Pop.."  Faith|"..self.ResourcesGathered.RT_Faith.."  Souls|"..self.ResourcesGathered.RT_Souls)
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Res Gathered Score: Red|"..self.ResourcesGatheredScore.RT_Red.."  Req|"..self.ResourcesGatheredScore.RT_Requisition.."  Power|"..self.ResourcesGatheredScore.RT_Power.."  Pop|"..self.ResourcesGatheredScore.RT_Pop.."  Faith|"..self.ResourcesGatheredScore.RT_Faith.."  Souls|"..self.ResourcesGatheredScore.RT_Souls)
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Res Spent: Red|"..self.ResourcesSpent.RT_Red.."  Req|"..self.ResourcesSpent.RT_Requisition.."  Power|"..self.ResourcesSpent.RT_Power.."  Pop|"..self.ResourcesSpent.RT_Pop.."  Faith|"..self.ResourcesSpent.RT_Faith.."  Souls|"..self.ResourcesSpent.RT_Souls)
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Res Tributed: Red|"..self.ResourcesTributed.RT_Red.."  Req|"..self.ResourcesTributed.RT_Requisition.."  Power|"..self.ResourcesTributed.RT_Power.."  Pop|"..self.ResourcesTributed.RT_Pop.."  Faith|"..self.ResourcesTributed.RT_Faith.."  Souls|"..self.ResourcesTributed.RT_Souls)
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Structures Lost: "..self.StructuresLost)
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Structures Razed: "..self.StructuresRazed)
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Units Killed: "..self.UnitsKilled)
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Leaders Killed: "..self.LeadersKilled)
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Commanders Killed: "..self.CommandersKilled)
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Squads Killed: "..self.SquadsKilled)
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Units Lost: "..self.UnitsLost)
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Leaders Lost: "..self.LeadersLost)
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Commanders Lost: "..self.CommandersLost)
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Squads Lost: "..self.SquadsLost)
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Has Won: "..tostring(self.HasWon))
+
+	RemoveStacktrace()
+
+end
