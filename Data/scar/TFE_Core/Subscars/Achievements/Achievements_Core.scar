@@ -21,6 +21,9 @@ function Setup_Achievements()
 	local Generic_Achievement_ExpensiveArmy = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 2, short_desc_id = 2, help_tip_id = 2 } )
 	local Generic_Achievement_KDRatio = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 3, short_desc_id = 3, help_tip_id = 3 } )
 	local Generic_Achievement_FirstBlood = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 4, short_desc_id = 4, help_tip_id = 4 } )
+	--local Generic_Achievement_HighUpkeep = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 5, short_desc_id = 5, help_tip_id = 5 } ) --TODO
+	local Generic_Achievement_ManyMaturedPoints = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 6, short_desc_id = 6, help_tip_id = 6 } )
+	--local Generic_Achievement_ManyMaturedPointsDuration = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 7, short_desc_id = 7, help_tip_id = 7 } ) --TODO
 
 	Generic_Achievement_KillUnits.Get_AchievementStatus = function( _self )
 		
@@ -134,6 +137,45 @@ function Setup_Achievements()
 	Generic_Achievement_KDRatio.EndSuccess = function( _self, _PlayerStruct )
 
 		_PlayerStruct.CurrentAddResources.RT_Requisition = _PlayerStruct.CurrentAddResources.RT_Requisition + 25
+
+	end
+
+	Generic_Achievement_ManyMaturedPoints.Get_AchievementStatus = function( _self )
+		
+		for i = 1, g_PlayerCount do
+
+			local MaturedPointsCount = 0
+				
+			for z = 1, g_NumberStratPoints do
+
+				if(g_AllStrategicPointsStructs[z].OwnedBy == g_AllPlayers[j].PlayerIndex) then
+
+					--This code is now being duplicated in multiple places, should make it a class function of Strategic Point
+					if(GetWorldLifetime(g_AllStrategicPointsStructs[z].InitTime) / g_MatureMaxLifetime > 1) then
+
+						MaturedPointsCount = MaturedPointsCount + 1
+
+					end
+
+				end
+
+			end
+
+			if(MaturedPointsCount >= 4) then
+
+				return eACHIEVEMENT_STATUS_COMPLETE
+
+			end
+
+		end
+
+		return eACHIEVEMENT_STATUS_ONGOING
+
+	end
+
+	Generic_Achievement_ManyMaturedPoints.EndSuccess = function( _self, _PlayerStruct )
+
+		_PlayerStruct.CurrentAddResources.RT_Requisition = _PlayerStruct.CurrentAddResources.RT_Requisition + 50
 
 	end
 	
