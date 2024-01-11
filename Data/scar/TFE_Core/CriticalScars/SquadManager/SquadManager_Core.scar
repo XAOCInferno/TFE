@@ -78,7 +78,9 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 		end		
 		
 		if(criticalError == false) then
-
+			
+			--Need to probably move the relic units table to a global place
+			local isRelicUnit, _ = TableContains({"chaos_squad_bloodthirster", "dark_eldar_squad_dais_of_destruction", "eldar_squad_avatar", "guard_squad_baneblade", "inquisition_squad_land_raider_crusader", "necron_restored_monolith_squad", "ork_squad_squiggoth", "sisters_squad_living_saint", "space_marine_squad_land_raider", "space_marine_squad_land_raider_veteran", "tau_krootox_squad", "tyranids_squad_swarmlord"},squadBP)
 			--Might need to create a unique sgroupid later...
 			local tmpData = SquadData:new( newSquadGameID, _sgroupid, _itemindex, _squadID, g_AllPlayers[_PlayerIndex].RaceDetails.RaceName, squadBP, g_AllPlayers[_PlayerIndex])
 			table.insert(g_AllSquadsData[_PlayerIndex], tmpData)	
@@ -509,6 +511,61 @@ function GetClosestSquadInSquadTableToPos(_squads, _pos, _maxDistance)
 
 end
 
+function GetAllSquadsOfBlueprint(_player, _acceptedBlueprint)
+
+	AddStacktrace("GetAllSquadsOfBlueprint")
+
+	local AllSquadsOfBlueprint = {}
+
+	for i = 1, TableLength(_acceptedBlueprint) do
+
+		for j = 1, g_PlayerSquadCount[_player] do
+
+			if(g_AllSquadsData[_player][j].SquadBlueprint == _acceptedBlueprint[i]) then
+
+				table.insert(AllSquadsOfBlueprint, g_AllSquadsData[_player][j])
+
+			end
+
+		end
+
+	end
+
+	if(TableLength(AllSquadsOfArmourType) == 0) then
+
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "No squads of the specified blueprint are owned by player.")
+
+	end
+
+	RemoveStacktrace()
+
+	return AllSquadsOfBlueprint
+
+end
+
+function GetRelicUnit(_player)
+
+	AddStacktrace("GetAllSquadsOfBlueprint")
+
+	local RelicUnit = nil
+
+	for j = 1, g_PlayerSquadCount[_player] do
+
+		if(g_AllSquadsData[_player][j].IsRelicUnit) then
+			
+			RelicUnit = g_AllSquadsData[_player][j]
+			break
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+	return RelicUnit
+
+end
+
 function GetAllSquadsOfArmourType(_player, _acceptedArmourTypes)
 
 	AddStacktrace("GetAllSquadsOfArmourType")
@@ -536,6 +593,8 @@ function GetAllSquadsOfArmourType(_player, _acceptedArmourTypes)
 	end
 
 	RemoveStacktrace()
+
+	return AllSquadsOfArmourType
 
 end
 

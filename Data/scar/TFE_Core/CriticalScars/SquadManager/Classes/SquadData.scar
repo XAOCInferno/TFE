@@ -1,5 +1,5 @@
 SquadData = {}
-function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _player)
+function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _player, _IsRelicUnit)
 
 	AddStacktrace("SquadData:new")
 
@@ -16,6 +16,7 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		SquadID = _sID,	
 		SquadUnitRace = _sRace,
 		SquadBlueprint = _sBP,
+		IsRelicUnit = _IsRelicUnit,
 		SquadLoadout = Squad_Count(_sID),
 		SquadHasLeader = Squad_HasLeader(_sID),
 		SquadLeaderCount = Squad_CountLeaders(_sID),
