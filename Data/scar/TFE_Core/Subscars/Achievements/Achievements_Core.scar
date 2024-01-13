@@ -149,7 +149,7 @@ function Setup_Achievements()
 				
 			for z = 1, g_NumberStratPoints do
 
-				if(g_AllStrategicPointsStructs[z].OwnedBy == g_AllPlayers[j].PlayerIndex) then
+				if(g_AllStrategicPointsStructs[z].OwnedBy == g_AllPlayers[i].PlayerIndex) then
 
 					--This code is now being duplicated in multiple places, should make it a class function of Strategic Point
 					if(GetWorldLifetime(g_AllStrategicPointsStructs[z].InitTime) / g_MatureMaxLifetime > 1) then
