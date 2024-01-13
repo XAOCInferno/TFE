@@ -28,6 +28,7 @@ local function Get_StrategicPointsStatus()
 			if(g_AllStrategicPointsStructs[i].OwnedBy ~= OwnerPlayer) then
 				g_AllStrategicPointsStructs[i].InitTime = g_WorldTime	
 				g_AllStrategicPointsStructs[i].OwnedBy = OwnerPlayer
+				g_AllStrategicPointsStructs[i].FullyMatured = false
 
 			end
 
@@ -35,6 +36,7 @@ local function Get_StrategicPointsStatus()
 			
 			g_AllStrategicPointsStructs[i].OwnedBy = -1
 			g_AllStrategicPointsStructs[i].InitTime = g_WorldTime
+			g_AllStrategicPointsStructs[i].FullyMatured = false
 
 		end
 
@@ -97,6 +99,12 @@ function Set_ResourceMature()
 				if(CapTimeAsBonusFaith > MaxBonusFaith) then
 		
 					CapTimeAsBonusFaith = MaxBonusFaith						
+
+				end
+
+				if(CapTimeAsMaturePercent >= 1) then
+
+					g_AllStrategicPointsStructs[z].FullyMatured = CapTimeAsMaturePercent
 
 				end
 

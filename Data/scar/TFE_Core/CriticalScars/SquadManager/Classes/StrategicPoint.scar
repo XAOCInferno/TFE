@@ -5,7 +5,8 @@ function StrategicPoint:new (_ID, _OwnedBy, _InitTime)
     {
 	    ID = _ID,
 	    OwnedBy = _OwnedBy,
-	    InitTime = _InitTime
+	    InitTime = _InitTime,
+        FullyMatured = false
     }
 
 	self.__index = self

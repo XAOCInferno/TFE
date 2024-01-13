@@ -17,20 +17,25 @@ function Setup_Achievements()
 	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Starting: 'Setup_Achievements'...")
 
 	local Generic_Achievement_KillUnits = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050005, short_desc_id = 20050006, help_tip_id = 20050007 } )
+	local Generic_Achievement_KillUnits2 = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050045, short_desc_id = 20050046, help_tip_id = 20050047 } )
+	local Generic_Achievement_KillUnits3 = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050049, short_desc_id = 20050050, help_tip_id = 20050051 } )
 	local Generic_Achievement_RazeBuildings = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050009, short_desc_id = 20050010, help_tip_id = 20050011 } )
 	local Generic_Achievement_ExpensiveArmy = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050013, short_desc_id = 20050014, help_tip_id = 20050015 } )
+	local Generic_Achievement_ExpensiveArmy2 = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050053, short_desc_id = 20050054, help_tip_id = 20050055 } )
+	local Generic_Achievement_ExpensiveArmy3 = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050057, short_desc_id = 20050058, help_tip_id = 20050059 } )
 	local Generic_Achievement_KDRatio = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050017, short_desc_id = 20050018, help_tip_id = 20050019 } )
 	local Generic_Achievement_FirstBlood = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050021, short_desc_id = 20050022, help_tip_id = 20050023 } )
 	--local Generic_Achievement_HighUpkeep = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050025, short_desc_id = 20050026, help_tip_id = 20050027 } ) --TODO
 	local Generic_Achievement_ManyMaturedPoints = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050029, short_desc_id = 20050030, help_tip_id = 20050031 } )
 	--local Generic_Achievement_ManyMaturedPointsDuration = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050033, short_desc_id = 20050034, help_tip_id = 20050035 } ) --TODO
 	local Generic_Achievement_Tier4Unit = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050037, short_desc_id = 20050038, help_tip_id = 20050039 } )
+	local Generic_Achievement_KillLeaders = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050041, short_desc_id = 20050042, help_tip_id = 20050043 } )
 
 	Generic_Achievement_KillUnits.Get_AchievementStatus = function( _self )
 		
 		for i = 1, g_PlayerCount do
 			
-			if (g_AllPlayers[i].StatsManager.UnitsKilled >= 10) then
+			if (g_AllPlayers[i].StatsManager.UnitsKilled >= 30) then
 
 				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
 
@@ -45,6 +50,52 @@ function Setup_Achievements()
 	Generic_Achievement_KillUnits.EndSuccess = function( _self, _PlayerStruct )
 
 		_PlayerStruct.CurrentAddResources.RT_Requisition = _PlayerStruct.CurrentAddResources.RT_Requisition + 50
+
+	end
+
+	Generic_Achievement_KillUnits2.Get_AchievementStatus = function( _self )
+		
+		for i = 1, g_PlayerCount do
+			
+			if (g_AllPlayers[i].StatsManager.UnitsKilled >= 60) then
+
+				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
+
+			end
+
+		end
+
+		return eACHIEVEMENT_STATUS_ONGOING
+
+	end
+
+	Generic_Achievement_KillUnits2.EndSuccess = function( _self, _PlayerStruct )
+
+		_PlayerStruct.CurrentAddResources.RT_Requisition = _PlayerStruct.CurrentAddResources.RT_Requisition + 75
+		_PlayerStruct.CurrentAddResources.RT_Power = _PlayerStruct.CurrentAddResources.RT_Power + 25
+
+	end
+
+	Generic_Achievement_KillUnits3.Get_AchievementStatus = function( _self )
+		
+		for i = 1, g_PlayerCount do
+			
+			if (g_AllPlayers[i].StatsManager.UnitsKilled >= 100) then
+
+				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
+
+			end
+
+		end
+
+		return eACHIEVEMENT_STATUS_ONGOING
+
+	end
+
+	Generic_Achievement_KillUnits3.EndSuccess = function( _self, _PlayerStruct )
+
+		_PlayerStruct.CurrentAddResources.RT_Requisition = _PlayerStruct.CurrentAddResources.RT_Requisition + 50
+		_PlayerStruct.CurrentAddResources.RT_Power = _PlayerStruct.CurrentAddResources.RT_Power + 50
 
 	end
 
@@ -79,7 +130,7 @@ function Setup_Achievements()
 			ArmyCostScore = ArmyCostScore + (g_AllPlayers[i].StatsManager.ActiveArmyCost.RT_Requisition * 0.4)
 			ArmyCostScore = ArmyCostScore + g_AllPlayers[i].StatsManager.ActiveArmyCost.RT_Power
 
-			if (ArmyCostScore > 300) then
+			if (ArmyCostScore > 400) then
 
 				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
 
@@ -93,7 +144,61 @@ function Setup_Achievements()
 
 	Generic_Achievement_ExpensiveArmy.EndSuccess = function( _self, _PlayerStruct )
 
-		_PlayerStruct.CurrentAddResources.RT_Power = _PlayerStruct.CurrentAddResources.RT_Power + 40
+		_PlayerStruct.CurrentAddResources.RT_Power = _PlayerStruct.CurrentAddResources.RT_Power + 35
+
+	end
+
+	Generic_Achievement_ExpensiveArmy2.Get_AchievementStatus = function( _self )
+		
+		for i = 1, g_PlayerCount do
+
+			local ArmyCostScore = 0
+			ArmyCostScore = ArmyCostScore + (g_AllPlayers[i].StatsManager.ActiveArmyCost.RT_Requisition * 0.4)
+			ArmyCostScore = ArmyCostScore + g_AllPlayers[i].StatsManager.ActiveArmyCost.RT_Power
+
+			if (ArmyCostScore > 700) then
+
+				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
+
+			end
+
+		end
+
+		return eACHIEVEMENT_STATUS_ONGOING
+
+	end
+
+	Generic_Achievement_ExpensiveArmy2.EndSuccess = function( _self, _PlayerStruct )
+
+		_PlayerStruct.CurrentAddResources.RT_Requisition = _PlayerStruct.CurrentAddResources.RT_Requisition + 25
+		_PlayerStruct.CurrentAddResources.RT_Power = _PlayerStruct.CurrentAddResources.RT_Power + 50
+
+	end
+
+	Generic_Achievement_ExpensiveArmy3.Get_AchievementStatus = function( _self )
+		
+		for i = 1, g_PlayerCount do
+
+			local ArmyCostScore = 0
+			ArmyCostScore = ArmyCostScore + (g_AllPlayers[i].StatsManager.ActiveArmyCost.RT_Requisition * 0.4)
+			ArmyCostScore = ArmyCostScore + g_AllPlayers[i].StatsManager.ActiveArmyCost.RT_Power
+
+			if (ArmyCostScore > 1000) then
+
+				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
+
+			end
+
+		end
+
+		return eACHIEVEMENT_STATUS_ONGOING
+
+	end
+
+	Generic_Achievement_ExpensiveArmy3.EndSuccess = function( _self, _PlayerStruct )
+
+		_PlayerStruct.CurrentAddResources.RT_Requisition = _PlayerStruct.CurrentAddResources.RT_Requisition + 50
+		_PlayerStruct.CurrentAddResources.RT_Power = _PlayerStruct.CurrentAddResources.RT_Power + 75
 
 	end
 
@@ -101,7 +206,7 @@ function Setup_Achievements()
 		
 		for i = 1, g_PlayerCount do
 			 
-			if (g_AllPlayers[i].StatsManager.UnitsKilled >= 10 and g_AllPlayers[i].StatsManager.UnitsKilled / g_AllPlayers[i].StatsManager.UnitsLost > 1.5) then
+			if (g_AllPlayers[i].StatsManager.UnitsKilled >= 25 and g_AllPlayers[i].StatsManager.UnitsKilled / g_AllPlayers[i].StatsManager.UnitsLost > 1.5) then
 
 				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
 
@@ -119,7 +224,7 @@ function Setup_Achievements()
 
 	end
 
-	Generic_Achievement_KDRatio.Get_AchievementStatus = function( _self )
+	Generic_Achievement_FirstBlood.Get_AchievementStatus = function( _self )
 		
 		for i = 1, g_PlayerCount do
 			 
@@ -135,7 +240,7 @@ function Setup_Achievements()
 
 	end
 
-	Generic_Achievement_KDRatio.EndSuccess = function( _self, _PlayerStruct )
+	Generic_Achievement_FirstBlood.EndSuccess = function( _self, _PlayerStruct )
 
 		_PlayerStruct.CurrentAddResources.RT_Requisition = _PlayerStruct.CurrentAddResources.RT_Requisition + 25
 
@@ -143,28 +248,37 @@ function Setup_Achievements()
 
 	Generic_Achievement_ManyMaturedPoints.Get_AchievementStatus = function( _self )
 		
+		local AchievedPlayer = nil
+		
 		for i = 1, g_PlayerCount do
 
 			local MaturedPointsCount = 0
-				
+
 			for z = 1, g_NumberStratPoints do
 
 				if(g_AllStrategicPointsStructs[z].OwnedBy == g_AllPlayers[i].PlayerIndex) then
 
 					--This code is now being duplicated in multiple places, should make it a class function of Strategic Point
-					if(GetWorldLifetime(g_AllStrategicPointsStructs[z].InitTime) / g_MatureMaxLifetime > 1) then
+					if(g_AllStrategicPointsStructs[z].FullyMatured) then
 
 						MaturedPointsCount = MaturedPointsCount + 1
 
-					end
+						if(MaturedPointsCount >= 3) then
 
+							AchievedPlayer = g_AllPlayers[i]
+							break
+
+						end
+
+					end
+					
 				end
 
 			end
 
 			if(MaturedPointsCount >= 4) then
 
-				return eACHIEVEMENT_STATUS_COMPLETE
+				return eACHIEVEMENT_STATUS_COMPLETE, AchievedPlayer
 
 			end
 
@@ -183,7 +297,7 @@ function Setup_Achievements()
 	Generic_Achievement_Tier4Unit.Get_AchievementStatus = function( _self )
 		
 		for i = 1, g_PlayerCount do
-			 
+			
 			if (GetRelicUnit(i) ~= nil) then
 
 				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
@@ -200,6 +314,28 @@ function Setup_Achievements()
 
 		_PlayerStruct.CurrentAddResources.RT_Requisition = _PlayerStruct.CurrentAddResources.RT_Requisition + 75
 		_PlayerStruct.CurrentAddResources.RT_Power = _PlayerStruct.CurrentAddResources.RT_Power + 100
+
+	end
+	
+	Generic_Achievement_KillLeaders.Get_AchievementStatus = function( _self )
+		
+		for i = 1, g_PlayerCount do
+			
+			if (g_AllPlayers[i].StatsManager.LeadersKilled >= 5) then
+
+				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
+
+			end
+
+		end
+
+		return eACHIEVEMENT_STATUS_ONGOING
+
+	end
+
+	Generic_Achievement_KillLeaders.EndSuccess = function( _self, _PlayerStruct )
+
+		_PlayerStruct.CurrentAddResources.RT_Requisition = _PlayerStruct.CurrentAddResources.RT_Requisition + 50
 
 	end
 	
