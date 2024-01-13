@@ -16,15 +16,15 @@ function Setup_Achievements()
 	
 	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Starting: 'Setup_Achievements'...")
 
-	local Generic_Achievement_KillUnits = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 0, short_desc_id = 0, help_tip_id = 0 } )
-	local Generic_Achievement_RazeBuildings = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 1, short_desc_id = 1, help_tip_id = 1 } )
-	local Generic_Achievement_ExpensiveArmy = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 2, short_desc_id = 2, help_tip_id = 2 } )
-	local Generic_Achievement_KDRatio = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 3, short_desc_id = 3, help_tip_id = 3 } )
-	local Generic_Achievement_FirstBlood = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 4, short_desc_id = 4, help_tip_id = 4 } )
-	--local Generic_Achievement_HighUpkeep = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 5, short_desc_id = 5, help_tip_id = 5 } ) --TODO
-	local Generic_Achievement_ManyMaturedPoints = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 6, short_desc_id = 6, help_tip_id = 6 } )
-	--local Generic_Achievement_ManyMaturedPointsDuration = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 7, short_desc_id = 7, help_tip_id = 7 } ) --TODO
-	local Generic_Achievement_Tier4Unit = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 8, short_desc_id = 8, help_tip_id = 8 } )
+	local Generic_Achievement_KillUnits = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050005, short_desc_id = 20050006, help_tip_id = 20050007 } )
+	local Generic_Achievement_RazeBuildings = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050009, short_desc_id = 20050010, help_tip_id = 20050011 } )
+	local Generic_Achievement_ExpensiveArmy = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050013, short_desc_id = 20050014, help_tip_id = 20050015 } )
+	local Generic_Achievement_KDRatio = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050017, short_desc_id = 20050018, help_tip_id = 20050019 } )
+	local Generic_Achievement_FirstBlood = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050021, short_desc_id = 20050022, help_tip_id = 20050023 } )
+	--local Generic_Achievement_HighUpkeep = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050025, short_desc_id = 20050026, help_tip_id = 20050027 } ) --TODO
+	local Generic_Achievement_ManyMaturedPoints = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050029, short_desc_id = 20050030, help_tip_id = 20050031 } )
+	--local Generic_Achievement_ManyMaturedPointsDuration = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050033, short_desc_id = 20050034, help_tip_id = 20050035 } ) --TODO
+	local Generic_Achievement_Tier4Unit = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050037, short_desc_id = 20050038, help_tip_id = 20050039 } )
 
 	Generic_Achievement_KillUnits.Get_AchievementStatus = function( _self )
 		
