@@ -30,6 +30,7 @@ function Setup_Achievements()
 	--local Generic_Achievement_ManyMaturedPointsDuration = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050033, short_desc_id = 20050034, help_tip_id = 20050035 } ) --TODO
 	local Generic_Achievement_Tier4Unit = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050037, short_desc_id = 20050038, help_tip_id = 20050039 } )
 	local Generic_Achievement_KillLeaders = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050041, short_desc_id = 20050042, help_tip_id = 20050043 } )
+	--local Generic_Achievement_QuickKills = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050061, short_desc_id = 20050062, help_tip_id = 20050063 } )
 
 	Generic_Achievement_KillUnits.Get_AchievementStatus = function( _self )
 		
@@ -156,7 +157,7 @@ function Setup_Achievements()
 			ArmyCostScore = ArmyCostScore + (g_AllPlayers[i].StatsManager.ActiveArmyCost.RT_Requisition * 0.4)
 			ArmyCostScore = ArmyCostScore + g_AllPlayers[i].StatsManager.ActiveArmyCost.RT_Power
 
-			if (ArmyCostScore > 700) then
+			if (ArmyCostScore > 1000) then
 
 				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
 
@@ -183,7 +184,7 @@ function Setup_Achievements()
 			ArmyCostScore = ArmyCostScore + (g_AllPlayers[i].StatsManager.ActiveArmyCost.RT_Requisition * 0.4)
 			ArmyCostScore = ArmyCostScore + g_AllPlayers[i].StatsManager.ActiveArmyCost.RT_Power
 
-			if (ArmyCostScore > 1000) then
+			if (ArmyCostScore > 1700) then
 
 				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
 

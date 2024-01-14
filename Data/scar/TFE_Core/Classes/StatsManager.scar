@@ -24,7 +24,10 @@ function StatsManager:new (_Parent)
 		LeadersLost = 0,
 		CommandersLost = 0,
 		SquadsLost = 0,
-		HasWon = false
+		HasWon = false,
+
+		TimestampedUnitKills = {}
+		TimestampedUnitLosses = {}
 
 	}
 
@@ -33,6 +36,90 @@ function StatsManager:new (_Parent)
 	RemoveStacktrace()
 
    	return setmetatable(StatsManagerObject, self)
+
+end
+
+function StatsManager:AddKills( _Units, _Leaders, _Commanders, _Squads )
+
+	self.UnitsKilled = self.UnitsKilled + _Units
+	self.LeadersKilled = self.LeadersKilled + _Leaders
+	self.CommandersKilled = self.CommandersKilled + _Commanders
+	self.SquadsKilled = self.SquadsKilled + _Squads
+
+	table.insert(TimestampedUnitsKilled, 
+	{ 	
+		Time = g_WorldTime, 
+		Units = _Units, 
+		Leaders = _Leaders, 
+		Commanders = _Commanders, 
+		Squads = _Squads
+	})
+
+end
+
+function StatsManager:AddLosses( _Units, _Leaders, _Commanders, _Squads )
+
+	self.UnitsLost = self.UnitsLost + _Units
+	self.LeadersLost = self.LeadersLost + _Leaders
+	self.CommandersLost = self.CommandersLost + _Commanders
+	self.SquadsLost = self.SquadsLost + _Squads
+
+	table.insert(TimestampedUnitsLost, 
+	{ 	
+		Time = g_WorldTime, 
+		Units = _Units, 
+		Leaders = _Leaders, 
+		Commanders = _Commanders, 
+		Squads = _Squads
+	})
+
+end
+
+function StatsManager:GetUnitKillsSinceTime( _TimeWindow )
+
+	local OnlyCountKillsAfterThisTime = g_WorldTime - _TimeWindow
+	local TotalKillTables = table.getn(self.TimestampedUnitsKilled)
+	local TablesToReturn = {}
+
+	for i = 1, TotalKillTables do
+		
+		if(self.TimestampedUnitKills[TotalKillTables - i].Time > OnlyCountKillsAfterThisTime) then
+
+			table.insert(TablesToReturn, self.TimestampedUnitKills[TotalKillTables - i])
+
+		else
+
+			break
+
+		end
+
+	end
+
+	return TablesToReturn
+
+end
+
+function StatsManager:GetUnitLossesSinceTime( _TimeWindow )
+
+	local OnlyCountLossesAfterThisTime = g_WorldTime - _TimeWindow
+	local TotalLossesTables = table.getn(self.TimestampedUnitsLosses)
+	local TablesToReturn = {}
+
+	for i = 1, TotalLossesTables do
+		
+		if(self.TimestampedUnitsLosses[TotalLossesTables - i].Time > OnlyCountKillsAfterThisTime) then
+
+			table.insert(TablesToReturn, self.TimestampedUnitsLosses[TotalLossesTables - i])
+
+		else
+
+			break
+
+		end
+
+	end
+
+	return TablesToReturn
 
 end
 
