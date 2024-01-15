@@ -94,7 +94,7 @@ function StatsManager:GetUnitKillsSinceTime( _TimeWindow )
 		end
 
 	end
-	print(table.getn(TablesToReturn))
+	
 	return TablesToReturn
 
 end
