@@ -26,7 +26,7 @@ function StatsManager:new (_Parent)
 		SquadsLost = 0,
 		HasWon = false,
 
-		TimestampedUnitKills = {}
+		TimestampedUnitKills = {},
 		TimestampedUnitLosses = {}
 
 	}
@@ -46,7 +46,7 @@ function StatsManager:AddKills( _Units, _Leaders, _Commanders, _Squads )
 	self.CommandersKilled = self.CommandersKilled + _Commanders
 	self.SquadsKilled = self.SquadsKilled + _Squads
 
-	table.insert(TimestampedUnitsKilled, 
+	table.insert(self.TimestampedUnitKills, 
 	{ 	
 		Time = g_WorldTime, 
 		Units = _Units, 
@@ -64,7 +64,7 @@ function StatsManager:AddLosses( _Units, _Leaders, _Commanders, _Squads )
 	self.CommandersLost = self.CommandersLost + _Commanders
 	self.SquadsLost = self.SquadsLost + _Squads
 
-	table.insert(TimestampedUnitsLost, 
+	table.insert(self.TimestampedUnitLosses, 
 	{ 	
 		Time = g_WorldTime, 
 		Units = _Units, 
@@ -78,12 +78,12 @@ end
 function StatsManager:GetUnitKillsSinceTime( _TimeWindow )
 
 	local OnlyCountKillsAfterThisTime = g_WorldTime - _TimeWindow
-	local TotalKillTables = table.getn(self.TimestampedUnitsKilled)
+	local TotalKillTables = table.getn(self.TimestampedUnitKills)
 	local TablesToReturn = {}
 
 	for i = 1, TotalKillTables do
 		
-		if(self.TimestampedUnitKills[TotalKillTables - i].Time > OnlyCountKillsAfterThisTime) then
+		if(self.TimestampedUnitKills[TotalKillTables - i + 1].Time > OnlyCountKillsAfterThisTime) then
 
 			table.insert(TablesToReturn, self.TimestampedUnitKills[TotalKillTables - i])
 
@@ -94,7 +94,7 @@ function StatsManager:GetUnitKillsSinceTime( _TimeWindow )
 		end
 
 	end
-
+	print(table.getn(TablesToReturn))
 	return TablesToReturn
 
 end

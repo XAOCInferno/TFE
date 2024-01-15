@@ -223,19 +223,12 @@ function UpdateSquadCombatDeathResources(RedReceiverPlayer, DefenderPlayer, Mode
 end
 
 --Use 1 or 0 for SquadDead with 0 being false and 1 being true
-function UpdateSquadCombatDeathStats(AtackerPlayer, DefenderPlayer, ModelLosses, LeaderLosses, CommanderLosses, SquadDead ) 
+function UpdateSquadCombatDeathStats(_AttackerPlayer, _DefenderPlayer, _ModelLosses, _LeaderLosses, _CommanderLosses, _SquadDead ) 
 
 	AddStacktrace("UpdateSquadCombatDeathStats")
 
-	AtackerPlayer.StatsManager.UnitsKilled = AtackerPlayer.StatsManager.UnitsKilled + ModelLosses
-	AtackerPlayer.StatsManager.LeadersKilled = AtackerPlayer.StatsManager.LeadersKilled + LeaderLosses
-	AtackerPlayer.StatsManager.CommandersKilled = AtackerPlayer.StatsManager.CommandersKilled + CommanderLosses
-	AtackerPlayer.StatsManager.SquadsKilled = AtackerPlayer.StatsManager.SquadsKilled + SquadDead
-
-	DefenderPlayer.StatsManager.UnitsLost = AtackerPlayer.StatsManager.UnitsLost + ModelLosses
-	DefenderPlayer.StatsManager.LeadersLost = AtackerPlayer.StatsManager.LeadersLost + LeaderLosses
-	DefenderPlayer.StatsManager.CommandersLost = AtackerPlayer.StatsManager.CommandersLost + CommanderLosses
-	DefenderPlayer.StatsManager.SquadsLost = AtackerPlayer.StatsManager.SquadsLost + SquadDead
+	_AttackerPlayer.StatsManager:AddKills( _ModelLosses, _LeaderLosses, _CommanderLosses, _SquadDead )
+	_DefenderPlayer.StatsManager:AddLosses( _ModelLosses, _LeaderLosses, _CommanderLosses, _SquadDead )
 
 	RemoveStacktrace()
 
