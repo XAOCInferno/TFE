@@ -3,7 +3,7 @@
 ----------------------
 
 EntityData = {}
-function EntityData:new (_eGameID, _eGroupID, _eIndex, _eID, _eRace, _eBP)
+function EntityData:new ( _eGameID, _eGroupID, _eIndex, _eID, _eRace, _eBP, _ePlayer, _eLP, _eGen, _eIsThermo )
 
 	AddStacktrace("EntityData:new")
 
@@ -17,7 +17,18 @@ function EntityData:new (_eGameID, _eGroupID, _eIndex, _eID, _eRace, _eBP)
 		EntityUnitRace = _eRace,
 		EntityBlueprint = _eBP,
 		EntityPosition = Entity_GetPosition(_eID),
-		EntityPositionInt = Entity_GetPosition(_eID)
+		EntityPositionInt = Entity_GetPosition(_eID),
+		EntityIsStructure = Entity_IsBuilding(_eID),
+		OwnedByPlayer = Entity_GetPlayerOwner(_eID), 		
+		OwnerPlayer = _ePlayer, 
+		EntityIsLP = _eLP,
+		EntityIsGen = _eGen,
+		EntityIsThermo = _eIsThermo,
+
+
+		--Variables		
+		PreviouslyAttackedByPlayers = {},
+		PreviouslyAttackedTime = 0
 	}
 
 	self.__index = self
@@ -33,10 +44,36 @@ function EntityData:Update()
 
 	local privateUpdate = function()
 	
+		--Get Position, does this need to be in Update?.. Most entities don't move.
 		self.EntityPosition = Entity_GetPosition(self.EntityID)
 		self.EntityPositionInt.x = math.floor(self.EntityPosition.x)
 		self.EntityPositionInt.y = math.floor(self.EntityPosition.y)
 		self.EntityPositionInt.z = math.floor(self.EntityPosition.z)
+
+		--Get combat status
+		if(Entity_IsUnderAttack(self.EntityID)) then
+
+			local PlayersToRemove = {}
+			for i = 1, g_PlayerCount do
+				
+				if(Entity_IsUnderAttackByPlayer(self.EntityID, g_AllPlayers[i].Player)) then
+					
+					local contains, _  = TableContains(self.PreviouslyAttackedByPlayers, g_AllPlayers[i])
+	
+					if(contains == false) then
+	
+						table.insert(self.PreviouslyAttackedByPlayers, g_AllPlayers[i])
+	
+					end
+				
+				end
+			end
+
+		elseif(g_WorldTime - self.PreviouslyAttackedTime > 5) then --Move this 5 into a global "attack time"
+
+			self.PreviouslyAttackedByPlayers = {}
+
+		end
 
 	end
 

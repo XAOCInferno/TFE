@@ -19,10 +19,18 @@ function Setup_Achievements()
 	local Generic_Achievement_KillUnits = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050005, short_desc_id = 20050006, help_tip_id = 20050007 } )
 	local Generic_Achievement_KillUnits2 = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050045, short_desc_id = 20050046, help_tip_id = 20050047 } )
 	local Generic_Achievement_KillUnits3 = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050049, short_desc_id = 20050050, help_tip_id = 20050051 } )
+
 	local Generic_Achievement_RazeBuildings = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050009, short_desc_id = 20050010, help_tip_id = 20050011 } )
+	local Generic_Achievement_RazeBuildings2 = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050078, short_desc_id = 20050079, help_tip_id = 20050080 } )
+	local Generic_Achievement_RazeBuildings3 = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050082, short_desc_id = 20050083, help_tip_id = 20050084 } )
+	local Generic_Achievement_RazeLPs = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050070, short_desc_id = 20050071, help_tip_id = 20050072 } )
+	local Generic_Achievement_RazeGens = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050074, short_desc_id = 20050075, help_tip_id = 20050076 } )
+	local Generic_Achievement_RazeThermo = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050086, short_desc_id = 20050087, help_tip_id = 20050088 } )
+
 	local Generic_Achievement_ExpensiveArmy = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050013, short_desc_id = 20050014, help_tip_id = 20050015 } )
 	local Generic_Achievement_ExpensiveArmy2 = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050053, short_desc_id = 20050054, help_tip_id = 20050055 } )
 	local Generic_Achievement_ExpensiveArmy3 = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050057, short_desc_id = 20050058, help_tip_id = 20050059 } )
+
 	local Generic_Achievement_KDRatio = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050017, short_desc_id = 20050018, help_tip_id = 20050019 } )
 	local Generic_Achievement_FirstBlood = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050021, short_desc_id = 20050022, help_tip_id = 20050023 } )
 	--local Generic_Achievement_HighUpkeep = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050025, short_desc_id = 20050026, help_tip_id = 20050027 } ) --TODO
@@ -30,6 +38,7 @@ function Setup_Achievements()
 	--local Generic_Achievement_ManyMaturedPointsDuration = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050033, short_desc_id = 20050034, help_tip_id = 20050035 } ) --TODO
 	local Generic_Achievement_Tier4Unit = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050037, short_desc_id = 20050038, help_tip_id = 20050039 } )
 	local Generic_Achievement_KillLeaders = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050041, short_desc_id = 20050042, help_tip_id = 20050043 } )
+
 	local Generic_Achievement_QuickKills = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050061, short_desc_id = 20050062, help_tip_id = 20050063 } )
 	local Generic_Achievement_QuickKills2 = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050065, short_desc_id = 20050066, help_tip_id = 20050067 } )
 
@@ -104,8 +113,8 @@ function Setup_Achievements()
 	Generic_Achievement_RazeBuildings.Get_AchievementStatus = function( _self )
 		
 		for i = 1, g_PlayerCount do
-			--Not working.
-			if (g_AllPlayers[i].StatsManager.StructuresRazed >= 3) then
+			
+			if (g_AllPlayers[i].StatsManager.StructuresKilled >= 3) then
 					
 				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
 
@@ -121,6 +130,121 @@ function Setup_Achievements()
 
 		_PlayerStruct.CurrentAddResources.RT_Requisition = _PlayerStruct.CurrentAddResources.RT_Requisition + 25
 		_PlayerStruct.CurrentAddResources.RT_Power = _PlayerStruct.CurrentAddResources.RT_Power + 25
+
+	end
+
+	Generic_Achievement_RazeBuildings2.Get_AchievementStatus = function( _self )
+		
+		for i = 1, g_PlayerCount do
+			
+			if (g_AllPlayers[i].StatsManager.StructuresKilled >= 6) then
+					
+				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
+
+			end
+
+		end
+
+		return eACHIEVEMENT_STATUS_ONGOING
+
+	end
+	
+	Generic_Achievement_RazeBuildings2.EndSuccess = function( _self, _PlayerStruct )
+
+		_PlayerStruct.CurrentAddResources.RT_Requisition = _PlayerStruct.CurrentAddResources.RT_Requisition + 50
+		_PlayerStruct.CurrentAddResources.RT_Power = _PlayerStruct.CurrentAddResources.RT_Power + 50
+
+	end
+
+	Generic_Achievement_RazeBuildings3.Get_AchievementStatus = function( _self )
+		
+		for i = 1, g_PlayerCount do
+			
+			if (g_AllPlayers[i].StatsManager.StructuresKilled >= 10) then
+					
+				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
+
+			end
+
+		end
+
+		return eACHIEVEMENT_STATUS_ONGOING
+
+	end
+	
+	Generic_Achievement_RazeBuildings3.EndSuccess = function( _self, _PlayerStruct )
+
+		_PlayerStruct.CurrentAddResources.RT_Requisition = _PlayerStruct.CurrentAddResources.RT_Requisition + 75
+		_PlayerStruct.CurrentAddResources.RT_Power = _PlayerStruct.CurrentAddResources.RT_Power + 75
+
+	end
+
+	Generic_Achievement_RazeLPs.Get_AchievementStatus = function( _self )
+		
+		for i = 1, g_PlayerCount do
+			
+			if (g_AllPlayers[i].StatsManager.LPsKilled >= 4) then
+					
+				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
+
+			end
+
+		end
+
+		return eACHIEVEMENT_STATUS_ONGOING
+
+	end
+	
+	Generic_Achievement_RazeLPs.EndSuccess = function( _self, _PlayerStruct )
+
+		_PlayerStruct.CurrentAddResources.RT_Requisition = _PlayerStruct.CurrentAddResources.RT_Requisition + 50
+		_PlayerStruct.CurrentAddResources.RT_Power = _PlayerStruct.CurrentAddResources.RT_Power + 25
+
+	end
+
+	Generic_Achievement_RazeGens.Get_AchievementStatus = function( _self )
+		
+		for i = 1, g_PlayerCount do
+			
+			if (g_AllPlayers[i].StatsManager.GensKilled >= 3) then
+					
+				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
+
+			end
+
+		end
+
+		return eACHIEVEMENT_STATUS_ONGOING
+
+	end
+	
+	Generic_Achievement_RazeGens.EndSuccess = function( _self, _PlayerStruct )
+
+		_PlayerStruct.CurrentAddResources.RT_Requisition = _PlayerStruct.CurrentAddResources.RT_Requisition + 25
+		_PlayerStruct.CurrentAddResources.RT_Power = _PlayerStruct.CurrentAddResources.RT_Power + 50
+
+	end
+
+	Generic_Achievement_RazeThermo.Get_AchievementStatus = function( _self )
+		
+		for i = 1, g_PlayerCount do
+			
+			if (g_AllPlayers[i].StatsManager.ThermosKilled >= 1) then
+					
+				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
+
+			end
+
+		end
+
+		return eACHIEVEMENT_STATUS_ONGOING
+
+	end
+	
+	Generic_Achievement_RazeThermo.EndSuccess = function( _self, _PlayerStruct )
+
+		_PlayerStruct.CurrentAddResources.RT_Requisition = _PlayerStruct.CurrentAddResources.RT_Requisition + 25
+		_PlayerStruct.CurrentAddResources.RT_Power = _PlayerStruct.CurrentAddResources.RT_Power + 50
 
 	end
 

@@ -77,7 +77,56 @@ function Set_PlayerEntities_Immediate(_PlayerIndex)
 		
 		if(addNewDataEntry) then
 
-			local tmpData = EntityData:new( newEntityGameID, _egroupid, _itemindex, _entityID, g_AllPlayers[_PlayerIndex].RaceDetails.RaceName, entityBP)
+			local IsLP = false
+			local IsGen = false
+			local IsThermo = false
+
+			--Move this table into an entity table so we can find from anywhere
+			if(TableContains(
+				{
+					"chaos_listening_post", "dark_eldar_listening_post", "eldar_listening_post", 
+					"guard_listening_post", "inquisition_imperial_icon", "necron_listening_post",
+					"ork_gork_totem", "sisters_listening_post", "space_marine_listening_post", 
+					"space_marine_listening_post_veteran", "tau_listening_post", "tyranids_listening_post"
+
+				}, entityBP)) then
+
+				IsLP = true
+
+			end
+			
+			--Move this table into an entity table so we can find from anywhere
+			if(TableContains(
+				{
+					"chaos_thermo_plasma_generator", "chaos_plasma_generator", "dark_eldar_thermo_plasma", 
+					"dark_eldar_plasma_generator", "eldar_advanced_warp_generator", "eldar_warp_generator", 
+					"guard_thermo_plasma", "guard_plasma_generator", "inquisition_warp_reactor",
+					"inquisition_warp_generator", "necron_thermoplasma_generator", "necron_plasma_generator",
+					"ork_bigger_generator", "ork_generator", "sisters_thermo_plasma",
+					"sisters_plasma_generator", "space_marine_thermo_generator", "space_marine_generator", 
+					"space_marine_thermo_generator_veteran", "space_marine_generator_veteran", "tau_thermoplasma_generator", 
+					"tau_plasma_generator", "tyranids_thermo_generator", "tyranids_generator"
+
+				}, entityBP)) then
+
+				IsGenerator = true
+
+				if(TableContains(
+				{
+					"chaos_thermo_plasma_generator", "dark_eldar_thermo_plasma", "eldar_advanced_warp_generator", 
+					"guard_thermo_plasma", "inquisition_warp_reactor", "necron_thermoplasma_generator",	
+					"ork_bigger_generator", "sisters_thermo_plasma", "space_marine_thermo_generator",  
+					"space_marine_thermo_generator_veteran", "tau_thermoplasma_generator", "tyranids_thermo_generator"
+
+				}, entityBP)) then
+
+					IsThermo = true
+
+				end
+
+			end
+
+			local tmpData = EntityData:new( newEntityGameID, _egroupid, _itemindex, _entityID, g_AllPlayers[_PlayerIndex].RaceDetails.RaceName, entityBP, g_AllPlayers[_PlayerIndex], IsLP, IsGenerator, IsThermo)
 			
 			Log(eLOG_TYPE_INFO, eLOG_VERBOSE, "Entity data created for entity: "..tmpData.EntityBlueprint)
 			table.insert(g_AllEntityData[_PlayerIndex], tmpData)
@@ -131,15 +180,28 @@ function Update_ExistingEntityDetails()
 			--Simple check to avoid null ref
 			if(g_AllEntityData[i][l] == nil) then
 				
-				Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, "Entity is nil, assuming it is destroyed and removing.")
-				table.remove(g_AllEntityData[i], l)	
+				Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Entity is nil, this should never happen.")
 
 			else
 
 				--Logic will run, but if there is an error (entity no longer exists) then we remove it
 				if(g_AllEntityData[i][l]:Update() == false) then
 
-					table.remove(g_AllEntityData[i], l)	
+					local EntityLosses = 1
+					local StructureLosses =  bool_to_number(g_AllEntityData[i][l].EntityIsStructure)
+					local LPLosses = bool_to_number(g_AllEntityData[i][l].EntityIsLP)
+					local GenLosses = bool_to_number(g_AllEntityData[i][l].EntityIsGen)
+					local ThermoLosses = bool_to_number(g_AllEntityData[i][l].EntityIsThermo)
+	
+					for z = 1, table.getn(g_AllEntityData[i][l].PreviouslyAttackedByPlayers) do
+		
+						--Again redo this so defender isn't given multiple bonuses...
+						UpdateEntityCombatDeathResources(g_AllEntityData[i][l].PreviouslyAttackedByPlayers[z], g_AllEntityData[i][l].OwnerPlayer, EntityLosses, StructureLosses, LPLosses, GenLosses, ThermoLosses ) 
+						UpdateEntityCombatDeathStats(g_AllEntityData[i][l].PreviouslyAttackedByPlayers[z], g_AllEntityData[i][l].OwnerPlayer, EntityLosses, StructureLosses, LPLosses, GenLosses, ThermoLosses ) 
+		
+					end	
+
+					g_AllEntityData[i][l] = nil	
 
 				end
 
@@ -152,7 +214,6 @@ function Update_ExistingEntityDetails()
 	RemoveStacktrace()
 
 end
-
 
 function Get_EntityDataFromEntityBP(_EntityBP, _Player)
 
@@ -213,5 +274,39 @@ function Entity_Exists(_EntityID)
 	RemoveStacktrace()
 
 	return EntityExists
+
+end
+
+function UpdateEntityCombatDeathResources(_RedReceiverPlayer, _DefenderPlayer, _EntityLosses, _StructureLosses, _LPLosses, _GenLosses, _ThermoLosses ) 
+
+	AddStacktrace("UpdateEntityCombatDeathResources")
+
+	local TotalRed = 0
+	TotalRed = TotalRed + (4 * _EntityLosses)
+	TotalRed = TotalRed + (15 * _StructureLosses)
+	TotalRed = TotalRed + (5 * _LPLosses)
+	TotalRed = TotalRed + (5 * _GenLosses)
+	TotalRed = TotalRed + (15 * _ThermoLosses)
+	TotalRed = TotalRed * g_RedGainMultiplier
+
+	_RedReceiverPlayer.CurrentResources.RT_Red = _RedReceiverPlayer.CurrentResources.RT_Red + TotalRed	
+	_DefenderPlayer.CurrentResources.RT_Red = _DefenderPlayer.CurrentResources.RT_Red + (TotalRed * 0.5)	
+
+	--Debug	
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Player ".._RedReceiverPlayer.PlayerIndex.." current Red = ".._RedReceiverPlayer.CurrentResources.RT_Red)
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Player ".._DefenderPlayer.PlayerIndex.." current Red = ".._DefenderPlayer.CurrentResources.RT_Red)
+
+	RemoveStacktrace()
+
+end
+
+function UpdateEntityCombatDeathStats(_AttackerPlayer, _DefenderPlayer, _EntityLosses, _StructureLosses, _LPLosses, _GenLosses, _ThermoLosses ) 
+
+	AddStacktrace("UpdateEntityCombatDeathStats")
+
+	_AttackerPlayer.StatsManager:AddEntityKills( _EntityLosses, _StructureLosses, _LPLosses, _GenLosses, _ThermoLosses )
+	_DefenderPlayer.StatsManager:AddEntityLosses( _EntityLosses, _StructureLosses, _LPLosses, _GenLosses, _ThermoLosses )
+
+	RemoveStacktrace()
 
 end

@@ -23,8 +23,8 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		SquadInitTime = g_WorldTime,	
 		SquadPosition = Squad_GetPosition(_sID),
 		SquadIsAttached = Squad_IsAttached(_sID),
-		OwnedByPlayer = Squad_GetPlayerOwner(_sID), --Duplicate functionality as bellow? I would prefere we kept this one
-		OwnerPlayer = _player, --Um do we need this./.???
+		OwnedByPlayer = Squad_GetPlayerOwner(_sID),
+		OwnerPlayer = _player, 
 		IsSelected_Unsynced = Misc_IsSquadSelected(_sID),
 
 		SquadAppliedCoverMods = {},

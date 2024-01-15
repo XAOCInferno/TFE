@@ -14,8 +14,18 @@ function StatsManager:new (_Parent)
 		--ResourcesGatheredScore = ResourceGroup:new(0, 0, 0, 0, 0, 0), --Seemingly causes a crash so we can't use this one probably
 		ResourcesSpent = ResourceGroup:new(0, 0, 0, 0, 0, 0),
 		ResourcesTributed = ResourceGroup:new(0, 0, 0, 0, 0, 0),
+		
+		EntitiesKilled = 0,
+		StructuresKilled = 0,
+		LPsKilled = 0,
+		GensKilled = 0,
+		ThermosKilled = 0,
+		EntitiesLost = 0,
 		StructuresLost = 0,
-		StructuresRazed = 0,
+		LPsLost = 0,
+		GensLost = 0,
+		ThermosLost = 0,
+
 		UnitsKilled = 0,
 		LeadersKilled = 0,
 		CommandersKilled = 0,
@@ -27,7 +37,10 @@ function StatsManager:new (_Parent)
 		HasWon = false,
 
 		TimestampedUnitKills = {},
-		TimestampedUnitLosses = {}
+		TimestampedUnitLosses = {},
+
+		TimestampedEntityKills = {},
+		TimestampedEntityLosses = {}
 
 	}
 
@@ -46,6 +59,7 @@ function StatsManager:AddKills( _Units, _Leaders, _Commanders, _Squads )
 	self.CommandersKilled = self.CommandersKilled + _Commanders
 	self.SquadsKilled = self.SquadsKilled + _Squads
 
+	--This table should probably be a class?
 	table.insert(self.TimestampedUnitKills, 
 	{ 	
 		Time = g_WorldTime, 
@@ -64,6 +78,7 @@ function StatsManager:AddLosses( _Units, _Leaders, _Commanders, _Squads )
 	self.CommandersLost = self.CommandersLost + _Commanders
 	self.SquadsLost = self.SquadsLost + _Squads
 
+	--This table should probably be a class?
 	table.insert(self.TimestampedUnitLosses, 
 	{ 	
 		Time = g_WorldTime, 
@@ -75,41 +90,81 @@ function StatsManager:AddLosses( _Units, _Leaders, _Commanders, _Squads )
 
 end
 
+function StatsManager:AddEntityKills( _Entities, _Structures, _LPs, _Gens, _Thermos )
+
+	self.EntitiesKilled = self.EntitiesKilled + _Entities
+	self.StructuresKilled = self.StructuresKilled + _Structures
+	self.LPsKilled = self.LPsKilled + _LPs
+	self.GensKilled = self.GensKilled + _Gens
+	self.ThermosKilled = self.ThermosKilled + _Thermos
+
+	--This table should probably be a class?
+	table.insert(self.TimestampedEntityKills, 
+	{ 	
+		Time = g_WorldTime, 
+		Units = _Units, 
+		Leaders = _Leaders, 
+		Commanders = _Commanders, 
+		Squads = _Squads
+	})
+
+end
+
+function StatsManager:AddEntityLosses( _Entities, _Structures, _LPs, _Gens, _Thermos )
+
+	self.EntitiesLost = self.EntitiesLost + _Entities
+	self.StructuresLost = self.StructuresLost + _Structures
+	self.LPsLost = self.LPsLost + _LPs
+	self.GensLost = self.GensLost + _Gens
+	self.ThermosLost = self.ThermosLost + _Thermos
+
+	--This table should probably be a class?
+	table.insert(self.TimestampedEntityLosses, 
+	{ 	
+		Time = g_WorldTime, 
+		Units = _Units, 
+		Leaders = _Leaders, 
+		Commanders = _Commanders, 
+		Squads = _Squads
+	})
+
+end
+
 function StatsManager:GetUnitKillsSinceTime( _TimeWindow )
-
-	local OnlyCountKillsAfterThisTime = g_WorldTime - _TimeWindow
-	local TotalKillTables = table.getn(self.TimestampedUnitKills)
-	local TablesToReturn = {}
-
-	for i = 1, TotalKillTables do
-		
-		if(self.TimestampedUnitKills[TotalKillTables - i + 1].Time > OnlyCountKillsAfterThisTime) then
-
-			table.insert(TablesToReturn, self.TimestampedUnitKills[TotalKillTables - i])
-
-		else
-
-			break
-
-		end
-
-	end
 	
-	return TablesToReturn
+	return self:GetCombatStatsSinceTime(_TimeWindow, self.TimestampedUnitKills)
 
 end
 
 function StatsManager:GetUnitLossesSinceTime( _TimeWindow )
 
+	return self:GetCombatStatsSinceTime(_TimeWindow, self.TimestampedUnitLosses)
+
+end
+
+function StatsManager:GetEntityKillsSinceTime( _TimeWindow )
+	
+	return self:GetCombatStatsSinceTime(_TimeWindow, self.TimestampedEntityKills)
+
+end
+
+function StatsManager:GetEntityLossesSinceTime( _TimeWindow )
+
+	return self:GetCombatStatsSinceTime(_TimeWindow, self.TimestampedEntityLosses)
+
+end
+
+function StatsManager:GetCombatStatsSinceTime( _TimeWindow, _Tbl)
+
 	local OnlyCountLossesAfterThisTime = g_WorldTime - _TimeWindow
-	local TotalLossesTables = table.getn(self.TimestampedUnitsLosses)
+	local TotalStatsTables = table.getn(_Tbl)
 	local TablesToReturn = {}
 
-	for i = 1, TotalLossesTables do
+	for i = 1, TotalStatsTables do
 		
-		if(self.TimestampedUnitsLosses[TotalLossesTables - i].Time > OnlyCountKillsAfterThisTime) then
+		if(_Tbl[TotalStatsTables - i].Time > OnlyCountKillsAfterThisTime) then
 
-			table.insert(TablesToReturn, self.TimestampedUnitsLosses[TotalLossesTables - i])
+			table.insert(TablesToReturn, _Tbl[TotalStatsTables - i])
 
 		else
 
@@ -122,6 +177,7 @@ function StatsManager:GetUnitLossesSinceTime( _TimeWindow )
 	return TablesToReturn
 
 end
+
 
 function StatsManager:Update()
 	

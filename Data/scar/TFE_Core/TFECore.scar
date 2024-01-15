@@ -272,14 +272,13 @@ function Core_MainLoop()
 	AddStacktrace("Core_MainLoop")
 
 	if(DoCriticalFunction(Set_UpdatedGameTime) == false) then return end
-	Set_AllSquads_Immediate()
-	--if(DoCriticalFunction(Set_AllSquads_Immediate) == false) then return end
-	if(DoCriticalFunction(Set_AllEntities_Immediate) == false) then return end
+	if(DoCriticalFunction(Set_AllSquads_Immediate) == false) then return end
+	Set_AllEntities_Immediate()
+	--if(DoCriticalFunction(Set_AllEntities_Immediate) == false) then return end
 	if(DoCriticalFunction(Set_AllSquadCoverModifiers) == false) then return end
 	if(DoCriticalFunction(Set_PlayerUpkeep, debug_TFECore_FileName) == false) then return end 
 	if(DoCriticalFunction(Set_ResourceMature, debug_TFECore_FileName) == false) then return end
-	--if(DoCriticalFunction(Implement_UpkeepAndMature, debug_TFECore_FileName) == false) then return end
-	Implement_UpkeepAndMature()
+	if(DoCriticalFunction(Implement_UpkeepAndMature, debug_TFECore_FileName) == false) then return end
 	DoBasicFunction(Set_Weather)
 	DoBasicFunction(Update_GlobalAbilities)
 	--DoBasicFunction(Update_Achievements)
