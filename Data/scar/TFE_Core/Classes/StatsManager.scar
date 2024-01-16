@@ -156,19 +156,23 @@ end
 
 function StatsManager:GetCombatStatsSinceTime( _TimeWindow, _Tbl)
 
-	local OnlyCountLossesAfterThisTime = g_WorldTime - _TimeWindow
+	local OnlyCountDeathsAfterThisTime = g_WorldTime - _TimeWindow
 	local TotalStatsTables = table.getn(_Tbl)
 	local TablesToReturn = {}
 
-	for i = 1, TotalStatsTables do
-		
-		if(_Tbl[TotalStatsTables - i].Time > OnlyCountKillsAfterThisTime) then
+	if(TotalStatsTables > 0) then
 
-			table.insert(TablesToReturn, _Tbl[TotalStatsTables - i])
+		for i = 1, TotalStatsTables do
+			
+			if(_Tbl[TotalStatsTables - i + 1].Time > OnlyCountDeathsAfterThisTime) then
 
-		else
+				table.insert(TablesToReturn, _Tbl[TotalStatsTables - i])
 
-			break
+			else
+
+				break
+
+			end
 
 		end
 
