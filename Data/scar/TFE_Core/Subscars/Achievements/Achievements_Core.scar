@@ -18,10 +18,13 @@ function Setup_Achievements()
 
 	--[[Objective identifier locale keys must be an even number... because why not...]]
 	local Generic_Achievement_FirstBlood = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050022, short_desc_id = 20050023, help_tip_id = 20050024 } )
-	local Generic_Achievement_KillUnits = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050006, short_desc_id = 20050007, help_tip_id = 20050008 } )
+	--[[local Generic_Achievement_KillUnits = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050006, short_desc_id = 20050007, help_tip_id = 20050008 } )
 	local Generic_Achievement_KillUnits2 = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050046, short_desc_id = 20050047, help_tip_id = 20050048 } )
 	local Generic_Achievement_KillUnits3 = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050050, short_desc_id = 20050051, help_tip_id = 20050052 } )
 	local Generic_Achievement_KDRatio = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050018, short_desc_id = 20050019, help_tip_id = 20050020 } )
+	local Generic_Achievement_KillLeaders = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050042, short_desc_id = 20050043, help_tip_id = 20050044 } )
+	local Generic_Achievement_QuickKills = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050062, short_desc_id = 20050063, help_tip_id = 20050064 } )
+	local Generic_Achievement_QuickKills2 = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050066, short_desc_id = 20050067, help_tip_id = 20050068 } )
 
 	local Generic_Achievement_RazeBuildings = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050010, short_desc_id = 20050011, help_tip_id = 20050012 } )
 	local Generic_Achievement_RazeBuildings2 = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050078, short_desc_id = 20050079, help_tip_id = 20050080 } )
@@ -38,11 +41,32 @@ function Setup_Achievements()
 	local Generic_Achievement_ManyMaturedPoints = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050030, short_desc_id = 20050031, help_tip_id = 20050032 } )
 	--local Generic_Achievement_ManyMaturedPointsDuration = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050034, short_desc_id = 20050034, help_tip_id = 20050035 } ) --TODO
 	local Generic_Achievement_Tier4Unit = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050038, short_desc_id = 20050039, help_tip_id = 20050040 } )
-	local Generic_Achievement_KillLeaders = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050042, short_desc_id = 20050043, help_tip_id = 20050044 } )
+	]]
+	
+	Generic_Achievement_FirstBlood.Get_AchievementStatus = function( _self )
+		
+		for i = 1, g_PlayerCount do
+			 
+			if (g_AllPlayers[i].StatsManager.UnitsKilled >= 1 ) then
 
-	local Generic_Achievement_QuickKills = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050062, short_desc_id = 20050063, help_tip_id = 20050064 } )
-	local Generic_Achievement_QuickKills2 = CreateAchievement(eACHIEVEMENT_VIEW_ACTIVE, { title_id = 20050066, short_desc_id = 20050067, help_tip_id = 20050068 } )
+				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
 
+			end
+
+		end
+
+		return eACHIEVEMENT_STATUS_ONGOING
+
+	end
+
+	Generic_Achievement_FirstBlood.EndSuccess = function( _self, _PlayerStruct )
+
+		_PlayerStruct.CurrentAddResources.RT_Red = _PlayerStruct.CurrentAddResources.RT_Red + 50
+
+	end
+
+
+	--[[
 	Generic_Achievement_KillUnits.Get_AchievementStatus = function( _self )
 		
 		for i = 1, g_PlayerCount do
@@ -351,28 +375,6 @@ function Setup_Achievements()
 
 	end
 
-	Generic_Achievement_FirstBlood.Get_AchievementStatus = function( _self )
-		
-		for i = 1, g_PlayerCount do
-			 
-			if (g_AllPlayers[i].StatsManager.UnitsKilled >= 1 ) then
-
-				return eACHIEVEMENT_STATUS_COMPLETE, g_AllPlayers[i]
-
-			end
-
-		end
-
-		return eACHIEVEMENT_STATUS_ONGOING
-
-	end
-
-	Generic_Achievement_FirstBlood.EndSuccess = function( _self, _PlayerStruct )
-
-		_PlayerStruct.CurrentAddResources.RT_Requisition = _PlayerStruct.CurrentAddResources.RT_Requisition + 25
-
-	end
-
 	Generic_Achievement_ManyMaturedPoints.Get_AchievementStatus = function( _self )
 		
 		local AchievedPlayer = nil
@@ -509,7 +511,7 @@ function Setup_Achievements()
 		_PlayerStruct.CurrentAddResources.RT_Red = _PlayerStruct.CurrentAddResources.RT_Red + 50
 
 	end
-
+]]
 	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Finished: 'Setup_Achievements'!")
 
 	RemoveStacktrace()
