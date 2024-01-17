@@ -270,6 +270,9 @@ function Set_SquadCombatDetails(_SquadStruct, _IsDead)
 			for i = 1, AttackerPlayerLength do
 
 				ModelLosses, LeaderLosses = Get_SquadLosses(_SquadStruct)
+				ModelLosses = ModelLosses + LeaderLosses
+				ModelLosses = math.max(ModelLosses, 1) --Should we fix CheckForSquadLosses instead of this?
+				
 				Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Squad destroyed! Adding large Red for Player ".._SquadStruct.PreviouslyAttackedByPlayers[i].PlayerIndex..".")	
 				UpdateSquadCombatDeathResources(_SquadStruct.PreviouslyAttackedByPlayers[i], _SquadStruct.OwnerPlayer, ModelLosses, LeaderLosses, 1 )
 				UpdateSquadCombatDeathStats(_SquadStruct.PreviouslyAttackedByPlayers[i], _SquadStruct.OwnerPlayer, ModelLosses, LeaderLosses, CommanderLosses, 1 )
