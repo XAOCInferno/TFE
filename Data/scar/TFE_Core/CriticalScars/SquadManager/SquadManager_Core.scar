@@ -240,16 +240,20 @@ function SquadSetLastCombats(_DefenderSquadStruct, _AttackerPlayer)
 	for i = 1, g_PlayerSquadCount[_AttackerPlayer.PlayerIndex + 1] do
 
 		local EnemySquad = g_AllSquadsData[_AttackerPlayer.PlayerIndex + 1][i]
-		if(SGroup_WasAttacked(_DefenderSquadStruct.SquadGroupID, EnemySquad.SquadGroupID)) then
+		if(EnemySquad ~= nil) then
 
-			local contains, _  = TableContains(_DefenderSquadStruct.PreviouslyAttackedBySquads, EnemySquad)
+			if(SGroup_WasAttacked(_DefenderSquadStruct.SquadGroupID, EnemySquad.SquadGroupID)) then
 
-			if(contains == false) then
+				local contains, _  = TableContains(_DefenderSquadStruct.PreviouslyAttackedBySquads, EnemySquad)
 
-				table.insert(_DefenderSquadStruct.PreviouslyAttackedBySquads, EnemySquad)
+				if(contains == false) then
+
+					table.insert(_DefenderSquadStruct.PreviouslyAttackedBySquads, EnemySquad)
+
+				end
 
 			end
-
+			
 		end
 
 	end
@@ -258,7 +262,6 @@ end
 
 function UpdateSquadCombatDeath(_DefenderSquadStruct, _AttackerPlayer, _DefenderPlayer, _ModelLosses, _LeaderLosses, _CommanderLosses, _SquadDead ) 
 
-	SquadSetLastCombats(_DefenderSquadStruct, _AttackerPlayer)
 	UpdateSquadCombatDeathResources(_DefenderSquadStruct, _AttackerPlayer, _DefenderPlayer, _ModelLosses, _LeaderLosses, _CommanderLosses, _SquadDead ) 
 	UpdateSquadCombatDeathStats(_DefenderSquadStruct, _AttackerPlayer, _DefenderPlayer, _ModelLosses, _LeaderLosses, _CommanderLosses, _SquadDead ) 
 
@@ -324,7 +327,9 @@ function Set_SquadCombatDetails(_SquadStruct, _IsDead)
 
 					table.insert(_SquadStruct.PreviouslyAttackedByPlayers, g_AllPlayers[i])
 
-				end
+				end				
+
+				SquadSetLastCombats(_SquadStruct, g_AllPlayers[i])
 
 				ModelLosses, LeaderLosses = CheckForSquadLosses(_SquadStruct)
 
