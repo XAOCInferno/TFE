@@ -16,7 +16,7 @@ function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
 		--Is this even being used anymore? just here for future..?
 		CurrentResources = 
 	    {
-			RT_Red = 30,
+			RT_Red = 3000,
 	    	RT_Requisition = 0,
 	    	RT_Power =  0,
 	    	RT_Pop =  0,

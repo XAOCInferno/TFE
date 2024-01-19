@@ -930,7 +930,7 @@ function Setup_ActualGlobalAbilies()
 		--[[SPACE MARINE GLOBALS]]
 		elseif(RaceName == "space_marine_race") then
 
-			local AbilityStruct_SpaceMarine1 = CreateGlobalAbility(
+			--[[local AbilityStruct_SpaceMarine1 = CreateGlobalAbility(
 				squadBP.."_basic_scan",
 				g_AllPlayers[i], 
 				"GlobalAbility_SpaceMarines_BasicScan", 
@@ -959,7 +959,7 @@ function Setup_ActualGlobalAbilies()
 				
 				end
 
-			end
+			end]]
 
 			mod_MarinesForTheEmperor__modifier_01 = Modifier_Create(MAT_Squad, "max_damage_weapon_modifier", MUT_Multiplication, 1, 1.4, "")
 			table.insert(g_GlobalAbilityMods, mod_MarinesForTheEmperor__modifier_01)
@@ -976,7 +976,7 @@ function Setup_ActualGlobalAbilies()
 			modFX_MarinesForTheEmperor__modifier_01 = Modifier_Create(MAT_Squad, "ability_fighting_juice_event", MUT_Enable, 1, 1, "")	
 			table.insert(g_GlobalAbilityMods, modFX_MarinesForTheEmperor__modifier_01)
 
-			local AbilityStruct_SpaceMarine2 = CreateGlobalAbility(
+			local AbilityStruct_SpaceMarine1 = CreateGlobalAbility(
 				squadBP.."_for_the_emperor",
 				g_AllPlayers[i], 
 				"GlobalAbility_SpaceMarines_ForTheEmperor", 
@@ -987,11 +987,11 @@ function Setup_ActualGlobalAbilies()
 			)
 	
 			
-			AbilityStruct_SpaceMarine2.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+			AbilityStruct_SpaceMarine1.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 
 				_pos = _self.LastCastedEntityPosition
 
-				local costSuccess = FireCost(_self.CasterPlayer, -75, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, -50, 0, 0, 0, 0, 0)
 				if(costSuccess) then
 					local AcceptedArmourTypes = {"tp_commander", "tp_infantry_heavy_med", "tp_infantry_heavy_high", "tp_infantry_med", "tp_infantry_high" }
 					
@@ -1036,7 +1036,7 @@ function Setup_ActualGlobalAbilies()
 
 			end
 
-			AbilityStruct_SpaceMarine2.TimedAbilityEnd = function( _self )
+			AbilityStruct_SpaceMarine1.TimedAbilityEnd = function( _self )
 				print(_self.AbilityName.. " finished.")
 				
 				if(_self.ModFX ~= nil) then
@@ -1058,7 +1058,7 @@ function Setup_ActualGlobalAbilies()
 				end
 			end
 			
-			local AbilityStruct_SpaceMarine3 = CreateGlobalAbility(
+			local AbilityStruct_SpaceMarine2 = CreateGlobalAbility(
 				squadBP.."_drop_pod",
 				g_AllPlayers[i], 
 				"GlobalAbility_SpaceMarines_DropPod", 
@@ -1068,15 +1068,14 @@ function Setup_ActualGlobalAbilies()
 				table.getn(g_AllTrackedAbilities)
 			)
 
-			AbilityStruct_SpaceMarine3.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+			AbilityStruct_SpaceMarine2.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 
 				_pos = _self.LastCastedEntityPosition
-				local costSuccess = FireCost(_self.CasterPlayer, -100, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, -75, 0, 0, 0, 0, 0)
 
 				if(costSuccess) then
 
 					Util_CreateSquadsAndDropPodIn_GlobalAbility( _self.CasterPlayer.Player, SGroup_GetName(GetUniqueSG("GlobalAbility_SM_DropPod")), "space_marine_squad_drop_pod_emplacement", _pos, 1, 1 )
-					--World_FXEvent("data:Art/Events/Races/Space_Marines/Abilities/space_marine_global_basic_scan", fxSpawnPos)
 					
 				else
 
@@ -1084,7 +1083,38 @@ function Setup_ActualGlobalAbilies()
 				
 				end
 
-			end		
+			end	
+
+			local AbilityStruct_SpaceMarine3 = CreateGlobalAbility(
+				squadBP.."_basic_scan",
+				g_AllPlayers[i], 
+				"GlobalAbility_SpaceMarines_GlobalScan", 
+				"global_space_marines_global_scan_entity",
+				"TARGETED",
+				"GROUND",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			AbilityStruct_SpaceMarine3.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				_pos = _self.LastCastedEntityPosition
+				local fxYOffset = 5 
+				local fxSpawnPos = _pos
+				local costSuccess = FireCost(_self.CasterPlayer, -100, 0, 0, 0, 0, 0)
+				
+				if(costSuccess) then
+
+					fxSpawnPos.y = _pos.y + fxYOffset
+					World_FXEvent("data:Art/Events/Races/Space_Marines/Abilities/space_marine_global_basic_scan", fxSpawnPos)
+					ActivateSummonEntityAbility("marines_global_vision_steal_ability_caster", _self.CasterPlayer.Player, _pos)
+				
+				else
+					
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+				
+				end
+
+			end
 
 			local AbilityStruct_SpaceMarine4 = CreateGlobalAbility(
 				squadBP.."_blessings_of_omnissiah",
