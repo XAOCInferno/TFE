@@ -52,7 +52,7 @@ function StatsManager:new (_Parent)
 
 end
 
-function StatsManager:AddKills( _Units, _Leaders, _Commanders, _Squads )
+function StatsManager:AddKills( _Units, _Leaders, _Commanders, _Squads, _Position )
 
 	self.UnitsKilled = self.UnitsKilled + _Units
 	self.LeadersKilled = self.LeadersKilled + _Leaders
@@ -66,7 +66,8 @@ function StatsManager:AddKills( _Units, _Leaders, _Commanders, _Squads )
 		Units = _Units, 
 		Leaders = _Leaders, 
 		Commanders = _Commanders, 
-		Squads = _Squads
+		Squads = _Squads,
+		KillerPosition = _Position-- or World_Pos(0,0,0)
 	})
 
 end

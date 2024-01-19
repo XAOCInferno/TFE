@@ -36,7 +36,8 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		PreviousSquadLoadout = Squad_Count(_sID),
 		PreviousSquadLeaderCount = Squad_CountLeaders(_sID),
 		PreviouslyAttackedByPlayers = {},
-		PreviouslyAttackedTime = 0
+		PreviouslyAttackedTime = 0,
+		PreviouslyAttackedBySquads = {}
 	}
 
 	self.__index = self

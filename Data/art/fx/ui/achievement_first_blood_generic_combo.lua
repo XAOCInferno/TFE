@@ -41,7 +41,7 @@ fxtypes =
 				{
 					name = "FX6",
 					type = "VARTYPE_STRING",
-					value = "level_up_spray_bits",
+					value = "__fxtool_private_copy",
 				},
 				property_06 =  
 				{
@@ -316,25 +316,25 @@ fxtypes =
 						entry_01 =  
 						{
 							0.02394,
-							60,
 							90,
-							80,
+							52,
+							52,
 							255,
 						},
 						entry_02 =  
 						{
 							0.06197,
 							233,
-							233,
-							233,
+							171,
+							171,
 							255,
 						},
 						entry_03 =  
 						{
 							0.17410,
-							113,
 							185,
-							177,
+							10,
+							10,
 							255,
 						},
 						entry_04 =  
@@ -548,17 +548,17 @@ fxtypes =
 						entry_00 =  
 						{
 							0,
-							226,
-							245,
 							255,
+							157,
+							151,
 							127,
 						},
 						entry_01 =  
 						{
 							0.33079,
-							173,
 							255,
-							232,
+							21,
+							21,
 							92,
 						},
 						entry_02 =  
@@ -807,17 +807,17 @@ fxtypes =
 						entry_00 =  
 						{
 							0,
-							233,
-							247,
 							255,
+							161,
+							161,
 							255,
 						},
 						entry_01 =  
 						{
 							0.41676,
-							199,
 							255,
-							242,
+							103,
+							103,
 							198,
 						},
 						entry_02 =  
@@ -1066,17 +1066,17 @@ fxtypes =
 						entry_00 =  
 						{
 							0,
-							233,
-							247,
 							255,
+							206,
+							206,
 							255,
 						},
 						entry_01 =  
 						{
-							0.20566,
-							173,
+							0.20261,
 							255,
-							232,
+							110,
+							110,
 							198,
 						},
 						entry_02 =  
@@ -1362,14 +1362,14 @@ fxtypes =
 						{
 							0,
 							0,
-							0,
+							4,
 							0,
 						},
 						entry_01 =  
 						{
 							1,
 							0,
-							6,
+							8,
 							0,
 						},
 					},
@@ -1435,9 +1435,9 @@ fxtypes =
 					value =  
 					{
 						0,
-						0.50000,
 						1,
-						0.20000,
+						1,
+						1,
 					},
 				},
 				property_21 =  
@@ -1587,10 +1587,10 @@ fxtypes =
 						},
 						entry_01 =  
 						{
-							0.09041,
-							145,
-							217,
-							245,
+							0.08497,
+							255,
+							120,
+							55,
 							255,
 						},
 						entry_02 =  
@@ -1604,9 +1604,9 @@ fxtypes =
 						entry_03 =  
 						{
 							0.31808,
-							134,
 							241,
-							235,
+							150,
+							63,
 							255,
 						},
 						entry_04 =  
@@ -1620,9 +1620,9 @@ fxtypes =
 						entry_05 =  
 						{
 							0.54793,
-							142,
 							244,
-							244,
+							164,
+							69,
 							255,
 						},
 						entry_06 =  
@@ -1636,9 +1636,9 @@ fxtypes =
 						entry_07 =  
 						{
 							0.93791,
-							185,
-							243,
 							255,
+							160,
+							69,
 							255,
 						},
 						entry_08 =  
@@ -2120,7 +2120,7 @@ fxtypes =
 				{
 					name = "Texture",
 					type = "VARTYPE_STRING",
-					value = "TEXTURES/UI/LEVELUP.TGA",
+					value = "TEXTURES/UI/FIRSTBLOOD.TGA",
 				},
 				property_04 =  
 				{
@@ -2240,14 +2240,14 @@ fxtypes =
 						0.66667,
 						0.02750,
 						3.06667,
-						0.08500,
-						5.20000,
-						0.15000,
-						6,
-						0.19750,
-						5.73333,
-						0.28000,
-						5.33333,
+						0.05500,
+						9.86667,
+						0.14125,
+						12.80000,
+						0.22125,
+						12.20000,
+						0.37125,
+						7.80000,
 						0.88000,
 						4.80000,
 						1,
@@ -2263,33 +2263,33 @@ fxtypes =
 						entry_00 =  
 						{
 							0,
-							0,
-							0,
-							0,
+							120,
+							34,
+							34,
 							255,
 						},
 						entry_01 =  
 						{
 							0.02394,
-							59,
-							79,
 							90,
+							60,
+							56,
 							255,
 						},
 						entry_02 =  
 						{
-							0.17410,
-							60,
-							223,
+							0.14270,
 							255,
+							0,
+							0,
 							255,
 						},
 						entry_03 =  
 						{
-							0.26253,
-							45,
-							57,
-							67,
+							0.30828,
+							110,
+							18,
+							18,
 							255,
 						},
 						entry_04 =  
@@ -2526,32 +2526,32 @@ fxtypes =
 						{
 							0.06645,
 							253,
-							253,
-							253,
+							129,
+							105,
 							122,
 						},
 						entry_03 =  
 						{
-							0.33079,
+							0.33551,
 							255,
-							255,
-							255,
+							108,
+							108,
 							92,
 						},
 						entry_04 =  
 						{
 							0.37146,
 							234,
-							234,
-							234,
+							99,
+							99,
 							88,
 						},
 						entry_05 =  
 						{
 							0.57516,
 							229,
-							229,
-							229,
+							82,
+							82,
 							87,
 						},
 						entry_06 =  
@@ -2660,7 +2660,7 @@ fxtypes =
 				{
 					name = "Texture",
 					type = "VARTYPE_STRING",
-					value = "TEXTURES/UI/MATERIAL_FRACTILE.DDS",
+					value = "TEXTURES/UI/MATERIAL_FRACTILE_WHITE.DDS",
 				},
 				property_21 =  
 				{
@@ -2685,560 +2685,6 @@ fxtypes =
 					name = "SortOrder",
 					type = "VARTYPE_INT",
 					value = 3,
-				},
-				property_25 =  
-				{
-					name = "DepthOffset",
-					type = "VARTYPE_FLOAT",
-					value = 0,
-				},
-				property_26 =  
-				{
-					name = "Detail_From",
-					type = "VARTYPE_FLOAT",
-					value = 0,
-				},
-				property_27 =  
-				{
-					name = "Detail_To",
-					type = "VARTYPE_FLOAT",
-					value = 1,
-				},
-			},
-			style = "STYLE_RING",
-		},
-	},
-	 
-	{
-		effect = "root>level_up_spray_bits",
-		fx =  
-		{
-			properties =  
-			{
-				property_00 =  
-				{
-					name = "Emitter_Duration",
-					type = "VARTYPE_FLOAT",
-					value = 1,
-				},
-				property_01 =  
-				{
-					name = "Emitter_Loop",
-					type = "VARTYPE_BOOL",
-					value = 0,
-				},
-				property_02 =  
-				{
-					name = "Emitter_RandomStartTime",
-					type = "VARTYPE_BOOL",
-					value = 0,
-				},
-				property_03 =  
-				{
-					name = "Emitter_ScaleSpeed",
-					type = "VARTYPE_BOOL",
-					value = 0,
-				},
-				property_04 =  
-				{
-					name = "Emitter_Direction",
-					type = "VARTYPE_INT",
-					value = 0,
-				},
-				property_05 =  
-				{
-					name = "Emitter_InheritVelocity",
-					type = "VARTYPE_FLOAT",
-					value = 0,
-				},
-				property_06 =  
-				{
-					name = "Emitter_Drag",
-					type = "VARTYPE_FLOAT",
-					value = 1,
-				},
-				property_07 =  
-				{
-					name = "Emitter_Ellipsoidal",
-					type = "VARTYPE_BOOL",
-					value = 0,
-				},
-				property_08 =  
-				{
-					name = "Emitter_Surface",
-					type = "VARTYPE_BOOL",
-					value = 0,
-				},
-				property_09 =  
-				{
-					name = "Emitter_Rate",
-					type = "VARTYPE_ARRAY_TIMEFLOAT",
-					value =  
-					{
-						0,
-						50,
-						1,
-						0,
-					},
-				},
-				property_10 =  
-				{
-					name = "Emitter_Rate_LOD%",
-					type = "VARTYPE_ARRAY_TIMEFLOAT",
-					value =  
-					{
-						0,
-						0,
-						1,
-						0,
-					},
-				},
-				property_11 =  
-				{
-					name = "Emitter_Deviation",
-					type = "VARTYPE_ARRAY_TIMEFLOAT",
-					value =  
-					{
-						0,
-						358.39999,
-						1,
-						354.13333,
-					},
-				},
-				property_12 =  
-				{
-					name = "Emitter_Volume",
-					type = "VARTYPE_ARRAY_TIMEVECTOR3",
-					value =  
-					{
-						entry_00 =  
-						{
-							0,
-							0,
-							0,
-							0,
-						},
-						entry_01 =  
-						{
-							1,
-							0,
-							0,
-							0,
-						},
-					},
-				},
-				property_13 =  
-				{
-					name = "Emitter_Offset",
-					type = "VARTYPE_ARRAY_TIMEVECTOR3",
-					value =  
-					{
-						entry_00 =  
-						{
-							0,
-							0,
-							4,
-							0,
-						},
-						entry_01 =  
-						{
-							1,
-							0,
-							8,
-							0,
-						},
-					},
-				},
-				property_14 =  
-				{
-					name = "Particle_Speed",
-					type = "VARTYPE_ARRAY_TIMEFLOAT",
-					value =  
-					{
-						0,
-						2,
-						1,
-						1,
-					},
-				},
-				property_15 =  
-				{
-					name = "Emitter_RotRate",
-					type = "VARTYPE_ARRAY_TIMEFLOAT",
-					value =  
-					{
-						0,
-						0,
-						1,
-						0,
-					},
-				},
-				property_16 =  
-				{
-					name = "Particle_Fx",
-					type = "VARTYPE_STRING",
-					value = "level_up_bits_ring",
-				},
-				property_17 =  
-				{
-					name = "Particle_Dynamics",
-					type = "VARTYPE_INT",
-					value = 0,
-				},
-				property_18 =  
-				{
-					name = "Particle_Gravity",
-					type = "VARTYPE_FLOAT",
-					value = 1,
-				},
-				property_19 =  
-				{
-					name = "Gravwell_Strength",
-					type = "VARTYPE_ARRAY_TIMEFLOAT",
-					value =  
-					{
-						0,
-						9.81000,
-						1,
-						9.81000,
-					},
-				},
-				property_20 =  
-				{
-					name = "Particle_Scale",
-					type = "VARTYPE_ARRAY_TIMEFLOAT",
-					value =  
-					{
-						0,
-						1,
-						1,
-						1,
-					},
-				},
-				property_21 =  
-				{
-					name = "Minimum_Cull_Radius",
-					type = "VARTYPE_FLOAT",
-					value = 5,
-				},
-				property_22 =  
-				{
-					name = "Detail_From",
-					type = "VARTYPE_FLOAT",
-					value = 0,
-				},
-				property_23 =  
-				{
-					name = "Detail_To",
-					type = "VARTYPE_FLOAT",
-					value = 1,
-				},
-			},
-			style = "STYLE_SPRAY",
-		},
-	},
-	 
-	{
-		effect = "root>level_up_spray_bits>level_up_bits_ring",
-		fx =  
-		{
-			properties =  
-			{
-				property_00 =  
-				{
-					name = "Radius",
-					type = "VARTYPE_ARRAY_TIMEFLOAT",
-					value =  
-					{
-						0,
-						0.20000,
-						0.01922,
-						0.13333,
-						0.04016,
-						0.20000,
-						0.06406,
-						0.11667,
-						0.08469,
-						0.27500,
-						0.10031,
-						0.14167,
-						0.14484,
-						0.25000,
-						0.17812,
-						0.09167,
-						0.23937,
-						0.19167,
-						0.31938,
-						0.09167,
-						0.51828,
-						0.21667,
-						0.70406,
-						0.07500,
-						0.89359,
-						0.11667,
-						0.91297,
-						0.16667,
-						0.92750,
-						0.05833,
-						0.95844,
-						0.24167,
-						0.97672,
-						0.10000,
-						1,
-						0.20000,
-					},
-				},
-				property_01 =  
-				{
-					name = "Offset",
-					type = "VARTYPE_ARRAY_TIMEVECTOR3",
-					value =  
-					{
-						entry_00 =  
-						{
-							0,
-							0,
-							0,
-							0,
-						},
-						entry_01 =  
-						{
-							1,
-							0,
-							0,
-							0,
-						},
-					},
-				},
-				property_02 =  
-				{
-					name = "SpinX",
-					type = "VARTYPE_ARRAY_TIMEFLOAT",
-					value =  
-					{
-						0,
-						0,
-						1,
-						0,
-					},
-				},
-				property_03 =  
-				{
-					name = "SpinY",
-					type = "VARTYPE_ARRAY_TIMEFLOAT",
-					value =  
-					{
-						0,
-						0,
-						1,
-						0,
-					},
-				},
-				property_04 =  
-				{
-					name = "SpinZ",
-					type = "VARTYPE_ARRAY_TIMEFLOAT",
-					value =  
-					{
-						0,
-						0,
-						1,
-						0,
-					},
-				},
-				property_05 =  
-				{
-					name = "Colour",
-					type = "VARTYPE_ARRAY_TIMECOLOUR",
-					value =  
-					{
-						entry_00 =  
-						{
-							0,
-							0,
-							0,
-							0,
-							255,
-						},
-						entry_01 =  
-						{
-							0.08497,
-							0,
-							227,
-							255,
-							255,
-						},
-						entry_02 =  
-						{
-							0.21242,
-							0,
-							0,
-							0,
-							255,
-						},
-						entry_03 =  
-						{
-							0.31808,
-							7,
-							215,
-							241,
-							255,
-						},
-						entry_04 =  
-						{
-							0.44009,
-							0,
-							0,
-							0,
-							255,
-						},
-						entry_05 =  
-						{
-							0.54793,
-							7,
-							218,
-							244,
-							255,
-						},
-						entry_06 =  
-						{
-							0.69063,
-							0,
-							0,
-							0,
-							255,
-						},
-						entry_07 =  
-						{
-							0.93791,
-							8,
-							228,
-							255,
-							255,
-						},
-						entry_08 =  
-						{
-							1,
-							0,
-							0,
-							0,
-							255,
-						},
-					},
-				},
-				property_06 =  
-				{
-					name = "RadiusEpsilon",
-					type = "VARTYPE_FLOAT",
-					value = 0,
-				},
-				property_07 =  
-				{
-					name = "RateEpsilon",
-					type = "VARTYPE_FLOAT",
-					value = 0,
-				},
-				property_08 =  
-				{
-					name = "SpinEpsilonX",
-					type = "VARTYPE_FLOAT",
-					value = 0,
-				},
-				property_09 =  
-				{
-					name = "SpinEpsilonY",
-					type = "VARTYPE_FLOAT",
-					value = 0,
-				},
-				property_10 =  
-				{
-					name = "SpinEpsilonZ",
-					type = "VARTYPE_FLOAT",
-					value = 0,
-				},
-				property_11 =  
-				{
-					name = "SpinRandom",
-					type = "VARTYPE_BOOL",
-					value = 0,
-				},
-				property_12 =  
-				{
-					name = "Duration",
-					type = "VARTYPE_FLOAT",
-					value = 1,
-				},
-				property_13 =  
-				{
-					name = "UseMesh",
-					type = "VARTYPE_BOOL",
-					value = 0,
-				},
-				property_14 =  
-				{
-					name = "UseDepthTest",
-					type = "VARTYPE_BOOL",
-					value = 0,
-				},
-				property_15 =  
-				{
-					name = "UseDepthSort",
-					type = "VARTYPE_BOOL",
-					value = 0,
-				},
-				property_16 =  
-				{
-					name = "Loop",
-					type = "VARTYPE_BOOL",
-					value = 0,
-				},
-				property_17 =  
-				{
-					name = "Billboard",
-					type = "VARTYPE_BOOL",
-					value = 1,
-				},
-				property_18 =  
-				{
-					name = "SelfIlluminated",
-					type = "VARTYPE_BOOL",
-					value = 0,
-				},
-				property_19 =  
-				{
-					name = "Blending",
-					type = "VARTYPE_INT",
-					value = 2,
-				},
-				property_20 =  
-				{
-					name = "Texture",
-					type = "VARTYPE_STRING",
-					value = "TEXTURES/UI/CH_TELEPORT_FLASH.TGA",
-				},
-				property_21 =  
-				{
-					name = "Mesh",
-					type = "VARTYPE_STRING",
-					value = "model.sgm",
-				},
-				property_22 =  
-				{
-					name = "Spawn_Fx",
-					type = "VARTYPE_STRING",
-					value = "",
-				},
-				property_23 =  
-				{
-					name = "BirthSpawn_Fx",
-					type = "VARTYPE_STRING",
-					value = "",
-				},
-				property_24 =  
-				{
-					name = "SortOrder",
-					type = "VARTYPE_INT",
-					value = 0,
 				},
 				property_25 =  
 				{
@@ -3374,42 +2820,42 @@ fxtypes =
 						entry_02 =  
 						{
 							0.06645,
-							219,
-							248,
 							253,
-							122,
+							160,
+							88,
+							72,
 						},
 						entry_03 =  
 						{
 							0.33079,
-							173,
 							255,
-							232,
-							92,
+							164,
+							75,
+							62,
 						},
 						entry_04 =  
 						{
 							0.36275,
-							162,
 							239,
-							217,
-							89,
+							144,
+							84,
+							52,
 						},
 						entry_05 =  
 						{
 							0.57298,
-							158,
 							233,
-							212,
-							88,
+							151,
+							101,
+							60,
 						},
 						entry_06 =  
 						{
-							0.63508,
-							118,
+							0.63617,
 							174,
-							158,
-							78,
+							141,
+							93,
+							64,
 						},
 						entry_07 =  
 						{
@@ -3517,7 +2963,7 @@ fxtypes =
 				{
 					name = "Texture",
 					type = "VARTYPE_STRING",
-					value = "TEXTURES/UI/POWER_LIGHT_00.DDS",
+					value = "TEXTURES/UI/POWER_LIGHT_00_WHITE.DDS",
 				},
 				property_21 =  
 				{
@@ -3542,6 +2988,560 @@ fxtypes =
 					name = "SortOrder",
 					type = "VARTYPE_INT",
 					value = 3,
+				},
+				property_25 =  
+				{
+					name = "DepthOffset",
+					type = "VARTYPE_FLOAT",
+					value = 0,
+				},
+				property_26 =  
+				{
+					name = "Detail_From",
+					type = "VARTYPE_FLOAT",
+					value = 0,
+				},
+				property_27 =  
+				{
+					name = "Detail_To",
+					type = "VARTYPE_FLOAT",
+					value = 1,
+				},
+			},
+			style = "STYLE_RING",
+		},
+	},
+	 
+	{
+		effect = "root>__fxtool_private_copy",
+		fx =  
+		{
+			properties =  
+			{
+				property_00 =  
+				{
+					name = "Emitter_Duration",
+					type = "VARTYPE_FLOAT",
+					value = 1,
+				},
+				property_01 =  
+				{
+					name = "Emitter_Loop",
+					type = "VARTYPE_BOOL",
+					value = 0,
+				},
+				property_02 =  
+				{
+					name = "Emitter_RandomStartTime",
+					type = "VARTYPE_BOOL",
+					value = 0,
+				},
+				property_03 =  
+				{
+					name = "Emitter_ScaleSpeed",
+					type = "VARTYPE_BOOL",
+					value = 0,
+				},
+				property_04 =  
+				{
+					name = "Emitter_Direction",
+					type = "VARTYPE_INT",
+					value = 0,
+				},
+				property_05 =  
+				{
+					name = "Emitter_InheritVelocity",
+					type = "VARTYPE_FLOAT",
+					value = 0,
+				},
+				property_06 =  
+				{
+					name = "Emitter_Drag",
+					type = "VARTYPE_FLOAT",
+					value = 1,
+				},
+				property_07 =  
+				{
+					name = "Emitter_Ellipsoidal",
+					type = "VARTYPE_BOOL",
+					value = 0,
+				},
+				property_08 =  
+				{
+					name = "Emitter_Surface",
+					type = "VARTYPE_BOOL",
+					value = 0,
+				},
+				property_09 =  
+				{
+					name = "Emitter_Rate",
+					type = "VARTYPE_ARRAY_TIMEFLOAT",
+					value =  
+					{
+						0,
+						50,
+						1,
+						0,
+					},
+				},
+				property_10 =  
+				{
+					name = "Emitter_Rate_LOD%",
+					type = "VARTYPE_ARRAY_TIMEFLOAT",
+					value =  
+					{
+						0,
+						0,
+						1,
+						0,
+					},
+				},
+				property_11 =  
+				{
+					name = "Emitter_Deviation",
+					type = "VARTYPE_ARRAY_TIMEFLOAT",
+					value =  
+					{
+						0,
+						358.39999,
+						1,
+						354.13333,
+					},
+				},
+				property_12 =  
+				{
+					name = "Emitter_Volume",
+					type = "VARTYPE_ARRAY_TIMEVECTOR3",
+					value =  
+					{
+						entry_00 =  
+						{
+							0,
+							0,
+							0,
+							0,
+						},
+						entry_01 =  
+						{
+							1,
+							0,
+							0,
+							0,
+						},
+					},
+				},
+				property_13 =  
+				{
+					name = "Emitter_Offset",
+					type = "VARTYPE_ARRAY_TIMEVECTOR3",
+					value =  
+					{
+						entry_00 =  
+						{
+							0,
+							0,
+							0,
+							0,
+						},
+						entry_01 =  
+						{
+							1,
+							0,
+							6,
+							0,
+						},
+					},
+				},
+				property_14 =  
+				{
+					name = "Particle_Speed",
+					type = "VARTYPE_ARRAY_TIMEFLOAT",
+					value =  
+					{
+						0,
+						2,
+						1,
+						1,
+					},
+				},
+				property_15 =  
+				{
+					name = "Emitter_RotRate",
+					type = "VARTYPE_ARRAY_TIMEFLOAT",
+					value =  
+					{
+						0,
+						0,
+						1,
+						0,
+					},
+				},
+				property_16 =  
+				{
+					name = "Particle_Fx",
+					type = "VARTYPE_STRING",
+					value = "level_up_bits_ring",
+				},
+				property_17 =  
+				{
+					name = "Particle_Dynamics",
+					type = "VARTYPE_INT",
+					value = 0,
+				},
+				property_18 =  
+				{
+					name = "Particle_Gravity",
+					type = "VARTYPE_FLOAT",
+					value = 1,
+				},
+				property_19 =  
+				{
+					name = "Gravwell_Strength",
+					type = "VARTYPE_ARRAY_TIMEFLOAT",
+					value =  
+					{
+						0,
+						9.81000,
+						1,
+						9.81000,
+					},
+				},
+				property_20 =  
+				{
+					name = "Particle_Scale",
+					type = "VARTYPE_ARRAY_TIMEFLOAT",
+					value =  
+					{
+						0,
+						0.50000,
+						1,
+						0.20000,
+					},
+				},
+				property_21 =  
+				{
+					name = "Minimum_Cull_Radius",
+					type = "VARTYPE_FLOAT",
+					value = 5,
+				},
+				property_22 =  
+				{
+					name = "Detail_From",
+					type = "VARTYPE_FLOAT",
+					value = 0,
+				},
+				property_23 =  
+				{
+					name = "Detail_To",
+					type = "VARTYPE_FLOAT",
+					value = 1,
+				},
+			},
+			style = "STYLE_SPRAY",
+		},
+	},
+	 
+	{
+		effect = "root>__fxtool_private_copy>level_up_bits_ring",
+		fx =  
+		{
+			properties =  
+			{
+				property_00 =  
+				{
+					name = "Radius",
+					type = "VARTYPE_ARRAY_TIMEFLOAT",
+					value =  
+					{
+						0,
+						0.20000,
+						0.01922,
+						0.13333,
+						0.04016,
+						0.20000,
+						0.06406,
+						0.11667,
+						0.08469,
+						0.27500,
+						0.10031,
+						0.14167,
+						0.14484,
+						0.25000,
+						0.17812,
+						0.09167,
+						0.23937,
+						0.19167,
+						0.31938,
+						0.09167,
+						0.51828,
+						0.21667,
+						0.70406,
+						0.07500,
+						0.89359,
+						0.11667,
+						0.91297,
+						0.16667,
+						0.92750,
+						0.05833,
+						0.95844,
+						0.24167,
+						0.97672,
+						0.10000,
+						1,
+						0.20000,
+					},
+				},
+				property_01 =  
+				{
+					name = "Offset",
+					type = "VARTYPE_ARRAY_TIMEVECTOR3",
+					value =  
+					{
+						entry_00 =  
+						{
+							0,
+							0,
+							0,
+							0,
+						},
+						entry_01 =  
+						{
+							1,
+							0,
+							0,
+							0,
+						},
+					},
+				},
+				property_02 =  
+				{
+					name = "SpinX",
+					type = "VARTYPE_ARRAY_TIMEFLOAT",
+					value =  
+					{
+						0,
+						0,
+						1,
+						0,
+					},
+				},
+				property_03 =  
+				{
+					name = "SpinY",
+					type = "VARTYPE_ARRAY_TIMEFLOAT",
+					value =  
+					{
+						0,
+						0,
+						1,
+						0,
+					},
+				},
+				property_04 =  
+				{
+					name = "SpinZ",
+					type = "VARTYPE_ARRAY_TIMEFLOAT",
+					value =  
+					{
+						0,
+						0,
+						1,
+						0,
+					},
+				},
+				property_05 =  
+				{
+					name = "Colour",
+					type = "VARTYPE_ARRAY_TIMECOLOUR",
+					value =  
+					{
+						entry_00 =  
+						{
+							0,
+							0,
+							0,
+							0,
+							255,
+						},
+						entry_01 =  
+						{
+							0.09041,
+							245,
+							94,
+							94,
+							255,
+						},
+						entry_02 =  
+						{
+							0.21242,
+							0,
+							0,
+							0,
+							255,
+						},
+						entry_03 =  
+						{
+							0.31808,
+							241,
+							81,
+							81,
+							255,
+						},
+						entry_04 =  
+						{
+							0.44009,
+							0,
+							0,
+							0,
+							255,
+						},
+						entry_05 =  
+						{
+							0.54793,
+							244,
+							89,
+							89,
+							255,
+						},
+						entry_06 =  
+						{
+							0.69063,
+							0,
+							0,
+							0,
+							255,
+						},
+						entry_07 =  
+						{
+							0.93791,
+							255,
+							101,
+							101,
+							255,
+						},
+						entry_08 =  
+						{
+							1,
+							0,
+							0,
+							0,
+							255,
+						},
+					},
+				},
+				property_06 =  
+				{
+					name = "RadiusEpsilon",
+					type = "VARTYPE_FLOAT",
+					value = 0,
+				},
+				property_07 =  
+				{
+					name = "RateEpsilon",
+					type = "VARTYPE_FLOAT",
+					value = 0,
+				},
+				property_08 =  
+				{
+					name = "SpinEpsilonX",
+					type = "VARTYPE_FLOAT",
+					value = 0,
+				},
+				property_09 =  
+				{
+					name = "SpinEpsilonY",
+					type = "VARTYPE_FLOAT",
+					value = 0,
+				},
+				property_10 =  
+				{
+					name = "SpinEpsilonZ",
+					type = "VARTYPE_FLOAT",
+					value = 0,
+				},
+				property_11 =  
+				{
+					name = "SpinRandom",
+					type = "VARTYPE_BOOL",
+					value = 0,
+				},
+				property_12 =  
+				{
+					name = "Duration",
+					type = "VARTYPE_FLOAT",
+					value = 1,
+				},
+				property_13 =  
+				{
+					name = "UseMesh",
+					type = "VARTYPE_BOOL",
+					value = 0,
+				},
+				property_14 =  
+				{
+					name = "UseDepthTest",
+					type = "VARTYPE_BOOL",
+					value = 0,
+				},
+				property_15 =  
+				{
+					name = "UseDepthSort",
+					type = "VARTYPE_BOOL",
+					value = 0,
+				},
+				property_16 =  
+				{
+					name = "Loop",
+					type = "VARTYPE_BOOL",
+					value = 0,
+				},
+				property_17 =  
+				{
+					name = "Billboard",
+					type = "VARTYPE_BOOL",
+					value = 1,
+				},
+				property_18 =  
+				{
+					name = "SelfIlluminated",
+					type = "VARTYPE_BOOL",
+					value = 0,
+				},
+				property_19 =  
+				{
+					name = "Blending",
+					type = "VARTYPE_INT",
+					value = 2,
+				},
+				property_20 =  
+				{
+					name = "Texture",
+					type = "VARTYPE_STRING",
+					value = "TEXTURES/UI/CH_TELEPORT_FLASH.TGA",
+				},
+				property_21 =  
+				{
+					name = "Mesh",
+					type = "VARTYPE_STRING",
+					value = "model.sgm",
+				},
+				property_22 =  
+				{
+					name = "Spawn_Fx",
+					type = "VARTYPE_STRING",
+					value = "",
+				},
+				property_23 =  
+				{
+					name = "BirthSpawn_Fx",
+					type = "VARTYPE_STRING",
+					value = "",
+				},
+				property_24 =  
+				{
+					name = "SortOrder",
+					type = "VARTYPE_INT",
+					value = 0,
 				},
 				property_25 =  
 				{

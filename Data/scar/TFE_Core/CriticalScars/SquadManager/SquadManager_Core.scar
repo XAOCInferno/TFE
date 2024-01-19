@@ -201,36 +201,66 @@ function CheckForSquadLosses(SquadStruct)
 end
 
 --Use 1 or 0 for SquadDead with 0 being false and 1 being true
-function UpdateSquadCombatDeathResources(RedReceiverPlayer, DefenderPlayer, ModelLosses, LeaderLosses, SquadDead ) 
+function UpdateSquadCombatDeathResources(_DefenderSquadStruct, _RedReceiverPlayer, _DefenderPlayer, _ModelLosses, _LeaderLosses, _CommanderLosses, _SquadDead ) 
 
 	AddStacktrace("UpdateSquadCombatDeathResources")
 
 	local TotalRed = 0
-	TotalRed = TotalRed + (0.5 * ModelLosses)
-	TotalRed = TotalRed + (1.5 * LeaderLosses)
-	TotalRed = TotalRed + (3 * SquadDead)
+	TotalRed = TotalRed + (0.5 * _ModelLosses)
+	TotalRed = TotalRed + (1.5 * _LeaderLosses)
+	TotalRed = TotalRed + (3 * _SquadDead)
+	TotalRed = TotalRed + (3 * _CommanderLosses)
 	TotalRed = TotalRed * g_RedGainMultiplier
 
-	RedReceiverPlayer.CurrentResources.RT_Red = RedReceiverPlayer.CurrentResources.RT_Red + TotalRed	
-	DefenderPlayer.CurrentResources.RT_Red = DefenderPlayer.CurrentResources.RT_Red + (TotalRed * 0.5)	
+	_RedReceiverPlayer.CurrentResources.RT_Red = _RedReceiverPlayer.CurrentResources.RT_Red + TotalRed	
+	_DefenderPlayer.CurrentResources.RT_Red = _DefenderPlayer.CurrentResources.RT_Red + (TotalRed * 0.5)	
 
 	--Debug	
-	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Player "..RedReceiverPlayer.PlayerIndex.." current Red = "..RedReceiverPlayer.CurrentResources.RT_Red)
-	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Player "..DefenderPlayer.PlayerIndex.." current Red = "..DefenderPlayer.CurrentResources.RT_Red)
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Player ".._RedReceiverPlayer.PlayerIndex.." current Red = ".._RedReceiverPlayer.CurrentResources.RT_Red)
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Player ".._DefenderPlayer.PlayerIndex.." current Red = ".._DefenderPlayer.CurrentResources.RT_Red)
 
 	RemoveStacktrace()
 
 end
 
 --Use 1 or 0 for SquadDead with 0 being false and 1 being true
-function UpdateSquadCombatDeathStats(_AttackerPlayer, _DefenderPlayer, _ModelLosses, _LeaderLosses, _CommanderLosses, _SquadDead ) 
+function UpdateSquadCombatDeathStats( _DefenderSquadStruct, _AttackerPlayer, _DefenderPlayer, _ModelLosses, _LeaderLosses, _CommanderLosses, _SquadDead ) 
 
 	AddStacktrace("UpdateSquadCombatDeathStats")
 
-	_AttackerPlayer.StatsManager:AddKills( _ModelLosses, _LeaderLosses, _CommanderLosses, _SquadDead )
+	_AttackerPlayer.StatsManager:AddKills( _ModelLosses, _LeaderLosses, _CommanderLosses, _SquadDead, _DefenderSquadStruct.PreviouslyAttackedBySquads[1].SquadPosition)
 	_DefenderPlayer.StatsManager:AddLosses( _ModelLosses, _LeaderLosses, _CommanderLosses, _SquadDead )
 
 	RemoveStacktrace()
+
+end
+
+function SquadSetLastCombats(_DefenderSquadStruct, _AttackerPlayer)
+
+	for i = 1, g_PlayerSquadCount[_AttackerPlayer.PlayerIndex + 1] do
+
+		local EnemySquad = g_AllSquadsData[_AttackerPlayer.PlayerIndex + 1][i]
+		if(SGroup_WasAttacked(_DefenderSquadStruct.SquadGroupID, EnemySquad.SquadGroupID)) then
+
+			local contains, _  = TableContains(_DefenderSquadStruct.PreviouslyAttackedBySquads, EnemySquad)
+
+			if(contains == false) then
+
+				table.insert(_DefenderSquadStruct.PreviouslyAttackedBySquads, EnemySquad)
+
+			end
+
+		end
+
+	end
+
+end
+
+function UpdateSquadCombatDeath(_DefenderSquadStruct, _AttackerPlayer, _DefenderPlayer, _ModelLosses, _LeaderLosses, _CommanderLosses, _SquadDead ) 
+
+	SquadSetLastCombats(_DefenderSquadStruct, _AttackerPlayer)
+	UpdateSquadCombatDeathResources(_DefenderSquadStruct, _AttackerPlayer, _DefenderPlayer, _ModelLosses, _LeaderLosses, _CommanderLosses, _SquadDead ) 
+	UpdateSquadCombatDeathStats(_DefenderSquadStruct, _AttackerPlayer, _DefenderPlayer, _ModelLosses, _LeaderLosses, _CommanderLosses, _SquadDead ) 
 
 end
 
@@ -274,8 +304,7 @@ function Set_SquadCombatDetails(_SquadStruct, _IsDead)
 				ModelLosses = math.max(ModelLosses, 1) --Should we fix CheckForSquadLosses instead of this?
 				
 				Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Squad destroyed! Adding large Red for Player ".._SquadStruct.PreviouslyAttackedByPlayers[i].PlayerIndex..".")	
-				UpdateSquadCombatDeathResources(_SquadStruct.PreviouslyAttackedByPlayers[i], _SquadStruct.OwnerPlayer, ModelLosses, LeaderLosses, 1 )
-				UpdateSquadCombatDeathStats(_SquadStruct.PreviouslyAttackedByPlayers[i], _SquadStruct.OwnerPlayer, ModelLosses, LeaderLosses, CommanderLosses, 1 )
+				UpdateSquadCombatDeath(_SquadStruct, _SquadStruct.PreviouslyAttackedByPlayers[i], _SquadStruct.OwnerPlayer, ModelLosses, LeaderLosses, CommanderLosses, 1)
 
 			end
 
@@ -301,8 +330,7 @@ function Set_SquadCombatDetails(_SquadStruct, _IsDead)
 
 				if(ModelLosses > 0 or LeaderLosses > 0) then
 
-					UpdateSquadCombatDeathResources(g_AllPlayers[i], _SquadStruct.OwnerPlayer, ModelLosses, LeaderLosses, 0 )	
-					UpdateSquadCombatDeathStats(g_AllPlayers[i], _SquadStruct.OwnerPlayer, ModelLosses, LeaderLosses, CommanderLosses, 0 )	
+					UpdateSquadCombatDeath(_SquadStruct, g_AllPlayers[i], _SquadStruct.OwnerPlayer, ModelLosses, LeaderLosses, CommanderLosses, 0)
 					
 					Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Adding Red for Player "..g_AllPlayers[i].PlayerIndex..".")					
 	
