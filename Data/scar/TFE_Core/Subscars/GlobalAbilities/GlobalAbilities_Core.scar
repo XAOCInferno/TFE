@@ -1064,7 +1064,8 @@ function Setup_ActualGlobalAbilies()
 
 				if(costSuccess) then
 
-					Util_CreateSquadsAndDropPodIn_GlobalAbility( _self.CasterPlayer.Player, SGroup_GetName(GetUniqueSG("GlobalAbility_SM_DropPod")), "space_marine_squad_drop_pod_emplacement", _pos, 1, 1 )
+					_self.DropPodID = GetUniqueSG("GlobalAbility_SM_DropPod")					
+					Util_CreateSquadsAndDropPodIn_GlobalAbility( _self.CasterPlayer.Player, SGroup_GetName(_self.DropPodID), "space_marine_squad_drop_pod_emplacement", _pos, 1, 1 )
 					
 				else
 
@@ -1072,7 +1073,7 @@ function Setup_ActualGlobalAbilies()
 				
 				end
 
-			end	
+			end		
 
 			local AbilityStruct_SpaceMarine3 = CreateGlobalAbility(
 				squadBP.."_basic_scan",
@@ -1669,9 +1670,8 @@ function Util_DropPod_GlobalAbility( sgroupname, pos )
 
 	-- depspawn
 	SGroup_DeSpawn( sgroupname )
-		
 	-- drop pod
-	Squad_DeepStrikeToPos( sgroupname, "space_marine_gobal_ability_drop_pod_building", pos )
+	Squad_DeepStrikeToPos( sgroupname, "space_marine_global_ability_drop_pod_building", pos )
 	
 	RemoveStacktrace()
 
