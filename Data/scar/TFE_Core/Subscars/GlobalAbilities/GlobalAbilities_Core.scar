@@ -76,7 +76,7 @@ function Setup_ActualGlobalAbilies()
 		
 		if(SBP_Exists(squadBP)) then
 			
-			ActivateSummonSquadAbility(squadBP, g_AllPlayers[i].Player, World_Pos(0,0,0), 1)
+			ActivateSummonSquadAbility(squadBP, g_AllPlayers[i].Player, g_AllPlayers[i].StartingPosition, 1)
 		
 		else
 

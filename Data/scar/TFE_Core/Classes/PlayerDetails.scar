@@ -10,6 +10,7 @@ function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
 	    PlayerIndex = _PlayerIndex,
 	    DisplayName = _DisplayName,
 	    RaceDetails = _RaceDetails,   	   
+		StartingPosition = Player_GetStartPosition(_Player),
 		StatsManager = nil,
 
 	    --Variables
