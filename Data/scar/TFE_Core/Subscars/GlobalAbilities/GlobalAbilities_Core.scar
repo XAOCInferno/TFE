@@ -393,15 +393,9 @@ function Setup_ActualGlobalAbilies()
 			)
 
 			AbilityStruct_Necron1.ApplyMonolithFX = function(_self, _EntityPos)
-				print(EntityData)
-				print(_self.CasterPlayer)
-				print(_self.CasterPlayer.PlayerIndex)
-				print(EntityData[_self.CasterPlayer.PlayerIndex+1])
-				print(EntityData[_self.CasterPlayer.PlayerIndex+1][_EntityPos])
+				
 				local _MonolithEntity = EntityData[_self.CasterPlayer.PlayerIndex+1][_EntityPos]
-				print(_MonolithEntity)
-				print(_MonolithEntity.EntityBlueprint)
-				print(_MonolithEntity.EntityPosition)
+				
 				local FX = World_FXEvent("data:Art/Events/races/necron/abilities/monolith_production_boost", _MonolithEntity.EntityPosition)
 				local tmpEntry = 
 				{
@@ -423,6 +417,7 @@ function Setup_ActualGlobalAbilies()
 			AbilityStruct_Necron1.Duration = 3 --25
 			AbilityStruct_Necron1.AllMonolithFX = {}
 			AbilityStruct_Necron1.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
 				_self.AppliedModifierIDs = {}
 				_self.AllMonolithFX = {}
 				_pos = _self.LastCastedEntityPosition
@@ -431,22 +426,14 @@ function Setup_ActualGlobalAbilies()
 
 				if(costSuccess) then
 
-					--[[local modID_01 = Modifier_ApplyToPlayer(mod_NecronProductionOverload__modifier_01, _self.CasterPlayer.Player)
-					local modID_02 = Modifier_ApplyToPlayer(mod_NecronProductionOverload__modifier_02, _self.CasterPlayer.Player)
-					local modID_03 = Modifier_ApplyToPlayer(mod_NecronProductionOverload__modifier_03, _self.CasterPlayer.Player)
-					table.insert(_self.AppliedModifierIDs, modID_01)
-					table.insert(_self.AppliedModifierIDs, modID_02)
-					table.insert(_self.AppliedModifierIDs, modID_03)
-
-					_self.ActivatedTime = g_WorldTime
-					_self:ActivateTimedAbility()]]
-
 					ActivateSummonEntityAbility("necron_production_overload_ability_caster", _self.CasterPlayer.Player, _pos)	
-					print("Do ability done")
 
 				else
+
 					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+
 				end
+
 			end
 
 			AbilityStruct_Necron1.TimedAbilityEnd = function( _self )
@@ -463,15 +450,14 @@ function Setup_ActualGlobalAbilies()
 
 				end
 				
-				print("End ability done")
 			end
 			
 			AbilityStruct_Necron1.TimedAbilityUpdate = function(_self)
+
 				for i = 1, table.getn(_self.AllMonolithFX) do
 
 					if(Entity_Exists(_self.AllMonolithFX[i].Entity.EntityID) == false ) then
 						
-						print("REMOVING FX!")
 						_self:RemoveMonolithFX(_self, i)
 
 					end
@@ -479,22 +465,21 @@ function Setup_ActualGlobalAbilies()
 				end
 
 				local AllMonolithEntities, AllMonolithEntities_Index = Get_EntityDataFromEntityBP("monolith", _self.CasterPlayer.PlayerIndex + 1)
-				print(AllMonolithEntities[1])
-				print(AllMonolithEntities[1].EntityUniqueID)
-				print(AllMonolithEntities[1].EntityPosition)
 				local AllRestoredMonolithEntities, AllRestoredMonolithEntities_Index = Get_EntityDataFromEntityBP("necron_restored_monolith", _self.CasterPlayer.PlayerIndex + 1)
 				local newTable = {AllMonolithEntities_Index, AllRestoredMonolithEntities_Index}
 				local AllEntitiesIndex = TableMerge(newTable)
 				newTable = {AllMonolithEntities, AllRestoredMonolithEntities}
 				local AllEntities = TableMerge(newTable)
+
 				for i = 1, TableLength(AllEntitiesIndex) do
 
 					local MonolithFXAlreadyApplied = false
 					for j = 1, TableLength(_self.AllMonolithFX) do
 
 						if(_self.AllMonolithFX[j].Entity == AllEntities[i]) then
-							print("FX ALREADY APPLIED!")
+							
 							MonolithFXAlreadyApplied = true
+
 						end
 
 					end
@@ -522,8 +507,11 @@ function Setup_ActualGlobalAbilies()
 					ActivateSummonEntityAbility("necron_summon_obelisk", _self.CasterPlayer.Player, _pos)				
 
 				else
+
 					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+
 				end
+
 			end
 
 			
@@ -563,8 +551,7 @@ function Setup_ActualGlobalAbilies()
 			end
 
 			AbilityStruct_Necron5.Duration = 40
-			AbilityStruct_Necron5.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
-				
+			AbilityStruct_Necron5.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )				
 
 				local costSuccess = FireCost(_self.CasterPlayer, -300, 0, 0, 0, 0, 0)
 
@@ -589,14 +576,16 @@ function Setup_ActualGlobalAbilies()
 					if(Squad_Exists(g_AllSquadsData[CasterPlayerIndex][i].SquadUniqueID) == true ) then
 
 						if(ModifierUtil_GetSquadApplierIndex(mod_NecronEternalMarch__modifier_01, g_AllSquadsData[CasterPlayerIndex][i].SquadID) == 0) then
-							print("ETERNAL MARCH APPLYING TO: "..g_AllSquadsData[CasterPlayerIndex][i].SquadGroupName)
+							
 							local modID_01 = ModifierUtil_ApplyToSGroup(g_AllSquadsData[CasterPlayerIndex][i].SquadGroupID, mod_NecronEternalMarch__modifier_01, true)
 							table.insert(_self.AppliedModifierIDs, modID_01)
 
 						end
+
 					end
 
 				end
+
 			end
 
 			AbilityStruct_Necron5.TimedAbilityEnd = function( _self )
@@ -607,17 +596,17 @@ function Setup_ActualGlobalAbilies()
 					if(Squad_Exists(g_AllSquadsData[CasterPlayerIndex][i].SquadUniqueID) == true ) then
 
 						if(ModifierUtil_GetSquadApplierIndex(mod_NecronEternalMarch__modifier_01, g_AllSquadsData[CasterPlayerIndex][i].SquadID) ~= 0) then
-							print("ETERNAL MARCH REMOVING ON: "..g_AllSquadsData[CasterPlayerIndex][i].SquadGroupName)
+							
 							ModifierUtil_ApplyToSGroup(g_AllSquadsData[CasterPlayerIndex][i].SquadGroupID, mod_NecronEternalMarch__modifier_01, false)
 
 						end
+
 					end
 
 				end
 
-				_self.AppliedModifierIDs= {}
-				
-				print("End ability done")
+				_self.AppliedModifierIDs = {}
+
 			end
 			--[[T0 Production Overload]]
 			--[[T1 Summon crystal]] 
