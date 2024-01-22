@@ -229,6 +229,8 @@ function UpdateSquadCombatDeathStats( _DefenderSquadStruct, _AttackerPlayer, _De
 	AddStacktrace("UpdateSquadCombatDeathStats")
 
 	_AttackerPlayer.StatsManager:AddKills( _ModelLosses, _LeaderLosses, _CommanderLosses, _SquadDead, _DefenderSquadStruct.PreviouslyAttackedBySquads[1].SquadPosition)
+
+	--[[This is causing a scar error! probably to do with buildings killing units]]
 	_DefenderPlayer.StatsManager:AddLosses( _ModelLosses, _LeaderLosses, _CommanderLosses, _SquadDead )
 
 	RemoveStacktrace()
