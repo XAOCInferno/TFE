@@ -108,6 +108,11 @@ function Setup_PassiveResourceGeneration_Settings(_PlayerRace)
 	
 		local InquisitionDaemonhuntRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("inquisition_daemonhunt_race",false,0,0,0,0,0)	
 		g_FactionSpecificResourceGeneration["inquisition_daemonhunt_race"] = InquisitionDaemonhuntRace_PassiveResourceGeneration
+				
+	elseif(_PlayerRace == "tyranids_race") then
+	
+		local TyranidsRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("tyranids_race",false,0,0,0,0,0)	
+		g_FactionSpecificResourceGeneration["tyranids_race"] = TyranidsRace_PassiveResourceGeneration
 		
 	end
 	
