@@ -12,7 +12,7 @@ g_RaceSpecificResourceGeneration = {}
 g_ResourceGenUpdateRate = 1
 
 g_WorldTime = 0
-g_WorldTimeFidelity = 0.2
+g_WorldTimeFidelity = 0.15
 
 g_RedGainMultiplier = 5
 g_TimedAbilityRequiredSelectTime = 1
