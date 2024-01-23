@@ -52,12 +52,25 @@ function StatsManager:new (_Parent)
 
 end
 
-function StatsManager:AddKills( _Units, _Leaders, _Commanders, _Squads, _Position )
+function StatsManager:AddKills( _Units, _Leaders, _Commanders, _Squads, _DefenderSquadStruct )
 
 	self.UnitsKilled = self.UnitsKilled + _Units
 	self.LeadersKilled = self.LeadersKilled + _Leaders
 	self.CommandersKilled = self.CommandersKilled + _Commanders
 	self.SquadsKilled = self.SquadsKilled + _Squads
+
+	local tmpKillerPosition = nil
+	local NumberAttackingSquads = table.getn(_DefenderSquadStruct.PreviouslyAttackedBySquads)
+
+	if(NumberAttackingSquads > 0) then
+
+		tmpKillerPosition = TableGetRand(_DefenderSquadStruct.PreviouslyAttackedBySquads).SquadPosition
+
+	else
+
+		tmpKillerPosition = _DefenderSquadStruct.SquadPosition
+
+	end
 
 	--This table should probably be a class?
 	table.insert(self.TimestampedUnitKills, 
@@ -67,7 +80,7 @@ function StatsManager:AddKills( _Units, _Leaders, _Commanders, _Squads, _Positio
 		Leaders = _Leaders, 
 		Commanders = _Commanders, 
 		Squads = _Squads,
-		KillerPosition = _Position-- or World_Pos(0,0,0)
+		KillerPosition = tmpKillerPosition
 	})
 
 end

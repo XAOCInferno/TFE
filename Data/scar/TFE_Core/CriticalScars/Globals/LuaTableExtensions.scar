@@ -193,6 +193,25 @@ function TableMerge(_Tbls)
 
 end
 
+function TableGetRand(_Tbl)
+
+	AddStacktrace("TableGetRand")
+
+	local TableLength = table.getn(_Tbl)
+	local ReturnValue = nil
+
+	if(TableLength > 0) then
+
+		ReturnValue = _Tbl[World_GetRand(1, TableLength)]
+
+	end
+
+	RemoveStacktrace()
+
+	return ReturnValue
+
+end
+
 function round(num, numDecimalPlaces)
 
 	AddStacktrace("round")
