@@ -154,8 +154,8 @@ end
 function Core_Init_Load()
 
 	AddStacktrace("Core_Init_Load")
-	Core_GetAllPlayers()
-	--if(DoCriticalFunction(Core_GetAllPlayers) == false) then return false end
+	
+	if(DoCriticalFunction(Core_GetAllPlayers) == false) then return false end
 	if(DoBasicFunction(Setup_AlphaLegion) == false) then Log(2, 0, debug_TFECore_FileName, debugFuncName, "Alpha Legion failed to setup!") end
 	if(DoCriticalFunction(Setup_PassiveResourceGeneration) == false) then return false end
 	if(DoCriticalFunction(Setup_EntityManager) == false) then return false end
@@ -167,8 +167,7 @@ function Core_Init_Load()
 	if(DoCriticalFunction(Setup_NewCoverSystem) == false) then return false end
 	DoBasicFunction(Setup_WeatherSystems)
 	DoBasicFunction(Setup_GlobalAbilities)
-	--DoBasicFunction(Setup_Achievements)
-	Setup_Achievements()
+	DoBasicFunction(Setup_Achievements)
 
 	RemoveStacktrace()
 
@@ -272,18 +271,15 @@ function Core_MainLoop()
 	AddStacktrace("Core_MainLoop")
 
 	if(DoCriticalFunction(Set_UpdatedGameTime) == false) then return end
-	Set_AllSquads_Immediate()
-	--if(DoCriticalFunction(Set_AllSquads_Immediate) == false) then return end
-	Set_AllEntities_Immediate()
-	--if(DoCriticalFunction(Set_AllEntities_Immediate) == false) then return end
+	if(DoCriticalFunction(Set_AllSquads_Immediate) == false) then return end
+	if(DoCriticalFunction(Set_AllEntities_Immediate) == false) then return end
 	if(DoCriticalFunction(Set_AllSquadCoverModifiers) == false) then return end
 	if(DoCriticalFunction(Set_PlayerUpkeep, debug_TFECore_FileName) == false) then return end 
 	if(DoCriticalFunction(Set_ResourceMature, debug_TFECore_FileName) == false) then return end
 	if(DoCriticalFunction(Implement_UpkeepAndMature, debug_TFECore_FileName) == false) then return end
 	DoBasicFunction(Set_Weather)
 	DoBasicFunction(Update_GlobalAbilities)
-	--DoBasicFunction(Update_Achievements)
-	Update_Achievements()
+	DoBasicFunction(Update_Achievements)
 
 	RemoveStacktrace()
 	
