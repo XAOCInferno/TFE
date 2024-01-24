@@ -1,0 +1,10 @@
+Localization = 
+{
+exclusive = false,
+victory_condition = false,
+always_on = true,
+title = "AI: Difficulty Scaling",
+win_message = "",
+lose_message = "",
+description = "Weights the AI based on the difficulty selected."
+}

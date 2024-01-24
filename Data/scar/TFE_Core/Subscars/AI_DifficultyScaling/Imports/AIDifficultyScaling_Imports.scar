@@ -1,0 +1,7 @@
+--[[Required]]
+import("WXPScarUtil.scar")
+
+--[[Settings]]
+import("TFE_Core/Subscars/AI_DifficultyScaling/Settings/AI_DifficultyScaling_Settings.lua")
+
+--[[Classes]]
