@@ -62,12 +62,6 @@ function Setup_ActualGlobalAbilies()
 
 	Dev_SetupAutoConstructor()
 
-	--WTF was this for..?
-	for i = 1, g_PlayerCount do
-
-
-	end	
-
 	local RaceName = ""
 	for i = 1, g_PlayerCount do
 

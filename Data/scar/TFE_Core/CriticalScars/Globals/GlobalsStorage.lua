@@ -81,12 +81,47 @@ g_TimeSinceWorldTimeUpdate = 0
 g_SquadBlueprintToIgnore = 
 {
 	"dark_eldar_squad_slave_murdered_long",
-	"world_squad_tornado",	
-	"world_squad_global_dust_storm"
+	"world_squad_global_ability_caster_chaos_marine_race",
+	"world_squad_global_ability_caster_dark_eldar_race",
+	"world_squad_global_ability_caster_eldar_race",
+	"world_squad_global_ability_caster_guard_race",
+	"world_squad_global_ability_caster_inquisition_daemonhunt_race",
+	"world_squad_global_ability_caster_necron_race",
+	"world_squad_global_ability_caster_ork_race",
+	"world_squad_global_ability_caster_sisters_race",
+	"world_squad_global_ability_caster_space_marine_race",
+	"world_squad_global_ability_caster_space_marine_veteran_race",
+	"world_squad_global_ability_caster_tau_race",
+	"world_squad_global_builder",
+	"world_squad_global_dust_storm",
+	"world_squad_tornado"
 }
 
 g_EntityBlueprintToIgnore = 
 {
+	"blood_splat",
+	"blood_splat_long",
+	"dark_eldar_death_blossom",
+	"dark_eldar_death_blossom_soul_destruction",
+	"world_AI_Difficulty_Scaler_Advanced",
+	"world_AI_Difficulty_Scaler_Easy",
+	"world_AI_Difficulty_Scaler_Hard",
+	"world_AI_Difficulty_Scaler_Insane",
+	"world_AI_Difficulty_Scaler_Standard",
+	"world_global_ability_caster_chaos_marine_race",
+	"world_global_ability_caster_dark_eldar_race",
+	"world_global_ability_caster_eldar_race",
+	"world_global_ability_caster_guard_race",
+	"world_global_ability_caster_inquisition_daemonhunt_race",
+	"world_global_ability_caster_necron_race",
+	"world_global_ability_caster_ork_race",
+	"world_global_ability_caster_sisters_race",
+	"world_global_ability_caster_space_marine_race",
+	"world_global_ability_caster_space_marine_veteran_race",
+	"world_global_ability_caster_tau_race",
+	"world_global_builder",
+	"world_global_dust_storm",
+	"world_tornado"
 }
 
 g_AllSquadUpkeeps = 

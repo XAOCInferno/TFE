@@ -36,44 +36,45 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 		AddStacktrace("AddSGroupData")
 
 		local newSquadGameID = Squad_GetGameID( _squadID )
-		local squadBP = Squad_GetBlueprintName( _squadID )			
-		local addNewSquadData = true
+		local squadBP = Squad_GetBlueprintName( _squadID )		
 		local criticalError = false
 
-		local shouldIgnore, _ TableContains(g_SquadBlueprintToIgnore, squadBP)
+		local shouldIgnore, _ = TableContains(g_SquadBlueprintToIgnore, squadBP)
 		
-		if(shouldIgnore) then 
-
+		if(shouldIgnore == true) then 
+			
 			criticalError = true
-
-		end
-
-		if(squadBP ~= nil) then
-		
-			for l = 1, TableLength(g_AllSquadsData[_PlayerIndex]) do
-
-				--Do we need this functionality here? It should probably be in a seperate Update.
-				if(g_AllSquadsData[_PlayerIndex][l] == nil) then
-
-					table.remove(g_AllSquadsData[_PlayerIndex], l)	
-					--I don't think we need to return here?
-					--return false
-
-				end
-				
-				if(g_AllSquadsData[_PlayerIndex][l].SquadUniqueID == newSquadGameID) then
-							
-					criticalError = true
-					break
-											
-				end
-
-			end
 
 		else
 
-			LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Can't add squad data, BP is nil!")
-			criticalError = true
+			if(squadBP ~= nil) then
+			
+				for l = 1, TableLength(g_AllSquadsData[_PlayerIndex]) do
+
+					--Do we need this functionality here? It should probably be in a seperate Update.
+					if(g_AllSquadsData[_PlayerIndex][l] == nil) then
+
+						table.remove(g_AllSquadsData[_PlayerIndex], l)	
+						--I don't think we need to return here?
+						--return false
+
+					end
+					
+					if(g_AllSquadsData[_PlayerIndex][l].SquadUniqueID == newSquadGameID) then
+								
+						criticalError = true
+						break
+												
+					end
+
+				end
+
+			else
+
+				LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Can't add squad data, BP is nil!")
+				criticalError = true
+			
+			end
 
 		end		
 		

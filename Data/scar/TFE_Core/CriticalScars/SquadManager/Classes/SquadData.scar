@@ -3,7 +3,7 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 
 	AddStacktrace("SquadData:new")
 
-	local tmpSGroupID = GetUniqueSG("SquadData")
+	local tmpSGroupID = GetUniqueSG("SquadData_".._sBP)
 	local tmpSGroupName = SGroup_GetName(tmpSGroupID)
 	SGroup_Add(tmpSGroupID, _sID)
 

@@ -49,13 +49,12 @@ function TableContains(_Tbl, _Desired)
 
 	if(_Tbl ~= nil) then 
 
-		for index, item in pairs (_Tbl) do
-
-	    	if(item == _Desired) then
-
+		for i = 1, table.getn(_Tbl) do
+			
+	    	if(_Tbl[i] == _Desired) then
+				
 				Success = true
-				ReturnIndex = index
-				break
+				ReturnIndex = i	
 
 	    	end
 
@@ -68,7 +67,7 @@ function TableContains(_Tbl, _Desired)
 	end
 
 	pcall(RemoveStacktrace)
-
+	
 	return Success, ReturnIndex
 
 end
