@@ -1,17 +1,1 @@
-import("TFE_Core/Subscars/AI_DifficultyScaling/Imports/AIDifficultyScaling_Imports.scar")
-
-g_AI_AdvancedDifficultyScaling = true
-
-function EnableAIAdvancedDifficulty()
-
-	for i = 1, g_PlayerCount do
-		
-		if(Cpu_IsCpuPlayer(g_AllPlayers[i].Player)) then
-			
-			ActivateSummonEntityAbility(g_AdvAIDifficultyBonuses[Cpu_GetDifficulty(g_AllPlayers[i].Player)], g_AllPlayers[i].Player, g_AllPlayers[i].StartingPosition)
-
-		end
-
-	end
-
-end
+import("TFE_Core/Subscars/AI_DifficultyScaling/AI_DifficultyScaling_Core.scar")

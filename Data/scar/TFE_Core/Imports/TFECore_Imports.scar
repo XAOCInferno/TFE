@@ -15,6 +15,7 @@ import("TFE_Core/CriticalScars/Debug/GlobalsDebug.scar")
 ----------------------------------
 --TFE Globals [DO NOT REMOVE!]----
 ----------------------------------
+import("TFE_Core/Imports/TFE_EntityList.scar")
 import("TFE_Core/CriticalScars/Globals/LuaTableExtensions.scar")
 import("TFE_Core/CriticalScars/Globals/GlobalsStorage.scar")
 import("TFE_Core/CriticalScars/SquadManager/SquadManager_Core.scar")

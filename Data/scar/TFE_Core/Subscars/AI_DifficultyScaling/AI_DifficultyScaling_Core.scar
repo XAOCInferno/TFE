@@ -1,0 +1,44 @@
+import("TFE_Core/Subscars/AI_DifficultyScaling/Imports/AIDifficultyScaling_Imports.scar")
+
+g_AI_AdvancedDifficultyScaling = true
+
+function EnableAIAdvancedDifficulty()
+
+	AddStacktrace("EnableAIAdvancedDifficulty")
+
+	for i = 1, g_PlayerCount do
+		
+		if(Cpu_IsCpuPlayer(g_AllPlayers[i].Player)) then
+
+			ActivateAIScaler(Cpu_GetDifficulty(g_AllPlayers[i].Player), i)
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+function ActivateAIScaler(_AIDifficulty, _PlayerPosition)
+	
+	AddStacktrace("ActivateAIScaler")
+
+	Log(eLOG_TYPE_INFO, eLOG_VERBOSE, "Activating AI Scaler for player "..g_AllPlayers[_PlayerPosition].PlayerIndex) 
+
+	for i = 1, table.getn( g_EntityList ) do
+
+		for mod = 1, table.getn(g_AdvAIDifficultyBonuses[_AIDifficulty].Modifiers) do
+
+			local modifier = Modifier_Create(MAT_EntityType, g_AdvAIDifficultyBonuses[_AIDifficulty].Modifiers[mod].Mod, MUT_Multiplication, false, g_AdvAIDifficultyBonuses[_AIDifficulty].Modifiers[mod].Value, g_EntityList[i])
+			Modifier_ApplyToPlayer( modifier, g_AllPlayers[_PlayerPosition].Player)
+		
+		end
+	
+	end
+		
+	ActivateSummonEntityAbility(g_AdvAIDifficultyBonuses[_AIDifficulty].Summon, g_AllPlayers[_PlayerPosition].Player, g_AllPlayers[_PlayerPosition].StartingPosition)
+
+	RemoveStacktrace()
+
+end
