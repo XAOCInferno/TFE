@@ -1,3 +1,24 @@
+function Cpu_IsCpuPlayerOnline(_DisplayName)
+
+	AddStacktrace("Cpu_IsCpuPlayerOnline")
+
+	local ReturnValue = false
+
+	print(_DisplayName)
+	print(""..{}.."")
+	if (_DisplayName == "Computer 1" or _DisplayName == "Computer 2" or _DisplayName == "Computer 3" or _DisplayName == "Computer 4" or _DisplayName == "Computer 5" or _DisplayName == "Computer 6" or _DisplayName == "Computer 7") then
+
+		ReturnValue = true
+		print("I AM COMPTUTTUUTUTT!")
+		print(""..{}.."")
+	end
+
+	RemoveStacktrace()
+
+	return ReturnValue
+
+end
+
 PlayerDetails = {}
 function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
 
@@ -11,8 +32,7 @@ function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
 	    DisplayName = _DisplayName,
 	    RaceDetails = _RaceDetails,   	   
 		StatsManager = nil,
-		PlayerIsComputer = Cpu_IsCpuPlayer(_Player),
-		ComputerDifficulty = Cpu_GetDifficulty(_Player),
+		PlayerIsComputer = Cpu_IsCpuPlayerOnline(_DisplayName),
 
 	    --Variables
 		--Is this even being used anymore? just here for future..?
