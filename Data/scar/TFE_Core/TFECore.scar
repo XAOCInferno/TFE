@@ -155,8 +155,8 @@ end
 function Core_Init_Load()
 
 	AddStacktrace("Core_Init_Load")
-	
-	if(DoCriticalFunction(Core_GetAllPlayers) == false) then return false end
+	Core_GetAllPlayers()
+	--if(DoCriticalFunction(Core_GetAllPlayers) == false) then return false end
 	if(DoBasicFunction(Setup_AlphaLegion) == false) then Log(2, 0, debug_TFECore_FileName, debugFuncName, "Alpha Legion failed to setup!") end
 	if(DoCriticalFunction(Setup_PassiveResourceGeneration) == false) then return false end
 	if(DoCriticalFunction(Setup_EntityManager) == false) then return false end
