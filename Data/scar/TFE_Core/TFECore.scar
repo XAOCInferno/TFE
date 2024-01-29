@@ -11,6 +11,7 @@ function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
 	    DisplayName = _DisplayName,
 	    RaceDetails = _RaceDetails,   	   
 		StatsManager = nil,
+		PlayerIsComputer = Cpu_IsCpuPlayer(_Player),
 
 	    --Variables
 		--Is this even being used anymore? just here for future..?
@@ -227,6 +228,7 @@ function Core_GetAllPlayers()
 		EnableAIAdvancedDifficulty()
 
 	end
+
 	RemoveStacktrace()
 
 end

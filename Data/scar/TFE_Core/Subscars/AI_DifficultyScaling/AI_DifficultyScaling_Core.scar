@@ -8,7 +8,7 @@ function EnableAIAdvancedDifficulty()
 
 	for i = 1, g_PlayerCount do
 		
-		if(Cpu_IsCpuPlayer(g_AllPlayers[i].Player)) then
+		if(g_AllPlayers[i].PlayerIsComputer) then
 
 			ActivateAIScaler(Cpu_GetDifficulty(g_AllPlayers[i].Player), i)
 
