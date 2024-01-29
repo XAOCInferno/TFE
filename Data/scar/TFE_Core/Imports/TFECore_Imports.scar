@@ -3,7 +3,6 @@
 import("player.scar")
 import("groupcallers.scar")
 import("scarutil.scar")
-import("WXPScarUtil.scar")
 ----------------------------------
 ----------------------------------
 

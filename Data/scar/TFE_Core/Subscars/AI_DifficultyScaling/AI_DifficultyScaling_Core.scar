@@ -7,11 +7,15 @@ function EnableAIAdvancedDifficulty()
 	AddStacktrace("EnableAIAdvancedDifficulty")
 
 	for i = 1, g_PlayerCount do
-		print("Player "..g_AllPlayers[i].PlayerIndex.." Computer Status = "..g_AllPlayers[i].PlayerIsComputer)
 		
-		if(g_AllPlayers[i].PlayerIsComputer) then
+		if(Cpu_IsCpuPlayer(g_AllPlayers[i].Player)) then
 			
+			print("Player "..g_AllPlayers[i].PlayerIndex.."IS A COMPUTER")
 			--ActivateAIScaler(Cpu_GetDifficulty(g_AllPlayers[i].Player), i)
+
+		else
+
+			print("Player "..g_AllPlayers[i].PlayerIndex.."NOT A COMPUTER")
 
 		end
 

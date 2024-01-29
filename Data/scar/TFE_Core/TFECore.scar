@@ -12,6 +12,7 @@ function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
 	    RaceDetails = _RaceDetails,   	   
 		StatsManager = nil,
 		PlayerIsComputer = Cpu_IsCpuPlayer(_Player),
+		ComputerDifficulty = Cpu_GetDifficulty(_Player),
 
 	    --Variables
 		--Is this even being used anymore? just here for future..?
