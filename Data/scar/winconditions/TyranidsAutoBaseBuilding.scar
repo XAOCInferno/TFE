@@ -1,0 +1,95 @@
+import("TFE_Core/TFECore.scar");
+
+g_AllAutomaticBaseBuildingManagers = {}
+
+AutomaticBaseBuildingManager = {}
+function AutomaticBaseBuildingManager:new (_Player)
+
+    local AutomaticBaseBuildingManagerObject = 
+    {
+    	--Constants
+		Player = _Player
+    }
+
+	self.__index = self
+   	return setmetatable(AutomaticBaseBuildingManagerObject, self)
+
+end
+
+function AutomaticBaseBuildingManager:Update()
+
+	local AllOwnedStratPoints = GetAllStrategicPointsOwnedByPlayer(self.Player)
+	
+	for i = 1, TableLength(AllOwnedStratPoints) do
+
+		local entity = ActivateSummonEntityAbility("tyranids_reclemation_pool", self.Player.Player, World_Pos(0,0,0))
+		Entity_DeSpawn(entity)
+		local spawnablePos = World_GetSpawnablePosition(World_Pos(0,0,0), entity)
+		Entity_Destroy(entity)
+		ActivateAutoConstructionAbility(spawnablePos, _self.CasterPlayer, "tyranids_reclemation_pool")
+
+	end
+
+end
+
+--Integrate this with StrategicPoints class, not here in nids... obviously...
+function GetAllStrategicPointsOwnedByPlayer(_Player)
+
+	--AddStacktrace("GetAllStrategicPointsOwnedByPlayer")
+	
+	local AllOwnedStratPoints = {}
+	for i = 1, TableLength(g_AllStrategicPointsStructs) do
+
+		if(g_AllStrategicPointsStructs[i].OwnedBy == _Player.PlayerIndex) then
+
+			table.insert(AllOwnedStratPoints, g_AllStrategicPointsStructs[i])
+
+		end
+	
+	end
+
+	--RemoveStacktrace()
+
+	return AllOwnedStratPoints
+
+end
+
+function Tyranids_GameSetup()
+
+	--AddStacktrace("Tyranids_GameSetup")
+	
+	Log(0, 0, "Starting: 'Tyranids_GameSetup'...")
+	
+	for i = 1, g_PlayerCount do
+
+		if(g_AllPlayers[i].RaceDetails.RaceName == "tyranids_race") then
+			
+			Log(0, 0, "Player: "..g_AllPlayers[i].PlayerIndex.."' is Tyranids, assigning them an AutomaticBaseBuildingManager.")
+
+			table.insert(g_AllAutomaticBaseBuildingManagers, AutomaticBaseBuildingManager:new(g_AllPlayers[i]))
+
+		end
+
+	end
+	
+	Log(0, 0, "Finished: 'Tyranids_GameSetup'...")
+
+	--RemoveStacktrace()
+
+end
+
+function Update_AutomaticBaseBuildingManagers()
+
+	--AddStacktrace("Update_AutomaticBaseBuildingManagers")
+	
+	for i = 1, TableLength(g_AllAutomaticBaseBuildingManagers) do
+
+		g_AllAutomaticBaseBuildingManagers[i]:Update()
+
+	end
+	
+	Log(0, 0, "Finished: 'Tyranids_GameSetup'...")
+
+	--RemoveStacktrace()
+
+end

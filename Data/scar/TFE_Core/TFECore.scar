@@ -154,6 +154,7 @@ function Core_Init_Load()
 	if(DoCriticalFunction(Setup_NewCoverSystem, debug_TFECore_FileName, debugFuncName.."/Setup_NewCoverSystem")) then return end
 	DoBasicFunction(Setup_WeatherSystems, debug_TFECore_FileName, debugFuncName.."/Setup_WeatherSystems")
 	DoBasicFunction(Setup_GlobalAbilities, debug_TFECore_FileName, debugFuncName.."/Setup_GlobalAbilities")
+	Tyranids_GameSetup()
 end
 
 function Core_CheckForSecondaryScars()
