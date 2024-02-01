@@ -23,7 +23,7 @@ function AutomaticBaseBuildingManager:Update()
 
 	if(self.IsTryingToBuild == false) then
 		local AllOwnedStratPoints = GetAllStrategicPointsOwnedByPlayer(self.Player)
-		local _, entityPositions = Get_EntityDataFromEntityBP("tyranids_hq", self.Player.PlayerIndex + 1)
+		--[[local _, entityPositions = Get_EntityDataFromEntityBP("tyranids_hq", self.Player.PlayerIndex + 1)
 		local _, entityPositions2 = Get_EntityDataFromEntityBP("tyranids_reclemation_pool", self.Player.PlayerIndex + 1)
 
 		--Ideally we want to build outwards instead of always from the HQ
@@ -31,41 +31,74 @@ function AutomaticBaseBuildingManager:Update()
 
 			entityPositions = entityPositions2
 
-		end
+		end]]
+		
+		local _, lpPositions = Get_EntityDataFromEntityBP("tyranids_listening_post", self.Player.PlayerIndex + 1)
+		for i = 1, TableLength(g_AllStrategicPointsStructs) do
 
-		--for i = 1, TableLength(AllOwnedStratPoints) do
-		for i = 1, TableLength(entityPositions) do
+			--local TmpOwner = Entity_GetPlayerOwner(g_AllStrategicPointsStructs[i].ID)
+			--local OwnerPlayer = World_GetPlayerIndex(TmpOwner)
+			
+			if(g_AllStrategicPointsStructs[i].OwnedBy == self.Player.PlayerIndex) then
 
-			local Success = false
-			print(g_AllEntityData[self.Player.PlayerIndex+1][entityPositions[i]].EntityPosition.x)
-			local Offset = 
-			{
-				x = g_AllEntityData[self.Player.PlayerIndex+1][entityPositions[i]].EntityPosition.x + World_GetRand(-5,5), 
-				y = g_AllEntityData[self.Player.PlayerIndex+1][entityPositions[i]].EntityPosition.y + World_GetRand(-5,5), 
-				z = g_AllEntityData[self.Player.PlayerIndex+1][entityPositions[i]].EntityPosition.z + World_GetRand(-5,5)
-			}
-			self.IsTryingToBuild = true
-			for i = 1, 25 do
-				Success = TyranidsDebugActivateAutoConstructionAbility(World_Pos(Offset.x, Offset.y, Offset.z), self.Player, "tyranids_reclemation_pool")
+				local error = false
+				local UniquePointEGroup = GetUniqueEG("tmpPointEGroup")
+				local UniquePointEGroupName = EGroup_GetName(UniquePointEGroup)
+				EGroup_Add(UniquePointEGroup, g_AllStrategicPointsStructs[i].ID)			
+				local PointPos = Entity_GetPosition(g_AllStrategicPointsStructs[i].ID)
 
-				if (Success) then
+				for j = 1, TableLength(lpPositions) do
 
-					print("SPAWNING RECLEMATION POOL")
-					self.IsTryingToBuild = false
-					break
+					if(World_DistancePointToPoint(g_AllEntityData[self.Player.PlayerIndex + 1][lpPositions[j]].EntityPosition, PointPos) < 1) then
+						error = true
+						break
+					end
 
 				end
 
-				Offset.x = Offset.x + World_GetRand(-2, 2)
-				Offset.z = Offset.z + World_GetRand(-2, 2)
+				if(error == false) then
+					TyranidsAutoConstructLP( g_AllStrategicPointsStructs[i], self.Player )
+				end
 
 			end
 
-			if (Success == false) then
+		end
+		--for i = 1, TableLength(AllOwnedStratPoints) do
+		for i = 1, TableLength(lpPositions) do
 
-				self.IsTryingToBuild = false
-				print("TOTAL FAILURE!")
+			if(Entity_GetBuildingProgress( g_AllEntityData[self.Player.PlayerIndex + 1][lpPositions[i]].EntityID ) == 1) then
+			
+				local Success = false
+				print(g_AllEntityData[self.Player.PlayerIndex+1][lpPositions[i]].EntityPosition.x)
+				local Offset = 
+				{
+					x = g_AllEntityData[self.Player.PlayerIndex+1][lpPositions[i]].EntityPosition.x + World_GetRand(-5,5), 
+					y = g_AllEntityData[self.Player.PlayerIndex+1][lpPositions[i]].EntityPosition.y + World_GetRand(-5,5), 
+					z = g_AllEntityData[self.Player.PlayerIndex+1][lpPositions[i]].EntityPosition.z + World_GetRand(-5,5)
+				}
+				self.IsTryingToBuild = true
+				for i = 1, 25 do
+					Success = TyranidsDebugActivateAutoConstructionAbility(World_Pos(Offset.x, Offset.y, Offset.z), self.Player, "tyranids_reclemation_pool")
 
+					if (Success) then
+
+						print("SPAWNING RECLEMATION POOL")
+						self.IsTryingToBuild = false
+						break
+
+					end
+
+					Offset.x = Offset.x + World_GetRand(-2, 2)
+					Offset.z = Offset.z + World_GetRand(-2, 2)
+
+				end
+
+				if (Success == false) then
+
+					self.IsTryingToBuild = false
+					print("TOTAL FAILURE!")
+
+				end
 			end
 		end
 		--end
@@ -92,12 +125,35 @@ function TyranidsDebugActivateAutoConstructionAbility(_pos, _PlayerStruct, _stru
 
 	end
 
-	Util_CreateSquadsAtPosition(_PlayerStruct.Player, UniqueBuilderSGroupName, "world_squad_global_builder", _pos, 1)
+	Util_CreateSquadsAtPositionRandom(_PlayerStruct.Player, UniqueBuilderSGroupName, "world_squad_global_builder", _pos, 1)
 
 	table.insert(g_AllTrackedAbilityBuilders, GlobalAbilityBuilder:new( _PlayerStruct.Player, UniqueBuilderSGroup, UniqueBuilderSGroupName, UniqueBuildingEGroupName ))
 	g_AllTrackedAbilityBuildersCount = g_AllTrackedAbilityBuildersCount + 1
 
 	return true
+
+end
+
+--FML change this one later..
+function TyranidsAutoConstructLP(_TargetPoint, _PlayerStruct)
+
+	print("ATTEMPTING TO BUILD NIDS LP")
+	local UniquePointEGroup = GetUniqueEG("tmpPointEGroup")
+	local UniquePointEGroupName = EGroup_GetName(UniquePointEGroup)
+	EGroup_Add(UniquePointEGroup, _TargetPoint.ID)
+
+	local UniqueBuildingEGroup = GetUniqueEG("tmpBuildingEGroup")
+	local UniqueBuilderSGroup = GetUniqueSG("tmpBuilderGroup")
+	local UniqueBuildingEGroupName = EGroup_GetName(UniqueBuildingEGroup)
+	local UniqueBuilderSGroupName =  SGroup_GetName(UniqueBuilderSGroup)
+
+	_pos = Entity_GetPosition(_TargetPoint.ID)
+	Util_CreateSquadsAtPositionRandom(_PlayerStruct.Player, UniqueBuilderSGroupName, "world_squad_global_builder", _pos, 1)
+
+	Cmd_ConstructBlueprintOnEGroup(UniqueBuilderSGroupName, "tyranids_listening_post", UniquePointEGroupName)
+
+	--table.insert(g_AllTrackedAbilityBuilders, GlobalAbilityBuilder:new( _PlayerStruct.Player, UniqueBuilderSGroup, UniqueBuilderSGroupName, UniqueBuildingEGroupName ))
+	--g_AllTrackedAbilityBuildersCount = g_AllTrackedAbilityBuildersCount + 1
 
 end
 
