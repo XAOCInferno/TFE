@@ -23,25 +23,41 @@ function AutomaticBaseBuildingManager:Update()
 
 	if(self.IsTryingToBuild == false) then
 		local AllOwnedStratPoints = GetAllStrategicPointsOwnedByPlayer(self.Player)
-	
+		local _, entityPositions = Get_EntityDataFromEntityBP("tyranids_hq", self.Player.PlayerIndex + 1)
+		local _, entityPositions2 = Get_EntityDataFromEntityBP("tyranids_reclemation_pool", self.Player.PlayerIndex + 1)
+
+		--Ideally we want to build outwards instead of always from the HQ
+		if(TableLength(entityPositions2) > 0 ) then
+
+			entityPositions = entityPositions2
+
+		end
+
 		--for i = 1, TableLength(AllOwnedStratPoints) do
-			print("SPAWNING RECLEMATION POOL")
+		for i = 1, TableLength(entityPositions) do
 
 			local Success = false
-			local Offset = {x = 0, y = 0, z = 0}
+			print(g_AllEntityData[self.Player.PlayerIndex+1][entityPositions[i]].EntityPosition.x)
+			local Offset = 
+			{
+				x = g_AllEntityData[self.Player.PlayerIndex+1][entityPositions[i]].EntityPosition.x + World_GetRand(-5,5), 
+				y = g_AllEntityData[self.Player.PlayerIndex+1][entityPositions[i]].EntityPosition.y + World_GetRand(-5,5), 
+				z = g_AllEntityData[self.Player.PlayerIndex+1][entityPositions[i]].EntityPosition.z + World_GetRand(-5,5)
+			}
 			self.IsTryingToBuild = true
-			for i = 1, 1000 do
-				Success = TyranidsDebugActivateAutoConstructionAbility(World_Pos(0 + Offset.x, 0 + Offset.y, 0 + Offset.z), self.Player, "tyranids_reclemation_pool")
+			for i = 1, 25 do
+				Success = TyranidsDebugActivateAutoConstructionAbility(World_Pos(Offset.x, Offset.y, Offset.z), self.Player, "tyranids_reclemation_pool")
 
 				if (Success) then
 
+					print("SPAWNING RECLEMATION POOL")
 					self.IsTryingToBuild = false
 					break
 
 				end
 
-				Offset.x = Offset.x + World_GetRand(-1, 1)
-				Offset.z = Offset.z + World_GetRand(-1, 1)
+				Offset.x = Offset.x + World_GetRand(-2, 2)
+				Offset.z = Offset.z + World_GetRand(-2, 2)
 
 			end
 
@@ -51,6 +67,7 @@ function AutomaticBaseBuildingManager:Update()
 				print("TOTAL FAILURE!")
 
 			end
+		end
 		--end
 	end
 
