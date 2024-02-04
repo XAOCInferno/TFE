@@ -3,15 +3,18 @@ import("TFE_Core/TFECore.scar");
 g_AllAutomaticBaseBuildingManagers = {}
 
 AutomaticBaseBuildingManager = {}
-function AutomaticBaseBuildingManager:new (_Player)
+function AutomaticBaseBuildingManager:new (_Player, _BuildingStruct)
 
     local AutomaticBaseBuildingManagerObject = 
     {
     	--Constants
 		Player = _Player,
+		BuildingStruct = _BuildingStruct,
+		BuildingStructLength = TableLength(_BuildingStruct),
 
 		--Variables
-		IsTryingToBuild = false
+		IsTryingToBuild = false,
+		IsTryingToBuildExtra = false
     }
 
 	self.__index = self
@@ -101,6 +104,65 @@ function AutomaticBaseBuildingManager:Update()
 				end
 			end
 		end
+
+		--local GauntStructure = { name = "tyranids_tech_gaunt", requiredAddon = "addon_tyranids_tech_gaunt", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
+	
+		for i = 1, self.BuildingStructLength do
+
+			local BuiltBuildings, _ = Get_EntityDataFromEntityBP(self.BuildingStruct[i].name, self.Player.PlayerIndex + 1)
+			local BuiltFromEntities, _ = Get_EntityDataFromEntityBP(self.BuildingStruct[i].builtFromEntity, self.Player.PlayerIndex + 1)
+
+			for j = 1, TableLength(BuiltFromEntities) do
+
+				local HasAddon = Entity_ContainsAddOn(BuiltFromEntities[j].EntityID, self.BuildingStruct[i].requiredAddon)
+
+				if(HasAddon == false) then
+
+					BuiltFromEntities[j] = nil
+
+				end
+
+			end
+
+			for z = 1, TableLength(BuiltFromEntities) do
+				if(TableLength(BuiltFromEntities) - TableLength(BuiltBuildings) + self.BuildingStruct[i].numberPerAddon - 1 <= 0) then
+					break
+				end
+				local Success = false
+				print(self.BuildingStruct[i].name)
+				local Offset = 
+				{
+					x = BuiltFromEntities[z].EntityPosition.x + World_GetRand(-self.BuildingStruct[i].distanceFromBuilding, self.BuildingStruct[i].distanceFromBuilding), 
+					y = BuiltFromEntities[z].EntityPosition.y + World_GetRand(-self.BuildingStruct[i].distanceFromBuilding, self.BuildingStruct[i].distanceFromBuilding), 
+					z = BuiltFromEntities[z].EntityPosition.z + World_GetRand(-self.BuildingStruct[i].distanceFromBuilding, self.BuildingStruct[i].distanceFromBuilding)
+				}
+				self.IsTryingToBuildExtra = true
+				for x = 1, 40 do
+					Success = TyranidsDebugActivateAutoConstructionAbility(World_Pos(Offset.x, Offset.y, Offset.z), self.Player, self.BuildingStruct[i].name)
+
+					if (Success) then
+
+						print("SPAWNING "..self.BuildingStruct[i].name)
+						self.IsTryingToBuildExtra = false
+						break
+
+					end
+
+					Offset.x = Offset.x + World_GetRand(-4, 4)
+					Offset.z = Offset.z + World_GetRand(-4, 4)
+
+				end
+
+				if (Success == false) then
+
+					self.IsTryingToBuildExtra = false
+					print("TOTAL FAILURE!")
+
+				end
+
+			end			
+				
+		end
 		--end
 	end
 
@@ -126,9 +188,9 @@ function TyranidsDebugActivateAutoConstructionAbility(_pos, _PlayerStruct, _stru
 	end
 
 	Util_CreateSquadsAtPositionRandom(_PlayerStruct.Player, UniqueBuilderSGroupName, "world_squad_global_builder", _pos, 1)
-
-	table.insert(g_AllTrackedAbilityBuilders, GlobalAbilityBuilder:new( _PlayerStruct.Player, UniqueBuilderSGroup, UniqueBuilderSGroupName, UniqueBuildingEGroupName ))
-	g_AllTrackedAbilityBuildersCount = g_AllTrackedAbilityBuildersCount + 1
+	Command_SquadEntity( _PlayerStruct.Player, UniqueBuilderSGroup, SCMD_BuildStructure, UniqueBuildingEGroup )
+	--table.insert(g_AllTrackedAbilityBuilders, GlobalAbilityBuilder:new( _PlayerStruct.Player, UniqueBuilderSGroup, UniqueBuilderSGroupName, UniqueBuildingEGroupName ))
+	--g_AllTrackedAbilityBuildersCount = g_AllTrackedAbilityBuildersCount + 1
 
 	return true
 
@@ -191,7 +253,17 @@ function Tyranids_GameSetup()
 			
 			--Log(0, 0, "Player: "..g_AllPlayers[i].PlayerIndex.."' is Tyranids, assigning them an AutomaticBaseBuildingManager.")
 			print("Player: "..g_AllPlayers[i].PlayerIndex.."' is Tyranids, assigning them an AutomaticBaseBuildingManager.")
-			table.insert(g_AllAutomaticBaseBuildingManagers, AutomaticBaseBuildingManager:new(g_AllPlayers[i]))
+			local GauntStructure = { name = "tyranids_tech_gaunt", requiredAddon = "addon_tyranids_tech_gaunt", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
+			local LictorStructure = { name = "tyranids_tech_lictor", requiredAddon = "addon_tyranids_tech_lictor", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
+			local WarriorStructure = { name = "tyranids_tech_warrior", requiredAddon = "addon_tyranids_tech_warrior", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
+			local RavenerStructure = { name = "tyranids_tech_ravener", requiredAddon = "addon_tyranids_tech_ravener", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
+			local Tier2InfantryStructure = { name = "tyranids_tech_tier2_infantry", requiredAddon = "addon_tyranids_tech_tier2_infantry", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 40 }
+			local GeneratorStructure = { name = "tyranids_generator", requiredAddon = "addon_tyranids_generator", numberPerAddon = 3, builtFromEntity = "tyranids_listening_post", distanceFromBuilding = 5 }
+			local BasicVehiclesStructure = { name = "tyranids_tech_basic_vehicles", requiredAddon = "addon_tyranids_tech_basic_vehicles", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 50 }
+			local AdvancedVehiclesStructure = { name = "tyranids_tech_advanced_vehicles", requiredAddon = "addon_tyranids_tech_advanced_vehicles", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 50 }
+			local Tier4Structure = { name = "tyranids_tech_tier4", requiredAddon = "addon_tyranids_tech_tier4", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 50 }
+			local NidsBuildings = { GauntStructure, LictorStructure, WarriorStructure, RavenerStructure, Tier2InfantryStructure, GeneratorStructure, BasicVehiclesStructure, AdvancedVehiclesStructure, Tier4Structure }
+			table.insert(g_AllAutomaticBaseBuildingManagers, AutomaticBaseBuildingManager:new(g_AllPlayers[i], NidsBuildings))
 
 		else
 
