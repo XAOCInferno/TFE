@@ -66,41 +66,56 @@ function AutomaticBaseBuildingManager:Update()
 			end
 
 		end
-		--for i = 1, TableLength(AllOwnedStratPoints) do
-		for i = 1, TableLength(lpPositions) do
+
+		local allReclemationPools, _ = Get_EntityDataFromEntityBP("tyranids_reclemation_pool", self.Player.PlayerIndex + 1)
+		local numberLPs = TableLength(lpPositions)
+		local numberCompletedLPs = 0
+		for i = 1, numberLPs do
 
 			if(Entity_GetBuildingProgress( g_AllEntityData[self.Player.PlayerIndex + 1][lpPositions[i]].EntityID ) == 1) then
-			
-				local Success = false
-				print(g_AllEntityData[self.Player.PlayerIndex+1][lpPositions[i]].EntityPosition.x)
-				local Offset = 
-				{
-					x = g_AllEntityData[self.Player.PlayerIndex+1][lpPositions[i]].EntityPosition.x + World_GetRand(-5,5), 
-					y = g_AllEntityData[self.Player.PlayerIndex+1][lpPositions[i]].EntityPosition.y + World_GetRand(-5,5), 
-					z = g_AllEntityData[self.Player.PlayerIndex+1][lpPositions[i]].EntityPosition.z + World_GetRand(-5,5)
-				}
-				self.IsTryingToBuild = true
-				for i = 1, 25 do
-					Success = TyranidsDebugActivateAutoConstructionAbility(World_Pos(Offset.x, Offset.y, Offset.z), self.Player, "tyranids_reclemation_pool")
 
-					if (Success) then
+				numberCompletedLPs = numberCompletedLPs + 1
 
-						print("SPAWNING RECLEMATION POOL")
-						self.IsTryingToBuild = false
-						break
+			end
+
+		end
+		
+		if(numberCompletedLPs * 3 > TableLength(allReclemationPools)) then
+			--for i = 1, TableLength(AllOwnedStratPoints) do
+			for i = 1, numberLPs do
+
+				if(Entity_GetBuildingProgress( g_AllEntityData[self.Player.PlayerIndex + 1][lpPositions[i]].EntityID ) == 1) then
+				
+					local Success = false
+					print(g_AllEntityData[self.Player.PlayerIndex+1][lpPositions[i]].EntityPosition.x)
+					local Offset = 
+					{
+						x = g_AllEntityData[self.Player.PlayerIndex+1][lpPositions[i]].EntityPosition.x + World_GetRand(-5,5), 
+						y = g_AllEntityData[self.Player.PlayerIndex+1][lpPositions[i]].EntityPosition.y + World_GetRand(-5,5), 
+						z = g_AllEntityData[self.Player.PlayerIndex+1][lpPositions[i]].EntityPosition.z + World_GetRand(-5,5)
+					}
+					self.IsTryingToBuild = true
+					for i = 1, 25 do
+						Success = TyranidsDebugActivateAutoConstructionAbility(World_Pos(Offset.x, Offset.y, Offset.z), self.Player, "tyranids_reclemation_pool")
+
+						if (Success) then
+
+							self.IsTryingToBuild = false
+							break
+
+						end
+
+						Offset.x = Offset.x + World_GetRand(-2, 2)
+						Offset.z = Offset.z + World_GetRand(-2, 2)
 
 					end
 
-					Offset.x = Offset.x + World_GetRand(-2, 2)
-					Offset.z = Offset.z + World_GetRand(-2, 2)
+					if (Success == false) then
 
-				end
+						self.IsTryingToBuild = false
+						print("TOTAL FAILURE!")
 
-				if (Success == false) then
-
-					self.IsTryingToBuild = false
-					print("TOTAL FAILURE!")
-
+					end
 				end
 			end
 		end
@@ -130,6 +145,7 @@ function AutomaticBaseBuildingManager:Update()
 				end
 				local Success = false
 				print(self.BuildingStruct[i].name)
+				print(BuiltFromEntities[z])
 				local Offset = 
 				{
 					x = BuiltFromEntities[z].EntityPosition.x + World_GetRand(-self.BuildingStruct[i].distanceFromBuilding, self.BuildingStruct[i].distanceFromBuilding), 
