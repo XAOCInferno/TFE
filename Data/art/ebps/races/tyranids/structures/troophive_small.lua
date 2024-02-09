@@ -3,8 +3,8 @@ simvis_attributes =
 --	selection_child = 1,
 	selection_ground = 1,
 
-	vis_scale_min			= 0.85,	
-	vis_scale_max			= 0.85,
+	vis_scale_min			= 0.7,	
+	vis_scale_max			= 0.7,
 	
 	shadow_type = 3,
 

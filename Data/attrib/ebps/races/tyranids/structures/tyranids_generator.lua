@@ -165,7 +165,7 @@ GameData["death_explosion_ext"]["death_explosions"]["death_explosion_08"]["area_
 GameData["death_explosion_ext"]["death_explosions"]["death_explosion_08"]["area_effect"]["weapon_damage"]["modifiers"]["modifier_10"] = Reference([[tables\time_modify_entry.lua]])
 GameData["death_explosion_ext"]["death_explosions"]["death_explosion_08"]["area_effect"]["weapon_damage"]["modifiers"]["modifier_10"]["modifier"]["shield_of_faith"] = false
 GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
-GameData["entity_blueprint_ext"]["animator"] = [[races/tyranids/structures/troophive]]
+GameData["entity_blueprint_ext"]["animator"] = [[races/tyranids/structures/troophive_small]]
 GameData["entity_blueprint_ext"]["scale_x"] = 1
 GameData["entity_blueprint_ext"]["scale_z"] = 1
 GameData["event_manager_ext"] = Reference([[ebpextensions\event_manager_ext.lua]])
@@ -442,7 +442,7 @@ GameData["structure_buildable_ext"]["return_power_percent"] = 0.1000000015
 GameData["structure_buildable_ext"]["return_requisition_percent"] = 0.1000000015
 GameData["structure_ext"] = Reference([[ebpextensions\structure_ext.lua]])
 GameData["structure_ext"]["control_structure_use"] = false 
-GameData["structure_ext"]["extra_no_build_buffer"] = 0.6
+GameData["structure_ext"]["extra_no_build_buffer"] = 1.42
 GameData["type_ext"] = Reference([[ebpextensions\type_ext.lua]])
 GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_building_low.lua]])
 GameData["type_ext"]["type_speech"] = Reference([[type_speech\speech_none.lua]])
