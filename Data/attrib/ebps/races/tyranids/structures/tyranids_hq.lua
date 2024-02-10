@@ -12,6 +12,7 @@ GameData["addon_ext"]["addons"]["addon_07"] = [[addons\addon_tyranids_tech_tier2
 GameData["addon_ext"]["addons"]["addon_08"] = [[addons\addon_tyranids_tech_basic_vehicles.lua]]
 GameData["addon_ext"]["addons"]["addon_09"] = [[addons\addon_tyranids_tech_advanced_vehicles.lua]]
 GameData["addon_ext"]["addons"]["addon_10"] = [[addons\addon_tyranids_tech_tier4.lua]]
+GameData["addon_ext"]["addons"]["addon_11"] = [[addons\addon_tyranids_new_hq.lua]]
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
 GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 400 

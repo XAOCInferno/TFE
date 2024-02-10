@@ -288,7 +288,8 @@ function Tyranids_GameSetup()
 			local BasicVehiclesStructure = { name = "tyranids_tech_basic_vehicles", requiredAddon = "addon_tyranids_tech_basic_vehicles", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 50 }
 			local AdvancedVehiclesStructure = { name = "tyranids_tech_advanced_vehicles", requiredAddon = "addon_tyranids_tech_advanced_vehicles", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 50 }
 			local Tier4Structure = { name = "tyranids_tech_tier4", requiredAddon = "addon_tyranids_tech_tier4", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 50 }
-			local NidsBuildings = { GauntStructure, LictorStructure, WarriorStructure, RavenerStructure, Tier2InfantryStructure, GeneratorStructure, BasicVehiclesStructure, AdvancedVehiclesStructure, Tier4Structure }
+			local NewHQ = { name = "tyranids_hq", requiredAddon = "addon_tyranids_new_hq", numberPerAddon = 2, builtFromEntity = "tyranids_hq", distanceFromBuilding = 70 }
+			local NidsBuildings = { GauntStructure, LictorStructure, WarriorStructure, RavenerStructure, Tier2InfantryStructure, GeneratorStructure, BasicVehiclesStructure, AdvancedVehiclesStructure, Tier4Structure, NewHQ }
 			table.insert(g_AllAutomaticBaseBuildingManagers, AutomaticBaseBuildingManager:new(g_AllPlayers[i], NidsBuildings))
 
 		else
