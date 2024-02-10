@@ -42,7 +42,7 @@ function AutomaticBaseBuildingManager:Update()
 			--local TmpOwner = Entity_GetPlayerOwner(g_AllStrategicPointsStructs[i].ID)
 			--local OwnerPlayer = World_GetPlayerIndex(TmpOwner)
 			
-			if(g_AllStrategicPointsStructs[i].OwnedBy == self.Player.PlayerIndex) then
+			if(g_AllStrategicPointsStructs[i].OwnedBy == self.Player.PlayerIndex and Entity_GetBlueprintName(g_AllStrategicPointsStructs[i].ID) ~= "strategic_objective_struct") then
 
 				local error = false
 				local UniquePointEGroup = GetUniqueEG("tmpPointEGroup")
