@@ -37,7 +37,7 @@ function AutomaticBaseBuildingManager:Update()
 		end]]
 		
 		local _, lpPositions = Get_EntityDataFromEntityBP("tyranids_listening_post", self.Player.PlayerIndex + 1)
-		--[[for i = 1, TableLength(g_AllStrategicPointsStructs) do
+		for i = 1, TableLength(g_AllStrategicPointsStructs) do
 
 			--local TmpOwner = Entity_GetPlayerOwner(g_AllStrategicPointsStructs[i].ID)
 			--local OwnerPlayer = World_GetPlayerIndex(TmpOwner)
@@ -60,12 +60,12 @@ function AutomaticBaseBuildingManager:Update()
 				end
 
 				if(error == false) then
-					TyranidsAutoConstructLP( g_AllStrategicPointsStructs[i], self.Player )
+					--TyranidsAutoConstructLP( g_AllStrategicPointsStructs[i], self.Player )
 				end
 
 			end
 
-		end]]
+		end
 
 		local allReclemationPools, _ = Get_EntityDataFromEntityBP("tyranids_reclemation_pool", self.Player.PlayerIndex + 1)
 		local numberLPs = TableLength(lpPositions)
