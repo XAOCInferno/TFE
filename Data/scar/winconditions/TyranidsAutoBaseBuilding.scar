@@ -140,9 +140,19 @@ function AutomaticBaseBuildingManager:Update()
 			end
 
 			for z = 1, TableLength(BuiltFromEntities) do
+
 				if(TableLength(BuiltFromEntities) - TableLength(BuiltBuildings) + self.BuildingStruct[i].numberPerAddon - 1 <= 0) then
+
 					break
+
 				end
+
+				if(BuiltFromEntities[z] == nil) then
+
+					break
+					
+				end
+
 				local Success = false
 				print(self.BuildingStruct[i].name)
 				print(BuiltFromEntities[z])
