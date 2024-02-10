@@ -150,7 +150,7 @@ function AutomaticBaseBuildingManager:Update()
 				if(BuiltFromEntities[z] == nil) then
 
 					break
-					
+
 				end
 
 				local Success = false
@@ -303,7 +303,7 @@ function Tyranids_GameSetup()
 	
 	Log(0, 0, "Finished: 'Tyranids_GameSetup'...")
 
-	Rule_AddInterval(Update_AutomaticBaseBuildingManagers, 5)
+	Rule_AddInterval(Update_AutomaticBaseBuildingManagers, 3.5)
 
 	--RemoveStacktrace()
 
@@ -312,10 +312,13 @@ end
 function Update_AutomaticBaseBuildingManagers()
 
 	--AddStacktrace("Update_AutomaticBaseBuildingManagers")
-	
-	for i = 1, TableLength(g_AllAutomaticBaseBuildingManagers) do
+	if(World_GetRand(0,100) >= 60) then
 
-		g_AllAutomaticBaseBuildingManagers[i]:Update()
+		for i = 1, TableLength(g_AllAutomaticBaseBuildingManagers) do
+
+			g_AllAutomaticBaseBuildingManagers[i]:Update()
+
+		end
 
 	end
 
