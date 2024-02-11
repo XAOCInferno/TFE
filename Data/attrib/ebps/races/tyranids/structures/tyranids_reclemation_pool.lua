@@ -434,6 +434,7 @@ GameData["resource_ext"]["requisition_per_second"] = 0.2
 GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
 GameData["sight_ext"]["sight_radius"] = 25
 GameData["structure_buildable_ext"] = Reference([[ebpextensions\structure_buildable_ext.lua]])
+GameData["structure_buildable_ext"]["advanced_build_option"] = true 
 GameData["structure_buildable_ext"]["build_menu_priority"] = 5
 GameData["structure_buildable_ext"]["return_power_percent"] = 0.1000000015
 GameData["structure_buildable_ext"]["return_requisition_percent"] = 0.1000000015

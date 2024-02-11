@@ -58,6 +58,7 @@ GameData["spawner_ext"] = Reference([[ebpextensions\spawner_ext.lua]])
 GameData["spawner_ext"]["squad_table"]["squad_01"] = [[sbps\races\tyranids\tyranids_squad_tyrant_guard.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_02"] = [[sbps\races\tyranids\tyranids_squad_biovore.lua]]
 GameData["structure_buildable_ext"] = Reference([[ebpextensions\structure_buildable_ext.lua]])
+GameData["structure_buildable_ext"]["advanced_build_option"] = true 
 GameData["structure_buildable_ext"]["build_menu_priority"] = 6
 GameData["structure_buildable_ext"]["return_power_percent"] = 0.1000000015
 GameData["structure_buildable_ext"]["return_requisition_percent"] = 0.1000000015
