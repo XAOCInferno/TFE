@@ -30,4 +30,4 @@ GameData["starting_squads"] = Reference([[tables\squad_table.lua]])
 GameData["teamcolour_preview"] = Reference([[tables\race_teamcolour_preview_entities.lua]])
 GameData["teamcolour_preview"]["entity_01"] = [[tyranids_gaunt_ranged]]
 GameData["teamcolour_preview"]["entity_02"] = [[tyranids_ravener]]
-GameData["teamcolour_preview"]["entity_03"] = [[tyranids_carnifax]]
+GameData["teamcolour_preview"]["entity_03"] = [[tyranids_carnifex]]

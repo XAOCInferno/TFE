@@ -377,7 +377,7 @@ GameData["squad_cover_ext"]["cover_stealth"]["modifiers"]["modifier_45"]["shield
 GameData["squad_formation_ext"] = Reference([[sbpextensions\squad_formation_ext.lua]])
 GameData["squad_formation_ext"]["idle_formation"] = [[formations\orc_chaos.lua]]
 GameData["squad_loadout_ext"] = Reference([[sbpextensions\squad_loadout_ext.lua]])
-GameData["squad_loadout_ext"]["trooper_base"]["type"] = [[ebps\races\tyranids\troops\tyranids_carnifax.lua]]
+GameData["squad_loadout_ext"]["trooper_base"]["type"] = [[ebps\races\tyranids\troops\tyranids_carnifex.lua]]
 GameData["squad_loadout_ext"]["unit_max"] = 1
 GameData["squad_loadout_ext"]["unit_min"] = 1
 GameData["squad_melee_stance_ext"] = Reference([[sbpextensions\squad_melee_stance_ext.lua]])
