@@ -17,10 +17,10 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_02"
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\dark_eldar_hellglaive_hellion.lua]]
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
-GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 130
-GameData["cost_ext"]["time_cost"]["cost"]["power"] = 50
+GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 40
+GameData["cost_ext"]["time_cost"]["cost"]["power"] = 13.3333333333
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
-GameData["cost_ext"]["time_cost"]["time_seconds"] = 25
+GameData["cost_ext"]["time_cost"]["time_seconds"] = 8.33333333333
 GameData["cover_ext"] = Reference([[ebpextensions\cover_ext.lua]])
 GameData["cover_ext"]["cover_blocking"]["modifiers"]["modifier_01"]["shield_of_faith"] = false
 GameData["cover_ext"]["cover_blocking"]["modifiers"]["modifier_02"]["shield_of_faith"] = false

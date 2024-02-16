@@ -14,10 +14,10 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_02"
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\dark_eldar_knife_mandrake.lua]]
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
-GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 110
-GameData["cost_ext"]["time_cost"]["cost"]["power"] = 25
+GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 66.6666666667
+GameData["cost_ext"]["time_cost"]["cost"]["power"] = 6.66666666667
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
-GameData["cost_ext"]["time_cost"]["time_seconds"] = 22
+GameData["cost_ext"]["time_cost"]["time_seconds"] = 7.33333333333
 GameData["cover_ext"] = Reference([[ebpextensions\cover_ext.lua]])
 GameData["cover_ext"]["cover_blocking"]["modifiers"]["modifier_01"]["shield_of_faith"] = false
 GameData["cover_ext"]["cover_blocking"]["modifiers"]["modifier_02"]["shield_of_faith"] = false
