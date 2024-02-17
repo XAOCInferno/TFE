@@ -7,8 +7,8 @@ distance_game_mesh_lod = 40,
 shadow_type = 1,
 shadow_scale = 0.0300,
 
-vis_scale_min = 1.20,
-vis_scale_max = 1.20,
+vis_scale_min = 1.15,
+vis_scale_max = 1.15,
 
 occludee = 1,
 
