@@ -1,0 +1,120 @@
+----------------------------------------
+-- File: 'loader.ai'
+-- Edited by Thudmeizer	@ 26.10.2008
+-- Edited by Arkhan	@ 23.10.2006
+
+class 'tyranids_race'
+
+-- Constructor
+function tyranids_race:__init()
+
+end
+
+-- Returns the name of the race
+function tyranids_race:GetRaceName()
+	return "tyranids_race"
+end
+
+-- This function is called if the race is being played
+function tyranids_race:LoadRace( eDifficulty )
+	
+	-- Import strategies
+	import( 'Races/tyranids_race/Strategies/TyranidsBuildBaseStrategy.ai' )
+	
+	-- Import strategy info
+	import( "Races/tyranids_race/Strategies/TyranidsStrategyInfo.ai" )
+	
+	-- Import tactics
+	import( "Races/tyranids_race/Strategies/tyranidsinfantrytactic.ai" )
+	import( "Races/tyranids_race/Strategies/tyranidsvehicletactic.ai" )
+	
+	return true
+end
+
+-- This function is called even if this race are not the race being played
+function tyranids_race:LoadGlobalInfo()
+		
+	-- Import info files
+	import( 'Races/tyranids_race/Info/tyranidsunitstats.ai' )
+	
+	-- Add Tyranids unit stats
+	table.insert(UnitStats, TyranidsUnitStats)
+	return true
+end
+
+-- Creates build base strategy
+function tyranids_race:CreateBuildBaseStrategy()
+	return TyranidsBuildBaseStrategy(BuildBaseStrategyInfo)
+end
+
+-- Creates a special tactic for a unit
+function tyranids_race:CreateTactic(oSquadAI)
+
+	-- Get unit name and class
+	local sUnitName = oSquadAI:GetSquadName()
+	local eClass = oSquadAI:GetStats():GetClass()
+	
+	-- Check if there is a special tactic for the unit available
+	local bVehicle = (eClass == UnitStatsAI.UC_VehicleLow or eClass == UnitStatsAI.UC_VehicleMed or eClass == UnitStatsAI.UC_VehicleHigh)
+	local bAirPlane = (eClass == UnitStatsAI.UC_AirLow or eClass == UnitStatsAI.UC_AirMed or eClass == UnitStatsAI.UC_AirHigh)
+	
+	return TyranidsInfantryTactic(oSquadAI)
+end
+
+-- Creates a base tactic
+function tyranids_race:CreateBaseTactic(oBuilding)
+	return nil
+end
+
+-- Returns a specific information
+function tyranids_race:GetInfo(sType)
+
+	-- Check info type
+	if (sType == "TurretPower") then
+		return 400
+	elseif (sType == "SupportAllyFactor") then
+		return 8 / 4
+	elseif (sType == "AttackModifier") then
+		return 10
+	elseif (sType == "CriticalRangeIncreasePerTier") then
+		return 10
+	elseif (sType == "MinArmyStrengthPerTier") then
+		return 750
+	elseif (sType == "AttackRatio") then
+		return 4 / 5
+	elseif (sType == "RetreatRatio") then
+		return 3 / 5
+	elseif (sType == "InvisibleBuildings") then
+		return false
+	elseif (sType == "HarassingLeader") then
+		return "tyranids_squad_hive_tyrant"
+	elseif (sType == "AutoConstructBuildings") then
+		return false
+	end
+	return nil
+end
+
+-- Returns the building type and threat
+function tyranids_race:GetBuildingType(sBuildingName)
+
+	-- Return race specific object string
+	if (sBuildingName == "tyranids_hq") then
+		return "HQ", 0
+		
+	elseif (sBuildingName == "tyranids_generator") then
+		return "Generator", 0
+		
+	elseif (sBuildingName == "tyranids_thermo_generator") then
+		return "BiggerGenerator", 0
+		
+	elseif (sBuildingName == "tyranids_tech_basic_vehicles" or sBuildingName == "tyranids_tech_advanced_vehicles" or sBuildingName == "tyranids_tech_tier4") then
+		return "VehicleBuilding", 0
+		
+	elseif (sBuildingName == "tyranids_tech_gaunt") then
+		return "Armoury", 0
+		
+	elseif (sBuildingName == "tyranids_listening_post") then
+		return "ListeningPost", 0
+	end
+	return nil, 0
+end

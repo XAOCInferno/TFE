@@ -1,0 +1,165 @@
+----------------------------------------
+-- File: 'tyranidsbuildbasestrategy.ai'
+
+class 'TyranidsBuildBaseStrategy' (BuildBaseStrategy)
+
+function TyranidsBuildBaseStrategy:__init( baseinfo ) super( baseinfo )
+
+end
+
+function TyranidsBuildBaseStrategy:ChooseBuildProgram()
+
+	return 1
+end
+
+function TyranidsBuildBaseStrategy:EvaluateSquadCap()
+	
+end
+
+function TyranidsBuildBaseStrategy:GetBuildingName( sType )
+
+	-- Return race specific object string
+	if (sType == "HQ") then
+		return "tyranids_hq"
+		
+	elseif (sType == "Generator") then
+		return "tyranids_generator"
+		
+	elseif (sType == "BiggerGenerator") then
+		return "tyranids_thermo_generator"
+		
+	elseif (sType == "VehicleBuilding") then
+		return "tyranids_tech_basic_vehicles"
+		
+	elseif (sType == "ListeningPost") then
+		return "tyranids_listening_post"
+		
+	elseif (sType == "Turret") then
+		return nil
+		
+	elseif (sType == "Mine") then
+		return nil
+	end
+	
+	return nil
+end
+
+function TyranidsBuildBaseStrategy:GetAddonBuilding( sType )
+
+	return nil
+	
+end
+
+-- Returns the squad cap and support cap of the given squad
+function TyranidsBuildBaseStrategy:GetUnitStats(sSquadName)
+
+	return 0, 0
+	
+end
+
+function TyranidsBuildBaseStrategy:UpdateTierLevel()
+
+end
+
+function TyranidsBuildBaseStrategy:BuildFlexible()
+
+end
+
+-- Method to check if force tech should be computed
+function TyranidsBuildBaseStrategy:ForceTech()
+
+	-- Check time
+	if (g_iGMT < 60 * CpuManager.ForceTech.StartTier1) then
+		return false
+	end
+	
+	-- Check ressources
+	local iRequisition = resource_manager:GetResourceAmount():Get( ResourceAmount.RT_Requisition )
+	local iPower = resource_manager:GetResourceAmount():Get( ResourceAmount.RT_Power )
+
+	-- Check tier
+	local iTierLevel = self:GetTierLevel()
+	if (iTierLevel == 1) then
+	
+		-- Check resources
+		if (iRequisition > 600 and iPower > 200) then
+			return false
+		end
+	
+		-- Check build channel for building
+		if (self:GetBuildingCountByName("tau_research_building", false) >= 1) then
+			return false
+		end
+		return true
+		
+	elseif (iTierLevel == 2) then
+
+		-- Check for vehicle building
+		if (self:GetBuildingCountByName("tau_vehicle_building", false) < 1) then
+			return true
+		end
+		
+		-- Check time
+		if (g_iGMT > 60 * CpuManager.ForceTech.StartTier2 and (iRequisition < 600 or iPower < 600)) then
+			return true
+		end
+		
+	elseif (iTierLevel == 3) then	
+
+		-- Check time
+		if (g_iGMT > 60 * CpuManager.ForceTech.StartTier3 and (iRequisition < 600 or iPower < 600)) then
+			return true
+		end
+	end
+	return false
+end
+
+-- Arkhan 03.2006: Return placement type for buildings
+function TyranidsBuildBaseStrategy:GetPlacementType(iBuildingID)
+	
+	-- Check building
+	if (cpu_manager:IsHQ(iBuildingID)) then
+		return "HQ"
+	elseif (iBuildingID == cpu_manager.stats:GetBuildingID("tyranids_tech_gaunt") or
+			iBuildingID == cpu_manager.stats:GetBuildingID("tyranids_tech_lictor") or
+			iBuildingID == cpu_manager.stats:GetBuildingID("tyranids_tech_ravener") or
+			iBuildingID == cpu_manager.stats:GetBuildingID("tyranids_tech_tier2_infantry") or
+			iBuildingID == cpu_manager.stats:GetBuildingID("tyranids_tech_warrior") or
+			iBuildingID == cpu_manager.stats:GetBuildingID("tyranids_tech_tier4")) then
+		return "Military"
+	elseif (cpu_manager:IsGenerator(iBuildingID) then
+		return "BaseBack"
+	end
+	return "Basic"
+end
+
+-- Inherited method to modify squad demand
+function TyranidsBuildBaseStrategy:ModifySquadDemand(iUnitID)
+
+	-- No more shapers then regular squads 
+	if (iUnitID == cpu_manager.stats:GetSquadID("tau_kroot_shaper_squad")) then
+		
+		-- Check number of attachable squads 
+		local shaper_attach = function ( squad_ai )
+			return (squad_ai:GetTactic():GetUnitStrength() >= 250 and squad_ai:CanReceiveAttachment())
+		end
+		local num_attach = self:CountSquads("tau_kroot_carnivore_squad", shaper_attach) +
+						   self:CountSquads("tau_kroot_hound_squad", shaper_attach)
+ 		-- Check shaper count
+		local num_shaper = self:CountSquads("tau_kroot_shaper_squad")
+		if (num_shaper >= num_attach) then
+			return 0
+		end	
+	end
+	return BuildBaseStrategy.ModifySquadDemand(self, iUnitID)
+end
+
+-- Arkhan 11.2006: Virtual method for checking out relic units
+function TyranidsBuildBaseStrategy:RelicRequired(sName)
+
+	-- Check name
+	if (sName == "tyranids_squad_swarmlord") then
+		return true
+	end
+	return false
+end

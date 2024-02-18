@@ -1,0 +1,20 @@
+----------------------------------------
+-- File: 'tyranidsvehicletactic.ai'
+
+class 'TauVehicleTactic' (VehicleTactic)
+
+function TyranidsVehicleTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Tyranids Vehicle Tactic")
+end
+
+-- Check if the vehicle should dance away in melee
+function TyranidsVehicleTactic:CheckVehicleDance(sName)
+
+	if (sName == "tyranids_squad_biovore" or
+	    sName == "tyranids_squad_carnifex" or
+	    sName == "tyranids_squad_hive_tyrant") then
+		return true
+	end
+	return false
+end
