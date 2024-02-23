@@ -1,7 +1,6 @@
 GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
-GameData["combat_ext"]["complex_upgrades"] = true 
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Right]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["hardpoint_weapon_variant_motion_name"] = [[Weapon_Back]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["horizontal_aim_motion_variable_name"] = [[Aim_Horizontal_Right]]
