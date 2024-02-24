@@ -707,6 +707,11 @@ GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_45"]["shield_of_
 GameData["modifier_ext"] = Reference([[ebpextensions\modifier_ext.lua]])
 GameData["moving_ext"] = Reference([[ebpextensions\moving_ext.lua]])
 GameData["moving_ext"]["speed_max"] = 14.5
+GameData["moving_ext"]["acceleration_time"] = 1.25
+GameData["moving_ext"]["corner_anticipation_time"] = 0.3500000015
+GameData["moving_ext"]["deceleration_time"] = 0.25
+GameData["moving_ext"]["rotation_rate"] = 115
+GameData["moving_ext"]["turning_behavior_template"] = [[walker]]
 GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
 GameData["sight_ext"]["sight_radius"] = 25
 GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
