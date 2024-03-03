@@ -58,10 +58,10 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_15"]["armour_type"] = Reference([[type_armour\tp_air_med.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_15"]["armour_type"]["screen_name_id"] = [[$4450037]]
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 90
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 65
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 8
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 18
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 120
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 90
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 9
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 19.5
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events\barbed_strangler_hit]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry02"]["event"] = [[Unit_Impact_events\barbed_strangler_hit]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry03"]["event"] = [[Unit_Impact_events\barbed_strangler_hit]]
