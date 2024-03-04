@@ -57,6 +57,7 @@ GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
 GameData["sim_entity_ext"]["is_collide"] = true 
 GameData["spawner_ext"] = Reference([[ebpextensions\spawner_ext.lua]])
 GameData["spawner_ext"]["squad_table"]["squad_01"] = [[sbps\races\tyranids\tyranids_squad_zoanthrope.lua]]
+GameData["spawner_ext"]["squad_table"]["squad_02"] = [[sbps\races\tyranids\tyranids_squad_lictor.lua]]
 GameData["structure_buildable_ext"] = Reference([[ebpextensions\structure_buildable_ext.lua]])
 GameData["structure_buildable_ext"]["advanced_build_option"] = true 
 GameData["structure_buildable_ext"]["build_menu_priority"] = 5
