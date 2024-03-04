@@ -48,6 +48,7 @@ GameData["requirement_ext"]["requirements"]["required_10"] = Reference([[require
 GameData["requirement_ext"]["requirements"]["required_10"]["is_display_requirement"] = true 
 GameData["requirement_ext"]["requirements"]["required_10"]["structure_name"] = [[ebps\races\tyranids\structures\tyranids_hq.lua]]
 GameData["research_ext"] = Reference([[ebpextensions\research_ext.lua]])
+GameData["research_ext"]["research_table"]["research_01"] = [[research\tyranids_ravener_squad_size_1.lua]]
 GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
 GameData["sight_ext"]["sight_radius"] = 25
 GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
