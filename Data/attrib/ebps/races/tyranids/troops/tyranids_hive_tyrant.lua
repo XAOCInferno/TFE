@@ -1,6 +1,7 @@
 GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
 GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\tyranids_synapse_aura_basic.lua]]
+GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\tyranids_bioplasma_hive_tyrant.lua]]
 GameData["addon_ext"] = Reference([[ebpextensions\addon_ext.lua]])
 GameData["addon_ext"]["addons"]["addon_01"] = [[addons\addon_tyranids_hive_tyrant_light_carapace.lua]]
 GameData["addon_ext"]["addons"]["addon_02"] = [[addons\addon_tyranids_hive_tyrant_heavy_carapace.lua]]
