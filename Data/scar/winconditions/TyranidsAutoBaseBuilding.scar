@@ -70,6 +70,7 @@ function AutomaticBaseBuildingManager:Update()
 		local allReclemationPools, _ = Get_EntityDataFromEntityBP("tyranids_reclemation_pool", self.Player.PlayerIndex + 1)
 		local numberLPs = TableLength(lpPositions)
 		local numberCompletedLPs = 0
+		local reclemationCountMultiplier = 2 
 		for i = 1, numberLPs do
 
 			if(Entity_GetBuildingProgress( g_AllEntityData[self.Player.PlayerIndex + 1][lpPositions[i]].EntityID ) == 1) then
@@ -79,8 +80,18 @@ function AutomaticBaseBuildingManager:Update()
 			end
 
 		end
-		
-		if(numberCompletedLPs * 3 > TableLength(allReclemationPools)) then
+
+		if(Player_GetResearchState(self.Player.Player, ResourceGlobalNames.tyranids_race.RT_Requistion.Second) == RS_Complete ) then
+
+			reclemationCountMultiplier = 4
+
+		elseif(Player_GetResearchState(self.Player.Player, ResourceGlobalNames.tyranids_race.RT_Requistion.First) == RS_Complete ) then
+
+			reclemationCountMultiplier = 3
+
+		end
+
+		if(numberCompletedLPs * reclemationCountMultiplier > TableLength(allReclemationPools)) then
 			--for i = 1, TableLength(AllOwnedStratPoints) do
 			for i = 1, numberLPs do
 
