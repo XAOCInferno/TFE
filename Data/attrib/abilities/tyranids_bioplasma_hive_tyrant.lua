@@ -171,6 +171,7 @@ GameData["refresh_time"] = 3
 GameData["requirements"] = Reference([[tables\requirements.lua]])
 GameData["spawned_entity_name"] = [[]]
 GameData["speech_directory"] = [[ability/Ability1]]
+GameData["stop"] = true 
 GameData["target_ground"] = true
 GameData["target_leader_in_squad"] = false
 GameData["target_self"] = false
