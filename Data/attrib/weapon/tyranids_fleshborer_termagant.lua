@@ -1,6 +1,6 @@
 GameData = Inherit([[]])
 GameData["accuracy"] = 0.6500000238
-GameData["accuracy_reduction_when_moving"] = 1
+GameData["accuracy_reduction_when_moving"] = 0.4
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["remove_modifiers_with_source_entity"] = true 
 GameData["area_effect"]["area_effect_information"]["start_from_caster"] = false
@@ -133,7 +133,7 @@ GameData["kill_enemy_at_percent_life_target_filter"]["entry_13"]["screen_name_id
 GameData["kill_enemy_at_percent_life_target_filter"]["entry_14"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["kill_enemy_at_percent_life_target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["linger_on_target_after_fire_time"] = 0
-GameData["max_range"] = 25
+GameData["max_range"] = 22.75
 GameData["max_traverse_down"] = -60
 GameData["max_traverse_left"] = -90
 GameData["max_traverse_right"] = 90
@@ -154,7 +154,7 @@ GameData["random_aim_on_create"] = false
 GameData["rear_facing"] = false
 GameData["reload_show_progress"] = false
 GameData["reload_time"] = 0.5000000119
-GameData["setup_time"] = 0.1
+GameData["setup_time"] = 0
 GameData["shot_delay_time"] = 0
 GameData["show_in_reinforce"] = true 
 GameData["single_shot"] = false
