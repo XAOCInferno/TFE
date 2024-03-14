@@ -416,7 +416,6 @@ GameData["squad_requirement_ext"]["requirements"]["required_2"] = Reference([[re
 GameData["squad_requirement_ext"]["requirements"]["required_10"] = Reference([[requirements\required_structure.lua]])
 GameData["squad_requirement_ext"]["requirements"]["required_10"]["is_display_requirement"] = true 
 GameData["squad_requirement_ext"]["requirements"]["required_10"]["structure_name"] = [[ebps\races\tyranids\structures\tyranids_hq.lua]]
-GameData["squad_transportable_ext"] = Reference([[sbpextensions\squad_transportable_ext.lua]])
 GameData["squad_ui_ext"] = Reference([[sbpextensions\squad_ui_ext.lua]])
 GameData["squad_ui_ext"]["multi_select_priority"] = 7
 GameData["squad_ui_ext"]["ui_info"]["help_text_id"] = [[$97511]] -- 
