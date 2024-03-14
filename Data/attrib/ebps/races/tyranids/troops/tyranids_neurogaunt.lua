@@ -822,3 +822,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$20010165]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_06"] = [[$20010166]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[eldar_icons/warlock_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$20010160]] -- Cultist
+GameData["ui_ext"]["use_hero_ui"] = true 

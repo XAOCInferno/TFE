@@ -1237,4 +1237,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$20010405]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_06"] = [[$20010406]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[chaos_icons/bloodthirster_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$20010400]] 
-GameData["ui_ext"]["ui_info"]["use_hero_ui"] = true
+GameData["ui_ext"]["use_hero_ui"] = true 

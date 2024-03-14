@@ -1136,4 +1136,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$20010425]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_06"] = [[$20010426]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[ork_icons/mega_armor_nob]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$20010420]] 
-GameData["ui_ext"]["ui_info"]["use_hero_ui"] = true
+GameData["ui_ext"]["use_hero_ui"] = true 
