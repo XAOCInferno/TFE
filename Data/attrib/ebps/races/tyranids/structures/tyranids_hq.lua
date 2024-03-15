@@ -84,7 +84,6 @@ GameData["spawner_ext"]["squad_table"]["squad_05"] = [[sbps\races\tyranids\tyran
 GameData["spawner_ext"]["squad_table"]["squad_06"] = [[sbps\races\tyranids\tyranids_squad_gaunt_spinegaunt.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_07"] = [[sbps\races\tyranids\tyranids_squad_warrior_melee.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_08"] = [[sbps\races\tyranids\tyranids_squad_warrior_ranged.lua]]
-GameData["spawner_ext"]["squad_table"]["squad_09"] = [[sbps\races\tyranids\tyranids_squad_ravener.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_10"] = [[sbps\races\tyranids\tyranids_squad_hive_tyrant.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_11"] = [[sbps\races\tyranids\tyranids_squad_genestealer.lua]]
 GameData["structure_buildable_ext"] = Reference([[ebpextensions\structure_buildable_ext.lua]])
