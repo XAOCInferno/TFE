@@ -5,6 +5,7 @@ GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\tyranids_synaps
 GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\tyranids_synapse_aura_buildings.lua]]
 GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\tyranids_synapse_aura_melee.lua]]
 GameData["ability_ext"]["abilities"]["ability_05"] = [[abilities\tyranids_synapse_aura_ranged.lua]]
+GameData["ability_ext"]["abilities"]["ability_06"] = [[abilities\tyranids_psychic_shock.lua]]
 GameData["addon_ext"] = Reference([[ebpextensions\addon_ext.lua]])
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
