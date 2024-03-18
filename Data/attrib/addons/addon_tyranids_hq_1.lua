@@ -1,6 +1,12 @@
 GameData = Inherit([[]])
 GameData["add_on_motion_name"] = [[addon_1]]
 GameData["modifiers"] = Reference([[tables\modifier_table.lua]])
+GameData["modifiers"]["modifier_02"] = Reference([[modifiers\health_maximum_modifier.lua]])
+GameData["modifiers"]["modifier_02"]["application_type"] = Reference([[type_modifierapplicationtype\tp_mod_apply_to_entity_type.lua]])
+GameData["modifiers"]["modifier_02"]["shield_of_faith"] = false
+GameData["modifiers"]["modifier_02"]["target_type_name"] = [[tyranids_tunnel]]
+GameData["modifiers"]["modifier_02"]["usage_type"] = Reference([[type_modifierusagetype\tp_mod_usage_addition.lua]])
+GameData["modifiers"]["modifier_02"]["value"] = 200
 GameData["requirements"] = Reference([[tables\requirements.lua]])
 GameData["requirements"]["required_2"] = Reference([[requirements\required_structure_either.lua]])
 GameData["requirements"]["required_2"]["structure_name_either"] = [[ebps\races\tyranids\structures\tyranids_tech_warrior.lua]]

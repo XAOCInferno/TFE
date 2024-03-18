@@ -129,8 +129,8 @@ GameData["execute_table"]["weapon_damage_table"]["modifiers"]["modifier_09"]["mo
 GameData["execute_table"]["weapon_damage_table"]["modifiers"]["modifier_10"] = Reference([[tables\time_modify_entry.lua]])
 GameData["execute_table"]["weapon_damage_table"]["modifiers"]["modifier_10"]["modifier"]["shield_of_faith"] = false
 GameData["fire_cost"] = Reference([[tables\cost_table.lua]])
-GameData["fire_cost"]["requisition"] = 65
-GameData["fire_cost"]["power"] = 10
+GameData["fire_cost"]["requisition"] = 70
+GameData["fire_cost"]["power"] = 15
 GameData["friendly_opacity_while_active"] = 1
 GameData["initial_delay_time"] = 3
 GameData["looping_event_name"] = [[]]
