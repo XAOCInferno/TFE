@@ -12,6 +12,9 @@ selection_ground = 1,
 shadow_type = 1,
 shadow_scale = 0.0500,
 
+vis_scale_min = 1.1,
+vis_scale_max = 1.1,
+
 occludee = 1,
 
 }
