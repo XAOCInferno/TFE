@@ -97,6 +97,44 @@ g_SquadBlueprintToIgnore =
 	"world_squad_tornado"
 }
 
+g_EntityBlueprintProjectiles = 
+{
+	--Add projectiles here later, we can do some interesting things with it...
+
+}
+
+g_EntityBlueprintLPs = 
+{
+
+	"chaos_listening_post", "dark_eldar_listening_post", "eldar_listening_post", 
+	"guard_listening_post", "inquisition_imperial_icon", "necron_listening_post",
+	"ork_gork_totem", "sisters_listening_post", "space_marine_listening_post", 
+	"space_marine_listening_post_veteran", "tau_listening_post", "tyranids_listening_post"
+
+}
+
+g_EntityBlueprintGenerators = 
+{
+	"chaos_thermo_plasma_generator", "chaos_plasma_generator", "dark_eldar_thermo_plasma", 
+	"dark_eldar_plasma_generator", "eldar_advanced_warp_generator", "eldar_warp_generator", 
+	"guard_thermo_plasma", "guard_plasma_generator", "inquisition_warp_reactor",
+	"inquisition_warp_generator", "necron_thermoplasma_generator", "necron_plasma_generator",
+	"ork_bigger_generator", "ork_generator", "sisters_thermo_plasma",
+	"sisters_plasma_generator", "space_marine_thermo_generator", "space_marine_generator", 
+	"space_marine_thermo_generator_veteran", "space_marine_generator_veteran", "tau_thermoplasma_generator", 
+	"tau_plasma_generator", "tyranids_thermo_generator", "tyranids_generator"
+
+}
+
+g_EntityBlueprintThermos = 
+{
+	"chaos_thermo_plasma_generator", "dark_eldar_thermo_plasma", "eldar_advanced_warp_generator", 
+	"guard_thermo_plasma", "inquisition_warp_reactor", "necron_thermoplasma_generator",	
+	"ork_bigger_generator", "sisters_thermo_plasma", "space_marine_thermo_generator",  
+	"space_marine_thermo_generator_veteran", "tau_thermoplasma_generator", "tyranids_thermo_generator"
+
+}
+
 g_EntityBlueprintToIgnore = 
 {
 	"blood_splat",

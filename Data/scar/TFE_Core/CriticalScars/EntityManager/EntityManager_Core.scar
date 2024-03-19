@@ -42,38 +42,46 @@ function Set_PlayerEntities_Immediate(_PlayerIndex)
 		local addNewDataEntry = true
 
 		--Should we keep this? are some entities ok to not have BP? unsure.
-		if(entityBP == nil) then
+		if(entityBP == nil or newEntityGameID == nil) then
 
 			addNewDataEntry = false
 			--any point having this log if it's LogOnce?
-			LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Can't add entity data, BP is nil!")
+			LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Can't add entity data, BP or GameID is nil!")
 
-		elseif(TableContains(g_EntityBlueprintToIgnore, entityBP) == false) then 
+		else
+			
+			local shouldIgnore, _ = TableContains(g_EntityBlueprintToIgnore, entityBP)
+
+			if(shouldIgnore == false) then 
 		
-			for l = 1, table.getn(g_AllEntityData[_PlayerIndex]) do
+				for l = 1, table.getn(g_AllEntityData[_PlayerIndex]) do
 
-				if(g_AllEntityData[_PlayerIndex][l] == nil) then
+					if(g_AllEntityData[_PlayerIndex][l] == nil) then
 
-					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Entity is found null during adding.")
-					table.remove(g_AllEntityData[_PlayerIndex], l)	
-					addNewDataEntry = false
-					--I don't think we still need to return here?
-					--return false 
+						Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Entity is found null during adding.")
+						table.remove(g_AllEntityData[_PlayerIndex], l)	
+						addNewDataEntry = false
 
-				end
+					end
 
-				--We already have a data entry for this unit
-				if(g_AllEntityData[_PlayerIndex][l].EntityUniqueID == newEntityGameID) then
-					
-					--LogOnce(eLOG_TYPE_WARNING, eLOG_FULL, "Entity is already stored in data!")
-					addNewDataEntry = false
-					break
-											
-				end
+					--We already have a data entry for this unit
+					if(g_AllEntityData[_PlayerIndex][l].EntityUniqueID == newEntityGameID) then
+						
+						--LogOnce(eLOG_TYPE_WARNING, eLOG_FULL, "Entity is already stored in data!")
+						addNewDataEntry = false
+						break
+												
+					end
 
-			end	
+				end	
 
-		end	
+			else
+
+				addNewDataEntry = false
+
+			end
+
+		end
 		
 		if(addNewDataEntry) then
 
@@ -82,43 +90,18 @@ function Set_PlayerEntities_Immediate(_PlayerIndex)
 			local IsThermo = false
 
 			--Move this table into an entity table so we can find from anywhere
-			if(TableContains(
-				{
-					"chaos_listening_post", "dark_eldar_listening_post", "eldar_listening_post", 
-					"guard_listening_post", "inquisition_imperial_icon", "necron_listening_post",
-					"ork_gork_totem", "sisters_listening_post", "space_marine_listening_post", 
-					"space_marine_listening_post_veteran", "tau_listening_post", "tyranids_listening_post"
-
-				}, entityBP)) then
+			if(TableContains(g_EntityBlueprintLPs, entityBP)) then
 
 				IsLP = true
 
 			end
 			
 			--Move this table into an entity table so we can find from anywhere
-			if(TableContains(
-				{
-					"chaos_thermo_plasma_generator", "chaos_plasma_generator", "dark_eldar_thermo_plasma", 
-					"dark_eldar_plasma_generator", "eldar_advanced_warp_generator", "eldar_warp_generator", 
-					"guard_thermo_plasma", "guard_plasma_generator", "inquisition_warp_reactor",
-					"inquisition_warp_generator", "necron_thermoplasma_generator", "necron_plasma_generator",
-					"ork_bigger_generator", "ork_generator", "sisters_thermo_plasma",
-					"sisters_plasma_generator", "space_marine_thermo_generator", "space_marine_generator", 
-					"space_marine_thermo_generator_veteran", "space_marine_generator_veteran", "tau_thermoplasma_generator", 
-					"tau_plasma_generator", "tyranids_thermo_generator", "tyranids_generator"
-
-				}, entityBP)) then
+			if(TableContains(g_EntityBlueprintGenerators, entityBP)) then
 
 				IsGenerator = true
 
-				if(TableContains(
-				{
-					"chaos_thermo_plasma_generator", "dark_eldar_thermo_plasma", "eldar_advanced_warp_generator", 
-					"guard_thermo_plasma", "inquisition_warp_reactor", "necron_thermoplasma_generator",	
-					"ork_bigger_generator", "sisters_thermo_plasma", "space_marine_thermo_generator",  
-					"space_marine_thermo_generator_veteran", "tau_thermoplasma_generator", "tyranids_thermo_generator"
-
-				}, entityBP)) then
+				if(TableContains(g_EntityBlueprintThermos, entityBP)) then
 
 					IsThermo = true
 
