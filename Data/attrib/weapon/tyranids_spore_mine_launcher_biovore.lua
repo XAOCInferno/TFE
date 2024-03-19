@@ -26,8 +26,8 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_13"][
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_14"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["throw_data"]["direction_angle_random"] = 12
-GameData["area_effect"]["throw_data"]["force_max"] = 40
-GameData["area_effect"]["throw_data"]["force_min"] = 20
+GameData["area_effect"]["throw_data"]["force_max"] = 42
+GameData["area_effect"]["throw_data"]["force_min"] = 25
 GameData["area_effect"]["throw_data"]["up_angle_max"] = 25
 GameData["area_effect"]["throw_data"]["up_angle_min"] = 10
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing"] = 2
