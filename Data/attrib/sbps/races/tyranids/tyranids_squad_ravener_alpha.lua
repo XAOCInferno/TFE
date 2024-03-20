@@ -412,7 +412,6 @@ GameData["squad_loadout_ext"]["unit_min"] = 1
 GameData["squad_melee_stance_ext"] = Reference([[sbpextensions\squad_melee_stance_ext.lua]])
 GameData["squad_melee_stance_ext"]["default_to_melee"] = false 
 GameData["squad_modifier_apply_ext"] = Reference([[sbpextensions\squad_modifier_apply_ext.lua]])
-GameData["squad_modifier_apply_ext"]["modifiers"]["modifier_01"]["modifier"] = Reference([[modifiers\enable_screaming_jets.lua]])
 GameData["squad_modifier_ext"] = Reference([[sbpextensions\squad_modifier_ext.lua]])
 GameData["squad_morale_ext"] = Reference([[sbpextensions\squad_morale_ext.lua]])
 GameData["squad_morale_ext"]["broken_min_morale"] = 100

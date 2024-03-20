@@ -20,10 +20,10 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_01"
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\tyranids_scythe_claws_ravener_alpha.lua]]
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
-GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 160
-GameData["cost_ext"]["time_cost"]["cost"]["power"] = 45
+GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 180
+GameData["cost_ext"]["time_cost"]["cost"]["power"] = 35
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
-GameData["cost_ext"]["time_cost"]["time_seconds"] = 24
+GameData["cost_ext"]["time_cost"]["time_seconds"] = 22
 GameData["cover_ext"] = Reference([[ebpextensions\cover_ext.lua]])
 GameData["cover_ext"]["cover_blocking"]["modifiers"]["modifier_01"]["shield_of_faith"] = false
 GameData["cover_ext"]["cover_blocking"]["modifiers"]["modifier_02"]["shield_of_faith"] = false
