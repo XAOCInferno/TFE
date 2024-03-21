@@ -348,6 +348,7 @@ GameData["spawner_ext"] = Reference([[ebpextensions\spawner_ext.lua]])
 GameData["spawner_ext"]["squad_table"]["squad_01"] = [[sbps\races\chaos\chaos_squad_slave.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_02"] = [[sbps\races\chaos\chaos_squad_cultist.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_03"] = [[sbps\races\chaos\chaos_squad_sorcerer.lua]]
+GameData["spawner_ext"]["squad_table"]["squad_04"] = [[sbps\races\chaos\chaos_squad_undercover_cultist.lua]]
 GameData["squad_hold_ext"] = Reference([[ebpextensions\squad_hold_ext.lua]])
 GameData["squad_hold_ext"]["acceptable_type_01"] = Reference([[type_transportable\transport_sorcerer.lua]])
 GameData["squad_hold_ext"]["holds_produced_squads"] = true 
