@@ -1,6 +1,6 @@
 GameData = Inherit([[]])
 GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
-GameData["entity_blueprint_ext"]["animator"] = [[environment/sp_dxp2/necron_stronghold/chaos_bomb]]
+GameData["entity_blueprint_ext"]["animator"] = [[Races\Tau\Projectiles\snare_trap]]
 GameData["entity_blueprint_ext"]["scale_x"] = 1
 GameData["entity_blueprint_ext"]["scale_z"] = 1
 GameData["health_ext"] = Reference([[ebpextensions\health_ext.lua]])
@@ -35,7 +35,6 @@ GameData["mine_field_ext"]["area_effect"]["area_effect_information"]["target_fil
 GameData["mine_field_ext"]["area_effect"]["area_effect_information"]["target_filter"]["entry_09"] = Reference([[type_armour\tp_building_high.lua]])
 GameData["mine_field_ext"]["area_effect"]["area_effect_information"]["target_filter"]["entry_10"] = Reference([[type_armour\tp_building_med.lua]])
 GameData["mine_field_ext"]["area_effect"]["area_effect_information"]["target_filter"]["entry_11"] = Reference([[type_armour\tp_building_low.lua]])
-GameData["mine_field_ext"]["area_effect"]["area_effect_information"]["target_filter"]["entry_09"] = Reference([[type_armour\tp_builder.lua]])
 GameData["mine_field_ext"]["area_effect"]["sweeping_information"]["sweep_duration"] = 4
 GameData["mine_field_ext"]["area_effect"]["sweeping_information"]["sweep_type"] = Reference([[type_areasweep\tp_areasweep_in_to_out.lua]])
 GameData["mine_field_ext"]["area_effect"]["throw_data"]["force_max"] = 45
