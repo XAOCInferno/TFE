@@ -21,5 +21,5 @@ GameData["ui_info"]["help_text_list"]["text_03"] = [[$20010333]]
 GameData["ui_info"]["help_text_list"]["text_04"] = [[$20010334]]
 GameData["ui_info"]["help_text_list"]["text_05"] = [[$20010335]] 
 GameData["ui_info"]["help_text_list"]["text_06"] = [[$20010336]] 
-GameData["ui_info"]["icon_name"] = [[dark_eldar_icons/soul_cage_icon]]
+GameData["ui_info"]["icon_name"] = [[tyranid_icons/addon_tech_tier4_icon]]
 GameData["ui_info"]["screen_name_id"] = [[$20010330]] -- Inquisition Tribunal (Tier II)

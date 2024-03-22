@@ -19,5 +19,5 @@ GameData["ui_info"]["help_text_list"]["text_03"] = [[$20010213]]
 GameData["ui_info"]["help_text_list"]["text_04"] = [[$20010214]]
 GameData["ui_info"]["help_text_list"]["text_05"] = [[$20010215]] 
 GameData["ui_info"]["help_text_list"]["text_06"] = [[$20010216]] 
-GameData["ui_info"]["icon_name"] = [[space_marine_icons/armoury_icon]]
+GameData["ui_info"]["icon_name"] = [[tyranid_icons/addon_tech_ravener_icon]]
 GameData["ui_info"]["screen_name_id"] = [[$20010210]] -- Inquisition Tribunal (Tier II)

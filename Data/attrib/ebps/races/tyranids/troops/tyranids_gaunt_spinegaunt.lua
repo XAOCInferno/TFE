@@ -751,5 +751,5 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$20010463]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$20010464]] 
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$20010465]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_06"] = [[$20010466]]
-GameData["ui_ext"]["ui_info"]["icon_name"] = [[guard_icons/guard_squad_guardsmen]]
+GameData["ui_ext"]["ui_info"]["icon_name"] = [[tyranid_icons/spinegaunt_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$20010459]] -- Cultist

@@ -21,5 +21,5 @@ GameData["ui_info"]["help_text_list"]["text_03"] = [[$20010313]]
 GameData["ui_info"]["help_text_list"]["text_04"] = [[$20010314]]
 GameData["ui_info"]["help_text_list"]["text_05"] = [[$20010315]] 
 GameData["ui_info"]["help_text_list"]["text_06"] = [[$20010316]] 
-GameData["ui_info"]["icon_name"] = [[dark_eldar_icons/wych_cult_arena_icon]]
+GameData["ui_info"]["icon_name"] = [[tyranid_icons/addon_tech_tier2_infantry_icon]]
 GameData["ui_info"]["screen_name_id"] = [[$20010310]] -- Inquisition Tribunal (Tier II)

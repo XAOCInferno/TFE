@@ -509,5 +509,5 @@ GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$20010473]]
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$20010474]] 
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$20010475]] 
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_06"] = [[$20010476]] 
-GameData["squad_ui_ext"]["ui_info"]["icon_name"] = [[necron_icons/necron_mine_scarab_icon]]
+GameData["squad_ui_ext"]["ui_info"]["icon_name"] = [[tyranid_icons/spore_mine_icon]]
 GameData["squad_ui_ext"]["ui_info"]["screen_name_id"] = [[$20010470]] -- Gretchin Squad

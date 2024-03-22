@@ -723,6 +723,6 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$20010503]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$20010504]] 
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$20010505]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_06"] = [[$20010506]]
-GameData["ui_ext"]["ui_info"]["icon_name"] = [[tau_icons/tau_commander_icon]]
+GameData["ui_ext"]["ui_info"]["icon_name"] = [[tyranid_icons/ravener_alpha_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$20010500]]
 GameData["ui_ext"]["use_hero_ui"] = true  

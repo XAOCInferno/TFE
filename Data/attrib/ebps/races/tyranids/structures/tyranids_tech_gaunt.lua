@@ -87,5 +87,5 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$20010193]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$20010194]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$20010195]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_06"] = [[$20010196]]
-GameData["ui_ext"]["ui_info"]["icon_name"] = [[guard_icons/guard_infantry]]
+GameData["ui_ext"]["ui_info"]["icon_name"] = [[tyranid_icons/structure_gaunt_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$20010190]] -- Desecrated Stronghold

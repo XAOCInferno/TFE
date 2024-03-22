@@ -21,5 +21,5 @@ GameData["ui_info"]["help_text_list"]["text_03"] = [[$20010323]]
 GameData["ui_info"]["help_text_list"]["text_04"] = [[$20010324]]
 GameData["ui_info"]["help_text_list"]["text_05"] = [[$20010325]] 
 GameData["ui_info"]["help_text_list"]["text_06"] = [[$20010326]] 
-GameData["ui_info"]["icon_name"] = [[ork_icons/mek_shop_icon]]
+GameData["ui_info"]["icon_name"] = [[tyranid_icons/addon_tech_adv_vehicles_icon]]
 GameData["ui_info"]["screen_name_id"] = [[$20010320]] -- Inquisition Tribunal (Tier II)

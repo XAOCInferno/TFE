@@ -518,5 +518,5 @@ GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$20010173]]
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$20010174]] 
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$20010175]] 
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_06"] = [[$20010176]] 
-GameData["squad_ui_ext"]["ui_info"]["icon_name"] = [[space_marine_icons/scoutmarine_icon]]
+GameData["squad_ui_ext"]["ui_info"]["icon_name"] = [[tyranid_icons/termagaunt_icon]]
 GameData["squad_ui_ext"]["ui_info"]["screen_name_id"] = [[$20010170]] -- Gretchin Squad

@@ -292,5 +292,5 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$20010253]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$20010254]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$20010255]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_06"] = [[$20010256]]
-GameData["ui_ext"]["ui_info"]["icon_name"] = [[space_marine_icons/listeningpost_icon]]
+GameData["ui_ext"]["ui_info"]["icon_name"] = [[tyranid_icons/structure_listening_post_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$20010250]] -- Listening Post

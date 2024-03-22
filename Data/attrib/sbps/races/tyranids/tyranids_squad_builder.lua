@@ -511,5 +511,5 @@ GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$20010153]]
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$20010154]] 
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$20010155]] 
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_06"] = [[$20010156]] 
-GameData["squad_ui_ext"]["ui_info"]["icon_name"] = [[ork_icons/grot_icon]]
+GameData["squad_ui_ext"]["ui_info"]["icon_name"] = [[tyranid_icons/ripper_icon]]
 GameData["squad_ui_ext"]["ui_info"]["screen_name_id"] = [[$20010150]] -- Gretchin Squad

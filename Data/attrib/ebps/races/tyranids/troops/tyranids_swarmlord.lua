@@ -1235,6 +1235,6 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$20010403]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$20010404]] 
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$20010405]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_06"] = [[$20010406]]
-GameData["ui_ext"]["ui_info"]["icon_name"] = [[chaos_icons/bloodthirster_icon]]
+GameData["ui_ext"]["ui_info"]["icon_name"] = [[tyranid_icons/swarmlord_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$20010400]] 
 GameData["ui_ext"]["use_hero_ui"] = true 
