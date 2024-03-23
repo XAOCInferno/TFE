@@ -1,2 +1,2 @@
 GameData = Inherit([[]])
-GameData["screen_name_id"] = [[$20050006]] -- Super Heavy Infantry
+GameData["screen_name_id"] = [[$20060006]] -- Super Heavy Infantry
