@@ -714,7 +714,7 @@ GameData["synckill_ext"]["synckillinfos"]["synckillinfo_14"]["killer_damage_lowe
 GameData["synckill_ext"]["synckillinfos"]["synckillinfo_15"]["area_effect"] = nil
 GameData["synckill_ext"]["synckillinfos"]["synckillinfo_15"]["killer_damage_lowered_time"] = nil
 GameData["type_ext"] = Reference([[ebpextensions\type_ext.lua]])
-GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_infantry_high.lua]])
+GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_infantry_med.lua]])
 GameData["type_ext"]["type_armour_2"] = Reference([[type_armour\tp_infantry_heavy_med.lua]])
 GameData["type_ext"]["type_armour_2"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["ui_ext"] = Reference([[ebpextensions\ui_ext.lua]])
