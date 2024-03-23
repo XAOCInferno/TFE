@@ -851,7 +851,7 @@ GameData["synckill_ext"]["synckillinfos"]["synckillinfo_09"]["killer_motion_name
 GameData["synckill_ext"]["synckillinfos"]["synckillinfo_09"]["synckill_id"] = Reference([[type_synckillids\sk_id_09.lua]])
 GameData["type_ext"] = Reference([[ebpextensions\type_ext.lua]])
 GameData["type_ext"]["single_player_only"] = true 
-GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_monster_high.lua]])
+GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_daemon_high.lua]])
 GameData["ui_ext"] = Reference([[ebpextensions\ui_ext.lua]])
 GameData["ui_ext"]["minimap_enable"] = true 
 GameData["ui_ext"]["minimap_teamcolor"] = true 
