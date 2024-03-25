@@ -82,7 +82,7 @@ fxtypes =
 				{
 					name = "Emitter_Duration",
 					type = "VARTYPE_FLOAT",
-					value = 0.50000,
+					value = 1.40000,
 				},
 				property_01 =  
 				{
@@ -533,7 +533,7 @@ fxtypes =
 				{
 					name = "Duration",
 					type = "VARTYPE_FLOAT",
-					value = 0.60000,
+					value = 1,
 				},
 				property_01 =  
 				{

@@ -152,8 +152,8 @@ GameData["kill_enemy_at_percent_life_target_filter"]["entry_15"]["screen_name_id
 GameData["linger_on_target_after_fire_time"] = 0
 GameData["max_range"] = 30
 GameData["max_traverse_down"] = -60
-GameData["max_traverse_left"] = -20
-GameData["max_traverse_right"] = 20
+GameData["max_traverse_left"] = -10
+GameData["max_traverse_right"] = 10
 GameData["max_traverse_up"] = 40
 GameData["melee_weapon"] = false
 GameData["min_range"] = 0
