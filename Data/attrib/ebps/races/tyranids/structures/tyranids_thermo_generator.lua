@@ -442,5 +442,5 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$20010303]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$20010304]] 
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$20010305]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_06"] = [[$20010306]]
-GameData["ui_ext"]["ui_info"]["icon_name"] = [[tyranid_icons/big_power_structure_icon]]
+GameData["ui_ext"]["ui_info"]["icon_name"] = [[tyranid_icons/structure_big_power_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$20010300]] -- Thermo Plasma Generator
