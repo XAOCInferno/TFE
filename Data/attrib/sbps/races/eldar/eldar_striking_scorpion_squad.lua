@@ -374,7 +374,6 @@ GameData["squad_cover_ext"]["cover_stealth"]["modifiers"]["modifier_45"]["shield
 GameData["squad_formation_ext"] = Reference([[sbpextensions\squad_formation_ext.lua]])
 GameData["squad_formation_ext"]["idle_formation"] = [[formations\block.lua]]
 GameData["squad_infiltration_ext"] = Reference([[sbpextensions\squad_infiltration_ext.lua]])
-GameData["squad_infiltration_ext"]["modifiers_while_concealed"]["modifier_01"]["shield_of_faith"] = false
 GameData["squad_infiltration_ext"]["modifiers_while_concealed"]["modifier_02"]["shield_of_faith"] = false
 GameData["squad_infiltration_ext"]["modifiers_while_concealed"]["modifier_03"]["shield_of_faith"] = false
 GameData["squad_infiltration_ext"]["modifiers_while_concealed"]["modifier_04"]["shield_of_faith"] = false
@@ -382,10 +381,12 @@ GameData["squad_infiltration_ext"]["modifiers_while_concealed"]["modifier_05"]["
 GameData["squad_infiltration_ext"]["modifiers_while_concealed"]["modifier_06"]["shield_of_faith"] = false
 GameData["squad_infiltration_ext"]["modifiers_while_concealed"]["modifier_07"]["shield_of_faith"] = false
 GameData["squad_infiltration_ext"]["modifiers_while_concealed"]["modifier_08"]["shield_of_faith"] = false
+GameData["squad_loadout_ext"] = Reference([[sbpextensions\squad_loadout_ext.lua]])
 GameData["squad_loadout_ext"]["trooper_base"]["type"] = [[ebps\races\eldar\troops\eldar_striking_scorpion.lua]]
 GameData["squad_loadout_ext"]["unit_max"] = 5
 GameData["squad_loadout_ext"]["unit_min"] = 3
 GameData["squad_melee_stance_ext"] = Reference([[sbpextensions\squad_melee_stance_ext.lua]])
+GameData["squad_melee_stance_ext"]["default_to_melee"] = true 
 GameData["squad_modifier_ext"] = Reference([[sbpextensions\squad_modifier_ext.lua]])
 GameData["squad_morale_ext"] = Reference([[sbpextensions\squad_morale_ext.lua]])
 GameData["squad_morale_ext"]["broken_min_morale"] = 150
@@ -479,5 +480,5 @@ GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_01"] = [[$97842]] --
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_02"] = [[$97843]] -- - Close combat unit, effective in melee.
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$97844]] -- - Effective against Infantry and Heavy Infantry.
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$0]] -- - Starts with infiltartion
-GameData["squad_ui_ext"]["ui_info"]["icon_name"] = [[eldar_icons/guardian_icon]]
+GameData["squad_ui_ext"]["ui_info"]["icon_name"] = [[eldar_icons/striking_scorpion_icon]]
 GameData["squad_ui_ext"]["ui_info"]["screen_name_id"] = [[$97750]] -- Striking Scorpions Squad

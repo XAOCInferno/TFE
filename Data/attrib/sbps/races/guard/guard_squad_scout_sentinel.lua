@@ -377,5 +377,5 @@ GameData["squad_ui_ext"] = Reference([[sbpextensions\squad_ui_ext.lua]])
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_01"] = [[$693800]]
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_02"] = [[$693801]]
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$4600012]]
-GameData["squad_ui_ext"]["ui_info"]["icon_name"] = [[guard_icons/guard_squad_sentinel]]
-GameData["squad_ui_ext"]["ui_info"]["screen_name_id"] = [[$693803]] Scout Sentinel
+GameData["squad_ui_ext"]["ui_info"]["icon_name"] = [[guard_icons/guard_squad_scout_sentinel]]
+GameData["squad_ui_ext"]["ui_info"]["screen_name_id"] = [[$693803]]
