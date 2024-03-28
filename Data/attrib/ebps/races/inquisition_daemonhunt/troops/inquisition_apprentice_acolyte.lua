@@ -1,5 +1,7 @@
 GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
+GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\inquisition_apprentice_acolyte_emergency_medi-pack.lua]]
+GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\inquisition_apprentice_acolyte_fanatical_charge.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Main]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["hardpoint_weapon_variant_motion_name"] = [[Weapon_Range_Upgrade_Main]]
@@ -10,7 +12,7 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"]["muzzle"]["z"] = 1.129999995
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"]["name_for_this_weapon_choice"] = [[id_bolt_pistol]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"]["origin"]["y"] = 1.539999962
-GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\inquisition_bolt_pistol_inquisitor_acolyte.lua]]
+GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\inquisition_bolt_pistol_apprentice_acolyte.lua]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_04"] = nil
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_05"] = nil
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_06"] = nil
@@ -45,6 +47,7 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["hardpoint_weapon_variant_m
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["horizontal_aim_motion_variable_name"] = [[]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["shoot_motion_variable_name"] = [[]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_01"]["name_for_this_weapon_choice"] = [[id_chainsword]]
+GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\inquisition_chainsword_apprentice_acolyte.lua]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_04"] = nil
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_05"] = nil
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_06"] = nil
@@ -543,7 +546,7 @@ GameData["health_ext"]["armour"] = 100
 GameData["health_ext"]["armour_minimum"] = 5
 GameData["health_ext"]["death_event"] = [[data:/art/events/unit_death_events/sink_into_ground.events]]
 GameData["health_ext"]["display_health_bar"] = true 
-GameData["health_ext"]["hitpoints"] = 420
+GameData["health_ext"]["hitpoints"] = 320
 GameData["health_ext"]["morale_death"] = 50
 GameData["health_ext"]["poison_damage"] = 0.8000000119
 GameData["health_ext"]["poison_damage_duration"] = 15
