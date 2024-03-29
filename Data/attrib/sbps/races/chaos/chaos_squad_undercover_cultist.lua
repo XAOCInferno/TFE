@@ -376,7 +376,9 @@ GameData["squad_cover_ext"]["cover_stealth"]["modifiers"]["modifier_45"]["shield
 GameData["squad_formation_ext"] = Reference([[sbpextensions\squad_formation_ext.lua]])
 GameData["squad_formation_ext"]["idle_formation"] = [[formations\orc_chaos.lua]]
 GameData["squad_infiltration_ext"] = Reference([[sbpextensions\squad_infiltration_ext.lua]])
+GameData["squad_infiltration_ext"]["modifiers_while_concealed"]["modifier_01"] = Reference([[modifiers\speed_maximum_modifier.lua]])
 GameData["squad_infiltration_ext"]["modifiers_while_concealed"]["modifier_01"]["shield_of_faith"] = false
+GameData["squad_infiltration_ext"]["modifiers_while_concealed"]["modifier_01"] = 0.7
 GameData["squad_infiltration_ext"]["modifiers_while_concealed"]["modifier_02"]["shield_of_faith"] = false
 GameData["squad_infiltration_ext"]["modifiers_while_concealed"]["modifier_03"]["shield_of_faith"] = false
 GameData["squad_infiltration_ext"]["modifiers_while_concealed"]["modifier_04"]["shield_of_faith"] = false
