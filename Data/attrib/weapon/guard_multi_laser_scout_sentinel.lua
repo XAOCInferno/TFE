@@ -1,6 +1,6 @@
 GameData = Inherit([[]])
 GameData["accuracy"] = 0.65
-GameData["accuracy_reduction_when_moving"] = 0.349999994
+GameData["accuracy_reduction_when_moving"] = 0.4
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["remove_modifiers_with_source_entity"] = true 
 GameData["area_effect"]["area_effect_information"]["start_from_caster"] = false
@@ -20,7 +20,7 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_13"][
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_14"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing"] = 10
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_01"]["armour_piercing_value"] = 60
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_01"]["armour_piercing_value"] = 45
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_01"]["armour_type"] = Reference([[type_armour\tp_infantry_low.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_01"]["armour_type"]["screen_name_id"] = [[$90104]] -- Infantry
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_02"]["armour_piercing_value"] = 55.88800049
@@ -66,8 +66,8 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_15"]["armour_type"] = Reference([[type_armour\tp_air_med.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_15"]["armour_type"]["screen_name_id"] = [[$4450037]]
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 55
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 35
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 58
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 40
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 25
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 10.05000019
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Guard\Weapons\Lasgun_Impact_Flesh]]
@@ -138,8 +138,8 @@ GameData["kill_enemy_at_percent_life_target_filter"]["entry_15"]["screen_name_id
 GameData["linger_on_target_after_fire_time"] = 0
 GameData["max_range"] = 30
 GameData["max_traverse_down"] = -3
-GameData["max_traverse_left"] = -180
-GameData["max_traverse_right"] = 180
+GameData["max_traverse_left"] = -85
+GameData["max_traverse_right"] = 85
 GameData["max_traverse_up"] = 20
 GameData["melee_weapon"] = false
 GameData["min_range"] = 5
