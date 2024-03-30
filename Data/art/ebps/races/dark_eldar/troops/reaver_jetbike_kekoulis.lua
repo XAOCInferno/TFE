@@ -6,8 +6,8 @@ simvis_attributes =
 	selection_volume		= 1,
 	selection_ground		= 1,
 
-	vis_scale_min = .725,
-	vis_scale_max = .725,
+	vis_scale_min = .775,
+	vis_scale_max = .775,
 	
 	-- Shadow Types:
 	-- 0 = None
