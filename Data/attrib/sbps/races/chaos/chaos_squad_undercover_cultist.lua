@@ -451,7 +451,7 @@ GameData["squad_infiltration_ext"]["modifiers_while_concealed"]["modifier_45"]["
 GameData["squad_leader_ext"] = Reference([[sbpextensions\squad_leader_ext.lua]])
 GameData["squad_leader_ext"]["leader_1"]["add_while_moving"] = true 
 GameData["squad_leader_ext"]["leader_1"]["cost_time"]["cost"]["power"] = 0
-GameData["squad_leader_ext"]["leader_1"]["cost_time"]["cost"]["requisition"] = 60
+GameData["squad_leader_ext"]["leader_1"]["cost_time"]["cost"]["requisition"] = 50
 GameData["squad_leader_ext"]["leader_1"]["cost_time"]["time_seconds"] = 20
 GameData["squad_leader_ext"]["leader_1"]["leader"]["type"] = [[ebps\races\chaos\troops\chaos_undercover_cultist_prophet.lua]]
 GameData["squad_loadout_ext"] = Reference([[sbpextensions\squad_loadout_ext.lua]])
@@ -547,7 +547,7 @@ GameData["squad_requirement_ext"]["requirements"]["required_10"]["is_display_req
 GameData["squad_requirement_ext"]["requirements"]["required_10"]["structure_name"] = [[ebps\races\chaos\structures\chaos_hq.lua]]
 GameData["squad_reinforce_ext"] = Reference([[sbpextensions\squad_reinforce_ext.lua]])
 GameData["squad_reinforce_ext"]["cost"]["cost"]["faith"] = 0
-GameData["squad_reinforce_ext"]["cost"]["cost"]["requisition"] = 25 
+GameData["squad_reinforce_ext"]["cost"]["cost"]["requisition"] = 20 
 GameData["squad_reinforce_ext"]["cost"]["cost"]["souls"] = 0
 GameData["squad_reinforce_ext"]["cost"]["time_seconds"] = 4.5
 GameData["squad_reinforce_ext"]["in_combat_time_multiplier"] = 2.2

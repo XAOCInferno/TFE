@@ -342,7 +342,6 @@ GameData["spawner_ext"] = Reference([[ebpextensions\spawner_ext.lua]])
 GameData["spawner_ext"]["squad_table"]["squad_01"] = [[sbps\races\space_marines\space_marine_squad_servitor.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_02"] = [[sbps\races\space_marines\space_marine_squad_scout.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_03"] = [[sbps\races\space_marines\space_marine_squad_chaplain.lua]]
-GameData["spawner_ext"]["squad_table"]["squad_04"] = [[sbps\races\space_marines\space_marine_squad_eliminator_scout.lua]]
 GameData["squad_hold_ext"] = Reference([[ebpextensions\squad_hold_ext.lua]])
 GameData["squad_hold_ext"]["acceptable_type_02"] = Reference([[type_transportable\transport_terminator.lua]])
 GameData["squad_hold_ext"]["acceptable_type_03"] = Reference([[type_transportable\transport_dreadnought.lua]])

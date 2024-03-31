@@ -22,8 +22,8 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_03"]["armour_type"] = Reference([[type_armour\tp_building_high.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_15"]["armour_type"] = Reference([[type_armour\tp_air_med.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 400
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 300
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 425
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 350
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Projectile_Fx\Krak_Missile_Impact]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry02"]["event"] = [[Projectile_Fx\Krak_Missile_Impact]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry03"]["event"] = [[Projectile_Fx\Krak_Missile_Impact]]
