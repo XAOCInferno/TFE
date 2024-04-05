@@ -1,5 +1,5 @@
 GameData = Inherit([[]])
-GameData["accuracy"] = 0.6999999881
+GameData["accuracy"] = 0.4
 GameData["accuracy_reduction_when_moving"] = 0.5
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["area_type"] = Reference([[type_areaeffect\tp_area_effect_circle.lua]])
@@ -115,7 +115,7 @@ GameData["cost"]["cost"]["souls"] = 0
 GameData["death_motion_value"] = [[]]
 GameData["fire_cone_angle"] = 5
 GameData["fire_cost"] = Reference([[tables\cost_table.lua]])
-GameData["fired_projectile"] = [[chaos_grenade_launcher_grenade]]
+GameData["fired_projectile"] = [[inquisition_grenade_launcher_grenade]]
 GameData["horizontal_traverse_speed"] = 180
 GameData["impact_ability"] = [[]]
 GameData["kill_enemy_at_percent_life"] = 0
