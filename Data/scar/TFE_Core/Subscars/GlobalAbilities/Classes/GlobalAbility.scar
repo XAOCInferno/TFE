@@ -1,6 +1,6 @@
 
 GlobalAbility = {}
-function GlobalAbility:new ( _LinkedSquadBP, _CasterPlayer, _AbilityName, _ActivationEntityBlueprint, _ActivationType, _TargetFilter, _PosInTrackedAbilities )
+function GlobalAbility:new ( _LinkedSquadBP, _CasterPlayerIndex, _AbilityName, _ActivationEntityBlueprint, _ActivationType, _TargetFilter, _PosInTrackedAbilities )
 	
 	AddStacktrace("GlobalAbility:new")
 
@@ -14,7 +14,8 @@ function GlobalAbility:new ( _LinkedSquadBP, _CasterPlayer, _AbilityName, _Activ
 		LinkedSquadBP = _LinkedSquadBP,
 		LinkedSquadGroup = tmpSGroupID,
 		LinkedSquadGroupName = tmpSGroupName,
-		CasterPlayer = _CasterPlayer,
+		CasterPlayer = g_AllPlayers[_CasterPlayerIndex],
+		CasterPlayerIndex = _CasterPlayerIndex,
 		AbilityName = _AbilityName,
 		ActivationEntityBlueprint = _ActivationEntityBlueprint,
 		ActivationType = _ActivationType,
@@ -188,7 +189,7 @@ function GlobalAbility:PrepareAbility()
 
 	end]]
 
-	self:DoAbility(self, self.LastCastedEntityPosition, targetSquad, targetEntity)
+	self:DoAbility(self.LastCastedEntityPosition, targetSquad, targetEntity)
 
 	RemoveStacktrace()
 

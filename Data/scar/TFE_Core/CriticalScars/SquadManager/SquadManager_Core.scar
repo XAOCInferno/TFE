@@ -403,6 +403,38 @@ function GetIfSquadSelected(_DesiredSquad)
 end
 
 --Use for AoE 
+function GetAllSquadsInArea_NonPlayerSpecific(_pos, _proximity)
+	
+	AddStacktrace("GetAllSquadsInArea_NonPlayerSpecific")	
+	
+	SquadsInRange = {}
+
+	for z = 1, g_PlayerCount do
+
+		for i = 1, g_PlayerSquadCount[z] do
+			
+			if(g_AllSquadsData[z][i] ~= nil) then
+				
+				if(World_DistancePointToPoint(_pos, g_AllSquadsData[z][i].SquadPosition) <= _proximity) then
+
+					Log(eLOG_TYPE_INFO, eLOG_VERBOSE, g_AllSquadsData[z][i].SquadBlueprint.." Is in range.")	
+					table.insert(SquadsInRange, g_AllSquadsData[z][i])
+
+				end
+
+			end
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+	return SquadsInRange
+
+end
+
+--Use for AoE 
 function GetAllSquadsInArea(_player, _pos, _proximity)
 	
 	AddStacktrace("GetAllSquadsInArea")	
@@ -411,16 +443,22 @@ function GetAllSquadsInArea(_player, _pos, _proximity)
 
 	for i = 1, g_PlayerSquadCount[_player] do
 
-		if(World_DistancePointToPoint(_pos, g_AllSquadsData[_player][i].SquadPosition) <= _proximity) then
+		if(g_AllSquadsData[_player][i] ~= nil) then
 
-			Log(eLOG_TYPE_INFO, eLOG_VERBOSE, g_AllSquadsData[_player][i].SquadBlueprint.." Is in range.")	
-			table.insert(SquadsInRange, g_AllSquadsData[_player][i])
+			if(World_DistancePointToPoint(_pos, g_AllSquadsData[_player][i].SquadPosition) <= _proximity) then
+
+				Log(eLOG_TYPE_INFO, eLOG_VERBOSE, g_AllSquadsData[_player][i].SquadBlueprint.." Is in range.")	
+				table.insert(SquadsInRange, g_AllSquadsData[_player][i])
+
+			end
 
 		end
 
 	end
 
 	RemoveStacktrace()
+
+	return SquadsInRange
 
 end
 
@@ -466,14 +504,18 @@ function GetClosestSquadToPos(_player, _pos, _maxDistance)
 
 		for i = 1, g_PlayerSquadCount[_player] do
 
-			local DistanceToPoint = World_DistancePointToPoint(_pos, g_AllSquadsData[_player][i].SquadPosition)
+			if(g_AllSquadsData[_player][i] ~= nil) then
 
-			if(DistanceToPoint <= ShortestDistance and DistanceToPoint < _maxDistance) then
+				local DistanceToPoint = World_DistancePointToPoint(_pos, g_AllSquadsData[_player][i].SquadPosition)
 
-				--We should probably remove this log as it will spew info to other players...
-				Log(eLOG_TYPE_INFO, eLOG_VERBOSE, g_AllSquadsData[_player][i].SquadBlueprint.." Is closer with distance of "..DistanceToPoint)
-				ShortestDistance = DistanceToPoint
-				ClosestSquad = g_AllSquadsData[_player][i].SquadPosition
+				if(DistanceToPoint <= ShortestDistance and DistanceToPoint < _maxDistance) then
+
+					--We should probably remove this log as it will spew info to other players...
+					Log(eLOG_TYPE_INFO, eLOG_VERBOSE, g_AllSquadsData[_player][i].SquadBlueprint.." Is closer with distance of "..DistanceToPoint)
+					ShortestDistance = DistanceToPoint
+					ClosestSquad = g_AllSquadsData[_player][i].SquadPosition
+
+				end
 
 			end
 
@@ -539,19 +581,23 @@ function GetClosestSquadInSquadTableToPos(_squads, _pos, _maxDistance)
 
 end
 
-function GetAllSquadsOfBlueprint(_player, _acceptedBlueprint)
+function GetAllSquadsOfBlueprint(_player, _acceptedBlueprints)
 
 	AddStacktrace("GetAllSquadsOfBlueprint")
 
 	local AllSquadsOfBlueprint = {}
 
-	for i = 1, TableLength(_acceptedBlueprint) do
+	for i = 1, TableLength(_acceptedBlueprints) do
 
 		for j = 1, g_PlayerSquadCount[_player] do
+			
+			if(g_AllSquadsData[_player][j] ~= nil) then
 
-			if(g_AllSquadsData[_player][j].SquadBlueprint == _acceptedBlueprint[i]) then
+				if(g_AllSquadsData[_player][j].SquadBlueprint == _acceptedBlueprints[i]) then
 
-				table.insert(AllSquadsOfBlueprint, g_AllSquadsData[_player][j])
+					table.insert(AllSquadsOfBlueprint, g_AllSquadsData[_player][j])
+
+				end
 
 			end
 
@@ -559,7 +605,7 @@ function GetAllSquadsOfBlueprint(_player, _acceptedBlueprint)
 
 	end
 
-	if(TableLength(AllSquadsOfArmourType) == 0) then
+	if(TableLength(AllSquadsOfBlueprint) == 0) then
 
 		Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "No squads of the specified blueprint are owned by player.")
 
@@ -640,7 +686,7 @@ function GetAllSquadsOfArmourTypeFromSquadTable(_squads, _acceptedArmourTypes)
 
 		for i = 1, TableLength(_acceptedArmourTypes) do
 
-			for j = 1, _squads do
+			for j = 1, TableLength(_squads) do
 
 				if(Squad_HasArmourType(_squads[j].SquadID, _acceptedArmourTypes[i])) then
 

@@ -117,12 +117,14 @@ function TableLength(_Tbl)
 		Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, "Table is Nil!")
 		count = 1000 --Should we really enforce a count of 1000 here? Shouldn't we assume 0?
 
-	end
+	else
 	
-	for _ in pairs(_Tbl) do 
+		for _ in pairs(_Tbl) do 
 
-		count = count + 1 
+			count = count + 1 
 
+		end
+		
 	end
 
 	RemoveStacktrace()

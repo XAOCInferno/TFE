@@ -4,6 +4,7 @@ GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\chaos_chains_of
 GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\chaos_corruption.lua]]
 GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\chaos_doombolt.lua]]
 GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\chaos_consume.lua]]
+GameData["ability_ext"]["abilities"]["ability_05"] = [[abilities\chaos_sorcerer_sigil_of_the_rift.lua]]
 GameData["ability_ext"]["abilities"]["ability_11"] = [[abilities\generic_auto_force_reload.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["complex_upgrades"] = true 

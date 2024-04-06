@@ -78,12 +78,184 @@ function Setup_ActualGlobalAbilies()
 		
 		end
 
-		--[[CHAOS GLOBALS]]
-		if(RaceName == "chaos_marine_race") then
+		
 
+		--[[CHAOS]]
+		if(RaceName == "chaos_marine_race") then
+			
+			--[[NON GLOBALS]]
+			AbilityStruct_ChaosSorcererTeleportationNodes = CreateGlobalAbility(
+				"",
+				i, 
+				"Chaos_Sorcerer_Teleportation_Nodes", 
+				"chaos_sorcerer_teleportation_node_entity",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+			
+			AbilityStruct_ChaosSorcererTeleportationNodes.DelayBeforeSorcererPortal = 2
+			AbilityStruct_ChaosSorcererTeleportationNodes.TeleportationNodeArea = 6
+			AbilityStruct_ChaosSorcererTeleportationNodes.Duration = 30
+			AbilityStruct_ChaosSorcererTeleportationNodes.BlacklistedSquadsFromNode = {}
+			AbilityStruct_ChaosSorcererTeleportationNodes.LoopingFX = {}
+			AbilityStruct_ChaosSorcererTeleportationNodes.AcceptedArmourTypes = 
+			{
+				"tp_builder", "tp_commander", "tp_infantry_heavy_med", "tp_infantry_heavy_high",
+				"tp_infantry_high", "tp_infantry_med", "tp_infantry_low", "tp_monster_med"
+			}
+			AbilityStruct_ChaosSorcererTeleportationNodes.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				_self.targetPos = World_Pos(_pos.x, _pos.y, _pos.z)
+				
+				_self.ActivatedTime = g_WorldTime	
+				_self:ResetAbility()		
+				_self:ActivateTimedAbility()
+
+			end
+
+			AbilityStruct_ChaosSorcererTeleportationNodes.TimedAbilityUpdate = function(_self)
+
+				if(_self.BothNodesActivated == false) then
+
+					if(g_WorldTime - _self.ActivatedTime >= _self.DelayBeforeSorcererPortal) then
+						
+						local CastingSorcerers = GetAllSquadsOfBlueprint(_self.CasterPlayerIndex, {"chaos_squad_sorcerer"})
+
+						if(TableLength(CastingSorcerers) == 0) then
+							
+							_self.TimedAbilityIsActive = false
+							_self.TimedAbilityEnd()
+
+						else
+
+							_self.BothNodesActivated = true
+							_self.StartNodePosition = CastingSorcerers[1].SquadPosition
+							_self.BlacklistedSquadsFromNode[1] = 
+							{ 
+								Squad = CastingSorcerers[1], 
+								Node = _self.StartNodePosition 
+							}
+
+							table.insert(_self.LoopingFX, World_FXEventLooping( "data:Art/Events/races/chaos/chaos_global_active_glow", _self.StartNodePosition ))
+							table.insert(_self.LoopingFX, World_FXEventLooping( "data:Art/Events/races/chaos/chaos_global_active_glow", _self.targetPos ))
+							
+						end
+
+					end
+					
+				else
+
+					local tmpNewBlacklistedSquads = {}
+					for i = 1, TableLength(_self.BlacklistedSquadsFromNode) do
+
+						--If blacklisted squads have left the teleportation node then we can allow them to re-enter it
+						if(World_DistancePointToPoint(_self.BlacklistedSquadsFromNode[i].Squad.SquadPosition, _self.BlacklistedSquadsFromNode[i].Node) <= _self.TeleportationNodeArea + 0.5) then
+
+							table.insert(tmpNewBlacklistedSquads, _self.BlacklistedSquadsFromNode[i])
+						
+						end
+
+					end
+
+					_self.BlacklistedSquadsFromNode = tmpNewBlacklistedSquads
+
+					local PlayerSquadsInAreaOfNodes = { StartNode = {}, EndNode = {} }
+					PlayerSquadsInAreaOfNodes.StartNode = GetAllSquadsInArea_NonPlayerSpecific(_self.StartNodePosition, _self.TeleportationNodeArea)
+					PlayerSquadsInAreaOfNodes.EndNode = GetAllSquadsInArea_NonPlayerSpecific(_self.targetPos, _self.TeleportationNodeArea)
+
+					--PlayerSquadsInAreaOfNodes.StartNode = GetAllSquadsOfArmourTypeFromSquadTable(PlayerSquadsInAreaOfNodes.StartNode, _self.AcceptedArmourTypes)
+					--PlayerSquadsInAreaOfNodes.EndNode = GetAllSquadsOfArmourTypeFromSquadTable(PlayerSquadsInAreaOfNodes.EndNode, _self.AcceptedArmourTypes)
+
+					for a = 1, TableLength(_self.BlacklistedSquadsFromNode) do
+
+						local IsBlacklisted, BlacklistedPosition = TableContains(PlayerSquadsInAreaOfNodes.StartNode, _self.BlacklistedSquadsFromNode[a].Squad)
+						
+						if(IsBlacklisted) then
+
+							PlayerSquadsInAreaOfNodes.StartNode[BlacklistedPosition] = nil
+
+						end
+
+					end
+
+					for a = 1, TableLength(_self.BlacklistedSquadsFromNode) do						
+
+						local IsBlacklisted, BlacklistedPosition = TableContains(PlayerSquadsInAreaOfNodes.EndNode, _self.BlacklistedSquadsFromNode[a].Squad)
+						
+						if(IsBlacklisted) then
+
+							PlayerSquadsInAreaOfNodes.EndNode[BlacklistedPosition] = nil
+
+						end							
+
+					end
+
+					for y = 1, TableLength(PlayerSquadsInAreaOfNodes.EndNode) do
+
+						if(PlayerSquadsInAreaOfNodes.EndNode[y].SquadGroupID ~= nil) then
+
+							World_FXEventSquad( "data:Art/Events/Unit_Upgrade_Morale_FX/Reinforce_Trooper", PlayerSquadsInAreaOfNodes.EndNode[y].SquadGroupID )
+							SGroup_DeSpawn(PlayerSquadsInAreaOfNodes.EndNode[y].SquadGroupName)
+							SGroup_ReSpawnPosition(PlayerSquadsInAreaOfNodes.EndNode[y].SquadGroupName, _self.StartNodePosition)
+							World_FXEventSquad( "data:Art/Events/Unit_Upgrade_Morale_FX/Reinforce_Trooper", PlayerSquadsInAreaOfNodes.EndNode[y].SquadGroupID )
+								
+							table.insert(_self.BlacklistedSquadsFromNode, { Squad = PlayerSquadsInAreaOfNodes.EndNode[y], Node = _self.StartNodePosition } )
+								
+							PlayerSquadsInAreaOfNodes.EndNode[y] = nil
+
+						end
+
+					end
+
+					for z = 1, TableLength(PlayerSquadsInAreaOfNodes.StartNode) do
+
+						if(PlayerSquadsInAreaOfNodes.StartNode[z].SquadGroupID ~= nil) then
+
+							World_FXEventSquad( "data:Art/Events/Unit_Upgrade_Morale_FX/Reinforce_Trooper", PlayerSquadsInAreaOfNodes.StartNode[z].SquadGroupID )
+							SGroup_DeSpawn(PlayerSquadsInAreaOfNodes.StartNode[z].SquadGroupName)
+							SGroup_ReSpawnPosition(PlayerSquadsInAreaOfNodes.StartNode[z].SquadGroupName, _self.targetPos)
+							World_FXEventSquad( "data:Art/Events/Unit_Upgrade_Morale_FX/Reinforce_Trooper", PlayerSquadsInAreaOfNodes.StartNode[z].SquadGroupID )
+
+							table.insert(_self.BlacklistedSquadsFromNode, { Squad = PlayerSquadsInAreaOfNodes.StartNode[z], Node = _self.targetPos } )
+
+							PlayerSquadsInAreaOfNodes.StartNode[z] = nil
+
+						end
+
+					end
+
+				end
+
+			end
+
+			AbilityStruct_ChaosSorcererTeleportationNodes.TimedAbilityEnd = function( _self )
+
+				_self:ResetAbility()
+				
+			end
+
+			AbilityStruct_ChaosSorcererTeleportationNodes.ResetAbility = function(_self)
+
+				_self.StartNodePosition = nil
+				_self.EndNodePosition = nil
+				_self.BothNodesActivated = false
+				_self.BlacklistedSquadsFromNode = {}
+
+				for i = 1, TableLength(_self.LoopingFX) do
+
+					World_FXEventDestroy(_self.LoopingFX[i])
+
+				end
+				
+				_self.LoopingFX = {}
+
+			end
+
+			--[[GLOBALS]]
 			local AbilityStruct_ChaosMarines1 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -93,7 +265,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_ChaosMarines2 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -103,7 +275,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_ChaosMarines3 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -113,7 +285,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_ChaosMarines4 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -123,7 +295,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_ChaosMarines5 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -143,7 +315,7 @@ function Setup_ActualGlobalAbilies()
 			
 			local AbilityStruct_DarkEldar1 = CreateGlobalAbility(
 				squadBP.."_seed_souls",
-				g_AllPlayers[i], 
+				i, 
 				"GlobalAbility_DarkEldar_SeedSouls", 
 				"global_dark_eldar_seed_souls_entity",
 				"TARGETED",
@@ -153,7 +325,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_DarkEldar2 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -163,7 +335,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_DarkEldar3 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -173,7 +345,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_DarkEldar4 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -183,7 +355,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_DarkEldar5 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -223,7 +395,7 @@ function Setup_ActualGlobalAbilies()
 			--Global 1		--WE NEED TO MAKE THIS MAKE A SOUND FOR ALL PLAYERS TO HEAR
 			local AbilityStruct_Eldar1 = CreateGlobalAbility(
 				squadBP.."_webway_gate",
-				g_AllPlayers[i], 
+				i, 
 				"GlobalAbility_Eldar_SummonWebwayGate", 
 				"global_eldar_summon_webway_gate_entity",
 				"TARGETED",
@@ -233,7 +405,7 @@ function Setup_ActualGlobalAbilies()
 			
 			local AbilityStruct_Eldar2 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -243,7 +415,7 @@ function Setup_ActualGlobalAbilies()
 			
 			local AbilityStruct_Eldar3 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -253,7 +425,7 @@ function Setup_ActualGlobalAbilies()
 			
 			local AbilityStruct_Eldar4 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -263,7 +435,7 @@ function Setup_ActualGlobalAbilies()
 			
 			local AbilityStruct_Eldar5 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -321,7 +493,7 @@ function Setup_ActualGlobalAbilies()
 			--[[Non race specific]]
 			AbilityStruct_NecronCryptekSummonScarabOnHit = CreateGlobalAbility(
 				"Necron_Cryptek_Summon_Scarab_On_Hit",
-				g_AllPlayers[i], 
+				i, 
 				"Necron_CryptekSummonScarabOnHit", 
 				"necron_cryptek_summon_scarab_entity",
 				"TIMED",
@@ -338,7 +510,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Necron1 = CreateGlobalAbility(
 				squadBP.."_production_overload",
-				g_AllPlayers[i], 
+				i, 
 				"GlobalAbility_Necron_ProductionOverload", 
 				"global_necron_production_overload_entity",
 				"TIMED",
@@ -348,7 +520,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Necron2 = CreateGlobalAbility(
 				squadBP.."_summon_obelisk",
-				g_AllPlayers[i], 
+				i, 
 				"GlobalAbility_Necron_SummonObelisk", 
 				"global_necron_summon_obelisk_entity",
 				"TARGETED",
@@ -358,7 +530,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Necron3 = CreateGlobalAbility(
 				squadBP.."_scarab_swarm",
-				g_AllPlayers[i], 
+				i, 
 				"GlobalAbility_Necron_ScarabSwarm", 
 				"global_necron_scarab_swarm_entity",
 				"TARGETED",
@@ -368,7 +540,7 @@ function Setup_ActualGlobalAbilies()
 			
 			local AbilityStruct_Necron4 = CreateGlobalAbility(
 				squadBP.."_thermo_overcharge",
-				g_AllPlayers[i], 
+				i, 
 				"GlobalAbility_Necron_ThermoOvercharge", 
 				"",
 				"TIMED",
@@ -378,7 +550,7 @@ function Setup_ActualGlobalAbilies()
 			
 			local AbilityStruct_Necron5 = CreateGlobalAbility(
 				squadBP.."_eternal_march",
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -614,7 +786,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Ork1 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"GlobalAbility_Ork_ProductionCostReduction", 
 				"global_ork_production_cost_reduction_entity",
 				"TIMED",
@@ -642,7 +814,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Ork2 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"GlobalAbility_Ork_UseYourChoppasAndDakka", 
 				"global_ork_use_your_choppas_and_dakka_entity",
 				"TIMED",
@@ -768,7 +940,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Ork3 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"GlobalAbility_Ork_FeralBoyz", 
 				"global_ork_feral_boyz_entity",
 				"TIMED",
@@ -803,7 +975,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Ork4 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"GlobalAbility_Ork_CultOfSpeed", 
 				"global_ork_cult_of_speed_entity",
 				"TIMED",
@@ -829,7 +1001,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Ork5 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -847,7 +1019,7 @@ function Setup_ActualGlobalAbilies()
 			
 			local AbilityStruct_Sisters1 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -857,7 +1029,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Sisters2 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -867,7 +1039,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Sisters3 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -877,7 +1049,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Sisters4 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -887,7 +1059,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Sisters5 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -915,7 +1087,7 @@ function Setup_ActualGlobalAbilies()
 
 			--[[local AbilityStruct_SpaceMarine1 = CreateGlobalAbility(
 				squadBP.."_basic_scan",
-				g_AllPlayers[i], 
+				i, 
 				"GlobalAbility_SpaceMarines_BasicScan", 
 				"global_space_marines_basic_scan_entity",
 				"TARGETED",
@@ -961,7 +1133,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_SpaceMarine1 = CreateGlobalAbility(
 				squadBP.."_for_the_emperor",
-				g_AllPlayers[i], 
+				i, 
 				"GlobalAbility_SpaceMarines_ForTheEmperor", 
 				"global_space_marines_for_the_emperor_entity",
 				"TARGETED",
@@ -1020,30 +1192,44 @@ function Setup_ActualGlobalAbilies()
 			end
 
 			AbilityStruct_SpaceMarine1.TimedAbilityEnd = function( _self )
+
 				print(_self.AbilityName.. " finished.")
 				
 				if(_self.ModFX ~= nil) then
+
 					if(Modifier_Exists(_self.ModFX)) then
+
 						pcall(Modifier_Remove, _self.ModFX)
+
 					end
+
 				end
 
 				for i = 1, TableLength(_self.FX_Table) do
+
 					World_FXEventDestroy(_self.FX_Table[i])
+
 				end
 				
 				for i = 1, TableLength(_self.AppliedMods) do
+
 					if(_self.AppliedMods[i] ~= nil) then
+
 						if(Modifier_Exists(_self.AppliedMods[i])) then
+
 							pcall(Modifier_Remove, _self.AppliedMods[i])
+
 						end
+
 					end
+
 				end
+
 			end
 			
 			local AbilityStruct_SpaceMarine2 = CreateGlobalAbility(
 				squadBP.."_drop_pod",
-				g_AllPlayers[i], 
+				i, 
 				"GlobalAbility_SpaceMarines_DropPod", 
 				"global_space_marines_drop_pod_entity",
 				"TARGETED",
@@ -1071,7 +1257,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_SpaceMarine3 = CreateGlobalAbility(
 				squadBP.."_basic_scan",
-				g_AllPlayers[i], 
+				i, 
 				"GlobalAbility_SpaceMarines_GlobalScan", 
 				"global_space_marines_global_scan_entity",
 				"TARGETED",
@@ -1102,7 +1288,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_SpaceMarine4 = CreateGlobalAbility(
 				squadBP.."_blessings_of_omnissiah",
-				g_AllPlayers[i], 
+				i, 
 				"GlobalAbility_SpaceMarines_BlesingsOfOmnissiah", 
 				"global_space_marines_blessings_of_omnissiah_entity",
 				"TIMED",
@@ -1129,7 +1315,7 @@ function Setup_ActualGlobalAbilies()
 			
 			local AbilityStruct_SpaceMarine5 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -1147,7 +1333,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Veterans1 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -1157,7 +1343,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Veterans2 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -1167,7 +1353,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Veterans3 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -1177,7 +1363,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Veterans4 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -1187,7 +1373,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Veterans5 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -1201,7 +1387,7 @@ function Setup_ActualGlobalAbilies()
 			
 			local AbilityStruct_Tau1 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -1211,7 +1397,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Tau2 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -1221,7 +1407,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Tau3 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -1231,7 +1417,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Tau4 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -1241,7 +1427,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Tau5 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -1256,7 +1442,7 @@ function Setup_ActualGlobalAbilies()
 			--Global 1   --WE NEED TO MAKE THIS MAKE A SOUND FOR ALL PLAYERS TO HEAR
 			local AbilityStruct_Guard1 = CreateGlobalAbility(
 				squadBP.."_tunnel_network",
-				g_AllPlayers[i], 
+				i, 
 				"GlobalAbility_Guard_SummonBunker", 
 				"global_guard_summon_bunker_entity",
 				"TARGETED",
@@ -1266,7 +1452,7 @@ function Setup_ActualGlobalAbilies()
 			
 			local AbilityStruct_Guard2 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"GlobalAbility_Guard_DebuffFlare", 
 				"guard_flare_debuff_ability_caster",
 				"TARGETED",
@@ -1276,7 +1462,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Guard3 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -1286,7 +1472,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Guard4 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"GlobalAbility_Guard_ValkyrieReinforce", 
 				"global_guard_valkyrie_reinforce_entity",
 				"TARGETED",
@@ -1296,7 +1482,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Guard5 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -1570,7 +1756,7 @@ function Setup_ActualGlobalAbilies()
 			
 			local AbilityStruct_Inquisition1 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -1580,7 +1766,7 @@ function Setup_ActualGlobalAbilies()
 			
 			local AbilityStruct_Inquisition2 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -1590,7 +1776,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Inquisition3 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -1600,7 +1786,7 @@ function Setup_ActualGlobalAbilies()
 
 			local AbilityStruct_Inquisition4 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
@@ -1610,7 +1796,7 @@ function Setup_ActualGlobalAbilies()
 			
 			local AbilityStruct_Inquisition5 = CreateGlobalAbility(
 				squadBP,
-				g_AllPlayers[i], 
+				i, 
 				"", 
 				"",
 				"TIMED",
