@@ -95,7 +95,7 @@ function Setup_ActualGlobalAbilies()
 			)
 			
 			AbilityStruct_ChaosSorcererTeleportationNodes.DelayBeforeSorcererPortal = 2
-			AbilityStruct_ChaosSorcererTeleportationNodes.TeleportationNodeArea = 6
+			AbilityStruct_ChaosSorcererTeleportationNodes.TeleportationNodeArea = 7
 			AbilityStruct_ChaosSorcererTeleportationNodes.Duration = 30
 			AbilityStruct_ChaosSorcererTeleportationNodes.BlacklistedSquadsFromNode = {}
 			AbilityStruct_ChaosSorcererTeleportationNodes.LoopingFX = {}
@@ -150,7 +150,7 @@ function Setup_ActualGlobalAbilies()
 					for i = 1, TableLength(_self.BlacklistedSquadsFromNode) do
 
 						--If blacklisted squads have left the teleportation node then we can allow them to re-enter it
-						if(World_DistancePointToPoint(_self.BlacklistedSquadsFromNode[i].Squad.SquadPosition, _self.BlacklistedSquadsFromNode[i].Node) <= _self.TeleportationNodeArea + 0.5) then
+						if(World_DistancePointToPoint(_self.BlacklistedSquadsFromNode[i].Squad.SquadPosition, _self.BlacklistedSquadsFromNode[i].Node) <= _self.TeleportationNodeArea + 1.75) then
 
 							table.insert(tmpNewBlacklistedSquads, _self.BlacklistedSquadsFromNode[i])
 						
@@ -238,7 +238,6 @@ function Setup_ActualGlobalAbilies()
 			AbilityStruct_ChaosSorcererTeleportationNodes.ResetAbility = function(_self)
 
 				_self.StartNodePosition = nil
-				_self.EndNodePosition = nil
 				_self.BothNodesActivated = false
 				_self.BlacklistedSquadsFromNode = {}
 
