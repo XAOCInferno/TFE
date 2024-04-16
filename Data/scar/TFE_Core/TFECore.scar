@@ -169,6 +169,7 @@ function Core_Init_Load()
 	DoBasicFunction(Setup_WeatherSystems)
 	DoBasicFunction(Setup_GlobalAbilities)
 	DoBasicFunction(Setup_Achievements)
+	DoBasicFunction(Setup_XPManager)
 
 	RemoveStacktrace()
 
@@ -297,6 +298,7 @@ function Core_MainLoop()
 	DoBasicFunction(Set_Weather)
 	DoBasicFunction(Update_GlobalAbilities)
 	DoBasicFunction(Update_Achievements)
+	DoBasicFunction(Update_XPManager)
 
 	RemoveStacktrace()
 	

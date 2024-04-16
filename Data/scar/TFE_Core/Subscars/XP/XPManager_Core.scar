@@ -1,0 +1,25 @@
+import("TFE_Core/Subscars/XP/Imports/XP_Imports.scar")
+
+
+function Setup_XPManager()
+
+	AddStacktrace("Setup_XPManager")
+	
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Starting: 'Setup_XPManager'...")
+
+
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Finished: 'Setup_XPManager'!")
+
+	RemoveStacktrace()
+
+end
+
+function Update_XPManager()
+
+	AddStacktrace("Update_XPManager")
+	
+	
+
+	RemoveStacktrace()
+
+end

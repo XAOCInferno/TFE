@@ -1,0 +1,17 @@
+XPEntry = {}
+function XPEntry:new ()
+
+	AddStacktrace("XPEntry:new")
+
+    local XPEntryObject = 
+    {
+    	--Constants
+    }
+
+	self.__index = self
+
+	RemoveStacktrace()
+	
+   	return setmetatable(XPEntryObject, self)
+
+end
