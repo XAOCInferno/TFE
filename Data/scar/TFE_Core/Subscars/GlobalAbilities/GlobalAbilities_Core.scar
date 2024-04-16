@@ -96,8 +96,12 @@ function Setup_ActualGlobalAbilies()
 			
 			AbilityStruct_ChaosSorcererTeleportationNodes.DelayBeforeSorcererPortal = 2
 			AbilityStruct_ChaosSorcererTeleportationNodes.TeleportationNodeArea = 7
-			AbilityStruct_ChaosSorcererTeleportationNodes.Duration = 30
+			AbilityStruct_ChaosSorcererTeleportationNodes.TeleportSetupTime = 2 --[[To be implemented, time the units need to be in portal before they can TP]]
+			AbilityStruct_ChaosSorcererTeleportationNodes.TeleportTravelTime = 3 --[[To be implemented, itms it takes to travel from 1 portal to another]]
+			AbilityStruct_ChaosSorcererTeleportationNodes.Duration = 60
 			AbilityStruct_ChaosSorcererTeleportationNodes.BlacklistedSquadsFromNode = {}
+			AbilityStruct_ChaosSorcererTeleportationNodes.SquadsPreparingForTeleport = {}
+			AbilityStruct_ChaosSorcererTeleportationNodes.SquadsInTransit = {}
 			AbilityStruct_ChaosSorcererTeleportationNodes.LoopingFX = {}
 			AbilityStruct_ChaosSorcererTeleportationNodes.AcceptedArmourTypes = 
 			{
@@ -166,66 +170,89 @@ function Setup_ActualGlobalAbilies()
 
 					--PlayerSquadsInAreaOfNodes.StartNode = GetAllSquadsOfArmourTypeFromSquadTable(PlayerSquadsInAreaOfNodes.StartNode, _self.AcceptedArmourTypes)
 					--PlayerSquadsInAreaOfNodes.EndNode = GetAllSquadsOfArmourTypeFromSquadTable(PlayerSquadsInAreaOfNodes.EndNode, _self.AcceptedArmourTypes)
-
-					for a = 1, TableLength(_self.BlacklistedSquadsFromNode) do
-
-						local IsBlacklisted, BlacklistedPosition = TableContains(PlayerSquadsInAreaOfNodes.StartNode, _self.BlacklistedSquadsFromNode[a].Squad)
-						
-						if(IsBlacklisted) then
-
-							PlayerSquadsInAreaOfNodes.StartNode[BlacklistedPosition] = nil
-
-						end
-
-					end
-
-					for a = 1, TableLength(_self.BlacklistedSquadsFromNode) do						
-
-						local IsBlacklisted, BlacklistedPosition = TableContains(PlayerSquadsInAreaOfNodes.EndNode, _self.BlacklistedSquadsFromNode[a].Squad)
-						
-						if(IsBlacklisted) then
-
-							PlayerSquadsInAreaOfNodes.EndNode[BlacklistedPosition] = nil
-
-						end							
-
-					end
+					
+					PlayerSquadsInAreaOfNodes.StartNode = _self:RemoveBlacklistedSquads(PlayerSquadsInAreaOfNodes.StartNode)
+					PlayerSquadsInAreaOfNodes.EndNode = _self:RemoveBlacklistedSquads(PlayerSquadsInAreaOfNodes.EndNode)
 
 					for y = 1, TableLength(PlayerSquadsInAreaOfNodes.EndNode) do
 
-						if(PlayerSquadsInAreaOfNodes.EndNode[y].SquadGroupID ~= nil) then
+						if PlayerSquadsInAreaOfNodes.EndNode[y] ~= nil then
 
-							World_FXEventSquad( "data:Art/Events/Unit_Upgrade_Morale_FX/Reinforce_Trooper", PlayerSquadsInAreaOfNodes.EndNode[y].SquadGroupID )
-							SGroup_DeSpawn(PlayerSquadsInAreaOfNodes.EndNode[y].SquadGroupName)
-							SGroup_ReSpawnPosition(PlayerSquadsInAreaOfNodes.EndNode[y].SquadGroupName, _self.StartNodePosition)
-							World_FXEventSquad( "data:Art/Events/Unit_Upgrade_Morale_FX/Reinforce_Trooper", PlayerSquadsInAreaOfNodes.EndNode[y].SquadGroupID )
+							if PlayerSquadsInAreaOfNodes.EndNode[y].SquadUniqueID ~= nil then
+
+								_self:StartTeleport(PlayerSquadsInAreaOfNodes.EndNode[y])
+								_self:EndTeleport(PlayerSquadsInAreaOfNodes.EndNode[y], _self.StartNodePosition)
 								
-							table.insert(_self.BlacklistedSquadsFromNode, { Squad = PlayerSquadsInAreaOfNodes.EndNode[y], Node = _self.StartNodePosition } )
-								
-							PlayerSquadsInAreaOfNodes.EndNode[y] = nil
+								PlayerSquadsInAreaOfNodes.EndNode[y] = nil
+
+							end
 
 						end
 
 					end
 
 					for z = 1, TableLength(PlayerSquadsInAreaOfNodes.StartNode) do
+						
+						if PlayerSquadsInAreaOfNodes.StartNode[z] ~= nil then
 
-						if(PlayerSquadsInAreaOfNodes.StartNode[z].SquadGroupID ~= nil) then
+							if PlayerSquadsInAreaOfNodes.StartNode[z].SquadUniqueID ~= nil then
 
-							World_FXEventSquad( "data:Art/Events/Unit_Upgrade_Morale_FX/Reinforce_Trooper", PlayerSquadsInAreaOfNodes.StartNode[z].SquadGroupID )
-							SGroup_DeSpawn(PlayerSquadsInAreaOfNodes.StartNode[z].SquadGroupName)
-							SGroup_ReSpawnPosition(PlayerSquadsInAreaOfNodes.StartNode[z].SquadGroupName, _self.targetPos)
-							World_FXEventSquad( "data:Art/Events/Unit_Upgrade_Morale_FX/Reinforce_Trooper", PlayerSquadsInAreaOfNodes.StartNode[z].SquadGroupID )
+								_self:StartTeleport(PlayerSquadsInAreaOfNodes.StartNode[z])
+								_self:EndTeleport(PlayerSquadsInAreaOfNodes.StartNode[z], _self.targetPos)
 
-							table.insert(_self.BlacklistedSquadsFromNode, { Squad = PlayerSquadsInAreaOfNodes.StartNode[z], Node = _self.targetPos } )
+								PlayerSquadsInAreaOfNodes.StartNode[z] = nil
 
-							PlayerSquadsInAreaOfNodes.StartNode[z] = nil
+							end
 
 						end
 
 					end
 
 				end
+
+			end
+
+			AbilityStruct_ChaosSorcererTeleportationNodes.RemoveBlacklistedSquads = function( _self, _squadsArray )
+				
+				local ReturnArray = {}
+				for squadPos = 1, TableLength(_squadsArray) do	
+
+					local IsBlacklisted = false
+					for blacklistedSquadPos = 1, TableLength(_self.BlacklistedSquadsFromNode) do	
+						
+						if(_squadsArray[squadPos] == _self.BlacklistedSquadsFromNode[blacklistedSquadPos].Squad) then
+							
+							IsBlacklisted = true
+
+						end							
+
+					end
+
+					if(IsBlacklisted == false) then
+						
+						table.insert(ReturnArray, _squadsArray[squadPos])
+
+					end
+				
+				end
+
+				return ReturnArray
+
+			end
+
+			AbilityStruct_ChaosSorcererTeleportationNodes.StartTeleport = function( _self, _targetSquad )
+
+				World_FXEventSquad( "data:Art/Events/Unit_Upgrade_Morale_FX/Reinforce_Trooper", _targetSquad.SquadGroupID )
+				SGroup_DeSpawn(_targetSquad.SquadGroupName)
+
+			end
+
+			AbilityStruct_ChaosSorcererTeleportationNodes.EndTeleport = function( _self, _targetSquad, _targetNodePosition )
+
+				SGroup_ReSpawnPosition(_targetSquad.SquadGroupName, _targetNodePosition)
+				Cmd_AttackMovePos( _targetSquad.SquadGroupName, _targetNodePosition )
+				World_FXEventSquad( "data:Art/Events/Unit_Upgrade_Morale_FX/Reinforce_Trooper", _targetSquad.SquadGroupID )
+				table.insert(_self.BlacklistedSquadsFromNode, { Squad = _targetSquad, Node = _targetNodePosition } )
 
 			end
 
