@@ -233,29 +233,8 @@ function Core_GetAllPlayers()
 
 end
 
-function DoCriticalFunction(_Func)
-
-	AddStacktrace("DoCriticalFunction")
-
-	local Success = true
-
-	if(pcall(_Func) == false) then
-		 
-		LogError("Cannot run CRITICAL function!") 
-		
-		Success = false
-
-	end
-
-	RemoveStacktrace()
-
-	return Success
-
-end
-
-
 function DoBasicFunction(_Func)
-	
+			
 	AddStacktrace("DoBasicFunction")
 
 	local Success = true
@@ -272,6 +251,36 @@ function DoBasicFunction(_Func)
 
 	return Success
 
+end
+
+function DoCriticalFunction(_Func)
+
+	AddStacktrace("DoCriticalFunction")
+
+	local Success = true
+
+	if(pcall(_Func) == false) then
+		
+		LogError("Cannot run CRITICAL function!") 
+		
+		Success = false
+
+	end
+
+	RemoveStacktrace()
+
+	return Success
+
+end
+
+function DebugDisableCodeProtections()
+
+	Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, "Disabling code protections, this should not happen in shipped mod.") 
+
+	function DoBasicFunction(_Func) _Func() end
+
+	function DoCriticalFunction(_Func) _Func() end
+	
 end
 
 function Core_MainLoop()
