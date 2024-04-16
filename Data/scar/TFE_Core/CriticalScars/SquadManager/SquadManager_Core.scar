@@ -438,7 +438,7 @@ function GetAllSquadsInArea_NonPlayerSpecific(_pos, _proximity)
 				
 				if(World_DistancePointToPoint(_pos, g_AllSquadsData[z][i].SquadPosition) <= _proximity) then
 
-					Log(eLOG_TYPE_INFO, eLOG_VERBOSE, g_AllSquadsData[z][i].SquadBlueprint.." Is in range.")	
+					--Log(eLOG_TYPE_INFO, eLOG_VERBOSE, g_AllSquadsData[z][i].SquadBlueprint.." Is in range.")	
 					table.insert(SquadsInRange, g_AllSquadsData[z][i])
 
 				end
