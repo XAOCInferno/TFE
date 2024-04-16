@@ -97,7 +97,7 @@ function Setup_ActualGlobalAbilies()
 			AbilityStruct_ChaosSorcererTeleportationNodes.DelayBeforeSorcererPortal = 2
 			AbilityStruct_ChaosSorcererTeleportationNodes.TeleportationNodeArea = 7
 			AbilityStruct_ChaosSorcererTeleportationNodes.TeleportSetupTime = 2 --[[To be implemented, time the units need to be in portal before they can TP]]
-			AbilityStruct_ChaosSorcererTeleportationNodes.TeleportTravelTime = 3 --[[To be implemented, itms it takes to travel from 1 portal to another]]
+			AbilityStruct_ChaosSorcererTeleportationNodes.TeleportTravelTime = 3 --[[To be implemented, time it takes to travel from 1 portal to another]]
 			AbilityStruct_ChaosSorcererTeleportationNodes.Duration = 60
 			AbilityStruct_ChaosSorcererTeleportationNodes.BlacklistedSquadsFromNode = {}
 			AbilityStruct_ChaosSorcererTeleportationNodes.SquadsPreparingForTeleport = {}
