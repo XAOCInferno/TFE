@@ -61,10 +61,20 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 					end
 					
 					if(g_AllSquadsData[_PlayerIndex][l].SquadUniqueID == newSquadGameID) then
-								
+						
 						criticalError = true
 						break
-												
+
+					--A squad which we've previously had data on has now been detached, reassign their data to them.
+					elseif(SGroup_ContainsSquad(g_AllSquadsData[_PlayerIndex][l].SquadGroupID,_squadID)) then
+
+						g_AllSquadsData[_PlayerIndex][l].UniqueSquadID = newSquadGameID
+						g_AllSquadsData[_PlayerIndex][l].SquadID = _squadID
+						g_AllSquadsData[_PlayerIndex][l].SquadIsAttached = false
+
+						criticalError = true
+						break
+
 					end
 
 				end
@@ -137,11 +147,22 @@ function Update_ExistingSquadDetails()
 
 
 			--Squad has been destroyed since our last check, so we grant red resource.
-			elseif(Squad_Exists(g_AllSquadsData[i][l].SquadUniqueID) == false) then	--Does this work?
+			elseif(Squad_Exists(g_AllSquadsData[i][l].SquadUniqueID) == false ) then	--Does this work?
 				
-				Set_SquadCombatDetails(g_AllSquadsData[i][l], true)	
-				g_AllSquadsData[i][l].SquadHasPreviouslyExisted = true
-				table.remove(g_AllSquadsData[i], l)							
+				
+				if(SGroup_CountSpawned( g_AllSquadsData[i][l].SquadGroupID ) <= 0) then
+
+					print("REMOVING SQUAD VIA THE SQUAD_EXISTS")
+					Set_SquadCombatDetails(g_AllSquadsData[i][l], true)	
+					g_AllSquadsData[i][l].SquadHasPreviouslyExisted = true
+					table.remove(g_AllSquadsData[i], l)	
+
+				else
+
+					--Not sure if we'll need this yet, probably later as part of the XP system
+					g_AllSquadsData[i][l].SquadIsAttached = true
+					
+				end
 			
 			--Squad exists and has more than 0 members so let's update their squad details.
 			else						
