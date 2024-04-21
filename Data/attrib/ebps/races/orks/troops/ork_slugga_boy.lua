@@ -323,7 +323,7 @@ GameData["cover_ext"]["cover_negative"]["modifiers"]["modifier_44"] = Reference(
 GameData["cover_ext"]["cover_negative"]["modifiers"]["modifier_44"]["shield_of_faith"] = false
 GameData["cover_ext"]["cover_negative"]["modifiers"]["modifier_45"] = Reference([[modifiers\no_modifier.lua]])
 GameData["cover_ext"]["cover_negative"]["modifiers"]["modifier_45"]["shield_of_faith"] = false
-
+GameData["cover_ext"]["cover_stealth"]["modifiers"]["modifier_01"]["shield_of_faith"] = false
 GameData["cover_ext"]["cover_stealth"]["modifiers"]["modifier_02"]["shield_of_faith"] = false
 GameData["cover_ext"]["cover_stealth"]["modifiers"]["modifier_03"]["shield_of_faith"] = false
 GameData["cover_ext"]["cover_stealth"]["modifiers"]["modifier_04"]["shield_of_faith"] = false
@@ -470,7 +470,7 @@ GameData["health_ext"] = Reference([[ebpextensions\health_ext.lua]])
 GameData["health_ext"]["armour"] = 100
 GameData["health_ext"]["death_event"] = [[data:/art/events/unit_death_events/sink_into_ground.events]]
 GameData["health_ext"]["display_health_bar"] = true 
-GameData["health_ext"]["hitpoints"] = 265
+GameData["health_ext"]["hitpoints"] = 330
 GameData["health_ext"]["morale_death"] = 40
 GameData["health_ext"]["poison_damage"] = 0.8000000119
 GameData["health_ext"]["poison_damage_duration"] = 10
@@ -1051,6 +1051,7 @@ GameData["synckill_ext"]["synckillinfos"]["synckillinfo_03"]["dead_zombie_time"]
 GameData["synckill_ext"]["synckillinfos"]["synckillinfo_03"]["killer_invulnerable_time"] = 3.369999886
 GameData["type_ext"] = Reference([[ebpextensions\type_ext.lua]])
 GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_infantry_low.lua]])
+GameData["type_ext"]["type_armour_2"] = Reference([[type_armour\tp_infantry_med.lua]])
 GameData["ui_ext"] = Reference([[ebpextensions\ui_ext.lua]])
 GameData["ui_ext"]["minimap_enable"] = true 
 GameData["ui_ext"]["minimap_teamcolor"] = true 
