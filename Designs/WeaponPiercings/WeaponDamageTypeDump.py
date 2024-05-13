@@ -25,14 +25,17 @@ def GetDataFromFile(messageFile):
 #--------
 #Settings
 #--------
+
+#Checks file exists, if it doesn't then create it
 def EnsureFileExists(pathAndFile):
     fileExists = os.path.isfile(SETTINGS_FILE)
     
     if fileExists == False:
         file = open(SETTINGS_FILE, "x")
         file.close() 
-    
 
+    
+#Import settings from file
 def ImportSettingsFileOrCreate():
     EnsureFileExists(SETTINGS_FILE)
     
@@ -43,13 +46,18 @@ def ImportSettingsFileOrCreate():
     file.close()
     
 
+#Interpret settings file
 def GetDesiredSettingsFromFile(listOfData):
     for line in listOfData:
+        
         settingAsString = ""
         searchingForData = False
         dataAsString = ""
+        
         for letter in line:
+            #Read the setting name
             if searchingForData == False:
+                #Space or = 
                 if letter == " " or letter == "=":
                     for desiredSetting in SettingsAsDict:
                         if settingAsString == desiredSetting:
@@ -58,6 +66,8 @@ def GetDesiredSettingsFromFile(listOfData):
                             
                 else:
                     settingAsString += letter
+
+            #Read the setting value
             else:                    
                 if letter != "=" and letter != "\n":                    
                     dataAsString += letter
@@ -74,6 +84,7 @@ def SetDesiredSetting(message, settingKey):
     SettingsAsDict[settingKey] = askdirectory()
 
 
+#Write the settings paths to the file
 def WriteDesiredSettingsToFile():    
     piercingPath = SettingsAsDict["PiercingsPath"].strip('" ')
     weaponPath = SettingsAsDict["WeaponsPath"].strip('" ')
@@ -84,6 +95,7 @@ def WriteDesiredSettingsToFile():
     file.close()
 
 
+#Check if weapons or piercings paths are unassigned and prompt user to assign them
 def EnsureSettingsPathIsAssigned():    
     hasChangedSettings = False
     
