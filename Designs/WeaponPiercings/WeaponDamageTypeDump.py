@@ -209,9 +209,11 @@ def DbgLog(text):
 #-------
 #WEAPONS
 #-------
+#Add all weapon piercing types to the dictionary using filename as key
 def GetWeaponPiercingTypesFromFileAndAssignToDict(acceptedPiercingFiles, acceptedWeaponFiles):
     weaponsByPiercingsDict = {}
     weaponsByPiercingsDict["Undefined"] = []
+    
     for piercingFile in acceptedPiercingFiles:
         weaponsByPiercingsDict[piercingFile] = []
         path = SettingsAsDict["PiercingsPath"] + "/" + piercingFile + ".txt"
@@ -219,14 +221,17 @@ def GetWeaponPiercingTypesFromFileAndAssignToDict(acceptedPiercingFiles, accepte
         file = open(path, "r")
         PiercingTypes[piercingFile] = file.readlines()   
         file.close()
+        
         for i in range(len(PiercingTypes[piercingFile])):
             PiercingTypes[piercingFile][i] = PiercingTypes[piercingFile][i].strip("\n")       
 
     return weaponsByPiercingsDict
 
 
+#Read the weapons and calculate which piercing type to assign them to
 def GetWeaponsFromFileAndAssignToDict(weaponsByPiercingsDict, acceptedPiercingFiles, acceptedWeaponFiles):
     for weaponFile in acceptedWeaponFiles:
+        
         path = SettingsAsDict["WeaponsPath"] + "/" + weaponFile + ".lua"
         EnsureFileExists(path)
         file = open(path, "r")
@@ -236,6 +241,7 @@ def GetWeaponsFromFileAndAssignToDict(weaponsByPiercingsDict, acceptedPiercingFi
         
         lookingForPiercingValues = False
         piercingAsData = []
+        
         for i in range(len(weaponRawData)):
             weaponRawData[i] = weaponRawData[i].strip("\n")
            
@@ -245,6 +251,7 @@ def GetWeaponsFromFileAndAssignToDict(weaponsByPiercingsDict, acceptedPiercingFi
         hasAssignedPiercing = False
         for piercingType in PiercingTypes:
             isCorrectPiercing = True
+            
             for piercingLine in range(len(PiercingTypes[piercingType])):                                      
                 if newWeaponData[piercingLine] != PiercingTypes[piercingType][piercingLine]:
                     isCorrectPiercing = False
@@ -253,7 +260,8 @@ def GetWeaponsFromFileAndAssignToDict(weaponsByPiercingsDict, acceptedPiercingFi
             if isCorrectPiercing:
                 weaponsByPiercingsDict[piercingType].append(weaponFile)
                 hasAssignedPiercing = True
-                break                    
+                break
+            
         if hasAssignedPiercing == False:
             weaponsByPiercingsDict["Undefined"].append(weaponFile)
             
