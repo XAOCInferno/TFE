@@ -5,6 +5,8 @@ from tkinter.filedialog import askdirectory
 tk.Tk().withdraw()
 from itertools import islice
 
+IS_DEBUG = True
+
 SettingsAsDict = {"WeaponsPath" : "NONE", "PiercingsPath" : "NONE"}
 PiercingTypes = {}
 PiercingString = 'GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing'
@@ -135,22 +137,51 @@ def main():
             weaponsByPiercingsDict["Undefined"].append(weaponFile)
 
     dataToExport = ""
+    DataOrganisedByCellRefInCSV = []
+    column = 0
     for data in weaponsByPiercingsDict:
         dataToExport += data + "\n\n"
-        print(data + "\n")
+        DbgLog(data + "\n")
+        
+        DataOrganisedByCellRefInCSV.append([])
+        DataOrganisedByCellRefInCSV[column].append(data)
         for assignedWeaponPiercing in weaponsByPiercingsDict[data]:
             dataToExport += assignedWeaponPiercing + "\n"
-            print(assignedWeaponPiercing)
+            DataOrganisedByCellRefInCSV[column].append(assignedWeaponPiercing)
+            DbgLog(assignedWeaponPiercing)
 
+        column += 1
         dataToExport += "\n\n\n"
-        print("\n\n")
+        DbgLog("\n\n")
 
+    dataToExportCSV = ""
+    expression = "Default"
+    hasWrittenToExpression = True
+    row = 0
+    while hasWrittenToExpression and row < 10000:
+        expression = ""
+        hasWrittenToExpression = False
+        for column in range(len(DataOrganisedByCellRefInCSV)):
+            if len(DataOrganisedByCellRefInCSV[column]) > row:
+                hasWrittenToExpression = True
+                expression += DataOrganisedByCellRefInCSV[column][row] + ","
+            else:
+                expression += ","
+                
+        dataToExportCSV += expression + "\n"
+        row += 1                
     
     fileExport = open("Exported Weapons Data.txt", "w")
     fileExport.write(dataToExport)
     fileExport.close()
     
-
+    fileExportExcel = open("Exported Weapons Data CSV.csv", "w")
+    fileExportExcel.write(dataToExportCSV)
+    fileExportExcel.close()
+    
+def DbgLog(text):
+    if IS_DEBUG:
+        print(text)
 
 if __name__ == "__main__":
     main()
