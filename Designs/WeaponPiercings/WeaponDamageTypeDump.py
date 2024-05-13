@@ -74,6 +74,7 @@ def GetDesiredSettingsFromFile(listOfData):
 
         dataAsStringCount = len(dataAsString)-1
         if dataAsStringCount > 2:
+            #Python returns paths with \\, need to replace with / for interpretation
             dataAsString = dataAsString.replace("\\","/")
             SettingsAsDict[settingAsString] = dataAsString
             print("Setting: " + settingAsString + " as: " + dataAsString)           
