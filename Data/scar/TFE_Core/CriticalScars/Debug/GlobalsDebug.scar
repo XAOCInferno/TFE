@@ -117,55 +117,37 @@ function Log(_LogType, _Verbosity, _Line)
 	AddStacktrace("Log")
 
 	SetStacktracePath(_Verbosity)
+
 	if(_Verbosity == eLOG_NONE) then
 
-		print(_Line)
+		print(" | \v  ".._Line.." |")
+
+	elseif(_Verbosity == eLOG_MOD_ONLY) then
+		
+		print(" | \v  ["..g_ModAbbreviation.."] ".._Line.." |")
+
+	elseif(_Verbosity == eLOG_SIMPLE) then
+		
+		print(" | \v  ("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ".._Line.." |")
+
+	elseif(_Verbosity == eLOG_VERBOSE) then
+		
+		print(" | \v  ("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) ".._Line.." |")
+
+	elseif(_Verbosity == eLOG_FULL) then
+
+		--Avoid using eLOG_FULL for simple logs as stacktrace takes up a lot of the console
+		print(" \n[[\n\v  ("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s)\n\v  ".._Line.."\n\v"..StacktracePath.."]]")
 
 	else	
-
-		print("\n[[\n\v  ("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s)\n\v  ".._Line.."\n"..StacktracePath.."]]")
+		
+		--Be careful of stack overflow here, should consider a way of calculating this and avoiding it.
+		Log(eLOG_LOG_TYPE_ERROR, eLOG_VERBOSE, "[[Invalid Log Type Of: ".._Verbosity.."]]".._Line)	
 	
 	end
 
 	RemoveStacktrace()
 
---[[
-	if(g_DebugMode) then
-
-		if(_Verbosity == 0) then
-			
-			--Warning type, Mod Name, world time, function path, line
-			print("("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) ".._ModuleName.."/".._FunctionName..":  ".._Line)
-			
-		elseif(_Verbosity == 1) then
-		
-			--Warning type, Mod Name, world time, line
-			print("("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) ".._Line)
-			
-		elseif(_Verbosity == 2) then
-		
-			--Warning type, Mod Name, line
-			print("("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ".._Line)
-			
-		elseif(_Verbosity == 3) then	
-		
-			--Just mod name and line
-			print("["..g_ModAbbreviation.."] ".._Line)
-			
-		elseif(_Verbosity == 4) then
-			
-			--What dummy makes a print statement called from a function... me -q-q
-			print(_Line)
-
-		else
-			--Just print the line, also in case they put an invalid number
-			Log(2,0,_ModuleName, _FunctionName, "Verbosity: '".._Verbosity.."' Is not valid! Defaulting to Print.") 
-			print(_Line)
-			
-		end
-
-	end
-]]
 end
 
 local TableContainsOverride = function(_Tbl, _Desired)
