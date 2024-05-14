@@ -10,14 +10,12 @@ PIERCING_STRING = 'GameData["area_effect"]["weapon_damage"]["armour_damage"]["ar
 SETTINGS_FILE = "settings.config"
 TXT_EXPORT_FILE = "Exported Weapons Data.txt"
 CSV_EXPORT_FILE = "Exported Weapons Data CSV.csv"
-
 SettingsAsDict = {"WeaponsPath" : "NONE", "PiercingsPath" : "NONE"}
 PiercingTypes = {}
 
 
 #Reads the data from the file and returns it.
 def GetDataFromFile(messageFile):
-    
     file = open(messageFile, "r")
     listOfData = file.readlines()    
     file.close()
@@ -30,7 +28,6 @@ def GetDataFromFile(messageFile):
 
 #Checks file exists, if it doesn't then create it
 def EnsureFileExists(pathAndFile):
-    
     fileExists = os.path.isfile(SETTINGS_FILE)
     
     if fileExists == False:
@@ -40,7 +37,6 @@ def EnsureFileExists(pathAndFile):
     
 #Import settings from file
 def ImportSettingsFileOrCreate():
-    
     EnsureFileExists(SETTINGS_FILE)
     
     file = open(SETTINGS_FILE, "r")        
@@ -52,7 +48,6 @@ def ImportSettingsFileOrCreate():
 
 #Interpret settings file
 def GetDesiredSettingsFromFile(listOfData):
-    
     for line in listOfData:
         
         settingAsString = ""
@@ -86,14 +81,12 @@ def GetDesiredSettingsFromFile(listOfData):
             
                     
 def SetDesiredSetting(message, settingKey):
-    
     print(message)
     SettingsAsDict[settingKey] = askdirectory()
 
 
 #Write the settings paths to the file
-def WriteDesiredSettingsToFile():
-    
+def WriteDesiredSettingsToFile():    
     piercingPath = SettingsAsDict["PiercingsPath"].strip('" ')
     weaponPath = SettingsAsDict["WeaponsPath"].strip('" ')
     
@@ -104,8 +97,7 @@ def WriteDesiredSettingsToFile():
 
 
 #Check if weapons or piercings paths are unassigned and prompt user to assign them
-def EnsureSettingsPathIsAssigned():
-    
+def EnsureSettingsPathIsAssigned():    
     hasChangedSettings = False
     
     if SettingsAsDict["WeaponsPath"] == "NONE":
@@ -132,20 +124,17 @@ def GetSettings():
 #---------
 #Exporting
 #---------
-#Organise data in 2D list (columns/rows)for CSV export        
+        
 def OrganiseDataForCSV(weaponsByPiercingsDict):
-    
     dataToExport = ""
     DataOrganisedByCellRefInCSV = []
     column = 0
-    
     for data in weaponsByPiercingsDict:
         dataToExport += data + "\n\n"
         DbgLog(data + "\n")
         
         DataOrganisedByCellRefInCSV.append([])
         DataOrganisedByCellRefInCSV[column].append(data)
-        
         for assignedWeaponPiercing in weaponsByPiercingsDict[data]:
             dataToExport += assignedWeaponPiercing + "\n"
             DataOrganisedByCellRefInCSV[column].append(assignedWeaponPiercing)
@@ -157,8 +146,6 @@ def OrganiseDataForCSV(weaponsByPiercingsDict):
 
     return DataOrganisedByCellRefInCSV
 
-
-#Convert organised data into a pure string for CSV export
 def GenerateCSVExportStringFromOrganisedData(DataOrganisedByCellRefInCSV):
     
     dataToExportCSV = ""
@@ -184,7 +171,6 @@ def GenerateCSVExportStringFromOrganisedData(DataOrganisedByCellRefInCSV):
     return dataToExportCSV
 
 
-#Generate simple split up string for TXT export
 def GenerateTXTExportString(weaponsByPiercingsDict):
     
     dataToExport = ""
@@ -225,7 +211,6 @@ def DbgLog(text):
 #-------
 #Add all weapon piercing types to the dictionary using filename as key
 def GetWeaponPiercingTypesFromFileAndAssignToDict(acceptedPiercingFiles, acceptedWeaponFiles):
-    
     weaponsByPiercingsDict = {}
     weaponsByPiercingsDict["Undefined"] = []
     
@@ -245,25 +230,21 @@ def GetWeaponPiercingTypesFromFileAndAssignToDict(acceptedPiercingFiles, accepte
 
 #Read the weapons and calculate which piercing type to assign them to
 def GetWeaponsFromFileAndAssignToDict(weaponsByPiercingsDict, acceptedPiercingFiles, acceptedWeaponFiles):
-    
     for weaponFile in acceptedWeaponFiles:
         
         path = SettingsAsDict["WeaponsPath"] + "/" + weaponFile + ".lua"
-        
         EnsureFileExists(path)
-        
         file = open(path, "r")
         weaponRawData = file.readlines()
-        file.close()        
+        newWeaponData = []
+        file.close()
         
         lookingForPiercingValues = False
-        newWeaponData = []
         piercingAsData = []
         
         for i in range(len(weaponRawData)):
             weaponRawData[i] = weaponRawData[i].strip("\n")
-
-            #Only accept strings that contain the predetermined syntax for a piercing value, ignore the rest
+           
             if (PIERCING_STRING in weaponRawData[i]) == True:
                 newWeaponData.append(weaponRawData[i])
 
@@ -276,13 +257,11 @@ def GetWeaponsFromFileAndAssignToDict(weaponsByPiercingsDict, acceptedPiercingFi
                     isCorrectPiercing = False
                     break
 
-            #Piercing data for weapon matches a defined piercing
             if isCorrectPiercing:
                 weaponsByPiercingsDict[piercingType].append(weaponFile)
                 hasAssignedPiercing = True
                 break
-
-        #Piercing data for weapon not recognised, we've not made that piercing file yet
+            
         if hasAssignedPiercing == False:
             weaponsByPiercingsDict["Undefined"].append(weaponFile)
             

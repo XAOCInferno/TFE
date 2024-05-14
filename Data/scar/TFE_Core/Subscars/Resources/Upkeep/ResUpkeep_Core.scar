@@ -6,7 +6,7 @@ function Setup_UpkeepSystem()
 
 	for i = 1, g_PlayerCount do
 
-		import('TFE_Core/Subscars/Resources/Upkeep/races/'..g_AllPlayers[i].RaceDetails.RaceName..'.scar')
+		import('Upkeep/races/'..g_AllPlayers[i].RaceDetails.RaceName..'.scar')
 
 	end
 

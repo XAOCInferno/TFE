@@ -4,7 +4,7 @@ def GetFileNames(path, extension, doPrint):
     acceptedFiles = []
     files = []
     
-    for path, _, files in os.walk(path):
+    for path, subdirs, files in os.walk(path):
         for name in files:
             files.clear()
             files = os.listdir(path)
@@ -15,7 +15,6 @@ def GetFileNames(path, extension, doPrint):
               if split[1] == "." + extension:
                   acceptedFiles.append(split[0])
 
-    #Debug print
     if doPrint:   
         for acceptedFile in acceptedFiles: 
             print('"' + acceptedFile + '",')
