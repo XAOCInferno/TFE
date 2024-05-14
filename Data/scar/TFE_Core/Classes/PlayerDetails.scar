@@ -9,15 +9,18 @@ function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
 	    Player = _Player,
 	    PlayerIndex = _PlayerIndex,
 	    DisplayName = _DisplayName,
-	    RaceDetails = _RaceDetails,   	   
-		StartingPosition = Player_GetStartPosition(_Player),
+	    RaceDetails = _RaceDetails,   
+		StartingPosition = Player_GetStartPosition(_Player),	   
 		StatsManager = nil,
+
+		--Offline Only
+		PlayerIsComputer = Cpu_IsCpuPlayer(_Player),
 
 	    --Variables
 		--Is this even being used anymore? just here for future..?
 		CurrentResources = 
 	    {
-			RT_Red = 30,
+			RT_Red = g_StartingRedResource,
 	    	RT_Requisition = 0,
 	    	RT_Power =  0,
 	    	RT_Pop =  0,

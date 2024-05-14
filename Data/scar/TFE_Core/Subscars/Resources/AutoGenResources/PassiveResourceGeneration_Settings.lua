@@ -54,7 +54,7 @@ function Setup_PassiveResourceGeneration_Settings(_PlayerRace)
 	--Should this if statement be here or elsewhere? it encapsulates the whole function.
 	if(TableContains(g_AllRaceResourcesSetup, _PlayerRace) == false) then
 
-		import('Upkeep/races/'.._PlayerRace..'.scar')
+		import('TFE_Core/Subscars/Resources/Upkeep/races/'.._PlayerRace..'.scar')
 		
 		--This code is vulnerable, players can mess around a bit with adding their own data here... should probably make the import more like a file import
 		--Currently only req supported, but others can be made to support if necessary (like power for gens... or Pop for banners)
