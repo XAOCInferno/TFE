@@ -1,5 +1,8 @@
 import("TFE_Core/Imports/TFECore_Imports.scar")
 
+eBASIC_FUNCTION = 0
+eREQUIRED_FUNCTION = 1
+
 function Core_Game_Load()
 
 	AddStacktrace("Core_Game_Load")	
@@ -11,24 +14,47 @@ function Core_Game_Load()
 	
 end
 
+function InvokeFunctionsFromFunctionTree(FuncTree)
+
+	for _, branch in FuncTree do
+		
+		if(branch.Necessity == eBASIC_FUNCTION) then
+
+			DoBasicFunction(branch.Function)
+
+		elseif(branch.Necessity == eREQUIRED_FUNCTION) then
+
+			DoCriticalFunction(branch.Function)
+
+		end
+
+	end
+
+end
+
 function Core_Init_Load()
 
 	AddStacktrace("Core_Init_Load")
 
-	if(DoCriticalFunction(Core_GetAllPlayers) == false) then return false end
-	if(DoBasicFunction(Setup_AlphaLegion) == false) then Log(2, 0, debug_TFECore_FileName, debugFuncName, "Alpha Legion failed to setup!") end
-	if(DoCriticalFunction(Setup_PassiveResourceGeneration) == false) then return false end
-	if(DoCriticalFunction(Setup_EntityManager) == false) then return false end
-	if(DoCriticalFunction(Setup_SquadManager) == false) then return false end
-	if(DoCriticalFunction(Setup_GlobalsStorage) == false) then return false end
-	if(DoCriticalFunction(Setup_StrategicPoints) == false) then return false end
-	if(DoCriticalFunction(Setup_MatureSystem) == false) then return false end
-	if(DoCriticalFunction(Setup_UpkeepSystem) == false) then return false end
-	if(DoCriticalFunction(Setup_NewCoverSystem) == false) then return false end
-	DoBasicFunction(Setup_WeatherSystems)
-	DoBasicFunction(Setup_GlobalAbilities)
-	DoBasicFunction(Setup_Achievements)
-	DoBasicFunction(Setup_XPManager)
+	local SetupFunctionTree = 
+	{
+		{ Function = Core_GetAllPlayers, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Setup_AlphaLegion, Necessity = eBASIC_FUNCTION },
+		{ Function = Setup_PassiveResourceGeneration, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Setup_EntityManager, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Setup_SquadManager, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Setup_GlobalsStorage, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Setup_StrategicPoints, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Setup_MatureSystem, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Setup_UpkeepSystem, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Setup_NewCoverSystem, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Setup_WeatherSystems, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Setup_GlobalAbilities, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Setup_Achievements, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Setup_XPManager, Necessity = eREQUIRED_FUNCTION },
+	}
+
+	InvokeFunctionsFromFunctionTree(SetupFunctionTree)
 
 	RemoveStacktrace()
 
@@ -147,17 +173,22 @@ function Core_MainLoop()
 	
 	AddStacktrace("Core_MainLoop")
 
-	if(DoCriticalFunction(Set_UpdatedGameTime) == false) then return end
-	if(DoCriticalFunction(Set_AllSquads_Immediate) == false) then return end
-	if(DoCriticalFunction(Set_AllEntities_Immediate) == false) then return end
-	if(DoCriticalFunction(Set_AllSquadCoverModifiers) == false) then return end
-	if(DoCriticalFunction(Set_PlayerUpkeep, debug_TFECore_FileName) == false) then return end 
-	if(DoCriticalFunction(Set_ResourceMature, debug_TFECore_FileName) == false) then return end
-	if(DoCriticalFunction(Implement_UpkeepAndMature, debug_TFECore_FileName) == false) then return end
-	DoBasicFunction(Set_Weather)
-	DoBasicFunction(Update_GlobalAbilities)
-	DoBasicFunction(Update_Achievements)
-	DoBasicFunction(Update_XPManager)
+	local MainLoopFunctionTree = 
+	{
+		{ Function = Set_UpdatedGameTime, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Set_AllSquads_Immediate, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Set_AllEntities_Immediate, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Set_AllSquadCoverModifiers, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Set_PlayerUpkeep, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Set_ResourceMature, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Implement_UpkeepAndMature, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Set_Weather, Necessity = eBASIC_FUNCTION },
+		{ Function = Update_GlobalAbilities, Necessity = eBASIC_FUNCTION },
+		{ Function = Update_Achievements, Necessity = eBASIC_FUNCTION },
+		{ Function = Update_XPManager, Necessity = eBASIC_FUNCTION },
+	}
+
+	InvokeFunctionsFromFunctionTree(MainLoopFunctionTree)
 
 	RemoveStacktrace()
 	
