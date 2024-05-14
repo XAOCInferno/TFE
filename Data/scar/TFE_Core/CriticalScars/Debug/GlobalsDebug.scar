@@ -137,7 +137,7 @@ function Log(_LogType, _Verbosity, _Line)
 	elseif(_Verbosity == eLOG_FULL) then
 
 		--Avoid using eLOG_FULL for simple logs as stacktrace takes up a lot of the console
-		print(" \n[[\n\v  ("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s)\n\v  ".._Line.."\n\v"..StacktracePath.."]]")
+		print(" \n[[\n\v  ("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s)\n\v  ".._Line.."\n\v "..StacktracePath.."]]")
 
 	else	
 		
