@@ -9,11 +9,11 @@ function StatsManager:new (_Parent)
 		Parent = _Parent,
 
 		--Variables
-		ActiveArmyCost = ResourceGroup:new(0, 0, 0, 0, 0, 0),
-		ResourcesGathered = ResourceGroup:new(0, 0, 0, 0, 0, 0),
-		--ResourcesGatheredScore = ResourceGroup:new(0, 0, 0, 0, 0, 0), --Seemingly causes a crash so we can't use this one probably
-		ResourcesSpent = ResourceGroup:new(0, 0, 0, 0, 0, 0),
-		ResourcesTributed = ResourceGroup:new(0, 0, 0, 0, 0, 0),
+		ActiveArmyCost = ResourceGroup:new(),
+		ResourcesGathered = ResourceGroup:new(),
+		--ResourcesGatheredScore = ResourceGroup:new(), --Seemingly causes a crash so we can't use this one probably
+		ResourcesSpent = ResourceGroup:new(),
+		ResourcesTributed = ResourceGroup:new(),
 		
 		EntitiesKilled = 0,
 		StructuresKilled = 0,
@@ -199,11 +199,11 @@ end
 
 function StatsManager:Update()
 	
-	self.ActiveArmyCost:Set(0, Stats_ActiveArmyCost(self.Parent.Player, RT_Requisition), Stats_ActiveArmyCost(self.Parent.Player, RT_Power), Stats_ActiveArmyCost(self.Parent.Player, RT_Pop), 0, 0)
-	self.ResourcesGathered:Set(0, Stats_PlayerResGathered(self.Parent.PlayerIndex, RT_Requisition), Stats_PlayerResGathered(self.Parent.PlayerIndex, RT_Power), Stats_PlayerResGathered(self.Parent.PlayerIndex, RT_Pop), 0, 0)
-	--self.ResourcesGatheredScore:Set(0, Stats_PlayerResScore(self.Parent.PlayerIndex, RT_Requisition), Stats_PlayerResScore(self.Parent.PlayerIndex, RT_Power), Stats_PlayerResScore(self.Parent.PlayerIndex, RT_Pop), 0, 0)
-	self.ResourcesSpent:Set(0, Stats_PlayerResSpent(self.Parent.PlayerIndex, RT_Requisition), Stats_PlayerResSpent(self.Parent.PlayerIndex, RT_Power), Stats_PlayerResSpent(self.Parent.PlayerIndex, RT_Pop), 0, 0)
-	self.ResourcesTributed:Set(0, Stats_PlayerResTributed(self.Parent.PlayerIndex, RT_Requisition), Stats_PlayerResTributed(self.Parent.PlayerIndex, RT_Power), Stats_PlayerResTributed(self.Parent.PlayerIndex, RT_Pop), 0, 0)
+	self.ActiveArmyCost:Set(ResourceGroup:new(0, Stats_ActiveArmyCost(self.Parent.Player, RT_Requisition), Stats_ActiveArmyCost(self.Parent.Player, RT_Power), Stats_ActiveArmyCost(self.Parent.Player, RT_Pop), 0, 0))
+	self.ResourcesGathered:Set(ResourceGroup:new(0, Stats_PlayerResGathered(self.Parent.PlayerIndex, RT_Requisition), Stats_PlayerResGathered(self.Parent.PlayerIndex, RT_Power), Stats_PlayerResGathered(self.Parent.PlayerIndex, RT_Pop), 0, 0))
+	--self.ResourcesGatheredScore:Set(ResourceGroup:new(0, Stats_PlayerResScore(self.Parent.PlayerIndex, RT_Requisition), Stats_PlayerResScore(self.Parent.PlayerIndex, RT_Power), Stats_PlayerResScore(self.Parent.PlayerIndex, RT_Pop), 0, 0))
+	self.ResourcesSpent:Set(ResourceGroup:new(0, Stats_PlayerResSpent(self.Parent.PlayerIndex, RT_Requisition), Stats_PlayerResSpent(self.Parent.PlayerIndex, RT_Power), Stats_PlayerResSpent(self.Parent.PlayerIndex, RT_Pop), 0, 0))
+	self.ResourcesTributed:Set(ResourceGroup:new(0, Stats_PlayerResTributed(self.Parent.PlayerIndex, RT_Requisition), Stats_PlayerResTributed(self.Parent.PlayerIndex, RT_Power), Stats_PlayerResTributed(self.Parent.PlayerIndex, RT_Pop), 0, 0))
 	--self.StructuresLost = Stats_PlayerStructuresLost(self.Parent.PlayerIndex)
 	--self.StructuresRazed = Stats_PlayerStructuresRazed(self.Parent.PlayerIndex)
 	--self.UnitsKilled = Stats_PlayerUnitsKilled(self.Parent.PlayerIndex)

@@ -52,43 +52,29 @@ function Set_PlayerUpkeep()
 
 					if(UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint] ~= nil) then
 
-						local BlueprintCostDetails = UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint]						
-						local SquadUpkeep = BlueprintCostDetails.CostSquad
-						local EntityUpkeep = BlueprintCostDetails.CostEntity
-						local LeaderUpkeep = { Req = 0,	Power = 0, Pop = 0,	Souls = 0, Faith = 0 }
-
-						if (tmpStruct.SquadHasLeader) then 
-
-							if(UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint].CostLeader ~= nil) then
-								
-								local LeaderUpkeep = BlueprintCostDetails.CostLeader 
-							
-							elseif(g_DebugMode) then
-														
-								LogOnce(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "SquadBP '"..tmpStruct.SquadBlueprint.."' does not have LEADER Upkeep data!")								
-							
-							end
-
-						end
+						local InterpretedBlueprintCostDetails = { CostSquad = ResourceGroup:new(), CostEntity = ResourceGroup:new(), CostLeader = ResourceGroup:new(), }
+						local MaxUpkeep = ResourceGroup:new()
+						local ActualUpkeep = ResourceGroup:new()
 
 						local LeaderCount = SGroup_CountLeaders(tmpStruct.SquadGroupName)
-						local MaxUpkeepReq = SquadUpkeep.Req + (LeaderUpkeep.Req * LeaderCount) + (EntityUpkeep.Req * tmpStruct.SquadLoadout)
-						local MaxUpkeepPower = SquadUpkeep.Power + (LeaderUpkeep.Power * LeaderCount) + (EntityUpkeep.Power * tmpStruct.SquadLoadout)
-						local MaxUpkeepPop = SquadUpkeep.Pop + (LeaderUpkeep.Pop * LeaderCount) + (EntityUpkeep.Pop * tmpStruct.SquadLoadout)
-						local MaxUpkeepSouls = SquadUpkeep.Souls + (LeaderUpkeep.Souls * LeaderCount)+ (EntityUpkeep.Souls * tmpStruct.SquadLoadout)
-						local MaxUpkeepFaith = SquadUpkeep.Faith + (LeaderUpkeep.Faith * LeaderCount) + (EntityUpkeep.Faith * tmpStruct.SquadLoadout)
 
-						local UpkeepReq = MaxUpkeepReq * SquadLifetimeAsPercent
-						local UpkeepPower = MaxUpkeepPower * SquadLifetimeAsPercent
-						local UpkeepPop = MaxUpkeepPop * SquadLifetimeAsPercent
-						local UpkeepSouls = MaxUpkeepSouls * SquadLifetimeAsPercent
-						local UpkeepFaith = MaxUpkeepFaith * SquadLifetimeAsPercent	
+						local BlueprintCostDetails = UnitCosting[tmpStruct.SquadUnitRace][tmpStruct.SquadBlueprint]		
 						
-						g_AllPlayers[i].CurrentAddResources.RT_Requisition =  g_AllPlayers[i].CurrentAddResources.RT_Requisition + UpkeepReq
-						g_AllPlayers[i].CurrentAddResources.RT_Power =  g_AllPlayers[i].CurrentAddResources.RT_Power + UpkeepPower
-						g_AllPlayers[i].CurrentAddResources.RT_Pop =  g_AllPlayers[i].CurrentAddResources.RT_Pop + UpkeepPop
-						g_AllPlayers[i].CurrentAddResources.RT_Souls =  g_AllPlayers[i].CurrentAddResources.RT_Souls + UpkeepSouls
-						g_AllPlayers[i].CurrentAddResources.RT_Faith =  g_AllPlayers[i].CurrentAddResources.RT_Faith + UpkeepFaith
+						InterpretedBlueprintCostDetails.CostEntity:SetFromBlueprint(BlueprintCostDetails.CostEntity)
+						InterpretedBlueprintCostDetails.CostSquad:SetFromBlueprint(BlueprintCostDetails.CostSquad)
+						InterpretedBlueprintCostDetails.CostLeader:SetFromBlueprint(BlueprintCostDetails.CostLeader)
+
+						InterpretedBlueprintCostDetails.CostEntity:MultiplyByFloat(tmpStruct.SquadLoadout)
+						InterpretedBlueprintCostDetails.CostLeader:MultiplyByFloat(LeaderCount)
+						
+						MaxUpkeep:Add(InterpretedBlueprintCostDetails.CostEntity)
+						MaxUpkeep:Add(InterpretedBlueprintCostDetails.CostSquad)
+						MaxUpkeep:Add(InterpretedBlueprintCostDetails.CostLeader)
+						
+						ActualUpkeep:Set(MaxUpkeep)
+						ActualUpkeep:MultiplyByFloat(SquadLifetimeAsPercent)
+						
+						g_AllPlayers[i].CurrentAddResources:Add(ActualUpkeep)
 						
 					else
 

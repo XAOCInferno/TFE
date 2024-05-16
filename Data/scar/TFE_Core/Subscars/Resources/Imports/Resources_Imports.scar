@@ -1,0 +1,5 @@
+--[[Settings]]
+import("TFE_Core/Subscars/Resources/AutoGenResources/PassiveResourceGeneration_Settings.lua")
+
+--[[Classes]]
+import("TFE_Core/Subscars/Resources/Classes/SpecificRaceResourceGenerationDetails.scar")

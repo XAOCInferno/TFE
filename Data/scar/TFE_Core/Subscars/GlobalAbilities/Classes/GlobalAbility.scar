@@ -87,10 +87,8 @@ function GlobalAbility:Update()
 			if(self.HasBeenSelected == false) then
 				self.HasBeenSelected = true
 				self.SelectedWorldtime = g_WorldTime
-				print("Hello!! "..self.SelectedWorldtime)
 			elseif(g_WorldTime - self.SelectedWorldtime > g_TimedAbilityRequiredSelectTime) then
 				self.HasBeenSelected = false
-				print("Goodbye!! "..self.SelectedWorldtime)
 				self:PrepareAbility()
 			end
 		else

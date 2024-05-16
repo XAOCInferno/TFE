@@ -115,6 +115,9 @@ end
 function Log(_LogType, _Verbosity, _Line)
 
 	AddStacktrace("Log")
+	
+	_Verbosity = _Verbosity or eLOG_VERBOSE
+	_Line = _Line or "[[NO MESSAGE]]"
 
 	SetStacktracePath(_Verbosity)
 

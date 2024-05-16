@@ -1,4 +1,4 @@
-import("TFE_Core/Subscars/Resources/AutoGenResources/PassiveResourceGeneration_Settings.lua")
+import("TFE_Core/Subscars/Resources/Imports/Resources_Imports.scar")
 
 function Setup_PassiveResourceGeneration()
 
@@ -37,11 +37,7 @@ function Set_PassiveResources()
 			
 				if(RaceResStruct.HasPassiveResGen) then
 				
-					g_AllPlayers[i].Player.CurrentAddResources.RT_Requisition = g_AllPlayers[i].Player.CurrentAddResources.RT_Requisition + RaceResStruct.RT_Requisition
-					g_AllPlayers[i].Player.CurrentAddResources.RT_Power = g_AllPlayers[i].Player.CurrentAddResources.RT_Power + RaceResStruct.RT_Power
-					g_AllPlayers[i].Player.CurrentAddResources.RT_Pop = g_AllPlayers[i].Player.CurrentAddResources.RT_Pop + RaceResStruct.RT_Pop
-					g_AllPlayers[i].Player.CurrentAddResources.RT_Souls = g_AllPlayers[i].Player.CurrentAddResources.RT_Souls + RaceResStruct.RT_Souls
-					g_AllPlayers[i].Player.CurrentAddResources.RT_Faith = g_AllPlayers[i].Player.CurrentAddResources.RT_Faith + RaceResStruct.RT_Faith
+					g_AllPlayers[i].Player.CurrentAddResources.Add(RaceResStruct.ResourceGeneration)
 					
 				end
 

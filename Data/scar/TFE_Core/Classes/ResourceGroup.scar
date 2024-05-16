@@ -5,14 +5,14 @@ function ResourceGroup:new(_RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Fait
 
 	local ResourceGroupObject = 
 	{
-		RT_Red = _RT_Red,
-	    RT_Requisition = _RT_Requsition,
-	    RT_Power =  _RT_Power,
-	    RT_Pop =  _RT_Pop,
-	    RT_Faith = _RT_Faith, 
-	    RT_Souls = _RT_Souls
+		RT_Red = _RT_Red or 0,
+	    RT_Requisition = _RT_Requsition or 0,
+	    RT_Power =  _RT_Power or 0,
+	    RT_Pop =  _RT_Pop or 0,
+	    RT_Faith = _RT_Faith or 0, 
+	    RT_Souls = _RT_Souls or 0
 	}
-
+	
 	self.__index = self
 
 	RemoveStacktrace()
@@ -21,13 +21,68 @@ function ResourceGroup:new(_RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Fait
 
 end
 
-function ResourceGroup:Set(_RT_Red, _RT_Requisition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls)
+function ResourceGroup:Set(_ResourceGroup)
 
-	self.RT_Red = _RT_Red
-	self.RT_Requisition = _RT_Requisition
-	self.RT_Power = _RT_Power
-	self.RT_Pop = _RT_Pop
-	self.RT_Faith = _RT_Faith
-	self.RT_Souls = _RT_Souls
+	self.RT_Red = _ResourceGroup.RT_Red
+	self.RT_Requisition = _ResourceGroup.RT_Requisition
+	self.RT_Power = _ResourceGroup.RT_Power
+	self.RT_Pop = _ResourceGroup.RT_Pop
+	self.RT_Faith = _ResourceGroup.RT_Faith
+	self.RT_Souls = _ResourceGroup.RT_Souls
+
+end
+
+function ResourceGroup:SetFromBlueprint(_Blueprint)
+
+	self.RT_Red = _Blueprint.Red or 0
+	self.RT_Requisition = _Blueprint.Req or 0
+	self.RT_Power = _Blueprint.Power or 0
+	self.RT_Pop = _Blueprint.Pop or 0
+	self.RT_Faith = _Blueprint.Faith or 0
+	self.RT_Souls = _Blueprint.Souls or 0
+
+end
+
+function ResourceGroup:Add(_ResourceGroup)
+
+	self.RT_Red = self.RT_Red + _ResourceGroup.RT_Red
+	self.RT_Requisition = self.RT_Requisition + _ResourceGroup.RT_Requisition
+	self.RT_Power = self.RT_Power + _ResourceGroup.RT_Power
+	self.RT_Pop = self.RT_Pop + _ResourceGroup.RT_Pop
+	self.RT_Faith = self.RT_Faith + _ResourceGroup.RT_Faith
+	self.RT_Souls = self.RT_Souls + _ResourceGroup.RT_Souls
+
+end
+
+function ResourceGroup:MultiplyByFloat(_Float)
+
+	self.RT_Red = self.RT_Red * _Float
+	self.RT_Requisition = self.RT_Requisition * _Float
+	self.RT_Power = self.RT_Power * _Float
+	self.RT_Pop = self.RT_Pop * _Float
+	self.RT_Faith = self.RT_Faith * _Float
+	self.RT_Souls = self.RT_Souls * _Float
+
+end
+
+function ResourceGroup:Clamp(_ResourceGroup)
+
+	self.RT_Red = math.min(self.RT_Red, _ResourceGroup.RT_Red)
+	self.RT_Requisition = math.min(self.RT_Requisition, _ResourceGroup.RT_Requisition)
+	self.RT_Power = math.min(self.RT_Power, _ResourceGroup.RT_Power)
+	self.RT_Pop = math.min(self.RT_Pop, _ResourceGroup.RT_Pop)
+	self.RT_Faith = math.min(self.RT_Faith, _ResourceGroup.RT_Faith)
+	self.RT_Souls = math.min(self.RT_Souls, _ResourceGroup.RT_Souls)
+
+end
+
+function ResourceGroup:Clear()
+
+	self.RT_Red = 0
+	self.RT_Requisition = 0
+	self.RT_Power = 0
+	self.RT_Pop = 0
+	self.RT_Faith = 0
+	self.RT_Souls = 0
 
 end

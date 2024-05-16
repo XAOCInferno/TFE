@@ -57,50 +57,15 @@ function Set_ResourceMature()
 		for z = 1, g_NumberStratPoints do
 
 			if(g_AllStrategicPointsStructs[z].OwnedBy == g_AllPlayers[j].PlayerIndex) then
-				
-				local MaxBonusReq = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Requisition
-				local MaxBonusPower = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Power
-				local MaxBonusPop = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Pop
-				local MaxBonusSouls = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Souls
-				local MaxBonusFaith = g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits.RT_Faith
-				
+				local MaxBonuses = ResourceGroup:new()
+				local CapTimeAsBonusResources = ResourceGroup:new()
+
 				local CapTimeAsMaturePercent = GetWorldLifetime(g_AllStrategicPointsStructs[z].InitTime) / g_MatureMaxLifetime
-				
-				local CapTimeAsBonusReq = MaxBonusReq * CapTimeAsMaturePercent
-				local CapTimeAsBonusPower = MaxBonusPower * CapTimeAsMaturePercent
-				local CapTimeAsBonusPop = MaxBonusPop * CapTimeAsMaturePercent
-				local CapTimeAsBonusSouls = MaxBonusSouls * CapTimeAsMaturePercent
-				local CapTimeAsBonusFaith = MaxBonusFaith * CapTimeAsMaturePercent
-				
-				if(CapTimeAsBonusReq > MaxBonusReq) then
-		
-					CapTimeAsBonusReq = MaxBonusReq						
+				MaxBonuses:Set(g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits)
 
-				end
-				
-				if(CapTimeAsBonusPower > MaxBonusPower) then
-		
-					CapTimeAsBonusPower = MaxBonusPower						
-
-				end
-				
-				if(CapTimeAsBonusPop > MaxBonusPop) then
-		
-					CapTimeAsBonusPop = MaxBonusPop						
-
-				end
-				
-				if(CapTimeAsBonusSouls > MaxBonusSouls) then
-		
-					CapTimeAsBonusSouls = MaxBonusSouls						
-
-				end
-				
-				if(CapTimeAsBonusFaith > MaxBonusFaith) then
-		
-					CapTimeAsBonusFaith = MaxBonusFaith						
-
-				end
+				CapTimeAsBonusResources:Set(g_AllPlayers[j].RaceDetails.RaceResourceInfo.BaseMatureLimits)
+				CapTimeAsBonusResources:MultiplyByFloat(CapTimeAsMaturePercent)
+				CapTimeAsBonusResources:Clamp(MaxBonuses)
 
 				if(CapTimeAsMaturePercent >= 1) then
 
@@ -108,12 +73,7 @@ function Set_ResourceMature()
 
 				end
 
-				g_AllPlayers[j].CurrentAddResources.RT_Requisition =  g_AllPlayers[j].CurrentAddResources.RT_Requisition + CapTimeAsBonusReq
-				g_AllPlayers[j].CurrentAddResources.RT_Power =  g_AllPlayers[j].CurrentAddResources.RT_Power + CapTimeAsBonusPower
-				g_AllPlayers[j].CurrentAddResources.RT_Pop =  g_AllPlayers[j].CurrentAddResources.RT_Pop + CapTimeAsBonusPop
-				g_AllPlayers[j].CurrentAddResources.RT_Souls =  g_AllPlayers[j].CurrentAddResources.RT_Souls + CapTimeAsBonusSouls
-				g_AllPlayers[j].CurrentAddResources.RT_Faith =  g_AllPlayers[j].CurrentAddResources.RT_Faith + CapTimeAsBonusFaith
-				--print("CapTime = "..CapTimeAsMaturePercent.." And New Req from it = "..CapTimeAsBonusReq.." Capped at = "..MaxBonusReq.Req)
+				g_AllPlayers[j].CurrentAddResources:Add(CapTimeAsBonusResources)
 				
 			end
 

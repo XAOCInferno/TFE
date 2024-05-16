@@ -393,7 +393,7 @@ function Setup_ActualGlobalAbilies()
 
 				_pos = _self.LastCastedEntityPosition
 
-				local costSuccess = FireCost(_self.CasterPlayer, -30, -100, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new(-30, -100))
 
 				if(costSuccess) then
 
@@ -473,12 +473,18 @@ function Setup_ActualGlobalAbilies()
 
 				_pos = _self.LastCastedEntityPosition
 
-				local costSucess = FireCost(_self.CasterPlayer, -30, -100, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new(-30, -100))
+
 				if(costSuccess) then
+
 					ActivateAutoConstructionAbility(_pos, _self.CasterPlayer, "eldar_webway_gate")
+
 				else
+
 					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+
 				end
+				
 			end
 		
 			--[[T1 Swift movement, all troops including allies get 20% speed bonus]]
@@ -614,7 +620,7 @@ function Setup_ActualGlobalAbilies()
 				_self.AllMonolithFX = {}
 				_pos = _self.LastCastedEntityPosition
 
-				local costSuccess = FireCost(_self.CasterPlayer, -30, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new(-30))
 
 				if(costSuccess) then
 
@@ -692,7 +698,7 @@ function Setup_ActualGlobalAbilies()
 				
 				_pos = _self.LastCastedEntityPosition
 
-				local costSuccess = FireCost(_self.CasterPlayer, -50, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new())
 
 				if(costSuccess) then
 
@@ -711,7 +717,7 @@ function Setup_ActualGlobalAbilies()
 				
 				_pos = _self.LastCastedEntityPosition
 
-				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new(-150))
 
 				if(costSuccess) then
 
@@ -728,7 +734,7 @@ function Setup_ActualGlobalAbilies()
 			AbilityStruct_Necron4.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 				
 
-				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new(-150))
 
 				if(costSuccess) then
 
@@ -745,7 +751,7 @@ function Setup_ActualGlobalAbilies()
 			AbilityStruct_Necron5.Duration = 40
 			AbilityStruct_Necron5.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )				
 
-				local costSuccess = FireCost(_self.CasterPlayer, -300, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new(-300))
 
 				if(costSuccess) then
 
@@ -824,7 +830,7 @@ function Setup_ActualGlobalAbilies()
 				
 				_pos = _self.LastCastedEntityPosition
 
-				local costSuccess = FireCost(_self.CasterPlayer, -30, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new(-30))
 
 				if(costSuccess) then
 
@@ -872,7 +878,7 @@ function Setup_ActualGlobalAbilies()
 
 				_pos = _self.LastCastedEntityPosition
 
-				local costSuccess = FireCost(_self.CasterPlayer, -50, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new(-50))
 				if(costSuccess) then
 					local AcceptedArmourTypes = {"tp_commander", "tp_infantry_heavy_med", "tp_infantry_heavy_high", "tp_infantry_med", "tp_infantry_high" }
 					local RangedUnits = {"ork_flash_gitz_squad", "ork_squad_burnaboy", "ork_squad_shoota_boy", "ork_squad_tankbusta"}
@@ -978,7 +984,7 @@ function Setup_ActualGlobalAbilies()
 				
 				_pos = _self.LastCastedEntityPosition
 
-				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new(-150))
 
 				if(costSuccess) then
 
@@ -1012,7 +1018,7 @@ function Setup_ActualGlobalAbilies()
 			AbilityStruct_Ork4.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 
 				_pos = _self.LastCastedEntityPosition
-				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new(-150))
 				
 				if(costSuccess) then
 					
@@ -1126,7 +1132,7 @@ function Setup_ActualGlobalAbilies()
 				_pos = _self.LastCastedEntityPosition
 				local fxYOffset = 5 
 				local fxSpawnPos = _pos
-				local costSuccess = FireCost(_self.CasterPlayer, -30, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new(-30))
 				
 				if(costSuccess) then
 
@@ -1172,7 +1178,7 @@ function Setup_ActualGlobalAbilies()
 
 				_pos = _self.LastCastedEntityPosition
 
-				local costSuccess = FireCost(_self.CasterPlayer, -50, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new(-50))
 				if(costSuccess) then
 					local AcceptedArmourTypes = {"tp_commander", "tp_infantry_heavy_med", "tp_infantry_heavy_high", "tp_infantry_med", "tp_infantry_high" }
 					
@@ -1266,7 +1272,7 @@ function Setup_ActualGlobalAbilies()
 			AbilityStruct_SpaceMarine2.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 
 				_pos = _self.LastCastedEntityPosition
-				local costSuccess = FireCost(_self.CasterPlayer, -75, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new(-75))
 
 				if(costSuccess) then
 
@@ -1296,7 +1302,7 @@ function Setup_ActualGlobalAbilies()
 				_pos = _self.LastCastedEntityPosition
 				local fxYOffset = 5 
 				local fxSpawnPos = _pos
-				local costSuccess = FireCost(_self.CasterPlayer, -100, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new(-100))
 				
 				if(costSuccess) then
 
@@ -1325,7 +1331,7 @@ function Setup_ActualGlobalAbilies()
 			AbilityStruct_SpaceMarine4.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 
 				_pos = _self.LastCastedEntityPosition
-				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new(-150))
 				
 				if(costSuccess) then
 					
@@ -1519,7 +1525,7 @@ function Setup_ActualGlobalAbilies()
 			AbilityStruct_Guard1.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 
 				_pos = _self.LastCastedEntityPosition				
-				local costSuccess = FireCost(_self.CasterPlayer, -30, -100, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new(-30, -100))
 
 				if(costSuccess) then
 
@@ -1537,7 +1543,7 @@ function Setup_ActualGlobalAbilies()
 
 				_pos = _self.LastCastedEntityPosition				
 				_self.Duration = 4
-				local costSuccess = FireCost(_self.CasterPlayer, -50, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new(-50))
 
 				if(costSuccess) then
 
@@ -1566,7 +1572,7 @@ function Setup_ActualGlobalAbilies()
 			AbilityStruct_Guard4.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 	
 				_pos = _self.LastCastedEntityPosition		
-				local costSuccess = FireCost(_self.CasterPlayer, -150, 0, 0, 0, 0, 0)
+				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new(-150))
 
 				if(costSuccess) then
 
@@ -2060,19 +2066,18 @@ function UpdateAbilityIconGraphics(_BtnID, _TextureTable, _TipTable, _Instructio
 end
 
 --Other costs can be added when needed, but likely via a different function as this will just interact direct with resource gen system
-function FireCost(_Player, _RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls) 
+function FireCost(_Player, _ResourceGroup) 
 
 	AddStacktrace("FireCost")
 
-	local Success = false
+	local Success = _Player:HasEnoughResources(_ResourceGroup)
+	
+	if(Success) then
 
-	if(_Player:HasEnoughResources(_RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls)) then
-
-		_Player:AddFireCost(_RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Faith, _RT_Souls)
-		Success = true
+		_Player:AddFireCost(_ResourceGroup)
 
 	end
-
+	
 	RemoveStacktrace()
 
 	return Success
