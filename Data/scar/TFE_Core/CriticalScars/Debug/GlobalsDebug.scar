@@ -27,19 +27,21 @@ local function GetLogType(_LogType)
 
 	AddStacktrace("GetLogType")
 
-	local ReturnValue = "nil"
+	--Default return string as an error in case the coder has made a mistake
+	local ReturnValue = "ERROR"
 
-	if(_LogType > LogTypesLength) then
+	if _LogType > LogTypesLength or _LogType < 0 then
 
+		--Coder is trying to access log that hasn't been assigned in the table
 		Log(eLOG_SIMPLE, eLOG_LOG_TYPE_WARNING, "Log type of '".._LogType.."' is invalid! Number must be bellow "..LogTypesLength)
 
 	else
 
+		--Log type is valid, return it
 		ReturnValue = LogTypes[_LogType]
 
 	end
 
-	
 	RemoveStacktrace()
 	
 	return ReturnValue
@@ -48,12 +50,14 @@ end
 
 function AddStacktrace(_FunctionName)
 
+	--Push to stack
 	table.insert(StacktraceStack, _FunctionName)
 
 end
 
 function RemoveStacktrace()
 
+	--Pop from stack
 	table.remove(StacktraceStack, table.getn(StacktraceStack))
 
 end
@@ -75,22 +79,31 @@ local function SetStacktracePath(_Verbosity)
 	AddStacktrace("SetStacktracePath")
 
 	StacktracePath = "@"
+
 	if(_Verbosity == eLOG_FULL) then
 
+		--The log wants us to print the entire stacktrace
+		--Iterate over each stored string and add it, seperated with /
 		for i = 1, table.getn(StacktraceStack) do
 
 			StacktracePath = StacktracePath.."/"..StacktraceStack[i]
 
 		end
 
+		--Add new line so that the logs don't stick together
 		StacktracePath = StacktracePath.."\n"
 
 	elseif(_Verbosity == eLOG_VERBOSE) then
 
+		--The log wants us to print the most recent parts of the stacktrace
+		
+		--Get length of the total stack trace
 		local StacktraceStackLength = table.getn(StacktraceStack)
 		
+		--Iterate over the required ammount of the stack
 		for i = StacktraceStackLength-4, StacktraceStackLength-2 do
 
+			--Ensure we don't get out of bounds issue as index 0 is unsupported
 			if (i > 0) then
 
 				StacktracePath = StacktracePath.."/"..StacktraceStack[i]
@@ -99,10 +112,12 @@ local function SetStacktracePath(_Verbosity)
 
 		end
 
+		--Add new line so that the logs don't stick together
 		StacktracePath = StacktracePath.."\n"
 
 	else
 
+		--Other logs that don't use stacktrace, so we don't need it
 		StacktracePath = ""
 
 	end
@@ -116,27 +131,34 @@ function Log(_LogType, _Verbosity, _Line)
 
 	AddStacktrace("Log")
 	
+	--Set default values if either of these are null
+	_LogType = _LogType or eLOG_TYPE_INFO
 	_Verbosity = _Verbosity or eLOG_VERBOSE
 	_Line = _Line or "[[NO MESSAGE]]"
 
 	SetStacktracePath(_Verbosity)
 
+	--Simply print statement with fancy formatting
 	if(_Verbosity == eLOG_NONE) then
 
 		print(" | \v  ".._Line.." |")
 
+	--Contains Mod name 
 	elseif(_Verbosity == eLOG_MOD_ONLY) then
 		
 		print(" | \v  ["..g_ModAbbreviation.."] ".._Line.." |")
 
+	--Contains log type and mod name 
 	elseif(_Verbosity == eLOG_SIMPLE) then
 		
 		print(" | \v  ("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ".._Line.." |")
 
+	--Contains log type, mod name and game time of log
 	elseif(_Verbosity == eLOG_VERBOSE) then
 		
 		print(" | \v  ("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) ".._Line.." |")
 
+	--Contains log type, mod name, game time of log and the stacktrace 
 	elseif(_Verbosity == eLOG_FULL) then
 
 		--Avoid using eLOG_FULL for simple logs as stacktrace takes up a lot of the console
@@ -144,7 +166,7 @@ function Log(_LogType, _Verbosity, _Line)
 
 	else	
 		
-		--Be careful of stack overflow here, should consider a way of calculating this and avoiding it.
+		--Be careful of stack overflow here, should consider a way of calculating if this is happening and stop it (perhaps track the depth of the log with incremented int and stop at scary number)
 		Log(eLOG_LOG_TYPE_ERROR, eLOG_VERBOSE, "[[Invalid Log Type Of: ".._Verbosity.."]]".._Line)	
 	
 	end
@@ -153,9 +175,10 @@ function Log(_LogType, _Verbosity, _Line)
 
 end
 
+--We have to override as we load this function first
 local TableContainsOverride = function(_Tbl, _Desired)
 
-	pcall(AddStacktrace, "TableContainsOverride")
+	AddStacktrace("TableContainsOverride")
 
 	local ReturnIndex = 0
 	local Success = false
@@ -180,24 +203,36 @@ local TableContainsOverride = function(_Tbl, _Desired)
 
 	end
 
-	pcall(RemoveStacktrace)
+	RemoveStacktrace()
 
 	return Success, ReturnIndex
 
 end
 
 --Writes a custom log to the console, if it hasn't been written before
+--Prevents spamming of the console if something keeps happening over and over
 function LogOnce(_LogType, _Verbosity, _Line)
 	
 	AddStacktrace("LogOnce")
+
+	--Get the stacktrace
 	SetStacktracePath(_Verbosity)
 
+	--Generate a unique LogID based on stacktrace path + the displayed text
+	--This ID can help us almost entirely pinpoint where the log has been sent from
 	local LogID = StacktracePath.._Line
+
+	--Work out if we've seen the unique log ID before
 	contains, _ = TableContainsOverride(WrittenLogs, LogID)
 
 	if(contains == false) then
 
+		--Not seen it before
+
+		--Add it to table of seen logs so it can't be called again
 		table.insert(WrittenLogs, LogID)
+
+		--Log the message
 		Log(_LogType, _Verbosity, _Line)
 
 	end
@@ -210,8 +245,12 @@ function LogError(_Line)
 	
 	AddStacktrace("LogError")
 
-	g_DebugMode = true --Error is so severe we should force debug on!
+	g_DebugMode = true --Error is so severe we should force the debugger to turn on!
+
+	--Show error message as an in game UI message
 	UIWarning_Show( "--------------------------------------------\n------TFE CORE FATAL ERROR------\n-----------CORE STOPPED------------\n--------------------------------------------" )
+
+	--Log error in console
 	Log(eLOG_LOG_TYPE_CRITICAL, eLOG_FULL, _Line)
 	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "|")
 	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "--------------------------------------------")
@@ -219,19 +258,21 @@ function LogError(_Line)
 	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "-----------CORE STOPPED------------")
 	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "--------------------------------------------")
 	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "|")
+
+	--Stop the mod
 	ErrorPause()
 
 	RemoveStacktrace()
 
 end
 
---This function will do something illegal that should warrant game to crash
---Good to use this to check for thoroughness of error checking
+--This function will do something illegal that will cause the scar code to be haulted by the game
+--Useful to check for thoroughness of error checking
 function DoFatalError()
 
 	AddStacktrace("DoFatalError")
 
-	print(""..{}.."")
+	print(""..{}.."") --Cant concatenate tables. https://www.youtube.com/watch?v=rmQFcVR6vEs&ab_channel=Jihad193
 
 	RemoveStacktrace()
 
