@@ -1,3 +1,11 @@
+--Do we use this anywhere?.. Remove it or refactor to use it?..
+function PlusEquals (_Variable, _AddTo)
+
+	--Simple Adder function don't need StackTrace
+	return _Variable + _AddTo
+
+end
+
 function TableClear(_Tbl)
 
 	pcall(AddStacktrace, "TableClear")
@@ -11,7 +19,6 @@ function TableClear(_Tbl)
 	pcall(RemoveStacktrace)
 
 end
-
 
 function TableHasItemAtPositionOrID(_Tbl, _ItemPositionOrID)
 
@@ -38,7 +45,6 @@ function TableHasItemAtPositionOrID(_Tbl, _ItemPositionOrID)
 	return ReturnNoErrorNorNil
 
 end
-
 
 function TableContains(_Tbl, _Desired)
 
@@ -71,7 +77,6 @@ function TableContains(_Tbl, _Desired)
 	return Success, ReturnIndex
 
 end
-
 
 function TableRemoveDuplicates(_BaseTbl, _CompareTbl)
 
@@ -213,6 +218,8 @@ function TableGetRand(_Tbl)
 
 end
 
+
+--These are not table related! Move them into a maths scar later
 function round(num, numDecimalPlaces)
 
 	AddStacktrace("round")
@@ -224,7 +231,6 @@ function round(num, numDecimalPlaces)
 	return math.floor(num * mult + 0.5) / mult
 	
 end
-
 
 function bool_to_number(value)
 	
