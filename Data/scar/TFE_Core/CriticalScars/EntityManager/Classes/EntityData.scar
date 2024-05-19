@@ -1,6 +1,5 @@
-----------------------
---Class Constructors--
-----------------------
+--Class data for all entities. Entities encompases anything that's not in a squad. 
+--Entities with this system does NOT refer to entities within a squad (individual troop models / units) 
 
 EntityData = {}
 function EntityData:new ( _eGameID, _eGroupID, _eIndex, _eID, _eRace, _eBP, _ePlayer, _eLP, _eGen, _eIsThermo )
@@ -9,26 +8,28 @@ function EntityData:new ( _eGameID, _eGroupID, _eIndex, _eID, _eRace, _eBP, _ePl
 
     local EntityDataObject = 
     {
+
+		--Constants
 		EntityUniqueID = _eGameID,	
 		EntityGroupID =_eGroupID,
 		EntityGroupName = EGroup_GetName(_eGroupID),	
 		EntityIndex = _eIndex, 
 		EntityID = _eID,	
 		EntityUnitRace = _eRace,
-		EntityBlueprint = _eBP,
+		EntityBlueprint = _eBP,		
+		EntityIsLP = _eLP,
+		EntityIsGen = _eGen,
+		EntityIsThermo = _eIsThermo,
+
+		--Variables
 		EntityPosition = Entity_GetPosition(_eID),
 		EntityPositionInt = Entity_GetPosition(_eID),
 		EntityIsStructure = Entity_IsBuilding(_eID),
 		OwnedByPlayer = Entity_GetPlayerOwner(_eID), 		
 		OwnerPlayer = _ePlayer, 
-		EntityIsLP = _eLP,
-		EntityIsGen = _eGen,
-		EntityIsThermo = _eIsThermo,
-
-
-		--Variables		
 		PreviouslyAttackedByPlayers = {},
 		PreviouslyAttackedTime = 0
+
 	}
 
 	self.__index = self
@@ -45,6 +46,7 @@ function EntityData:Update()
 	local privateUpdate = function()
 	
 		--Get Position, does this need to be in Update?.. Most entities don't move.
+		--Perhaps can consider a smarter way to do this for optimisation purposes
 		self.EntityPosition = Entity_GetPosition(self.EntityID)
 		self.EntityPositionInt.x = math.floor(self.EntityPosition.x)
 		self.EntityPositionInt.y = math.floor(self.EntityPosition.y)
@@ -70,7 +72,8 @@ function EntityData:Update()
 			end
 
 		elseif(g_WorldTime - self.PreviouslyAttackedTime > 5) then --Move this 5 into a global "attack time"
-
+			
+			--Entity not been attacked for awhile, so we will forget who was attacking them
 			self.PreviouslyAttackedByPlayers = {}
 
 		end

@@ -41,7 +41,7 @@ function Set_PlayerEntities_Immediate(_PlayerIndex)
 		local entityBP = Entity_GetBlueprintName( _entityID )			
 		local addNewDataEntry = true
 
-		--Should we keep this? are some entities ok to not have BP? unsure.
+		--Should we keep this? are some entities ok to not have BP? Requires investigation.
 		if(entityBP == nil or newEntityGameID == nil) then
 
 			addNewDataEntry = false
@@ -66,9 +66,10 @@ function Set_PlayerEntities_Immediate(_PlayerIndex)
 
 					if(g_AllEntityData[_PlayerIndex][l] ~= nil) then
 
-						--We already have a data entry for this unit
 						if(g_AllEntityData[_PlayerIndex][l].EntityUniqueID == newEntityGameID) then
 							
+							--We already have a data entry for this unit, so break
+
 							--LogOnce(eLOG_TYPE_WARNING, eLOG_FULL, "Entity is already stored in data!")
 							addNewDataEntry = false
 							break
@@ -233,6 +234,7 @@ function DestroyEntityAndRemoveFromData(_Player, _EntityLocation)
 
 	AddStacktrace("DestroyEntityAndRemoveFromData")
 
+	--Offset by 1 as index of table starts at 1 not 0
 	local PlayerIndex = _Player.PlayerIndex + 1
 
 	if(g_AllEntityData[PlayerIndex][_EntityLocation] == nil) then
@@ -241,6 +243,7 @@ function DestroyEntityAndRemoveFromData(_Player, _EntityLocation)
 
 	else
 
+		--Entity found, ask game to destroy it then remove it from data
 		Entity_Destroy(g_AllEntityData[PlayerIndex][_EntityLocation].EntityID)
 		table.remove(g_AllEntityData[PlayerIndex][_EntityLocation])
 		
@@ -273,13 +276,19 @@ function UpdateEntityCombatDeathResources(_RedReceiverPlayer, _DefenderPlayer, _
 	AddStacktrace("UpdateEntityCombatDeathResources")
 
 	local TotalRed = 0
+
+	--Add up all of the red that needs to be given to players
+	--Later on move all these numbers as globals, their values shouldn't be defined here in code
 	TotalRed = TotalRed + (4 * _EntityLosses)
 	TotalRed = TotalRed + (15 * _StructureLosses)
 	TotalRed = TotalRed + (5 * _LPLosses)
 	TotalRed = TotalRed + (5 * _GenLosses)
 	TotalRed = TotalRed + (15 * _ThermoLosses)
+
+	--Multiply by global modifier
 	TotalRed = TotalRed * g_RedGainMultiplier
 
+	--Assign red resource, defender gets half as a mercy gesture
 	_RedReceiverPlayer.CurrentResources.RT_Red = _RedReceiverPlayer.CurrentResources.RT_Red + TotalRed	
 	_DefenderPlayer.CurrentResources.RT_Red = _DefenderPlayer.CurrentResources.RT_Red + (TotalRed * 0.5)	
 
@@ -295,6 +304,7 @@ function UpdateEntityCombatDeathStats(_AttackerPlayer, _DefenderPlayer, _EntityL
 
 	AddStacktrace("UpdateEntityCombatDeathStats")
 
+	--Something has died, send messages to the relevant players
 	_AttackerPlayer.StatsManager:AddEntityKills( _EntityLosses, _StructureLosses, _LPLosses, _GenLosses, _ThermoLosses )
 	_DefenderPlayer.StatsManager:AddEntityLosses( _EntityLosses, _StructureLosses, _LPLosses, _GenLosses, _ThermoLosses )
 
