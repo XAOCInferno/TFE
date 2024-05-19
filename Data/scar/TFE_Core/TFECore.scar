@@ -7,7 +7,10 @@ function Core_Game_Load()
 
 	AddStacktrace("Core_Game_Load")	
 
+	--Firstly, work out which optional modules are installed
 	DoBasicFunction(Core_CheckForSecondaryScars)
+
+	--Then begin logic
 	Rule_AddInterval(Core_MainLoop, g_WorldTimeFidelity)
 
 	RemoveStacktrace()
@@ -16,6 +19,9 @@ end
 
 function InvokeFunctionsFromFunctionTree(FuncTree)
 
+	AddStacktrace("InvokeFunctionsFromFunctionTree")	
+
+	--Iterate over the tree and run the funtions either as basic or critical
 	for _, branch in FuncTree do
 		
 		if(branch.Necessity == eBASIC_FUNCTION) then
@@ -30,11 +36,15 @@ function InvokeFunctionsFromFunctionTree(FuncTree)
 
 	end
 
+	RemoveStacktrace()
+
 end
 
 function Core_Init_Load()
 
 	AddStacktrace("Core_Init_Load")
+
+	--Initial setup for the mod, run once
 
 	local SetupFunctionTree = 
 	{
@@ -68,6 +78,7 @@ function Core_CheckForSecondaryScars()
 	
 	if g_TrueRandomRace_Enabled == true then
 
+		--Random Race winconidition is enabled so run its logic
 		TrueRandomRace_Setup()
 	
 	end
@@ -80,18 +91,25 @@ function Core_GetAllPlayers()
 		
 	AddStacktrace("Core_GetAllPlayers")
 
+	--Iterate over every player
 	for i = 1, g_PlayerCount do
 
+		--Ask the game for player information
 		local Player = World_GetPlayerAt(i-1)
 		local PlayerIndex = World_GetPlayerIndex(Player)
 		local RaceName = Player_GetRaceName( Player ) 
 		local RaceIndex = Player_GetRace( Player ) 
 		local DisplayName = Player_GetDisplayName(Player)
 
+		--Assign the generic resource settings for the player's race
 		Setup_PassiveResourceGeneration_Settings(RaceName)
+
+		--Encapsulate player and race details in classes then add them to the list of players
 		table.insert(g_AllPlayers, PlayerDetails:new( Player, PlayerIndex, DisplayName, RaceDetails:new (RaceName, RaceIndex, g_FactionSpecificResourceGeneration[RaceName] )))
 
-		--Move this later
+		--If the upkeep data for the race has not been loaded, attempt to load it
+		--Move this later, it should probably be in Upkeep files
+		--this should probably never happen...
 		if (UnitCosting[RaceName] == nil) then
 
 			pcall(import, 'upkeep/races/'..RaceName..'.scar')
@@ -102,13 +120,14 @@ function Core_GetAllPlayers()
 
 	for i = 1, g_PlayerCount do
 		
-		--They need to be in reverse order so P1 is on top...
+		--Iterate over players in reverse and create their resource UI widgets
+		--They need to be in reverse order so P1 is on top
 		WinWarning_Add( "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[g_PlayerCount-i+1].PlayerIndex, g_AllPlayers[g_PlayerCount-i+1].Player, "", "Mature and Upkeep Counter", "This counter shows the specified players mature and upkeep." )
 		WinWarning_Add( "UI_Accumulated_Red"..g_AllPlayers[g_PlayerCount-i+1].PlayerIndex, g_AllPlayers[g_PlayerCount-i+1].Player, "", "Red Counter", "This counter shows the ammount of gathered red for the player." )
 
 	end
 
-
+	--Consider moving this into the secondary scar loaders, although, firstly check WHY it is here (might be required for order of flow...)
 	if g_AI_AdvancedDifficultyScaling == true then
 
 		EnableAIAdvancedDifficulty()
@@ -127,6 +146,7 @@ function DoBasicFunction(_Func)
 
 	if(pcall(_Func) == false) then
 
+		--Calling function has caused an error
 		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Cannot run function!") 
 
 		Success = false
@@ -147,6 +167,7 @@ function DoCriticalFunction(_Func)
 
 	if(pcall(_Func) == false) then
 		
+		--Calling function has caused an error, stop the mod as this is a required function
 		LogError("Cannot run CRITICAL function!") 
 		
 		Success = false
@@ -163,6 +184,7 @@ function DebugDisableCodeProtections()
 
 	Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, "Disabling code protections, this should not happen in shipped mod.") 
 
+	--Override the pcall protections so that these functions will log an error from the game if there's an issue, rather than our own logger
 	function DoBasicFunction(_Func) _Func() end
 
 	function DoCriticalFunction(_Func) _Func() end
@@ -173,6 +195,8 @@ function Core_MainLoop()
 	
 	AddStacktrace("Core_MainLoop")
 
+	--Main loop of the mod, runs each "tick"
+	
 	local MainLoopFunctionTree = 
 	{
 		{ Function = Set_UpdatedGameTime, Necessity = eREQUIRED_FUNCTION },
@@ -194,6 +218,7 @@ function Core_MainLoop()
 	
 end
 
+--Simply haults the mod
 function ErrorPause()
 
 	AddStacktrace("ErrorPause")
@@ -205,62 +230,109 @@ function ErrorPause()
 
 end
 
+local function PlayerAddResources_FromResourceGroup(_player, _resourceGroup)
+
+	Player_AddResource(_player, RT_Requisition, _resourceGroup.RT_Requisition)
+	Player_AddResource(_player, RT_Power, _resourceGroup.RT_Power)
+	Player_AddResource(_player, RT_Pop, _resourceGroup.RT_Pop)
+	Player_AddResource(_player, RT_Faith, _resourceGroup.RT_Faith)
+	Player_AddResource(_player, RT_Souls, _resourceGroup.RT_Souls)
+
+end
+
+local function PlayerGetResources_AsResourceGroup(_player)
+
+	--Temporary resource group generation
+	local tmpResourceGroup = ResourceGroup:new()
+
+	--Ask the game what resources the player has
+	tmpResourceGroup = Player_GetResource(_player, RT_Requisition)
+	tmpResourceGroup = Player_GetResource(_player, RT_Power)
+	tmpResourceGroup = Player_GetResource(_player, RT_Pop)
+	tmpResourceGroup = Player_GetResource(_player, RT_Faith)
+	tmpResourceGroup = Player_GetResource(_player, RT_Souls)
+
+	return tmpResourceGroup
+
+end
+
+--This should be moved later, only in TFE_Core for convenience currently
 function Implement_UpkeepAndMature()
 
 	AddStacktrace("Implement_UpkeepAndMature")
 	
 	for i = 1, g_PlayerCount do
-		local Index = g_PlayerCount - i +1
-		--They need to be in reverse order so P1 is on top...
+
+		--Get index of the next player we wish to update
+		--They need to be in reverse order so P1 is on top
+		local Index = g_PlayerCount - i + 1
+
 		if(Player_IsAlive(g_AllPlayers[Index].Player)) then
 
 			if(WinWarning_Exists("UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex)) then
 				
+				--Get the current resources for req and power
 				local DisplayReqIncome = g_AllPlayers[Index].CurrentAddResources.RT_Requisition				
 				local DisplayPowerIncome = g_AllPlayers[Index].CurrentAddResources.RT_Power 
+
+				--Convert floating point values to integers for display
 				DisplayReqIncome = round(math.floor(DisplayReqIncome),2)
 				DisplayPowerIncome = round(math.floor(DisplayPowerIncome),2)
 
+				--Update the UI text
 				WinWarning_SetText( "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex, Loc_FormatText3( 20050000, g_AllPlayers[Index].DisplayName,  DisplayReqIncome , DisplayPowerIncome ))
+			
 			else
 
+				--For some reason the win warning is null, add it
 				WinWarning_Add( "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex, g_AllPlayers[i].Player, "", "", "" )
 
 			end
 
 			if(WinWarning_Exists("UI_Accumulated_Red"..g_AllPlayers[Index].PlayerIndex)) then
 				
+				--Get the current resources for red
 				local DisplayTotalRed = g_AllPlayers[Index].CurrentResources.RT_Red
+
+				--Convert floating point values to integers for display
 				DisplayTotalRed = round(math.floor(DisplayTotalRed),1)
 
+				--Update the UI text
 				WinWarning_SetText( "UI_Accumulated_Red"..g_AllPlayers[Index].PlayerIndex, Loc_FormatText2( 20050002, g_AllPlayers[Index].DisplayName,  DisplayTotalRed  ))
 
 			else
 
+				--For some reason the win warning is null, add it
 				WinWarning_Add( "UI_Accumulated_Red"..g_AllPlayers[Index].PlayerIndex, g_AllPlayers[i].Player, "", "", "" )
 
 			end
 			
+			--Firstly, add the resources from the CurrentAddResources (mature system)
+			--Calculate resources to add
+			tmpCurrentAddResources_ResourceGroup = ResourceGroup:new()
+			tmpCurrentAddResources_ResourceGroup:Set(g_AllPlayers[Index].CurrentAddResources)
+			tmpCurrentAddResources_ResourceGroup:MultiplyByFloat(g_WorldTimeFidelity * g_BonusResourcesMultiplier)
 
-			Player_AddResource(g_AllPlayers[Index].Player, RT_Requisition, g_AllPlayers[Index].CurrentAddResources.RT_Requisition * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
-			Player_AddResource(g_AllPlayers[Index].Player, RT_Power, g_AllPlayers[Index].CurrentAddResources.RT_Power * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
-			Player_AddResource(g_AllPlayers[Index].Player, RT_Pop, g_AllPlayers[Index].CurrentAddResources.RT_Pop * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
-			Player_AddResource(g_AllPlayers[Index].Player, RT_Faith, g_AllPlayers[Index].CurrentAddResources.RT_Faith * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
-			Player_AddResource(g_AllPlayers[Index].Player, RT_Souls, g_AllPlayers[Index].CurrentAddResources.RT_Souls * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			--Now calculate the CurrentFireCosts (global abilities usually)
+			--Calculate resources to remove
+			tmpCurrentFireCosts_ResourceGroup = ResourceGroup:new()
+			tmpCurrentFireCosts_ResourceGroup:Set(g_AllPlayers[Index].CurrentFireCosts)
 
+			--Merge both the resource groups together
+			tmpCurrentAddResources_ResourceGroup:Add(tmpCurrentFireCosts_ResourceGroup)
+
+			--Now apply the overall resurces to the player
+			PlayerAddResources_FromResourceGroup(g_AllPlayers[Index].Player, tmpCurrentAddResources_ResourceGroup)
+
+			--Add red custom resource to player
 			g_AllPlayers[Index].CurrentResources.RT_Red = g_AllPlayers[Index].CurrentResources.RT_Red + g_AllPlayers[Index].CurrentFireCosts.RT_Red
-			Player_AddResource(g_AllPlayers[Index].Player, RT_Requisition, g_AllPlayers[Index].CurrentFireCosts.RT_Requisition )
-			Player_AddResource(g_AllPlayers[Index].Player, RT_Power, g_AllPlayers[Index].CurrentFireCosts.RT_Power )
-			Player_AddResource(g_AllPlayers[Index].Player, RT_Pop, g_AllPlayers[Index].CurrentFireCosts.RT_Pop )
-			Player_AddResource(g_AllPlayers[Index].Player, RT_Faith, g_AllPlayers[Index].CurrentFireCosts.RT_Faith )
-			Player_AddResource(g_AllPlayers[Index].Player, RT_Souls, g_AllPlayers[Index].CurrentFireCosts.RT_Souls )
+
+			--Reset resource bonuses so that they don't carry over
 			g_AllPlayers[Index]:ClearCurrentResourceBonuses()
 			
-			g_AllPlayers[Index].CurrentResources.RT_Requisition = Player_GetResource(g_AllPlayers[Index].Player, RT_Requisition)
-			g_AllPlayers[Index].CurrentResources.RT_Power = Player_GetResource(g_AllPlayers[Index].Player, RT_Power)
-			g_AllPlayers[Index].CurrentResources.RT_Pop = Player_GetResource(g_AllPlayers[Index].Player, RT_Pop)
-			g_AllPlayers[Index].CurrentResources.RT_Faith = Player_GetResource(g_AllPlayers[Index].Player, RT_Faith)
-			g_AllPlayers[Index].CurrentResources.RT_Souls = Player_GetResource(g_AllPlayers[Index].Player, RT_Souls)
+			--Upate actual stats
+			g_AllPlayers[Index].CurrentResources:Set(PlayerGetResources_AsResourceGroup(g_AllPlayers[Index].Player))
+
 		else
 
 			WinWarning_Remove("UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex)
@@ -281,50 +353,64 @@ function ClearSelection()
 
 	AddStacktrace("ClearSelection")
 
+	--Generate a unique sGroup for this. We should likely use the Unique SGroup generator for this to guarantee one.
 	local g_EmptySGroupID = SGroup_CreateIfNotFound("emptySGroup")
+
+	--Select an empty squad group, this is the same as deselecting anything
 	W40k_SelectSGroup(g_EmptySGroupID)
 	
 	RemoveStacktrace()
 
 end
 
---R_ENEMY, R_ALLY, R_NEUTRAL, R_UNDEFINED. 
+--Possible Player-To-Player Relationships: R_ENEMY, R_ALLY, R_NEUTRAL, R_UNDEFINED. 
 function GetAllPlayerRelationships(_player)
 
 	AddStacktrace("GetAllPlayerRelationships")
 
+	--Define tables for each relationship, we know "own" refers to the player who we are parsing
 	local own = { _player }
 	local allies = {}
 	local enemies = {}
 	local neutral = {}
 
+	--Iterate over all players to calculate their relationships <3
 	for i = 1, g_PlayerCount do
 
+		--Get data for the next player to check
 		local nextPlayer = g_AllPlayers[i].Player
 
+		--Don't check if the parsed player has a relationship with themselves!
 		if(nextPlayer ~= _player.Player) then
 
+			--We don't care if player is dead
 			if(Player_IsAlive(nextPlayer)) then
 
+				--Ask the game what the relationship is
 				local tmpRelationship = Player_GetRelationship(_player.Player, nextPlayer)
 
+				--<3
 				if(tmpRelationship == R_ALLY) then
 
 					table.insert(allies, g_AllPlayers[i])
 
+				-- +>==
 				elseif(tmpRelationship == R_ENEMY) then
 
 					table.insert(enemies, g_AllPlayers[i])
 
+				-- __
 				elseif(tmpRelationship == R_NEUTRAL) then
 
 					table.insert(neutral, g_AllPlayers[i])
-
+				
+				-- ?
 				else
 
 					Log(eLOG_TYPE_WARNING, eLOG_VERBOSE, "Player: ".._player.DisplayName.." has an undefined relationship with "..nextPlayer.DisplayName)
 
 				end
+
 			end
 
 		end
