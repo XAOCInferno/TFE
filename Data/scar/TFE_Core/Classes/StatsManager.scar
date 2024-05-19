@@ -1,3 +1,6 @@
+--Stats manager, child of a player, controls the player stats such as their kills and losses
+--This was used more for achievements and can be perhaps used later for some kind of punishment / award for players who are leading overall
+
 StatsManager = {}
 function StatsManager:new (_Parent)
 
@@ -11,10 +14,11 @@ function StatsManager:new (_Parent)
 		--Variables
 		ActiveArmyCost = ResourceGroup:new(),
 		ResourcesGathered = ResourceGroup:new(),
-		--ResourcesGatheredScore = ResourceGroup:new(), --Seemingly causes a crash so we can't use this one probably
+		--ResourcesGatheredScore = ResourceGroup:new(), --Seemingly causes a crash so we can't use this one (probably - requires investigation)
 		ResourcesSpent = ResourceGroup:new(),
 		ResourcesTributed = ResourceGroup:new(),
 		
+		--Note: Refactor Kills / Loss stats into their own tables
 		EntitiesKilled = 0,
 		StructuresKilled = 0,
 		LPsKilled = 0,
@@ -52,27 +56,37 @@ function StatsManager:new (_Parent)
 
 end
 
+--1 or multiple kills have been detected and now should be applied as stats
 function StatsManager:AddKills( _Units, _Leaders, _Commanders, _Squads, _DefenderSquadStruct )
 
+	AddStacktrace("StatsManager:AddKills")
+
+	--Update raw stats
 	self.UnitsKilled = self.UnitsKilled + _Units
 	self.LeadersKilled = self.LeadersKilled + _Leaders
 	self.CommandersKilled = self.CommandersKilled + _Commanders
 	self.SquadsKilled = self.SquadsKilled + _Squads
 
-	local tmpKillerPosition = nil
+	--Get how many squads are in combat with the dead unit
+	--Note: This does not take into account entities like turrets and will require small refactor
 	local NumberAttackingSquads = table.getn(_DefenderSquadStruct.PreviouslyAttackedBySquads)
-
+	
+	--Set the estimated position of the squad who killed the target
+	local tmpKillerPosition = nil
 	if(NumberAttackingSquads > 0) then
 
+		--There are many attackers, pick a killer at random from among them
 		tmpKillerPosition = TableGetRand(_DefenderSquadStruct.PreviouslyAttackedBySquads).SquadPosition
 
 	else
 
+		--Only 1 attacker, great! They are the killer
 		tmpKillerPosition = _DefenderSquadStruct.SquadPosition
 
 	end
 
-	--This table should probably be a class?
+	--Assign the stat as a recorded timestamp, used to determine kill rates 
+	--This table should probably be a class! Refactor it later
 	table.insert(self.TimestampedUnitKills, 
 	{ 	
 		Time = g_WorldTime, 
@@ -83,16 +97,23 @@ function StatsManager:AddKills( _Units, _Leaders, _Commanders, _Squads, _Defende
 		KillerPosition = tmpKillerPosition
 	})
 
+	RemoveStacktrace()
+
 end
 
-function StatsManager:AddLosses( _Units, _Leaders, _Commanders, _Squads )
+--1 or more losses detected, assign them as stats
+function StatsManager:AddKills( _Units, _Leaders, _Commanders, _Squads )
 
+	AddStacktrace("StatsManager:AddKills") 
+
+	--Update raw stats
 	self.UnitsLost = self.UnitsLost + _Units
 	self.LeadersLost = self.LeadersLost + _Leaders
 	self.CommandersLost = self.CommandersLost + _Commanders
 	self.SquadsLost = self.SquadsLost + _Squads
 
-	--This table should probably be a class?
+	--Assign the stat as a recorded timestamp, used to determine loss rates 
+	--This table should probably be a class! Refactor it later
 	table.insert(self.TimestampedUnitLosses, 
 	{ 	
 		Time = g_WorldTime, 
@@ -101,18 +122,26 @@ function StatsManager:AddLosses( _Units, _Leaders, _Commanders, _Squads )
 		Commanders = _Commanders, 
 		Squads = _Squads
 	})
+	
+	RemoveStacktrace()
 
 end
 
+--1 or more kills detected, assign them as stats
+--This will need similar treatment as the squad kill equivallent of this function for "First Blood" achievement
 function StatsManager:AddEntityKills( _Entities, _Structures, _LPs, _Gens, _Thermos )
 
+	AddStacktrace("StatsManager:AddEntityKills")
+
+	--Update raw stats
 	self.EntitiesKilled = self.EntitiesKilled + _Entities
 	self.StructuresKilled = self.StructuresKilled + _Structures
 	self.LPsKilled = self.LPsKilled + _LPs
 	self.GensKilled = self.GensKilled + _Gens
 	self.ThermosKilled = self.ThermosKilled + _Thermos
 
-	--This table should probably be a class?
+	--Assign the stat as a recorded timestamp, used to determine kill rates 
+	--This table should probably be a class! Refactor it later
 	table.insert(self.TimestampedEntityKills, 
 	{ 	
 		Time = g_WorldTime, 
@@ -121,18 +150,24 @@ function StatsManager:AddEntityKills( _Entities, _Structures, _LPs, _Gens, _Ther
 		Commanders = _Commanders, 
 		Squads = _Squads
 	})
+	
+	RemoveStacktrace()
 
 end
 
+--1 or more losses detected, assign them as stats
 function StatsManager:AddEntityLosses( _Entities, _Structures, _LPs, _Gens, _Thermos )
 
+	AddStacktrace("StatsManager:AddEntityLosses")
+	
 	self.EntitiesLost = self.EntitiesLost + _Entities
 	self.StructuresLost = self.StructuresLost + _Structures
 	self.LPsLost = self.LPsLost + _LPs
 	self.GensLost = self.GensLost + _Gens
 	self.ThermosLost = self.ThermosLost + _Thermos
 
-	--This table should probably be a class?
+	--Assign the stat as a recorded timestamp, used to determine loss rates 
+	--This table should probably be a class! Refactor it later
 	table.insert(self.TimestampedEntityLosses, 
 	{ 	
 		Time = g_WorldTime, 
@@ -141,6 +176,8 @@ function StatsManager:AddEntityLosses( _Entities, _Structures, _LPs, _Gens, _The
 		Commanders = _Commanders, 
 		Squads = _Squads
 	})
+
+	RemoveStacktrace()
 
 end
 
@@ -170,6 +207,9 @@ end
 
 function StatsManager:GetCombatStatsSinceTime( _TimeWindow, _Tbl)
 
+	AddStacktrace("StatsManager:GetCombatStatsSinceTime")
+	
+	--Assign initial variables
 	local OnlyCountDeathsAfterThisTime = g_WorldTime - _TimeWindow
 	local TotalStatsTables = table.getn(_Tbl)
 	local TablesToReturn = {}
@@ -178,12 +218,15 @@ function StatsManager:GetCombatStatsSinceTime( _TimeWindow, _Tbl)
 
 		for i = 1, TotalStatsTables do
 			
+			--Iterate over the table in reverse as newer timestamps will be at the beginning
 			if(_Tbl[TotalStatsTables - i + 1].Time > OnlyCountDeathsAfterThisTime) then
 
+				--Stat is in a valid time range
 				table.insert(TablesToReturn, _Tbl[TotalStatsTables - i])
 
 			else
 
+				--Stat is not in a valid time range. The table is ordered by time, so we can now break as all later times will be older
 				break
 
 			end
@@ -194,11 +237,17 @@ function StatsManager:GetCombatStatsSinceTime( _TimeWindow, _Tbl)
 
 	return TablesToReturn
 
+	RemoveStacktrace()
+
 end
 
 
 function StatsManager:Update()
 	
+	AddStacktrace("StatsManager:Update")
+
+	--Update generic game stats each "tick"
+
 	self.ActiveArmyCost:Set(ResourceGroup:new(0, Stats_ActiveArmyCost(self.Parent.Player, RT_Requisition), Stats_ActiveArmyCost(self.Parent.Player, RT_Power), Stats_ActiveArmyCost(self.Parent.Player, RT_Pop), 0, 0))
 	self.ResourcesGathered:Set(ResourceGroup:new(0, Stats_PlayerResGathered(self.Parent.PlayerIndex, RT_Requisition), Stats_PlayerResGathered(self.Parent.PlayerIndex, RT_Power), Stats_PlayerResGathered(self.Parent.PlayerIndex, RT_Pop), 0, 0))
 	--self.ResourcesGatheredScore:Set(ResourceGroup:new(0, Stats_PlayerResScore(self.Parent.PlayerIndex, RT_Requisition), Stats_PlayerResScore(self.Parent.PlayerIndex, RT_Power), Stats_PlayerResScore(self.Parent.PlayerIndex, RT_Pop), 0, 0))
@@ -210,11 +259,15 @@ function StatsManager:Update()
 	--self.UnitsLost = Stats_PlayerUnitsLost(self.Parent.PlayerIndex)
 	self.HasWon = Stats_PlayerWon(self.Parent.PlayerIndex)
 
+	RemoveStacktrace()
+
 end
 
 function StatsManager:DebugDumpInfo()
 
 	AddStacktrace("StatsManager:DebugDumpInfo")
+
+	--Log all recorded stats for debugging
 
 	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Army Cost: Red|"..self.ActiveArmyCost.RT_Red.."  Req|"..self.ActiveArmyCost.RT_Requisition.."  Power|"..self.ActiveArmyCost.RT_Power.."  Pop|"..self.ActiveArmyCost.RT_Pop.."  Faith|"..self.ActiveArmyCost.RT_Faith.."  Souls|"..self.ActiveArmyCost.RT_Souls)
 	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Res Gathered: Red|"..self.ResourcesGathered.RT_Red.."  Req|"..self.ResourcesGathered.RT_Requisition.."  Power|"..self.ResourcesGathered.RT_Power.."  Pop|"..self.ResourcesGathered.RT_Pop.."  Faith|"..self.ResourcesGathered.RT_Faith.."  Souls|"..self.ResourcesGathered.RT_Souls)

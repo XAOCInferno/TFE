@@ -1,3 +1,6 @@
+--Class for a "Player". 
+--Encompases everything we consider to be on a player scope
+
 PlayerDetails = {}
 function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
 
@@ -5,23 +8,24 @@ function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
 
     local PlayerDetailsObject = 
     {
+
     	--Constants
 	    Player = _Player,
 	    PlayerIndex = _PlayerIndex,
 	    DisplayName = _DisplayName,
 	    RaceDetails = _RaceDetails,   
 		StartingPosition = Player_GetStartPosition(_Player),	   
-		StatsManager = nil,
+		StatsManager = nil, --This will be constant after its assignment later on
 
 		--Offline Only
 		PlayerIsComputer = Cpu_IsCpuPlayer(_Player),
 
 	    --Variables
-		--Is this even being used anymore? just here for future..?
 		CurrentResources = ResourceGroup:new(g_StartingRedResource),
 	    CurrentNumberOfResearchedGlobals = ResourceGroup:new(),
 	    CurrentAddResources = ResourceGroup:new(),	    
 	    CurrentFireCosts = ResourceGroup:new()
+
     }
 
 	PlayerDetailsObject.StatsManager = StatsManager:new(PlayerDetailsObject)
@@ -34,6 +38,7 @@ function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
 
 end
 
+--The player has done something that costs resources so charge them for it
 function PlayerDetails:AddFireCost( _ResourceGroup )
 
 	AddStacktrace("PlayerDetails:AddFireCost")
@@ -49,6 +54,7 @@ function PlayerDetails:HasEnoughResources( _ResourceGroup )
 
 	AddStacktrace("PlayerDetails:HasEnoughResources")
 
+	--Assume we have enough resources
 	local CostSuccess = true
 
 	if(self.CurrentResources.RT_Red + _ResourceGroup.RT_Red < 0
@@ -58,13 +64,15 @@ function PlayerDetails:HasEnoughResources( _ResourceGroup )
 	or self.CurrentResources.RT_Faith + _ResourceGroup.RT_Faith < 0
 	or self.CurrentResources.RT_Souls + _ResourceGroup.RT_Souls < 0 ) then
 
-		print("Red: "..self.CurrentResources.RT_Red.."| Required: ".._ResourceGroup.RT_Red * -1)
-		print("Req: "..self.CurrentResources.RT_Requisition.."| Required: ".._ResourceGroup.RT_Requisition * -1)
-		print("Power: "..self.CurrentResources.RT_Power.."| Required: ".._ResourceGroup.RT_Power * -1)
-		print("Pop: "..self.CurrentResources.RT_Pop.."| Required: ".._ResourceGroup.RT_Pop * -1)
-		print("Faith: "..self.CurrentResources.RT_Faith.."| Required: ".._ResourceGroup.RT_Faith * -1)
-		print("Souls: "..self.CurrentResources.RT_Souls.."| Required: ".._ResourceGroup.RT_Souls * -1)
+		--Useful log to determine the cost has gone through correctly and we've done the right math
+		Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Red: "..self.CurrentResources.RT_Red.."| Required: ".._ResourceGroup.RT_Red * -1)
+		Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Req: "..self.CurrentResources.RT_Requisition.."| Required: ".._ResourceGroup.RT_Requisition * -1)
+		Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Power: "..self.CurrentResources.RT_Power.."| Required: ".._ResourceGroup.RT_Power * -1)
+		Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Pop: "..self.CurrentResources.RT_Pop.."| Required: ".._ResourceGroup.RT_Pop * -1)
+		Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Faith: "..self.CurrentResources.RT_Faith.."| Required: ".._ResourceGroup.RT_Faith * -1)
+		Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Souls: "..self.CurrentResources.RT_Souls.."| Required: ".._ResourceGroup.RT_Souls * -1)
 
+		--We don't have enough resources
 		CostSuccess = false
 
 	end	
@@ -75,6 +83,7 @@ function PlayerDetails:HasEnoughResources( _ResourceGroup )
 
 end
 
+--Called on every "tick", removes the bonuses and charges applied to the player
 function PlayerDetails:ClearCurrentResourceBonuses()
 
 	AddStacktrace("PlayerDetails:ClearCurrentResourceBonuses")

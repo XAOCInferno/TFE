@@ -1,3 +1,5 @@
+--Class to store the generic information for a "race" (faction)
+
 RaceDetails = {}
 function RaceDetails:new (_RaceName, _RaceIndex, _RaceResourceInfo)
 
