@@ -25,34 +25,161 @@ local StacktraceStack = {}
 
 local function GetLogType(_LogType)
 
-	AddStacktrace("GetLogType")
-
 	local ReturnValue = "nil"
 
 	if(_LogType > LogTypesLength) then
 
-		Log(eLOG_SIMPLE, eLOG_LOG_TYPE_WARNING, "Log type of '".._LogType.."' is invalid! Number must be bellow "..LogTypesLength)
+		PWrap(Log, eLOG_SIMPLE, eLOG_LOG_TYPE_WARNING, "Log type of '".._LogType.."' is invalid! Number must be bellow "..LogTypesLength)
 
 	else
 
 		ReturnValue = LogTypes[_LogType]
 
 	end
-
-	
-	RemoveStacktrace()
 	
 	return ReturnValue
 
 end
 
+local function GetFuncName(func)
+
+	for i,v in pairs(getfenv()) do
+		
+		if v == func then
+			
+			return i
+
+		end
+
+	end
+
+end
+
+--P standing for PCall
+--func is required. Other args are optional.
+local function PWrapInternal( safe, removeProtections, func, a, b, c, d, e, f, g, h, i, j, k, m, n, l, o, p, q, r, s, t, u, v, w, x, y, z )
+	
+	if func == nil then
+		
+		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Function is not defined! Cannot be wrapped.")
+		return
+
+	end
+
+	local function WrappedFunction() 
+		
+		return func(a, b, c, d, e, f, g, h, i, j, k, m, n, l, o, p, q, r, s, t, u, v, w, x, y, z) 
+	
+	end
+
+	local funcName = GetFuncName(func)
+
+	AddStacktrace2(funcName or "?")
+
+	if(removeProtections) then 
+
+		WrappedFunction()
+
+	else
+
+		Success = pcall(WrappedFunction)
+
+	end
+
+	if Success == false then 
+
+		LogPWrapedError( safe, a, b, c, d, e, f, g, h, i, j, k, m, n, l, o, p, q, r, s, t, u, v, w, x, y, z)
+
+	end
+
+	RemoveStacktrace2()
+
+	return Success
+
+end
+
+
+--Do if arguments are concatable
+function PWrap( func, a, b, c, d, e, f, g, h, i, j, k, m, n, l, o, p, q, r, s, t, u, v, w, x, y, z )
+
+	return PWrapInternal(true, false, func, a, b, c, d, e, f, g, h, i, j, k, m, n, l, o, p, q, r, s, t, u, v, w, x, y, z)
+
+end
+
+--Do if arguments aren't concatable (functions, tables..)
+function PWrapUnsafe( func, a, b, c, d, e, f, g, h, i, j, k, m, n, l, o, p, q, r, s, t, u, v, w, x, y, z )
+
+	return PWrapInternal(false, false, func, a, b, c, d, e, f, g, h, i, j, k, m, n, l, o, p, q, r, s, t, u, v, w, x, y, z)
+
+end
+
+
+--Override PWrap if we're playing in unsafe mode
+function DebugDisableCodeProtections()
+
+	Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, "Disabling code protections, this should not happen in shipped mod.") 
+
+	--Do if arguments are concatable
+	function PWrap( func, a, b, c, d, e, f, g, h, i, j, k, m, n, l, o, p, q, r, s, t, u, v, w, x, y, z )
+
+		return PWrapInternal(true, true, func, a, b, c, d, e, f, g, h, i, j, k, m, n, l, o, p, q, r, s, t, u, v, w, x, y, z)
+
+	end
+
+	--Do if arguments aren't concatable (functions, tables..)
+	function PWrapUnsafe( func, a, b, c, d, e, f, g, h, i, j, k, m, n, l, o, p, q, r, s, t, u, v, w, x, y, z )
+
+		return PWrapInternal(false, true, func, a, b, c, d, e, f, g, h, i, j, k, m, n, l, o, p, q, r, s, t, u, v, w, x, y, z)
+
+	end
+	
+end
+
+
+--Refers back to PWrap, pottential infinite loop & stack overflow be careful
+function LogPWrapedError(safe, a, b, c, d, e, f, g, h, i, j, k, m, n, l, o, p, q, r, s, t, u, v, w, x, y, z)
+
+	local ErrorMessage = "<-ERROR! Args: "
+
+	local function AddArgs()
+
+		if safe then
+		
+			ErrorMessage = ErrorMessage..a or "".."  "..b or "".."  "..c or "".."  "..d or "".."  "..e or "".."  "..f or "".."  "..g or "".."  "..h or "".."  "..i or "".."  "..j or "".."  "..k or "".."  "..m or "".."  "..n or "".."  "..l or "".."  "..o or "".."  "..p or "".."  "..q or "".."  "..r or "".."  "..s or "".."  "..t or "".."  "..u or "".."  "..v or "".."  "..w or "".."  "..x or "".."  "..y or "".."  "..z or ""
+	
+		end
+
+	end
+
+	if pcall(AddArgs) == false then
+
+		ErrorMessage = ErrorMessage.."Invalid Args."
+
+	end
+
+	PWrap(Log, eLOG_FULL, eLOG_LOG_TYPE_ERROR, ErrorMessage)
+
+end
+
 function AddStacktrace(_FunctionName)
+
+
+end
+
+function RemoveStacktrace()
+
+
+end
+
+--Do not PWrap, stack overflow.
+function AddStacktrace2(_FunctionName)
 
 	table.insert(StacktraceStack, _FunctionName)
 
 end
 
-function RemoveStacktrace()
+--Do not PWrap, stack overflow.
+function RemoveStacktrace2()
 
 	table.remove(StacktraceStack, table.getn(StacktraceStack))
 
@@ -60,19 +187,13 @@ end
 
 function ClearStacktrace()
 
-	AddStacktrace("ClearStacktrace")
-
 	StacktracePath = "@"
 	StacktraceStack = {}
-
-	RemoveStacktrace()
 
 end
 
 --[[Get the full path as a string]]
 local function SetStacktracePath(_Verbosity)
-
-	AddStacktrace("SetStacktracePath")
 
 	StacktracePath = "@"
 	if(_Verbosity == eLOG_FULL) then
@@ -107,19 +228,15 @@ local function SetStacktracePath(_Verbosity)
 
 	end
 
-	RemoveStacktrace()
-
 end
 
 --Writes a custom log to the console
 function Log(_LogType, _Verbosity, _Line)
-
-	AddStacktrace("Log")
 	
 	_Verbosity = _Verbosity or eLOG_VERBOSE
 	_Line = _Line or "[[NO MESSAGE]]"
 
-	SetStacktracePath(_Verbosity)
+	PWrap(SetStacktracePath, _Verbosity)
 
 	if(_Verbosity == eLOG_NONE) then
 
@@ -149,13 +266,9 @@ function Log(_LogType, _Verbosity, _Line)
 	
 	end
 
-	RemoveStacktrace()
-
 end
 
 local TableContainsOverride = function(_Tbl, _Desired)
-
-	pcall(AddStacktrace, "TableContainsOverride")
 
 	local ReturnIndex = 0
 	local Success = false
@@ -180,8 +293,6 @@ local TableContainsOverride = function(_Tbl, _Desired)
 
 	end
 
-	pcall(RemoveStacktrace)
-
 	return Success, ReturnIndex
 
 end
@@ -189,39 +300,32 @@ end
 --Writes a custom log to the console, if it hasn't been written before
 function LogOnce(_LogType, _Verbosity, _Line)
 	
-	AddStacktrace("LogOnce")
-	SetStacktracePath(_Verbosity)
+	PWrap(SetStacktracePath, _Verbosity)
 
 	local LogID = StacktracePath.._Line
 	contains, _ = TableContainsOverride(WrittenLogs, LogID)
 
 	if(contains == false) then
 
-		table.insert(WrittenLogs, LogID)
-		Log(_LogType, _Verbosity, _Line)
+		PWrap(table.insert, WrittenLogs, LogID)
+		PWrap(Log, _LogType, _Verbosity, _Line)
 
 	end
 	
-	RemoveStacktrace()
-
 end
 
 function LogError(_Line)
 	
-	AddStacktrace("LogError")
-
 	g_DebugMode = true --Error is so severe we should force debug on!
-	UIWarning_Show( "--------------------------------------------\n------TFE CORE FATAL ERROR------\n-----------CORE STOPPED------------\n--------------------------------------------" )
-	Log(eLOG_LOG_TYPE_CRITICAL, eLOG_FULL, _Line)
-	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "|")
-	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "--------------------------------------------")
-	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "------TFE CORE FATAL ERROR------")
-	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "-----------CORE STOPPED------------")
-	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "--------------------------------------------")
-	Log(eLOG_LOG_TYPE_WARNING, eLOG_NONE, "|")
-	ErrorPause()
-
-	RemoveStacktrace()
+	PWrap(UIWarning_Show, "--------------------------------------------\n------TFE CORE FATAL ERROR------\n-----------CORE STOPPED------------\n--------------------------------------------" )
+	PWrap(Log, eLOG_LOG_TYPE_CRITICAL, eLOG_FULL, _Line)
+	PWrap(Log, eLOG_LOG_TYPE_WARNING, eLOG_NONE, "|")
+	PWrap(Log, eLOG_LOG_TYPE_WARNING, eLOG_NONE, "--------------------------------------------")
+	PWrap(Log, eLOG_LOG_TYPE_WARNING, eLOG_NONE, "------TFE CORE FATAL ERROR------")
+	PWrap(Log, eLOG_LOG_TYPE_WARNING, eLOG_NONE, "-----------CORE STOPPED------------")
+	PWrap(Log, eLOG_LOG_TYPE_WARNING, eLOG_NONE, "--------------------------------------------")
+	PWrap(Log, eLOG_LOG_TYPE_WARNING, eLOG_NONE, "|")
+	PWrap(ErrorPause)
 
 end
 
@@ -229,10 +333,7 @@ end
 --Good to use this to check for thoroughness of error checking
 function DoFatalError()
 
-	AddStacktrace("DoFatalError")
-
+	--Ensure this is not PWrapped!
 	print(""..{}.."")
-
-	RemoveStacktrace()
 
 end

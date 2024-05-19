@@ -4,29 +4,21 @@ eBASIC_FUNCTION = 0
 eREQUIRED_FUNCTION = 1
 
 function Core_Game_Load()
-
-	AddStacktrace("Core_Game_Load")	
-
-	DoBasicFunction(Core_CheckForSecondaryScars)
+	
+	PWrap(Core_CheckForSecondaryScars)
 	Rule_AddInterval(Core_MainLoop, g_WorldTimeFidelity)
-
-	RemoveStacktrace()
 	
 end
 
 function InvokeFunctionsFromFunctionTree(FuncTree)
 
 	for _, branch in FuncTree do
+		local func = branch.Function()
+		--[[if pcall(func) == false and branch.Necessity == eREQUIRED_FUNCTION then
+
+			LogError("Cannot run CRITICAL function!") 
 		
-		if(branch.Necessity == eBASIC_FUNCTION) then
-
-			DoBasicFunction(branch.Function)
-
-		elseif(branch.Necessity == eREQUIRED_FUNCTION) then
-
-			DoCriticalFunction(branch.Function)
-
-		end
+		end]]
 
 	end
 
@@ -34,7 +26,7 @@ end
 
 function Core_Init_Load()
 
-	AddStacktrace("Core_Init_Load")
+	AddStacktrace2("Core_Init_Load")
 
 	local SetupFunctionTree = 
 	{
@@ -54,47 +46,41 @@ function Core_Init_Load()
 		{ Function = Setup_XPManager, Necessity = eREQUIRED_FUNCTION },
 	}
 
-	InvokeFunctionsFromFunctionTree(SetupFunctionTree)
+	InvokeFunctionsFromFunctionTree( SetupFunctionTree )
 
-	RemoveStacktrace()
+	RemoveStacktrace2()
 
 	return true	
 
 end
 
 function Core_CheckForSecondaryScars()
-
-	AddStacktrace("Core_CheckForSecondaryScars")
 	
 	if g_TrueRandomRace_Enabled == true then
 
-		TrueRandomRace_Setup()
+		PWrap(TrueRandomRace_Setup)
 	
 	end
-
-	RemoveStacktrace()
 
 end
 
 function Core_GetAllPlayers()
 		
-	AddStacktrace("Core_GetAllPlayers")
-
 	for i = 1, g_PlayerCount do
 
-		local Player = World_GetPlayerAt(i-1)
-		local PlayerIndex = World_GetPlayerIndex(Player)
-		local RaceName = Player_GetRaceName( Player ) 
-		local RaceIndex = Player_GetRace( Player ) 
-		local DisplayName = Player_GetDisplayName(Player)
+		local Player = PWrap(World_GetPlayerAt, i-1)
+		local PlayerIndex = PWrapUnsafe(World_GetPlayerIndex, Player)
+		local RaceName = PWrapUnsafe(Player_GetRaceName, Player ) 
+		local RaceIndex = PWrapUnsafe(Player_GetRace,  Player ) 
+		local DisplayName = PWrapUnsafe(Player_GetDisplayName, Player)
 
-		Setup_PassiveResourceGeneration_Settings(RaceName)
+		PWrap(Setup_PassiveResourceGeneration_Settings, RaceName)
 		table.insert(g_AllPlayers, PlayerDetails:new( Player, PlayerIndex, DisplayName, RaceDetails:new (RaceName, RaceIndex, g_FactionSpecificResourceGeneration[RaceName] )))
 
 		--Move this later
 		if (UnitCosting[RaceName] == nil) then
 
-			pcall(import, 'upkeep/races/'..RaceName..'.scar')
+			PWrap(import, 'upkeep/races/'..RaceName..'.scar')
 
 		end
 		
@@ -103,75 +89,23 @@ function Core_GetAllPlayers()
 	for i = 1, g_PlayerCount do
 		
 		--They need to be in reverse order so P1 is on top...
-		WinWarning_Add( "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[g_PlayerCount-i+1].PlayerIndex, g_AllPlayers[g_PlayerCount-i+1].Player, "", "Mature and Upkeep Counter", "This counter shows the specified players mature and upkeep." )
-		WinWarning_Add( "UI_Accumulated_Red"..g_AllPlayers[g_PlayerCount-i+1].PlayerIndex, g_AllPlayers[g_PlayerCount-i+1].Player, "", "Red Counter", "This counter shows the ammount of gathered red for the player." )
+		PWrapUnsafe(WinWarning_Add, "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[g_PlayerCount-i+1].PlayerIndex, g_AllPlayers[g_PlayerCount-i+1].Player, "", "Mature and Upkeep Counter", "This counter shows the specified players mature and upkeep." )
+		PWrapUnsafe(WinWarning_Add, "UI_Accumulated_Red"..g_AllPlayers[g_PlayerCount-i+1].PlayerIndex, g_AllPlayers[g_PlayerCount-i+1].Player, "", "Red Counter", "This counter shows the ammount of gathered red for the player." )
 
 	end
-
 
 	if g_AI_AdvancedDifficultyScaling == true then
 
-		EnableAIAdvancedDifficulty()
+		PWrap(EnableAIAdvancedDifficulty)
 
 	end
 
-	RemoveStacktrace()
-
 end
 
-function DoBasicFunction(_Func)
-			
-	AddStacktrace("DoBasicFunction")
-
-	local Success = true
-
-	if(pcall(_Func) == false) then
-
-		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Cannot run function!") 
-
-		Success = false
-
-	end
-
-	RemoveStacktrace()
-
-	return Success
-
-end
-
-function DoCriticalFunction(_Func)
-
-	AddStacktrace("DoCriticalFunction")
-
-	local Success = true
-
-	if(pcall(_Func) == false) then
-		
-		LogError("Cannot run CRITICAL function!") 
-		
-		Success = false
-
-	end
-
-	RemoveStacktrace()
-
-	return Success
-
-end
-
-function DebugDisableCodeProtections()
-
-	Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, "Disabling code protections, this should not happen in shipped mod.") 
-
-	function DoBasicFunction(_Func) _Func() end
-
-	function DoCriticalFunction(_Func) _Func() end
-	
-end
 
 function Core_MainLoop()
 	
-	AddStacktrace("Core_MainLoop")
+	AddStacktrace2("Core_MainLoop")
 
 	local MainLoopFunctionTree = 
 	{
@@ -190,70 +124,67 @@ function Core_MainLoop()
 
 	InvokeFunctionsFromFunctionTree(MainLoopFunctionTree)
 
-	RemoveStacktrace()
+	RemoveStacktrace2()
 	
 end
 
+--Run this to cause the mod logic to stop
+--Should only be used for critical errors
 function ErrorPause()
-
-	AddStacktrace("ErrorPause")
 
 	g_ModRunning = false
 	Rule_RemoveAll()
 
-	RemoveStacktrace()
-
 end
 
 function Implement_UpkeepAndMature()
-
-	AddStacktrace("Implement_UpkeepAndMature")
 	
 	for i = 1, g_PlayerCount do
+		
 		local Index = g_PlayerCount - i +1
 		--They need to be in reverse order so P1 is on top...
-		if(Player_IsAlive(g_AllPlayers[Index].Player)) then
+		if(PWrapUnsafe(Player_IsAlive, g_AllPlayers[Index].Player)) then
 
-			if(WinWarning_Exists("UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex)) then
+			if(PWrap(WinWarning_Exists,"UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex)) then
 				
 				local DisplayReqIncome = g_AllPlayers[Index].CurrentAddResources.RT_Requisition				
 				local DisplayPowerIncome = g_AllPlayers[Index].CurrentAddResources.RT_Power 
 				DisplayReqIncome = round(math.floor(DisplayReqIncome),2)
 				DisplayPowerIncome = round(math.floor(DisplayPowerIncome),2)
 
-				WinWarning_SetText( "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex, Loc_FormatText3( 20050000, g_AllPlayers[Index].DisplayName,  DisplayReqIncome , DisplayPowerIncome ))
+				PWrap(WinWarning_SetText, "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex, Loc_FormatText3(20050000, g_AllPlayers[Index].DisplayName,  DisplayReqIncome , DisplayPowerIncome ))
+			
 			else
 
-				WinWarning_Add( "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex, g_AllPlayers[i].Player, "", "", "" )
+				PWrap(WinWarning_Add, "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex, g_AllPlayers[i].Player, "", "", "" )
 
 			end
 
-			if(WinWarning_Exists("UI_Accumulated_Red"..g_AllPlayers[Index].PlayerIndex)) then
+			if(PWrap(WinWarning_Exists, "UI_Accumulated_Red"..g_AllPlayers[Index].PlayerIndex)) then
 				
 				local DisplayTotalRed = g_AllPlayers[Index].CurrentResources.RT_Red
 				DisplayTotalRed = round(math.floor(DisplayTotalRed),1)
 
-				WinWarning_SetText( "UI_Accumulated_Red"..g_AllPlayers[Index].PlayerIndex, Loc_FormatText2( 20050002, g_AllPlayers[Index].DisplayName,  DisplayTotalRed  ))
+				PWrap(WinWarning_SetText, "UI_Accumulated_Red"..g_AllPlayers[Index].PlayerIndex, Loc_FormatText2(20050002, g_AllPlayers[Index].DisplayName,  DisplayTotalRed  ))
 
 			else
 
-				WinWarning_Add( "UI_Accumulated_Red"..g_AllPlayers[Index].PlayerIndex, g_AllPlayers[i].Player, "", "", "" )
+				PWrapUnsafe(WinWarning_Add, "UI_Accumulated_Red"..g_AllPlayers[Index].PlayerIndex, g_AllPlayers[i].Player, "", "", "" )
 
 			end
 			
-
-			Player_AddResource(g_AllPlayers[Index].Player, RT_Requisition, g_AllPlayers[Index].CurrentAddResources.RT_Requisition * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
-			Player_AddResource(g_AllPlayers[Index].Player, RT_Power, g_AllPlayers[Index].CurrentAddResources.RT_Power * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
-			Player_AddResource(g_AllPlayers[Index].Player, RT_Pop, g_AllPlayers[Index].CurrentAddResources.RT_Pop * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
-			Player_AddResource(g_AllPlayers[Index].Player, RT_Faith, g_AllPlayers[Index].CurrentAddResources.RT_Faith * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
-			Player_AddResource(g_AllPlayers[Index].Player, RT_Souls, g_AllPlayers[Index].CurrentAddResources.RT_Souls * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			PWrapUnsafe(Player_AddResource, g_AllPlayers[Index].Player, RT_Requisition, g_AllPlayers[Index].CurrentAddResources.RT_Requisition * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			PWrapUnsafe(Player_AddResource, g_AllPlayers[Index].Player, RT_Power, g_AllPlayers[Index].CurrentAddResources.RT_Power * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			PWrapUnsafe(Player_AddResource, g_AllPlayers[Index].Player, RT_Pop, g_AllPlayers[Index].CurrentAddResources.RT_Pop * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			PWrapUnsafe(Player_AddResource, g_AllPlayers[Index].Player, RT_Faith, g_AllPlayers[Index].CurrentAddResources.RT_Faith * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			PWrapUnsafe(Player_AddResource, g_AllPlayers[Index].Player, RT_Souls, g_AllPlayers[Index].CurrentAddResources.RT_Souls * g_WorldTimeFidelity * g_BonusResourcesMultiplier)
 
 			g_AllPlayers[Index].CurrentResources.RT_Red = g_AllPlayers[Index].CurrentResources.RT_Red + g_AllPlayers[Index].CurrentFireCosts.RT_Red
-			Player_AddResource(g_AllPlayers[Index].Player, RT_Requisition, g_AllPlayers[Index].CurrentFireCosts.RT_Requisition )
-			Player_AddResource(g_AllPlayers[Index].Player, RT_Power, g_AllPlayers[Index].CurrentFireCosts.RT_Power )
-			Player_AddResource(g_AllPlayers[Index].Player, RT_Pop, g_AllPlayers[Index].CurrentFireCosts.RT_Pop )
-			Player_AddResource(g_AllPlayers[Index].Player, RT_Faith, g_AllPlayers[Index].CurrentFireCosts.RT_Faith )
-			Player_AddResource(g_AllPlayers[Index].Player, RT_Souls, g_AllPlayers[Index].CurrentFireCosts.RT_Souls )
+			PWrapUnsafe(Player_AddResource, g_AllPlayers[Index].Player, RT_Requisition, g_AllPlayers[Index].CurrentFireCosts.RT_Requisition )
+			PWrapUnsafe(Player_AddResource, g_AllPlayers[Index].Player, RT_Power, g_AllPlayers[Index].CurrentFireCosts.RT_Power )
+			PWrapUnsafe(Player_AddResource, g_AllPlayers[Index].Player, RT_Pop, g_AllPlayers[Index].CurrentFireCosts.RT_Pop )
+			PWrapUnsafe(Player_AddResource, g_AllPlayers[Index].Player, RT_Faith, g_AllPlayers[Index].CurrentFireCosts.RT_Faith )
+			PWrapUnsafe(Player_AddResource, g_AllPlayers[Index].Player, RT_Souls, g_AllPlayers[Index].CurrentFireCosts.RT_Souls )
 			g_AllPlayers[Index]:ClearCurrentResourceBonuses()
 			
 			g_AllPlayers[Index].CurrentResources.RT_Requisition = Player_GetResource(g_AllPlayers[Index].Player, RT_Requisition)
@@ -261,9 +192,10 @@ function Implement_UpkeepAndMature()
 			g_AllPlayers[Index].CurrentResources.RT_Pop = Player_GetResource(g_AllPlayers[Index].Player, RT_Pop)
 			g_AllPlayers[Index].CurrentResources.RT_Faith = Player_GetResource(g_AllPlayers[Index].Player, RT_Faith)
 			g_AllPlayers[Index].CurrentResources.RT_Souls = Player_GetResource(g_AllPlayers[Index].Player, RT_Souls)
+			
 		else
 
-			WinWarning_Remove("UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex)
+			PWrap(WinWarning_Remove, "UI_RatioIncomeVsUpkeep_Mixed"..g_AllPlayers[Index].PlayerIndex)
 
 		end
 
@@ -271,27 +203,19 @@ function Implement_UpkeepAndMature()
 		--g_AllPlayers[Index].StatsManager:DebugDumpInfo() --This should probably be moved later
 
 	end
-	
-	RemoveStacktrace()
 
 end
 
 --Not online synced!! We should probably never use this... 
 function ClearSelection() 
 
-	AddStacktrace("ClearSelection")
-
 	local g_EmptySGroupID = SGroup_CreateIfNotFound("emptySGroup")
-	W40k_SelectSGroup(g_EmptySGroupID)
+	PWrap(W40k_SelectSGroup, g_EmptySGroupID)
 	
-	RemoveStacktrace()
-
 end
 
 --R_ENEMY, R_ALLY, R_NEUTRAL, R_UNDEFINED. 
 function GetAllPlayerRelationships(_player)
-
-	AddStacktrace("GetAllPlayerRelationships")
 
 	local own = { _player }
 	local allies = {}
@@ -310,19 +234,19 @@ function GetAllPlayerRelationships(_player)
 
 				if(tmpRelationship == R_ALLY) then
 
-					table.insert(allies, g_AllPlayers[i])
+					PWrapUnsafe(table.insert, allies, g_AllPlayers[i])
 
 				elseif(tmpRelationship == R_ENEMY) then
 
-					table.insert(enemies, g_AllPlayers[i])
+					PWrapUnsafe(table.insert, enemies, g_AllPlayers[i])
 
 				elseif(tmpRelationship == R_NEUTRAL) then
 
-					table.insert(neutral, g_AllPlayers[i])
+					PWrapUnsafe(table.insert, neutral, g_AllPlayers[i])
 
 				else
 
-					Log(eLOG_TYPE_WARNING, eLOG_VERBOSE, "Player: ".._player.DisplayName.." has an undefined relationship with "..nextPlayer.DisplayName)
+					PWrap(Log, eLOG_TYPE_WARNING, eLOG_VERBOSE, "Player: ".._player.DisplayName.." has an undefined relationship with "..nextPlayer.DisplayName)
 
 				end
 			end
@@ -330,9 +254,6 @@ function GetAllPlayerRelationships(_player)
 		end
 
 	end
-
-	
-	RemoveStacktrace()
 
 	return own, allies, enemies, neutral
 	
