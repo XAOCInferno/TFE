@@ -102,9 +102,9 @@ function StatsManager:AddKills( _Units, _Leaders, _Commanders, _Squads, _Defende
 end
 
 --1 or more losses detected, assign them as stats
-function StatsManager:AddKills( _Units, _Leaders, _Commanders, _Squads )
+function StatsManager:AddLosses( _Units, _Leaders, _Commanders, _Squads )
 
-	AddStacktrace("StatsManager:AddKills") 
+	AddStacktrace("StatsManager:AddLosses") 
 
 	--Update raw stats
 	self.UnitsLost = self.UnitsLost + _Units
