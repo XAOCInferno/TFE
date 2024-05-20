@@ -246,11 +246,11 @@ local function PlayerGetResources_AsResourceGroup(_player)
 	local tmpResourceGroup = ResourceGroup:new()
 
 	--Ask the game what resources the player has
-	tmpResourceGroup = Player_GetResource(_player, RT_Requisition)
-	tmpResourceGroup = Player_GetResource(_player, RT_Power)
-	tmpResourceGroup = Player_GetResource(_player, RT_Pop)
-	tmpResourceGroup = Player_GetResource(_player, RT_Faith)
-	tmpResourceGroup = Player_GetResource(_player, RT_Souls)
+	tmpResourceGroup.RT_Requisition = Player_GetResource(_player, RT_Requisition)
+	tmpResourceGroup.RT_Power = Player_GetResource(_player, RT_Power)
+	tmpResourceGroup.RT_Pop = Player_GetResource(_player, RT_Pop)
+	tmpResourceGroup.RT_Faith = Player_GetResource(_player, RT_Faith)
+	tmpResourceGroup.RT_Souls = Player_GetResource(_player, RT_Souls)
 
 	return tmpResourceGroup
 
@@ -314,7 +314,7 @@ function Implement_UpkeepAndMature()
 			tmpCurrentAddResources_ResourceGroup:MultiplyByFloat(g_WorldTimeFidelity * g_BonusResourcesMultiplier)
 
 			--Now calculate the CurrentFireCosts (global abilities usually)
-			--Calculate resources to remove
+			--Calculate resources to remove			
 			tmpCurrentFireCosts_ResourceGroup = ResourceGroup:new()
 			tmpCurrentFireCosts_ResourceGroup:Set(g_AllPlayers[Index].CurrentFireCosts)
 

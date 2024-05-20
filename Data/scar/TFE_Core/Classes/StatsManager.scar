@@ -235,9 +235,9 @@ function StatsManager:GetCombatStatsSinceTime( _TimeWindow, _Tbl)
 
 	end
 
-	return TablesToReturn
-
 	RemoveStacktrace()
+
+	return TablesToReturn
 
 end
 
