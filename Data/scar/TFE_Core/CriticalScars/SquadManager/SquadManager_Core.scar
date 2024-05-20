@@ -250,8 +250,17 @@ function UpdateSquadCombatDeathStats( _DefenderSquadStruct, _AttackerPlayer, _De
 
 	AddStacktrace("UpdateSquadCombatDeathStats")
 
-	_AttackerPlayer.StatsManager:AddKills( _ModelLosses, _LeaderLosses, _CommanderLosses, _SquadDead, _DefenderSquadStruct)
-	_DefenderPlayer.StatsManager:AddLosses( _ModelLosses, _LeaderLosses, _CommanderLosses, _SquadDead )
+	if(_AttackerPlayer ~= nil) then
+
+		_AttackerPlayer.StatsManager:AddKills( _ModelLosses, _LeaderLosses, _CommanderLosses, _SquadDead, _DefenderSquadStruct)
+
+	end
+	
+	if(_DefenderPlayer ~= nil) then
+
+		_DefenderPlayer.StatsManager:AddLosses( _ModelLosses, _LeaderLosses, _CommanderLosses, _SquadDead )
+
+	end
 
 	RemoveStacktrace()
 
@@ -357,9 +366,9 @@ function Set_SquadCombatDetails(_SquadStruct, _IsDead)
 
 				if(ModelLosses > 0 or LeaderLosses > 0) then
 
-					UpdateSquadCombatDeath(_SquadStruct, g_AllPlayers[i], _SquadStruct.OwnerPlayer, ModelLosses, LeaderLosses, CommanderLosses, 0)
-					
-					Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Adding Red for Player "..g_AllPlayers[i].PlayerIndex..".")					
+					Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Adding Red for Player "..g_AllPlayers[i].PlayerIndex..".")		
+
+					UpdateSquadCombatDeath(_SquadStruct, g_AllPlayers[i], _SquadStruct.OwnerPlayer, ModelLosses, LeaderLosses, CommanderLosses, 0)								
 	
 				end	
 			
