@@ -32,8 +32,6 @@ chaos_power_fist
 chaos_power_fist_obliterator
 chaos_power_fist_obliterator_improved
 chaos_shrine_turret
-chaos_storm_bolter_turret
-chaos_storm_bolter_turret_listeningpost
 dark_eldar_agonizer
 dark_eldar_dark_lance
 dark_eldar_dark_lance_dais
@@ -212,7 +210,6 @@ guard_missile_launcher
 guard_plasma_gun
 guard_power_fist_captain
 guard_power_sword
-guard_storm_bolter_captain
 guard_sword
 inferno_bolter_tactical_veteran
 inquisition_assault_cannon_dreadnought
@@ -408,8 +405,6 @@ sisters_power_sword
 sisters_sabbat_pattern_helm
 sisters_servitor_overload
 sisters_servitor_overload_suicide
-sisters_storm_bolter
-sisters_storm_bolter_rhino
 space_marine_assault_cannon
 space_marine_assault_cannon_dreadnought
 space_marine_assault_cannon_hellfire
@@ -447,13 +442,7 @@ space_marine_power_sword
 space_marine_power_sword_chaplain
 space_marine_power_sword_librarian_mission
 space_marine_sniper_rifle
-space_marine_storm_bolter
 space_marine_storm_bolter_fc
-space_marine_storm_bolter_grey_knight
-space_marine_storm_bolter_land_speeder
-space_marine_storm_bolter_turret
-space_marine_storm_bolter_turret_listeningpost
-space_marine_storm_bolter_veteran
 tau_burst_cannon_barracuda
 tau_burst_cannon_commander
 tau_burst_cannon_commander_melee
@@ -1377,6 +1366,22 @@ ork_slugga_nob
 ork_slugga_slugga
 ork_slugga_stormboyz
 ork_slugga_tankbustas
+
+
+
+Ranged_Storm_Bolt
+
+chaos_storm_bolter_turret
+chaos_storm_bolter_turret_listeningpost
+guard_storm_bolter_captain
+sisters_storm_bolter
+sisters_storm_bolter_rhino
+space_marine_storm_bolter
+space_marine_storm_bolter_grey_knight
+space_marine_storm_bolter_land_speeder
+space_marine_storm_bolter_turret
+space_marine_storm_bolter_turret_listeningpost
+space_marine_storm_bolter_veteran
 
 
 
