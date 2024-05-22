@@ -25,10 +25,7 @@ chaos_manreaper
 chaos_marine_dummy_weapon
 chaos_melee_test
 chaos_obliterator_ranged_group
-chaos_possessed_melee
 chaos_power_fist
-chaos_power_fist_obliterator
-chaos_power_fist_obliterator_improved
 chaos_shrine_turret
 dark_eldar_agonizer
 dark_eldar_dark_lance
@@ -115,7 +112,6 @@ dark_eldar_tormentor_helm_hellion_succubus
 dark_eldar_tormentor_helm_incubus
 dark_eldar_tormentor_helm_incubus_raider_1
 dark_eldar_unarmed
-dark_eldar_unarmed_warp_beast
 eldar_brightlance
 eldar_brightlance_grav_platform
 eldar_brightlance_grav_tank
@@ -836,6 +832,15 @@ space_marine_power_sword_librarian
 space_marine_power_sword_sergeant
 veteran_power_sword_assault
 veteran_power_sword_assault_sergeant
+
+
+
+Melee_Shredding
+
+chaos_possessed_melee
+chaos_power_fist_obliterator
+chaos_power_fist_obliterator_improved
+dark_eldar_claws_warp_beast
 
 
 
