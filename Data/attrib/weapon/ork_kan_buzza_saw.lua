@@ -27,7 +27,6 @@ GameData["area_effect"]["throw_data"]["force_max"] = 40
 GameData["area_effect"]["throw_data"]["force_min"] = 26
 GameData["area_effect"]["throw_data"]["up_angle_max"] = 25
 GameData["area_effect"]["throw_data"]["up_angle_min"] = 10
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing"] = 10
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing"] = 2
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_01"]["armour_piercing_value"] = 80
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_01"]["armour_type"] = Reference([[type_armour\tp_vehicle_low.lua]])
