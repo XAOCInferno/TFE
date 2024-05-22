@@ -336,19 +336,9 @@ necron_warrior_gauss_flayer_ranged
 necron_warrior_gauss_flayer_turret
 necron_warrior_gauss_flayer_turret_2
 necron_warscythe_pariah_building
-ork_choppa
-ork_choppa_boyz
-ork_knife
-ork_knife_shotta
-ork_mega_blasta
 ork_mega_blasta_warboss
 ork_mega_claw_boss
-ork_nob_shoota
-ork_power_claw
 ork_power_claw_boss_mission
-ork_shoota
-ork_slugga
-ork_stikkbomb
 ork_warboss_big_horns
 ork_warboss_boss_pole
 ork_warboss_fasta_legz
@@ -527,6 +517,7 @@ guard_grenade_launcher_guardsmen_prisoner
 guard_grenade_launcher_heavy_weapons_team
 guard_grenade_launcher_kasrkin
 guard_grenade_launcher_kasrkin_prisoner
+ork_stikkbomb
 veteran_shotgun_scouts_1_max_range
 veteran_shotgun_scouts_2
 veteran_shotgun_scouts_3
@@ -604,7 +595,9 @@ necron_guass_flayer_immortal_melee
 necron_heavy_destroyer_melee
 necron_warrior_gauss_flayer_melee
 necron_wraith_claw
+ork_choppa
 ork_choppa_boss
+ork_choppa_boyz
 ork_choppa_boyz_burnaboy
 ork_choppa_boyz_feral
 ork_choppa_boyz_slugga
@@ -614,7 +607,9 @@ ork_choppa_nob
 ork_choppa_nob_stormboy
 ork_grot_knife
 ork_injector
+ork_knife
 ork_knife_shoota
+ork_knife_shotta
 ork_stikkbomb_stikkbomba
 sisters_knife_battle_sister
 sisters_knife_missionary
@@ -809,6 +804,7 @@ necron_lord_staff_of_light_reaping_blades
 necron_warscythe_pariah
 necron_warscythe_pariah_lord
 necron_warscythe_wraith
+ork_power_claw
 ork_power_claw_armored_nob
 ork_power_claw_boss
 ork_power_claw_boyz
@@ -1162,6 +1158,7 @@ inquisition_melta_gun
 inquisition_melta_gun_bodyguard
 inquisition_melta_gun_shock_troops
 inquisition_melta_weapons
+ork_mega_blasta
 sisters_melta_celestian
 veteran_melta_dreadnought
 
@@ -1308,6 +1305,7 @@ space_marine_plasma_pistol_sergeant
 
 Ranged_Shoota
 
+ork_shoota
 ork_shoota_shoota
 ork_shoota_turret
 ork_shoota_turret_listeningpost
@@ -1354,6 +1352,8 @@ ork_kustom_shoota_flash_gitz
 Ranged_Slugga
 
 ork_grot_blasta
+ork_nob_shoota
+ork_slugga
 ork_slugga_baddok
 ork_slugga_bigmek
 ork_slugga_feral
