@@ -698,7 +698,7 @@ function Setup_ActualGlobalAbilies()
 				
 				_pos = _self.LastCastedEntityPosition
 
-				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new())
+				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new(-50))
 
 				if(costSuccess) then
 
