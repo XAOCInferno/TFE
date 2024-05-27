@@ -240,22 +240,6 @@ local function PlayerAddResources_FromResourceGroup(_player, _resourceGroup)
 
 end
 
-local function PlayerGetResources_AsResourceGroup(_player)
-
-	--Temporary resource group generation
-	local tmpResourceGroup = ResourceGroup:new()
-
-	--Ask the game what resources the player has
-	tmpResourceGroup.RT_Requisition = Player_GetResource(_player, RT_Requisition)
-	tmpResourceGroup.RT_Power = Player_GetResource(_player, RT_Power)
-	tmpResourceGroup.RT_Pop = Player_GetResource(_player, RT_Pop)
-	tmpResourceGroup.RT_Faith = Player_GetResource(_player, RT_Faith)
-	tmpResourceGroup.RT_Souls = Player_GetResource(_player, RT_Souls)
-
-	return tmpResourceGroup
-
-end
-
 --This should be moved later, only in TFE_Core for convenience currently
 function Implement_UpkeepAndMature()
 
@@ -321,17 +305,17 @@ function Implement_UpkeepAndMature()
 			--Merge both the resource groups together
 			tmpCurrentAddResources_ResourceGroup:Add(tmpCurrentFireCosts_ResourceGroup)
 
+			--Add red custom resource to player
+			tmpCurrentAddResources_ResourceGroup.RT_Red = g_AllPlayers[Index].CurrentResources.RT_Red + g_AllPlayers[Index].CurrentFireCosts.RT_Red
+
 			--Now apply the overall resurces to the player
 			PlayerAddResources_FromResourceGroup(g_AllPlayers[Index].Player, tmpCurrentAddResources_ResourceGroup)
 
-			--Add red custom resource to player
-			g_AllPlayers[Index].CurrentResources.RT_Red = g_AllPlayers[Index].CurrentResources.RT_Red + g_AllPlayers[Index].CurrentFireCosts.RT_Red
-
 			--Reset resource bonuses so that they don't carry over
-			g_AllPlayers[Index]:ClearCurrentResourceBonuses()
+			g_AllPlayers[Index]:ClearCurrentResourceBonuses()			
 			
-			--Upate actual stats
-			g_AllPlayers[Index].CurrentResources:Set(PlayerGetResources_AsResourceGroup(g_AllPlayers[Index].Player))
+			--Update actual stats
+			g_AllPlayers[Index].CurrentResources:Set(g_AllPlayers[Index]:PlayerGetResources_AsResourceGroup())
 
 		else
 

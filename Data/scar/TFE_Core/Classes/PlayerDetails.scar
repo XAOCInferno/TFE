@@ -94,3 +94,23 @@ function PlayerDetails:ClearCurrentResourceBonuses()
 	 RemoveStacktrace()
 
 end
+
+function PlayerDetails:PlayerGetResources_AsResourceGroup()
+
+	--Temporary resource group generation.
+	--Ask the game what it knows the player to have resource wise and sync up our details with it
+	--Carry over red resource
+	local tmpResourceGroup = ResourceGroup:new(
+
+		self.CurrentResources.RT_Red,
+		Player_GetResource(self.Player, RT_Requisition),
+		Player_GetResource(self.Player, RT_Power),
+		Player_GetResource(self.Player, RT_Pop),
+		Player_GetResource(self.Player, RT_Faith),
+		Player_GetResource(self.Player, RT_Souls)
+
+	)
+
+	return tmpResourceGroup
+
+end
