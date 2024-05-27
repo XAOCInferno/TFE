@@ -114,3 +114,14 @@ function PlayerDetails:PlayerGetResources_AsResourceGroup()
 	return tmpResourceGroup
 
 end
+
+function PlayerDetails:PlayerAddResources_FromResourceGroup(_resourceGroup)
+
+	self.CurrentResources.RT_Red = self.CurrentResources.RT_Red + _resourceGroup.RT_Red
+	Player_AddResource(self.Player, RT_Requisition, _resourceGroup.RT_Requisition)
+	Player_AddResource(self.Player, RT_Power, _resourceGroup.RT_Power)
+	Player_AddResource(self.Player, RT_Pop, _resourceGroup.RT_Pop)
+	Player_AddResource(self.Player, RT_Faith, _resourceGroup.RT_Faith)
+	Player_AddResource(self.Player, RT_Souls, _resourceGroup.RT_Souls)
+
+end
