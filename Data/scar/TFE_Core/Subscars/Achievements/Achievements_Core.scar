@@ -62,9 +62,9 @@ function Setup_Achievements()
 	Generic_Achievement_FirstBlood.EndSuccess = function( _self, _PlayerStruct )
 
 		_PlayerStruct.CurrentAddResources.RT_Red = _PlayerStruct.CurrentAddResources.RT_Red + 50
-		print(_PlayerStruct.StatsManager.TimestampedUnitKills[1].Units)
-		print(_PlayerStruct.StatsManager.TimestampedUnitKills[1].KillerPosition)
-		print(_PlayerStruct.StatsManager.TimestampedUnitKills[1].KillerPosition[1])
+		--[[Log(eLOG_TYPE_INFO, eLOG_SIMPLE, _PlayerStruct.StatsManager.TimestampedUnitKills[1].Units)
+		Log(eLOG_TYPE_INFO, eLOG_SIMPLE, _PlayerStruct.StatsManager.TimestampedUnitKills[1].KillerPosition)
+		Log(eLOG_TYPE_INFO, eLOG_SIMPLE, _PlayerStruct.StatsManager.TimestampedUnitKills[1].KillerPosition[1])]]
 		World_FXEvent("data:Art/Events/generic/ui/achievement_first_blood_generic", _PlayerStruct.StatsManager.TimestampedUnitKills[1].KillerPosition )
 
 	end

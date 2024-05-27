@@ -683,14 +683,15 @@ function Setup_ActualGlobalAbilies()
 					end
 
 					if(MonolithFXAlreadyApplied == false) then
-						print("APPLYING FX!")
+						Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "APPLYING FX!")
 						--Not working???
 						--_self:ApplyMonolithFX(_self, AllEntitiesIndex[i])
 
 					end
 				end
 
-				print("TimedAbilityUpdate ability done")
+				Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "TimedAbilityUpdate ability done")
+
 			end
 
 
@@ -1225,7 +1226,7 @@ function Setup_ActualGlobalAbilies()
 
 			AbilityStruct_SpaceMarine1.TimedAbilityEnd = function( _self )
 
-				print(_self.AbilityName.. " finished.")
+				Log(eLOG_TYPE_INFO, eLOG_SIMPLE, _self.AbilityName.. " finished.")
 				
 				if(_self.ModFX ~= nil) then
 
@@ -1994,7 +1995,7 @@ function Update_GlobalAbilities()
 	end
 	if(SGroup_IsSelected("GlobalAbilityCasterTest") or SGroup_IsSelected("GlobalAbilityCasterTest2")) then
 		
-		print("UNSELECTING!!")
+		Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "UNSELECTING!!")
 		local timed = false
 
 		if(timed) then
@@ -2008,7 +2009,7 @@ function Update_GlobalAbilities()
 
 		else
 			timeSinceAbilityPress = timeSinceAbilityPress + 1
-			print(timeSinceAbilityPress)
+			Log(eLOG_TYPE_INFO, eLOG_SIMPLE, timeSinceAbilityPress)
 		end
 	end]]
 
