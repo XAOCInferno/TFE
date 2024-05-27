@@ -346,7 +346,6 @@ ork_warboss_mega_eavy_armor
 ork_warboss_red_gob
 ork_warboss_skullz
 purge_bolter_tactical_veteran
-sisters_ascension_angel_weapon
 sisters_autocannon
 sisters_bolter
 sisters_chain_sword
@@ -837,6 +836,7 @@ chaos_possessed_melee
 chaos_power_fist_obliterator
 chaos_power_fist_obliterator_improved
 dark_eldar_claws_warp_beast
+sisters_ascension_angel_weapon
 
 
 

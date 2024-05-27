@@ -2,7 +2,8 @@ import os
 import ListAllLuaFromDirectory
 import tkinter as tk
 from tkinter.filedialog import askdirectory
-tk.Tk().withdraw()
+#from tkinter.filedialog import askdirectory
+#tk.Tk().withdraw()
 from itertools import islice
 
 IS_DEBUG = False
@@ -22,9 +23,34 @@ def GetDataFromFile(messageFile):
     return listOfData
 
 
+
+#--------
+#GUI
+#--------   
+class GUI:
+    
+    def __init__(self):
+        #Get root and create a grid
+        root = tk.Tk()
+        frm = tk.Frame(root)
+        frm.grid()
+        
+        tk.Label(frm, text="Weapon Piercing Exporter Tool").grid(column=0, row=0)
+        
+        tk.Button(frm, text="Update Weapons Path", command= lambda: SetDesiredSetting("Select Weapons Path", "WeaponsPath")).grid(column=0, row=1)
+        
+        tk.Button(frm, text="Update Piercings Path", command= lambda: SetDesiredSetting("Select Piercings Path", "PiercingsPath")).grid(column=0, row=2)
+        
+        tk.Button(frm, text="Export Weapon Piercings", command=DoOpenFilesAndExportPiercings).grid(column=0, row=3)
+        tk.Button(frm, text="Quit", command=root.destroy).grid(column=0, row=4)
+        
+        root.mainloop()
+        return
+        
+
 #--------
 #Settings
-#--------
+#--------   
 
 #Checks file exists, if it doesn't then create it
 def EnsureFileExists(pathAndFile):
@@ -77,12 +103,13 @@ def GetDesiredSettingsFromFile(listOfData):
             #Python returns paths with \\, need to replace with / for interpretation
             dataAsString = dataAsString.replace("\\","/")
             SettingsAsDict[settingAsString] = dataAsString
-            print("Setting: " + settingAsString + " as: " + dataAsString)           
+            DbgLog("Setting: " + settingAsString + " as: " + dataAsString)           
             
                     
 def SetDesiredSetting(message, settingKey):
-    print(message)
+    print(message, '\n')
     SettingsAsDict[settingKey] = askdirectory()
+    
 
 
 #Write the settings paths to the file
@@ -146,6 +173,7 @@ def OrganiseDataForCSV(weaponsByPiercingsDict):
 
     return DataOrganisedByCellRefInCSV
 
+
 def GenerateCSVExportStringFromOrganisedData(DataOrganisedByCellRefInCSV):
     
     dataToExportCSV = ""
@@ -203,7 +231,7 @@ def ExportDataToFile(file, data):
 def DbgLog(text):
     
     if IS_DEBUG:
-        print(text)
+        print(text + '\n')
 
 
 #-------
@@ -271,12 +299,16 @@ def GetWeaponsFromFileAndAssignToDict(weaponsByPiercingsDict, acceptedPiercingFi
 #----
 #FLOW
 #----
-def main():
+
+#Called by button on GUI
+def DoOpenFilesAndExportPiercings():
     
-    GetSettings()    
-        
+    GetSettings()
+    
     acceptedPiercingFiles = ListAllLuaFromDirectory.GetFileNames(SettingsAsDict["PiercingsPath"], "txt", False)
     acceptedWeaponFiles = ListAllLuaFromDirectory.GetFileNames(SettingsAsDict["WeaponsPath"], "lua", False)
+
+    print("Loading, please wait...\n")
 
     weaponsByPiercingsDict = GetWeaponPiercingTypesFromFileAndAssignToDict(acceptedPiercingFiles, acceptedWeaponFiles)
     weaponsByPiercingsDict = GetWeaponsFromFileAndAssignToDict(weaponsByPiercingsDict, acceptedPiercingFiles, acceptedWeaponFiles)
@@ -285,6 +317,14 @@ def main():
 
     ExportDataToFile(TXT_EXPORT_FILE, GenerateTXTExportString(weaponsByPiercingsDict))
     ExportDataToFile(CSV_EXPORT_FILE, GenerateCSVExportStringFromOrganisedData(DataOrganisedByCellRefInCSV))
+    
+    print("Done!\n")
+
+
+def main():
+    mainWindow = GUI()
+
+    return
 
         
 if __name__ == "__main__":
