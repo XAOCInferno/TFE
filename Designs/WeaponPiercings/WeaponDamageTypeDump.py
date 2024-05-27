@@ -2,8 +2,6 @@ import os
 import ListAllLuaFromDirectory
 import tkinter as tk
 from tkinter.filedialog import askdirectory
-#from tkinter.filedialog import askdirectory
-#tk.Tk().withdraw()
 from itertools import islice
 
 IS_DEBUG = False
