@@ -303,16 +303,21 @@ def DoOpenFilesAndExportPiercings():
     
     GetSettings()
     
+    print("Loading, please wait...\n")
+    
     acceptedPiercingFiles = ListAllLuaFromDirectory.GetFileNames(SettingsAsDict["PiercingsPath"], "txt", False)
     acceptedWeaponFiles = ListAllLuaFromDirectory.GetFileNames(SettingsAsDict["WeaponsPath"], "lua", False)
 
-    print("Loading, please wait...\n")
-
+    #Get weapons piercing data and assign them to dictionary
     weaponsByPiercingsDict = GetWeaponPiercingTypesFromFileAndAssignToDict(acceptedPiercingFiles, acceptedWeaponFiles)
+
+    #Update the dictionary with the weapons dependant on which piercing it uses
     weaponsByPiercingsDict = GetWeaponsFromFileAndAssignToDict(weaponsByPiercingsDict, acceptedPiercingFiles, acceptedWeaponFiles)
 
+    #Format for CSV
     DataOrganisedByCellRefInCSV = OrganiseDataForCSV(weaponsByPiercingsDict) 
 
+    #Export to file
     ExportDataToFile(TXT_EXPORT_FILE, GenerateTXTExportString(weaponsByPiercingsDict))
     ExportDataToFile(CSV_EXPORT_FILE, GenerateCSVExportStringFromOrganisedData(DataOrganisedByCellRefInCSV))
     
