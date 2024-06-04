@@ -125,9 +125,6 @@ eldar_farseer_rune_warding
 eldar_farseer_rune_witnessing
 eldar_farseer_wraithbone_armor
 eldar_knife
-eldar_long_rifle
-eldar_long_rifle_tier_2
-eldar_long_rifle_tier_3
 eldar_missile_launcher
 eldar_power_sword
 eldar_prism_cannon
@@ -178,7 +175,6 @@ guard_captain_greaves
 guard_captain_pauldrons
 guard_captain_sash
 guard_captain_targeting_optics
-guard_exitus_rifle
 guard_master_power_claws_captain
 guard_missile_launcher
 guard_plasma_gun
@@ -265,7 +261,6 @@ inquisition_warp_zap_sanctuary
 kraken_bolter_tactical_veteran
 master_crafted_bolter_tactical_veteran
 necron_cryptek_ranged
-necron_deathmark_disintegrator_ranged
 necron_deceiver_blast
 necron_deceiver_blast_left
 necron_deceiver_blast_nodmg_confusion
@@ -348,7 +343,6 @@ space_marine_force_commander_teleporter
 space_marine_force_weapon
 space_marine_force_weapon_mission
 space_marine_melee_test
-space_marine_sniper_rifle
 space_marine_storm_bolter_fc
 tau_burst_cannon_barracuda
 tau_burst_cannon_commander
@@ -418,9 +412,6 @@ veteran_bolt_pistol_scout
 veteran_bolt_pistol_scout_explosive
 veteran_operative_rifle
 veteran_operative_rifle_leader
-veteran_sniper_rifle
-veteran_sniper_rifle_explosive
-veteran_sniper_rifle_t1
 
 
 
@@ -1366,6 +1357,25 @@ ork_slugga_nob
 ork_slugga_slugga
 ork_slugga_stormboyz
 ork_slugga_tankbustas
+
+
+
+Ranged_Sniper_Heavy
+
+guard_exitus_rifle
+necron_deathmark_disintegrator_ranged
+veteran_sniper_rifle_explosive
+
+
+
+Ranged_Sniper_Light
+
+eldar_long_rifle
+eldar_long_rifle_tier_2
+eldar_long_rifle_tier_3
+space_marine_sniper_rifle
+veteran_sniper_rifle
+veteran_sniper_rifle_t1
 
 
 
