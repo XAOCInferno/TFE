@@ -249,7 +249,6 @@ ork_warboss_mega_eavy_armor
 ork_warboss_red_gob
 ork_warboss_skullz
 purge_bolter_tactical_veteran
-sisters_autocannon
 sisters_dummy_weapon
 sisters_emperors_touch
 sisters_emperors_touch_battle_sister
@@ -880,6 +879,7 @@ guard_autocannon_heavy_weapons_team
 ork_bomb_chucka
 ork_bomb_chucka_wartrack
 ork_bomb_chucka_wartrack_free
+sisters_autocannon
 sisters_autocannon_lightning
 
 
