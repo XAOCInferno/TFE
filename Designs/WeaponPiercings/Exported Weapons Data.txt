@@ -191,7 +191,6 @@ inquisition_servo_skull_defense
 inquisition_small_weapons
 kraken_bolter_tactical_veteran
 master_crafted_bolter_tactical_veteran
-necron_cryptek_ranged
 necron_deceiver_blast
 necron_deceiver_blast_left
 necron_deceiver_blast_nodmg_confusion
@@ -203,15 +202,11 @@ necron_heavy_gauss_cannon_right_front_monolith_illusion
 necron_heavy_gauss_cannon_right_rear_monolith_illusion
 necron_lord_death_mask
 necron_lord_death_shroud
-necron_lord_destroyer_staff_of_light_ranged
 necron_lord_gauntlets
 necron_lord_mantle_of_doom
 necron_lord_phylactery
 necron_lord_resurection_orb
 necron_lord_ribcage
-necron_lord_staff_of_light_gauss_flayer
-necron_lord_staff_of_light_ranged
-necron_lord_staff_of_light_ranged_2
 necron_lord_staff_of_light_skinning_blades
 necron_lord_under_shoulder
 necron_mine_scarab_exploder
@@ -953,6 +948,7 @@ tau_flamer_crisis_suit
 
 Ranged_Gauss_Basic
 
+necron_cryptek_ranged
 necron_gauss_blaster_pariah
 necron_gauss_blaster_pariah_lord
 necron_gauss_flayer_destroyer
@@ -1390,6 +1386,15 @@ eldar_long_rifle_tier_3
 space_marine_sniper_rifle
 veteran_sniper_rifle
 veteran_sniper_rifle_t1
+
+
+
+Ranged_Staff_Of_Light
+
+necron_lord_destroyer_staff_of_light_ranged
+necron_lord_staff_of_light_gauss_flayer
+necron_lord_staff_of_light_ranged
+necron_lord_staff_of_light_ranged_2
 
 
 
