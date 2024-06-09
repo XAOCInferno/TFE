@@ -206,10 +206,7 @@ necron_lord_resurection_orb
 necron_lord_ribcage
 necron_lord_staff_of_light_skinning_blades
 necron_lord_under_shoulder
-necron_mine_scarab_exploder
 necron_particle_whip_monolith_illusion
-necron_scarab_melee
-necron_scarab_melee_ground
 necron_warscythe_pariah_building
 ork_mega_blasta_warboss
 ork_mega_claw_boss
@@ -636,6 +633,19 @@ chaos_power_fist_obliterator
 chaos_power_fist_obliterator_improved
 dark_eldar_claws_warp_beast
 sisters_ascension_angel_weapon
+
+
+
+Melee_Shredding_Light
+
+necron_mine_scarab_exploder
+necron_scarab_melee
+necron_scarab_melee_ground
+
+
+
+Melee_Super_Heavy
+
 
 
 
