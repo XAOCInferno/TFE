@@ -191,10 +191,7 @@ inquisition_servo_skull_defense
 inquisition_small_weapons
 kraken_bolter_tactical_veteran
 master_crafted_bolter_tactical_veteran
-necron_deceiver_blast
-necron_deceiver_blast_left
 necron_deceiver_blast_nodmg_confusion
-necron_deceiver_blast_right
 necron_gauss_listening_post
 necron_heavy_gauss_cannon_left_front_monolith_illusion
 necron_heavy_gauss_cannon_left_rear_monolith_illusion
@@ -210,7 +207,6 @@ necron_lord_ribcage
 necron_lord_staff_of_light_skinning_blades
 necron_lord_under_shoulder
 necron_mine_scarab_exploder
-necron_nightbringer_scythe_ranged
 necron_particle_whip_monolith_illusion
 necron_scarab_melee
 necron_scarab_melee_ground
@@ -1306,6 +1302,10 @@ Ranged_Psychic_Light
 
 inquisition_warp_zap
 inquisition_warp_zap_pentagram
+necron_deceiver_blast
+necron_deceiver_blast_left
+necron_deceiver_blast_right
+necron_nightbringer_scythe_ranged
 
 
 
