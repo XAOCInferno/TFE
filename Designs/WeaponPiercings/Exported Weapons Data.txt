@@ -196,12 +196,7 @@ necron_deceiver_blast
 necron_deceiver_blast_left
 necron_deceiver_blast_nodmg_confusion
 necron_deceiver_blast_right
-necron_gauss_blaster_immortal
-necron_gauss_blaster_pariah
-necron_gauss_blaster_pariah_lord
 necron_gauss_cannon_heavy_destroyer
-necron_gauss_flayer_destroyer
-necron_gauss_flayer_ranged
 necron_gauss_listening_post
 necron_gauss_listening_post_2
 necron_heavy_gauss_cannon_left_front
@@ -235,8 +230,6 @@ necron_particle_whip_monolith_illusion
 necron_scarab_melee
 necron_scarab_melee_ground
 necron_tomb_spyder_particle_projector
-necron_warrior_gauss_flayer_ranged
-necron_warrior_gauss_flayer_turret
 necron_warrior_gauss_flayer_turret_2
 necron_warscythe_pariah_building
 ork_mega_blasta_warboss
@@ -970,6 +963,17 @@ tau_flamer_crisis_suit
 
 
 
+Ranged_Gauss_Basic
+
+necron_gauss_blaster_pariah
+necron_gauss_blaster_pariah_lord
+necron_gauss_flayer_destroyer
+necron_gauss_flayer_ranged
+necron_warrior_gauss_flayer_ranged
+necron_warrior_gauss_flayer_turret
+
+
+
 Ranged_Lascannon
 
 chaos_lascannon
@@ -999,6 +1003,7 @@ inquisition_lascannon_twin_landraider_left
 inquisition_lascannon_twin_landraider_right
 inquisition_laser_heavy_weapons
 inquisition_laser_weapons
+necron_gauss_blaster_immortal
 ork_zzzap_gun
 sisters_lascannon
 sisters_lascannon_lightning
