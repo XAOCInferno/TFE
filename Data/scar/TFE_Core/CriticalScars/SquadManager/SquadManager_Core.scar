@@ -93,7 +93,7 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 			--Need to probably move the relic units table to a global place
 			local isRelicUnit, _ = TableContains({"chaos_squad_bloodthirster", "dark_eldar_squad_dais_of_destruction", "eldar_squad_avatar", "guard_squad_baneblade", "inquisition_squad_land_raider_crusader", "necron_restored_monolith_squad", "ork_squad_squiggoth", "sisters_squad_living_saint", "space_marine_squad_land_raider", "space_marine_squad_land_raider_veteran", "tau_krootox_squad", "tyranids_squad_swarmlord"},squadBP)
 			--Might need to create a unique sgroupid later...
-			local tmpData = SquadData:new( newSquadGameID, _sgroupid, _itemindex, _squadID, g_AllPlayers[_PlayerIndex].RaceDetails.RaceName, squadBP, g_AllPlayers[_PlayerIndex], isRelicUnit)
+			local tmpData = SquadData:new( newSquadGameID, false, _itemindex, _squadID, g_AllPlayers[_PlayerIndex].RaceDetails.RaceName, squadBP, g_AllPlayers[_PlayerIndex], isRelicUnit)
 			table.insert(g_AllSquadsData[_PlayerIndex], tmpData)	
 
 		end

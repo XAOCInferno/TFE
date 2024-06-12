@@ -3,9 +3,16 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 
 	AddStacktrace("SquadData:new")
 
-	local tmpSGroupID = GetUniqueSG("SquadData_".._sBP)
+	local tmpSGroupID = _sGroupID
+	
+	if(_sGroupID == false) then
+
+		tmpSGroupID = GetUniqueSG("SquadData_".._sBP)
+		SGroup_Add(tmpSGroupID, _sID)
+
+	end
+	
 	local tmpSGroupName = SGroup_GetName(tmpSGroupID)
-	SGroup_Add(tmpSGroupID, _sID)
 
     local SquadDataObject = 
     {
@@ -23,7 +30,7 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		SquadInitTime = g_WorldTime,	
 		SquadPosition = Squad_GetPosition(_sID),
 		SquadHasAttached = Squad_IsAttached(_sID),
-		SquadIsAttached = false,
+		SquadIsAttached = Squad_IsAttached(_sID),
 		OwnedByPlayer = Squad_GetPlayerOwner(_sID),
 		OwnerPlayer = _player, 
 		IsSelected_Unsynced = Misc_IsSquadSelected(_sID),
@@ -33,6 +40,7 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		SquadAppliedCoverMods_Index = {},
 
 		--Variables
+		History = FixedLengthTable:new(g_MaximumHistories), --A collection of timestamped squad states 
 		IsUnderAttack = false,
 		PreviousSquadLoadout = Squad_Count(_sID),
 		PreviousSquadLeaderCount = Squad_CountLeaders(_sID),
@@ -49,17 +57,29 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 
 end
 
+function SquadData:CreateCopy()
+
+	return SquadData:new(self.SquadUniqueID, self.SquadGroupID, self.SquadIndex, self.SquadID, self.SquadUnitRace, self.SquadBlueprint, self.OwnerPlayer, self.IsRelicUnit)
+
+end
+
+
 function SquadData:Update(_self)
 		
 	AddStacktrace("SquadData:Update")
 
-	_self.SquadLoadout = Squad_Count(_self.SquadID)
-	_self.SquadHasLeader = Squad_HasLeader(_self.SquadID)
-	_self.SquadLeaderCount = Squad_CountLeaders(_self.SquadID)
-	_self.SquadPosition = Squad_GetPosition(_self.SquadID)
-	_self.SquadIsAttached = Squad_IsAttached(_self.SquadID)
-	_self.OwnedByPlayer = Squad_GetPlayerOwner(_self.SquadID)
-	_self.IsSelected_Unsynced = Misc_IsSquadSelected(_self.SquadID) --Not online synced!
+	--Store current state in our history
+	local copy = _self:CreateCopy()
+	History.Insert(copy)
+
+	--Update current state, doesn't matter which order we do this as 
+	_self.SquadLoadout = copy.SquadID
+	_self.SquadHasLeader = copy.SquadID
+	_self.SquadLeaderCount = copy.SquadID
+	_self.SquadPosition = copy.SquadID
+	_self.SquadIsAttached = copy.SquadID
+	_self.OwnedByPlayer = copy.SquadID
+	_self.IsSelected_Unsynced = copy.SquadID --Not online synced!
 
 	RemoveStacktrace()
 

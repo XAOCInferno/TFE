@@ -1,0 +1,66 @@
+--[[
+	Fixed length tables are unsorted 
+	If maximum size is reached, insert will overflow and delete from index 0
+	This is essentially a Queue
+	Therefore consider usage carefully as data will be lost as FIFO based on order of insert not order of data
+]]
+
+FixedLengthTable = {}
+function FixedLengthTable:new (_MaximumTableEntries)
+
+	AddStacktrace("FixedLengthTable:new")
+
+    local FixedLengthTableObject = 
+    {
+
+		--Constants
+		MaximumTableEntries = _MaximumTableEntries
+
+		--Variables
+		Data = {},
+		NextEntry = 0
+		
+	}
+
+	for i = 0, i < FixedLengthTableObject.MaximumTableEntries do
+
+		Data.insert(false)
+
+	end
+
+	self.__index = self
+
+	RemoveStacktrace()
+
+	return setmetatable(FixedLengthTable, self)
+
+end 
+
+function FixedLengthTable:Insert (_Object)
+
+	AddStacktrace("FixedLengthTable:Insert")
+
+	self.Data[self.NextEntry] = _Object
+	self.NextEntry = (self.NextEntry % self.MaximumTableEntries) + 1
+
+	RemoveStacktrace()
+
+end 
+
+function FixedLengthTable:GetFromIndex (_Index)
+
+	AddStacktrace("FixedLengthTable:GetFromIndex")
+
+	_Index = _Index % self.MaximumTableEntries
+
+	RemoveStacktrace()
+
+	return self.Data[self._Index]
+
+end 
+
+function FixedLengthTable:GetFromKey (_Key)
+
+	return self.Data[_Key]
+
+end 

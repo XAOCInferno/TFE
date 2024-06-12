@@ -1,0 +1,6 @@
+--[[Classes]]
+import("TFE_Core/CriticalScars/Globals/Classes/LimitedTable.scar")
+
+--[[Settings]]
+import("TFE_Core/CriticalScars/Globals/GlobalsStorage.lua")
+

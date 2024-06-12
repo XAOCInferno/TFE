@@ -78,6 +78,9 @@ g_TimeTakenForMaxUpkeep = 150 --300
 
 g_PreviousWorldTime = 0
 g_TimeSinceWorldTimeUpdate = 0
+g_HistoryUpdateRate = 2
+g_MaximumHistories = 15
+
 
 g_SquadBlueprintToIgnore = 
 {
