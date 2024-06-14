@@ -14,7 +14,7 @@ function FixedLengthTable:new (_MaximumTableEntries)
     {
 
 		--Constants
-		MaximumTableEntries = _MaximumTableEntries
+		MaximumTableEntries = _MaximumTableEntries,
 
 		--Variables
 		Data = {},
@@ -22,9 +22,9 @@ function FixedLengthTable:new (_MaximumTableEntries)
 		
 	}
 
-	for i = 0, i < FixedLengthTableObject.MaximumTableEntries do
+	for i = 1, _MaximumTableEntries do
 
-		Data.insert(false)
+		table.insert(FixedLengthTableObject.Data,false)
 
 	end
 
@@ -41,7 +41,7 @@ function FixedLengthTable:Insert (_Object)
 	AddStacktrace("FixedLengthTable:Insert")
 
 	self.Data[self.NextEntry] = _Object
-	self.NextEntry = (self.NextEntry % self.MaximumTableEntries) + 1
+	self.NextEntry = math.fmod(self.NextEntry, self.MaximumTableEntries) + 1
 
 	RemoveStacktrace()
 
@@ -51,7 +51,7 @@ function FixedLengthTable:GetFromIndex (_Index)
 
 	AddStacktrace("FixedLengthTable:GetFromIndex")
 
-	_Index = _Index % self.MaximumTableEntries
+	_Index = math.fmod(_Index, self.MaximumTableEntries)
 
 	RemoveStacktrace()
 

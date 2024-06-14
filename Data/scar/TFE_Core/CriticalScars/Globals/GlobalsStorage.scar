@@ -2,7 +2,7 @@
 --Settings imports--
 --------------------
 
-import("TFE_Core/CriticalScars/Globals/Globals_Imports.lua")
+import("TFE_Core/CriticalScars/Globals/Imports/Globals_Imports.scar")
 
 --local GlobalUniqueSquadID = 0
 local UsedUniqueSquadIDs = {}
