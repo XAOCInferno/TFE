@@ -48,9 +48,6 @@ dark_eldar_tormentor_helm
 dark_eldar_tormentor_helm_incubus
 dark_eldar_tormentor_helm_incubus_raider_1
 dark_eldar_unarmed
-eldar_dcannon
-eldar_dcannon_support_platform
-eldar_dcannon_turret
 eldar_deathspinner
 eldar_deathspinner_warpspiderexarch
 eldar_dual_deathspinners
@@ -64,8 +61,6 @@ eldar_farseer_wraithbone_armor
 eldar_knife
 eldar_missile_launcher
 eldar_power_sword
-eldar_prism_cannon
-eldar_prism_cannon_throw
 eldar_reaper_launcher
 eldar_reaper_launcher1
 eldar_reaper_launcher2
@@ -715,6 +710,14 @@ space_marine_bolt_pistol_sergeant
 
 
 
+Ranged_DCannon
+
+eldar_dcannon
+eldar_dcannon_support_platform
+eldar_dcannon_turret
+
+
+
 Ranged_Disintegrator
 
 dark_eldar_disintegrator
@@ -735,6 +738,7 @@ chaos_autocannon_predator_nurgle
 chaos_autocannon_twin
 chaos_autocannon_twin_defiler
 chaos_autocannon_twin_stalk_defiler
+eldar_prism_cannon_throw
 guard_autocannon_baneblade
 guard_autocannon_sentinel
 guard_battle_cannon
@@ -1165,6 +1169,7 @@ space_marine_missile_turret
 Ranged_Plasma_Heavy
 
 chaos_noise_blaster
+eldar_prism_cannon
 inquisition_heavy_plasma_gun
 inquisition_heavy_plasma_gun_dreadnought
 inquisition_plasma_cannon_stormraven
