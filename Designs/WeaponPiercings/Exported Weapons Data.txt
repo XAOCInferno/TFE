@@ -17,7 +17,6 @@ chaos_marine_dummy_weapon
 chaos_melee_test
 chaos_obliterator_ranged_group
 chaos_shrine_turret
-dark_eldar_agonizer
 dark_eldar_dummy_incubi_particle_1
 dark_eldar_dummy_incubi_particle_2
 dark_eldar_dummy_incubi_particle_3
@@ -25,7 +24,6 @@ dark_eldar_dummy_incubi_particle_4
 dark_eldar_dummy_incubi_particle_5
 dark_eldar_dummy_melee_weapon
 dark_eldar_dummy_weapon
-dark_eldar_hellglaive
 dark_eldar_hydraknife
 dark_eldar_hydraknife_wych_succubus_nodmg_slowing
 dark_eldar_impaler
@@ -42,12 +40,10 @@ dark_eldar_poisoned_blade_warrior
 dark_eldar_poisoned_blade_wych
 dark_eldar_power_scythe
 dark_eldar_punisher
-dark_eldar_scissorhand
 dark_eldar_shredder
 dark_eldar_shredder_sybarite
 dark_eldar_splinter_guns
 dark_eldar_sword
-dark_eldar_talos_sting
 dark_eldar_tormentor_helm
 dark_eldar_tormentor_helm_incubus
 dark_eldar_tormentor_helm_incubus_raider_1
@@ -250,6 +246,7 @@ dark_eldar_knife_mandrake_daemonic_touch
 dark_eldar_knife_scourge
 dark_eldar_knife_scourge_leader
 dark_eldar_knife_warrior
+dark_eldar_scissorhand
 dark_eldar_scissorhand_haemonculus
 eldar_knife_darkreaper
 eldar_knife_darkreaperexarch
@@ -377,6 +374,7 @@ chaos_power_fist
 chaos_power_fist_champion
 chaos_power_fist_raptorchampion
 chaos_stalk_defiler_melee
+dark_eldar_agonizer
 dark_eldar_agonizer_archon
 dark_eldar_agonizer_beastmaster
 dark_eldar_agonizer_hellion_leader
@@ -438,6 +436,7 @@ chaos_power_sword_lord
 chaos_power_sword_raptorchampion
 chaos_power_sword_sorcerer
 chaos_power_sword_sorcerer_aspiring
+dark_eldar_hellglaive
 dark_eldar_hellglaive_hellion
 dark_eldar_hellglaive_shooter
 dark_eldar_hydraknife_wych_succubus
@@ -1286,6 +1285,7 @@ dark_eldar_splinter_cannon_raven
 dark_eldar_splinter_cannon_scourge
 dark_eldar_splinter_cannon_scourge_leader
 dark_eldar_splinter_dual_cannons_listening_post
+dark_eldar_talos_sting
 eldar_shuriken_cannon
 eldar_shuriken_cannon_darkreaperexarch
 eldar_shuriken_cannon_grav_platform
