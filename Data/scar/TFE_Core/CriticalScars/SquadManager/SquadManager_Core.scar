@@ -60,18 +60,33 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 
 					end
 					
+					--Squad is already in data so we don't need to track it
 					if(g_AllSquadsData[_PlayerIndex][l].SquadUniqueID == newSquadGameID) then
 						
 						criticalError = true
 						break
 
 					--A squad which we've previously had data on has now been detached, reassign their data to them.
-					elseif(SGroup_ContainsSquad(g_AllSquadsData[_PlayerIndex][l].SquadGroupID,_squadID)) then
+					elseif(SGroup_ContainsSquad(g_AllSquadsData[_PlayerIndex][l].SquadGroupID, _squadID) and g_AllSquadsData[_PlayerIndex][l].SquadIsAttached) then
 
-						g_AllSquadsData[_PlayerIndex][l].UniqueSquadID = newSquadGameID
-						g_AllSquadsData[_PlayerIndex][l].SquadID = _squadID
-						g_AllSquadsData[_PlayerIndex][l].SquadIsAttached = false
+						Log(eLOG_TYPE_INFO, eLOG_SIMPLE, g_AllSquadsData[_PlayerIndex][l].SquadBlueprint.." has detached, adding special tracking to it")
 
+						--Firstly, correct the now changed SquadID and GameID. GameID may not have changed (this appears to be constant) but SquadID most certainly has
+						g_AllSquadsData[_PlayerIndex][l]:ReaffirmConstants()
+
+						--New squad data to reset tracking
+						local copy = g_AllSquadsData[_PlayerIndex][l]:CreateTotalCopy()
+
+						--Squad has previously attached, so we need to add reaffirm tracking to it and get which squad it probably attached to
+						copy.SquadHasAttached = true	
+						copy.History = copy.SquadAttachedTo.History
+						copy.SquadDetachedFrom = copy.SquadAttachedTo
+						copy.SquadAttachedTo = nil
+
+						--Overwrite previous data
+						g_AllSquadsData[_PlayerIndex][l] = copy					
+
+						--Break with "error" so we don't try to create a new squad for this guy
 						criticalError = true
 						break
 
@@ -146,10 +161,10 @@ function Update_ExistingSquadDetails()
 				table.remove(g_AllSquadsData[i], l)	
 
 
-			--Squad has been destroyed since our last check, so we grant red resource.
+			--Squad has been lost since our last check, so we need to check if the squad is attached or dead.
 			elseif(Squad_Exists(g_AllSquadsData[i][l].SquadUniqueID) == false ) then	--Does this work?
 				
-				
+				--SGroup persists after squad is attached, but SGroup loadout is 0 so squad is dead confirmed
 				if(SGroup_CountSpawned( g_AllSquadsData[i][l].SquadGroupID ) <= 0) then
 
 					Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "REMOVING SQUAD VIA THE SQUAD_EXISTS")
@@ -157,19 +172,26 @@ function Update_ExistingSquadDetails()
 					g_AllSquadsData[i][l].SquadHasPreviouslyExisted = true
 					table.remove(g_AllSquadsData[i], l)	
 
-				else
+				--SGroup loadout is > 0 so squad is still alive but attached
+				elseif(g_AllSquadsData[i][l].SquadIsAttached == false) then
+				
+					Log(eLOG_TYPE_INFO, eLOG_SIMPLE, g_AllSquadsData[i][l].SquadBlueprint.." has attached")
 
-					--Not sure if we'll need this yet, probably later as part of the XP system
 					g_AllSquadsData[i][l].SquadIsAttached = true
+					g_AllSquadsData[i][l].SquadHasAttached = true	
+
+					--Now that we've attached, must reaffirm SquadID
+					g_AllSquadsData[i][l]:ReaffirmConstants()
+
+					--Assign the Squad we're attached as the nearest squad, weird assumption but works
+					g_AllSquadsData[i][l].SquadAttachedTo = GetClosestSquadToPos(i, g_AllSquadsData[i][l].SquadPosition, 30, { g_AllSquadsData[i][l].SquadID })
 					
 				end
 			
 			--Squad exists and has more than 0 members so let's update their squad details.
-			else						
+			else	
+								
 				g_AllSquadsData[i][l]:Update(g_AllSquadsData[i][l])
-				--[[g_AllSquadsData[i][l].SquadLoadout = Squad_Count(g_AllSquadsData[i][l].SquadID)
-				g_AllSquadsData[i][l].SquadHasLeader = Squad_HasLeader(g_AllSquadsData[i][l].SquadID)
-				g_AllSquadsData[i][l].SquadLeaderCount = Squad_CountLeaders(g_AllSquadsData[i][l].SquadID)]]
 				Set_SquadCombatDetails(g_AllSquadsData[i][l], false)		
 
 				--Squad exists but now has 0 members. At 0 members the squad is destroyed so this likely will never happen. If log isn't ever observed, delete this.
@@ -519,11 +541,13 @@ function GetAllSquadsInAreaFromPlayerTable(_players, _pos, _proximity)
 end
 
 --Use for single target
-function GetClosestSquadToPos(_player, _pos, _maxDistance)
+function GetClosestSquadToPos(_player, _pos, _maxDistance, _IgnoreSquadIDs)
 
 	AddStacktrace("GetClosestSquadToPos")
 
-	if(TableLength(g_PlayerSquadCount[_player]) == 0) then
+	_IgnoreSquadIDs = _IgnoreSquadIDs or {}
+
+	if(g_PlayerSquadCount[_player] == 0) then
 
 		Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "No squads are near that position as player has no squads.")
 	
@@ -536,14 +560,18 @@ function GetClosestSquadToPos(_player, _pos, _maxDistance)
 
 			if(g_AllSquadsData[_player][i] ~= nil) then
 
-				local DistanceToPoint = World_DistancePointToPoint(_pos, g_AllSquadsData[_player][i].SquadPosition)
+				if(TableContains(_IgnoreSquadIDs,g_AllSquadsData[_player][i].SquadID) == false ) then
 
-				if(DistanceToPoint <= ShortestDistance and DistanceToPoint < _maxDistance) then
+					local DistanceToPoint = World_DistancePointToPoint(_pos, g_AllSquadsData[_player][i].SquadPosition)
 
-					--We should probably remove this log as it will spew info to other players...
-					Log(eLOG_TYPE_INFO, eLOG_VERBOSE, g_AllSquadsData[_player][i].SquadBlueprint.." Is closer with distance of "..DistanceToPoint)
-					ShortestDistance = DistanceToPoint
-					ClosestSquad = g_AllSquadsData[_player][i].SquadPosition
+					if(DistanceToPoint <= ShortestDistance and DistanceToPoint < _maxDistance) then
+
+						--We should probably remove this log as it will spew info to other players...
+						Log(eLOG_TYPE_INFO, eLOG_VERBOSE, g_AllSquadsData[_player][i].SquadBlueprint.." Is closer with distance of "..DistanceToPoint)
+						ShortestDistance = DistanceToPoint
+						ClosestSquad = g_AllSquadsData[_player][i]
+
+					end
 
 				end
 

@@ -29,8 +29,12 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		SquadLeaderCount = Squad_CountLeaders(_sID),
 		SquadInitTime = g_WorldTime,	
 		SquadPosition = Squad_GetPosition(_sID),
-		SquadHasAttached = Squad_IsAttached(_sID),
+		SquadHasAttached = false,
 		SquadIsAttached = Squad_IsAttached(_sID),
+		SquadAttachedTo = nil,
+		SquadDetachedFrom = nil,
+		SquadAvgHealth = SGroup_GetAvgHealth( tmpSGroupName ),
+		SquadAvgMorale = SGroup_GetAvgMorale( tmpSGroupName ),
 		OwnedByPlayer = Squad_GetPlayerOwner(_sID),
 		OwnerPlayer = _player, 
 		IsSelected_Unsynced = Misc_IsSquadSelected(_sID),
@@ -40,7 +44,8 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		SquadAppliedCoverMods_Index = {},
 
 		--Variables
-		History = FixedLengthTable:new(g_MaximumHistories), --A collection of timestamped squad states 
+		History = FixedLengthTable:new(g_MaximumHistories, {Time = -1, State = nil}), --A collection of timestamped squad states 
+		NextHistoryTime = g_WorldTime + g_HistoryUpdateRate,
 		IsUnderAttack = false,
 		PreviousSquadLoadout = Squad_Count(_sID),
 		PreviousSquadLeaderCount = Squad_CountLeaders(_sID),
@@ -57,12 +62,117 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 
 end
 
+function SquadData:ReaffirmConstants()
+
+	local SetSquadDetails = function(_sgroupid, _itemindex, _squadID)
+
+		self.SquadID = _squadID
+		self.SquadIndex = _itemindex
+		self.SquadUniqueID = Squad_GetGameID( _squadID )
+
+	end
+
+	SGroup_ForEach(self.SquadGroupID, SetSquadDetails)
+
+end
+
+function SquadData:GetUpToDateSquadID()
+
+	print(self.SquadUniqueID)
+	return Squad_GetSquadFromGameID(self.SquadUniqueID)
+
+end
+
 function SquadData:CreateCopy()
 
 	return SquadData:new(self.SquadUniqueID, self.SquadGroupID, self.SquadIndex, self.SquadID, self.SquadUnitRace, self.SquadBlueprint, self.OwnerPlayer, self.IsRelicUnit)
 
 end
 
+function SquadData:CreateTotalCopy()
+
+	--Get new squad data entry based on current details
+	local copy = self:CreateCopy()
+
+	--Manually add extra stats
+	copy.History = self.History
+	copy.PreviouslyAttackedByPlayers = self.PreviouslyAttackedByPlayers
+	copy.PreviouslyAttackedTime = self.PreviouslyAttackedTime
+	copy.PreviouslyAttackedBySquads = self.PreviouslyAttackedBySquads
+	copy.IsUnderAttack = self.IsUnderAttack
+	copy.SquadAppliedCoverMods = self.SquadAppliedCoverMods
+	copy.SquadAppliedCoverMods_IDs = self.SquadAppliedCoverMods_IDs
+	copy.SquadAppliedCoverMods_Index = self.SquadAppliedCoverMods_Index
+	copy.SquadDetachedFrom = self.SquadDetachedFrom
+	copy.SquadAttachedTo = self.SquadAttachedTo
+
+	return copy
+
+end
+
+function SquadData:GoBackInTime(_TimeTravelAmmount)
+		
+	AddStacktrace("SquadData:GoBackInTime")
+
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, self.SquadBlueprint.." attempting to go back in time.")
+
+	--Get the nearest recorded history, if no history is provided we will need to handle it a different way
+	local ClosestHistoryStateIndex = self:GetClosestHistoryIndexToDesired(_TimeTravelAmmount)
+
+	--I don't necessarily want a null check here, need to implement logic to create a proxy history if one isn't found
+	if ClosestHistoryStateIndex ~= -1 then
+
+		--Convert the current state into the synced state then updates the game to the synced state
+		self:SyncSquadDataStates(self.History.Data[ClosestHistoryStateIndex].State)
+		self:SyncGameStateToDataState()
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+function SquadData:GetClosestHistoryIndexToDesired(_TimeTravelAmmount)
+
+	AddStacktrace("SquadData:GetClosestHistoryIndexToDesired")
+
+	local ClosestTimeToDesired = 10000
+	local ClosestStateIndex = -1
+	local DesiredGameTime = g_WorldTime - _TimeTravelAmmount
+
+	for i = 1, self.History.MaximumTableEntries do
+		
+		if self.History.Data[i].Time ~= -1 then
+
+			local TimeToDesired = self.History.Data[i].Time - DesiredGameTime
+			
+			if TimeToDesired == _TimeTravelAmmount then
+
+				ClosestState = i
+				break
+
+			elseif TimeToDesired < ClosestTimeToDesired  then
+
+				ClosestStateIndex = i
+				ClosestTimeToDesired = TimeToDesired
+
+			end
+
+		end
+
+	end
+	
+	if self.SquadHasAttached then
+
+		self:ReaffirmConstants()
+
+	end
+
+	RemoveStacktrace()
+	
+	return ClosestStateIndex
+
+end
 
 function SquadData:Update(_self)
 		
@@ -70,16 +180,69 @@ function SquadData:Update(_self)
 
 	--Store current state in our history
 	local copy = _self:CreateCopy()
-	History.Insert(copy)
+
+	if g_WorldTime >= _self.NextHistoryTime then
+		
+		_self.History:Insert({Time = g_WorldTime, State = copy})
+		_self.NextHistoryTime = _self.NextHistoryTime + g_HistoryUpdateRate
+
+	end
 
 	--Update current state, doesn't matter which order we do this as 
-	_self.SquadLoadout = copy.SquadID
-	_self.SquadHasLeader = copy.SquadID
-	_self.SquadLeaderCount = copy.SquadID
-	_self.SquadPosition = copy.SquadID
-	_self.SquadIsAttached = copy.SquadID
-	_self.OwnedByPlayer = copy.SquadID
-	_self.IsSelected_Unsynced = copy.SquadID --Not online synced!
+	if copy ~= nil then
+
+		_self:SyncSquadDataStates(copy)
+
+	end
+	
+	RemoveStacktrace()
+
+end
+
+function SquadData:SyncSquadDataStates(copyFromState)
+
+	AddStacktrace("SquadData:SyncSquadDataStates")
+
+	self.SquadLoadout = copyFromState.SquadLoadout
+	self.SquadHasLeader = copyFromState.SquadHasLeader
+	self.SquadLeaderCount = copyFromState.SquadLeaderCount
+	self.SquadPosition = copyFromState.SquadPosition
+	self.SquadIsAttached = copyFromState.SquadIsAttached
+	self.OwnedByPlayer = copyFromState.OwnedByPlayer
+	self.IsSelected_Unsynced = copyFromState.IsSelected_Unsynced --Not online synced!
+	self.SquadAvgHealth = copyFromState.SquadAvgHealth
+
+	RemoveStacktrace()
+
+end
+
+
+function SquadData:SyncGameStateToDataState()
+
+	AddStacktrace("SquadData:SyncGameStateToDataState")
+
+	--Despawn and clear squad
+	SGroup_DeSpawn(self.SquadGroupName)
+	Squad_Destroy(self.SquadID)
+	SGroup_Clear(self.SquadGroupID)
+
+	--Summon replacement squad at location with loadout
+	self.SquadID = ActivateSummonSquadAbility(self.SquadBlueprint, self.OwnedByPlayer, self.SquadPosition, self.SquadLoadout)
+
+	--Setup new squad constants
+	SGroup_Add(self.SquadGroupID, self.SquadID)
+	self.SquadUniqueID = Squad_GetGameID(self.SquadID)
+
+	--Add leader if history had one
+	if self.SquadHasLeader then
+
+		Squad_AddLeader(self.SquadID)
+
+	end
+
+	--Set stats
+	Squad_SetHealth(self.SquadID, self.SquadAvgHealth)
+	Squad_SetMorale(self.SquadID, self.SquadAvgMorale)
 
 	RemoveStacktrace()
 

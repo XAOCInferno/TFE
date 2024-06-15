@@ -175,6 +175,26 @@ function Log(_LogType, _Verbosity, _Line)
 
 end
 
+function LogStacktrace()
+
+	AddStacktrace("LogStacktrace")
+
+	Log(eLOG_TYPE_INFO, eLOG_FULL)
+
+	RemoveStacktrace()
+
+end
+
+function LogNotImplemented(_Message)
+
+	AddStacktrace("LogNotImplemented")
+
+	Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, "'".._Message.."' has not been implemented!")
+	
+	RemoveStacktrace()
+
+end
+
 --We have to override as we load this function first
 local TableContainsOverride = function(_Tbl, _Desired)
 

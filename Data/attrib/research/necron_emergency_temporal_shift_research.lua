@@ -1,0 +1,15 @@
+GameData = Inherit([[]])
+GameData["modifiers"] = Reference([[tables\modifier_table.lua]])
+GameData["requirements"] = Reference([[tables\requirements.lua]])
+GameData["time_cost"] = Reference([[tables\time_cost_table.lua]])
+GameData["time_cost"]["cost"]["faith"] = 0
+GameData["time_cost"]["cost"]["power"] = 50
+GameData["time_cost"]["cost"]["souls"] = 0
+GameData["ui_hotkey_name"] = [[]]
+GameData["ui_index_hint"] = 3
+GameData["ui_info"] = Reference([[tables\ui_info_table.lua]])
+GameData["ui_info"]["help_text_list"]["text_01"] = [[$19010172]]
+GameData["ui_info"]["help_text_list"]["text_02"] = [[$19010173]]
+GameData["ui_info"]["help_text_list"]["text_03"] = [[$19010174]]
+GameData["ui_info"]["icon_name"] = [[necron_icons/necron_emergency_temporal_shift_research]]
+GameData["ui_info"]["screen_name_id"] = [[$19010171]]

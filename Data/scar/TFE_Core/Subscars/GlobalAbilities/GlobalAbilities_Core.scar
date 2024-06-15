@@ -590,6 +590,83 @@ function Setup_ActualGlobalAbilies()
 				table.getn(g_AllTrackedAbilities)
 			)
 
+			local BasicAbilityStruct_NecronReverseTime = CreateGlobalAbility(
+				squadBP.."_reverse_time_AoE",
+				i, 
+				"BasicGlobalAbility_Reverse_Time_AoE", 
+				"global_necron_reverse_time_aoe",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local BasicAbilityStruct_NecronReverseTimeShort = CreateGlobalAbility(
+				squadBP.."_reverse_time_AoE_Short",
+				i, 
+				"BasicGlobalAbility_Reverse_Time_AoE_Short", 
+				"global_necron_reverse_time_aoe_short",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local function ReverseTimeInAoE(_self, _EntityPos)
+
+				local squadsInArea = GetAllSquadsInArea_NonPlayerSpecific(_EntityPos, _self.Radius)
+				local hasDetachedLeaders = false
+				local detachedSquadsData = {}
+
+				--Firstly detach squad leaders
+				for i in squadsInArea do
+
+					local detachSuccess = pcall(Squad_Detach, squadsInArea[i].SquadID )
+					hasDetachedLeaders = hasDetachedLeaders or detachSuccess
+
+				end
+
+				if hasDetachedLeaders then
+
+					--Now that we've detached, we must reaffirm all the squad details to help identify the detached leader
+					--We should find a way to do this more efficiently but for now this works
+					Log(eLOG_TYPE_WARNING, eLOG_VERBOSE, "Resetting squad data somewhere other than SquadManager_Core. This goes against code design and should be changed before release.")
+					Set_AllSquads_Immediate()
+
+				end
+
+				--Get again as we've now detached squad leaders
+				squadsInArea = GetAllSquadsInArea_NonPlayerSpecific(_EntityPos, _self.Radius)
+
+				--Now send everyone back in time!
+				for i in squadsInArea do
+
+					World_FXEvent("data:Art/Events/races/necron/abilities/necron_AoE_time_travel_squad", squadsInArea[i].SquadPosition)
+
+					squadsInArea[i]:GoBackInTime(_self.ReverseTimeAmmount)
+
+					World_FXEvent("data:Art/Events/races/necron/abilities/necron_AoE_time_travel_squad", squadsInArea[i].SquadPosition)
+
+				end
+
+			end
+
+			BasicAbilityStruct_NecronReverseTimeShort.Radius = 4.25
+			BasicAbilityStruct_NecronReverseTimeShort.ReverseTimeAmmount = 12
+			BasicAbilityStruct_NecronReverseTimeShort.DoAbility = function(_self, _EntityPos)
+				
+				ReverseTimeInAoE(_self, _EntityPos)				
+
+			end
+
+			BasicAbilityStruct_NecronReverseTime.Radius = 20
+			BasicAbilityStruct_NecronReverseTime.ReverseTimeAmmount = 25
+			BasicAbilityStruct_NecronReverseTime.DoAbility = function(_self, _EntityPos)
+				
+				ReverseTimeInAoE(_self, _EntityPos)				
+
+			end
+
+			
+
 			AbilityStruct_Necron1.ApplyMonolithFX = function(_self, _EntityPos)
 				
 				local _MonolithEntity = EntityData[_self.CasterPlayer.PlayerIndex+1][_EntityPos]

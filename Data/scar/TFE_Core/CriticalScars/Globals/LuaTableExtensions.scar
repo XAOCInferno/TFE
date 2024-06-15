@@ -115,7 +115,7 @@ end
 function TableLength(_Tbl)
 
 	AddStacktrace("TableLength")
-
+	
 	local count = 0
 	if(_Tbl == nil) then 
 
