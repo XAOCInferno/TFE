@@ -1,0 +1,228 @@
+import("Player.scar");
+import("GroupCallers.scar");
+import("Command.scar");
+import("Groups.scar");
+import("ScarUtil.scar")
+import("WXPScarUtil.scar")
+function Testing_Rule()
+	Cpu_EnableAll(0)
+	FOW_RevealAll()
+	for i = 1, World_GetPlayerCount() do
+		g_Player1 = World_GetPlayerAt(i-1)
+		if (Player_GetRaceName( g_Player1 ) == "sisters_race") then
+			Player_SetResource(g_Player1, RT_Requisition , 50000)
+			Player_SetResource(g_Player1, RT_Power , 50000)
+			Player_SetResource(g_Player1, RT_Faith , 500)
+		else
+			Player_SetAllResources(g_Player1,50000,50000,50000)
+		end
+	end
+end
+
+
+function Testing_InstBuild()
+	t_BuildingList =
+	{
+		"space_marine_ability_building",
+		"space_marine_armoury",
+		"space_marine_barracks",
+		"space_marine_generator",
+		"space_marine_hq",
+		"space_marine_listening_post",
+		"space_marine_orbital_relay",
+		"space_marine_thermo_generator",
+		"space_marine_turret_bolter",
+		"space_marine_vehicle_building",
+		"space_marine_mars_pattern",
+		"chaos_armoury",
+		"chaos_greater_sacrificial_circle",
+		"chaos_hq",
+		"chaos_listening_post",
+		"chaos_machine_pit",
+		"chaos_mine_field",
+		"chaos_plasma_generator",
+		"chaos_sacrificial_circle",
+		"chaos_spire_of_pain",
+		"chaos_temple",
+		"chaos_thermo_plasma_generator",
+		"chaos_turret_bolter",
+		"chaos_icon",
+		"dark_eldar_haemonculus_laboratory",
+		"dark_eldar_hall_of_blood",
+		"dark_eldar_hq",
+		"dark_eldar_listening_post",
+		"dark_eldar_plasma_generator",
+		"dark_eldar_skimmer_shop",
+		"dark_eldar_slave_caravel",
+		"dark_eldar_soul_cage",
+		"dark_eldar_thermo_plasma",
+		"dark_eldar_wych_cult_arena",
+		"eldar_advanced_warp_generator",
+		"eldar_aspect_portal",
+		"eldar_hq",
+		"eldar_listening_post",
+		"eldar_mine_field",
+		"eldar_soul_shrine",
+		"eldar_support_platform_scatterlaser",
+		"eldar_support_portal",
+		"eldar_warp_generator",
+		"eldar_webway_gate",
+		"guard_hq",
+		"guard_infantry",
+		"guard_platoon",
+		"guard_listening_post",
+		"guard_mars_pattern",
+		"guard_mechanized",
+		"guard_mines",
+		"guard_plasma_generator",
+		"guard_tactica",
+		"guard_thermo_plasma",
+		"guard_turret_heavy_bolter",
+		"monolith",
+		"necron_energy_core",
+		"necron_forbidden_archive",
+		"necron_greater_summoning_core",
+		"necron_listening_post",
+		"necron_plasma_generator",
+		"necron_summoning_core",
+		"necron_thermoplasma_generator",
+		"necron_turret",
+		"necron_beacon",
+		"ressurection_beacon",
+		"ork_boy_hut",
+		"ork_generator",
+		"ork_gork_totem",
+		"ork_grot_carrier",
+		"ork_hq",
+		"ork_mek_shop",
+		"ork_mine_field",
+		"ork_pile_o_guns",
+		"ork_waagh_banner",
+		"sisters_holy_reliquary",
+		"sisters_hq",
+		"sisters_infantry",
+		"sisters_listening_post",
+		"sisters_mines",
+		"sisters_plasma_generator",
+		"sisters_sanctuary",
+		"sisters_shrine",
+		"sisters_thermo_plasma",
+		"sisters_turret_flamer",
+		"sisters_vehicle_building",
+		"tau_barracks",
+		"tau_hq",
+		"tau_kroot_nest",
+		"tau_listening_post",
+		"tau_plasma_generator",
+		"tau_research_building",
+		"tau_shrine_of_kauyon",
+		"tau_shrine_of_montka",
+		"tau_shrine_of_purpose",
+		"tau_thermoplasma_generator",
+		"tau_vehicle_building",
+		"tau_drone_building",
+		"steel_legion_block",
+		"steel_legion_hq",
+		"steel_legion_infantry",
+		"steel_legion_listening_post",
+		"steel_legion_mars_pattern",
+		"steel_legion_mechanized",
+		"steel_legion_mines",
+		"steel_legion_plasma_generator",
+		"steel_legion_station",
+		"steel_legion_thermo_plasma",
+		"steel_legion_turret_heavy_bolter",
+		"tyranids_biomass_generator",
+		"tyranids_generator",
+		"tyranids_hive_node",
+		"tyranids_hq",
+		"tyranids_listening_post",
+		"tyranids_mutation_lair",
+		"tyranids_thermo_generator",
+		"tyranids_tunnel",
+		"tyranids_block",
+		"witch_hunters_adeptus_arbites_hq",
+		"witch_hunters_adeptus_arbites_listening_post",
+		"witch_hunters_adeptus_mechanicus",
+		"witch_hunters_armorium",
+		"witch_hunters_covent_military",
+		"witch_hunters_generator",
+		"witch_hunters_inquisition_armorium",
+		"witch_hunters_reliquary",
+		"witch_hunters_thermo_generator",
+		"witch_hunters_turret_heavy_flamer",
+		"witch_hunters_thermo_generator",
+		"black_marine_barracks",
+		"black_marine_generator",
+		"black_marine_hq",
+		"black_marine_listening_post",
+		"black_marine_mine_field",
+		"black_marine_orbital_relay",
+		"black_marine_thermo_generator",
+		"black_marine_turret_bolter",
+		"black_marine_vehicle_building",
+		"dark_angels_ability_building",
+		"dark_angels_barracks",
+		"dark_angels_generator",
+		"dark_angels_hq",
+		"dark_angels_listening_post",
+		"dark_angels_mine_field",
+		"dark_angels_orbital_relay",
+		"dark_angels_thermo_generator",
+		"dark_angels_turret_bolter",
+		"dark_angels_vehicle_building"
+	}
+	for i = 1, World_GetPlayerCount() do
+		g_Player1 = World_GetPlayerAt(i-1)
+		g_PlayerBuild1 = Player_GetEntities(g_Player1)
+		ReinforceMod = Modifier_Create(MAT_Player, "reinforce_time2_player_modifier", MUT_Multiplication, false, 0.001, "")
+		Modifier_ApplyToPlayer(ReinforceMod, g_Player1 )
+		for j=1,table.getn(t_BuildingList) do
+			SpeedMod = Modifier_Create(MAT_EntityType, "production_speed_modifier", MUT_Multiplication, false, 1000, t_BuildingList[j])
+			BuildMod = Modifier_Create(MAT_EntityType, "cost_time_modifier", MUT_Multiplication, false, 0.001, t_BuildingList[j])
+			FaithMod = Modifier_Create(MAT_Player, "faith_max_modifier", MUT_Addition, false, 100, "")
+			Modifier_ApplyToPlayer(SpeedMod, g_Player1 )
+			Modifier_ApplyToPlayer(BuildMod, g_Player1 )
+			Modifier_ApplyToPlayer(FaithMod, g_Player1 )
+			Util_GetEntitiesByBP(EGroup_GetName(g_PlayerBuild1),t_BuildingList[j].."Player",t_BuildingList[j])
+		end
+	end
+end
+function Testing_Setup()
+	Rule_AddOneShot(Testing_InstBuild,1.0)
+	Rule_Add(Testing_Rule)
+end
+Scar_AddInit(Testing_Setup)
+g_fArmyCapModifier = 50.0
+function MassiveBattles_InitRule()
+	print("Init Massive Battles Mod...")
+	local oModMaxSquadCap	= Modifier_Create(MAT_Player, "max_squad_cap_player_modifier", MUT_Multiplication, false, g_fArmyCapModifier, "")
+	local oModMaxSupportCap	= Modifier_Create(MAT_Player, "max_support_cap_player_modifier", MUT_Multiplication, false, g_fArmyCapModifier, "")
+	local oModPopulationCap	= Modifier_Create(MAT_Player, "population_cap_player_modifier", MUT_Multiplication, false, g_fArmyCapModifier, "")
+	local oModSquadCap		= Modifier_Create(MAT_Player, "squad_cap_player_modifier", MUT_Multiplication, false, g_fArmyCapModifier, "")
+	local oModSupportCap	= Modifier_Create(MAT_Player, "support_cap_player_modifier", MUT_Multiplication, false, g_fArmyCapModifier, "")
+	g_iPlayerCount = World_GetPlayerCount()
+	for iLoop1 = 0, g_iPlayerCount - 1 do
+		local ePlayerID = World_GetPlayerAt(iLoop1)
+		if (Cpu_IsCpuPlayer(ePlayerID) and Cpu_IsEnabled(ePlayerID)) then
+			pcall(Cpu_SetLippy, ePlayerID, true)
+			Cpu_DoString(ePlayerID, "g_fMassiveBattlesModifier = "..g_fArmyCapModifier)
+		end
+		pcall(Modifier_ApplyToPlayer, oModMaxSquadCap, ePlayerID)
+		pcall(Modifier_ApplyToPlayer, oModMaxSupportCap, ePlayerID)
+		if (Player_GetRaceName(ePlayerID) == "ork_race") then
+			pcall(Modifier_ApplyToPlayer, oModPopulationCap, ePlayerID)
+		end
+		pcall(Modifier_ApplyToPlayer, oModSquadCap, ePlayerID)
+		pcall(Modifier_ApplyToPlayer, oModSupportCap, ePlayerID)
+	end
+	Modifier_Destroy(oModMaxSquadCap)
+	Modifier_Destroy(oModMaxSupportCap)
+	Modifier_Destroy(oModPopulationCap)
+	Modifier_Destroy(oModSquadCap)
+	Modifier_Destroy(oModSupportCap)
+end
+function MassiveBattles_Setup()
+	Rule_AddOneShot(MassiveBattles_InitRule, 2.0)
+end
+Scar_AddInit(MassiveBattles_Setup)
