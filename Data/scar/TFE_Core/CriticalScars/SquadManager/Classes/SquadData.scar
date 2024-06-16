@@ -116,6 +116,8 @@ function SquadData:GoBackInTime(_TimeTravelAmmount)
 
 	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, self.SquadBlueprint.." attempting to go back in time.")
 
+	World_FXEvent("data:Art/Events/races/necron/abilities/necron_AoE_time_travel_squad", self.SquadPosition)
+
 	--Get the nearest recorded history, if no history is provided we will need to handle it a different way
 	local ClosestHistoryStateIndex = self:GetClosestHistoryIndexToDesired(_TimeTravelAmmount)
 
@@ -127,6 +129,8 @@ function SquadData:GoBackInTime(_TimeTravelAmmount)
 		self:SyncGameStateToDataState()
 
 	end
+	
+	World_FXEvent("data:Art/Events/races/necron/abilities/necron_AoE_time_travel_squad", self.SquadPosition)
 
 	RemoveStacktrace()
 
