@@ -81,7 +81,7 @@ function GetUniqueSG(BaseSGName)
 	
 	table.insert(UsedUniqueSquadIDs,UniqueSG) 
 	
-	Log(eLOG_TYPE_INFO, eLOG_FULL, "Assigned Unique Squad ID: "..UniqueSG)
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Assigned Unique Squad ID: "..UniqueSG)
 	
 	RemoveStacktrace()
 	return SGroup_Create(UniqueSG)
@@ -104,7 +104,7 @@ function GetUniqueEG(BaseEGName)
 	
 	table.insert(UsedUniqueEntityIDs,UniqueEG) 
 	
-	Log(eLOG_TYPE_INFO, eLOG_FULL, "Assigned Unique Entity ID: "..UniqueEG)
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Assigned Unique Entity ID: "..UniqueEG)
 	
 	RemoveStacktrace()
 	

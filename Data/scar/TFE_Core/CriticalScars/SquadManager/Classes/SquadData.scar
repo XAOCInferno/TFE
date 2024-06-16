@@ -27,6 +27,8 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		SquadLoadout = Squad_Count(_sID),
 		SquadHasLeader = Squad_HasLeader(_sID),
 		SquadLeaderCount = Squad_CountLeaders(_sID),
+		SquadMultiLeaders = g_MultiSquadLeaders[_sRace][_sBP] or {},
+		SquadMultiLeaderCount = 0,
 		SquadInitTime = g_WorldTime,	
 		SquadPosition = Squad_GetPosition(_sID),
 		SquadHasAttached = false,
@@ -35,6 +37,8 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		SquadDetachedFrom = nil,
 		SquadAvgHealth = SGroup_GetAvgHealth( tmpSGroupName ),
 		SquadAvgMorale = SGroup_GetAvgMorale( tmpSGroupName ),
+		SquadUpgradedWeapons = {},
+		SquadValidWeapons = g_ValidSquadWeapons[_sRace][_sBP] or {},
 		OwnedByPlayer = Squad_GetPlayerOwner(_sID),
 		OwnerPlayer = _player, 
 		IsSelected_Unsynced = Misc_IsSquadSelected(_sID),
@@ -53,12 +57,45 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		PreviouslyAttackedTime = 0,
 		PreviouslyAttackedBySquads = {}
 	}
-
+	
 	self.__index = self
+
+	local globalObject = setmetatable(SquadDataObject, self)
+
+	globalObject:LateConstructor()
 
 	RemoveStacktrace()
 
-	return setmetatable(SquadDataObject, self)
+	return globalObject
+
+end
+
+function SquadData:LateConstructor()
+
+	self.SquadMultiLeaderCount = table.getn(self.SquadMultiLeaders)
+	
+	self:SetInitialWeaponData()
+	self:SetWeaponLoadout()
+
+end
+
+function SquadData:SetInitialWeaponData()
+
+	for weapon in self.SquadValidWeapons do
+
+		self.SquadUpgradedWeapons[weapon] = { Count = 0 }
+
+	end
+
+end
+
+function SquadData:SetWeaponLoadout()
+
+	for weapon in self.SquadValidWeapons do
+		
+		self.SquadUpgradedWeapons[weapon].Count = Squad_WeaponCount( self.SquadID, self.SquadValidWeapons[weapon] )
+
+	end
 
 end
 
@@ -104,7 +141,8 @@ function SquadData:CreateTotalCopy()
 	copy.SquadAppliedCoverMods_IDs = self.SquadAppliedCoverMods_IDs
 	copy.SquadAppliedCoverMods_Index = self.SquadAppliedCoverMods_Index
 	copy.SquadDetachedFrom = self.SquadDetachedFrom
-	copy.SquadAttachedTo = self.SquadAttachedTo
+	copy.SquadAttachedTo = self.SquadAttachedTo	
+	copy.SquadUpgradedWeapons = self.SquadUpgradedWeapons
 
 	return copy
 
@@ -129,7 +167,7 @@ function SquadData:GoBackInTime(_TimeTravelAmmount)
 		self:SyncGameStateToDataState()
 
 	end
-	
+
 	World_FXEvent("data:Art/Events/races/necron/abilities/necron_AoE_time_travel_squad", self.SquadPosition)
 
 	RemoveStacktrace()
@@ -185,6 +223,7 @@ function SquadData:Update(_self)
 	--Store current state in our history
 	local copy = _self:CreateCopy()
 
+	--Update history at set intervals
 	if g_WorldTime >= _self.NextHistoryTime then
 		
 		_self.History:Insert({Time = g_WorldTime, State = copy})
@@ -215,6 +254,8 @@ function SquadData:SyncSquadDataStates(copyFromState)
 	self.OwnedByPlayer = copyFromState.OwnedByPlayer
 	self.IsSelected_Unsynced = copyFromState.IsSelected_Unsynced --Not online synced!
 	self.SquadAvgHealth = copyFromState.SquadAvgHealth
+	self.SquadAvgMorale = copyFromState.SquadAvgMorale
+	self.SquadUpgradedWeapons = copyFromState.SquadUpgradedWeapons
 
 	RemoveStacktrace()
 
@@ -237,10 +278,37 @@ function SquadData:SyncGameStateToDataState()
 	SGroup_Add(self.SquadGroupID, self.SquadID)
 	self.SquadUniqueID = Squad_GetGameID(self.SquadID)
 
+	for weapon in self.SquadValidWeapons do
+		
+		for i = 1, self.SquadUpgradedWeapons[weapon].Count do
+
+			Squad_UpgradeWeapon( self.SquadID, self.SquadValidWeapons[weapon] )
+
+		end
+
+	end
+
 	--Add leader if history had one
 	if self.SquadHasLeader then
 
-		Squad_AddLeader(self.SquadID)
+		if self.SquadMultiLeaderCount > 0 then
+			
+			for i = 1, self.SquadLeaderCount do
+
+				--Need to add functionality to record which types of Leader are in the squad, currently we pick at random
+				Squad_AddLeaderAtIndex(self.SquadID, World_GetRand(1, self.SquadMultiLeaderCount))
+
+			end
+
+		else
+
+			for i = 1, self.SquadLeaderCount do
+
+				Squad_AddLeader(self.SquadID)
+
+			end
+
+		end
 
 	end
 
