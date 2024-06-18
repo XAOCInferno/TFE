@@ -98,7 +98,6 @@ necron_lord_ribcage
 necron_lord_staff_of_light_skinning_blades
 necron_lord_under_shoulder
 necron_particle_whip_monolith_illusion
-necron_warscythe_pariah_building
 ork_mega_blasta_warboss
 ork_mega_claw_boss
 ork_power_claw_boss_mission
@@ -115,12 +114,10 @@ sisters_emperors_touch_battle_sister
 sisters_emperors_touch_celestian
 sisters_emperors_touch_missionary
 sisters_emperors_touch_repentia
-sisters_inferno_cannon_list_post
 sisters_laud_hailers
 sisters_sabbat_pattern_helm
 sisters_servitor_overload
 sisters_servitor_overload_suicide
-space_marine_assault_cannon_terminator
 space_marine_bolt_pistol_combi_chaingun_forcecommander
 space_marine_bolt_pistol_combi_flamer_forcecommander
 space_marine_dummy_weapon
@@ -133,7 +130,6 @@ space_marine_force_commander_teleporter
 space_marine_force_weapon
 space_marine_force_weapon_mission
 space_marine_melee_test
-space_marine_storm_bolter_fc
 tau_burst_cannon_barracuda
 tau_burst_cannon_commander
 tau_burst_cannon_commander_melee
@@ -198,10 +194,7 @@ tau_vespid_elder_claw
 tau_vespid_neutron_blaster
 tau_vespid_strain_leader_claw
 vengeance_bolter_tactical_veteran
-veteran_bolt_pistol_scout
 veteran_bolt_pistol_scout_explosive
-veteran_operative_rifle
-veteran_operative_rifle_leader
 
 
 
@@ -493,6 +486,7 @@ necron_cryptek_melee
 necron_lord_staff_of_light_melee
 necron_lord_staff_of_light_reaping_blades
 necron_warscythe_pariah
+necron_warscythe_pariah_building
 necron_warscythe_pariah_lord
 necron_warscythe_wraith
 ork_power_claw
@@ -555,6 +549,7 @@ space_marine_assault_cannon_dreadnought
 space_marine_assault_cannon_hellfire
 space_marine_assault_cannon_landspeeder
 space_marine_assault_cannon_tempest
+space_marine_assault_cannon_terminator
 space_marine_assault_cannon_terminator_fc
 space_marine_assault_cannon_terminator_prisoner
 space_marine_assault_cannon_terminator_veteran
@@ -656,6 +651,7 @@ space_marine_bolter_variants
 space_marine_bolter_veteran
 space_marine_bolt_pistol_scout
 veteran_bolter_dummy
+veteran_bolt_pistol_scout
 
 
 
@@ -863,6 +859,7 @@ sisters_flamer_celestian_prisoner
 sisters_inferno_cannon
 sisters_inferno_cannon_aoe_list_post
 sisters_inferno_cannon_aoe_list_post_2
+sisters_inferno_cannon_list_post
 sisters_inferno_cannon_turret
 space_marine_flamer
 space_marine_flamer_dreadnought
@@ -1009,6 +1006,8 @@ inquisition_hellgun_chimera_r1
 inquisition_hellgun_chimera_r2
 inquisition_hellgun_chimera_r3
 inquisition_hellgun_shock_troops
+veteran_operative_rifle
+veteran_operative_rifle_leader
 
 
 
@@ -1477,6 +1476,7 @@ inquisition_storm_bolter_rhino
 sisters_storm_bolter
 sisters_storm_bolter_rhino
 space_marine_storm_bolter
+space_marine_storm_bolter_fc
 space_marine_storm_bolter_grey_knight
 space_marine_storm_bolter_land_speeder
 space_marine_storm_bolter_turret
