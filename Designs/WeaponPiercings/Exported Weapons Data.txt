@@ -48,10 +48,6 @@ dark_eldar_tormentor_helm
 dark_eldar_tormentor_helm_incubus
 dark_eldar_tormentor_helm_incubus_raider_1
 dark_eldar_unarmed
-eldar_deathspinner
-eldar_deathspinner_warpspiderexarch
-eldar_dual_deathspinners
-eldar_executioner
 eldar_farseer_gauntlets
 eldar_farseer_ghosthelm
 eldar_farseer_rune_aura
@@ -59,27 +55,11 @@ eldar_farseer_rune_warding
 eldar_farseer_rune_witnessing
 eldar_farseer_wraithbone_armor
 eldar_knife
-eldar_missile_launcher
 eldar_power_sword
-eldar_reaper_launcher
-eldar_reaper_launcher1
-eldar_reaper_launcher2
-eldar_reaper_launcher3
-eldar_reaper_launcher_darkreaperexarch
-eldar_reaper_launcher_group
-eldar_riveblade
 eldar_shrieker_cannon
 eldar_singing_spear_farseer
-eldar_starcannon
-eldar_starcannon_grav_tank
-eldar_starcannon_listenpost
-eldar_starcannon_wraithlord
 eldar_sword
 eldar_twin_shuriken_pistol_farseer
-eldar_vyper_shuriken_cannon
-eldar_witchblade
-eldar_witchblade_farseer_clone
-eldar_wraithlord_close_combat
 guard_captain_chest_plate
 guard_captain_governor_raiment
 guard_captain_greaves
@@ -377,6 +357,7 @@ dark_eldar_agonizer_scourge_leader
 dark_eldar_agonizer_warrior_leader
 dark_eldar_agonizer_wych_leader
 dark_eldar_talos_claws
+eldar_wraithlord_close_combat
 guard_power_fist_commissar
 guard_ripper_gun_melee_ogryn
 guard_ripper_gun_melee_ogryn_sergeant
@@ -444,6 +425,7 @@ dark_eldar_power_scythe_wych_leader
 dark_eldar_punisher_hellion_succubus
 dark_eldar_punisher_incubus
 dark_eldar_sword_archon
+eldar_executioner
 eldar_power_sword_banshee
 eldar_power_sword_bansheeexarch
 eldar_power_sword_banshee_improved
@@ -451,7 +433,10 @@ eldar_power_sword_farseer
 eldar_power_sword_seer_council
 eldar_power_sword_warlock
 eldar_power_sword_warlock_commander
+eldar_riveblade
+eldar_witchblade
 eldar_witchblade_farseer
+eldar_witchblade_farseer_clone
 eldar_witchblade_seer_council
 eldar_witchblade_warlock
 guard_power_axe_enginseer
@@ -715,6 +700,14 @@ Ranged_DCannon
 eldar_dcannon
 eldar_dcannon_support_platform
 eldar_dcannon_turret
+
+
+
+Ranged_Deathspinner
+
+eldar_deathspinner
+eldar_deathspinner_warpspiderexarch
+eldar_dual_deathspinners
 
 
 
@@ -1147,6 +1140,7 @@ Ranged_Missile_Mixed
 chaos_incendiary_bomb
 chaos_incendiary_bomb_nis
 chaos_missile_turret
+eldar_missile_launcher
 eldar_missile_launcher_vyper
 guard_missile_turret
 ork_rokkit_launcha_killakan
@@ -1188,6 +1182,10 @@ chaos_plasma_gun_tactical
 chaos_plasma_gun_tactical_prisoner
 chaos_plasma_twin
 chaos_plasma_variants
+eldar_starcannon
+eldar_starcannon_grav_tank
+eldar_starcannon_listenpost
+eldar_starcannon_wraithlord
 guard_flamer_bunker_east
 guard_flamer_bunker_east_hq
 guard_flamer_bunker_north
@@ -1274,6 +1272,17 @@ necron_nightbringer_scythe_ranged
 
 
 
+Ranged_Reaper_Launcher
+
+eldar_reaper_launcher
+eldar_reaper_launcher1
+eldar_reaper_launcher2
+eldar_reaper_launcher3
+eldar_reaper_launcher_darkreaperexarch
+eldar_reaper_launcher_group
+
+
+
 Ranged_Shard_Heavy
 
 dark_eldar_destructor
@@ -1299,6 +1308,7 @@ eldar_shuriken_cannon_nightwing_2
 eldar_shuriken_cannon_nightwing_elite
 eldar_shuriken_cannon_nightwing_elite_2
 eldar_shuriken_cannon_vyper
+eldar_vyper_shuriken_cannon
 
 
 
