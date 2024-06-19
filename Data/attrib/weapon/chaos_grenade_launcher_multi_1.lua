@@ -1,5 +1,5 @@
 GameData = Inherit([[]])
-GameData["accuracy"] = 0.8
+GameData["accuracy"] = 0.35
 GameData["accuracy_reduction_when_moving"] = 1
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["area_effect_events"]["dirtsand"] = [[races\chaos\death_explosion_tzeentch_short]] --[[races\chaos\chaos_mini_grenade_hit]]

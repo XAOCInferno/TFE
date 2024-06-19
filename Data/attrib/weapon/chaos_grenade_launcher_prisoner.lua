@@ -1,9 +1,9 @@
 GameData = Inherit([[]])
-GameData["accuracy"] = 0.6499999762
-GameData["accuracy_reduction_when_moving"] = 0.5
+GameData["accuracy"] = 0.35
+GameData["accuracy_reduction_when_moving"] = 1
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["area_type"] = Reference([[type_areaeffect\tp_area_effect_circle.lua]])
-GameData["area_effect"]["area_effect_information"]["radius"] = 4
+GameData["area_effect"]["area_effect_information"]["radius"] = 4.7
 GameData["area_effect"]["area_effect_information"]["remove_modifiers_with_source_entity"] = true 
 GameData["area_effect"]["area_effect_information"]["start_from_caster"] = false
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_01"]["screen_name_id"] = [[$90100]] -- Armour

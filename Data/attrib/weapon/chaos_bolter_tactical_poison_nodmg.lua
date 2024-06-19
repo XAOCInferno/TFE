@@ -1,6 +1,6 @@
 GameData = Inherit([[]])
-GameData["accuracy"] = 1
-GameData["accuracy_reduction_when_moving"] = 0
+GameData["accuracy"] = 0.6
+GameData["accuracy_reduction_when_moving"] = 0.45
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["area_type"] = Reference([[type_areaeffect\tp_area_effect_circle.lua]])
 GameData["area_effect"]["area_effect_information"]["filter_type"] = Reference([[type_areafilter\tp_area_filter_all.lua]])
