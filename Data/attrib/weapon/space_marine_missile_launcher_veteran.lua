@@ -1,5 +1,5 @@
 GameData = Inherit([[]])
-GameData["accuracy"] = 0.8500000238
+GameData["accuracy"] = 0.75
 GameData["accuracy_reduction_when_moving"] = 1
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["remove_modifiers_with_source_entity"] = true 
@@ -180,7 +180,7 @@ GameData["rear_facing"] = false
 GameData["reload_show_progress"] = true 
 GameData["reload_time"] = 5
 GameData["requirements"] = Reference([[tables\requirements.lua]])
-GameData["setup_time"] = 2
+GameData["setup_time"] = 1.5
 GameData["shot_delay_time"] = 0
 GameData["show_in_reinforce"] = true 
 GameData["single_shot"] = false

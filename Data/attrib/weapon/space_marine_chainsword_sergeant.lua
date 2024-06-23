@@ -1,5 +1,5 @@
 GameData = Inherit([[]])
-GameData["accuracy"] = 0.6499999762
+GameData["accuracy"] = 0.75
 GameData["accuracy_reduction_when_moving"] = 0
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_01"]["screen_name_id"] = [[$90100]] -- Armour

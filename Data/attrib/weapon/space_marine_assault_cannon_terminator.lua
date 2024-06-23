@@ -1,6 +1,6 @@
 GameData = Inherit([[]])
-GameData["accuracy"] = 0.6499999762
-GameData["accuracy_reduction_when_moving"] = 0.6499999762
+GameData["accuracy"] = 0.52
+GameData["accuracy_reduction_when_moving"] = 1
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["remove_modifiers_with_source_entity"] = true 
 GameData["area_effect"]["area_effect_information"]["start_from_caster"] = false
@@ -181,7 +181,7 @@ GameData["requirements"]["required_1"] = Reference([[requirements\required_struc
 GameData["requirements"]["required_1"]["structure_name"] = [[ebps\races\space_marines\structures\space_marine_armoury.lua]]
 GameData["requirements"]["required_2"] = Reference([[requirements\global_required_addon.lua]])
 GameData["requirements"]["required_2"]["global_addon_name"] = [[addons\space_marine_hq_addon_1.lua]]
-GameData["setup_time"] = 0
+GameData["setup_time"] = 0.1
 GameData["shot_delay_time"] = 0
 GameData["show_in_reinforce"] = true 
 GameData["single_shot"] = false

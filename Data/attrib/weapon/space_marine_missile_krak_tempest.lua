@@ -1,6 +1,6 @@
 GameData = Inherit([[]])
-GameData["accuracy"] = 0.8500000238
-GameData["accuracy_reduction_when_moving"] = 0.6999999881
+GameData["accuracy"] = 0.8
+GameData["accuracy_reduction_when_moving"] = 0.5
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["area_effect_events"]["dirtsand"] = [[Projectile_Fx\Krak_Missile_Impact]]
 GameData["area_effect"]["area_effect_information"]["area_effect_events"]["grass"] = [[Projectile_Fx\Krak_Missile_Impact]]
