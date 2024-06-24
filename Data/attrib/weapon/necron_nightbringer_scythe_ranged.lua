@@ -1,6 +1,6 @@
 GameData = Inherit([[]])
-GameData["accuracy"] = 0.6999999881
-GameData["accuracy_reduction_when_moving"] = 0.5500000119
+GameData["accuracy"] = 0.65
+GameData["accuracy_reduction_when_moving"] = 0.2
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["remove_modifiers_with_source_entity"] = true 
 GameData["area_effect"]["area_effect_information"]["start_from_caster"] = false
