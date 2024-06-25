@@ -1,0 +1,162 @@
+XPManager = {}
+function XPManager:new ()
+
+	AddStacktrace("XPManager:new")
+
+    local XPManagerObject = 
+    {
+		--[[Constants]]
+		--Some link back to the squad so we can show positional effect and apply modifiers,
+		LinkedSquadData = nil,
+		LevelUpThresholds = {35, 70, 150, 250}, --Later change these to be determined by type of unit? For example, commanders will need to level up to 10.
+		LevelUpModifiers = XP_All_Modifiers, --Later change these to be determined by type of unit? Commanders will also need to level up to 10.
+
+		--[[Variables]]
+		XP = 0,
+		Level = 1,
+		XPGainRateMultiplier = 1,
+
+		CurrentlyAppliedModifierIDs = {}
+
+	}
+	
+	self.__index = self
+
+	RemoveStacktrace()
+
+	return setmetatable(XPManagerObject, self)
+
+end
+
+
+function XPManager:AddXP_CombatWithSquad(_squadBP, _numberOfModelKills, _numberOfLeaderKills, _isSquadKill, _multiplier)
+
+	AddStacktrace("XPManager:AddXPFromSquad")
+
+	if self.Level <= table.getn(self.LevelUpThresholds) then
+
+		local rewardData = g_SquadXPRewards[_squadBP]
+		local reward = 0
+
+		if rewardData == nil then
+
+			LogOnce(eLOG_TYPE_WARNING, eLOG_SIMPLE, _squadBP.." does not have any XP reward, defaulting to low XP.")
+			reward = _numberOfModelKills + (2 * _numberOfLeaderKills) + (3 * _isSquadKill)
+
+		else
+
+			reward = (rewardData.model * _numberOfModelKills) + (rewardData.leader * _numberOfLeaderKills) + (rewardData.squad * _isSquadKill)
+
+		end
+
+		self:AddXP(reward * _multiplier)
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+
+function XPManager:AddXP(_addXP)
+
+	AddStacktrace("XPManager:AddXPFromSquad")
+
+	local _addXP = _addXP * self.XPGainRateMultiplier * g_GlobalXPGainRateMultiplier
+
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Adding XP: ".._addXP)
+
+	self.XP = self.XP + _addXP
+
+	self:CheckXPThreshold()
+
+	RemoveStacktrace()
+
+end
+
+
+function XPManager:CheckXPThreshold()
+
+	AddStacktrace("XPManager:CheckXPThreshold")
+
+	local requiredXP = self.LevelUpThresholds[self.Level] - self.XP
+	if  requiredXP <= 0  then
+
+		self:LevelUp(true)
+
+	else
+
+		Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Not enough XP to level up. Required: "..requiredXP)
+
+	end
+	
+	RemoveStacktrace()
+
+end
+
+
+function XPManager:LevelUp(_showEffect)
+
+	AddStacktrace("XPManager:LevelUp")
+	
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Leveling up to "..(self.Level + 1).."!")
+
+	self:ApplyLevelUpModifiers()
+
+	if _showEffect then
+
+		self:DisplayLevelUpEffect()
+
+	end
+	
+	self.Level = self.Level + 1
+	
+	RemoveStacktrace()
+
+end
+
+
+function XPManager:ApplyLevelUpModifiers()
+
+	AddStacktrace("XPManager:ApplyLevelUpModifiers")
+	
+	local squadID = self.LinkedSquadData.SquadID
+
+	for modifierIDIndex = 1, table.getn(self.CurrentlyAppliedModifierIDs) do
+
+		Modifier_Remove(self.CurrentlyAppliedModifierIDs[modifierIDIndex])
+
+	end
+
+	self.CurrentlyAppliedModifierIDs = {}
+
+	if self.LevelUpModifiers ~= nil then
+
+		for newModifierIndex = 1, table.getn(self.LevelUpModifiers) do
+
+			local modifierID = Modifier_ApplyToSquad(self.LevelUpModifiers[self.Level][newModifierIndex], squadID)
+			table.insert(self.CurrentlyAppliedModifierIDs, modifierID)
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+
+function XPManager:DisplayLevelUpEffect()
+
+	AddStacktrace("XPManager:DisplayLevelUpEffect")
+	
+	local position = self.LinkedSquadData.SquadPosition
+	print(self.LinkedSquadData)
+	print(self.LinkedSquadData.SquadBlueprint)
+	print(self.LinkedSquadData.SquadPosition)
+
+	World_FXEvent( "data:Art/Events/generic/ui/generic_level_up", position )
+	
+	RemoveStacktrace()
+
+end

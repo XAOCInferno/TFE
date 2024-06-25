@@ -7,6 +7,112 @@ function Setup_XPManager()
 	
 	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Starting: 'Setup_XPManager'...")
 
+	local XP_Modifier_Level1_HealthMax = Modifier_Create(MAT_Squad, "health_maximum_modifier", MUT_Multiplication, true, 1.05, "")
+	local XP_Modifier_Level1_HealthRegen = Modifier_Create(MAT_Squad, "health_regeneration_modifier", MUT_Multiplication, true, 1.10, "")
+
+	local XP_Modifier_Level1_MoraleMax = Modifier_Create(MAT_Squad, "morale_maximum_squad_modifier", MUT_Multiplication, true, 1.1, "")
+	local XP_Modifier_Level1_MoraleRegen = Modifier_Create(MAT_Squad, "morale_rate_squad_modifier", MUT_Multiplication, true, 1.05, "")
+	
+	local XP_Modifier_Level1_Accuracy = Modifier_Create(MAT_Squad, "entity_accuracy_modifier", MUT_Addition, true, 1.02, "")
+	local XP_Modifier_Level1_MaxDamage = Modifier_Create(MAT_Squad, "max_damage_weapon_modifier", MUT_Multiplication, true, 1.05, "")
+	local XP_Modifier_Level1_MinDamage = Modifier_Create(MAT_Squad, "min_damage_weapon_modifier", MUT_Multiplication, true, 1.05, "")
+	
+	local XP_Modifier_Level1_SightRange = Modifier_Create(MAT_Squad, "sight_radius_modifier", MUT_Multiplication, true, 1.05, "")
+	local XP_Modifier_Level1_KeenSightRange = Modifier_Create(MAT_Squad, "keen_sight_radius_modifier", MUT_Multiplication, true, 1.05, "")
+	
+	local XP_Modifier_Level1_AbilityCastRange = Modifier_Create(MAT_Squad, "ability_range_modifier", MUT_Multiplication, true, 1.075, "")
+	local XP_Modifier_Level1_AbilityRecharge = Modifier_Create(MAT_Squad, "ability_range_modifier", MUT_Multiplication, true, 0.95, "")
+
+	
+	
+	local XP_Modifiers_Level1 = 
+	{
+		XP_Modifier_Level1_HealthMax, XP_Modifier_Level1_HealthRegen,
+		XP_Modifier_Level1_MoraleMax, XP_Modifier_Level1_MoraleRegen,
+		XP_Modifier_Level1_Accuracy, XP_Modifier_Level1_MaxDamage, XP_Modifier_Level1_MinDamage,
+		XP_Modifier_Level1_SightRange, XP_Modifier_Level1_KeenSightRange,
+		XP_Modifier_Level1_AbilityCastRange, XP_Modifier_Level1_AbilityRecharge
+	}
+	
+	
+	local XP_Modifier_Level2_HealthMax = Modifier_Create(MAT_Squad, "health_maximum_modifier", MUT_Multiplication, true, 1.1, "")
+	local XP_Modifier_Level2_HealthRegen = Modifier_Create(MAT_Squad, "health_regeneration_modifier", MUT_Multiplication, true, 1.15, "")
+
+	local XP_Modifier_Level2_MoraleMax = Modifier_Create(MAT_Squad, "morale_maximum_squad_modifier", MUT_Multiplication, true, 1.15, "")
+	local XP_Modifier_Level2_MoraleRegen = Modifier_Create(MAT_Squad, "morale_rate_squad_modifier", MUT_Multiplication, true, 1.1, "")
+	
+	local XP_Modifier_Level2_Accuracy = Modifier_Create(MAT_Squad, "entity_accuracy_modifier", MUT_Addition, true, 1.03, "")
+	local XP_Modifier_Level2_MaxDamage = Modifier_Create(MAT_Squad, "max_damage_weapon_modifier", MUT_Multiplication, true, 1.075, "")
+	local XP_Modifier_Level2_MinDamage = Modifier_Create(MAT_Squad, "min_damage_weapon_modifier", MUT_Multiplication, true, 1.075, "")
+	
+	local XP_Modifier_Level2_SightRange = Modifier_Create(MAT_Squad, "sight_radius_modifier", MUT_Multiplication, true, 1.1, "")
+	local XP_Modifier_Level2_KeenSightRange = Modifier_Create(MAT_Squad, "keen_sight_radius_modifier", MUT_Multiplication, true, 1.1, "")
+
+	local XP_Modifier_Level2_AbilityCastRange = Modifier_Create(MAT_Squad, "ability_range_modifier", MUT_Multiplication, true, 1.12, "")
+	local XP_Modifier_Level2_AbilityRecharge = Modifier_Create(MAT_Squad, "ability_range_modifier", MUT_Multiplication, true, 0.92, "")
+	
+	local XP_Modifiers_Level2 = 
+	{
+		XP_Modifier_Level2_HealthMax, XP_Modifier_Level2_HealthRegen,
+		XP_Modifier_Level2_MoraleMax, XP_Modifier_Level2_MoraleRegen,
+		XP_Modifier_Level2_Accuracy, XP_Modifier_Level2_MaxDamage, XP_Modifier_Level2_MinDamage,
+		XP_Modifier_Level2_SightRange, XP_Modifier_Level2_KeenSightRange,
+		XP_Modifier_Level2_AbilityCastRange, XP_Modifier_Level2_AbilityRecharge
+	}
+	
+	
+	local XP_Modifier_Level3_HealthMax = Modifier_Create(MAT_Squad, "health_maximum_modifier", MUT_Multiplication, true, 1.2, "")
+	local XP_Modifier_Level3_HealthRegen = Modifier_Create(MAT_Squad, "health_regeneration_modifier", MUT_Multiplication, true, 1.25, "")
+	
+	local XP_Modifier_Level3_MoraleMax = Modifier_Create(MAT_Squad, "morale_maximum_squad_modifier", MUT_Multiplication, true, 1.225, "")
+	local XP_Modifier_Level3_MoraleRegen = Modifier_Create(MAT_Squad, "morale_rate_squad_modifier", MUT_Multiplication, true, 1.15, "")
+	
+	local XP_Modifier_Level3_Accuracy = Modifier_Create(MAT_Squad, "entity_accuracy_modifier", MUT_Addition, true, 1.05, "")
+	local XP_Modifier_Level3_MaxDamage = Modifier_Create(MAT_Squad, "max_damage_weapon_modifier", MUT_Multiplication, true, 1.125, "")
+	local XP_Modifier_Level3_MinDamage = Modifier_Create(MAT_Squad, "min_damage_weapon_modifier", MUT_Multiplication, true, 1.125, "")
+	
+	local XP_Modifier_Level3_SightRange = Modifier_Create(MAT_Squad, "sight_radius_modifier", MUT_Multiplication, true, 1.15, "")
+	local XP_Modifier_Level3_KeenSightRange = Modifier_Create(MAT_Squad, "keen_sight_radius_modifier", MUT_Multiplication, true, 1.15, "")
+	
+	local XP_Modifier_Level3_AbilityCastRange = Modifier_Create(MAT_Squad, "ability_range_modifier", MUT_Multiplication, true, 1.15, "")
+	local XP_Modifier_Level3_AbilityRecharge = Modifier_Create(MAT_Squad, "ability_range_modifier", MUT_Multiplication, true, 0.87, "")
+	
+	local XP_Modifiers_Level3 = 
+	{
+		XP_Modifier_Level3_HealthMax, XP_Modifier_Level3_HealthRegen,
+		XP_Modifier_Level3_MoraleMax, XP_Modifier_Level3_MoraleRegen,
+		XP_Modifier_Level3_Accuracy, XP_Modifier_Level3_MaxDamage, XP_Modifier_Level3_MinDamage,
+		XP_Modifier_Level3_SightRange, XP_Modifier_Level3_KeenSightRange,
+		XP_Modifier_Level3_AbilityCastRange, XP_Modifier_Level3_AbilityRecharge
+	}
+	
+	
+	local XP_Modifier_Level4_HealthMax = Modifier_Create(MAT_Squad, "health_maximum_modifier", MUT_Multiplication, true, 1.35, "")
+	local XP_Modifier_Level4_HealthRegen = Modifier_Create(MAT_Squad, "health_regeneration_modifier", MUT_Multiplication, true, 1.4, "")
+	
+	local XP_Modifier_Level4_MoraleMax = Modifier_Create(MAT_Squad, "morale_maximum_squad_modifier", MUT_Multiplication, true, 1.33, "")
+	local XP_Modifier_Level4_MoraleRegen = Modifier_Create(MAT_Squad, "morale_rate_squad_modifier", MUT_Multiplication, true, 1.225, "")
+	
+	local XP_Modifier_Level4_Accuracy = Modifier_Create(MAT_Squad, "entity_accuracy_modifier", MUT_Addition, true, 1.075, "")
+	local XP_Modifier_Level4_MaxDamage = Modifier_Create(MAT_Squad, "max_damage_weapon_modifier", MUT_Multiplication, true, 1.175, "")
+	local XP_Modifier_Level4_MinDamage = Modifier_Create(MAT_Squad, "min_damage_weapon_modifier", MUT_Multiplication, true, 1.175, "")
+	
+	local XP_Modifier_Level4_SightRange = Modifier_Create(MAT_Squad, "sight_radius_modifier", MUT_Multiplication, true, 1.25, "")
+	local XP_Modifier_Level4_KeenSightRange = Modifier_Create(MAT_Squad, "keen_sight_radius_modifier", MUT_Multiplication, true, 1.25, "")
+	
+	local XP_Modifier_Level4_AbilityCastRange = Modifier_Create(MAT_Squad, "ability_range_modifier", MUT_Multiplication, true, 1.22, "")
+	local XP_Modifier_Level4_AbilityRecharge = Modifier_Create(MAT_Squad, "ability_range_modifier", MUT_Multiplication, true, 0.8, "")
+	
+	local XP_Modifiers_Level4 = 
+	{
+		XP_Modifier_Level4_HealthMax, XP_Modifier_Level4_HealthRegen,
+		XP_Modifier_Level4_MoraleMax, XP_Modifier_Level4_MoraleRegen,
+		XP_Modifier_Level4_Accuracy, XP_Modifier_Level4_MaxDamage, XP_Modifier_Level4_MinDamage,
+		XP_Modifier_Level4_SightRange, XP_Modifier_Level4_KeenSightRange,
+		XP_Modifier_Level4_AbilityCastRange, XP_Modifier_Level4_AbilityRecharge
+	}
+	
+	XP_All_Modifiers = { XP_Modifiers_Level1, XP_Modifiers_Level2, XP_Modifiers_Level3, XP_Modifiers_Level4 }
 
 	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Finished: 'Setup_XPManager'!")
 

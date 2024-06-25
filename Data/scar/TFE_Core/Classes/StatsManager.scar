@@ -71,16 +71,25 @@ function StatsManager:AddKills( _Units, _Leaders, _Commanders, _Squads, _Defende
 	--Note: This does not take into account entities like turrets and will require small refactor
 	local NumberAttackingSquads = table.getn(_DefenderSquadStruct.PreviouslyAttackedBySquads)
 	
-	--Set the estimated position of the squad who killed the target
+	--Set the estimated position of the squad who killed the target and applies reward XP
 	local tmpKillerPosition = nil
+	local tmpKiller = nil
 	if(NumberAttackingSquads > 0) then
+
+		--Firstly, reward the killers
+		for killerIndex = 1, NumberAttackingSquads do
+
+			_DefenderSquadStruct.PreviouslyAttackedBySquads[killerIndex].XP:AddXP_CombatWithSquad(_DefenderSquadStruct.SquadBlueprint, _Units, _Leaders, _Squads, 1 / NumberAttackingSquads)
+
+		end
 
 		--There are many attackers, pick a killer at random from among them
 		tmpKillerPosition = TableGetRand(_DefenderSquadStruct.PreviouslyAttackedBySquads).SquadPosition
 
 	else
 
-		--Only 1 attacker, great! They are the killer
+		--We can't find any killers 
+		--Should probably do a "get closest enemy" check here
 		tmpKillerPosition = _DefenderSquadStruct.SquadPosition
 
 	end

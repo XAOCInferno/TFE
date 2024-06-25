@@ -43,6 +43,8 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		OwnerPlayer = _player, 
 		IsSelected_Unsynced = Misc_IsSquadSelected(_sID),
 
+		XP = XPManager:new(),
+
 		SquadAppliedCoverMods = {},
 		SquadAppliedCoverMods_IDs = {},
 		SquadAppliedCoverMods_Index = {},
@@ -57,7 +59,8 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		PreviouslyAttackedTime = 0,
 		PreviouslyAttackedBySquads = {}
 	}
-	
+
+
 	self.__index = self
 
 	local globalObject = setmetatable(SquadDataObject, self)
@@ -72,6 +75,7 @@ end
 
 function SquadData:LateConstructor()
 
+	self.XP.LinkedSquadData = self --VERY MESSY! Change this later...
 	self.SquadMultiLeaderCount = table.getn(self.SquadMultiLeaders)
 	
 	self:SetInitialWeaponData()
@@ -115,7 +119,6 @@ end
 
 function SquadData:GetUpToDateSquadID()
 
-	print(self.SquadUniqueID)
 	return Squad_GetSquadFromGameID(self.SquadUniqueID)
 
 end

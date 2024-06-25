@@ -1,3 +1,4 @@
 --[[Classes]]
-import("TFE_Core/Subscars/XP/Classes/XPEntry.scar")
+import("TFE_Core/Subscars/XP/Classes/XPManager.scar")
 import("TFE_Core/Subscars/XP/Settings/XP_Settings.lua")
+import("TFE_Core/Subscars/XP/Data/XP_KillRewards.lua")
