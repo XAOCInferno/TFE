@@ -709,14 +709,14 @@ GameData["synckill_ext"]["synckillinfos"]["synckillinfo_02"]["killer_invulnerabl
 GameData["synckill_ext"]["synckillinfos"]["synckillinfo_03"]["dead_zombie_time"] = 4.099999905
 GameData["synckill_ext"]["synckillinfos"]["synckillinfo_03"]["killer_invulnerable_time"] = 4.170000076
 GameData["type_ext"] = Reference([[ebpextensions\type_ext.lua]])
-GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_infantry_med.lua]])
+GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_infantry_low.lua]])
 GameData["ui_ext"] = Reference([[ebpextensions\ui_ext.lua]])
 GameData["ui_ext"]["minimap_enable"] = true 
 GameData["ui_ext"]["minimap_teamcolor"] = true 
 GameData["ui_ext"]["speech_directory"] = [[Speech/Races/Chaos_Marines/undercover_cultist]]
 GameData["ui_ext"]["ui_hotkey_name"] = [[chaos_cultist]]
 GameData["ui_ext"]["ui_index_hint"] = 3
-GameData["ui_ext"]["ui_info"]["help_text_list"]["text_01"] = [[$97112]] -- - LIght Infantry.
+GameData["ui_ext"]["ui_info"]["help_text_list"]["text_01"] = [[$97112]] -- - Light Infantry.
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_02"] = [[$97273]] -- - Scout / Meat Shield. High numbers, but weak combat ability.
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$97274]] -- - Can lay down hidden traps.
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$97275]] -- - Starts with Infiltration.
