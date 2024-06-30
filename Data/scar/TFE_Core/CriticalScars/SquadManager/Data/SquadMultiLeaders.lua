@@ -25,7 +25,10 @@ g_MultiSquadLeaders =
 	},
 	
 	necron_race = {},	
-	ork_race = {},	
+	ork_race = 
+	{
+		ork_squad_feral_boy = { "ork_ard_boy", "ork_skar_boy" }
+	},	
 	
 	sisters_race = 
 	{
