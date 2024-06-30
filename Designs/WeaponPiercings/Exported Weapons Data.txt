@@ -1,6 +1,7 @@
 Undefined
 
 chaos_AL_sword_Lord_dummy
+chaos_dark_knife_undercover_cultist
 chaos_doombolt_weapon
 chaos_dummy_weapon
 chaos_dummy_weapon_2
@@ -209,6 +210,8 @@ chaos_knife_cultist_flame
 chaos_knife_pistol
 chaos_knife_tactical
 chaos_knife_tactical_improved
+chaos_knife_undercover_cultist
+chaos_knife_undercover_cultist_prophet
 dark_eldar_knife_mandrake
 dark_eldar_knife_mandrake_daemonic_touch
 dark_eldar_knife_scourge
@@ -240,6 +243,7 @@ inquisition_knife_shock_troops
 inquisition_knife_stormtroopers
 inquisition_nemesis_sword_purgator
 inquisition_staff_scholar
+necron_canoptek_wraith_claw
 necron_deathmark_disintegrator_melee
 necron_destroyer_melee
 necron_flayed_one_claw
@@ -258,6 +262,7 @@ ork_choppa_boyz_stormboyz
 ork_choppa_flash_gitz
 ork_choppa_nob
 ork_choppa_nob_stormboy
+ork_choppa_skar_boy
 ork_grot_knife
 ork_injector
 ork_knife
@@ -267,6 +272,7 @@ ork_stikkbomb_stikkbomba
 sisters_knife
 sisters_knife_battle_sister
 sisters_knife_missionary
+sisters_knife_novice_sister
 sisters_knife_seraphim
 space_marine_knife
 space_marine_knife_devastator
@@ -293,14 +299,17 @@ chaos_chainsword_raptorchampion
 chaos_khornate_chainaxe
 chaos_khornate_chainaxe_lord
 chaos_khornate_chainaxe_t3
+eldar_chain_sword_striking_scorpion
 guard_chainsword_priest
 guard_eviscerator_priest
 guard_eviscerator_priest_leader
 inquisition_chainsword
+inquisition_chainsword_apprentice_acolyte
 inquisition_chainsword_inquisitor_acolyte
 inquisition_chainsword_sergeant
 inquisition_chain_fist
 inquisition_eviscerator
+ork_buzzsaw_ard_boy
 sisters_chain_sword
 sisters_chain_sword_canoness
 sisters_chain_sword_celestian
@@ -640,6 +649,7 @@ inquisition_bolter
 inquisition_bolter_exorcist
 inquisition_bolter_techmarine
 inquisition_bolter_weapons
+sisters_autogun_novice_sister
 sisters_bolter
 sisters_bolter_battle_sister
 sisters_bolter_celestian
@@ -666,6 +676,7 @@ chaos_bolt_pistol_raptorchampion
 chaos_bolt_pistol_sorceror
 chaos_bolt_pistol_sorceror_aspiring
 inquisition_bolt_pistol
+inquisition_bolt_pistol_apprentice_acolyte
 inquisition_bolt_pistol_bc
 inquisition_bolt_pistol_inquisitor_acolyte
 inquisition_bolt_pistol_inquisitor_lord
@@ -890,6 +901,7 @@ necron_warrior_gauss_flayer_turret_2
 
 Ranged_Gauss_Light
 
+necron_canoptek_wraith_gauss_eye_blaster
 necron_cryptek_ranged
 necron_gauss_blaster_pariah
 necron_gauss_blaster_pariah_lord
@@ -907,6 +919,7 @@ dark_eldar_dark_lance
 dark_eldar_dark_lance_dais
 dark_eldar_dark_lance_listening_post
 dark_eldar_dark_lance_listening_post_2
+dark_eldar_dark_lance_pillager_reaver
 dark_eldar_dark_lance_raider
 dark_eldar_dark_lance_ravager
 dark_eldar_dark_lance_raven
@@ -1020,6 +1033,7 @@ guard_multilaser_turret
 guard_multi_laser
 guard_multi_laser_chimera
 guard_multi_laser_chimera_hull
+guard_multi_laser_scout_sentinel
 guard_multi_laser_sentinel
 inquisition_multilaser_chimera
 
@@ -1349,6 +1363,7 @@ eldar_shuriken_pistol_banshee_exarch
 eldar_shuriken_pistol_farseer
 eldar_shuriken_pistol_farseer_clone
 eldar_shuriken_pistol_seer_council
+eldar_shuriken_pistol_striking_scorpion
 eldar_shuriken_pistol_warlock
 
 
@@ -1404,10 +1419,12 @@ Ranged_Slugga
 ork_grot_blasta
 ork_nob_shoota
 ork_slugga
+ork_slugga_ard_boy
 ork_slugga_baddok
 ork_slugga_bigmek
 ork_slugga_feral
 ork_slugga_nob
+ork_slugga_skar_boy
 ork_slugga_slugga
 ork_slugga_stormboyz
 ork_slugga_tankbustas
@@ -1427,6 +1444,7 @@ Ranged_Sniper_Light
 eldar_long_rifle
 eldar_long_rifle_tier_2
 eldar_long_rifle_tier_3
+space_marine_eliminator_sniper_rifle
 space_marine_sniper_rifle
 veteran_sniper_rifle
 veteran_sniper_rifle_t1
