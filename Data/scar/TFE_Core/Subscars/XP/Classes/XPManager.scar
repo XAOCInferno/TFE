@@ -64,7 +64,7 @@ function XPManager:AddXP(_addXP)
 
 	local _addXP = _addXP * self.XPGainRateMultiplier * g_GlobalXPGainRateMultiplier
 
-	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Adding XP: ".._addXP)
+	--Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Adding XP: ".._addXP)
 
 	self.XP = self.XP + _addXP
 
@@ -84,9 +84,9 @@ function XPManager:CheckXPThreshold()
 
 		self:LevelUp(true)
 
-	else
+	--else
 
-		Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Not enough XP to level up. Required: "..requiredXP)
+		--Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Not enough XP to level up. Required: "..requiredXP)
 
 	end
 	
@@ -151,9 +151,6 @@ function XPManager:DisplayLevelUpEffect()
 	AddStacktrace("XPManager:DisplayLevelUpEffect")
 	
 	local position = self.LinkedSquadData.SquadPosition
-	print(self.LinkedSquadData)
-	print(self.LinkedSquadData.SquadBlueprint)
-	print(self.LinkedSquadData.SquadPosition)
 
 	World_FXEvent( "data:Art/Events/generic/ui/generic_level_up", position )
 	

@@ -260,8 +260,8 @@ function UpdateSquadCombatDeathResources(_DefenderSquadStruct, _RedReceiverPlaye
 	_DefenderPlayer.CurrentResources.RT_Red = _DefenderPlayer.CurrentResources.RT_Red + (TotalRed * 0.5)	
 
 	--Debug	
-	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Player ".._RedReceiverPlayer.PlayerIndex.." current Red = ".._RedReceiverPlayer.CurrentResources.RT_Red)
-	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Player ".._DefenderPlayer.PlayerIndex.." current Red = ".._DefenderPlayer.CurrentResources.RT_Red)
+	--Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Player ".._RedReceiverPlayer.PlayerIndex.." current Red = ".._RedReceiverPlayer.CurrentResources.RT_Red)
+	--Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Player ".._DefenderPlayer.PlayerIndex.." current Red = ".._DefenderPlayer.CurrentResources.RT_Red)
 
 	RemoveStacktrace()
 
