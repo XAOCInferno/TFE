@@ -11,7 +11,7 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"]["muzzle"]["z"] = 1.25
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"]["name_for_this_weapon_choice"] = [[steel_legion_pistol_laser]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"]["origin"]["y"] = 2.099999905
-GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\guard_lasgun_rider.lua]]
+GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\guard_laspistol_rider.lua]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_06"] = nil
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_07"] = nil
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_08"] = nil
@@ -714,8 +714,8 @@ GameData["synckill_ext"]["synckillinfos"]["synckillinfo_14"]["killer_damage_lowe
 GameData["synckill_ext"]["synckillinfos"]["synckillinfo_15"]["area_effect"] = nil
 GameData["synckill_ext"]["synckillinfos"]["synckillinfo_15"]["killer_damage_lowered_time"] = nil
 GameData["type_ext"] = Reference([[ebpextensions\type_ext.lua]])
-GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_infantry_high.lua]])
-GameData["type_ext"]["type_armour_2"] = Reference([[type_armour\tp_infantry_heavy_med.lua]])
+GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_infantry_med.lua]])
+GameData["type_ext"]["type_armour_2"] = Reference([[type_armour\tp_infantry_high.lua]])
 GameData["type_ext"]["type_armour_2"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["ui_ext"] = Reference([[ebpextensions\ui_ext.lua]])
 GameData["ui_ext"]["minimap_enable"] = true 

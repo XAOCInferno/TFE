@@ -697,7 +697,7 @@ GameData["synckill_ext"]["synckillinfos"]["synckillinfo_02"]["killer_invulnerabl
 GameData["synckill_ext"]["synckillinfos"]["synckillinfo_03"]["chance"] = 0
 GameData["type_ext"] = Reference([[ebpextensions\type_ext.lua]])
 GameData["type_ext"]["can_be_possessed_by_enemy"] = false
-GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_vehicle_med.lua]])
+GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_building_low.lua]])
 GameData["type_ext"]["type_armour_2"] = Reference([[type_armour\tp_commander.lua]])
 GameData["type_ext"]["type_surface"] = Reference([[type_surface\tp_stone.lua]])
 --GameData["type_ext"]["type_surface"] = Reference([[type_surface\tp_heavy_metal_armour.lua]])

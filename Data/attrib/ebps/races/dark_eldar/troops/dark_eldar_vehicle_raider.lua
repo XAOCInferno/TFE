@@ -54,7 +54,7 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_05"
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_06"]["name_for_this_weapon_choice"] = [[dark_eldar_raider_AR_LA]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_06"]["weapon"] = [[weapon\dark_eldar_destructor_archon_raider_1.lua]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_07"]["name_for_this_weapon_choice"] = [[dark_eldar_raider_AR_LA]]
-GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_07"]["weapon"] = [[weapon\dark_eldar_splinter_rifle_archon_raider_1.lua]]
+GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_07"]["weapon"] = [[weapon\dark_eldar_splinter_pistol_archon_raider_1.lua]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_08"]["muzzle"]["x"] = -1.652999997
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_08"]["muzzle"]["y"] = 2.855999947
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_08"]["muzzle"]["z"] = 0.1140000001
@@ -108,7 +108,7 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_03"]["weapon_table"]["weapon_05"
 GameData["combat_ext"]["hardpoints"]["hardpoint_03"]["weapon_table"]["weapon_06"]["name_for_this_weapon_choice"] = [[dark_eldar_raider_AR_RB]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_03"]["weapon_table"]["weapon_06"]["weapon"] = [[weapon\dark_eldar_destructor_archon_raider_1.lua]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_03"]["weapon_table"]["weapon_07"]["name_for_this_weapon_choice"] = [[dark_eldar_raider_AR_RB]]
-GameData["combat_ext"]["hardpoints"]["hardpoint_03"]["weapon_table"]["weapon_07"]["weapon"] = [[weapon\dark_eldar_splinter_rifle_archon_raider_1.lua]]
+GameData["combat_ext"]["hardpoints"]["hardpoint_03"]["weapon_table"]["weapon_07"]["weapon"] = [[weapon\dark_eldar_splinter_pistol_archon_raider_1.lua]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_03"]["weapon_table"]["weapon_08"]["muzzle"]["x"] = 1.652999997
 GameData["combat_ext"]["hardpoints"]["hardpoint_03"]["weapon_table"]["weapon_08"]["muzzle"]["y"] = 2.855999947
 GameData["combat_ext"]["hardpoints"]["hardpoint_03"]["weapon_table"]["weapon_08"]["muzzle"]["z"] = -0.7360000014
@@ -162,7 +162,7 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_04"]["weapon_table"]["weapon_05"
 GameData["combat_ext"]["hardpoints"]["hardpoint_04"]["weapon_table"]["weapon_06"]["name_for_this_weapon_choice"] = [[dark_eldar_raider_AR_LC]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_04"]["weapon_table"]["weapon_06"]["weapon"] = [[weapon\dark_eldar_destructor_archon_raider_1.lua]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_04"]["weapon_table"]["weapon_07"]["name_for_this_weapon_choice"] = [[dark_eldar_raider_AR_LC]]
-GameData["combat_ext"]["hardpoints"]["hardpoint_04"]["weapon_table"]["weapon_07"]["weapon"] = [[weapon\dark_eldar_splinter_rifle_archon_raider_1.lua]]
+GameData["combat_ext"]["hardpoints"]["hardpoint_04"]["weapon_table"]["weapon_07"]["weapon"] = [[weapon\dark_eldar_splinter_pistol_archon_raider_1.lua]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_04"]["weapon_table"]["weapon_08"]["muzzle"]["x"] = -1.652999997
 GameData["combat_ext"]["hardpoints"]["hardpoint_04"]["weapon_table"]["weapon_08"]["muzzle"]["y"] = 2.858999968
 GameData["combat_ext"]["hardpoints"]["hardpoint_04"]["weapon_table"]["weapon_08"]["muzzle"]["z"] = -1.585999966
@@ -270,7 +270,7 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_06"]["weapon_table"]["weapon_05"
 GameData["combat_ext"]["hardpoints"]["hardpoint_06"]["weapon_table"]["weapon_06"]["name_for_this_weapon_choice"] = [[dark_eldar_raider_AR_LB]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_06"]["weapon_table"]["weapon_06"]["weapon"] = [[weapon\dark_eldar_destructor_archon_raider_1.lua]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_06"]["weapon_table"]["weapon_07"]["name_for_this_weapon_choice"] = [[dark_eldar_raider_AR_LB]]
-GameData["combat_ext"]["hardpoints"]["hardpoint_06"]["weapon_table"]["weapon_07"]["weapon"] = [[weapon\dark_eldar_splinter_rifle_archon_raider_1.lua]]
+GameData["combat_ext"]["hardpoints"]["hardpoint_06"]["weapon_table"]["weapon_07"]["weapon"] = [[weapon\dark_eldar_splinter_pistol_archon_raider_1.lua]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_06"]["weapon_table"]["weapon_08"]["muzzle"]["x"] = -1.652999997
 GameData["combat_ext"]["hardpoints"]["hardpoint_06"]["weapon_table"]["weapon_08"]["muzzle"]["y"] = 2.855999947
 GameData["combat_ext"]["hardpoints"]["hardpoint_06"]["weapon_table"]["weapon_08"]["muzzle"]["z"] = -0.7360000014
@@ -324,7 +324,7 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_07"]["weapon_table"]["weapon_05"
 GameData["combat_ext"]["hardpoints"]["hardpoint_07"]["weapon_table"]["weapon_06"]["name_for_this_weapon_choice"] = [[dark_eldar_raider_AR_RC]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_07"]["weapon_table"]["weapon_06"]["weapon"] = [[weapon\dark_eldar_destructor_archon_raider_1.lua]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_07"]["weapon_table"]["weapon_07"]["name_for_this_weapon_choice"] = [[dark_eldar_raider_AR_RC]]
-GameData["combat_ext"]["hardpoints"]["hardpoint_07"]["weapon_table"]["weapon_07"]["weapon"] = [[weapon\dark_eldar_splinter_rifle_archon_raider_1.lua]]
+GameData["combat_ext"]["hardpoints"]["hardpoint_07"]["weapon_table"]["weapon_07"]["weapon"] = [[weapon\dark_eldar_splinter_pistol_archon_raider_1.lua]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_07"]["weapon_table"]["weapon_08"]["muzzle"]["x"] = 1.652999997
 GameData["combat_ext"]["hardpoints"]["hardpoint_07"]["weapon_table"]["weapon_08"]["muzzle"]["y"] = 2.855999947
 GameData["combat_ext"]["hardpoints"]["hardpoint_07"]["weapon_table"]["weapon_08"]["muzzle"]["z"] = -1.585999966

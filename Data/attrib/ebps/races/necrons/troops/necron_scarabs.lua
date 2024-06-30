@@ -1094,7 +1094,7 @@ GameData["synckill_ext"]["synckillinfos"]["synckillinfo_15"]["area_effect"]["wea
 GameData["synckill_ext"]["synckillinfos"]["synckillinfo_15"]["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_15"]["armour_type"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["type_ext"] = Reference([[ebpextensions\type_ext.lua]])
 GameData["type_ext"]["can_be_possessed_by_enemy"] = false
-GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_air_med.lua]])
+GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_infantry_med.lua]])
 GameData["type_ext"]["type_armour"]["screen_name_id"] = [[$4450037]] -- Aircraft
 GameData["type_ext"]["type_armour_2"] = Reference([[type_armour\tp_infantry_heavy_high.lua]])
 GameData["type_ext"]["type_armour_2"]["screen_name_id"] = [[$90105]] -- Heavy Infantry
