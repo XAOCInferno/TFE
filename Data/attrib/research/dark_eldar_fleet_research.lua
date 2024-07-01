@@ -1,5 +1,15 @@
 GameData = Inherit([[]])
 GameData["modifiers"] = Reference([[tables\modifier_table.lua]])
+GameData["modifiers"]["modifier_01"] = Reference([[modifiers\speed_maximum_modifier.lua]])
+GameData["modifiers"]["modifier_01"]["application_type"] = Reference([[type_modifierapplicationtype\tp_mod_apply_to_entity_type.lua]])
+GameData["modifiers"]["modifier_01"]["shield_of_faith"] = false
+GameData["modifiers"]["modifier_01"]["target_type_name"] = [[dark_eldar_infantry_warrior]]
+GameData["modifiers"]["modifier_01"]["value"] = 1.1
+GameData["modifiers"]["modifier_02"] = Reference([[modifiers\speed_maximum_modifier.lua]])
+GameData["modifiers"]["modifier_02"]["application_type"] = Reference([[type_modifierapplicationtype\tp_mod_apply_to_entity_type.lua]])
+GameData["modifiers"]["modifier_02"]["shield_of_faith"] = false
+GameData["modifiers"]["modifier_02"]["target_type_name"] = [[dark_eldar_infantry_warrior_leader]]
+GameData["modifiers"]["modifier_02"]["value"] = 1.1
 GameData["requirements"] = Reference([[tables\requirements.lua]])
 GameData["time_cost"] = Reference([[tables\time_cost_table.lua]])
 GameData["time_cost"]["cost"]["faith"] = 0
