@@ -11,7 +11,7 @@ function KillTimestamp:new (_Units, _Leaders, _Commanders, _Squads, _KillerPosit
 		Leaders = _Leaders, 
 		Commanders = _Commanders, 
 		Squads = _Squads,
-		KillerPosition = KillerPosition
+		KillerPosition = _KillerPosition or World_Pos(0,0,0)
 
 	}
 
