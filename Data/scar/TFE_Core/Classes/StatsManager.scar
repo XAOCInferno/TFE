@@ -95,16 +95,7 @@ function StatsManager:AddKills( _Units, _Leaders, _Commanders, _Squads, _Defende
 	end
 
 	--Assign the stat as a recorded timestamp, used to determine kill rates 
-	--This table should probably be a class! Refactor it later
-	table.insert(self.TimestampedUnitKills, 
-	{ 	
-		Time = g_WorldTime, 
-		Units = _Units, 
-		Leaders = _Leaders, 
-		Commanders = _Commanders, 
-		Squads = _Squads,
-		KillerPosition = tmpKillerPosition
-	})
+	table.insert(self.TimestampedUnitKills, KillTimestamp:new (_Units, _Leaders, _Commanders, _Squads, tmpKillerPosition))
 
 	RemoveStacktrace()
 
@@ -123,14 +114,7 @@ function StatsManager:AddLosses( _Units, _Leaders, _Commanders, _Squads )
 
 	--Assign the stat as a recorded timestamp, used to determine loss rates 
 	--This table should probably be a class! Refactor it later
-	table.insert(self.TimestampedUnitLosses, 
-	{ 	
-		Time = g_WorldTime, 
-		Units = _Units, 
-		Leaders = _Leaders, 
-		Commanders = _Commanders, 
-		Squads = _Squads
-	})
+	table.insert(self.TimestampedUnitLosses, KillTimestamp:new (_Units, _Leaders, _Commanders, _Squads, nil))
 	
 	RemoveStacktrace()
 
@@ -150,15 +134,7 @@ function StatsManager:AddEntityKills( _Entities, _Structures, _LPs, _Gens, _Ther
 	self.ThermosKilled = self.ThermosKilled + _Thermos
 
 	--Assign the stat as a recorded timestamp, used to determine kill rates 
-	--This table should probably be a class! Refactor it later
-	table.insert(self.TimestampedEntityKills, 
-	{ 	
-		Time = g_WorldTime, 
-		Units = _Units, 
-		Leaders = _Leaders, 
-		Commanders = _Commanders, 
-		Squads = _Squads
-	})
+	table.insert(self.TimestampedEntityKills, KillTimestamp:new (_Units, _Leaders, _Commanders, _Squads, nil))
 	
 	RemoveStacktrace()
 
@@ -176,15 +152,7 @@ function StatsManager:AddEntityLosses( _Entities, _Structures, _LPs, _Gens, _The
 	self.ThermosLost = self.ThermosLost + _Thermos
 
 	--Assign the stat as a recorded timestamp, used to determine loss rates 
-	--This table should probably be a class! Refactor it later
-	table.insert(self.TimestampedEntityLosses, 
-	{ 	
-		Time = g_WorldTime, 
-		Units = _Units, 
-		Leaders = _Leaders, 
-		Commanders = _Commanders, 
-		Squads = _Squads
-	})
+	table.insert(self.TimestampedEntityLosses, KillTimestamp:new (_Units, _Leaders, _Commanders, _Squads, nil))
 
 	RemoveStacktrace()
 

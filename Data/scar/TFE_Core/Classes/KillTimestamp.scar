@@ -1,0 +1,24 @@
+KillTimestamp = {}
+function KillTimestamp:new (_Units, _Leaders, _Commanders, _Squads, _KillerPosition)
+
+	AddStacktrace("KillTimestamp:new")
+
+	local KillTimestampObject = 
+	{
+
+		Time = g_WorldTime, 
+		Units = _Units, 
+		Leaders = _Leaders, 
+		Commanders = _Commanders, 
+		Squads = _Squads,
+		KillerPosition = KillerPosition
+
+	}
+
+	self.__index = self
+
+	RemoveStacktrace()
+
+   	return setmetatable(KillTimestampObject, self)
+
+end
