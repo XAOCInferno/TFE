@@ -83,6 +83,28 @@ function SquadData:LateConstructor()
 
 end
 
+function SquadData:GetIfAlive()
+
+	AddStacktrace("SquadData:GetIfExists")
+
+	local alive = true
+
+	if Squad_Exists(self.SquadUniqueID) == false then
+
+		alive = false
+
+	elseif Squad_Count(self.SquadID) + Squad_CountLeaders(self.SquadID) == 0 then
+
+		alive = false
+
+	end
+
+	RemoveStacktrace()
+
+	return alive 
+
+end
+
 function SquadData:SetInitialWeaponData()
 
 	for weapon in self.SquadValidWeapons do

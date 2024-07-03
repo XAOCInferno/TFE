@@ -80,7 +80,7 @@ function XPManager:CheckXPThreshold()
 	AddStacktrace("XPManager:CheckXPThreshold")
 
 	local requiredXP = self.LevelUpThresholds[self.Level] - self.XP
-	if  requiredXP <= 0  then
+	if  requiredXP <= 0 and self.LinkedSquadData:GetIfAlive() then
 
 		self:LevelUp(true)
 
@@ -124,7 +124,35 @@ function XPManager:ApplyLevelUpModifiers()
 
 	for modifierIDIndex = 1, table.getn(self.CurrentlyAppliedModifierIDs) do
 
-		Modifier_Remove(self.CurrentlyAppliedModifierIDs[modifierIDIndex])
+		if self.LinkedSquadData:GetIfAlive() then
+
+			if Modifier_Exists(self.CurrentlyAppliedModifierIDs[modifierIDIndex]) then 
+
+				if pcall(Modifier_Remove, self.CurrentlyAppliedModifierIDs[modifierIDIndex]) == false then
+					
+					if self.LinkedSquadData:GetIfAlive() == false then
+
+						Log(eLOG_LOG_TYPE_WARNING, eLOG_SIMPLE, "Cannot remove modifier as squad is dead.")
+
+					elseif self.CurrentlyAppliedModifierIDs[modifierIDIndex] == nil then
+
+						Log(eLOG_TYPE_ERROR, eLOG_SIMPLE, "Cannot remove modifier as modifier is nil!")
+
+					else
+
+						Log(eLOG_TYPE_ERROR, eLOG_VERBOSE, "Cannot remove level modifier for unknown reasons!")
+
+					end
+
+				end
+
+			end
+
+		else	
+		
+			Log(eLOG_TYPE_ERROR, eLOG_VERBOSE, "Squad is dead! Can't remove mods")
+
+		end
 
 	end
 
@@ -134,8 +162,42 @@ function XPManager:ApplyLevelUpModifiers()
 
 		for newModifierIndex = 1, table.getn(self.LevelUpModifiers) do
 
-			local modifierID = Modifier_ApplyToSquad(self.LevelUpModifiers[self.Level][newModifierIndex], squadID)
-			table.insert(self.CurrentlyAppliedModifierIDs, modifierID)
+			local modifierID = nil
+
+			for i = 1, 100 do
+
+				if self.LinkedSquadData:GetIfAlive() then
+
+					modifierID = Modifier_ApplyToSquad(self.LevelUpModifiers[self.Level][newModifierIndex], squadID)
+
+					if modifierID ~= nil then
+
+						break
+
+					else
+					
+						Log(eLOG_TYPE_ERROR, eLOG_VERBOSE, "Modifier failed to apply, retrying. "..newModifierIndex)
+
+					end	
+
+				else
+
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Cannot add modifier as squad doesn't exist.")
+					break
+
+				end
+
+			end
+
+			if modifierID ~= nil then
+
+				table.insert(self.CurrentlyAppliedModifierIDs, modifierID)
+
+			else
+
+				Log(eLOG_TYPE_ERROR, eLOG_VERBOSE, "Modifier completely failed to add...")
+
+			end
 
 		end
 

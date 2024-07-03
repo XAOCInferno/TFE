@@ -1,2 +1,2 @@
 --Put settings here.
-g_GlobalXPGainRateMultiplier = 4
+g_GlobalXPGainRateMultiplier = 1000--4
