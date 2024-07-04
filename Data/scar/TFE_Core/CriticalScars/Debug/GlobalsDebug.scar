@@ -94,9 +94,9 @@ local function SetStacktracePath(_Verbosity)
 	
 	--Get length of the total stack trace
 	local StacktraceCopy = StacktraceStack:Clone()
-	local StacktraceStackLength = StacktraceCopy.Top
+	local StacktraceStackLength = StacktraceCopy.Length
 
-	if(_Verbosity == eLOG_VERBOSE_PATH and StacktraceCopy.Top > 5) then
+	if(_Verbosity == eLOG_VERBOSE_PATH and StacktraceCopy.Length > 5) then
 
 		--The log wants us to print the most recent parts of the stacktrace
 		
