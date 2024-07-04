@@ -1,3 +1,7 @@
+
+function AddStacktrace(_FunctionName) end
+function RemoveStacktrace() end
+
 --Log Type ENUMS
 eLOG_TYPE_INFO = 0
 eLOG_LOG_TYPE_WARNING = 1
@@ -6,10 +10,11 @@ eLOG_LOG_TYPE_CRITICAL = 3
 
 --Verbosity ENUMS
 eLOG_FULL = 0
-eLOG_VERBOSE = 1
-eLOG_SIMPLE = 2
-eLOG_MOD_ONLY = 3
-eLOG_NONE = 4
+eLOG_VERBOSE_PATH = 1
+eLOG_VERBOSE = 2
+eLOG_SIMPLE = 3
+eLOG_MOD_ONLY = 4
+eLOG_NONE = 5
 
 local LogTypes = {}
 LogTypes[0] = "i" --Basic Log
@@ -21,7 +26,10 @@ local LogTypesLength = table.getn(LogTypes)
 local WrittenLogs = {}
 
 local StacktracePath = "@"
-local StacktraceStack = {}
+local StacktraceStack = Stack:new(52)
+local LogCount = 0
+local StacktraceChanged = false
+
 
 local function GetLogType(_LogType)
 
@@ -51,14 +59,16 @@ end
 function AddStacktrace(_FunctionName)
 
 	--Push to stack
-	table.insert(StacktraceStack, _FunctionName)
+	StacktraceChanged = true
+	StacktraceStack:Push(_FunctionName)
 
 end
 
 function RemoveStacktrace()
 
 	--Pop from stack
-	table.remove(StacktraceStack, table.getn(StacktraceStack))
+	StacktraceChanged = true
+	StacktraceStack:Pop(1)
 
 end
 
@@ -78,43 +88,36 @@ local function SetStacktracePath(_Verbosity)
 
 	AddStacktrace("SetStacktracePath")
 
-	StacktracePath = "@"
+	StacktraceChanged = false
 
-	if(_Verbosity == eLOG_FULL) then
+	StacktracePath = ""
+	
+	--Get length of the total stack trace
+	local StacktraceCopy = StacktraceStack:Clone()
+	local StacktraceStackLength = StacktraceCopy.Top
 
-		--The log wants us to print the entire stacktrace
-		--Iterate over each stored string and add it, seperated with /
-		for i = 1, table.getn(StacktraceStack) do
-
-			StacktracePath = StacktracePath.."/"..StacktraceStack[i]
-
-		end
-
-		--Add new line so that the logs don't stick together
-		StacktracePath = StacktracePath.."\n"
-
-	elseif(_Verbosity == eLOG_VERBOSE) then
+	if(_Verbosity == eLOG_VERBOSE_PATH and StacktraceCopy.Top > 5) then
 
 		--The log wants us to print the most recent parts of the stacktrace
 		
-		--Get length of the total stack trace
-		local StacktraceStackLength = table.getn(StacktraceStack)
+		StacktraceStackLength = 5
+		StacktraceCopy:Pop(2)
+
+	end
+	
+	if(StacktraceStackLength > 0) then
 		
-		--Iterate over the required ammount of the stack
-		for i = StacktraceStackLength-4, StacktraceStackLength-2 do
-
-			--Ensure we don't get out of bounds issue as index 0 is unsupported
-			if (i > 0) then
-
-				StacktracePath = StacktracePath.."/"..StacktraceStack[i]
-
-			end
+		--Iterate over each stored string and add it, seperated with /
+		for i = 1, StacktraceStackLength do
+			
+			StacktracePath = StacktraceCopy:PeekOne().."/"..StacktracePath
+			StacktraceCopy:Pop(1)
 
 		end
 
 		--Add new line so that the logs don't stick together
-		StacktracePath = StacktracePath.."\n"
-
+		StacktracePath = "@"..StacktracePath.."\n"
+	
 	else
 
 		--Other logs that don't use stacktrace, so we don't need it
@@ -130,13 +133,19 @@ end
 function Log(_LogType, _Verbosity, _Line)
 
 	AddStacktrace("Log")
+
+	LogCount = LogCount + 1
 	
 	--Set default values if either of these are null
 	_LogType = _LogType or eLOG_TYPE_INFO
 	_Verbosity = _Verbosity or eLOG_VERBOSE
 	_Line = _Line or "[[NO MESSAGE]]"
 
-	SetStacktracePath(_Verbosity)
+	if (StacktraceChanged == true) then
+
+		SetStacktracePath(_Verbosity)
+
+	end
 
 	--Simply print statement with fancy formatting
 	if(_Verbosity == eLOG_NONE) then
@@ -158,6 +167,11 @@ function Log(_LogType, _Verbosity, _Line)
 		
 		print(" | \v  ("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) ".._Line.." |")
 
+	--Contains log type, mod name, game time of log and the stacktrace 
+	elseif(_Verbosity == eLOG_VERBOSE_PATH) then
+
+		print(" \n[[\n\v  ("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) ".._Line.."\n\v "..StacktracePath.."]]")
+	
 	--Contains log type, mod name, game time of log and the stacktrace 
 	elseif(_Verbosity == eLOG_FULL) then
 
@@ -236,7 +250,11 @@ function LogOnce(_LogType, _Verbosity, _Line)
 	AddStacktrace("LogOnce")
 
 	--Get the stacktrace
-	SetStacktracePath(_Verbosity)
+	if (StacktraceChanged == true) then
+
+		SetStacktracePath(_Verbosity)
+		
+	end
 
 	--Generate a unique LogID based on stacktrace path + the displayed text
 	--This ID can help us almost entirely pinpoint where the log has been sent from
@@ -292,7 +310,7 @@ function DoFatalError()
 
 	AddStacktrace("DoFatalError")
 
-	print(""..{}.."") --Cant concatenate tables. https://www.youtube.com/watch?v=rmQFcVR6vEs&ab_channel=Jihad193
+	print(""..{}.."") --Cant concatenate tables. https://www.youtube.com/watch?v=rmQFcVR6vEs
 
 	RemoveStacktrace()
 

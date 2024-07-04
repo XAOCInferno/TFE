@@ -1,0 +1,93 @@
+Stack = {}
+function Stack:new (_StackSize)
+	
+	local StackObject = 
+	{
+		Data = {},
+		Top = 0,
+		Max = _StackSize
+	}
+
+	self.__index = self
+
+   	return setmetatable(StackObject, self)
+
+end
+
+function Stack:Clone()
+
+	local newStack = Stack:new(self.Max)
+
+	for i in self.Data do
+		
+		newStack:Push(self.Data[i])
+
+	end
+
+	return newStack
+
+end
+
+function Stack:Peek( _PeekDepth )
+
+	--Ensure _PeekDepth is not null and is less than or equal to Top
+	_PeekDepth = (_PeekDepth or 1) <= self.Top and (_PeekDepth or 1) or self.Top
+	_ReturnData = {}
+
+	for i = 1, _PeekDepth do
+
+		table.insert(_ReturnData, self.Data[_ReturnData])
+
+	end
+
+	return _ReturnData
+
+end
+
+function Stack:PeekOne()
+
+	return self.Data[self.Top] or ""
+
+end
+
+function Stack:Push( _Data )
+
+	if self.Top < self.Max then
+
+		table.insert(self.Data, _Data)
+		self.Top = self.Top + 1
+
+	else
+
+		print("Stack Overflow.")
+
+	end
+
+end
+
+function Stack:Pop( _PopDepth )
+
+	--Ensure _PopDepth is not null and is less than or equal to Top
+	_PopDepth = (_PopDepth or 1) <= self.Top and (_PopDepth or 1) or self.Top
+
+	for i = 1, _PopDepth do
+
+		table.remove(self.Data, self.Top)
+		self.Top = self.Top - 1
+
+	end
+
+end
+
+function Stack:Clear()
+
+	self:Pop( self.Top )
+
+end
+
+function Stack:IsEmpty()
+
+	return self.Top == 0
+
+end
+

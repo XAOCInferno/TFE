@@ -9,9 +9,16 @@ import("WXPScarUtil.scar")
 
 
 ----------------------------------
+-----DATA STRUCTURES--------------
+----------------------------------
+import("TFE_Core/Classes/Stack.scar")
+
+
+----------------------------------
 -----DEBUG MUST BE RUN FIRST!-----
 ----------------------------------
 import("TFE_Core/CriticalScars/Debug/GlobalsDebug.scar")
+
 
 ----------------------------------
 --TFE Globals [DO NOT REMOVE!]----
