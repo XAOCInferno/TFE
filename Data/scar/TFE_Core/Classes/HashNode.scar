@@ -1,0 +1,18 @@
+HashNode = {}
+function HashNode:new (_Key, _Data)
+	
+	AddStacktrace("HashNode:new")
+
+	local HashNodeObject = 
+	{
+        Key = _Key,
+		Data = _Data
+	}
+
+	self.__index = self
+	
+	RemoveStacktrace()
+
+   	return setmetatable(HashNodeObject, self)
+
+end

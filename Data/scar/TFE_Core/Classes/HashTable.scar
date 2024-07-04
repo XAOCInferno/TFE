@@ -1,0 +1,82 @@
+--Required scar
+import("TFE_Core/Classes/HashNode.scar")
+
+HashTable = {}
+function HashTable:new (_Capacity)
+	
+	AddStacktrace("HashTable:new")
+
+	local HashTableObject = 
+	{
+		Data = {},
+		Length = 0,
+		Capacity = _Capacity
+	}
+
+	self.__index = self
+	
+	RemoveStacktrace()
+
+   	return setmetatable(HashTableObject, self)
+
+end
+
+function HashTable:Clone()
+
+	AddStacktrace("HashTable:Clone")
+
+	LogNotImplemented("Hash Table Func Not Implemented")
+
+	RemoveStacktrace()
+
+end
+
+function HashTable:Clear()
+
+	AddStacktrace("HashTable:Clear")
+
+	LogNotImplemented("Hash Table Func Not Implemented")
+
+	RemoveStacktrace()
+
+end
+
+function HashTable:Put()
+
+	AddStacktrace("HashTable:Put")
+	
+	LogNotImplemented("Hash Table Func Not Implemented")
+
+	RemoveStacktrace()
+
+end
+
+function HashTable:Remove()
+
+	AddStacktrace("HashTable:Remove")
+	
+	LogNotImplemented("Hash Table Func Not Implemented")
+
+	RemoveStacktrace()
+
+end
+
+function HashTable:Get()
+
+	AddStacktrace("HashTable:Get")
+	
+	LogNotImplemented("Hash Table Func Not Implemented")
+
+	RemoveStacktrace()
+
+end
+
+function HashTable:Hash()
+
+	AddStacktrace("HashTable:Hash")
+	
+	LogNotImplemented("Hash Table Func Not Implemented")
+
+	RemoveStacktrace()
+
+end
