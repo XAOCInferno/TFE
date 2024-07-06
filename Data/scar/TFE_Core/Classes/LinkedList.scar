@@ -1,0 +1,48 @@
+--Required scar
+import("TFE_Core/Classes/LinkedListNode.scar")
+
+LinkedList = {}
+function LinkedList:new (_Capacity)
+	
+	AddStacktrace("LinkedList:new")
+
+	local LinkedListObject = 
+	{
+		Head = LinkedListNode:new(),
+		Length = 1
+	}
+
+	LinkedListObject.Head.Next = LinkedListObject.Head
+	LinkedListObject.Head.Previous = LinkedListObject.Head
+
+	self.__index = self
+	
+	RemoveStacktrace()
+
+   	return setmetatable(LinkedListObject, self)
+
+end
+
+function LinkedList:Put(_Data)
+	
+	local newNode = LinkedListNode:new(_Data, self.Head.Previous, self.Head )
+	self.Head.Previous.Next = newNode
+	local nextNode = self.Head.Next
+	self.Length = self.Length + 1
+
+	return newNode
+
+end
+
+function LinkedList:Remove(_Node)
+	
+	_Node.Previous.Next = _Node.Next
+	_Node.Next.Previous = _Node.Previous
+
+end
+
+function LinkedList:PutFirst(_Data)
+
+	self.Head = self:Put(_Data)
+
+end

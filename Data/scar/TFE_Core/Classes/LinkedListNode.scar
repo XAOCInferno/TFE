@@ -1,0 +1,19 @@
+LinkedListNode = {}
+function LinkedListNode:new (_Data, _Previous, _Next)
+	
+	AddStacktrace("LinkedListNode:new")
+
+	local LinkedListNodeObject = 
+	{
+		Data = _Data,
+		Previous = _Previous,
+		Next = _Next
+	}
+
+	self.__index = self
+	
+	RemoveStacktrace()
+
+   	return setmetatable(LinkedListNodeObject, self)
+
+end

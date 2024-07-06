@@ -5,8 +5,8 @@
 import("TFE_Core/CriticalScars/Globals/Imports/Globals_Imports.scar")
 
 --local GlobalUniqueSquadID = 0
-local UsedUniqueSquadIDs = {}
-local UsedUniqueEntityIDs = {}
+local UsedUniqueSquadIDs = HashTable:new(500)
+local UsedUniqueEntityIDs = HashTable:new(500)
 
 ---------------
 --Main Script--
@@ -71,20 +71,22 @@ function GetUniqueSG(BaseSGName)
 	
 	BaseSGName = BaseSGName or "UniqueSG."
 	local UniqueSG = BaseSGName	
-
-	while(SGroup_Exists(UniqueSG) == true or TableContains(UsedUniqueSquadIDs,UniqueSG)) do
+	
+	while(SGroup_Exists(UniqueSG) == true or UsedUniqueSquadIDs:Get(UniqueSG) ~= nil) do
 	
 		local index1, index2, index3, index4, index5 = Rdm_GetInts5()
 		UniqueSG = BaseSGName..index1..index2..index3..index4..index5
 		
 	end
-	
-	table.insert(UsedUniqueSquadIDs,UniqueSG) 
+
+	local SGroup = SGroup_Create(UniqueSG)
+	UsedUniqueSquadIDs:Put(UniqueSG, SGroup)
 	
 	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Assigned Unique Squad ID: "..UniqueSG)
 	
 	RemoveStacktrace()
-	return SGroup_Create(UniqueSG)
+
+	return SGroup
 	
 end
 
@@ -95,20 +97,21 @@ function GetUniqueEG(BaseEGName)
 	BaseEGName = BaseEGName or "UniqueEG."
 	local UniqueEG = BaseEGName	
 
-	while(EGroup_Exists(UniqueEG) == true or TableContains(UsedUniqueEntityIDs,UniqueEG)) do
+	while(EGroup_Exists(UniqueEG) == true or UsedUniqueEntityIDs:Get(UniqueEG) ~= nil) do
 	
 		local index1, index2, index3, index4, index5 = Rdm_GetInts5()
 		UniqueEG = BaseEGName..index1..index2..index3..index4..index5
 		
 	end
 	
-	table.insert(UsedUniqueEntityIDs,UniqueEG) 
+	local EGroup = EGroup_Create(UniqueEG)
+	UsedUniqueEntityIDs:Put(UniqueEG, EGroup)
 	
 	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Assigned Unique Entity ID: "..UniqueEG)
 	
 	RemoveStacktrace()
 	
-	return EGroup_Create(UniqueEG)
+	return EGroup
 	
 end
 

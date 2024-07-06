@@ -9,9 +9,14 @@ function HashTable:new (_Capacity)
 	local HashTableObject = 
 	{
 		Data = {},
-		Length = 0,
-		Capacity = _Capacity
+		Capacity = _Capacity or 100
 	}
+
+	for i = 1, HashTableObject.Capacity do
+
+		HashTableObject.Data[i] = LinkedList:new()
+
+	end
 
 	self.__index = self
 	
@@ -21,37 +26,44 @@ function HashTable:new (_Capacity)
 
 end
 
-function HashTable:Clone()
-
-	AddStacktrace("HashTable:Clone")
-
-	LogNotImplemented("Hash Table Func Not Implemented")
-
-	RemoveStacktrace()
-
-end
-
 function HashTable:Clear()
 
 	AddStacktrace("HashTable:Clear")
 
-	LogNotImplemented("Hash Table Func Not Implemented")
+	self.Data = {}
+	self.Length = 0
 
 	RemoveStacktrace()
 
 end
 
-function HashTable:Put()
+function HashTable:Put(key, data)
 
 	AddStacktrace("HashTable:Put")
 	
-	LogNotImplemented("Hash Table Func Not Implemented")
+	local Success = true
+
+	local hashedKey = self:Hash(key)
+
+	if(hashedKey ~= nil) then
+
+		local node = HashNode:new(key, data)
+		self.Data[hashedKey]:Put(node)
+
+	else
+
+		Log(eLOG_TYPE_ERROR, eLOG_FULL, "Cannot enter data into Hash Table!")
+		Success = false
+		
+	end
 
 	RemoveStacktrace()
 
+	return Success
+
 end
 
-function HashTable:Remove()
+function HashTable:Remove(key)
 
 	AddStacktrace("HashTable:Remove")
 	
@@ -61,22 +73,115 @@ function HashTable:Remove()
 
 end
 
-function HashTable:Get()
+function HashTable:Get(key)
 
 	AddStacktrace("HashTable:Get")
-	
-	LogNotImplemented("Hash Table Func Not Implemented")
 
+	local hashedKey = self:Hash(key)
+
+	local nextNode = self.Data[hashedKey].Head.Next
+	local previousNode = self.Data[hashedKey].Head.Previous
+	local foundNode = nil
+
+	for i = 1, self.Data[hashedKey].Length / 2 do
+		
+		if nextNode.Key == key then
+
+			foundNode = nextNode
+			break
+
+		elseif previousNode.Key == key then
+	
+			foundNode = previousNode
+			break
+	
+		end
+
+		nextNode = nextNode.Next
+		previousNode = previousNode.Previous
+
+	end
+	
 	RemoveStacktrace()
+
+	return foundNode
 
 end
 
-function HashTable:Hash()
+function HashTable:Hash(key)
 
 	AddStacktrace("HashTable:Hash")
 	
-	LogNotImplemented("Hash Table Func Not Implemented")
+	local keyType = type(key)
+	
+	if(keyType == "string") then
+
+		key = self:StrHash(key)
+
+	elseif(keyType == "number") then
+
+		key = self:IntHash(key)
+
+	elseif(keyType == "table") then
+		
+		key = self:TableHash(key)
+
+	else
+
+		Log(eLOG_TYPE_ERROR, eLOG_FULL, "'"..keyType.."' is not a valid for hashing! Ignoring")
+		key = nil
+
+	end
 
 	RemoveStacktrace()
+
+	return key
+
+end
+
+function HashTable:TableHash(key)
+
+	AddStacktrace("HashTable:TableHash")
+
+	key = self:StrHash(string.gsub(tostring(key), "table: ", ""))
+	
+	RemoveStacktrace()
+
+	return key
+
+end
+
+function HashTable:IntHash(key)
+
+	AddStacktrace("HashTable:IntHash")
+	
+	key = math.mod(key, self.Capacity) + 1
+
+	RemoveStacktrace()
+
+	return key
+
+end
+
+function HashTable:StrHash(key)
+
+	AddStacktrace("HashTable:StrHash")
+
+	local totalByte = 0
+	local stringLength = string.len(key)
+
+	--Add byte value of every character together
+	for i = 1, stringLength do
+
+		totalByte = totalByte + string.byte(key, i)
+
+	end
+
+	--Convert byte value into a valid integer position in data
+	key = self:IntHash(totalByte)	
+
+	RemoveStacktrace()
+
+	return key
 
 end
