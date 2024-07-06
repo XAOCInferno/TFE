@@ -10,6 +10,7 @@ GameData["time_cost"] = Reference([[tables\time_cost_table.lua]])
 GameData["time_cost"]["cost"]["faith"] = 0
 GameData["time_cost"]["cost"]["power"] = 130
 GameData["time_cost"]["cost"]["souls"] = 0
+GameData["time_cost"]["time_seconds"] = 50
 GameData["ui_hotkey_name"] = [[necron_veil_of_darkness_research]]
 GameData["ui_index_hint"] = 14
 GameData["ui_info"] = Reference([[tables\ui_info_table.lua]])
