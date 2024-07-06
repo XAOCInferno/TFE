@@ -133,56 +133,60 @@ end
 function Log(_LogType, _Verbosity, _Line)
 
 	AddStacktrace("Log")
-
-	LogCount = LogCount + 1
 	
-	--Set default values if either of these are null
-	_LogType = _LogType or eLOG_TYPE_INFO
-	_Verbosity = _Verbosity or eLOG_VERBOSE
-	_Line = _Line or "[[NO MESSAGE]]"
+	if(g_DebugMode) then
 
-	if (StacktraceChanged == true) then
-
-		SetStacktracePath(_Verbosity)
-
-	end
-
-	--Simply print statement with fancy formatting
-	if(_Verbosity == eLOG_NONE) then
-
-		print(" | \v  ".._Line.." |")
-
-	--Contains Mod name 
-	elseif(_Verbosity == eLOG_MOD_ONLY) then
+		LogCount = LogCount + 1
 		
-		print(" | \v  ["..g_ModAbbreviation.."] ".._Line.." |")
+		--Set default values if either of these are null
+		_LogType = _LogType or eLOG_TYPE_INFO
+		_Verbosity = _Verbosity or eLOG_VERBOSE
+		_Line = _Line or "[[NO MESSAGE]]"
 
-	--Contains log type and mod name 
-	elseif(_Verbosity == eLOG_SIMPLE) then
+		if (StacktraceChanged == true) then
+
+			SetStacktracePath(_Verbosity)
+
+		end
+
+		--Simply print statement with fancy formatting
+		if(_Verbosity == eLOG_NONE) then
+
+			print(" | \v  ".._Line.." |")
+
+		--Contains Mod name 
+		elseif(_Verbosity == eLOG_MOD_ONLY) then
+			
+			print(" | \v  ["..g_ModAbbreviation.."] ".._Line.." |")
+
+		--Contains log type and mod name 
+		elseif(_Verbosity == eLOG_SIMPLE) then
+			
+			print(" | \v  ("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ".._Line.." |")
+
+		--Contains log type, mod name and game time of log
+		elseif(_Verbosity == eLOG_VERBOSE) then
+			
+			print(" | \v  ("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) ".._Line.." |")
+
+		--Contains log type, mod name, game time of log and the stacktrace 
+		elseif(_Verbosity == eLOG_VERBOSE_PATH) then
+
+			print(" \n[[\n\v  ("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) ".._Line.."\n\v "..StacktracePath.."]]")
 		
-		print(" | \v  ("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ".._Line.." |")
+		--Contains log type, mod name, game time of log and the stacktrace 
+		elseif(_Verbosity == eLOG_FULL) then
 
-	--Contains log type, mod name and game time of log
-	elseif(_Verbosity == eLOG_VERBOSE) then
+			--Avoid using eLOG_FULL for simple logs as stacktrace takes up a lot of the console
+			print(" \n[[\n\v  ("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s)\n\v  ".._Line.."\n\v "..StacktracePath.."]]")
+
+		else	
+			
+			--Be careful of stack overflow here, should consider a way of calculating if this is happening and stop it (perhaps track the depth of the log with incremented int and stop at scary number)
+			Log(eLOG_LOG_TYPE_ERROR, eLOG_VERBOSE, "[[Invalid Log Type Of: ".._Verbosity.."]]".._Line)	
 		
-		print(" | \v  ("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) ".._Line.." |")
+		end
 
-	--Contains log type, mod name, game time of log and the stacktrace 
-	elseif(_Verbosity == eLOG_VERBOSE_PATH) then
-
-		print(" \n[[\n\v  ("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s) ".._Line.."\n\v "..StacktracePath.."]]")
-	
-	--Contains log type, mod name, game time of log and the stacktrace 
-	elseif(_Verbosity == eLOG_FULL) then
-
-		--Avoid using eLOG_FULL for simple logs as stacktrace takes up a lot of the console
-		print(" \n[[\n\v  ("..GetLogType(_LogType)..") ["..g_ModAbbreviation.."] ("..g_WorldTime.."s)\n\v  ".._Line.."\n\v "..StacktracePath.."]]")
-
-	else	
-		
-		--Be careful of stack overflow here, should consider a way of calculating if this is happening and stop it (perhaps track the depth of the log with incremented int and stop at scary number)
-		Log(eLOG_LOG_TYPE_ERROR, eLOG_VERBOSE, "[[Invalid Log Type Of: ".._Verbosity.."]]".._Line)	
-	
 	end
 
 	RemoveStacktrace()
