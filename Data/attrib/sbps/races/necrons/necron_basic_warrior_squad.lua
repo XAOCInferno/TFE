@@ -377,8 +377,6 @@ GameData["squad_jump_ext"]["requirements"]["required_1"]["is_display_requirement
 GameData["squad_jump_ext"]["requirements"]["required_1"]["structure_name"] = [[ebps\races\necrons\structures\monolith.lua]]
 GameData["squad_jump_ext"]["requirements"]["required_2"] = Reference([[requirements\required_research.lua]])
 GameData["squad_jump_ext"]["requirements"]["required_2"]["research_name"] = [[research\necron_warrior_jump.lua]]
-GameData["squad_jump_ext"]["requirements"]["required_10"] = Reference([[requirements\required_structure.lua]])
-GameData["squad_jump_ext"]["requirements"]["required_10"]["structure_name"] = [[ebps\races\necrons\structures\necron_summoning_core.lua]]
 GameData["squad_jump_ext"]["setup_time"] = 0.625
 GameData["squad_jump_ext"]["screaming_jets_area_effect"]["area_effect_information"]["area_effect_events"]["dirtsand"] = [[Unit_Ability_FX/chaos_frag_grenade_explosion]]
 GameData["squad_jump_ext"]["screaming_jets_area_effect"]["area_effect_information"]["area_effect_events"]["grass"] = [[Unit_Ability_FX/chaos_frag_grenade_explosion]]
