@@ -321,6 +321,7 @@ GameData["spawner_ext"]["squad_table"]["squad_12"] = [[sbps\races\necrons\necron
 GameData["spawner_ext"]["squad_table"]["squad_13"] = [[sbps\races\necrons\necron_lord_destroyer_squad.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_14"] = [[sbps\races\necrons\necron_reclamator_squad.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_15"] = [[sbps\races\necrons\necron_wraith_t3_squad.lua]]
+GameData["spawner_ext"]["squad_table"]["squad_16"] = [[sbps\races\necrons\necron_deathmark_squad.lua]]
 GameData["squad_hold_ext"] = Reference([[ebpextensions\squad_hold_ext.lua]])
 GameData["squad_hold_ext"]["acceptable_type_01"] = Reference([[type_transportable\transport_terminator.lua]])
 GameData["squad_hold_ext"]["holds_produced_squads"] = true 
