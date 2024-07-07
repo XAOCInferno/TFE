@@ -322,6 +322,7 @@ GameData["spawner_ext"]["squad_table"]["squad_02"] = [[sbps\races\necrons\necron
 GameData["spawner_ext"]["squad_table"]["squad_03"] = [[sbps\races\necrons\necron_scarab_mine_squad.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_04"] = [[sbps\races\necrons\necron_deathmark_squad.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_05"] = [[sbps\races\necrons\necron_pariah_lord_squad.lua]]
+GameData["spawner_ext"]["squad_table"]["squad_06"] = [[sbps\races\necrons\necron_skorpekh_destroyer_squad.lua]]
 GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
 GameData["sight_ext"]["sight_radius"] = 20
 GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
