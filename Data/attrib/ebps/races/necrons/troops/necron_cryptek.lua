@@ -893,6 +893,7 @@ GameData["ui_ext"]["minimap_enable"] = true
 GameData["ui_ext"]["minimap_teamcolor"] = true 
 GameData["ui_ext"]["speech_directory"] = [[Speech\Races\Necron\Pariah]]
 GameData["ui_ext"]["ui_hotkey_name"] = [[]]
+GameData["ui_ext"]["ui_index_hint"] = 5
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_01"] = [[$20010117]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_02"] = [[$20010118]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$20010119]]
