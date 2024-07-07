@@ -520,9 +520,6 @@ GameData["melee_ext"]["melee_leap_target_filter_table"]["entry_13"]["screen_name
 GameData["melee_ext"]["melee_leap_target_filter_table"]["entry_14"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["melee_ext"]["melee_leap_target_filter_table"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["modifier_apply_ext"] = Reference([[ebpextensions\modifier_apply_ext.lua]])
-GameData["modifier_apply_ext"]["modifiers"]["modifier_01"] = Reference([[modifiers\enable_infiltration.lua]])
-GameData["modifier_apply_ext"]["modifiers"]["modifier_01"]["shield_of_faith"] = false
-GameData["modifier_apply_ext"]["modifiers"]["modifier_01"]["value"] = -1
 GameData["modifier_apply_ext"]["modifiers"]["modifier_02"] = Reference([[modifiers\enable_charge_modifiers.lua]])
 GameData["modifier_apply_ext"]["modifiers"]["modifier_02"]["shield_of_faith"] = false
 GameData["modifier_apply_ext"]["modifiers"]["modifier_02"]["value"] = -1
