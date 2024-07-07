@@ -1,6 +1,8 @@
 GameData = Inherit([[]])
 GameData["modifiers"] = Reference([[tables\modifier_table.lua]])
 GameData["requirements"] = Reference([[tables\requirements.lua]])
+GameData["requirements"]["required_09"] = Reference([[requirements\required_structure.lua]])
+GameData["requirements"]["required_09"]["structure_name"] = [[ebps\races\necrons\structures\necron_greater_summoning_core.lua]]
 GameData["requirements"]["required_10"] = Reference([[requirements\required_structure.lua]])
 GameData["requirements"]["required_10"]["is_display_requirement"] = true 
 GameData["requirements"]["required_10"]["structure_name"] = [[ebps\races\necrons\structures\monolith.lua]]
