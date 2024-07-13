@@ -258,6 +258,7 @@ GameData["research_ext"]["research_table"]["research_03"] = [[research\inquisiti
 GameData["research_ext"]["research_table"]["research_04"] = [[research\inquisition_champion_wg_upgrade_1.lua]]
 GameData["research_ext"]["research_table"]["research_05"] = [[research\inquisition_champion_wg_upgrade_2.lua]]
 GameData["research_ext"]["research_table"]["research_06"] = [[research\inquisition_inquisitor_lord_bodyguards_research.lua]]
+GameData["research_ext"]["research_table"]["research_07"] = [[research\inquisition_officers_weapons.lua]]
 --- GameData["research_ext"]["research_table"]["research_13"] = [[research\inquisition_branch_inq.lua]]
 --- GameData["research_ext"]["research_table"]["research_14"] = [[research\inquisition_branch_gk.lua]]
 GameData["resource_ext"] = Reference([[ebpextensions\resource_ext.lua]])

@@ -1,6 +1,6 @@
 GameData = Inherit([[]])
 GameData["accuracy"] = 0.7499999762
-GameData["accuracy_reduction_when_moving"] = 0.4499999762
+GameData["accuracy_reduction_when_moving"] = 0.4099999762
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["remove_modifiers_with_source_entity"] = true 
 GameData["area_effect"]["area_effect_information"]["start_from_caster"] = false
@@ -82,8 +82,8 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_19"]["armour_type"] = Reference([[type_armour\tp_sub_commander.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_19"]["armour_type"]["screen_name_id"] = [[$90103]]
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 54
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 32
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 60
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 38
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 1
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 2
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[hit_events/psychic_hit_short]]

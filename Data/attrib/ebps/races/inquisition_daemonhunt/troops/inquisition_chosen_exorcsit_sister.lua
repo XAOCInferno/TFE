@@ -1,5 +1,6 @@
 GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
+GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\inquisition_rites_of_exorsicm.lua]]
 GameData["ability_ext"]["abilities"]["ability_10"] = [[abilities\generic_auto_force_reload_leader.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["complex_upgrades"] = true 
@@ -1024,7 +1025,7 @@ GameData["synckill_ext"]["synckillinfos"]["synckillinfo_02"]["killer_invulnerabl
 GameData["synckill_ext"]["synckillinfos"]["synckillinfo_03"]["dead_zombie_time"] = 3.400000095
 GameData["synckill_ext"]["synckillinfos"]["synckillinfo_03"]["killer_invulnerable_time"] = 3.029999971
 GameData["type_ext"] = Reference([[ebpextensions\type_ext.lua]])
-GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_infantry_heavy_med.lua]])
+GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_infantry_high.lua]])
 GameData["ui_ext"] = Reference([[ebpextensions\ui_ext.lua]])
 GameData["ui_ext"]["minimap_enable"] = true 
 GameData["ui_ext"]["minimap_teamcolor"] = true 

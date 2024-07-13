@@ -1,5 +1,5 @@
 GameData = Inherit([[]])
-GameData["accuracy"] = 0.8000000119
+GameData["accuracy"] = 0.7500000119
 GameData["accuracy_reduction_when_moving"] = 0
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["remove_modifiers_with_source_entity"] = true 
@@ -78,8 +78,8 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_18"]["armour_type"] = Reference([[type_armour\tp_sub_commander.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_18"]["armour_type"]["screen_name_id"] = [[$90103]]
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 228
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 186
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 128
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 106
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 10
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events\Impact_Melee_HVY_Blood]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry02"]["event"] = [[Unit_Impact_events\Impact_Bolter_Hvy]]

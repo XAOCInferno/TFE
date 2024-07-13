@@ -4,6 +4,7 @@ GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\inquisition_gre
 GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\inquisition_bro_cap_battle_rites.lua]]
 GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\inquisition_fearlessness.lua]]
 GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\inquisition_bro_cap_psychic_lash.lua]]
+GameData["ability_ext"]["abilities"]["ability_05"] = [[abilities\inquisition_bro_cap_invulnerability.lua]]
 GameData["ability_ext"]["abilities"]["ability_10"] = [[abilities\generic_auto_force_reload_leader.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["complex_upgrades"] = true 

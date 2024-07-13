@@ -1,9 +1,7 @@
 GameData = Inherit([[]])
 GameData["ability_cursor_event"] = [[order_confirm_events/naval_melta_cursor]]
 GameData["ability_motion_name"] = [[special_ability_1]]
-GameData["ability_ordered_event_mp"] = [[order_confirm_events/naval_melta_cursor]]
 GameData["ability_ordered_event_mp"] = [[]]
-GameData["ability_ordered_event_mp_building"] = false
 GameData["ability_ordered_event_name"] = [[]]
 GameData["ability_visible_in_mp"] = Reference([[type_ability_event_visible\tp_av_all.lua]])
 GameData["activation"] = Reference([[type_abilityactivation\tp_ability_activation_targeted.lua]])
