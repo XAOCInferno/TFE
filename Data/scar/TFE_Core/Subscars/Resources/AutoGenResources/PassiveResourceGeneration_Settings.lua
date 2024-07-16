@@ -50,7 +50,7 @@ function Setup_PassiveResourceGeneration_Settings(_PlayerRace)
 			
 		elseif(_PlayerRace == "dark_eldar_race") then
 		
-			local DarkEldarRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("dark_eldar_race",true,ResourceGroup:new(0,0,0,0,1.25))
+			local DarkEldarRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("dark_eldar_race",true,ResourceGroup:new(0,0,0,0,2))
 			g_FactionSpecificResourceGeneration["dark_eldar_race"] = DarkEldarRace_PassiveResourceGeneration
 			
 		elseif(_PlayerRace == "sisters_race") then
