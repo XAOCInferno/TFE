@@ -397,7 +397,7 @@ GameData["squad_requirement_ext"]["requirements"]["required_1"]["structure_name"
 GameData["squad_requirement_ext"]["requirements"]["required_10"] = Reference([[requirements\global_required_addon.lua]])
 GameData["squad_requirement_ext"]["requirements"]["required_10"]["global_addon_name"] = [[addons\addon_necron_hq_1.lua]]
 GameData["squad_requirement_ext"]["requirements"]["required_11"] = Reference([[requirements\required_squad_cap.lua]])
-GameData["squad_requirement_ext"]["requirements"]["required_11"]["max_squad_cap"] = 3
+GameData["squad_requirement_ext"]["requirements"]["required_11"]["max_squad_cap"] = 2
 GameData["squad_ui_ext"] = Reference([[sbpextensions\squad_ui_ext.lua]])
 GameData["squad_ui_ext"]["multi_select_priority"] = 10
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_01"] = [[$708601]]
