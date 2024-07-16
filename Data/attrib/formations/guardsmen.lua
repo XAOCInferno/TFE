@@ -1,5 +1,5 @@
 GameData = Inherit([[]])
-GameData["scale"] = 1.8 --2.12 --2.799999952
+GameData["scale"] = 1.935 --2.12 --2.799999952
 GameData["spots"] = Reference([[tables\formation_template_spots_table.lua]])
 GameData["spots"]["spot_01"]["priority"] = 100
 GameData["spots"]["spot_02"]["pos_x"] = 1
