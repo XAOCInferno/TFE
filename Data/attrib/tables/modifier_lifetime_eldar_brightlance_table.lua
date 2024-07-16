@@ -1,0 +1,11 @@
+GameData = Inherit([[]])
+GameData["modifier_01"] = Reference([[tables\time_modify_entry.lua]])
+GameData["modifier_01"]["max_lifetime"] = 3.5
+GameData["modifier_01"]["modifier"] = Reference([[modifiers\health_rangedamage_received_1_modifier.lua]])
+GameData["modifier_01"]["modifier"]["shield_of_faith"] = false
+GameData["modifier_01"]["modifier"]["value"] = 1.08
+GameData["modifier_02"] = Reference([[tables\time_modify_entry.lua]])
+GameData["modifier_02"]["max_lifetime"] = 3.5
+GameData["modifier_02"]["modifier"] = Reference([[modifiers\health_meleedamage_received_modifier.lua]])
+GameData["modifier_02"]["modifier"]["shield_of_faith"] = false
+GameData["modifier_02"]["modifier"]["value"] = 1.08
