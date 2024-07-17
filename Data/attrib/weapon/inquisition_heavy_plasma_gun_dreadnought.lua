@@ -1,6 +1,6 @@
 GameData = Inherit([[]])
-GameData["accuracy"] = 0.5500000238
-GameData["accuracy_reduction_when_moving"] = 0.4099999762
+GameData["accuracy"] = 0.4500000238
+GameData["accuracy_reduction_when_moving"] = 0.3099999762
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["area_effect_events"]["dirtsand"] = [[hit_events\hpg_miss]]
 GameData["area_effect"]["area_effect_information"]["area_effect_events"]["grass"] = [[hit_events\hpg_miss]]
