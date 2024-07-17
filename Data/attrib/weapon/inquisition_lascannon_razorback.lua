@@ -87,6 +87,7 @@ GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[U
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry02"]["event"] = [[Unit_Impact_events\lascannon_hit]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry03"]["event"] = [[Unit_Impact_events\lascannon_hit]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry04"]["event"] = [[Unit_Impact_events\lascannon_hit_HVY]]
+GameData["area_effect"]["weapon_damage"]["modifiers"] = Reference([[tables\modifier_lifetime_generic_lascannon_table.lua]])
 GameData["attack_priorities"] = Reference([[tables\type_armour_table.lua]])
 GameData["attack_priorities"]["priority_01"] = Reference([[type_armour\tp_vehicle_low.lua]])
 GameData["attack_priorities"]["priority_01"]["screen_name_id"] = [[$90107]] -- Vehicle
