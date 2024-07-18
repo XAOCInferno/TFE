@@ -1,0 +1,12 @@
+-- This file is generated automatically by the Relic Audio Tool
+-- Voice by Cylarne_04
+
+version = 9
+
+volume = 1.0
+
+containerType = 3
+loopingContainer = 0
+loadAllContainer = 0
+silenceBreak = 0
+silenceRandom = 0
