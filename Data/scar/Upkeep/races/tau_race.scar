@@ -1,0 +1,361 @@
+
+ResourceGlobalNames.tau_race = 
+{
+	RT_Requistion = 
+	{
+		"tau_requisition_research",
+		"tau_requisition_research_2",
+	},
+
+	RT_Power = 
+	{
+		"tau_power_research",
+		"tau_power_research_2",
+	}
+}
+
+UnitCosting.tau_race =
+{
+	-- Skirmish units
+	tau_builder_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_stealth_team_shield_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_stealth_team_squad = 
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_stealth_team_targ_array_squad = 
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_vespid_auxiliary_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_fire_warrior_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_pathfinder_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_guevesa_auxiliary_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_gun_drone_squadron =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_heavy_gun_drone_squadron =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_sniper_drone_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_kroot_carnivore_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_kroot_hound_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_krootox_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_kroot_knarloc_rider_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_broadside_battlesuit_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_crisis_suit_squad_fireknife = 
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_crisis_suit_squad_firestorm = 
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_crisis_suit_squad_monat = 
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_crisis_suit_squad_sunfire = 
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_crisis_suit_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_commander_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_ethereal_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_shasui_fire_warrior_bodyguard_sp =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_ethereal_bodyguards_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_xv_89_commander_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_xv_89_commander_bodyguards_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	-- Attachable
+	tau_kroot_shaper_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	-- Vehicles
+	tau_tetra_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_piranha_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_devilfish_troop_carrier =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_devilfish_troop_carrier_pathfinder =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_skyray_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_drone_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_drone_harbinger_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_harbinger_drones_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_barracuda_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_hammerhead_gunship_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_hammerhead_gunship_squad_2 =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_greater_knarloc_squad =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	-- Campaign units
+	tau_commander_squad_advance_sp =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_stealth_team_squad_sp =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_vespid_auxiliary_squad_sp =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	-- StrongholdSquads
+	tau_kroot_alpha_squad_sp_dxp3_prisoner =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_honor_guard_fire_warrior_squad_sp_dxp3_prisoner =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_vespid_auxiliary_squad_sp_dxp3 =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_crisis_suit_squad_sp_dxp3 =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	-- BonusSquads
+	tau_honor_guard_stealth_suit_squad_advance_sp =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_vespid_elder_squad_advance_sp =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_honor_guard_fire_warrior_squad_advance_sp =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_kroot_alpha_squad_advance_sp =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_kroot_hound_squad_advance_sp =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_kroot_shaper_squad_advance_sp =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_honor_guard_crisis_suit_squad_advance_sp =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_broadside_battlesuit_squad_hg_dxp3 =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+	tau_skyray_squad_advance_sp =
+	{
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+	},
+}
