@@ -454,10 +454,10 @@ GameData["squad_morale_ext"]["broken_modifiers"]["modifier_45"]["shield_of_faith
 GameData["squad_morale_ext"]["default"] = 325
 GameData["squad_morale_ext"]["max"] = 325
 GameData["squad_morale_ext"]["morale_armour"] = 0.5
-GameData["squad_morale_ext"]["rate_per_second"] = 10
+GameData["squad_morale_ext"]["rate_per_second"] = 11.5
 GameData["squad_reinforce_ext"] = Reference([[sbpextensions\squad_reinforce_ext.lua]])
 GameData["squad_reinforce_ext"]["cost"]["cost"]["faith"] = 0
-GameData["squad_reinforce_ext"]["cost"]["cost"]["requisition"] = 45
+GameData["squad_reinforce_ext"]["cost"]["cost"]["requisition"] = 35
 GameData["squad_reinforce_ext"]["cost"]["cost"]["souls"] = 0
 GameData["squad_reinforce_ext"]["cost"]["time_seconds"] = 9
 GameData["squad_reinforce_ext"]["trooper_event"] = [[Unit_Upgrade_Morale_FX/reinforce_tau_trooper]]
