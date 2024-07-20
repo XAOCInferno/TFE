@@ -262,6 +262,7 @@ GameData["research_ext"]["research_table"]["research_02"] = [[research\tau_anti_
 GameData["research_ext"]["research_table"]["research_03"] = [[research\tau_stealth_suit_damage_research.lua]]
 GameData["resource_ext"] = Reference([[ebpextensions\resource_ext.lua]])
 GameData["resource_ext"]["decay_delay_time"] = 900
+GameData["resource_ext"]["decay_enabled"] = true 
 GameData["resource_ext"]["decay_lower_limit_percentage"] = 0.4499999881
 GameData["resource_ext"]["decay_to_lower_limit_time"] = 800
 GameData["resource_ext"]["requisition_per_second"] = 3
