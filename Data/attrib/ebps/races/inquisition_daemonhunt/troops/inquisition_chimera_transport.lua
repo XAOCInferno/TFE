@@ -15,12 +15,6 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"]["origin"]["y"] = 2.289999962
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"]["origin"]["z"] = 1.299999952
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\inquisition_heavy_flamer_chimera_turret.lua]]
-GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_02"]["muzzle"]["y"] = 2.269999981
-GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_02"]["muzzle"]["z"] = 2.130000114
-GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_02"]["name_for_this_weapon_choice"] = [[id_heavy_bolter]]
-GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_02"]["origin"]["y"] = 2.269999981
-GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_02"]["origin"]["z"] = 1.129999995
-GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_02"]["weapon"] = [[weapon\inquisition_heavy_bolter_chimera_turret.lua]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_11"] = nil
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_12"] = nil
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_13"] = nil
