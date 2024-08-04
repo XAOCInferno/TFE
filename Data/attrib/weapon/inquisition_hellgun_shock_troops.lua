@@ -82,8 +82,8 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_19"]["armour_type"] = Reference([[type_armour\tp_sub_commander.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_19"]["armour_type"]["screen_name_id"] = [[$90103]]
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 14.5
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 10
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 12
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 8.5
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 0.200000003
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 2.25
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events\laspistol_hit]]

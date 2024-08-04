@@ -1,5 +1,5 @@
 GameData = Inherit([[]])
-GameData["accuracy"] = 1
+GameData["accuracy"] = 0.8
 GameData["accuracy_reduction_when_moving"] = 0.3000000119
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["angle_left"] = -20
@@ -85,8 +85,8 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_19"]["armour_type"] = Reference([[type_armour\tp_sub_commander.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_19"]["armour_type"]["screen_name_id"] = [[$90103]]
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 42.5
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 30
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 37.25
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 28
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 6
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 9.5
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry05"] = Reference([[tables\hit_event_entry.lua]])
