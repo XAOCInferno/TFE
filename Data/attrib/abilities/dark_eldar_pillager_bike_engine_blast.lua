@@ -23,8 +23,8 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_07"] 
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_08"] = Reference([[type_armour\tp_monster_med.lua]])
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_10"] = Reference([[type_armour\tp_vehicle_low.lua]])
 GameData["area_effect"]["throw_data"]["direction_angle_random"] = 25
-GameData["area_effect"]["throw_data"]["force_max"] = 30
-GameData["area_effect"]["throw_data"]["force_min"] = 25
+GameData["area_effect"]["throw_data"]["force_max"] = 45
+GameData["area_effect"]["throw_data"]["force_min"] = 35
 GameData["area_effect"]["throw_data"]["up_angle_max"] = 35
 GameData["area_effect"]["throw_data"]["up_angle_min"] = 20
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing"] = 100

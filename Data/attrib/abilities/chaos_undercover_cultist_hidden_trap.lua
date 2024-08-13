@@ -1,5 +1,5 @@
 GameData = Inherit([[]])
-GameData["ability_cursor_event"] = [[tau/abilities/snare_trap_cursor]]
+GameData["ability_cursor_event"] = [[Chaos/Chaos_detector_hover_ui]]
 GameData["ability_motion_name"] = [[]]
 GameData["ability_ordered_event_mp"] = [[]]
 GameData["ability_ordered_event_mp_building"] = false

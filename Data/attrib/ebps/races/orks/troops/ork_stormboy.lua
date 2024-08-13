@@ -320,7 +320,6 @@ GameData["cover_ext"]["cover_negative"]["modifiers"]["modifier_44"] = Reference(
 GameData["cover_ext"]["cover_negative"]["modifiers"]["modifier_44"]["shield_of_faith"] = false
 GameData["cover_ext"]["cover_negative"]["modifiers"]["modifier_45"] = Reference([[modifiers\no_modifier.lua]])
 GameData["cover_ext"]["cover_negative"]["modifiers"]["modifier_45"]["shield_of_faith"] = false
-
 GameData["cover_ext"]["cover_stealth"]["modifiers"]["modifier_02"]["shield_of_faith"] = false
 GameData["cover_ext"]["cover_stealth"]["modifiers"]["modifier_03"]["shield_of_faith"] = false
 GameData["cover_ext"]["cover_stealth"]["modifiers"]["modifier_04"]["shield_of_faith"] = false
