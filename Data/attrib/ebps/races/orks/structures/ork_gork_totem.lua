@@ -35,7 +35,7 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_03"
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_03"]["weapon"] = [[weapon\ork_rokkit_launcher_turret_listeningpost.lua]]
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
-GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 87.5
+GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 80
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
 GameData["cost_ext"]["time_cost"]["time_seconds"] = 36.5
 GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])

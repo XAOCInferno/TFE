@@ -15,10 +15,10 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\ork_shoota_turret.lua]]
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
-GameData["cost_ext"]["time_cost"]["cost"]["power"] = 140
-GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 240
+GameData["cost_ext"]["time_cost"]["cost"]["power"] = 130
+GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 250
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
-GameData["cost_ext"]["time_cost"]["time_seconds"] = 52
+GameData["cost_ext"]["time_cost"]["time_seconds"] = 50
 GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
 GameData["entity_blueprint_ext"]["animator"] = [[Races/Orks/Structures/mek_shop]]
 GameData["entity_blueprint_ext"]["scale_x"] = 4
