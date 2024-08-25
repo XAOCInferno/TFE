@@ -27,6 +27,7 @@ GameData["starting_res_quickstart"]["power"] = 10000
 GameData["starting_res_quickstart"]["requisition"] = 10000
 GameData["starting_squads"] = Reference([[tables\squad_table.lua]])
 GameData["starting_squads"]["squad_01"] = [[sbps\races\tau\tau_builder_squad.lua]]
+GameData["starting_squads"]["squad_02"] = [[sbps\races\tau\tau_firesight_marksmen_squad.lua]]
 GameData["teamcolour_preview"] = Reference([[tables\race_teamcolour_preview_entities.lua]])
 GameData["teamcolour_preview"]["entity_01"] = [[tau_fire_warrior]]
 GameData["teamcolour_preview"]["entity_02"] = [[tau_hammerhead_gunship]]
