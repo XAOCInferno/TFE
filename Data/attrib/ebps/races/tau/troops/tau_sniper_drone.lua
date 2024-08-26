@@ -12,6 +12,7 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"]["name_for_this_weapon_choice"] = [[tau_rail_rifle]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"]["origin"]["y"] = 1.440000057
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\tau_rail_rifle_sniper_drone.lua]]
+GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\chaos_dummy_weapon_melee.lua]]
 GameData["combat_ext"]["in_combat_modifiers"]["modifier_04"] = Reference([[modifiers\no_modifier.lua]])
 GameData["combat_ext"]["in_combat_modifiers"]["modifier_04"]["shield_of_faith"] = false
 GameData["combat_ext"]["in_combat_modifiers"]["modifier_05"] = Reference([[modifiers\no_modifier.lua]])
@@ -473,6 +474,7 @@ GameData["health_ext"]["poison_event"] = [[art\events\Chaos\BiotoxBomb_aura_Larg
 GameData["health_ext"]["poison_spread_delay"] = 2
 GameData["health_ext"]["spawn_death_blossom"] = [[ebps\environment\gameplay\dark_eldar_death_blossom.lua]]
 GameData["infiltration_ext"] = Reference([[ebpextensions\infiltration_ext.lua]])
+GameData["melee_ext"] = Reference([[ebpextensions\melee_ext.lua]])
 GameData["modifier_ext"] = Reference([[ebpextensions\modifier_ext.lua]])
 GameData["modifier_apply_ext"] = Reference([[ebpextensions\modifier_apply_ext.lua]])
 GameData["modifier_apply_ext"]["modifiers_idle"]["modifier_01"] = Reference([[modifiers\enable_infiltration_veil_of_darkness.lua]])
