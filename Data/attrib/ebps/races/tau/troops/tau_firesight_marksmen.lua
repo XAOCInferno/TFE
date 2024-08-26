@@ -1,6 +1,6 @@
 GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
-GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\tau_firesight_marksmen_off_map _artillery.lua]]
+GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\tau_firesight_marksmen_off_map_artillery.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Main]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["hardpoint_weapon_variant_motion_name"] = [[Weapon_Range_Upgrade_Main]]
