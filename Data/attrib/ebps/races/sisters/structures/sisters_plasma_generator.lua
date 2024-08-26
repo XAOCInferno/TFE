@@ -1,7 +1,7 @@
 GameData = Inherit([[]])
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
-GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 155
+GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 150
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
 GameData["cost_ext"]["time_cost"]["time_seconds"] = 30
 GameData["death_explosion_ext"] = Reference([[ebpextensions\death_explosion_ext.lua]])
@@ -177,7 +177,7 @@ GameData["health_ext"]["armour"] = 100
 GameData["health_ext"]["can_be_repaired"] = true 
 GameData["health_ext"]["death_event"] = [[unit_death_events/building_death]]
 GameData["health_ext"]["display_health_bar"] = true 
-GameData["health_ext"]["hitpoints"] = 1500
+GameData["health_ext"]["hitpoints"] = 1400
 GameData["health_ext"]["keep_persistent_body"] = false
 GameData["health_ext"]["max_repairers"] = 3
 GameData["health_ext"]["post_death_event_delay"] = 0

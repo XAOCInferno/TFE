@@ -178,7 +178,7 @@ GameData["health_ext"]["armour"] = 100
 GameData["health_ext"]["can_be_repaired"] = true 
 GameData["health_ext"]["death_event"] = [[unit_death_events/building_death]]
 GameData["health_ext"]["display_health_bar"] = true 
-GameData["health_ext"]["hitpoints"] = 1600
+GameData["health_ext"]["hitpoints"] = 2000
 GameData["health_ext"]["keep_persistent_body"] = false
 GameData["health_ext"]["post_death_event_delay"] = 0
 GameData["health_ext"]["pre_death_event_delay"] = 1
@@ -406,7 +406,7 @@ GameData["requirement_ext"]["requirements"]["required_10"]["global_addon_name"] 
 GameData["resource_ext"] = Reference([[ebpextensions\resource_ext.lua]])
 GameData["resource_ext"]["power_per_second"] = 4
 GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
-GameData["sight_ext"]["sight_radius"] = 15
+GameData["sight_ext"]["sight_radius"] = 13
 GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
 GameData["sim_entity_ext"]["is_collide"] = true 
 GameData["structure_buildable_ext"] = Reference([[ebpextensions\structure_buildable_ext.lua]])
