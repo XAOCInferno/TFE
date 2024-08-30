@@ -28,7 +28,7 @@ GameData["combat_ext"]["in_combat_modifiers"]["modifier_01"]["shield_of_faith"] 
 GameData["combat_ext"]["in_combat_modifiers"]["modifier_01"]["value"] = 0.002000000095
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
-GameData["cost_ext"]["time_cost"]["cost"]["population"] = 1
+GameData["cost_ext"]["time_cost"]["cost"]["population"] = 0.8
 GameData["cost_ext"]["time_cost"]["cost"]["power"] = 5
 GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 36
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
