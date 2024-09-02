@@ -79,10 +79,10 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_18"]["armour_type"] = Reference([[type_armour\tp_sub_commander.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_18"]["armour_type"]["screen_name_id"] = [[$90103]]
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 263
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 220
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 238
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 192
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 30
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 55
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 65
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry05"] = Reference([[tables\hit_event_entry.lua]])
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry05"]["surface"] = Reference([[type_surface\tp_monolith.lua]])
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_01"]["modifier"]["shield_of_faith"] = false

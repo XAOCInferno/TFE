@@ -78,7 +78,7 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 74.03900146
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 60.57699966
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 5
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 12
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 14
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_07"]["max_lifetime"] = 2
 GameData["attack_priorities"] = Reference([[tables\type_armour_table.lua]])
 GameData["attack_priorities"]["priority_01"]["screen_name_id"] = [[$90100]] -- Armour
