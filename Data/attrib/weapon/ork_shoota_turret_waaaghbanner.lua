@@ -79,8 +79,8 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_19"]["armour_piercing_value"] = 29
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_19"]["armour_type"] = Reference([[type_armour\tp_sub_commander.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_19"]["armour_type"]["screen_name_id"] = [[$90103]]
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 60 --78
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 22 --62
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 44
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 22
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 3.5
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 4.5
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events\Blood_Splatter_Impact_S]]

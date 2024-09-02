@@ -95,8 +95,8 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_19"]["armour_type"] = Reference([[type_armour\tp_sub_commander.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_19"]["armour_type"]["screen_name_id"] = [[$90103]]
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 144.8569946
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 123.4280014
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 122.8569946
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 94.4280014
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 12.5
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 10
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[unit_impact_events/Unit_Thrown_Smoke_Spray]]
