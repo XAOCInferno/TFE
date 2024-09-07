@@ -40,7 +40,7 @@ GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
 GameData["cost_ext"]["time_cost"]["cost"]["power"] = 0
 GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 120 
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
-GameData["cost_ext"]["time_cost"]["time_seconds"] = 30 
+GameData["cost_ext"]["time_cost"]["time_seconds"] = 25 
 GameData["deep_strike_ext"] = Reference([[ebpextensions\deep_strike_ext.lua]])
 GameData["deep_strike_ext"]["area_effect"]["area_effect_information"]["remove_modifiers_with_source_entity"] = true 
 GameData["deep_strike_ext"]["area_effect"]["area_effect_information"]["start_from_caster"] = false
@@ -270,7 +270,7 @@ GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_01"]["shield_of_
 GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_01"]["exclusive"] = true
 GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_01"]["target_type_name"] = [[ork_waagh_banner]]
 GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_01"]["usage_type"] = Reference([[type_modifierusagetype\tp_mod_usage_addition.lua]])
-GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_01"]["value"] = 40
+GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_01"]["value"] = 20
 GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_02"] = Reference([[modifiers\construction_speed_modifier.lua]])
 GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_02"]["shield_of_faith"] = false
 GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_02"]["exclusive"] = true

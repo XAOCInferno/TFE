@@ -17,10 +17,10 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\ork_shoota_turret.lua]]
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
-GameData["cost_ext"]["time_cost"]["cost"]["power"] = 60
-GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 170
+GameData["cost_ext"]["time_cost"]["cost"]["power"] = 55
+GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 160
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
-GameData["cost_ext"]["time_cost"]["time_seconds"] = 46
+GameData["cost_ext"]["time_cost"]["time_seconds"] = 45
 GameData["death_explosion_ext"] = Reference([[ebpextensions\death_explosion_ext.lua]])
 GameData["death_explosion_ext"]["chance"] = 0.25
 GameData["death_explosion_ext"]["death_explosions"]["death_explosion_01"]["area_effect"]["area_effect_information"]["area_type"] = Reference([[type_areaeffect\tp_area_effect_circle.lua]])
@@ -417,7 +417,7 @@ GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_45"]["shield_of_
 GameData["modifier_ext"] = Reference([[ebpextensions\modifier_ext.lua]])
 GameData["requirement_ext"] = Reference([[ebpextensions\requirement_ext.lua]])
 GameData["requirement_ext"]["requirements"]["required_1"] = Reference([[requirements\required_total_pop.lua]])
-GameData["requirement_ext"]["requirements"]["required_1"]["population_required"] = 30 --20
+GameData["requirement_ext"]["requirements"]["required_1"]["population_required"] = 20
 GameData["requirement_ext"]["requirements"]["required_2"] = Reference([[requirements\required_total_pop.lua]])
 GameData["requirement_ext"]["requirements"]["required_2"]["is_display_requirement"] = true 
 GameData["research_ext"] = Reference([[ebpextensions\research_ext.lua]])
