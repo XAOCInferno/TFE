@@ -640,6 +640,7 @@ GameData["moving_ext"]["speed_max"] = 12
 GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
 GameData["sight_ext"]["sight_radius"] = 30
 GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
+GameData["sim_entity_ext"]["is_collide"] = false 
 GameData["spawn_ext"] = Reference([[ebpextensions\spawn_ext.lua]])
 GameData["spawn_ext"]["oncreate_event_name"] = [[Necron/abilities/necron_teleportation]]
 GameData["special_attack_physics_ext"] = Reference([[ebpextensions\special_attack_physics_ext.lua]])
