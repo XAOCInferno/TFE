@@ -26,10 +26,10 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_14"][
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\melee_heavy.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 5
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 236
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 188
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 80
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 65
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 5
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 20
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 15
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry05"] = Reference([[tables\hit_event_entry.lua]])
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry05"]["surface"] = Reference([[type_surface\tp_monolith.lua]])
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_01"]["max_lifetime"] = 8
@@ -56,8 +56,8 @@ GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_09"]["modifier"]
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_10"] = Reference([[tables\time_modify_entry.lua]])
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_10"]["modifier"]["shield_of_faith"] = false
 GameData["area_effect_damage_scale_table"] = Reference([[tables\area_effect_damage_scale_table.lua]])
-GameData["area_effect_damage_scale_table"]["nr_entities_02"] = 0.7
-GameData["area_effect_damage_scale_table"]["nr_entities_03"] = 0.6
+GameData["area_effect_damage_scale_table"]["nr_entities_02"] = 0.8
+GameData["area_effect_damage_scale_table"]["nr_entities_03"] = 0.65
 GameData["area_effect_damage_scale_table"]["nr_entities_04"] = 0.5
 GameData["area_effect_damage_scale_table"]["nr_entities_05"] = 0.5
 GameData["area_effect_damage_scale_table"]["nr_entities_06"] = 0.4
