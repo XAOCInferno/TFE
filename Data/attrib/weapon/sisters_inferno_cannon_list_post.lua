@@ -80,8 +80,8 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_19"]["armour_type"] = Reference([[type_armour\tp_sub_commander.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_19"]["armour_type"]["screen_name_id"] = [[$90103]]
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 72
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 54
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 66
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 48
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 2.5
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 3
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry05"] = Reference([[tables\hit_event_entry.lua]])
