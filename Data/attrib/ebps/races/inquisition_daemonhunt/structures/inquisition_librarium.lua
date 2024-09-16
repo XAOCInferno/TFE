@@ -18,6 +18,7 @@ GameData["event_manager_ext"]["event_08"]["event_entry_01"]["event_name"] = [[Da
 GameData["event_manager_ext"]["event_08"]["modifier_name"] = [[ability_short_circuit_event]]
 GameData["health_ext"] = Reference([[ebpextensions\health_ext.lua]])
 GameData["health_ext"]["armour"] = 100
+GameData["health_ext"]["armour_minimum"] = 60
 GameData["health_ext"]["can_be_repaired"] = true 
 GameData["health_ext"]["death_event"] = [[unit_death_events/building_death]]
 GameData["health_ext"]["display_health_bar"] = true 

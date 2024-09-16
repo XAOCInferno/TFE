@@ -462,6 +462,7 @@ GameData["event_manager_ext"]["event_29"]["event_entry_01"]["event_name"] = [[Si
 GameData["event_manager_ext"]["event_29"]["modifier_name"] = [[ability_laud_hailers_foeaura_event]]
 GameData["health_ext"] = Reference([[ebpextensions\health_ext.lua]])
 GameData["health_ext"]["armour"] = 100
+GameData["health_ext"]["armour_minimum"] = 40
 GameData["health_ext"]["can_be_repaired"] = true 
 GameData["health_ext"]["death_event"] = [[data:/art/events/unit_death_events/vehicle_death.events]]
 GameData["health_ext"]["display_health_bar"] = true 

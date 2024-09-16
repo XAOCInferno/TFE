@@ -395,6 +395,7 @@ GameData["garrison_ext"] = Reference([[ebpextensions\garrison_ext.lua]])
 GameData["garrison_ext"]["requisition_rate_multiplier"] = 2
 GameData["health_ext"] = Reference([[ebpextensions\health_ext.lua]])
 GameData["health_ext"]["armour"] = 100
+GameData["health_ext"]["armour_minimum"] = 40
 GameData["health_ext"]["can_be_repaired"] = true 
 GameData["health_ext"]["death_event"] = [[Unit_Death_Events/Death_Listening_Post]]
 GameData["health_ext"]["display_health_bar"] = true 

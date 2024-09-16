@@ -439,6 +439,7 @@ GameData["event_manager_ext"]["event_31"]["event_entry_01"]["event_name"] = [[Gu
 GameData["event_manager_ext"]["event_31"]["modifier_name"] = [[ability_ig_curse_of_the_machine_spirit_event]]
 GameData["health_ext"] = Reference([[ebpextensions\health_ext.lua]])
 GameData["health_ext"]["armour"] = 100
+GameData["health_ext"]["armour_minimum"] = 0
 GameData["health_ext"]["death_event"] = [[data:/art/events/unit_death_events/sink_into_ground.events]]
 GameData["health_ext"]["display_health_bar"] = true 
 GameData["health_ext"]["hitpoints"] = 345
