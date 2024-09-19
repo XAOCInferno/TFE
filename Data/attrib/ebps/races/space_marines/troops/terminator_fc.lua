@@ -3,7 +3,6 @@ GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
 GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\marines_inspiring_aura.lua]]
 GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\marines_battlecry_fc.lua]]
 GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\marines_fc_inspiring.lua]]
-GameData["ability_ext"]["abilities"]["ability_05"] = [[abilities\marines_battlecry_fc_t1.lua]]
 GameData["ability_ext"]["abilities"]["ability_11"] = [[abilities\generic_auto_force_reload.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Main]]
