@@ -5,6 +5,7 @@ GameData["squad_capture_strategic_point_ext"] = Reference([[sbpextensions\squad_
 GameData["squad_capture_strategic_point_ext"]["capture_rate"] = 0.47249999964
 GameData["squad_capture_strategic_point_ext"]["time_till_flag_planted"] = 1.998999953
 GameData["squad_combat_stance_ext"] = Reference([[sbpextensions\squad_combat_stance_ext.lua]])
+GameData["squad_combat_stance_ext"]["default_stance"] = Reference([[type_stance\tp_stance_standground.lua]])
 GameData["squad_combat_stance_ext"]["attack_priorities"]["priority_01"] = Reference([[type_armour\tp_infantry_med.lua]])
 GameData["squad_combat_stance_ext"]["attack_priorities"]["priority_02"] = Reference([[type_armour\tp_infantry_high.lua]])
 GameData["squad_combat_stance_ext"]["attack_priorities"]["priority_03"] = Reference([[type_armour\tp_infantry_heavy_med.lua]])
