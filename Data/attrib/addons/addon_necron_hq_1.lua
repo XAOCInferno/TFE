@@ -1,6 +1,13 @@
 GameData = Inherit([[]])
 GameData["add_on_motion_name"] = [[addon_1]]
 GameData["modifiers"] = Reference([[tables\modifier_table.lua]])
+GameData["modifiers"]["modifier_01"] = Reference([[modifiers\health_maximum_modifier.lua]])
+GameData["modifiers"]["modifier_01"]["application_type"] = Reference([[type_modifierapplicationtype\tp_mod_apply_to_entity_type.lua]])
+GameData["modifiers"]["modifier_01"]["exclusive"] = true
+GameData["modifiers"]["modifier_01"]["shield_of_faith"] = false
+GameData["modifiers"]["modifier_01"]["target_type_name"] = [[necron_plasma_generator]]
+GameData["modifiers"]["modifier_01"]["usage_type"] = Reference([[type_modifierusagetype\tp_mod_usage_addition.lua]])
+GameData["modifiers"]["modifier_01"]["value"] = 200
 GameData["modifiers"]["modifier_02"] = Reference([[modifiers\health_maximum_modifier.lua]])
 GameData["modifiers"]["modifier_02"]["application_type"] = Reference([[type_modifierapplicationtype\tp_mod_apply_to_entity_type.lua]])
 GameData["modifiers"]["modifier_02"]["shield_of_faith"] = false
