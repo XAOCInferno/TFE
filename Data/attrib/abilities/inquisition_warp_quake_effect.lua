@@ -14,8 +14,6 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_04"] 
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_05"] = Reference([[type_armour\tp_infantry_heavy_high.lua]])
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_06"] = Reference([[type_armour\tp_builder.lua]])
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_07"] = Reference([[type_armour\tp_commander.lua]])
-GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_08"] = Reference([[type_armour\tp_monster_med.lua]])
-GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_09"] = Reference([[type_armour\tp_monster_high.lua]])
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_10"] = nil
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_11"] = nil
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_12"] = nil
@@ -126,7 +124,7 @@ GameData["duration_time"] = 14.75
 GameData["enemy_opacity_while_active"] = 1
 GameData["entity_busy_time"] = 0
 GameData["friendly_opacity_while_active"] = 1
-GameData["initial_delay_time"] = 2.5
+GameData["initial_delay_time"] = 1
 GameData["persist_across_squad_leader_death"] = false
 GameData["projectile_recurring"] = false
 GameData["projectile_recurring_delay"] = 0
