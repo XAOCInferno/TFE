@@ -31,7 +31,7 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_03"]["weapon_table"]["weapon_02"
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
 GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 46.7
-GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 2.5
+GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 3.34
 GameData["cost_ext"]["time_cost"]["time_seconds"] = 7
 GameData["cover_ext"] = Reference([[ebpextensions\cover_ext.lua]])
 GameData["cover_ext"]["cover_blocking"]["modifiers"]["modifier_01"]["shield_of_faith"] = false
