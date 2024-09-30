@@ -1,0 +1,89 @@
+--Required scar
+import("TFE_Core/Classes/NumberNode.scar")
+
+--[[
+	Thresholds are sorted lists  
+]]
+
+ThresholdsTable = {}
+function ThresholdsTable:new ()
+	AddStacktrace("ThresholdsTable:new")
+
+    local ThresholdsTableObject = 
+    {
+		--Variables
+		Data = {},
+		DataLength = 0	
+	}
+
+	self.__index = self
+
+	RemoveStacktrace()
+
+	return setmetatable(ThresholdsTableObject, self)
+
+end 
+
+function ThresholdsTable:Insert (_WeightedKey, _Data)
+
+	AddStacktrace("ThresholdsTable:Insert")
+
+	local MidPoint = self.DataLength / 2
+	local CurrentIndex = MidPoint
+
+	if DataLength = 0 then
+
+		Data[0] = NumberNode:new (_WeightedKey, _Data)
+		return
+
+	end
+
+	if _Key > self.DataLength[MidPoint].WeightedKey then
+
+		for i = 1, MidPoint do
+
+			CurrentIndex = MidPoint + i
+
+			if _Key <= self.DataLength[CurrentIndex].WeightedKey then
+
+				ShiftRight(CurrentIndex)
+				self.Data[CurrentIndex] = NumberNode:new (_WeightedKey, _Data)
+				break;
+
+			end
+
+		end
+
+	else
+		
+		for i = 1, MidPoint do
+
+			CurrentIndex = MidPoint - i
+
+			if _Key >= self.DataLength[CurrentIndex].WeightedKey then
+
+				ShiftRight(CurrentIndex)
+				self.Data[CurrentIndex] = NumberNode:new (_WeightedKey + 1, _Data)
+				break;
+
+			end
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+end 
+
+function ShiftRight(_StartKey)
+
+	for i = 1, self.DataLength - _StartKey do
+
+		self.Data[_StartKey + i] = self.Data[_StartKey]
+
+	end
+
+	self.Data[_StartKey] = nil
+
+end

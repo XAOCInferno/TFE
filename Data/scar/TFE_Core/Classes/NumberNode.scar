@@ -1,0 +1,25 @@
+NumberNode = {}
+function NumberNode:new (_WeightedKey, _Data)
+	
+	AddStacktrace("NumberNode:new")
+
+    if type(_WeightedKey) ~= "number" then
+
+		Log(eLOG_TYPE_WARNING, eLOG_SIMPLE, "NumberNode key must be an integer, defaulting to 0.")
+        _WeightedKey = 0
+
+    end
+
+	local NumberNodeObject = 
+	{
+        WeightedKey = _WeightedKey,
+		Data = _Data
+	}
+    
+	self.__index = self
+	
+	RemoveStacktrace()
+
+   	return setmetatable(NumberNodeObject, self)
+
+end

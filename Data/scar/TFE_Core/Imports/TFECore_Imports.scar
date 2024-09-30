@@ -13,6 +13,7 @@ import("WXPScarUtil.scar")
 ----------------------------------
 import("TFE_Core/Classes/LinkedList.scar")
 import("TFE_Core/Classes/HashTable.scar")
+import("TFE_Core/Classes/ThresholdsTable.scar")
 import("TFE_Core/Classes/Stack.scar")
 
 

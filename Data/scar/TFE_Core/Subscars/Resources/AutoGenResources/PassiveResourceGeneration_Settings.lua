@@ -53,6 +53,17 @@ function Setup_PassiveResourceGeneration_Settings(_PlayerRace)
 			local DarkEldarRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("dark_eldar_race",true,ResourceGroup:new(0,0,0,0,2))
 			g_FactionSpecificResourceGeneration["dark_eldar_race"] = DarkEldarRace_PassiveResourceGeneration
 			
+			local DE_SoulsThreshold1_Mod  = Modifier_Create(MAT_Player, "soul_cannibalize_modifier", MUT_Multiplication, true, 2, "")
+			local DE_SoulsThreshold2_Mod  = Modifier_Create(MAT_Player, "soul_cannibalize_modifier", MUT_Multiplication, true, 1.5, "")
+			local DE_SoulsThreshold3_Mod  = nil
+			local DE_SoulsThreshold4_Mod  = Modifier_Create(MAT_Player, "soul_cannibalize_modifier", MUT_Multiplication, true, 0.5, "")
+
+			local DE_SoulsThresholds = ThresholdsTable:new()
+			DE_SoulsThresholds:Insert(50, { PlayerModifier = DE_SoulsThreshold1_Mod, AutoGenModifier = 3 })
+			DE_SoulsThresholds:Insert(100, { PlayerModifier = DE_SoulsThreshold2_Mod, AutoGenModifier = 2 })
+			DE_SoulsThresholds:Insert(250, { PlayerModifier = DE_SoulsThreshold3_Mod, AutoGenModifier = 1 })
+			DE_SoulsThresholds:Insert(100000, { PlayerModifier = DE_SoulsThreshold4_Mod, AutoGenModifier = 0.25 })
+			
 		elseif(_PlayerRace == "sisters_race") then
 		
 			local SistersRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("sisters_race",false,ResourceGroup:new())	
