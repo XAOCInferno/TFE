@@ -12,7 +12,11 @@ function SpecificRaceResourceGenerationDetails:new (_RaceName, _HasPassiveResGen
 		RaceGlobals = ResourceGlobalNames[_RaceName],
 		MaxNumberOfGlobals = ResourceGroup:new(),
 		ResourceGeneration = _ResourceGeneration,		
-		BaseMatureLimits = ResourceGroup:new(0, 2.5)
+		BaseMatureLimits = ResourceGroup:new(0, 2.5),
+		
+		HasSouls = false,
+		DE_SoulsThresholdsTable = nil,
+		DE_CurrentlyAppliedSoulsModifier = nil
 
     }
 	

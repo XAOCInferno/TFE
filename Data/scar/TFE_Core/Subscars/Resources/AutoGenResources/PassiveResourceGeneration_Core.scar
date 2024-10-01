@@ -32,7 +32,35 @@ function Set_PassiveResources()
 		for i = 1, g_PlayerCount do
 		
 			local RaceResStruct = g_FactionSpecificResourceGeneration[g_AllPlayers[i].RaceDetails.RaceIndex] 
-			
+
+			if (RaceResStruct.HasSouls) then
+
+				local CurrentSouls = g_AllPlayers[i].CurrentResources.RT_Souls
+
+				for i = 1, RaceResStruct.DE_SoulsThresholdsTable.DataLength do
+
+					if (CurrentSouls <= RaceResStruct.DE_SoulsThresholdsTable.Data[i].WeightedKey) then
+
+						if (RaceResStruct.DE_CurrentlyAppliedSoulsModifier ~= nil) then
+
+							Modifier_Remove(RaceResStruct.DE_CurrentlyAppliedSoulsModifier)
+
+							if(RaceResStruct.DE_SoulsThresholdsTable.Data[i].PlayerModifier ~= nil) then
+								
+								RaceResStruct.DE_CurrentlyAppliedSoulsModifier = Modifier_ApplyToPlayer(RaceResStruct.DE_SoulsThresholdsTable.Data[i].PlayerModifier, g_AllPlayers[i].Player)
+
+							end
+
+						end
+						
+						RaceResStruct.ResourceGeneration.RT_Souls = RaceResStruct.ResourceGeneration.RT_Souls * RaceResStruct.DE_SoulsThresholdsTable.Data.AutoGenModifier
+						
+					end
+
+				end
+
+			end
+
 			if (Player_IsAlive(g_AllPlayers[i].Player) == true and RaceResStruct ~= nil) then
 			
 				if(RaceResStruct.HasPassiveResGen) then
