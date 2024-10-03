@@ -55,10 +55,10 @@ function Setup_PassiveResourceGeneration_Settings(_PlayerRace)
 			
 			if DE_SoulsThreshold1_Mod == nil then
 
-				DE_SoulsThreshold1_Mod  = Modifier_Create(MAT_Player, "soul_cannibalize_modifier", MUT_Multiplication, true, 2, "")
-				DE_SoulsThreshold2_Mod  = Modifier_Create(MAT_Player, "soul_cannibalize_modifier", MUT_Multiplication, true, 1.5, "")
+				DE_SoulsThreshold1_Mod  = Modifier_Create(MAT_Player, "cannibalize_souls_modifier", MUT_Multiplication, true, 2, "")
+				DE_SoulsThreshold2_Mod  = Modifier_Create(MAT_Player, "cannibalize_souls_modifier", MUT_Multiplication, true, 1.5, "")
 				DE_SoulsThreshold3_Mod  = nil
-				DE_SoulsThreshold4_Mod  = Modifier_Create(MAT_Player, "soul_cannibalize_modifier", MUT_Multiplication, true, 0.5, "")
+				DE_SoulsThreshold4_Mod  = Modifier_Create(MAT_Player, "cannibalize_souls_modifier", MUT_Multiplication, true, 0.5, "")
 
 			end
 

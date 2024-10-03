@@ -28,47 +28,32 @@ function ThresholdsTable:Insert (_WeightedKey, _Data)
 
 	AddStacktrace("ThresholdsTable:Insert")
 
-	local MidPoint = self.DataLength / 2
-	local CurrentIndex = MidPoint
+	local Added = false
 
-	if DataLength = 0 then
+	if self.DataLength == 0 then
 
-		Data[0] = NumberNode:new (_WeightedKey, _Data)
+		self.Data[1] = NumberNode:new (_WeightedKey, _Data)
+		self.DataLength = self.DataLength + 1
 		return
 
 	end
 
-	if _Key > self.DataLength[MidPoint].WeightedKey then
+	for i = 1, self.DataLength do			
 
-		for i = 1, MidPoint do
+		if _WeightedKey >= self.Data[i].WeightedKey then
 
-			CurrentIndex = MidPoint + i
-
-			if _Key <= self.DataLength[CurrentIndex].WeightedKey then
-
-				ShiftRight(CurrentIndex)
-				self.Data[CurrentIndex] = NumberNode:new (_WeightedKey, _Data)
-				break;
-
-			end
+			self:ShiftRight(i)
+			self.Data[i] = NumberNode:new (_WeightedKey, _Data)
+			Added = true
+			break;
 
 		end
 
-	else
-		
-		for i = 1, MidPoint do
+	end
 
-			CurrentIndex = MidPoint - i
+	if Added == false then
 
-			if _Key >= self.DataLength[CurrentIndex].WeightedKey then
-
-				ShiftRight(CurrentIndex)
-				self.Data[CurrentIndex] = NumberNode:new (_WeightedKey + 1, _Data)
-				break;
-
-			end
-
-		end
+		self.Data[self.DataLength + 1] = NumberNode:new (_WeightedKey, _Data)
 
 	end
 
@@ -76,7 +61,7 @@ function ThresholdsTable:Insert (_WeightedKey, _Data)
 
 end 
 
-function ShiftRight(_StartKey)
+function ThresholdsTable:ShiftRight(_StartKey)
 
 	for i = 1, self.DataLength - _StartKey do
 
