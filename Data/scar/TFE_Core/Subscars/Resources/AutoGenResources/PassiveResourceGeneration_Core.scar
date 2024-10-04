@@ -31,44 +31,47 @@ function Set_PassiveResources()
 			
 		for i = 1, g_PlayerCount do
 		
-			local RaceResStruct = g_FactionSpecificResourceGeneration[g_AllPlayers[i].RaceDetails.RaceIndex] 
+			local RaceResStruct = g_FactionSpecificResourceGeneration[g_AllPlayers[i].RaceDetails.RaceName] 
 
-			if (RaceResStruct.HasSouls) then
+			if (RaceResStruct ~= nil) then
 
-				local CurrentSouls = g_AllPlayers[i].CurrentResources.RT_Souls
+				if (RaceResStruct.HasSouls) then
 
-				for i = 1, RaceResStruct.DE_SoulsThresholdsTable.DataLength do
+					local CurrentSouls = g_AllPlayers[i].CurrentResources.RT_Souls
 
-					if (CurrentSouls <= RaceResStruct.DE_SoulsThresholdsTable.Data[i].WeightedKey) then
+					for j = 1, RaceResStruct.DE_SoulsThresholdsTable.DataLength do
 
-						if (RaceResStruct.DE_CurrentlyAppliedSoulsModifier ~= nil) then
+						if (CurrentSouls <= RaceResStruct.DE_SoulsThresholdsTable.Data[j].WeightedKey) then
 
-							Modifier_Remove(RaceResStruct.DE_CurrentlyAppliedSoulsModifier)
+							if (RaceResStruct.DE_CurrentlyAppliedSoulsModifier ~= nil) then
 
-							if(RaceResStruct.DE_SoulsThresholdsTable.Data[i].PlayerModifier ~= nil) then
-								
-								RaceResStruct.DE_CurrentlyAppliedSoulsModifier = Modifier_ApplyToPlayer(RaceResStruct.DE_SoulsThresholdsTable.Data[i].PlayerModifier, g_AllPlayers[i].Player)
+								Modifier_Remove(RaceResStruct.DE_CurrentlyAppliedSoulsModifier)
 
 							end
 
+							if(RaceResStruct.DE_SoulsThresholdsTable.Data[j].Data.PlayerModifier ~= nil) then
+								
+								RaceResStruct.DE_CurrentlyAppliedSoulsModifier = Modifier_ApplyToPlayer(RaceResStruct.DE_SoulsThresholdsTable.Data[j].Data.PlayerModifier, g_AllPlayers[i].Player)
+
+							end
+
+							RaceResStruct.ResourceGeneration.RT_Souls = RaceResStruct.ResourceGeneration.RT_Souls * RaceResStruct.DE_SoulsThresholdsTable.Data[j].Data.AutoGenModifier
+							
 						end
-						
-						RaceResStruct.ResourceGeneration.RT_Souls = RaceResStruct.ResourceGeneration.RT_Souls * RaceResStruct.DE_SoulsThresholdsTable.Data.AutoGenModifier
-						
+
 					end
 
 				end
 
-			end
-
-			if (Player_IsAlive(g_AllPlayers[i].Player) == true and RaceResStruct ~= nil) then
-			
-				if(RaceResStruct.HasPassiveResGen) then
+				if (Player_IsAlive(g_AllPlayers[i].Player) == true) then
 				
-					g_AllPlayers[i].Player.CurrentAddResources.Add(RaceResStruct.ResourceGeneration)
+					if(RaceResStruct.HasPassiveResGen) then
 					
-				end
+						g_AllPlayers[i].CurrentAddResources:Add(RaceResStruct.ResourceGeneration)
+						
+					end
 
+				end
 			end
 		
 		end
@@ -76,12 +79,13 @@ function Set_PassiveResources()
 		RemoveStacktrace()
 		
 	end
-	
+	AddResources()
+	--[[
 	if pcall(AddResources) == false then
 
 		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, debug_PassiveResourceGeneration_Core_FileName, "Set_PassiveResources", "Cannot add passive resources!")
 
-	end
+	end]]
 
 	RemoveStacktrace()
 	
