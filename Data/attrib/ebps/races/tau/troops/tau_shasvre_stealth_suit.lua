@@ -3,6 +3,7 @@ GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
 GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\tau_emp_grenade.lua]]
 GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\tau_stealth_health_bonus.lua]]
 GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\generic_disable_melee_detect.lua]]
+GameData["ability_ext"]["abilities"]["ability_10"] = [[abilities\generic_auto_force_reload_leader.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Main]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["hardpoint_weapon_variant_motion_name"] = [[Weapon_Range_Upgrade_Main]]

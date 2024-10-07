@@ -2,6 +2,7 @@ GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
 GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\tau_sonic_pulse.lua]]
 GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\tau_devour.lua]]
+GameData["ability_ext"]["abilities"]["ability_10"] = [[abilities\generic_auto_force_reload_leader.lua]]
 GameData["ability_ext"]["abilities"]["ability_11"] = [[abilities\tau_vespid_passive_dodge.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Main]]
