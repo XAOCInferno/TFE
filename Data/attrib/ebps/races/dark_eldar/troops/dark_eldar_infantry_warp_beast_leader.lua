@@ -1,6 +1,7 @@
 GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
 GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\dark_eldar_warp_beast_leader_bonus.lua]]
+GameData["ability_ext"]["abilities"]["ability_10"] = [[abilities\generic_auto_force_reload_leader.lua]]
 --GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\dark_eldar_tame_warp_beasts.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Main]]
