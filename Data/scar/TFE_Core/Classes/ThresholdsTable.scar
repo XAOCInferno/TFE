@@ -32,7 +32,7 @@ function ThresholdsTable:Insert (_WeightedKey, _Data)
 
 	if self.DataLength == 0 then
 
-		self.Data[1] = NumberNode:new (_WeightedKey, _Data)
+		self.Data[1] = NumberNode:new(_WeightedKey, _Data)
 		self.DataLength = self.DataLength + 1
 		return
 
@@ -40,20 +40,20 @@ function ThresholdsTable:Insert (_WeightedKey, _Data)
 
 	for i = 1, self.DataLength do			
 
-		if _WeightedKey >= self.Data[i].WeightedKey then
+		if _WeightedKey <= self.Data[i].WeightedKey then
 
-			self:ShiftRight(i)
-			self.Data[i] = NumberNode:new (_WeightedKey, _Data)
+			self:ShiftRightAndAddData(i, NumberNode:new(_WeightedKey, _Data))
 			Added = true
-			break;
+			break
 
 		end
 
 	end
 
 	if Added == false then
-
-		self.Data[self.DataLength + 1] = NumberNode:new (_WeightedKey, _Data)
+		
+		self.Data[self.DataLength + 1] = NumberNode:new(_WeightedKey, _Data)
+		self.DataLength = self.DataLength + 1
 
 	end
 
@@ -61,14 +61,15 @@ function ThresholdsTable:Insert (_WeightedKey, _Data)
 
 end 
 
-function ThresholdsTable:ShiftRight(_StartKey)
-
-	for i = 1, self.DataLength - _StartKey do
-
-		self.Data[_StartKey + i] = self.Data[_StartKey]
+function ThresholdsTable:ShiftRightAndAddData(_StartKey, _DataToAdd)
+	
+	for i = 0, self.DataLength - _StartKey + 1 do
+		
+		self.Data[_StartKey + i + 1] = self.Data[_StartKey + i]
 
 	end
 
-	self.Data[_StartKey] = nil
+	self.DataLength = self.DataLength + 1
+	self.Data[_StartKey] = _DataToAdd
 
 end

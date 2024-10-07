@@ -54,19 +54,19 @@ function Setup_PassiveResourceGeneration_Settings(_PlayerRace)
 			
 			if DE_SoulsThreshold1_Mod == nil then
 
-				DE_SoulsThreshold1_Mod  = Modifier_Create(MAT_Player, "cannibalize_souls_modifier", MUT_Multiplication, true, 2, "")
-				DE_SoulsThreshold2_Mod  = Modifier_Create(MAT_Player, "cannibalize_souls_modifier", MUT_Multiplication, true, 1.5, "")
+				DE_SoulsThreshold1_Mod  = Modifier_Create(MAT_Player, "cannibalize_souls_modifier", MUT_Multiplication, true, 1.75, "")
+				DE_SoulsThreshold2_Mod  = Modifier_Create(MAT_Player, "cannibalize_souls_modifier", MUT_Multiplication, true, 1.25, "")
 				DE_SoulsThreshold3_Mod  = nil
-				DE_SoulsThreshold4_Mod  = Modifier_Create(MAT_Player, "cannibalize_souls_modifier", MUT_Multiplication, true, 0.5, "")
+				DE_SoulsThreshold4_Mod  = Modifier_Create(MAT_Player, "cannibalize_souls_modifier", MUT_Multiplication, true, 0.75, "")
 
 			end
 
 			local DE_SoulsThresholds = ThresholdsTable:new()
 
-			DE_SoulsThresholds:Insert(50, { PlayerModifier = DE_SoulsThreshold1_Mod, AutoGenModifier = 3 })
-			DE_SoulsThresholds:Insert(100, { PlayerModifier = DE_SoulsThreshold2_Mod, AutoGenModifier = 2 })
-			DE_SoulsThresholds:Insert(250, { PlayerModifier = DE_SoulsThreshold3_Mod, AutoGenModifier = 1 })
-			DE_SoulsThresholds:Insert(100000, { PlayerModifier = DE_SoulsThreshold4_Mod, AutoGenModifier = 0.25 })
+			DE_SoulsThresholds:Insert(50, { PlayerModifier = DE_SoulsThreshold1_Mod, AutoGenModifier = 2.75 })
+			DE_SoulsThresholds:Insert(100, { PlayerModifier = DE_SoulsThreshold2_Mod, AutoGenModifier = 1.75 })
+			DE_SoulsThresholds:Insert(250, { PlayerModifier = DE_SoulsThreshold3_Mod, AutoGenModifier = 1.25 })
+			DE_SoulsThresholds:Insert(100000, { PlayerModifier = DE_SoulsThreshold4_Mod, AutoGenModifier = 0.5 })
 			
 			DarkEldarRace_PassiveResourceGeneration.HasSouls = true
 			DarkEldarRace_PassiveResourceGeneration.DE_SoulsThresholdsTable = DE_SoulsThresholds

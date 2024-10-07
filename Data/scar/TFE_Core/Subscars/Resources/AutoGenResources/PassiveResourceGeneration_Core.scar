@@ -43,9 +43,17 @@ function Set_PassiveResources()
 
 						if (CurrentSouls <= RaceResStruct.DE_SoulsThresholdsTable.Data[j].WeightedKey) then
 
+							--Remove this print later as it will leak info to multiplayer
+							print( "Changing DE modifier to "..j)
+
 							if (RaceResStruct.DE_CurrentlyAppliedSoulsModifier ~= nil) then
 
-								Modifier_Remove(RaceResStruct.DE_CurrentlyAppliedSoulsModifier)
+								if(pcall(Modifier_Remove, RaceResStruct.DE_CurrentlyAppliedSoulsModifier) == false) then
+
+									--If we fail to remove modifier, it is not applied, therefore break early
+									break
+
+								end
 
 							end
 
@@ -56,7 +64,7 @@ function Set_PassiveResources()
 							end
 
 							RaceResStruct.ResourceGeneration.RT_Souls = RaceResStruct.ResourceGeneration.RT_Souls * RaceResStruct.DE_SoulsThresholdsTable.Data[j].Data.AutoGenModifier
-							break;
+							break
 							
 						end
 
@@ -80,13 +88,12 @@ function Set_PassiveResources()
 		RemoveStacktrace()
 		
 	end
-	AddResources()
-	--[[
+
 	if pcall(AddResources) == false then
 
 		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, debug_PassiveResourceGeneration_Core_FileName, "Set_PassiveResources", "Cannot add passive resources!")
 
-	end]]
+	end
 
 	RemoveStacktrace()
 	
