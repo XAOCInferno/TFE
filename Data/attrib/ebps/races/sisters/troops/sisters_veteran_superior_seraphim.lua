@@ -3,6 +3,7 @@ GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
 GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\sisters_leadership.lua]]
 GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\sisters_angelic_visage.lua]]
 GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\sisters_krak_grenades.lua]]
+GameData["ability_ext"]["abilities"]["ability_10"] = [[abilities\generic_auto_force_reload_leader.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["complex_upgrades"] = true 
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Main]]
