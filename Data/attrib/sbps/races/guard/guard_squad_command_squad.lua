@@ -1,7 +1,6 @@
 GameData = Inherit([[]])
 GameData["squad_blueprint_ext"] = Reference([[sbpextensions\squad_blueprint_ext.lua]])
 GameData["squad_cap_ext"] = Reference([[sbpextensions\squad_cap_ext.lua]])
-GameData["squad_cap_ext"]["squad_cap_usage"] = 2
 GameData["squad_combat_stance_ext"] = Reference([[sbpextensions\squad_combat_stance_ext.lua]])
 GameData["squad_cover_ext"] = Reference([[sbpextensions\squad_cover_ext.lua]])
 GameData["squad_cover_ext"]["cover_blocking"]["modifiers"]["modifier_01"]["shield_of_faith"] = false
