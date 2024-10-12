@@ -463,6 +463,9 @@ GameData["event_manager_ext"]["event_29"]["modifier_name"] = [[ability_bonesong_
 GameData["event_manager_ext"]["event_30"]["modifier_name"] = [[ability_eldar_guide_event]]
 GameData["event_manager_ext"]["event_31"]["event_entry_01"]["event_name"] = [[Tau\Abilities\Mark_Target]]
 GameData["event_manager_ext"]["event_31"]["modifier_name"] = [[ability_tau_mark_target_event]]
+GameData["event_manager_ext"]["event_32"]["event_entry_01"]["event_name"] = [[aura/id_aura_pos]]
+GameData["event_manager_ext"]["event_32"]["modifier_name"] = [[ability_events]]
+
 GameData["health_ext"] = Reference([[ebpextensions\health_ext.lua]])
 GameData["health_ext"]["armour"] = 100
 GameData["health_ext"]["armour_minimum"] = 40

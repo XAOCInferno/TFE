@@ -437,5 +437,5 @@ GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$16021315]]
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$16021316]] -- - Can upgrade their ranged of weapons with Incinerators or Psycannons.
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_06"] = [[$16021317]] -- - Can use their teleporters to access remote or unreachable locales on the map.
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_07"] = [[$16021318]] -- - Effective against most units, extremely effective at countering Vehicles in melee.
-GameData["squad_ui_ext"]["ui_info"]["icon_name"] = [[inquisition_icons/grey_knight_terminator_paladin_icon]]
+GameData["squad_ui_ext"]["ui_info"]["icon_name"] = [[inquisition_icons/grey_knight_terminator_icon]]
 GameData["squad_ui_ext"]["ui_info"]["screen_name_id"] = [[$16021310]] -- Grey Knights Terminator Squad

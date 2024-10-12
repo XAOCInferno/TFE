@@ -1,5 +1,5 @@
 GameData = Inherit([[]])
-GameData["accuracy"] = 0.7000000119
+GameData["accuracy"] = 0.7500000119
 GameData["accuracy_reduction_when_moving"] = 0.4000000119
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["remove_modifiers_with_source_entity"] = true 
@@ -20,8 +20,8 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_13"][
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_14"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\Ranged_Plasma_Pistol.lua]])
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 90
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 76
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 88
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 74
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 5
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 10
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events/Impact_plasma_sml]]

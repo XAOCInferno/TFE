@@ -447,5 +447,5 @@ GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$16021365]]
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_06"] = [[$16021366]] -- - Can use their teleporters to access remote or unreachable locales on the map.
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_07"] = [[$16021367]] -- - Has a Varity of powerful area of effect abilities.
 GameData["squad_ui_ext"]["ui_info"]["help_text_list"]["text_08"] = [[$16021368]] -- - Effective against most units.
-GameData["squad_ui_ext"]["ui_info"]["icon_name"] = [[inquisition_icons/grey_knight_paladin2]]
+GameData["squad_ui_ext"]["ui_info"]["icon_name"] = [[inquisition_icons/grey_knight_paladin]]
 GameData["squad_ui_ext"]["ui_info"]["screen_name_id"] = [[$16020158]] -- Grey Knights Paladin Squad
