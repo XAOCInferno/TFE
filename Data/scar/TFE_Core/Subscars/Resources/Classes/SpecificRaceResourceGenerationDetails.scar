@@ -15,7 +15,9 @@ function SpecificRaceResourceGenerationDetails:new (_RaceName, _HasPassiveResGen
 		BaseMatureLimits = ResourceGroup:new(0, 2.5),
 		
 		HasSouls = false,
+		--Move these late into their own class
 		DE_SoulsThresholdsTable = nil,
+		DE_CurrentlyAppliedSoulsModifierAsIndex = nil,
 		DE_CurrentlyAppliedSoulsModifier = nil
 
     }

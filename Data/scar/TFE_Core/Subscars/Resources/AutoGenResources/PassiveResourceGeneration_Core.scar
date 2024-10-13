@@ -31,9 +31,11 @@ function Set_PassiveResources()
 			
 		for i = 1, g_PlayerCount do
 		
-			local RaceResStruct = g_FactionSpecificResourceGeneration[g_AllPlayers[i].RaceDetails.RaceName] 
-
+			local RaceResStruct = g_FactionSpecificResourceGeneration[g_AllPlayers[i].RaceDetails.RaceName]
+			
 			if (RaceResStruct ~= nil) then
+
+				local ResourceGenerationCopy = RaceResStruct.ResourceGeneration:CreateCopy()
 
 				if (RaceResStruct.HasSouls) then
 
@@ -41,42 +43,47 @@ function Set_PassiveResources()
 
 					for j = 1, RaceResStruct.DE_SoulsThresholdsTable.DataLength do
 
+						--Keys weighted from lowest to highest so we just need to iterate until our souls are lower than the key
 						if (CurrentSouls <= RaceResStruct.DE_SoulsThresholdsTable.Data[j].WeightedKey) then
+							
+							--If we've not already applied the current modifier, go through that process
+							if (RaceResStruct.DE_CurrentlyAppliedSoulsModifierAsIndex ~= j) then
+								
+								RaceResStruct.DE_CurrentlyAppliedSoulsModifierAsIndex = j
 
-							--Remove this print later as it will leak info to multiplayer
-							print( "Changing DE modifier to "..j)
+								--Try to remove old modifier, if it exists
+								if (RaceResStruct.DE_CurrentlyAppliedSoulsModifier ~= nil) then
 
-							if (RaceResStruct.DE_CurrentlyAppliedSoulsModifier ~= nil) then
+									pcall(Modifier_Remove, RaceResStruct.DE_CurrentlyAppliedSoulsModifier)								
 
-								if(pcall(Modifier_Remove, RaceResStruct.DE_CurrentlyAppliedSoulsModifier) == false) then
+								end
 
-									--If we fail to remove modifier, it is not applied, therefore break early
-									break
+								--Try to add new modifier, if we have one to use
+								if(RaceResStruct.DE_SoulsThresholdsTable.Data[j].Data.PlayerModifier ~= nil) then
+									
+									RaceResStruct.DE_CurrentlyAppliedSoulsModifier = Modifier_ApplyToPlayer(RaceResStruct.DE_SoulsThresholdsTable.Data[j].Data.PlayerModifier, g_AllPlayers[i].Player)
 
 								end
 
 							end
 
-							if(RaceResStruct.DE_SoulsThresholdsTable.Data[j].Data.PlayerModifier ~= nil) then
-								
-								RaceResStruct.DE_CurrentlyAppliedSoulsModifier = Modifier_ApplyToPlayer(RaceResStruct.DE_SoulsThresholdsTable.Data[j].Data.PlayerModifier, g_AllPlayers[i].Player)
+							--Finally update the passive resource generation with the auto gen modifier 
+							ResourceGenerationCopy.RT_Souls = RaceResStruct.ResourceGeneration.RT_Souls * RaceResStruct.DE_SoulsThresholdsTable.Data[j].Data.AutoGenModifier
 
-							end
-
-							RaceResStruct.ResourceGeneration.RT_Souls = RaceResStruct.ResourceGeneration.RT_Souls * RaceResStruct.DE_SoulsThresholdsTable.Data[j].Data.AutoGenModifier
+							--Break early as we've found the threshold that we're applying
 							break
-							
+								
 						end
 
 					end
 
 				end
 
-				if (Player_IsAlive(g_AllPlayers[i].Player) == true) then
+				if (Player_IsAlive(g_AllPlayers[i].Player)) then
 				
 					if(RaceResStruct.HasPassiveResGen) then
-					
-						g_AllPlayers[i].CurrentAddResources:Add(RaceResStruct.ResourceGeneration)
+						
+						g_AllPlayers[i].CurrentFireCosts:Add(ResourceGenerationCopy)
 						
 					end
 

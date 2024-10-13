@@ -119,3 +119,9 @@ function ResourceGroup:Clear()
 	RemoveStacktrace()
 
 end
+
+function ResourceGroup:CreateCopy()
+
+	return ResourceGroup:new(self.RT_Red, self.RT_Requisition, self.RT_Power, self.RT_Pop, self.RT_Faith, self.RT_Souls)
+
+end

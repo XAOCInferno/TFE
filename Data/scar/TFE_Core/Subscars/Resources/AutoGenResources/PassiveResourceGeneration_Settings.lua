@@ -50,25 +50,25 @@ function Setup_PassiveResourceGeneration_Settings(_PlayerRace)
 			
 		elseif(_PlayerRace == "dark_eldar_race") then
 		
-			local DarkEldarRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("dark_eldar_race",true,ResourceGroup:new(0,0,0,0,2))
+			local DarkEldarRace_PassiveResourceGeneration = SpecificRaceResourceGenerationDetails:new("dark_eldar_race",true,ResourceGroup:new(0,0,0,0,0,1))
 			
 			if DE_SoulsThreshold1_Mod == nil then
 
-				DE_SoulsThreshold1_Mod  = Modifier_Create(MAT_Player, "cannibalize_souls_modifier", MUT_Multiplication, true, 1.75, "")
-				DE_SoulsThreshold2_Mod  = Modifier_Create(MAT_Player, "cannibalize_souls_modifier", MUT_Multiplication, true, 1.5, "")
-				DE_SoulsThreshold3_Mod  = Modifier_Create(MAT_Player, "cannibalize_souls_modifier", MUT_Multiplication, true, 1.25, "")
-				DE_SoulsThreshold4_Mod  = nil
-				DE_SoulsThreshold5_Mod  = Modifier_Create(MAT_Player, "cannibalize_souls_modifier", MUT_Multiplication, true, 0.75, "")
+				DE_SoulsThreshold1_Mod  = Modifier_Create(MAT_Player, "cannibalize_souls_modifier", MUT_Multiplication, true, 1.4, "")
+				DE_SoulsThreshold2_Mod  = Modifier_Create(MAT_Player, "cannibalize_souls_modifier", MUT_Multiplication, true, 1.1, "")
+				DE_SoulsThreshold3_Mod  = nil
+				DE_SoulsThreshold4_Mod  = Modifier_Create(MAT_Player, "cannibalize_souls_modifier", MUT_Multiplication, true, 0.9, "")
+				DE_SoulsThreshold5_Mod  = Modifier_Create(MAT_Player, "cannibalize_souls_modifier", MUT_Multiplication, true, 0.8, "")
 
 			end
 
 			local DE_SoulsThresholds = ThresholdsTable:new()
 
-			DE_SoulsThresholds:Insert(35, { PlayerModifier = DE_SoulsThreshold1_Mod, AutoGenModifier = 3.5 })
-			DE_SoulsThresholds:Insert(70, { PlayerModifier = DE_SoulsThreshold2_Mod, AutoGenModifier = 2.25 })
-			DE_SoulsThresholds:Insert(140, { PlayerModifier = DE_SoulsThreshold3_Mod, AutoGenModifier = 1.75 })
-			DE_SoulsThresholds:Insert(280, { PlayerModifier = DE_SoulsThreshold4_Mod, AutoGenModifier = 1.25 })
-			DE_SoulsThresholds:Insert(100000, { PlayerModifier = DE_SoulsThreshold5_Mod, AutoGenModifier = 0.5 })
+			DE_SoulsThresholds:Insert(30, { PlayerModifier = DE_SoulsThreshold1_Mod, AutoGenModifier = 1 })
+			DE_SoulsThresholds:Insert(80, { PlayerModifier = DE_SoulsThreshold2_Mod, AutoGenModifier = 0.33 })
+			DE_SoulsThresholds:Insert(150, { PlayerModifier = DE_SoulsThreshold3_Mod, AutoGenModifier = 0.2 })
+			DE_SoulsThresholds:Insert(300, { PlayerModifier = DE_SoulsThreshold4_Mod, AutoGenModifier = 0.15 })
+			DE_SoulsThresholds:Insert(100000, { PlayerModifier = DE_SoulsThreshold5_Mod, AutoGenModifier = 0.1 })
 			
 			DarkEldarRace_PassiveResourceGeneration.HasSouls = true
 			DarkEldarRace_PassiveResourceGeneration.DE_SoulsThresholdsTable = DE_SoulsThresholds
