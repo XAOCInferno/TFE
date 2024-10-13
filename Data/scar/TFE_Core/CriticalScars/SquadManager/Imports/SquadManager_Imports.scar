@@ -3,4 +3,5 @@ import("TFE_Core/CriticalScars/SquadManager/Classes/StrategicPoint.scar")
 import("TFE_Core/CriticalScars/SquadManager/Classes/SquadData.scar")
 import("TFE_Core/CriticalScars/SquadManager/Data/SquadValidWeapons.lua")
 import("TFE_Core/CriticalScars/SquadManager/Data/SquadMultiLeaders.lua")
+import("TFE_Core/CriticalScars/SquadManager/Data/SquadIdleBehaviours.lua")
 

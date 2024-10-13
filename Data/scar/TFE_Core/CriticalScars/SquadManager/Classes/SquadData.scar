@@ -1,5 +1,7 @@
+
+
 SquadData = {}
-function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _player, _IsRelicUnit)
+function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _player, _IsRelicUnit, _IdleState)
 
 	AddStacktrace("SquadData:new")
 
@@ -57,7 +59,13 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		PreviousSquadLeaderCount = Squad_CountLeaders(_sID),
 		PreviouslyAttackedByPlayers = {},
 		PreviouslyAttackedTime = 0,
-		PreviouslyAttackedBySquads = {}
+		PreviouslyAttackedBySquads = {},
+		
+		IdleState = _IdleState,
+		IsIdle = false,
+		HasPerformedIdleState = false,
+		TimeSinceIdle = 0,
+		IdleStartTime = 0
 	}
 
 
@@ -262,7 +270,89 @@ function SquadData:Update(_self)
 		_self:SyncSquadDataStates(copy)
 
 	end
+
+	if _self.IdleState.Behaviour ~= eIDLE_STATE_BEHAVIOUR_NONE then
+
+		_self:ManageIdleState()
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+function SquadData:ManageIdleState()
+		
+	AddStacktrace("SquadData:ManageIdleState")
+
+	local isIdle = Squad_GetActiveCommand(self.SquadID) == SQUADSTATEID_Idle
 	
+	if isIdle and self.IsIdle == false then
+
+		--Set to idle if we are not already set as idle
+		self:SetIdleStateToActive()
+
+	elseif isIdle == false and self.IsIdle == true then
+
+		--Set to not idle if we are already set as idle
+		self:SetIdleStateToInactive()
+
+	end
+
+	--If we've been idle for enough time, perform the idle behaviour
+	self.TimeSinceIdle = GetWorldLifetime(self.IdleStartTime)
+
+	if self.IsIdle and self.HasPerformedIdleState == false then
+		
+		if self.TimeSinceIdle > self.IdleState.TimeMustBeIdleFor then
+
+			self:DoIdleState()
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+function SquadData:DoIdleState()
+
+	AddStacktrace("SquadData:DoIdleState")
+	
+	if self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_CANNIBALIZE then
+
+		Command_Squad(self.OwnedByPlayer, self.SquadGroupID, SCMD_Cannibalize)
+
+	end
+
+	self.HasPerformedIdleState = true
+
+	RemoveStacktrace()
+
+end
+
+function SquadData:SetIdleStateToActive()
+	
+	AddStacktrace("SquadData:SetIdleStateToActive")
+
+	--Currently just set the base variables, however, we can later add in OnIdle behaviour here
+	self.IsIdle = true
+	self.IdleStartTime = g_WorldTime
+	self.TimeSinceIdle = 0
+
+	RemoveStacktrace()
+
+end
+
+function SquadData:SetIdleStateToInactive()
+
+	AddStacktrace("SquadData:SetIdleStateToInactive")
+
+	--Currently just set the base variables, however, we can later add in OnIdleEnd behaviour here
+	self.IsIdle = false
+	self.HasPerformedIdleState = false
+
 	RemoveStacktrace()
 
 end
