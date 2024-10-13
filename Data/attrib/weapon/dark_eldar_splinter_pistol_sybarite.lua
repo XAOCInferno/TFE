@@ -22,8 +22,8 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"][
 --[[Although called splinter pistol, this is for the warrior leader so we treat it as a splinter rifle]]
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\Ranged_Shard_Light.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 30
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 25
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 24
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 18
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 2.5
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 3
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Dark_Eldar\splinterpistol_impact]]
