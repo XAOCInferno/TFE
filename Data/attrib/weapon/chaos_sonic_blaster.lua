@@ -26,8 +26,8 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_14"][
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\Ranged_Flamer_Light.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 21
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 18
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 18.5
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 16.2
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 2
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 5.75
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry05"] = Reference([[tables\hit_event_entry.lua]])
@@ -106,7 +106,7 @@ GameData["kill_enemy_at_percent_life_target_filter"]["entry_13"]["screen_name_id
 GameData["kill_enemy_at_percent_life_target_filter"]["entry_14"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["kill_enemy_at_percent_life_target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["linger_on_target_after_fire_time"] = 0
-GameData["max_range"] = 18
+GameData["max_range"] = 17.5
 GameData["max_traverse_down"] = -60
 GameData["max_traverse_left"] = -90
 GameData["max_traverse_right"] = 90
