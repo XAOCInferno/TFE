@@ -24,8 +24,7 @@ function FiresightVisionCircle:new (_Player, _OwnerSquad)
 		TrackingSquad = nil,
 		IsPerformingLogic = true,
 		AppliedModifier = nil,
-		State = nil,
-		PreviousState = nil
+		State = nil
     }
 
 	self.__index = self
@@ -147,7 +146,7 @@ function FiresightVisionCircle:ValidateOwnerSquad()
 	if(isValid == false) then
 
 		Entity_Destroy(self.LinkedEntityID)
-		IsPerformingLogic = false
+		self.IsPerformingLogic = false
 
 	end
 
