@@ -62,6 +62,7 @@ function Core_Init_Load()
 		{ Function = Setup_GlobalAbilities, Necessity = eREQUIRED_FUNCTION },
 		{ Function = Setup_Achievements, Necessity = eREQUIRED_FUNCTION },
 		{ Function = Setup_XPManager, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Players_DoLateConstructors, Necessity = eREQUIRED_FUNCTION },
 	}
 
 	InvokeFunctionsFromFunctionTree(SetupFunctionTree)
@@ -216,6 +217,7 @@ function Core_MainLoop()
 		{ Function = Update_GlobalAbilities, Necessity = eBASIC_FUNCTION },
 		{ Function = Update_Achievements, Necessity = eBASIC_FUNCTION },
 		{ Function = Update_XPManager, Necessity = eBASIC_FUNCTION },
+		{ Function = Update_Players, Necessity = eREQUIRED_FUNCTION },
 	}
 
 	InvokeFunctionsFromFunctionTree(MainLoopFunctionTree)
@@ -404,3 +406,30 @@ function GetAllPlayerRelationships(_player)
 	
 end
 
+function Players_DoLateConstructors()
+
+	AddStacktrace("Players_DoLateConstructors")
+
+	for i = 1, g_PlayerCount do
+
+		g_AllPlayers[i]:LateConstructor()
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+function Update_Players()
+
+	AddStacktrace("Update_Players")
+
+	for i = 1, g_PlayerCount do
+
+		g_AllPlayers[i]:Update()
+
+	end
+
+	RemoveStacktrace()
+
+end

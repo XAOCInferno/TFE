@@ -1,0 +1,263 @@
+--Class for a "Player". 
+--Encompases everything we consider to be on a player scope
+
+FiresightVisionCircle = {}
+function FiresightVisionCircle:new (_Player, _OwnerSquad)
+
+	AddStacktrace("FiresightVisionCircle:new")
+	
+    local FiresightVisionCircle = 
+    {
+		--Enums
+		eSTATE_TRACKING = 0,
+		eSTATE_IDLE = 1,
+		eSTATE_MOVING = 2,
+		eSTATE_OTHER = 3,
+
+		--Constants
+		OwnerSquad = _OwnerSquad,
+		LinkedEntityID = ActivateSummonEntityAbility("tau_firesight_vision_circle", _Player, _OwnerSquad.SquadPosition),
+		--Unique modifier to apply to the farsight to increase his vision range when he is standing still, but not tracking target
+		ModifierToApplyWhenIdleAndNotTacking = Modifier_Create(MAT_Squad, "sight_radius_modifier", MUT_Multiplication, 1, 2.25, ""),
+
+		--Variables
+		TrackingSquad = nil,
+		IsPerformingLogic = true,
+		AppliedModifier = nil,
+		State = nil,
+		PreviousState = nil
+    }
+
+	self.__index = self
+
+	RemoveStacktrace()
+
+	return setmetatable(FiresightVisionCircle, self)
+
+end
+
+function FiresightVisionCircle:Update()
+	
+	AddStacktrace("FiresightVisionCircle:Update")
+
+	if(self.IsPerformingLogic) then
+
+		self:ValidateOwnerSquad()
+		
+		--Need second if as previous logic can change this value
+		if(self.IsPerformingLogic) then
+
+			if(self.OwnerSquad.SquadActiveCommand == SQUADSTATEID_Move) then
+
+				--Squad is moving
+				self.State = self.eSTATE_MOVING
+
+			else
+				
+				if(self:IsTargetSquadValid()) then
+
+					--Squad is idle, and tracking so remove modifiers and move the scanner to target
+					self.State = self.eSTATE_TRACKING
+
+				else
+					--Squad is in combat, but we don't have a target, so don't track
+					self.State = self.eSTATE_IDLE				
+					self.TrackingSquad = nil
+
+				end
+
+			end
+
+			self:HandleStates()
+			
+		end
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+function FiresightVisionCircle:HandleStates()
+
+	AddStacktrace("FiresightVisionCircle:HandleStates")
+
+	if (self.State == self.eSTATE_IDLE) then
+
+		--Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Firesight: Applying IDLE state")
+
+		--Move vision circle to his origin
+		self:FallbackToOrigin()
+
+		--Squad is idle and not tracking so apply firesight modifiers
+		self:ApplyModifierIfNotApplied()
+
+	elseif (self.State == self.eSTATE_MOVING) then
+
+		--Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Firesight: Applying MOVING state")
+
+		--We are moving, therefore we cannot track nor have modifiers
+		self:FallbackToOrigin()
+		self:RemoveModifierIfApplied()
+
+	elseif (self.State == self.eSTATE_TRACKING) then
+
+		--Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Firesight: Applying TRACKING state")
+
+		--Move vision circle to target squad location
+		self:FollowTargetSquad()
+
+		--Remove squad modifier for firesight
+		self:RemoveModifierIfApplied()
+
+	elseif (self.State == self.eSTATE_OTHER) then
+
+		--Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Firesight: Applying TRACKING state")
+
+		--We are doing something misc like capping a point, treat this like moving
+		self:FallbackToOrigin()
+		self:RemoveModifierIfApplied()
+
+	else
+
+		Log(eLOG_LOG_TYPE_ERROR, eLOG_SIMPLE, self.State.." is not a valid state for FiresightVisionCircle!")
+
+	end	
+
+	RemoveStacktrace()
+
+end
+
+function FiresightVisionCircle:ValidateOwnerSquad()
+
+	AddStacktrace("FiresightVisionCircle:ValidateOwnerSquad")
+
+	local isValid = true
+
+	if(self.OwnerSquad == nil) then
+
+		isValid = false
+
+	elseif(self.OwnerSquad:GetIfAlive() == false) then
+
+		isValid = false
+
+	end
+
+	if(isValid == false) then
+
+		Entity_Destroy(self.LinkedEntityID)
+		IsPerformingLogic = false
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+function FiresightVisionCircle:SetTargetSquad( _Target )
+
+	AddStacktrace("FiresightVisionCircle:SetTargetSquad")
+
+	self.TrackingSquad = _Target
+
+	RemoveStacktrace()
+
+end
+
+--Currently unused function
+function FiresightVisionCircle:ClearTargetSquadIfEqual( _Target )
+
+	AddStacktrace("FiresightVisionCircle:ClearTargetSquadIfEqual")
+
+	if(self.TrackingSquad ~= nil) then
+
+		if(self.TrackingSquad.SquadUniqueID == _Target.SquadUniqueID) then
+
+			self.TrackingSquad = nil
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+function FiresightVisionCircle:IsTargetSquadValid()
+
+	AddStacktrace("FiresightVisionCircle:IsTargetSquadValid")
+
+	local Success = true
+	
+	if(self.TrackingSquad == nil) then
+		
+		--Squad is simply nil
+		Success = false
+
+	elseif(self.TrackingSquad.SquadPosition == nil) then
+		
+		--No position to tack
+		Success = false
+
+	elseif(SGroup_WasAttacked(self.TrackingSquad.SquadGroupID, self.OwnerSquad.SquadGroupID) == false) then
+
+		--The squad is valid, however, we haven't shot it in the past second
+		Success = false	
+
+	end		
+
+	RemoveStacktrace()
+
+	return Success
+
+end
+
+function FiresightVisionCircle:FollowTargetSquad()
+
+	AddStacktrace("FiresightVisionCircle:FollowTargetSquad")
+
+	Entity_SetPosition(self.LinkedEntityID, self.TrackingSquad.SquadPosition)
+
+	RemoveStacktrace()
+
+end
+
+function FiresightVisionCircle:FallbackToOrigin()
+
+	AddStacktrace("FiresightVisionCircle:FallbackToOrigin")
+
+	Entity_SetPosition(self.LinkedEntityID, self.OwnerSquad.SquadPosition)
+	
+	RemoveStacktrace()
+
+end
+
+function FiresightVisionCircle:ApplyModifierIfNotApplied()
+
+	AddStacktrace("FiresightVisionCircle:ApplyModifierIfNotApplied")
+
+	if(self.AppliedModifier == nil) then
+
+		self.AppliedModifier = Modifier_ApplyToSquad(self.ModifierToApplyWhenIdleAndNotTacking, self.OwnerSquad.SquadID)
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+function FiresightVisionCircle:RemoveModifierIfApplied()
+
+	AddStacktrace("FiresightVisionCircle:RemoveModifierIfApplied")
+
+	if(self.AppliedModifier ~= nil) then
+
+		pcall(Modifier_Remove, self.AppliedModifier)
+		self.AppliedModifier = nil
+
+	end
+
+	RemoveStacktrace()
+
+end

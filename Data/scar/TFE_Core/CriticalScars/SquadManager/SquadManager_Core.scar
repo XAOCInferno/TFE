@@ -297,9 +297,16 @@ function SquadSetLastCombats(_DefenderSquadStruct, _AttackerPlayer)
 	for i = 1, g_PlayerSquadCount[_AttackerPlayer.PlayerIndex + 1] do
 
 		local EnemySquad = g_AllSquadsData[_AttackerPlayer.PlayerIndex + 1][i]
+
 		if(EnemySquad ~= nil) then
 
 			if(SGroup_WasAttacked(_DefenderSquadStruct.SquadGroupID, EnemySquad.SquadGroupID)) then
+
+				if(EnemySquad.SquadBlueprint == "tau_firesight_marksmen_squad") then
+
+					EnemySquad.OwnerPlayer.TauFiresightVisionCircle:SetTargetSquad(_DefenderSquadStruct)
+
+				end
 
 				local contains, _  = TableContains(_DefenderSquadStruct.PreviouslyAttackedBySquads, EnemySquad)
 
@@ -308,7 +315,7 @@ function SquadSetLastCombats(_DefenderSquadStruct, _AttackerPlayer)
 					table.insert(_DefenderSquadStruct.PreviouslyAttackedBySquads, EnemySquad)
 
 				end
-
+				
 			end
 			
 		end

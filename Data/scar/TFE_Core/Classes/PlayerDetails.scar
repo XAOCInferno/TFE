@@ -24,9 +24,12 @@ function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
 		CurrentResources = ResourceGroup:new(g_StartingRedResource),
 	    CurrentNumberOfResearchedGlobals = ResourceGroup:new(),
 	    CurrentAddResources = ResourceGroup:new(),	    
-	    CurrentFireCosts = ResourceGroup:new()
+	    CurrentFireCosts = ResourceGroup:new(),
 
-    }
+		--Tau only logic
+		TauFiresightVisionCircle = nil
+
+    }	
 
 	PlayerDetailsObject.StatsManager = StatsManager:new(PlayerDetailsObject)
 
@@ -37,6 +40,41 @@ function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
 	return setmetatable(PlayerDetailsObject, self)
 
 end
+
+function PlayerDetails:LateConstructor()
+
+	if(self.RaceDetails.RaceName == "tau_race") then
+		
+		local scoutSquads = GetAllSquadsOfBlueprint(self.PlayerIndex+1, {"tau_firesight_marksmen_squad"})
+
+		if(table.getn(scoutSquads) > 0) then
+
+			self.TauFiresightVisionCircle = FiresightVisionCircle:new (self.Player, scoutSquads[1])
+
+		else
+
+			Log(eLOG_LOG_TYPE_WARNING, eLOG_SIMPLE, "Tau player has no scout unit! Cannot create vision radius.")
+
+		end
+
+	end
+
+end
+
+function PlayerDetails:Update()
+
+	AddStacktrace("PlayerDetails:Update")
+
+	if(self.TauFiresightVisionCircle ~= nil) then
+
+		self.TauFiresightVisionCircle:Update()
+
+	end
+
+	RemoveStacktrace()
+
+end
+
 
 --The player has done something that costs resources so charge them for it
 function PlayerDetails:AddFireCost( _ResourceGroup )
@@ -91,11 +129,13 @@ function PlayerDetails:ClearCurrentResourceBonuses()
 	self.CurrentAddResources:Clear()
 	self.CurrentFireCosts:Clear()
 
-	 RemoveStacktrace()
+	RemoveStacktrace()
 
 end
 
 function PlayerDetails:PlayerGetResources_AsResourceGroup()
+
+	AddStacktrace("PlayerDetails:PlayerGetResources_AsResourceGroup")
 
 	--Temporary resource group generation.
 	--Ask the game what it knows the player to have resource wise and sync up our details with it
@@ -111,11 +151,15 @@ function PlayerDetails:PlayerGetResources_AsResourceGroup()
 
 	)
 
+	RemoveStacktrace()
+
 	return tmpResourceGroup
 
 end
 
 function PlayerDetails:PlayerAddResources_FromResourceGroup(_resourceGroup)
+
+	AddStacktrace("PlayerDetails:PlayerAddResources_FromResourceGroup")
 
 	self.CurrentResources.RT_Red = self.CurrentResources.RT_Red + _resourceGroup.RT_Red
 	Player_AddResource(self.Player, RT_Requisition, _resourceGroup.RT_Requisition)
@@ -123,5 +167,7 @@ function PlayerDetails:PlayerAddResources_FromResourceGroup(_resourceGroup)
 	Player_AddResource(self.Player, RT_Pop, _resourceGroup.RT_Pop)
 	Player_AddResource(self.Player, RT_Faith, _resourceGroup.RT_Faith)
 	Player_AddResource(self.Player, RT_Souls, _resourceGroup.RT_Souls)
+
+	RemoveStacktrace()
 
 end

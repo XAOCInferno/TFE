@@ -41,6 +41,8 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		SquadAvgMorale = SGroup_GetAvgMorale( tmpSGroupName ),
 		SquadUpgradedWeapons = {},
 		SquadValidWeapons = g_ValidSquadWeapons[_sRace][_sBP] or {},
+		SquadSpeed = Squad_GetSpeed( _sID ),
+		SquadActiveCommand = Squad_GetActiveCommand( _sID ),
 		OwnedByPlayer = Squad_GetPlayerOwner(_sID),
 		OwnerPlayer = _player, 
 		IsSelected_Unsynced = Misc_IsSquadSelected(_sID),
@@ -176,6 +178,8 @@ function SquadData:CreateTotalCopy()
 	copy.SquadDetachedFrom = self.SquadDetachedFrom
 	copy.SquadAttachedTo = self.SquadAttachedTo	
 	copy.SquadUpgradedWeapons = self.SquadUpgradedWeapons
+	copy.SquadSpeed = self.SquadSpeed
+	copy.SquadActiveCommand = self.SquadActiveCommand
 
 	return copy
 
@@ -371,6 +375,8 @@ function SquadData:SyncSquadDataStates(copyFromState)
 	self.SquadAvgHealth = copyFromState.SquadAvgHealth
 	self.SquadAvgMorale = copyFromState.SquadAvgMorale
 	self.SquadUpgradedWeapons = copyFromState.SquadUpgradedWeapons
+	self.SquadSpeed = copyFromState.SquadSpeed
+	self.SquadActiveCommand = copyFromState.SquadActiveCommand
 
 	RemoveStacktrace()
 
