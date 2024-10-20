@@ -3,7 +3,7 @@ function SpecificRaceResourceGenerationDetails:new (_RaceName, _HasPassiveResGen
 	
 	AddStacktrace("SpecificRaceResourceGenerationDetails:new")
 
-	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_PassiveResourceGeneration_Settings_FileName, "SpecificRaceResourceGenerationDetails:Constructor",  "Importing race: '".._RaceName.."'...")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Importing race: '".._RaceName.."'...")
 	
     local o = 
     {
@@ -24,7 +24,7 @@ function SpecificRaceResourceGenerationDetails:new (_RaceName, _HasPassiveResGen
 	
 	self.__index = self
 	
-	Log(eLOG_TYPE_INFO, eLOG_FULL, debug_PassiveResourceGeneration_Settings_FileName, "SpecificRaceResourceGenerationDetails:Constructor",  "Importing race: '".._RaceName.."' Success!")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Importing race: '".._RaceName.."' Success!")
 	
 	RemoveStacktrace()
 
