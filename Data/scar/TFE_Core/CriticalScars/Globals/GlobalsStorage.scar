@@ -37,7 +37,7 @@ function Setup_StrategicPoints()
 
 	AddStacktrace("Setup_StrategicPoints")
 	
-	Log(eLOG_TYPE_INFO, eLOG_FULL, "Starting: 'Setup_StrategicPoints'...")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Starting: 'Setup_StrategicPoints'...")
 	
 	local SetupNewPoint = function(eSquadGroupID, i, eSquadID)
 		
@@ -51,7 +51,7 @@ function Setup_StrategicPoints()
 	EGroup_ForEachEx(EGroup_FromName("tmpAllStratPoints"),  SetupNewPoint, true, true)
 	EGroup_Destroy("tmpAllStratPoints")
 	
-	Log(eLOG_TYPE_INFO, eLOG_FULL,  "Finished: 'Setup_StrategicPoints'!")
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE,  "Finished: 'Setup_StrategicPoints'!")
 
 	RemoveStacktrace()
 
