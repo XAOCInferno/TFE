@@ -1,6 +1,6 @@
 GameData = Inherit([[]])
 GameData["accuracy"] = 0.7
-GameData["accuracy_reduction_when_moving"] = 0.35
+GameData["accuracy_reduction_when_moving"] = 0.425
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["remove_modifiers_with_source_entity"] = true 
 GameData["area_effect"]["area_effect_information"]["start_from_caster"] = false
@@ -21,8 +21,8 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_14"][
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\Ranged_Gauss_Light.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 250
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 200
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 190
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 140
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 2
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 7.050000191
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events\Blood_Splatter_Impact_S]]
@@ -107,7 +107,7 @@ GameData["raider_weapon_index"] = 0
 GameData["random_aim_on_create"] = false
 GameData["rear_facing"] = false
 GameData["reload_show_progress"] = false
-GameData["reload_time"] = 0.8
+GameData["reload_time"] = 0.75
 GameData["setup_time"] = 0
 GameData["shot_delay_time"] = 0
 GameData["show_in_reinforce"] = true 

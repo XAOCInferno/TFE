@@ -1,6 +1,6 @@
 GameData = Inherit([[]])
-GameData["accuracy"] = 0.8
-GameData["accuracy_reduction_when_moving"] = 0.35
+GameData["accuracy"] = 0.85
+GameData["accuracy_reduction_when_moving"] = 0.45
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["remove_modifiers_with_source_entity"] = true 
 GameData["area_effect"]["area_effect_information"]["start_from_caster"] = false
@@ -21,7 +21,7 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_14"][
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\Ranged_Gauss_Heavy.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 750
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 700
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 500
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 10
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 17
@@ -107,7 +107,7 @@ GameData["raider_weapon_index"] = 0
 GameData["random_aim_on_create"] = false
 GameData["rear_facing"] = false
 GameData["reload_show_progress"] = false
-GameData["reload_time"] = 3.3
+GameData["reload_time"] = 3
 GameData["setup_time"] = 0
 GameData["shot_delay_time"] = 0
 GameData["show_in_reinforce"] = true 

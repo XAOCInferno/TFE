@@ -368,6 +368,7 @@ GameData["squad_jump_ext"]["charge_jump_cost_max"] = 50
 GameData["squad_jump_ext"]["charge_jump_cost_min"] = 50
 GameData["squad_jump_ext"]["charge_max"] = 100
 GameData["squad_jump_ext"]["charge_regeneration"] = 1
+GameData["squad_jump_ext"]["combat_enabled"] = false
 GameData["squad_jump_ext"]["go_down_time"] = 0.400000006
 GameData["squad_jump_ext"]["go_up_time"] = 0.400000006
 GameData["squad_jump_ext"]["jump_distance_max"] = 50
