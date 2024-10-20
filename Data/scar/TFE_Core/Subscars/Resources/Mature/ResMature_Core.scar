@@ -84,3 +84,12 @@ function Set_ResourceMature()
 	RemoveStacktrace()
 
 end
+
+
+if(DISABLE_MATURE == true) then
+
+	function Setup_MatureSystem() end
+	function Get_StrategicPointsStatus() end
+	function Set_ResourceMature() end
+	
+end

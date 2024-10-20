@@ -98,3 +98,10 @@ function Set_PlayerUpkeep()
 
 end
 
+if(DISABLE_UPKEEP == true) then
+
+	function Setup_UpkeepSystem() end
+	function Set_PlayerUpkeep() end
+
+end
+
