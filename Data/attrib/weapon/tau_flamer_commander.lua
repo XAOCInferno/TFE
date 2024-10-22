@@ -26,10 +26,10 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_14"][
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\ranged_flamer_light.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 18
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 11
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 20
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 14
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 1
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 20
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 30
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events\Blood_Splatter_Impact_S]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry02"]["event"] = [[Impact_Bolter_Metal_S]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry03"]["event"] = [[Impact_Bolter_Metal_S]]
