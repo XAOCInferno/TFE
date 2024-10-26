@@ -33,11 +33,11 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_04"]["hardpoint_weapon_variant_m
 GameData["combat_ext"]["hardpoints"]["hardpoint_04"]["horizontal_aim_motion_variable_name"] = [[]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_04"]["shoot_motion_variable_name"] = [[]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_04"]["vertical_aim_motion_variable_name"] = [[]]
-GameData["combat_ext"]["hardpoints"]["hardpoint_05"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\tau_pulse_shotgun_buckshot_breacher.lua]]
-GameData["combat_ext"]["hardpoints"]["hardpoint_06"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\tau_pulse_shotgun_buckshot_breacher.lua]]
-GameData["combat_ext"]["hardpoints"]["hardpoint_07"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\tau_pulse_shotgun_buckshot_breacher.lua]]
-GameData["combat_ext"]["hardpoints"]["hardpoint_08"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\tau_pulse_shotgun_buckshot_breacher.lua]]
-GameData["combat_ext"]["hardpoints"]["hardpoint_09"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\tau_pulse_shotgun_buckshot_breacher.lua]]
+GameData["combat_ext"]["hardpoints"]["hardpoint_05"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\tau_pulse_shotgun_buckshot_breacher_1.lua]]
+GameData["combat_ext"]["hardpoints"]["hardpoint_06"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\tau_pulse_shotgun_buckshot_breacher_2.lua]]
+GameData["combat_ext"]["hardpoints"]["hardpoint_07"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\tau_pulse_shotgun_buckshot_breacher_3.lua]]
+GameData["combat_ext"]["hardpoints"]["hardpoint_08"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\tau_pulse_shotgun_buckshot_breacher_4.lua]]
+GameData["combat_ext"]["hardpoints"]["hardpoint_09"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\tau_pulse_shotgun_buckshot_breacher_5.lua]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_10"] = nil
 GameData["combat_ext"]["hardpoints"]["hardpoint_11"] = nil
 GameData["combat_ext"]["hardpoints"]["hardpoint_12"] = nil
