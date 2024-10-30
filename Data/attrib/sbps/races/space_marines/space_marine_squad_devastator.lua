@@ -397,6 +397,7 @@ GameData["squad_leader_ext"]["leader_1"]["cost_time"]["time_seconds"] = 9
 GameData["squad_leader_ext"]["leader_1"]["leader"]["type"] = [[ebps\races\space_marines\troops\space_marine_Devastator_bolter.lua]]
 GameData["squad_leader_ext"]["max_leaders"] = 4 
 GameData["squad_leader_ext"]["multi_with_upgrades"] = true
+GameData["squad_leader_ext"]["multi_with_reinforce"] = true 
 GameData["squad_loadout_ext"] = Reference([[sbpextensions\squad_loadout_ext.lua]])
 GameData["squad_loadout_ext"]["trooper_base"]["type"] = [[ebps\races\space_marines\troops\devastator_marine.lua]]
 GameData["squad_loadout_ext"]["unit_max"] = 2
