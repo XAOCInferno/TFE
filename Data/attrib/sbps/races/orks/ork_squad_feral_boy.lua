@@ -397,6 +397,7 @@ GameData["squad_leader_ext"]["leader_2"]["cost_time"]["cost"]["requisition"] = 3
 GameData["squad_leader_ext"]["leader_2"]["cost_time"]["time_seconds"] = 14
 GameData["squad_leader_ext"]["leader_2"]["leader"]["type"] = [[ebps\races\orks\troops\ork_ard_boy.lua]]
 GameData["squad_leader_ext"]["max_leaders"] = 6
+GameData["squad_leader_ext"]["multi_with_reinforce"] = true 
 GameData["squad_loadout_ext"] = Reference([[sbpextensions\squad_loadout_ext.lua]])
 GameData["squad_loadout_ext"]["trooper_base"]["type"] = [[ebps\races\orks\troops\ork_feral_boy.lua]]
 GameData["squad_loadout_ext"]["unit_max"] = 8
