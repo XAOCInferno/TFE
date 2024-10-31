@@ -16,10 +16,10 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_02"]["armour_piercing_value"] = 90
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_15"]["armour_type"] = Reference([[type_armour\tp_air_med.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 48
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 34
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 16
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 60
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 22
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 16
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 10
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 44
 GameData["area_effect"]["area_effect_information"]["remove_modifiers_with_source_entity"] = true 
 GameData["area_effect"]["area_effect_information"]["start_from_caster"] = false
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_01"] = Reference([[type_armour\tp_infantry_low.lua]])

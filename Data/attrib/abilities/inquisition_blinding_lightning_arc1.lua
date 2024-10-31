@@ -35,10 +35,10 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_05"]["armour_type"] = Reference([[type_armour\tp_infantry_heavy_high.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_15"]["armour_type"] = Reference([[type_armour\tp_air_med.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 45
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 24
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 13
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 35
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 38
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 20
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 10
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 28
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Guard\Abilities\lightning_arc_squad_hit]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry02"]["event"] = [[Guard\Abilities\lightning_arc_squad_hit]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry03"]["event"] = [[Guard\Abilities\lightning_arc_squad_hit]]
