@@ -16,6 +16,9 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 	
 	local tmpSGroupName = SGroup_GetName(tmpSGroupID)
 
+	---------------------------------------------------------------------------------------
+	----If adding any new attributes, ensure to update Create copy and Total Copy funcs----
+	---------------------------------------------------------------------------------------
     local SquadDataObject = 
     {
 		SquadUniqueID = _sGameID,	
@@ -156,7 +159,7 @@ end
 
 function SquadData:CreateCopy()
 
-	return SquadData:new(self.SquadUniqueID, self.SquadGroupID, self.SquadIndex, self.SquadID, self.SquadUnitRace, self.SquadBlueprint, self.OwnerPlayer, self.IsRelicUnit)
+	return SquadData:new(self.SquadUniqueID, self.SquadGroupID, self.SquadIndex, self.SquadID, self.SquadUnitRace, self.SquadBlueprint, self.OwnerPlayer, self.IsRelicUnit, self.IdleState)
 
 end
 
