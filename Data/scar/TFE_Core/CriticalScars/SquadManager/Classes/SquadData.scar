@@ -36,6 +36,8 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		SquadMultiLeaderCount = 0,
 		SquadInitTime = g_WorldTime,	
 		SquadPosition = Squad_GetPosition(_sID),
+		SquadHasBeenAttachedTo = false,
+		SquadHasAttachedToThis = nil,
 		SquadHasAttached = false,
 		SquadIsAttached = Squad_IsAttached(_sID),
 		SquadAttachedTo = nil,
@@ -179,6 +181,8 @@ function SquadData:CreateTotalCopy()
 	copy.SquadAppliedCoverMods_Index = self.SquadAppliedCoverMods_Index
 	copy.SquadDetachedFrom = self.SquadDetachedFrom
 	copy.SquadAttachedTo = self.SquadAttachedTo	
+	copy.SquadHasAttached = self.SquadHasAttached	
+	copy.SquadIsAttached = self.SquadIsAttached	
 	copy.SquadUpgradedWeapons = self.SquadUpgradedWeapons
 	copy.SquadActiveCommand = self.SquadActiveCommand
 
@@ -436,6 +440,24 @@ function SquadData:SyncGameStateToDataState()
 	--Set stats
 	Squad_SetHealth(self.SquadID, self.SquadAvgHealth)
 	Squad_SetMorale(self.SquadID, self.SquadAvgMorale)
+
+	RemoveStacktrace()
+
+end
+
+
+function SquadData:CheckForDetachAndUpdateLoadout()
+	
+	AddStacktrace("SquadData:CheckForDetachAndUpdateLoadout")
+
+	--If we think we have been attched to, but no longer have an attached model, reduce the expected squad size by 1 to compensate for the detach 
+	local isAttached = Squad_IsAttached(self.SquadID)
+	if(self.SquadHasBeenAttachedTo and isAttached == false) then
+
+		self.PreviousSquadLoadout = self.PreviousSquadLoadout - 1
+		self.SquadHasBeenAttachedTo = false
+
+	end
 
 	RemoveStacktrace()
 

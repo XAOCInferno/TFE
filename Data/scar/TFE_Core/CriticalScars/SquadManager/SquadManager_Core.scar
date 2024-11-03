@@ -55,8 +55,6 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 					if(g_AllSquadsData[_PlayerIndex][l] == nil) then
 
 						table.remove(g_AllSquadsData[_PlayerIndex], l)	
-						--I don't think we need to return here?
-						--return false
 
 					end
 					
@@ -67,10 +65,10 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 						break
 
 					--A squad which we've previously had data on has now been detached, reassign their data to them.
-					elseif(SGroup_ContainsSquad(g_AllSquadsData[_PlayerIndex][l].SquadGroupID, _squadID) and g_AllSquadsData[_PlayerIndex][l].SquadIsAttached) then
+					elseif(SGroup_ContainsSquad(g_AllSquadsData[_PlayerIndex][l].SquadGroupID, _squadID)) then
 
 						Log(eLOG_TYPE_INFO, eLOG_SIMPLE, g_AllSquadsData[_PlayerIndex][l].SquadBlueprint.." has detached, adding special tracking to it")
-
+						
 						--Firstly, correct the now changed SquadID and GameID. GameID may not have changed (this appears to be constant) but SquadID most certainly has
 						g_AllSquadsData[_PlayerIndex][l]:ReaffirmConstants()
 
@@ -81,6 +79,14 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 						copy.SquadHasAttached = true	
 						copy.History = copy.SquadAttachedTo.History
 						copy.SquadDetachedFrom = copy.SquadAttachedTo
+
+						--Update the attached to squad loadout by -1 so that we don't acidentally award a kill for this detach
+						copy.SquadAttachedTo.PreviousSquadLoadout = copy.SquadAttachedTo.PreviousSquadLoadout - 1
+
+						--Clearup attach data on the previously attached squad
+						copy.SquadAttachedTo.SquadHasBeenAttachedTo = false
+						copy.SquadAttachedTo.SquadHasAttachedToThis = nil
+
 						copy.SquadAttachedTo = nil
 
 						--Overwrite previous data
@@ -166,7 +172,7 @@ function Update_ExistingSquadDetails()
 
 
 			--Squad has been lost since our last check, so we need to check if the squad is attached or dead.
-			elseif(Squad_Exists(g_AllSquadsData[i][l].SquadUniqueID) == false ) then	--Does this work?
+			elseif(Squad_Exists(g_AllSquadsData[i][l].SquadUniqueID) == false ) then
 				
 				--SGroup persists after squad is attached, but SGroup loadout is 0 so squad is dead confirmed
 				if(SGroup_CountSpawned( g_AllSquadsData[i][l].SquadGroupID ) <= 0) then
@@ -189,6 +195,9 @@ function Update_ExistingSquadDetails()
 
 					--Assign the Squad we're attached as the nearest squad, weird assumption but works
 					g_AllSquadsData[i][l].SquadAttachedTo = GetClosestSquadToPos(i, g_AllSquadsData[i][l].SquadPosition, 30, { g_AllSquadsData[i][l].SquadID })
+
+					g_AllSquadsData[i][l].SquadAttachedTo.SquadHasBeenAttachedTo = true
+					g_AllSquadsData[i][l].SquadAttachedTo.SquadHasAttachedToThis = g_AllSquadsData[i][l]
 					
 				end
 			
@@ -226,21 +235,28 @@ function CheckForSquadLosses(SquadStruct)
 
 	local Losses = 0
 	local LeaderLosses = 0
-	
-	if(SquadStruct.PreviousSquadLoadout > SquadStruct.SquadLoadout) then
 
-		Losses = SquadStruct.PreviousSquadLoadout - SquadStruct.SquadLoadout
+	SquadStruct:CheckForDetachAndUpdateLoadout()
+
+	--We don't want to check for losses if attached, as can only have 1 attached model
+	if(SquadStruct.SquadHasAttached == false) then
+
+		if(SquadStruct.PreviousSquadLoadout > SquadStruct.SquadLoadout) then
+
+			Losses = SquadStruct.PreviousSquadLoadout - SquadStruct.SquadLoadout
+
+		end
+		
+		if(SquadStruct.PreviousSquadLeaderCount > SquadStruct.SquadLeaderCount) then
+
+			LeaderLosses = SquadStruct.PreviousSquadLeaderCount - SquadStruct.SquadLeaderCount
+
+		end
+
+		SquadStruct.PreviousSquadLoadout = SquadStruct.SquadLoadout
+		SquadStruct.PreviousSquadLeaderCount = SquadStruct.SquadLeaderCount
 
 	end
-	
-	if(SquadStruct.PreviousSquadLeaderCount > SquadStruct.SquadLeaderCount) then
-
-		LeaderLosses = SquadStruct.PreviousSquadLeaderCount - SquadStruct.SquadLeaderCount
-
-	end
-
-	SquadStruct.PreviousSquadLoadout = SquadStruct.SquadLoadout
-	SquadStruct.PreviousSquadLeaderCount = SquadStruct.SquadLeaderCount
 
 	RemoveStacktrace()
 
