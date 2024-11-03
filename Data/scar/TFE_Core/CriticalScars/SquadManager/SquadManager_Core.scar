@@ -593,8 +593,7 @@ function GetClosestSquadToPos(_player, _pos, _maxDistance, _IgnoreSquadIDs)
 
 					if(DistanceToPoint <= ShortestDistance and DistanceToPoint < _maxDistance) then
 
-						--We should probably remove this log as it will spew info to other players...
-						Log(eLOG_TYPE_INFO, eLOG_VERBOSE, g_AllSquadsData[_player][i].SquadBlueprint.." Is closer with distance of "..DistanceToPoint)
+						--Log(eLOG_TYPE_INFO, eLOG_VERBOSE, g_AllSquadsData[_player][i].SquadBlueprint.." Is closer with distance of "..DistanceToPoint)
 						ShortestDistance = DistanceToPoint
 						ClosestSquad = g_AllSquadsData[_player][i]
 
@@ -610,6 +609,10 @@ function GetClosestSquadToPos(_player, _pos, _maxDistance, _IgnoreSquadIDs)
 		if(ClosestSquad == nil) then
 
 			Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "No squads are in range of that position. You may need to increae the max distance.")
+
+		else
+
+			Log(eLOG_TYPE_INFO, eLOG_VERBOSE, ClosestSquad.SquadBlueprint.." Is closest with distance of "..ShortestDistance)
 
 		end
 
