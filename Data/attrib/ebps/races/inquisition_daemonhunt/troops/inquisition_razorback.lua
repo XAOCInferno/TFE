@@ -84,9 +84,6 @@ GameData["death_explosion_ext"]["death_explosions"]["death_explosion_04"]["area_
 GameData["death_explosion_ext"]["death_explosions"]["death_explosion_04"]["chance"] = 10
 GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
 GameData["entity_blueprint_ext"]["animator"] = [[Races/inquisition_daemonhunt/Troops/Inq_Razorback_Scorpion]]
-GameData["entity_blueprint_ext"]["scale_x"] = 2
-GameData["entity_blueprint_ext"]["scale_z"] = 3
-GameData["entity_blueprint_ext"]["minimum_update_radius"] = nil
 GameData["event_manager_ext"] = Reference([[ebpextensions\event_manager_ext.lua]])
 GameData["event_manager_ext"]["event_01"]["event_entry_01"]["active_range_max"] = 10000
 GameData["event_manager_ext"]["event_01"]["event_entry_01"]["active_range_min"] = 2

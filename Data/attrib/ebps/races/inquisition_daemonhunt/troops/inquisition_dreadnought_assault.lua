@@ -582,9 +582,6 @@ GameData["death_explosion_ext"]["death_explosions"]["death_explosion_08"]["area_
 GameData["death_explosion_ext"]["death_explosions"]["death_explosion_08"]["area_effect"]["weapon_damage"]["modifiers"]["modifier_10"]["modifier"]["shield_of_faith"] = false
 GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
 GameData["entity_blueprint_ext"]["animator"] = [[Races/inquisition_daemonhunt/Troops/ID_GK_Dreadnought]]
-GameData["entity_blueprint_ext"]["scale_x"] = 1.5
-GameData["entity_blueprint_ext"]["scale_y"] = 1.5
-GameData["entity_blueprint_ext"]["scale_z"] = 1.5
 GameData["event_manager_ext"] = Reference([[ebpextensions\event_manager_ext.lua]])
 GameData["event_manager_ext"]["event_01"]["event_entry_01"]["active_range_max"] = 10000
 GameData["event_manager_ext"]["event_01"]["event_entry_01"]["active_range_min"] = 2
