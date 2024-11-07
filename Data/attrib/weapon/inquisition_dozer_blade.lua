@@ -52,8 +52,8 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_14"]["armour_type"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_15"]["armour_type"] = Reference([[type_armour\tp_air_med.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_15"]["armour_type"]["screen_name_id"] = [[$4450037]] -- Aircraft
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 100
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 100
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 0
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 0
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 3.849999905
 GameData["attack_priorities"] = Reference([[tables\type_armour_table.lua]])
 GameData["attack_priorities"]["priority_01"] = Reference([[type_armour\tp_building_low.lua]])
