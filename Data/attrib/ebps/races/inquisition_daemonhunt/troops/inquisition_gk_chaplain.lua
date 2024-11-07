@@ -529,9 +529,9 @@ GameData["special_attack_ext"]["special_attacks"]["special_attack_01"]["area_eff
 GameData["special_attack_ext"]["special_attacks"]["special_attack_01"]["area_effect"]["sweeping_information"]["sweep_duration"] = 0.5
 GameData["special_attack_ext"]["special_attacks"]["special_attack_01"]["area_effect"]["throw_data"]["direction_angle_random"] = 10
 GameData["special_attack_ext"]["special_attacks"]["special_attack_01"]["area_effect"]["throw_data"]["force_max"] = 45
-GameData["special_attack_ext"]["special_attacks"]["special_attack_01"]["area_effect"]["throw_data"]["force_min"] = 35
-GameData["special_attack_ext"]["special_attacks"]["special_attack_01"]["area_effect"]["throw_data"]["up_angle_max"] = 30
-GameData["special_attack_ext"]["special_attacks"]["special_attack_01"]["area_effect"]["throw_data"]["up_angle_min"] = 20
+GameData["special_attack_ext"]["special_attacks"]["special_attack_01"]["area_effect"]["throw_data"]["force_min"] = 40
+GameData["special_attack_ext"]["special_attacks"]["special_attack_01"]["area_effect"]["throw_data"]["up_angle_max"] = 55
+GameData["special_attack_ext"]["special_attacks"]["special_attack_01"]["area_effect"]["throw_data"]["up_angle_min"] = 35
 GameData["special_attack_ext"]["special_attacks"]["special_attack_01"]["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing"] = 10
 GameData["special_attack_ext"]["special_attacks"]["special_attack_01"]["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_01"]["armour_piercing_value"] = 31.20000076
 GameData["special_attack_ext"]["special_attacks"]["special_attack_01"]["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_01"]["armour_type"] = Reference([[type_armour\tp_building_low.lua]])
@@ -601,7 +601,7 @@ GameData["special_attack_ext"]["special_attacks"]["special_attack_02"]["area_eff
 GameData["special_attack_ext"]["special_attacks"]["special_attack_02"]["chance"] = 20
 GameData["special_attack_ext"]["special_attacks"]["special_attack_02"]["duration"] = 1
 GameData["special_attack_ext"]["special_attacks"]["special_attack_02"]["motion_name"] = [[melee_attack]]
-GameData["special_attack_ext"]["time_between_special_attacks"] = 5
+GameData["special_attack_ext"]["time_between_special_attacks"] = 6
 GameData["special_attack_ext"]["time_between_special_attacks_random"] = 2
 GameData["special_attack_physics_ext"] = Reference([[ebpextensions\special_attack_physics_ext.lua]])
 GameData["special_attack_physics_ext"]["get_up_time"] = 2.799999952
