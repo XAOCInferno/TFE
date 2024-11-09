@@ -21,8 +21,8 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_14"][
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\Ranged_Assault_Cannon.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 98
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 74
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 78
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 54
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 8
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 10
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events/Impact_Bolter_Hvy_blood_only]]
@@ -100,7 +100,7 @@ GameData["kill_enemy_at_percent_life_target_filter"]["entry_13"]["screen_name_id
 GameData["kill_enemy_at_percent_life_target_filter"]["entry_14"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["kill_enemy_at_percent_life_target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["linger_on_target_after_fire_time"] = 0
-GameData["max_range"] = 40
+GameData["max_range"] = 35
 GameData["max_traverse_down"] = -40
 GameData["max_traverse_left"] = -60
 GameData["max_traverse_right"] = 60
