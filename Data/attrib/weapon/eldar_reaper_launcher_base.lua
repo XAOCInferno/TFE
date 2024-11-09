@@ -1,5 +1,5 @@
 GameData = Inherit([[]])
-GameData["accuracy"] = 0.685
+GameData["accuracy"] = 0.67
 GameData["accuracy_reduction_when_moving"] = 1
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["remove_modifiers_with_source_entity"] = true 
@@ -21,10 +21,10 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_14"][
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\Ranged_Reaper_Launcher.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 25.5
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 16.25
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 24
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 15.5
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 1
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 5
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 4.5
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events\reaper_hit]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry02"]["event"] = [[Unit_Impact_events\reaper_hit]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry03"]["event"] = [[Unit_Impact_events\reaper_hit]]
@@ -91,7 +91,7 @@ GameData["kill_enemy_at_percent_life_target_filter"]["entry_13"]["screen_name_id
 GameData["kill_enemy_at_percent_life_target_filter"]["entry_14"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["kill_enemy_at_percent_life_target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["linger_on_target_after_fire_time"] = 0
-GameData["max_range"] = 28.5
+GameData["max_range"] = 28
 GameData["max_traverse_down"] = -85
 GameData["max_traverse_left"] = -90
 GameData["max_traverse_right"] = 90
