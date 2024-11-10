@@ -1,0 +1,26 @@
+----------------------------------------
+-- File: 'TyranidsInfantryTactic.ai'
+
+class 'TyranidsInfantryTactic' (InfantryTactic)
+
+function TyranidsInfantryTactic:__init( squad_ai ) super( squad_ai )
+
+	self:SetName("Tyranids Infantry Tactic")
+	
+end
+
+function TyranidsInfantryTactic:AddCommanders()
+	table.insert(self.commander, { "tyranids_squad_hive_tyrant", true })
+end
+
+function TyranidsInfantryTactic:UpdateStance()
+
+	-- Check if I have setup time
+	if self.squad_ai:IsRanged() then
+		if self.squad_ai:GetStance() ~= SquadAI.STANCE_StandGround then
+			self.squad_ai:DoSetStance( SquadAI.STANCE_StandGround )
+		end
+	elseif self.squad_ai:GetStance() ~= SquadAI.STANCE_Hold then
+		self.squad_ai:DoSetStance( SquadAI.STANCE_Hold )
+	end
+end

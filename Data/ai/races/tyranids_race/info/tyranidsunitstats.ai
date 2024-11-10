@@ -1,0 +1,7 @@
+----------------------------------------
+-- File: 'tyranidsunitstats.ai'
+
+TyranidsUnitStats =
+{
+	race = "tyranids_race"
+}

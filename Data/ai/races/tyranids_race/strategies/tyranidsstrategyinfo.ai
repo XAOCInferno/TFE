@@ -1,0 +1,75 @@
+----------------------------------------
+-- File: 'tyranidsstrategyinfo.ai'
+
+BuildBaseStrategyInfo = 
+{
+	tyranids_race =
+	{
+		post_builder = 1,
+		flag_capture = 1,
+
+		-- Reserve this amount for building units, reinforcing and upgrading
+		req_reserve = 150,
+		
+		--need at least this at all times
+		squad_cap_threshold = 2,
+
+		--need at least this at all times
+		support_cap_threshold = 3,
+		
+		--used to calculate wants for engineers
+		Engineers =
+		{
+			--number of engineers we're aiming for
+			want = 3,
+		},
+		
+		-- Is used to modify the army strength in the build programs (Allows faster balancing adjustments)
+		ArmyStrengthModifier = 1.5,
+				
+		-- Item-Syntax: Min. Tier, Min. Requisition, Min. Power, Min. ArmyStrength, Object-Count, Object-Type, Object-Name
+		BuildPrograms =
+		{
+			{
+				
+			}
+		},
+
+		SquadLimits =
+		{
+			standard =
+			{
+				
+			}
+		},
+	},
+}
+
+BuildOrderStrategyInfo = 
+{
+	tyranids_race =
+	{
+		Basic =
+		{
+			
+		},
+		
+		QuickStart =
+		{
+			
+		},
+		
+		LargeMap =
+		{
+			
+		}
+	}
+}
+
+AttackStrategyInfo = 
+{	
+	tyranids_race =
+	{
+		MinArmyStrength = 200,
+	},
+}

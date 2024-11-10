@@ -35,6 +35,9 @@ models =
 	
 	race_10 = "inquisition_daemonhunt_race",
 	model_10 = "Art/UI/3D_Models/Inquisitor_Frontend",
+	
+	race_11 = "tyranids_race",
+	model_11 = "Art/UI/3D_Models/Tyranids_frontend",
 }
 
 light =
