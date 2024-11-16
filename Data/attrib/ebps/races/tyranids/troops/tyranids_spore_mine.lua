@@ -392,8 +392,9 @@ GameData["death_explosion_ext"]["death_explosions"]["death_explosion_01"]["chanc
 GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
 GameData["entity_blueprint_ext"]["animator"] = [[Races/Tyranids/Troops/sporemines]]
 GameData["entity_blueprint_ext"]["minimum_update_radius"] = 35
-GameData["entity_blueprint_ext"]["scale_x"] = 0.1
-GameData["entity_blueprint_ext"]["scale_z"] = 0.1
+GameData["entity_blueprint_ext"]["scale_x"] = 0
+GameData["entity_blueprint_ext"]["scale_y"] = 0
+GameData["entity_blueprint_ext"]["scale_z"] = 0
 GameData["event_manager_ext"] = Reference([[ebpextensions\event_manager_ext.lua]])
 GameData["event_manager_ext"]["event_01"]["event_entry_01"]["active_range_max"] = 10000
 GameData["event_manager_ext"]["event_01"]["event_entry_01"]["active_range_min"] = 2

@@ -374,9 +374,9 @@ GameData["cover_ext"]["cover_stealth"]["modifiers"]["modifier_45"]["shield_of_fa
 GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
 GameData["entity_blueprint_ext"]["animator"] = [[Races/Tyranids/Troops/tyrant_guard]]
 GameData["entity_blueprint_ext"]["minimum_update_radius"] = 35
-GameData["entity_blueprint_ext"]["scale_x"] = 0.975
-GameData["entity_blueprint_ext"]["scale_y"] = 1
-GameData["entity_blueprint_ext"]["scale_z"] = 0.975
+GameData["entity_blueprint_ext"]["scale_x"] = 0
+GameData["entity_blueprint_ext"]["scale_y"] = 0
+GameData["entity_blueprint_ext"]["scale_z"] = 0
 GameData["event_manager_ext"] = Reference([[ebpextensions\event_manager_ext.lua]])
 GameData["event_manager_ext"]["event_01"]["event_entry_01"]["active_range_max"] = 10000
 GameData["event_manager_ext"]["event_01"]["event_entry_01"]["active_range_min"] = 2
