@@ -1,0 +1,19 @@
+
+ResourceGlobalNames.tyranids_race = 
+{
+	RT_Requistion = 
+	{
+		First = "tyranids_requisition_research_1",
+		Second = "tyranids_requisition_research_2"
+	},
+
+	RT_Power = 
+	{
+		First = "tyranids_power_research_1",
+		Second = "tyranids_power_research_2"
+	}
+}
+
+UnitCosting.tyranids_race =
+{
+}

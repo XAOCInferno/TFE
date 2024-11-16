@@ -37,7 +37,8 @@ g_MultiSquadLeaders =
 	
 	space_marine_race = {},		
 	space_marine_veteran_race = {},
-	tau_race = {},		
+	tau_race = {},	
+	tyranids_race = {},
 	world_race = {}
 
 }

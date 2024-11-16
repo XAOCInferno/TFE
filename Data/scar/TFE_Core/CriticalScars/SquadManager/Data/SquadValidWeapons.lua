@@ -105,6 +105,8 @@ g_ValidSquadWeapons =
 		tau_crisis_suit_squad = { "tau_missile_pod_crisis_suit", "tau_flamer_crisis_suit" }
 		
 	},
+	
+	tyranids_race = {},
 		
 	world_race = {}
 

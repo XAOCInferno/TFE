@@ -127,7 +127,7 @@ function TyranidsBuildBaseStrategy:GetPlacementType(iBuildingID)
 			iBuildingID == cpu_manager.stats:GetBuildingID("tyranids_tech_warrior") or
 			iBuildingID == cpu_manager.stats:GetBuildingID("tyranids_tech_tier4")) then
 		return "Military"
-	elseif (cpu_manager:IsGenerator(iBuildingID) then
+	elseif (cpu_manager:IsGenerator(iBuildingID)) then
 		return "BaseBack"
 	end
 	return "Basic"
