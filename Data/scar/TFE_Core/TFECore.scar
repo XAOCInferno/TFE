@@ -63,7 +63,7 @@ function Core_Init_Load()
 		{ Function = Setup_Achievements, Necessity = eREQUIRED_FUNCTION },
 		{ Function = Setup_XPManager, Necessity = eREQUIRED_FUNCTION },
 		{ Function = Players_DoLateConstructors, Necessity = eREQUIRED_FUNCTION },
-		--{ Function = Tyranids_GameSetup, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Tyranids_GameSetup, Necessity = eREQUIRED_FUNCTION },
 	}
 
 	InvokeFunctionsFromFunctionTree(SetupFunctionTree)
