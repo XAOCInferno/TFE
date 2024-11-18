@@ -1941,7 +1941,57 @@ function Setup_ActualGlobalAbilies()
 			--T2 Buff all flame weaponry
 			--Choose an enemy squad or structure and it can't produce a certain thing for awhile
 			--T3 Exterminatus?
+		elseif(RaceName == "tyranids_race") then
+			local AbilityStruct_Tyranids1 = CreateGlobalAbility(
+				squadBP,
+				i, 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+			
+			local AbilityStruct_Tyranids2 = CreateGlobalAbility(
+				squadBP,
+				i, 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
 
+			local AbilityStruct_Tyranids3 = CreateGlobalAbility(
+				squadBP,
+				i, 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			local AbilityStruct_Tyranids4 = CreateGlobalAbility(
+				squadBP,
+				i, 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+			
+			local AbilityStruct_Tyranids5 = CreateGlobalAbility(
+				squadBP,
+				i, 
+				"", 
+				"",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+			
 		else
 
 			Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Race '"..RaceName.."' is undefined in if statement! Assuming it has no global abilities.")
