@@ -79,11 +79,11 @@ function AutomaticBaseBuildingManager:Update()
 
 		end
 
-		if(Player_GetResearchState(self.Player.Player, ResourceGlobalNames.tyranids_race.RT_Requistion.Second) == RS_Complete ) then
+		if(Player_GetResearchState(self.Player.Player, ResourceGlobalNames.tyranids_race.RT_Requistion[2]) == RS_Complete ) then
 
 			reclemationCountMultiplier = 4
 
-		elseif(Player_GetResearchState(self.Player.Player, ResourceGlobalNames.tyranids_race.RT_Requistion.First) == RS_Complete ) then
+		elseif(Player_GetResearchState(self.Player.Player, ResourceGlobalNames.tyranids_race.RT_Requistion[1]) == RS_Complete ) then
 
 			reclemationCountMultiplier = 3
 
