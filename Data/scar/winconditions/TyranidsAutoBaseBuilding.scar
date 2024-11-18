@@ -1,5 +1,3 @@
-import("TFE_Core/TFECore.scar");
-
 g_AllAutomaticBaseBuildingManagers = {}
 
 AutomaticBaseBuildingManager = {}
