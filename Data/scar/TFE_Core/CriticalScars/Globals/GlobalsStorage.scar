@@ -57,6 +57,36 @@ function Setup_StrategicPoints()
 
 end
 
+function GetNumberOfSpecificPlayerOwnedListeningPostAddons(_AddonName, _Player)
+
+	AddStacktrace("GetNumberOfSpecificPlayerOwnedListeningPostAddons")
+
+	local numberOfAddons = 0
+
+	for i = 1, g_NumberStratPoints do
+
+		if(g_AllStrategicPointsStructs[i].OwnedBy == _Player.PlayerIndex) then
+
+			if(g_AllStrategicPointsStructs[i].HasListeningPost) then
+
+				if(g_AllStrategicPointsStructs.ListeningPostAddonData) then
+
+					numberOfAddons = numberOfAddons + g_AllStrategicPointsStructs.ListeningPostAddonData:GetAddonCount(_AddonName)
+
+				end
+
+			end
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+	return numberOfAddons
+
+end
+
 --Used to tell the difference between a time and the world time, EG: get how long something has been alive for
 function GetWorldLifetime(StartTime)
 

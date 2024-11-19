@@ -1,0 +1,87 @@
+import("TFE_Core/CriticalScars/PlayerScope/Imports/PlayerScope_Imports.scar")
+
+---------------
+--Main Script--
+---------------
+function Setup_PlayerScope()
+	
+	AddStacktrace("Setup_PlayerScope")
+
+
+	RemoveStacktrace()
+
+end
+
+function Update_PlayerScope()
+	
+	AddStacktrace("Update_PlayerScope")
+
+	Update_AddonRaceRestrictions()
+
+	RemoveStacktrace()
+
+end
+
+function Update_AddonRaceRestrictions()
+
+	for i = 1, g_PlayerCount do
+
+		for j = 1, g_AddonRestrictions_Count do
+
+			if(g_AddonRestrictions[j].Race == g_AllPlayers[i].RaceDetails.RaceName) then
+
+				ApplyOrUnapplyRestriction(g_AddonRestrictions[j], g_AllPlayers[i])				
+
+			end
+
+		end
+
+	end
+
+end
+
+function CheckIfRequirementAchieved(_AddonRequirement, _Player)
+
+	local achieved = false
+
+	if(_AddonRequirement.TypeOfItem == ePURCHASED_ITEM_TYPE_ADDON_LP) then
+
+		achieved = CheckIfLPAddonRequirementAchieved(_AddonRequirement, _Player)
+
+	end
+
+	return achieved
+
+end
+
+function CheckIfLPAddonRequirementAchieved(_AddonRequirement, _Player)
+
+	local count = GetNumberOfSpecificPlayerOwnedListeningPostAddons(_AddonRequirement.ID, _Player)
+
+	return count >= _AddonRequirement.Count
+
+end
+
+function ApplyOrUnapplyRestriction(_AddonRequirementAndRestriction, _Player)
+
+	local isAchieved = CheckIfRequirementAchieved(_AddonRequirementAndRestriction.Requirement, _Player)
+
+	local restrictionApplied, pos = TableContains(_AddonRequirementAndRestriction.AchievedForPlayers, _Player.PlayerIndex)
+
+	if(_AddonRequirementAndRestriction.Item.TypeOfItem == eRESTRICTED_TYPE_SQUAD) then
+
+		if(isAchieved and restrictionApplied == false) then
+
+			Player_RestrictSquad(_Player.Player, _AddonRequirementAndRestriction.Item.ID)
+			table.insert(_AddonRequirementAndRestriction.AchievedForPlayers, _Player.PlayerIndex)
+
+		elseif(restrictionApplied == true) then
+
+			Player_UnRestrictSquad(_Player.Player, _AddonRequirementAndRestriction.Item.ID)
+			_AddonRequirementAndRestriction.AchievedForPlayers[pos] = nil
+
+		end
+
+	end
+
+end

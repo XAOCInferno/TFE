@@ -10,7 +10,7 @@ function StrategicPoint:new (_ID, _OwnedBy, _InitTime)
 	    InitTime = _InitTime,
         FullyMatured = false,
         HasListeningPost = false,
-        ListeningPostData = nil
+        ListeningPostAddonData = nil
     }
 
 	self.__index = self
@@ -21,9 +21,15 @@ function StrategicPoint:new (_ID, _OwnedBy, _InitTime)
 
 end
 
-function StrategicPoint:GetIfHasListeningPost()
+function StrategicPoint:Update()
 
-	AddStacktrace("StrategicPoint:GetIfHasListeningPost")
+    self:SetHasListeningPost()
+
+end
+
+function StrategicPoint:GetHasListeningPost()
+
+	AddStacktrace("StrategicPoint:GetHasListeningPost")
     
     local result = false
 
@@ -39,23 +45,26 @@ function StrategicPoint:GetIfHasListeningPost()
 
 end
 
-function StrategicPoint:SetIfHasListeningPost()
+function StrategicPoint:SetHasListeningPost()
 
-	AddStacktrace("StrategicPoint:SetIfHasListeningPost")
+	AddStacktrace("StrategicPoint:SetHasListeningPost")
     
     local newHasLP = self:GetIfHasListeningPost()
 
     if(self.HasListeningPost and newHasLP == false) then
 
+        self.ListeningPostData:Deconstruct()
         self.ListeningPostData = nil
+        print("_____Deconstructing LP")
 
     end
 
-    if(newHasLP = true and self.HasListeningPost = false) then
+    if(newHasLP == true and self.HasListeningPost == false) then
 
         self.HasListeningPost = true
         self.ListeningPostAddonData = EntityAddonManager:new()
         self.ListeningPostAddonData:LateConstructor()
+        print("_____Adding LP")
 
     end
 

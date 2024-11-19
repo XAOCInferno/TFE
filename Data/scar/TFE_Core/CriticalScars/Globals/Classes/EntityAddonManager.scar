@@ -25,7 +25,7 @@ function EntityAddonManager:LateConstructor()
 
 	AddStacktrace("EntityAddonManager:LateConstructor")
 
-    for addon, self.ValidAddons do
+    for addon in self.ValidAddons do
 
         self.CompletedAddons[addon] = PurchasedItem:new(addon,0)
 
@@ -39,7 +39,7 @@ function EntityAddonManager:UpdateAddonsList()
 
 	AddStacktrace("EntityAddonManager:UpdateAddonsList")
 
-    for addon, self.CompletedAddons do
+    for addon in self.CompletedAddons do
 
         if(Entity_ContainsAddOn(self.AttachedEntity, addon.ID)) then
 
@@ -57,7 +57,6 @@ function EntityAddonManager:UpdateAddonsList()
 
 end
 
-
 function EntityAddonManager:GetAddonCount(_AddonID)
 
 	AddStacktrace("EntityAddonManager:GetAddonCount")
@@ -73,5 +72,11 @@ function EntityAddonManager:GetAddonCount(_AddonID)
     RemoveStacktrace()
 
     return count
+
+end
+
+function EntityAddonManager:Deconstruct()
+
+    setmetatable(self, nil)
 
 end
