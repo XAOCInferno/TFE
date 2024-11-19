@@ -39,9 +39,9 @@ function Setup_StrategicPoints()
 	
 	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Starting: 'Setup_StrategicPoints'...")
 	
-	local SetupNewPoint = function(eSquadGroupID, i, eSquadID)
+	local SetupNewPoint = function(eEntityGroupID, i, eEntityID)
 		
-		table.insert( g_AllStrategicPointsStructs, StrategicPoint:new (eSquadID, -1, g_WorldTime) )
+		table.insert( g_AllStrategicPointsStructs, StrategicPoint:new (eEntityID, -1, g_WorldTime) )
 		g_NumberStratPoints = g_NumberStratPoints + 1
 
 	end

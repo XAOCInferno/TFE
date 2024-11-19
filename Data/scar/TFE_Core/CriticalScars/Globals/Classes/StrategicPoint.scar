@@ -1,15 +1,64 @@
 StrategicPoint = {}
 function StrategicPoint:new (_ID, _OwnedBy, _InitTime)
 
+	AddStacktrace("EntityAddonManager:new")
+
     local StrategicPointObject = 
     {
 	    ID = _ID,
 	    OwnedBy = _OwnedBy,
 	    InitTime = _InitTime,
-        FullyMatured = false
+        FullyMatured = false,
+        HasListeningPost = false,
+        ListeningPostData = nil
     }
 
 	self.__index = self
+
+    RemoveStacktrace()
+
     return setmetatable(StrategicPointObject, self)
+
+end
+
+function StrategicPoint:GetIfHasListeningPost()
+
+	AddStacktrace("StrategicPoint:GetIfHasListeningPost")
+    
+    local result = false
+
+    if(Entity_StrategicPointHasStructure(ID)) then
+
+        result = true
+    
+    end
+
+    RemoveStacktrace()
+
+    return result
+
+end
+
+function StrategicPoint:SetIfHasListeningPost()
+
+	AddStacktrace("StrategicPoint:SetIfHasListeningPost")
+    
+    local newHasLP = self:GetIfHasListeningPost()
+
+    if(self.HasListeningPost and newHasLP == false) then
+
+        self.ListeningPostData = nil
+
+    end
+
+    if(newHasLP = true and self.HasListeningPost = false) then
+
+        self.HasListeningPost = true
+        self.ListeningPostAddonData = EntityAddonManager:new()
+        self.ListeningPostAddonData:LateConstructor()
+
+    end
+
+    RemoveStacktrace()
 
 end

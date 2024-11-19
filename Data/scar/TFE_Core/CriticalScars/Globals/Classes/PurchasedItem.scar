@@ -1,0 +1,13 @@
+PurchasedItem = {}
+function PurchasedItem:new (_ID, _Count)
+
+    local PurchasedItemObject = 
+    {
+        ID = _ID,
+        Count = _Count
+    }
+
+	self.__index = self
+    return setmetatable(PurchasedItemObject, self)
+
+end

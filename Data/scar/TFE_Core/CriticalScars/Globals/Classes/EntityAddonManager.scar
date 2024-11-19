@@ -1,0 +1,77 @@
+EntityAddonManager = {}
+function EntityAddonManager:new (_AttachedEntity, _ValidAddons)
+
+	AddStacktrace("EntityAddonManager:new")
+
+    local EntityAddonManagerObject = 
+    {
+        --Constants
+	    AttachedEntity = _AttachedEntity,
+        ValidAddons = _ValidAddons,
+
+        --Variables
+        CompletedAddons = {}
+    }
+
+	self.__index = self
+    
+	RemoveStacktrace()
+
+    return setmetatable(EntityAddonManagerObject, self)
+
+end
+
+function EntityAddonManager:LateConstructor()
+
+	AddStacktrace("EntityAddonManager:LateConstructor")
+
+    for addon, self.ValidAddons do
+
+        self.CompletedAddons[addon] = PurchasedItem:new(addon,0)
+
+    end
+
+    RemoveStacktrace()
+
+end
+
+function EntityAddonManager:UpdateAddonsList()
+
+	AddStacktrace("EntityAddonManager:UpdateAddonsList")
+
+    for addon, self.CompletedAddons do
+
+        if(Entity_ContainsAddOn(self.AttachedEntity, addon.ID)) then
+
+            addon.Count = 1
+
+        else
+
+            addon.Count = 0
+            
+        end
+
+    end
+
+    RemoveStacktrace()
+
+end
+
+
+function EntityAddonManager:GetAddonCount(_AddonID)
+
+	AddStacktrace("EntityAddonManager:GetAddonCount")
+
+    local count = 0
+
+    if(CompletedAddons[_AddonID]) then
+
+        count = CompletedAddons[_AddonID].Count
+
+    end
+
+    RemoveStacktrace()
+
+    return count
+
+end

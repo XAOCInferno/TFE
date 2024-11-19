@@ -1,6 +1,7 @@
 --[[Classes]]
 import("TFE_Core/CriticalScars/Globals/Classes/LimitedTable.scar")
 import("TFE_Core/CriticalScars/Globals/Classes/StrategicPoint.scar")
+import("TFE_Core/CriticalScars/Globals/Classes/EntityAddonManager.scar")
 
 --[[Settings]]
 import("TFE_Core/CriticalScars/Globals/GlobalsStorage.lua")
