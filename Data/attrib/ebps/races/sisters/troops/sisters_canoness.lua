@@ -1719,6 +1719,7 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_06"] = [[$0]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_07"] = [[$0]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_08"] = [[$0]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[sisters_icons/squad_canoness]]
+GameData["ui_ext"]["ui_index_hint"] = 5
 GameData["ui_ext"]["ui_info"]["override_help_text_list"]["text_01"] = [[$0]]
 GameData["ui_ext"]["ui_info"]["override_help_text_list"]["text_02"] = [[$0]]
 GameData["ui_ext"]["ui_info"]["override_help_text_list"]["text_03"] = [[$0]]
