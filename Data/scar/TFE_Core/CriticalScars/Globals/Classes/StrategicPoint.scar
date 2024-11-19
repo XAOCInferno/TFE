@@ -1,3 +1,5 @@
+g_ListeningPostValidAddons = {"addon_sisters_holy_icon"} --Add the rest later
+
 StrategicPoint = {}
 function StrategicPoint:new (_ID, _OwnedBy, _InitTime)
 
@@ -33,9 +35,10 @@ function StrategicPoint:GetHasListeningPost()
     
     local result = false
 
-    if(Entity_StrategicPointHasStructure(ID)) then
+    if(Entity_StrategicPointHasStructure(self.ID)) then
 
         result = true
+        print(result)
     
     end
 
@@ -49,7 +52,7 @@ function StrategicPoint:SetHasListeningPost()
 
 	AddStacktrace("StrategicPoint:SetHasListeningPost")
     
-    local newHasLP = self:GetIfHasListeningPost()
+    local newHasLP = self:GetHasListeningPost()
 
     if(self.HasListeningPost and newHasLP == false) then
 
@@ -62,7 +65,7 @@ function StrategicPoint:SetHasListeningPost()
     if(newHasLP == true and self.HasListeningPost == false) then
 
         self.HasListeningPost = true
-        self.ListeningPostAddonData = EntityAddonManager:new()
+        self.ListeningPostAddonData = EntityAddonManager:new(self.ID, g_ListeningPostValidAddons)
         self.ListeningPostAddonData:LateConstructor()
         print("_____Adding LP")
 

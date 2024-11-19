@@ -1,13 +1,13 @@
 ePURCHASED_ITEM_TYPE_ADDON_LP = 0
 
 PurchasedItem = {}
-function PurchasedItem:new (_ID, _Count, _Type)
+function PurchasedItem:new (_ID, _Count, _TypeOfItem)
 
     local PurchasedItemObject = 
     {
         ID = _ID,
         Count = _Count,
-        Type, _Type
+        TypeOfItem = _TypeOfItem
     }
 
 	self.__index = self

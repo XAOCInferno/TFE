@@ -8,6 +8,7 @@ function EntityAddonManager:new (_AttachedEntity, _ValidAddons)
         --Constants
 	    AttachedEntity = _AttachedEntity,
         ValidAddons = _ValidAddons,
+        NumberOfAddons = table.getn(_ValidAddons),
 
         --Variables
         CompletedAddons = {}
@@ -25,9 +26,9 @@ function EntityAddonManager:LateConstructor()
 
 	AddStacktrace("EntityAddonManager:LateConstructor")
 
-    for addon in self.ValidAddons do
+    for i = 1, self.NumberOfAddons do
 
-        self.CompletedAddons[addon] = PurchasedItem:new(addon,0)
+        self.CompletedAddons[i] = PurchasedItem:new(self.ValidAddons[i],0)
 
     end
 
@@ -39,9 +40,9 @@ function EntityAddonManager:UpdateAddonsList()
 
 	AddStacktrace("EntityAddonManager:UpdateAddonsList")
 
-    for addon in self.CompletedAddons do
+    for i = 1, self.NumberOfAddons do
 
-        if(Entity_ContainsAddOn(self.AttachedEntity, addon.ID)) then
+        if(Entity_ContainsAddOn(self.AttachedEntity, self.CompletedAddons[i].ID)) then
 
             addon.Count = 1
 

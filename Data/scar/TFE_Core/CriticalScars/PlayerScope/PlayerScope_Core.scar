@@ -47,7 +47,7 @@ function CheckIfRequirementAchieved(_AddonRequirement, _Player)
 	if(_AddonRequirement.TypeOfItem == ePURCHASED_ITEM_TYPE_ADDON_LP) then
 
 		achieved = CheckIfLPAddonRequirementAchieved(_AddonRequirement, _Player)
-
+		--print("Is achieved "..achieved)
 	end
 
 	return achieved
@@ -57,26 +57,31 @@ end
 function CheckIfLPAddonRequirementAchieved(_AddonRequirement, _Player)
 
 	local count = GetNumberOfSpecificPlayerOwnedListeningPostAddons(_AddonRequirement.ID, _Player)
-
-	return count >= _AddonRequirement.Count
+	print(count)
+	local success = count >= _AddonRequirement.Count
+	print(success)
+	return success
 
 end
 
 function ApplyOrUnapplyRestriction(_AddonRequirementAndRestriction, _Player)
 
+	print("hi")
 	local isAchieved = CheckIfRequirementAchieved(_AddonRequirementAndRestriction.Requirement, _Player)
 
 	local restrictionApplied, pos = TableContains(_AddonRequirementAndRestriction.AchievedForPlayers, _Player.PlayerIndex)
 
 	if(_AddonRequirementAndRestriction.Item.TypeOfItem == eRESTRICTED_TYPE_SQUAD) then
-
+		print("requirement type:")
+		print(_AddonRequirementAndRestriction.Item.TypeOfItem)
 		if(isAchieved and restrictionApplied == false) then
-
+			print("aplpying)")
 			Player_RestrictSquad(_Player.Player, _AddonRequirementAndRestriction.Item.ID)
 			table.insert(_AddonRequirementAndRestriction.AchievedForPlayers, _Player.PlayerIndex)
 
 		elseif(restrictionApplied == true) then
 
+			print("removing)")
 			Player_UnRestrictSquad(_Player.Player, _AddonRequirementAndRestriction.Item.ID)
 			_AddonRequirementAndRestriction.AchievedForPlayers[pos] = nil
 

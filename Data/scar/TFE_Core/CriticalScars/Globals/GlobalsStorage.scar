@@ -57,6 +57,21 @@ function Setup_StrategicPoints()
 
 end
 
+
+function Update_StrategicPoints()
+
+	AddStacktrace("Update_StrategicPoints")
+	
+	for i = 1, g_NumberStratPoints do
+
+		g_AllStrategicPointsStructs[i]:Update()
+
+	end
+
+	RemoveStacktrace()
+
+end
+
 function GetNumberOfSpecificPlayerOwnedListeningPostAddons(_AddonName, _Player)
 
 	AddStacktrace("GetNumberOfSpecificPlayerOwnedListeningPostAddons")
@@ -64,7 +79,7 @@ function GetNumberOfSpecificPlayerOwnedListeningPostAddons(_AddonName, _Player)
 	local numberOfAddons = 0
 
 	for i = 1, g_NumberStratPoints do
-
+		
 		if(g_AllStrategicPointsStructs[i].OwnedBy == _Player.PlayerIndex) then
 
 			if(g_AllStrategicPointsStructs[i].HasListeningPost) then

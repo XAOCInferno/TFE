@@ -215,6 +215,7 @@ function Core_MainLoop()
 		{ Function = Set_PlayerUpkeep, Necessity = eREQUIRED_FUNCTION },
 		{ Function = Set_ResourceMature, Necessity = eREQUIRED_FUNCTION },
 		{ Function = Implement_UpkeepAndMature, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Update_StrategicPoints, Necessity = eREQUIRED_FUNCTION },
 		{ Function = Update_PlayerScope, Necessity = eREQUIRED_FUNCTION },
 		{ --[[Function = Set_Weather, Necessity = eBASIC_FUNCTION]] },
 		{ Function = Update_GlobalAbilities, Necessity = eBASIC_FUNCTION },

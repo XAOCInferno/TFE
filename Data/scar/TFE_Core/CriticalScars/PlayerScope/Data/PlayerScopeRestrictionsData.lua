@@ -1,3 +1,5 @@
+eRESTRICTED_TYPE_SQUAD = 0
+
 g_AddonRestrictions = 
 {	
 	{ 
