@@ -94,7 +94,7 @@ GameData["kill_enemy_at_percent_life_target_filter"]["entry_13"]["screen_name_id
 GameData["kill_enemy_at_percent_life_target_filter"]["entry_14"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["kill_enemy_at_percent_life_target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["linger_on_target_after_fire_time"] = 0
-GameData["max_range"] = 21
+GameData["max_range"] = 28
 GameData["max_traverse_down"] = -60
 GameData["max_traverse_left"] = -90
 GameData["max_traverse_right"] = 90
@@ -116,6 +116,8 @@ GameData["rear_facing"] = false
 GameData["reload_show_progress"] = false
 GameData["reload_time"] = 1
 GameData["requirements"] = Reference([[tables\requirements.lua]])
+GameData["requirements"]["required_1"] = Reference([[requirements\required_structure.lua]])
+GameData["requirements"]["required_1"]["structure_name"] = [[ebps\races\sisters\structures\sisters_sanctuary.lua]]
 GameData["setup_time"] = 2.5
 GameData["shot_delay_time"] = 0
 GameData["show_in_reinforce"] = true 
