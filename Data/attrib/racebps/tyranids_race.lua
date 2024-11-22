@@ -28,6 +28,7 @@ GameData["starting_res_quickstart"]["power"] = 10000
 GameData["starting_res_quickstart"]["requisition"] = 10000
 GameData["starting_squads"] = Reference([[tables\squad_table.lua]])
 GameData["starting_squads"]["squad_01"] = [[sbps\races\tyranids\tyranids_squad_builder.lua]]
+GameData["starting_squads"]["squad_02"] = [[sbps\races\tyranids\tyranids_squad_genestealer_acolyte.lua]]
 GameData["teamcolour_preview"] = Reference([[tables\race_teamcolour_preview_entities.lua]])
 GameData["teamcolour_preview"]["entity_01"] = [[tyranids_gaunt_ranged]]
 GameData["teamcolour_preview"]["entity_02"] = [[tyranids_ravener]]
