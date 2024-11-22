@@ -1,5 +1,5 @@
 GameData = Inherit([[]])
-GameData["accuracy"] = 0.25
+GameData["accuracy"] = 0.4
 GameData["accuracy_reduction_when_moving"] = 1
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["area_effect_events"]["dirtsand"] = [[unit_impact_events/barbed_strangler_explosion]]
@@ -58,10 +58,10 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_15"]["armour_type"] = Reference([[type_armour\tp_air_med.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_15"]["armour_type"]["screen_name_id"] = [[$4450037]]
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 140
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 90
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 145
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 110
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 10
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 24
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 30
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events\barbed_strangler_hit]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry02"]["event"] = [[Unit_Impact_events\barbed_strangler_hit]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry03"]["event"] = [[Unit_Impact_events\barbed_strangler_hit]]
