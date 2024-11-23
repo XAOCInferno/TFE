@@ -375,7 +375,7 @@ GameData["squad_cover_ext"]["cover_stealth"]["modifiers"]["modifier_44"]["shield
 GameData["squad_cover_ext"]["cover_stealth"]["modifiers"]["modifier_45"] = Reference([[modifiers\no_modifier.lua]])
 GameData["squad_cover_ext"]["cover_stealth"]["modifiers"]["modifier_45"]["shield_of_faith"] = false
 GameData["squad_formation_ext"] = Reference([[sbpextensions\squad_formation_ext.lua]])
-GameData["squad_formation_ext"]["idle_formation"] = [[formations\orc_chaos_melee.lua]]
+GameData["squad_formation_ext"]["idle_formation"] = [[formations\swarm.lua]]
 GameData["squad_jump_ext"] = Reference([[sbpextensions\squad_jump_ext.lua]])
 GameData["squad_jump_ext"]["breakdown_time"] = 0
 GameData["squad_jump_ext"]["charge_jump_cost_max"] = 10
