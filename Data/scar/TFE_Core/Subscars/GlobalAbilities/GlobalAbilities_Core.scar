@@ -1991,6 +1991,117 @@ function Setup_ActualGlobalAbilies()
 				"NONE",
 				table.getn(g_AllTrackedAbilities)
 			)
+					
+			--Block the abilities for starting loadout of hive tyrant
+			RestrictAndUnrestrictHiveTyrantWeaponSwapAbilities(g_AllPlayers[i].Player, "tyranids_hive_tyrant_weapon_swap_talons_bottom", false)
+			RestrictAndUnrestrictHiveTyrantWeaponSwapAbilities(g_AllPlayers[i].Player, "tyranids_hive_tyrant_weapon_swap_talons_top", true)
+
+
+			if(CurrentHiveTyrantTopWeapon == nil) then
+				
+				CurrentHiveTyrantTopWeapon = {}
+				CurrentHiveTyrantBottomWeapon = {}
+
+			end
+
+			CurrentHiveTyrantTopWeapon[i] = "tyranids_hive_tyrant_weapon_swap_talons_top"
+			CurrentHiveTyrantBottomWeapon[i] = "tyranids_hive_tyrant_weapon_swap_talons_bottom"
+
+			local AbilityStruct_TyranidsForceUpgradeHiveTyrant_TalonsBottom = CreateGlobalAbility(
+				squadBP,
+				i, 
+				"Tyranids_ForceUpgradeHiveTyrantTalonsBottom", 
+				"tyranids_hive_tyrant_force_upgrade_talons_bottom_entity",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			AbilityStruct_TyranidsForceUpgradeHiveTyrant_TalonsBottom.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				ActivateForceUpgradeHiveTyrantAbility(_self.LastCastedEntityPosition, _self.CasterPlayer, "tyranids_scything_talons_hive_tyrant_bottom", "tyranids_hive_tyrant_weapon_swap_talons_bottom", false)
+				
+			end
+
+			local AbilityStruct_TyranidsForceUpgradeHiveTyrant_BarbedStrangler = CreateGlobalAbility(
+				squadBP,
+				i, 
+				"Tyranids_ForceUpgradeHiveTyrantBarbedStrangler", 
+				"tyranids_hive_tyrant_force_upgrade_barbed_strangler_entity",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			AbilityStruct_TyranidsForceUpgradeHiveTyrant_BarbedStrangler.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				ActivateForceUpgradeHiveTyrantAbility(_self.LastCastedEntityPosition, _self.CasterPlayer, "tyranids_barbed_strangler_hive_tyrant", "tyranids_hive_tyrant_weapon_swap_barbed_strangler", false)
+
+			end
+				
+			local AbilityStruct_TyranidsForceUpgradeHiveTyrant_VenomCannon = CreateGlobalAbility(
+				squadBP,
+				i, 
+				"Tyranids_ForceUpgradeHiveTyrantVenomCannon", 
+				"tyranids_hive_tyrant_force_upgrade_venom_cannon_entity",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			AbilityStruct_TyranidsForceUpgradeHiveTyrant_VenomCannon.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+				
+				ActivateForceUpgradeHiveTyrantAbility(_self.LastCastedEntityPosition, _self.CasterPlayer, "tyranids_venom_cannon_hive_tyrant", "tyranids_hive_tyrant_weapon_swap_venom_cannon", false)
+
+			end
+	
+			local AbilityStruct_TyranidsForceUpgradeHiveTyrant_TalonsTop = CreateGlobalAbility(
+				squadBP,
+				i, 
+				"Tyranids_ForceUpgradeHiveTyrantTalonsTop", 
+				"tyranids_hive_tyrant_force_upgrade_talons_top_entity",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			AbilityStruct_TyranidsForceUpgradeHiveTyrant_TalonsTop.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				ActivateForceUpgradeHiveTyrantAbility(_self.LastCastedEntityPosition, _self.CasterPlayer, "tyranids_scything_talons_hive_tyrant_top", "tyranids_hive_tyrant_weapon_swap_talons_top", true)
+				
+			end
+
+			local AbilityStruct_TyranidsForceUpgradeHiveTyrant_Devourer = CreateGlobalAbility(
+				squadBP,
+				i, 
+				"Tyranids_ForceUpgradeHiveTyrantDevourer", 
+				"tyranids_hive_tyrant_force_upgrade_devourer_entity",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			AbilityStruct_TyranidsForceUpgradeHiveTyrant_Devourer.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				ActivateForceUpgradeHiveTyrantAbility(_self.LastCastedEntityPosition, _self.CasterPlayer, "tyranids_devourer_hive_tyrant", "tyranids_hive_tyrant_weapon_swap_devourer", true)
+				
+			end
+						
+			local AbilityStruct_TyranidsForceUpgradeHiveTyrant_BoneSwordWhip = CreateGlobalAbility(
+				squadBP,
+				i, 
+				"Tyranids_ForceUpgradeHiveTyrantBoneSwordWhip", 
+				"tyranids_hive_tyrant_force_upgrade_bone_sword_whip_entity",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			AbilityStruct_TyranidsForceUpgradeHiveTyrant_BoneSwordWhip.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				ActivateForceUpgradeHiveTyrantAbility(_self.LastCastedEntityPosition, _self.CasterPlayer, "tyranids_bone_sword_whip_hive_tyrant", "tyranids_hive_tyrant_weapon_swap_bone_sword_whip", true)
+				
+			end
 			
 		else
 
@@ -2055,6 +2166,58 @@ end
 	end
 
 end]]
+
+function RestrictAndUnrestrictHiveTyrantWeaponSwapAbilities(_Player, _AbilityName, _IsTopWeapon)
+
+	local hiveTyrantWeaponsAbilitiesToUnrestrict = {}
+
+	if(_IsTopWeapon) then
+
+		hiveTyrantWeaponsAbilitiesToUnrestrict = 
+		{		
+			"tyranids_hive_tyrant_weapon_swap_talons_top",
+			"tyranids_hive_tyrant_weapon_swap_devourer",
+			"tyranids_hive_tyrant_weapon_swap_bone_sword_whip"
+		}
+
+	else
+
+		hiveTyrantWeaponsAbilitiesToUnrestrict = 
+		{		
+			"tyranids_hive_tyrant_weapon_swap_talons_bottom",
+			"tyranids_hive_tyrant_weapon_swap_barbed_strangler",
+			"tyranids_hive_tyrant_weapon_swap_venom_cannon"		
+		}
+
+	end	
+	
+	for i = 1, table.getn(hiveTyrantWeaponsAbilitiesToUnrestrict) do
+		
+		Player_UnRestrictAbility( _Player, hiveTyrantWeaponsAbilitiesToUnrestrict[i] )
+
+	end
+
+	Player_RestrictAbility(_Player, _AbilityName)
+
+end
+
+function ActivateForceUpgradeHiveTyrantAbility(_Pos, _PlayerStruct, _WeaponName, _AbilityName, _IsTopWeapon)
+
+	local allHiveTyrants = GetAllSquadsOfBlueprint(_PlayerStruct.PlayerIndex+1, {"tyranids_squad_hive_tyrant"} )
+	local closestHiveTyrant = GetClosestSquadInSquadTableToPos(allHiveTyrants, _Pos, 10)
+
+	if(closestHiveTyrant ~= nil) then
+		
+		Squad_ForceUpgradeWeapons(closestHiveTyrant.SquadID, _WeaponName, 0)
+		RestrictAndUnrestrictHiveTyrantWeaponSwapAbilities(_PlayerStruct.Player, _AbilityName, _IsTopWeapon)
+					
+	else
+
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._AbilityName.."' as no Hive Tyrant found.")
+	
+	end
+
+end
 
 function ActivateMultiSummonEntityAbility(_EBP, _Player, _Pos, _RandomOffsetPerEntity, _NumberOfEntities) 
 
