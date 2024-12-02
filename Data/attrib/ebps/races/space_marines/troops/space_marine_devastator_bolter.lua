@@ -985,4 +985,4 @@ GameData["ui_ext"]["ui_info"]["override_help_text_list"]["text_05"] = [[$0]]
 GameData["ui_ext"]["ui_info"]["override_help_text_list"]["text_06"] = [[$0]]
 GameData["ui_ext"]["ui_info"]["override_help_text_list"]["text_07"] = [[$0]]
 GameData["ui_ext"]["ui_info"]["override_help_text_list"]["text_08"] = [[$0]]
-GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$20010464]] -- Devastator Support memeber
+GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$20010517]] -- Devastator Support member
