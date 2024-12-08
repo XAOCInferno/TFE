@@ -1,0 +1,1 @@
+GameData = Inherit([[weapon\tyranids_scything_talons_hive_tyrant.lua]])
