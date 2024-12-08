@@ -1992,10 +1992,6 @@ function Setup_ActualGlobalAbilies()
 				table.getn(g_AllTrackedAbilities)
 			)
 					
-
-			--Restricts the free abilities
-			PreRestrictHiveTyrantFreeWeaponSwapAbilities(g_AllPlayers[i].Player)
-
 			--Block the abilities for starting loadout of hive tyrant
 			RestrictAndUnrestrictHiveTyrantWeaponSwapAbilities(g_AllPlayers[i].Player, "tyranids_hive_tyrant_weapon_swap_talons_bottom", false)
 			RestrictAndUnrestrictHiveTyrantWeaponSwapAbilities(g_AllPlayers[i].Player, "tyranids_hive_tyrant_weapon_swap_talons_top", true)
@@ -2170,26 +2166,6 @@ end
 	end
 
 end]]
-
-function PreRestrictHiveTyrantFreeWeaponSwapAbilities(_Player)
-
-	local hiveTyrantWeaponsAbilities = 
-	{		
-		"tyranids_hive_tyrant_weapon_swap_talons_top_free",
-		"tyranids_hive_tyrant_weapon_swap_devourer_free",
-		"tyranids_hive_tyrant_weapon_swap_bone_sword_whip_free",
-		"tyranids_hive_tyrant_weapon_swap_talons_bottom_free",
-		"tyranids_hive_tyrant_weapon_swap_barbed_strangler_free",
-		"tyranids_hive_tyrant_weapon_swap_venom_cannon_free"	
-	}
-	
-	for i = 1, table.getn(hiveTyrantWeaponsAbilities) do
-
-		Player_RestrictAbility(_Player, hiveTyrantWeaponsAbilities[i])
-
-	end
-
-end
 
 function RestrictAndUnrestrictHiveTyrantWeaponSwapAbilities(_Player, _AbilityName, _IsTopWeapon)
 
