@@ -41,14 +41,15 @@ function EntityAddonManager:UpdateAddonsList()
 	AddStacktrace("EntityAddonManager:UpdateAddonsList")
 
     for i = 1, self.NumberOfAddons do
-
+        
         if(Entity_ContainsAddOn(self.AttachedEntity, self.CompletedAddons[i].ID)) then
 
-            addon.Count = 1
+            print("YES HAS ADDON")
+            self.CompletedAddons[i].Count = 1
 
         else
 
-            addon.Count = 0
+            self.CompletedAddons[i].Count = 0
             
         end
 
@@ -63,10 +64,11 @@ function EntityAddonManager:GetAddonCount(_AddonID)
 	AddStacktrace("EntityAddonManager:GetAddonCount")
 
     local count = 0
-
-    if(CompletedAddons[_AddonID]) then
-
-        count = CompletedAddons[_AddonID].Count
+    print("starting")
+    if(self.CompletedAddons[_AddonID]) then
+        
+        count = self.CompletedAddons[_AddonID].Count
+        print("COUNTING "..count)
 
     end
 
@@ -76,6 +78,7 @@ function EntityAddonManager:GetAddonCount(_AddonID)
 
 end
 
+--[[This can likely be a shared function later]]
 function EntityAddonManager:Deconstruct()
 
     setmetatable(self, nil)

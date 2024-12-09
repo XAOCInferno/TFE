@@ -26,6 +26,7 @@ local function Get_StrategicPointsStatus()
 			local OwnerPlayer = World_GetPlayerIndex(TmpOwner)
 
 			if(g_AllStrategicPointsStructs[i].OwnedBy ~= OwnerPlayer) then
+
 				g_AllStrategicPointsStructs[i].InitTime = g_WorldTime	
 				g_AllStrategicPointsStructs[i].OwnedBy = OwnerPlayer
 				g_AllStrategicPointsStructs[i].FullyMatured = false
@@ -57,6 +58,7 @@ function Set_ResourceMature()
 		for z = 1, g_NumberStratPoints do
 
 			if(g_AllStrategicPointsStructs[z].OwnedBy == g_AllPlayers[j].PlayerIndex) then
+				
 				local MaxBonuses = ResourceGroup:new()
 				local CapTimeAsBonusResources = ResourceGroup:new()
 

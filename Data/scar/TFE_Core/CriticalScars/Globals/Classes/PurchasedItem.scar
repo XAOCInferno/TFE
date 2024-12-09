@@ -1,5 +1,3 @@
-ePURCHASED_ITEM_TYPE_ADDON_LP = 0
-
 PurchasedItem = {}
 function PurchasedItem:new (_ID, _Count, _TypeOfItem)
 

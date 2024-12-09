@@ -1,5 +1,3 @@
-eRESTRICTED_TYPE_SQUAD = 0
-
 RestrictedItem = {}
 function RestrictedItem:new (_ID, _TypeOfItem)
 

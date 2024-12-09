@@ -1,4 +1,5 @@
 eRESTRICTED_TYPE_SQUAD = 0
+ePURCHASED_ITEM_TYPE_ADDON_LP = 0
 
 g_AddonRestrictions = 
 {	

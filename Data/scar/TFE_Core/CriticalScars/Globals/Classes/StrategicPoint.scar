@@ -27,6 +27,12 @@ function StrategicPoint:Update()
 
     self:SetHasListeningPost()
 
+    if(self.HasListeningPost) then
+
+        self.ListeningPostAddonData:UpdateAddonsList()
+
+    end
+
 end
 
 function StrategicPoint:GetHasListeningPost()
@@ -38,7 +44,6 @@ function StrategicPoint:GetHasListeningPost()
     if(Entity_StrategicPointHasStructure(self.ID)) then
 
         result = true
-        print(result)
     
     end
 
@@ -58,7 +63,7 @@ function StrategicPoint:SetHasListeningPost()
 
         self.ListeningPostData:Deconstruct()
         self.ListeningPostData = nil
-        print("_____Deconstructing LP")
+        self.HasListeningPost = false
 
     end
 
@@ -67,7 +72,6 @@ function StrategicPoint:SetHasListeningPost()
         self.HasListeningPost = true
         self.ListeningPostAddonData = EntityAddonManager:new(self.ID, g_ListeningPostValidAddons)
         self.ListeningPostAddonData:LateConstructor()
-        print("_____Adding LP")
 
     end
 

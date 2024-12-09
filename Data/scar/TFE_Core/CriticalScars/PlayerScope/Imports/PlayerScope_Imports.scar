@@ -1,5 +1,2 @@
---[[Classes]]
-import("TFE_Core/CriticalScars/PlayerScope/Classes/PlayerScopeRestriction.scar")
-
 --[[Data]]
 import("TFE_Core/CriticalScars/PlayerScope/Data/PlayerScopeRestrictionsData.lua")
