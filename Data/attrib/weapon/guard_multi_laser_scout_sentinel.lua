@@ -21,8 +21,8 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_14"][
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\Ranged_Las_Multilaser.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 30
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 22
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 36
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 28
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 25
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 10.05000019
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Guard\Weapons\Lasgun_Impact_Flesh]]

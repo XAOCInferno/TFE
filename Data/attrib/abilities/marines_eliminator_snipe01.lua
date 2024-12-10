@@ -102,7 +102,7 @@ GameData["caster_damage"]["modifiers"]["modifier_09"]["modifier"]["shield_of_fai
 GameData["caster_damage"]["modifiers"]["modifier_10"] = Reference([[tables\time_modify_entry.lua]])
 GameData["caster_damage"]["modifiers"]["modifier_10"]["modifier"]["shield_of_faith"] = false
 GameData["center_target_on_owner"] = false
-GameData["child_ability_name"] = [[]]
+GameData["child_ability_name"] = [[marines_eliminator_snipe02]]
 GameData["child_activation_percent"] = 1
 GameData["child_jump_event"] = [[]]
 GameData["child_range"] = 0

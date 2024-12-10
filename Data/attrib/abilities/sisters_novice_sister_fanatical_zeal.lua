@@ -143,6 +143,7 @@ GameData["execute_table"]["weapon_damage_table"]["modifiers"]["modifier_09"]["mo
 GameData["execute_table"]["weapon_damage_table"]["modifiers"]["modifier_10"] = Reference([[tables\time_modify_entry.lua]])
 GameData["execute_table"]["weapon_damage_table"]["modifiers"]["modifier_10"]["modifier"]["shield_of_faith"] = false
 GameData["fire_cost"] = Reference([[tables\cost_table.lua]])
+GameData["fire_cost"]["faith"] = 5
 GameData["friendly_opacity_while_active"] = 1
 GameData["initial_delay_time"] = 1
 GameData["looping_event_name"] = [[]]
@@ -168,7 +169,7 @@ GameData["target_leader_in_squad"] = false
 GameData["target_self"] = false
 GameData["target_self_shazam"] = false
 GameData["ui_hotkey_name"] = [[inquisition_emperor_wrath]]
-GameData["ui_index_hint"] = 6
+GameData["ui_index_hint"] = 5
 GameData["ui_info"] = Reference([[tables\ui_info_table.lua]])
 GameData["ui_info"]["help_text_list"]["text_01"] = [[$16022882]] -- - The Inquisitor calls on the Emperor's Wrath to improve his martial prowess.
 GameData["ui_info"]["help_text_list"]["text_02"] = [[$16022883]] -- - Increases damage done by the Inquisitor in all types of combat.
