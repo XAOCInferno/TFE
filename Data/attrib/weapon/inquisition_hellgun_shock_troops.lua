@@ -21,8 +21,8 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_14"][
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\Ranged_Las_Hellgun.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 13
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 9.5
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 13.5
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 11
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 0.200000003
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 2.25
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events\laspistol_hit]]
