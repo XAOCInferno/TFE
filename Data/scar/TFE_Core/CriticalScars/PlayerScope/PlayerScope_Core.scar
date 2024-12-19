@@ -16,23 +16,23 @@ function Update_PlayerScope()
 	
 	AddStacktrace("Update_PlayerScope")
 
-	Update_AddonRaceRestrictions()
+	Update_RaceRestrictions()
 
 	RemoveStacktrace()
 
 end
 
-function Update_AddonRaceRestrictions()
+function Update_RaceRestrictions()
 
-	AddStacktrace("Update_AddonRaceRestrictions")
+	AddStacktrace("Update_RaceRestrictions")
 
 	for i = 1, g_PlayerCount do
 		
-		for j = 1, g_AddonRestrictions_Count do
+		for j = 1, g_AdvancedRaceRestrictions_Count do
 			
-			if(g_AddonRestrictions[j].Race == g_AllPlayers[i].RaceDetails.RaceName) then
+			if(g_AdvancedRaceRestrictions[j].Race == g_AllPlayers[i].RaceDetails.RaceName) then
 
-				ApplyOrUnapplyRestriction(g_AddonRestrictions[j], g_AllPlayers[i])				
+				ApplyOrUnapplyRestriction(g_AdvancedRaceRestrictions[j], g_AllPlayers[i])				
 
 			end
 
@@ -44,15 +44,73 @@ function Update_AddonRaceRestrictions()
 
 end
 
-function CheckIfRequirementAchieved(_AddonRequirement, _Player)
+function CheckIfRequirementAchieved(_AddonRequirementAndRestriction, _Player)
 	
 	AddStacktrace("CheckIfRequirementAchieved")
 
 	local achieved = false
+	local achievedCount = 0
+	local allAchieved = false
+	local numberOfRequirements = table.getn(_AddonRequirementAndRestriction.RequirementTable)
 
-	if(_AddonRequirement.TypeOfItem == ePURCHASED_ITEM_TYPE_ADDON_LP) then
+	for i = 1, numberOfRequirements do
+
+		local singleRequirementAchieved = false
+		local requirement = _AddonRequirementAndRestriction.RequirementTable[i]
 		
-		achieved = CheckIfLPAddonRequirementAchieved(_AddonRequirement, _Player)
+		if(requirement.TypeOfItem == ePURCHASED_ITEM_TYPE_ADDON_LP) then
+		
+			singleRequirementAchieved = GetNumberOfSpecificPlayerOwnedListeningPostAddons(requirement.ID, _Player) >= requirement.Count
+
+		elseif(requirement.TypeOfItem == ePURCHASED_ITEM_TYPE_ENTITY) then
+		
+			singleRequirementAchieved = GetCountOfPlayerOwnedEntityBlueprints(_Player.PlayerIndex + 1, requirement.ID) >= requirement.Count
+
+		elseif(requirement.TypeOfItem == ePURCHASED_ITEM_TYPE_COMPLETED_STRUCTURE) then
+		
+			singleRequirementAchieved = GetCountOfPlayerOwnedAndCompletedStructuresOfBlueprint(_Player.PlayerIndex + 1, requirement.ID) >= requirement.Count
+
+		end
+
+		achievedCount = achievedCount + bool_to_number(singleRequirementAchieved)
+
+	end
+
+	if _AddonRequirementAndRestriction.RequirementType == eREQUIREMENT_TYPE_ANY then
+
+		if(achievedCount >= 1) then
+
+			achieved = true
+
+		else
+
+			achieved = false
+
+		end
+
+	elseif _AddonRequirementAndRestriction.RequirementType == eREQUIREMENT_TYPE_CUMULATIVE then
+
+		if(achievedCount >= _AddonRequirementAndRestriction.RequirementCumulativeCount) then
+
+			achieved = true
+
+		else
+
+			achieved = false
+
+		end
+
+	elseif(_AddonRequirementAndRestriction.RequirementType == eREQUIREMENT_TYPE_ALL) then
+
+		if(achievedCount >= numberOfRequirements) then
+
+			achieved = true
+
+		else
+
+			achieved = false
+
+		end
 
 	end
 	
@@ -71,6 +129,22 @@ function CheckIfLPAddonRequirementAchieved(_AddonRequirement, _Player)
 	
 	--Dbg Log
 	--print("addon:".._AddonRequirement.ID.." count is "..count.." and requires ".._AddonRequirement.Count)
+
+	RemoveStacktrace()
+
+	return success
+
+end
+
+function CheckIfEntityRequirementAchieved(_EntityRequirement, _Player)
+	
+	AddStacktrace("CheckIfStructureRequirementAchieved")
+
+	local count = GetCountOfPlayerOwnedEntityBlueprints(_Player.PlayerIndex + 1, _EntityRequirement.ID)
+	local success = count >= _EntityRequirement.Count
+	
+	--Dbg Log
+	--print("entity:".._EntityRequirement.ID.." count is "..count.." and requires ".._EntityRequirement.Count)
 
 	RemoveStacktrace()
 
@@ -107,7 +181,7 @@ function ApplyOrUnapplyRestriction(_AddonRequirementAndRestriction, _Player)
 	
 	AddStacktrace("ApplyOrUnapplyRestriction")
 
-	local isAchieved = CheckIfRequirementAchieved(_AddonRequirementAndRestriction.Requirement, _Player)
+	local isAchieved = CheckIfRequirementAchieved(_AddonRequirementAndRestriction, _Player)
 
 	local restrictionApplied, pos = TableContains(_AddonRequirementAndRestriction.AchievedForPlayers, _Player.PlayerIndex)
 

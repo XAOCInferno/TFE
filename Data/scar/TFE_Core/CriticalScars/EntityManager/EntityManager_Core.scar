@@ -314,7 +314,7 @@ end
 
 function GetClosestLP(_Player, _Pos)
 
-	AddStacktrace("GetClosestSquadInSquadTableToPos")	
+	AddStacktrace("GetClosestLP")	
 
 	local LP = nil
 	local closestDist = 1000000
@@ -342,3 +342,50 @@ function GetClosestLP(_Player, _Pos)
 
 end
 	
+function GetCountOfPlayerOwnedEntityBlueprints(_Player, _Blueprint)
+
+	AddStacktrace("GetCountOfPlayerOwnedEntityBlueprints")	
+
+	local count = 0
+
+	for i = 1, TableLength(g_AllEntityData[_Player]) do
+
+		if(g_AllEntityData[_Player][i].EntityBlueprint == _Blueprint) then
+
+			count = count + 1
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+	return count
+
+end
+
+function GetCountOfPlayerOwnedAndCompletedStructuresOfBlueprint(_Player, _Blueprint)
+
+	AddStacktrace("GetCountOfPlayerOwnedEntityBlueprints")	
+	
+	local count = 0
+
+	for i = 1, TableLength(g_AllEntityData[_Player]) do
+
+		if(g_AllEntityData[_Player][i].EntityBlueprint == _Blueprint) then
+
+			if(Entity_GetBuildingProgress(g_AllEntityData[_Player][i].EntityID) == 1) then
+				
+				count = count + 1
+
+			end
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+	return count
+
+end
