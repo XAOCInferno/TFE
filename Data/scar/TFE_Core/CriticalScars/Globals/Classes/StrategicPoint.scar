@@ -12,7 +12,8 @@ function StrategicPoint:new (_ID, _OwnedBy, _InitTime)
 	    InitTime = _InitTime,
         FullyMatured = false,
         HasListeningPost = false,
-        ListeningPostAddonData = nil
+        ListeningPostAddonData = nil,
+        EntityPosition = Entity_GetPosition(_ID)
     }
 
 	self.__index = self
@@ -67,11 +68,21 @@ function StrategicPoint:SetHasListeningPost()
 
     end
 
-    if(newHasLP == true and self.HasListeningPost == false) then
+    if(newHasLP == true and self.HasListeningPost == false and OwnedBy ~= -1) then
 
-        self.HasListeningPost = true
-        self.ListeningPostAddonData = EntityAddonManager:new(self.ID, g_ListeningPostValidAddons)
-        self.ListeningPostAddonData:LateConstructor()
+        local newLP = GetClosestLP(self.OwnedBy + 1, self.EntityPosition)
+
+        if(newLP ~= nil) then
+
+            self.HasListeningPost = true
+            self.ListeningPostAddonData = EntityAddonManager:new(newLP.EntityID, g_ListeningPostValidAddons)
+            self.ListeningPostAddonData:LateConstructor()
+
+        else
+
+            Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Cannot find LP although we have one!") 
+
+        end
 
     end
 

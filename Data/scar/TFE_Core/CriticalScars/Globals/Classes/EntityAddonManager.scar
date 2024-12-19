@@ -7,11 +7,9 @@ function EntityAddonManager:new (_AttachedEntity, _ValidAddons)
     {
         --Constants
 	    AttachedEntity = _AttachedEntity,
-        ValidAddons = _ValidAddons,
+        CompletedAddons = _ValidAddons,
         NumberOfAddons = table.getn(_ValidAddons),
-
-        --Variables
-        CompletedAddons = {}
+        CompletedAddonIndexByNameDictionary = {}
     }
 
 	self.__index = self
@@ -28,7 +26,11 @@ function EntityAddonManager:LateConstructor()
 
     for i = 1, self.NumberOfAddons do
 
-        self.CompletedAddons[i] = PurchasedItem:new(self.ValidAddons[i],0)
+        self.CompletedAddonIndexByNameDictionary[self.CompletedAddons[i]] = i
+        self.CompletedAddons[i] = PurchasedItem:new(self.CompletedAddons[i], 0)
+
+        --Dbg functionality to easily force the addon
+        --Entity_ForceAddOn( self.AttachedEntity, self.CompletedAddons[i].ID )
 
     end
 
@@ -44,7 +46,6 @@ function EntityAddonManager:UpdateAddonsList()
         
         if(Entity_ContainsAddOn(self.AttachedEntity, self.CompletedAddons[i].ID)) then
 
-            print("YES HAS ADDON")
             self.CompletedAddons[i].Count = 1
 
         else
@@ -64,11 +65,15 @@ function EntityAddonManager:GetAddonCount(_AddonID)
 	AddStacktrace("EntityAddonManager:GetAddonCount")
 
     local count = 0
-    print("starting")
-    if(self.CompletedAddons[_AddonID]) then
+    local index = self.CompletedAddonIndexByNameDictionary[_AddonID]
+
+    if(index ~= nil) then
         
-        count = self.CompletedAddons[_AddonID].Count
-        print("COUNTING "..count)
+        count = self.CompletedAddons[index].Count
+
+    else
+        
+        Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Addon with ID '".._AddonID.."' not setup in EntityAddonManager!") 
 
     end
 

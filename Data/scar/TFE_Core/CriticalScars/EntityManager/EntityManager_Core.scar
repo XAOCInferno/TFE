@@ -311,3 +311,34 @@ function UpdateEntityCombatDeathStats(_AttackerPlayer, _DefenderPlayer, _EntityL
 	RemoveStacktrace()
 
 end
+
+function GetClosestLP(_Player, _Pos)
+
+	AddStacktrace("GetClosestSquadInSquadTableToPos")	
+
+	local LP = nil
+	local closestDist = 1000000
+
+	for i = 1, TableLength(g_AllEntityData[_Player]) do
+
+		if(g_AllEntityData[_Player][i].EntityIsLP == true) then
+
+			local DistanceToPoint = World_DistancePointToPoint(_Pos, g_AllEntityData[_Player][i].EntityPosition)
+
+			if(DistanceToPoint < closestDist) then
+
+				LP = g_AllEntityData[_Player][i]
+				closestDist = DistanceToPoint
+
+			end
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+	return LP
+
+end
+	
