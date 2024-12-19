@@ -53,6 +53,7 @@ function CheckIfRequirementAchieved(_AddonRequirement, _Player)
 	if(_AddonRequirement.TypeOfItem == ePURCHASED_ITEM_TYPE_ADDON_LP) then
 		
 		achieved = CheckIfLPAddonRequirementAchieved(_AddonRequirement, _Player)
+
 	end
 	
 	RemoveStacktrace()
@@ -111,13 +112,15 @@ function ApplyOrUnapplyRestriction(_AddonRequirementAndRestriction, _Player)
 	local restrictionApplied, pos = TableContains(_AddonRequirementAndRestriction.AchievedForPlayers, _Player.PlayerIndex)
 
 	if(_AddonRequirementAndRestriction.Item.TypeOfItem == eRESTRICTED_TYPE_SQUAD) then
-		
-		if(isAchieved and restrictionApplied == false) then
+
+		local numberOfTrue = bool_to_number(isAchieved) + bool_to_number(restrictionApplied)
+
+		if(numberOfTrue == 0) then
 			
 			Player_RestrictSquad(_Player.Player, _AddonRequirementAndRestriction.Item.ID)
 			table.insert(_AddonRequirementAndRestriction.AchievedForPlayers, _Player.PlayerIndex)
 
-		elseif(restrictionApplied == true) then
+		elseif(numberOfTrue == 2) then
 
 			Player_UnRestrictSquad(_Player.Player, _AddonRequirementAndRestriction.Item.ID)
 			_AddonRequirementAndRestriction.AchievedForPlayers[pos] = nil
