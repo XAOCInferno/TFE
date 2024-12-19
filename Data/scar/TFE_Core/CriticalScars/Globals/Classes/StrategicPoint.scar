@@ -1,15 +1,91 @@
+g_ListeningPostValidAddons = {"addon_sisters_holy_icon"} --Add the rest later
+
 StrategicPoint = {}
 function StrategicPoint:new (_ID, _OwnedBy, _InitTime)
+
+	AddStacktrace("EntityAddonManager:new")
 
     local StrategicPointObject = 
     {
 	    ID = _ID,
 	    OwnedBy = _OwnedBy,
 	    InitTime = _InitTime,
-        FullyMatured = false
+        FullyMatured = false,
+        HasListeningPost = false,
+        ListeningPostAddonData = nil,
+        EntityPosition = Entity_GetPosition(_ID)
     }
 
 	self.__index = self
+
+    RemoveStacktrace()
+
     return setmetatable(StrategicPointObject, self)
+
+end
+
+function StrategicPoint:Update()
+
+    self:SetHasListeningPost()
+
+    if(self.HasListeningPost) then
+
+        self.ListeningPostAddonData:UpdateAddonsList()
+
+    end
+
+end
+
+function StrategicPoint:GetHasListeningPost()
+
+	AddStacktrace("StrategicPoint:GetHasListeningPost")
+    
+    local result = false
+
+    if(Entity_StrategicPointHasStructure(self.ID)) then
+
+        result = true
+    
+    end
+
+    RemoveStacktrace()
+
+    return result
+
+end
+
+function StrategicPoint:SetHasListeningPost()
+
+	AddStacktrace("StrategicPoint:SetHasListeningPost")
+    
+    local newHasLP = self:GetHasListeningPost()
+
+    if(self.HasListeningPost and newHasLP == false) then
+
+        self.ListeningPostData:Deconstruct()
+        self.ListeningPostData = nil
+        self.HasListeningPost = false
+
+    end
+
+    if(newHasLP == true and self.HasListeningPost == false and OwnedBy ~= -1) then
+
+        local newLP = GetClosestLP(self.OwnedBy + 1, self.EntityPosition)
+
+        if(newLP ~= nil) then
+
+            self.HasListeningPost = true
+            self.ListeningPostAddonData = EntityAddonManager:new(newLP.EntityID, g_ListeningPostValidAddons)
+            self.ListeningPostAddonData:LateConstructor()
+
+        else
+
+            Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Cannot find LP although we have one!") 
+
+        end
+
+    end
+
+    RemoveStacktrace()
 
 end

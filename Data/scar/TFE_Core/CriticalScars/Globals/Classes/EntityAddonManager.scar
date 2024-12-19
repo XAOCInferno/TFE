@@ -1,0 +1,91 @@
+EntityAddonManager = {}
+function EntityAddonManager:new (_AttachedEntity, _ValidAddons)
+
+	AddStacktrace("EntityAddonManager:new")
+
+    local EntityAddonManagerObject = 
+    {
+        --Constants
+	    AttachedEntity = _AttachedEntity,
+        CompletedAddons = _ValidAddons,
+        NumberOfAddons = table.getn(_ValidAddons),
+        CompletedAddonIndexByNameDictionary = {}
+    }
+
+	self.__index = self
+    
+	RemoveStacktrace()
+
+    return setmetatable(EntityAddonManagerObject, self)
+
+end
+
+function EntityAddonManager:LateConstructor()
+
+	AddStacktrace("EntityAddonManager:LateConstructor")
+
+    for i = 1, self.NumberOfAddons do
+
+        self.CompletedAddonIndexByNameDictionary[self.CompletedAddons[i]] = i
+        self.CompletedAddons[i] = PurchasedItem:new(self.CompletedAddons[i], 0)
+
+        --Dbg functionality to easily force the addon
+        --Entity_ForceAddOn( self.AttachedEntity, self.CompletedAddons[i].ID )
+
+    end
+
+    RemoveStacktrace()
+
+end
+
+function EntityAddonManager:UpdateAddonsList()
+
+	AddStacktrace("EntityAddonManager:UpdateAddonsList")
+
+    for i = 1, self.NumberOfAddons do
+        
+        if(Entity_ContainsAddOn(self.AttachedEntity, self.CompletedAddons[i].ID)) then
+
+            self.CompletedAddons[i].Count = 1
+
+        else
+
+            self.CompletedAddons[i].Count = 0
+            
+        end
+
+    end
+
+    RemoveStacktrace()
+
+end
+
+function EntityAddonManager:GetAddonCount(_AddonID)
+
+	AddStacktrace("EntityAddonManager:GetAddonCount")
+
+    local count = 0
+    local index = self.CompletedAddonIndexByNameDictionary[_AddonID]
+
+    if(index ~= nil) then
+        
+        count = self.CompletedAddons[index].Count
+
+    else
+        
+        Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Addon with ID '".._AddonID.."' not setup in EntityAddonManager!") 
+
+    end
+
+    RemoveStacktrace()
+
+    return count
+
+end
+
+--[[This can likely be a shared function later]]
+function EntityAddonManager:Deconstruct()
+
+    setmetatable(self, nil)
+
+end

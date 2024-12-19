@@ -31,6 +31,7 @@ import("TFE_Core/CriticalScars/Globals/LuaTableExtensions.scar")
 import("TFE_Core/CriticalScars/Globals/GlobalsStorage.scar")
 import("TFE_Core/CriticalScars/SquadManager/SquadManager_Core.scar")
 import("TFE_Core/CriticalScars/EntityManager/EntityManager_Core.scar")
+import("TFE_Core/CriticalScars/PlayerScope/PlayerScope_Core.scar")
 ----------------------------------
 ----------------------------------
 

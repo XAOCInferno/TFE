@@ -1,0 +1,13 @@
+RestrictedItem = {}
+function RestrictedItem:new (_ID, _TypeOfItem)
+
+    local RestrictedItemObject = 
+    {
+        ID = _ID,
+        TypeOfItem = _TypeOfItem
+    }
+
+	self.__index = self
+    return setmetatable(RestrictedItemObject, self)
+
+end

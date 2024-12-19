@@ -1,0 +1,2 @@
+--[[Data]]
+import("TFE_Core/CriticalScars/PlayerScope/Data/PlayerScopeRestrictionsData.lua")
