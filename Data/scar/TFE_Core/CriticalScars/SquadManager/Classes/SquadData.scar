@@ -333,6 +333,14 @@ function SquadData:DoIdleState()
 
 		Command_Squad(self.OwnedByPlayer, self.SquadGroupID, SCMD_Cannibalize)
 
+	elseif self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_UNRESTRICT_ABILITY then
+
+		for i = 1, self.IdleState.AbilityIDs do
+
+			--Player_UnRestrictSquadAbility( self.OwnedByPlayer, self.IdleState.AbilityIDs[i], String blueprint )
+
+		end		
+		
 	end
 
 	self.HasPerformedIdleState = true
