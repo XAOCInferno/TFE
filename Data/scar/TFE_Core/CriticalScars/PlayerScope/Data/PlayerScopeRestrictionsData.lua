@@ -26,14 +26,13 @@ g_AdvancedRaceRestrictions =
 	{ 
 		Race = "sisters_race",
 		Item = RestrictedItem:new("sisters_squad_repentia", eRESTRICTED_TYPE_SQUAD), 
-		RequirementType = eREQUIREMENT_TYPE_CUMULATIVE,
-		RequirementCumulativeCount = 2,
+		RequirementType = eREQUIREMENT_TYPE_ANY,
 		RequirementTable = 
 		{
-			PurchasedItem:new("addon_sisters_holy_icon", 1, ePURCHASED_ITEM_TYPE_ADDON_LP),	
+			
 			PurchasedItem:new("addon_sisters_holy_icon", 2, ePURCHASED_ITEM_TYPE_ADDON_LP),	
 			PurchasedItem:new("sisters_holy_reliquary", 1, ePURCHASED_ITEM_TYPE_COMPLETED_STRUCTURE),	
-			PurchasedItem:new("sisters_holy_reliquary", 2, ePURCHASED_ITEM_TYPE_COMPLETED_STRUCTURE)
+			
 		},  
 		AchievedForPlayers = {}
 	}
