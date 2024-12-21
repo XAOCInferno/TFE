@@ -50,6 +50,7 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		OwnedByPlayer = Squad_GetPlayerOwner(_sID),
 		OwnerPlayer = _player, 
 		IsSelected_Unsynced = Misc_IsSquadSelected(_sID),
+		IdleBehaviourController = nil,
 
 		XP = XPManager:new(),
 
@@ -185,6 +186,7 @@ function SquadData:CreateTotalCopy()
 	copy.SquadIsAttached = self.SquadIsAttached	
 	copy.SquadUpgradedWeapons = self.SquadUpgradedWeapons
 	copy.SquadActiveCommand = self.SquadActiveCommand
+	copy.IdleBehaviourController = self.IdleBehaviourController
 
 	return copy
 
@@ -333,6 +335,22 @@ function SquadData:DoIdleState()
 
 		Command_Squad(self.OwnedByPlayer, self.SquadGroupID, SCMD_Cannibalize)
 
+	elseif self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_WORSHIP_CHAOS then
+
+		if(self.IdleBehaviourController == nil) then
+
+			self.IdleBehaviourController = IdleSummmonEntity:new(self.OwnedByPlayer, self, "chaos_worship_aura_entity")
+	
+		end
+
+		self.IdleBehaviourController:Update()
+
+		if(self.HasPerformedIdleState == false) then
+	
+			Anim_PlaySquadAnim(self.SquadID, "sp_ritual")
+	
+		end
+		
 	end
 
 	self.HasPerformedIdleState = true
@@ -361,6 +379,13 @@ function SquadData:SetIdleStateToInactive()
 	--Currently just set the base variables, however, we can later add in OnIdleEnd behaviour here
 	self.IsIdle = false
 	self.HasPerformedIdleState = false
+
+	if self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_WORSHIP_CHAOS then
+
+		self.IdleBehaviourController:Update()
+		Anim_StopSquadAnim(self.SquadID, "sp_ritual")
+			
+	end
 
 	RemoveStacktrace()
 

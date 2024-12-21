@@ -21,6 +21,7 @@ GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_01"]["modifier"]
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_01"]["modifier"]["exclusive"] = true 
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_01"]["modifier"]["value"] = 0.8000000119
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_02"]["modifier"] = Reference([[modifiers\ability_aura_event.lua]])
+GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_02"]["modifier"]["exclusive"] = true 
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_02"]["modifier"]["value"] = -0.001000000047
 GameData["backfire_action_name"] = [[]]
 GameData["backfire_area_effect"] = Reference([[tables\area_effect_table.lua]])
@@ -50,7 +51,7 @@ GameData["projectile_spawn_pos"]["y"] = 1
 GameData["random_offset"] = 0
 GameData["range"] = 0
 GameData["recharge_time"] = 0
-GameData["refresh_time"] = 1
+GameData["refresh_time"] = 0
 GameData["requirements"] = Reference([[tables\requirements.lua]])
 GameData["speech_directory"] = [[ability/taint]]
 GameData["target_ground"] = false
