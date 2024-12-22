@@ -1,0 +1,1 @@
+ripper.rsh -> art/ebps/races/tyranids/texture_share/ripper.rsh
