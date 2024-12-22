@@ -374,10 +374,10 @@ GameData["squad_cover_ext"]["cover_stealth"]["modifiers"]["modifier_44"]["shield
 GameData["squad_cover_ext"]["cover_stealth"]["modifiers"]["modifier_45"] = Reference([[modifiers\no_modifier.lua]])
 GameData["squad_cover_ext"]["cover_stealth"]["modifiers"]["modifier_45"]["shield_of_faith"] = false
 GameData["squad_formation_ext"] = Reference([[sbpextensions\squad_formation_ext.lua]])
-GameData["squad_formation_ext"]["idle_formation"] = [[formations\swarm.lua]]
+GameData["squad_formation_ext"]["idle_formation"] = [[formations\swarm_tight.lua]]
 GameData["squad_loadout_ext"] = Reference([[sbpextensions\squad_loadout_ext.lua]])
 GameData["squad_loadout_ext"]["trooper_base"]["type"] = [[ebps\races\tyranids\troops\tyranids_builder.lua]]
-GameData["squad_loadout_ext"]["unit_max"] = 9
+GameData["squad_loadout_ext"]["unit_max"] = 14
 GameData["squad_loadout_ext"]["unit_min"] = 9
 GameData["squad_melee_stance_ext"] = Reference([[sbpextensions\squad_melee_stance_ext.lua]])
 GameData["squad_melee_stance_ext"]["default_to_melee"] = true 
