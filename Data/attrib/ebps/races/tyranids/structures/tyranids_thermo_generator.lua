@@ -163,7 +163,7 @@ GameData["death_explosion_ext"]["death_explosions"]["death_explosion_08"]["area_
 GameData["death_explosion_ext"]["death_explosions"]["death_explosion_08"]["area_effect"]["weapon_damage"]["modifiers"]["modifier_10"] = Reference([[tables\time_modify_entry.lua]])
 GameData["death_explosion_ext"]["death_explosions"]["death_explosion_08"]["area_effect"]["weapon_damage"]["modifiers"]["modifier_10"]["modifier"]["shield_of_faith"] = false
 GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
-GameData["entity_blueprint_ext"]["animator"] = [[Races/Space_Marines/Structures/Thermo_Plasma_Generator]]
+GameData["entity_blueprint_ext"]["animator"] = [[Races/Tyranids/Structures/Magmavent]]
 GameData["entity_blueprint_ext"]["scale_x"] = 2
 GameData["entity_blueprint_ext"]["scale_z"] = 2
 GameData["event_manager_ext"] = Reference([[ebpextensions\event_manager_ext.lua]])
