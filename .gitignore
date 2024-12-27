@@ -2,3 +2,5 @@
 designs/3D/
 
 # for specific file types, use format *.filetype
+*.blend
+*.blend1
