@@ -1,0 +1,4 @@
+# ignore files in these directories
+designs/3D/
+
+# for specific file types, use format *.filetype
