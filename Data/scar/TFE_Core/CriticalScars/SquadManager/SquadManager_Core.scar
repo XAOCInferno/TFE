@@ -324,6 +324,8 @@ function SquadSetLastCombats(_DefenderSquadStruct, _AttackerPlayer)
 
 				end
 
+				EnemySquad.PreviouslyAttackingTime = g_WorldTime
+
 				local contains, _  = TableContains(_DefenderSquadStruct.PreviouslyAttackedBySquads, EnemySquad)
 
 				if(contains == false) then
@@ -433,7 +435,7 @@ function Set_SquadCombatDetails(_SquadStruct, _IsDead)
 		_SquadStruct.PreviouslyAttackedByPlayers = TableRemoveDuplicates(_SquadStruct.PreviouslyAttackedByPlayers, PlayersToRemove)
 
 	--It's been quite a long time since we've been in a fight so we shouldn't remember last fighting players, especially as we can be scuttled.
-	elseif(g_WorldTime - _SquadStruct.PreviouslyAttackedTime > 5) then--Move this 5 into a global "attack time"
+	elseif(GetWorldLifetime(_SquadStruct.PreviouslyAttackedTime) > g_CombatTimeWindow) then
 		
 		_SquadStruct.PreviouslyAttackedByPlayers = {}
 

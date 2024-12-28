@@ -48,6 +48,7 @@ function Core_Init_Load()
 
 	local SetupFunctionTree = 
 	{
+		{ Function = InitCachedModifiers, Necessity = eREQUIRED_FUNCTION },
 		{ Function = Core_GetAllPlayers, Necessity = eREQUIRED_FUNCTION },
 		{ Function = Setup_AlphaLegion, Necessity = eBASIC_FUNCTION },
 		{ Function = Setup_PassiveResourceGeneration, Necessity = eREQUIRED_FUNCTION },

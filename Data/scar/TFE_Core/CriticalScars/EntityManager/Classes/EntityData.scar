@@ -71,7 +71,7 @@ function EntityData:Update()
 				end
 			end
 
-		elseif(g_WorldTime - self.PreviouslyAttackedTime > 5) then --Move this 5 into a global "attack time"
+		elseif(GetWorldLifetime(self.PreviouslyAttackedTime) > g_CombatTimeWindow) then 
 			
 			--Entity not been attacked for awhile, so we will forget who was attacking them
 			self.PreviouslyAttackedByPlayers = {}

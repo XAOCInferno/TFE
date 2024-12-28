@@ -81,6 +81,8 @@ g_TimeSinceWorldTimeUpdate = 0
 g_HistoryUpdateRate = 6
 g_MaximumHistories = 10
 
+g_CombatTimeWindow = 5
+
 
 g_SquadBlueprintToIgnore = 
 {

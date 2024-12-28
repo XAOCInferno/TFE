@@ -50,7 +50,7 @@ function IdleSummmonEntity:HandleStates()
 	AddStacktrace("IdleSummmonEntity:HandleStates")
     
 	if (self.IsIdle == true) then
-
+		--Don't forget to comment out
 		Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "IdleEntitySummoner: Applying IDLE state")
 
 		if(self.EntityIsSpawned == false) then
@@ -62,7 +62,7 @@ function IdleSummmonEntity:HandleStates()
         end
 
 	else
-
+		--Don't forget to comment out
 		Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "IdleEntitySummoner: Applying NOT IDLE state")
         
 		if(self.EntityIsSpawned == true) then

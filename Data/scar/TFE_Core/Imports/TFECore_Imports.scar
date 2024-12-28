@@ -9,6 +9,12 @@ import("WXPScarUtil.scar")
 
 
 ----------------------------------
+-----W40k RELATED DATA------------
+----------------------------------
+import("TFE_Core/CriticalScars/Modifiers/CachedModifiers.scar")
+
+
+----------------------------------
 -----DATA STRUCTURES--------------
 ----------------------------------
 import("TFE_Core/Classes/LinkedList.scar")

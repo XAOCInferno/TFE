@@ -1,5 +1,3 @@
-
-
 SquadData = {}
 function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _player, _IsRelicUnit, _IdleState)
 
@@ -62,17 +60,21 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		History = FixedLengthTable:new(g_MaximumHistories, {Time = -1, State = nil}), --A collection of timestamped squad states 
 		NextHistoryTime = g_WorldTime + g_HistoryUpdateRate,
 		IsUnderAttack = false,
+		IsAttacking = false,
+		IsMoving = false,
 		PreviousSquadLoadout = Squad_Count(_sID),
 		PreviousSquadLeaderCount = Squad_CountLeaders(_sID),
 		PreviouslyAttackedByPlayers = {},
 		PreviouslyAttackedTime = 0,
 		PreviouslyAttackedBySquads = {},
+		PreviouslyAttackingTime = 0,
 		
 		IdleState = _IdleState,
 		IsIdle = false,
 		HasPerformedIdleState = false,
 		TimeSinceIdle = 0,
-		IdleStartTime = 0
+		IdleStartTime = 0,
+		AppliedIdleModifiers = {}
 	}
 
 
@@ -187,6 +189,7 @@ function SquadData:CreateTotalCopy()
 	copy.SquadUpgradedWeapons = self.SquadUpgradedWeapons
 	copy.SquadActiveCommand = self.SquadActiveCommand
 	copy.IdleBehaviourController = self.IdleBehaviourController
+	copy.IsMoving = self.IsMoving
 
 	return copy
 
@@ -275,9 +278,13 @@ function SquadData:Update(_self)
 
 	end
 
+	_self.IsAttacking = GetWorldLifetime(_self.PreviouslyAttackingTime) <= g_CombatTimeWindow 
+
 	--Update current state, doesn't matter which order we do this as 
 	if copy ~= nil then
 
+		_self.IsMoving = World_DistancePointToPoint(_self.SquadPosition, copy.SquadPosition) ~= 0 	
+		
 		_self:SyncSquadDataStates(copy)
 
 	end
@@ -296,9 +303,9 @@ function SquadData:ManageIdleState()
 		
 	AddStacktrace("SquadData:ManageIdleState")
 
-	local isIdle = Squad_GetActiveCommand(self.SquadID) == SQUADSTATEID_Idle
-	
-	if isIdle and self.IsIdle == false then
+	local isIdle = (self.SquadActiveCommand == SQUADSTATEID_Idle) and (self.IsMoving == false) and (self.IsAttacking == false)
+
+	if isIdle == true and self.IsIdle == false then
 
 		--Set to idle if we are not already set as idle
 		self:SetIdleStateToActive()
@@ -344,13 +351,16 @@ function SquadData:DoIdleState()
 		end
 
 		self.IdleBehaviourController:Update()
-
-		if(self.HasPerformedIdleState == false) then
-	
-			Anim_PlaySquadAnim(self.SquadID, "sp_ritual")
-	
-		end
 		
+		if self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_WORSHIP_CHAOS then
+
+			Anim_PlaySquadAnim(self.SquadID, "sp_ritual")
+			table.insert(self.AppliedIdleModifiers, Modifier_ApplyToSquad(gMod_DisableShooting, self.SquadID))
+			table.insert(self.AppliedIdleModifiers, Modifier_ApplyToSquad(gMod_SightRadiusReduction60, self.SquadID))
+			table.insert(self.AppliedIdleModifiers, Modifier_ApplyToSquad(gMod_KeenSightRadiusReduction60, self.SquadID))
+
+		end
+
 	end
 
 	self.HasPerformedIdleState = true
@@ -363,10 +373,21 @@ function SquadData:SetIdleStateToActive()
 	
 	AddStacktrace("SquadData:SetIdleStateToActive")
 
-	--Currently just set the base variables, however, we can later add in OnIdle behaviour here
+	--Set that idle state is activated
 	self.IsIdle = true
 	self.IdleStartTime = g_WorldTime
 	self.TimeSinceIdle = 0
+
+	--Trigger post-activation effects
+	self:OnIdleActivate()
+
+	RemoveStacktrace()
+
+end
+
+function SquadData:OnIdleActivate()
+
+	AddStacktrace("SquadData:OnIdleActivate")
 
 	RemoveStacktrace()
 
@@ -376,15 +397,38 @@ function SquadData:SetIdleStateToInactive()
 
 	AddStacktrace("SquadData:SetIdleStateToInactive")
 
-	--Currently just set the base variables, however, we can later add in OnIdleEnd behaviour here
+	--Set we've ended idle
 	self.IsIdle = false
+
+	--Activate post-idle effects
+	self:OnIdleEnd()
+
+	--Set we've not performed the idle state
 	self.HasPerformedIdleState = false
+	
+	RemoveStacktrace()
 
-	if self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_WORSHIP_CHAOS then
+end
 
-		self.IdleBehaviourController:Update()
-		Anim_StopSquadAnim(self.SquadID, "sp_ritual")
+function SquadData:OnIdleEnd()
+
+	AddStacktrace("SquadData:OnIdleEnd")
+
+	if self.HasPerformedIdleState == true then
+
+		if self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_WORSHIP_CHAOS then
+
+			self.IdleBehaviourController:Update()
+			Anim_StopSquadAnim(self.SquadID, "sp_ritual")
+				
+		end
+
+		for i = 1, table.getn(self.AppliedIdleModifiers) do
 			
+			pcall(Modifier_Remove, self.AppliedIdleModifiers[i])
+
+		end
+
 	end
 
 	RemoveStacktrace()
@@ -410,7 +454,6 @@ function SquadData:SyncSquadDataStates(copyFromState)
 	RemoveStacktrace()
 
 end
-
 
 function SquadData:SyncGameStateToDataState()
 

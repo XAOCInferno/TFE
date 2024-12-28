@@ -1,0 +1,12 @@
+
+function InitCachedModifiers()
+
+	gMod_DisableShooting = Modifier_Create( MAT_Squad, "enable_shooting", MUT_Enable, true, -1, "" )
+
+	gMod_SightRadiusReduction80 = Modifier_Create( MAT_Squad, "sight_radius_modifier", MUT_Multiplication, true, 0.2, "" )
+	gMod_SightRadiusReduction60 = Modifier_Create( MAT_Squad, "sight_radius_modifier", MUT_Multiplication, true, 0.4, "" )
+	
+	gMod_KeenSightRadiusReduction80 = Modifier_Create( MAT_Squad, "keen_sight_radius_modifier", MUT_Multiplication, true, 0.2, "" )
+	gMod_KeenSightRadiusReduction60 = Modifier_Create( MAT_Squad, "keen_sight_radius_modifier", MUT_Multiplication, true, 0.4, "" )
+
+end
