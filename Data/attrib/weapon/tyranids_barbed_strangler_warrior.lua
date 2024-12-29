@@ -13,8 +13,8 @@ GameData["area_effect"]["area_effect_information"]["remove_modifiers_with_source
 GameData["area_effect"]["area_effect_information"]["start_from_caster"] = false
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\ranged_flamer_light.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 100
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 76
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 68
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 54
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 9
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 19.5
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events\barbed_strangler_hit]]
