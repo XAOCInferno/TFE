@@ -21,7 +21,7 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_14"][
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\Ranged_Las_Multilaser.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 36
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 35
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 28
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 25
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 10.05000019
@@ -70,7 +70,7 @@ GameData["death_motion_value"] = [[]]
 GameData["fire_cone_angle"] = 5
 GameData["fire_cost"] = Reference([[tables\cost_table.lua]])
 GameData["fired_projectile"] = [[]]
-GameData["horizontal_traverse_speed"] = 45
+GameData["horizontal_traverse_speed"] = 42
 GameData["impact_ability"] = [[]]
 GameData["kill_enemy_at_percent_life"] = 0
 GameData["kill_enemy_at_percent_life_cooldown_time"] = 0
