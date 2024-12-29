@@ -1,6 +1,6 @@
 GameData = Inherit([[]])
 GameData["accuracy"] = 0.8
-GameData["accuracy_reduction_when_moving"] = 0.3500000238
+GameData["accuracy_reduction_when_moving"] = 0.5
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["angle_left"] = -10
 GameData["area_effect"]["area_effect_information"]["angle_right"] = 10
@@ -26,8 +26,8 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_14"][
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\Ranged_Flamer_Light.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 12
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 8.5
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 16
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 10
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 0.1
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 8
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry05"] = Reference([[tables\hit_event_entry.lua]])
@@ -118,7 +118,7 @@ GameData["raider_weapon_index"] = 0
 GameData["random_aim_on_create"] = false
 GameData["rear_facing"] = false
 GameData["reload_show_progress"] = false
-GameData["reload_time"] = 0.5
+GameData["reload_time"] = 0.4
 GameData["requirements"] = Reference([[tables\requirements.lua]])
 GameData["requirements"]["required_1"] = Reference([[requirements\required_structure.lua]])
 GameData["requirements"]["required_1"]["structure_name"] = [[ebps\races\guard\structures\guard_tactica.lua]]
