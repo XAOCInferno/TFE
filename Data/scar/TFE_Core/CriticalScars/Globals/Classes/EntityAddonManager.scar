@@ -1,12 +1,12 @@
 EntityAddonManager = {}
-function EntityAddonManager:new (_AttachedEntity, _ValidAddons)
+function EntityAddonManager:new (_AttachedEntityStruct, _ValidAddons)
 
 	AddStacktrace("EntityAddonManager:new")
 
     local EntityAddonManagerObject = 
     {
         --Constants
-	    AttachedEntity = _AttachedEntity,   
+	    AttachedEntityStruct = _AttachedEntityStruct,   
         ValidAddons = _ValidAddons,
         CompletedAddons = {},
         NumberOfAddons = 0,
@@ -33,7 +33,7 @@ function EntityAddonManager:LateConstructor()
         self.CompletedAddons[i] = PurchasedItem:new(self.ValidAddons[i], 0)
 
         --Dbg functionality to easily force the addon
-        --Entity_ForceAddOn( self.AttachedEntity, self.CompletedAddons[i].ID )
+        --Entity_ForceAddOn( self.AttachedEntityStruct.EntityID, self.CompletedAddons[i].ID )
 
     end
 
@@ -46,15 +46,19 @@ function EntityAddonManager:UpdateAddonsList()
 	AddStacktrace("EntityAddonManager:UpdateAddonsList")
 
     for i = 1, self.NumberOfAddons do
-        
-        if(Entity_ContainsAddOn(self.AttachedEntity, self.ValidAddons[i])) then
 
-            self.CompletedAddons[i].Count = 1
+        if(self.AttachedEntityStruct.EntityAvgHealth ~= 0.0) then
 
-        else
+            if(Entity_ContainsAddOn(self.AttachedEntityStruct.EntityID, self.ValidAddons[i])) then
 
-            self.CompletedAddons[i].Count = 0
-            
+                self.CompletedAddons[i].Count = 1
+
+            else
+
+                self.CompletedAddons[i].Count = 0
+                
+            end
+
         end
 
     end

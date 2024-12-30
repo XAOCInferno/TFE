@@ -3,7 +3,7 @@ g_ListeningPostValidAddons = {"addon_sisters_holy_icon"} --Add the rest later
 StrategicPoint = {}
 function StrategicPoint:new (_ID, _OwnedBy, _InitTime)
 
-	AddStacktrace("EntityAddonManager:new")
+	AddStacktrace("StrategicPoint:new")
 
     local StrategicPointObject = 
     {
@@ -26,6 +26,8 @@ end
 
 function StrategicPoint:Update()
 
+	AddStacktrace("StrategicPoint:Update")
+
     self:SetHasListeningPost()
 
     if(self.HasListeningPost) then
@@ -33,6 +35,8 @@ function StrategicPoint:Update()
         self.ListeningPostAddonData:UpdateAddonsList()
 
     end
+    
+    RemoveStacktrace()
 
 end
 
@@ -80,7 +84,7 @@ function StrategicPoint:SetHasListeningPost()
         if(newLP ~= nil) then
 
             self.HasListeningPost = true
-            self.ListeningPostAddonData = EntityAddonManager:new(newLP.EntityID, g_ListeningPostValidAddons)
+            self.ListeningPostAddonData = EntityAddonManager:new(newLP, g_ListeningPostValidAddons)
             self.ListeningPostAddonData:LateConstructor()
 
         else
