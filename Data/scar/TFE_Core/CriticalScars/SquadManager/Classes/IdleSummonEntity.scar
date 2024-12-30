@@ -6,13 +6,11 @@ function IdleSummmonEntity:new (_Player, _OwnerSquad, _EntityToSummon)
     local IdleSummmonEntityObject = 
     {
 		--Constants
-		OwnerSquad = _OwnerSquad,
+		IdleController = IdleControl:new(_Player, _OwnerSquad),
         
         --Variables
 		LinkedEntityID = ActivateSummonEntityAbility(_EntityToSummon, _Player, _OwnerSquad.SquadPosition),
-        EntityIsSpawned = true,
-        IsPerformingLogic = true,
-        IsIdle = false
+        EntityIsSpawned = true
     }
 
 	self.__index = self
@@ -27,16 +25,19 @@ function IdleSummmonEntity:Update()
 	
 	AddStacktrace("IdleSummmonEntity:Update")
 
-	if(self.IsPerformingLogic) then
+	if(self.IdleController.IsPerformingLogic) then
 
-		self:ValidateOwnerSquad()
-		
+		self.IdleController:Update()
+
 		--Need second if as previous logic can change this value
-		if(self.IsPerformingLogic) then
+		if(self.IdleController.IsPerformingLogic) then
+		
+			self:HandleStates()	
 
-            self.IsIdle = self.OwnerSquad.SquadActiveCommand == SQUADSTATEID_Idle
-			self:HandleStates()
+		else
 			
+			Entity_Destroy(self.LinkedEntityID)
+
 		end
 
 	end
@@ -49,13 +50,13 @@ function IdleSummmonEntity:HandleStates()
 
 	AddStacktrace("IdleSummmonEntity:HandleStates")
     
-	if (self.IsIdle == true) then
+	if (self.IdleController.IsIdle == true) then
 		--Don't forget to comment out
-		Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "IdleEntitySummoner: Applying IDLE state")
+		--Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "IdleEntitySummoner: Applying IDLE state")
 
 		if(self.EntityIsSpawned == false) then
 
-            Entity_SetPosition( self.LinkedEntityID, self.OwnerSquad.SquadPosition )
+            Entity_SetPosition( self.LinkedEntityID, self.IdleController.OwnerSquad.SquadPosition )
             Entity_Spawn( self.LinkedEntityID )
             self.EntityIsSpawned = true
 
@@ -63,7 +64,7 @@ function IdleSummmonEntity:HandleStates()
 
 	else
 		--Don't forget to comment out
-		Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "IdleEntitySummoner: Applying NOT IDLE state")
+		--Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "IdleEntitySummoner: Applying NOT IDLE state")
         
 		if(self.EntityIsSpawned == true) then
 
@@ -73,33 +74,6 @@ function IdleSummmonEntity:HandleStates()
         end
 
 	end	
-
-	RemoveStacktrace()
-
-end
-
-function IdleSummmonEntity:ValidateOwnerSquad()
-
-	AddStacktrace("IdleSummmonEntity:ValidateOwnerSquad")
-
-	local isValid = true
-
-	if(self.OwnerSquad == nil) then
-
-		isValid = false
-
-	elseif(self.OwnerSquad:GetIfAlive() == false) then
-
-		isValid = false
-
-	end
-
-	if(isValid == false) then
-
-		Entity_Destroy(self.LinkedEntityID)
-		self.IsPerformingLogic = false
-
-	end
 
 	RemoveStacktrace()
 

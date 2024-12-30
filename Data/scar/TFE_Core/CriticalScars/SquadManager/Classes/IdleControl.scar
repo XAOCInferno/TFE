@@ -1,0 +1,68 @@
+IdleControl = {}
+function IdleControl:new (_Player, _OwnerSquad)
+
+	AddStacktrace("IdleControl:new")
+	
+    local IdleControlObject = 
+    {
+		--Constants
+		OwnerSquad = _OwnerSquad,
+		
+        IsPerformingLogic = true,
+        IsIdle = false
+    }
+
+	self.__index = self
+
+	RemoveStacktrace()
+
+	return setmetatable(IdleControlObject, self)
+
+end
+
+function IdleControl:Update()
+	
+	AddStacktrace("IdleControl:Update")
+
+	if(self.IsPerformingLogic) then
+
+		self:ValidateOwnerSquad()
+		
+		--Need second if as previous logic can change this value
+		if(self.IsPerformingLogic) then
+
+            self.IsIdle = self.OwnerSquad.SquadActiveCommand == SQUADSTATEID_Idle
+			
+		end
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+function IdleControl:ValidateOwnerSquad()
+
+	AddStacktrace("IdleControl:ValidateOwnerSquad")
+
+	local isValid = true
+
+	if(self.OwnerSquad == nil) then
+
+		isValid = false
+
+	elseif(self.OwnerSquad:GetIfAlive() == false) then
+
+		isValid = false
+
+	end
+
+	if(isValid == false) then
+
+		self.IsPerformingLogic = false
+
+	end
+
+	RemoveStacktrace()
+
+end
