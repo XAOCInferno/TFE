@@ -1,0 +1,94 @@
+IdleBuilder = {}
+function IdleBuilder:new (_Player, _OwnerSquad, _ConstructRadius, _RepairRadius, _FallBackToCannibalize)
+
+	AddStacktrace("IdleBuilder:new")
+
+	local idleController = IdleControl:new(_Player, _OwnerSquad)
+
+    local IdleRepairObject = 
+    {
+		--Constants
+		IdleController = idleController,
+		ConstructController = IdleConstruct:new(_Player, _OwnerSquad, idleController, _ConstructRadius),
+		RepairController = IdleRepair:new(_Player, _OwnerSquad, idleController, _RepairRadius),
+		FallBackToCannibalize = _FallBackToCannibalize
+    }
+
+	self.__index = self
+
+	RemoveStacktrace()
+
+	return setmetatable(IdleRepairObject, self)
+
+end
+
+function IdleBuilder:Update()
+	
+	AddStacktrace("IdleBuilder:Update")
+
+	if(self.IdleController.IsPerformingLogic) then
+
+		self.IdleController:Update()
+
+		--Need second if as previous logic can change this value
+		if(self.IdleController.IsPerformingLogic) then
+		
+			self:HandleStates()	
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+function IdleBuilder:UpdateEachTick() 
+	
+	AddStacktrace("IdleBuilder:UpdateEachTick")
+
+	self:HandleStates()
+
+	RemoveStacktrace()
+
+end
+
+function IdleBuilder:HandleStates()
+
+	AddStacktrace("IdleBuilder:HandleStates")
+    
+	if (self.IdleController.IsIdle == true) then		
+		--Don't forget to comment out
+		--Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "IdleBuilder: Applying IDLE state")
+
+		print("trying to construct")
+		self.ConstructController:Update()
+
+		if(self.ConstructController.StructureBuilding == nil) then
+			
+			print("trying to repair")
+			self.RepairController:Update()
+
+			if(self.RepairController.StructureRepairing == nil and self.FallBackToCannibalize == true) then
+	
+				print("trying to cannibalize")
+				local linkedSquad = self.IdleController.OwnerSquad
+				Command_Squad(linkedSquad.OwnedByPlayer, linkedSquad.SquadGroupID, SCMD_Cannibalize)
+
+			end
+
+		end
+
+	else
+		--Don't forget to comment out
+		--Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "IdleBuilder: Applying NOT IDLE state")
+
+		print("trying to resettiong as not idle")
+		self.ConstructController:Update()
+		self.RepairController:Update()
+
+	end	
+
+	RemoveStacktrace()
+
+end
