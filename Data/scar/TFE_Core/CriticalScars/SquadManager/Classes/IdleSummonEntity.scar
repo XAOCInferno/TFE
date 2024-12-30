@@ -21,6 +21,8 @@ function IdleSummmonEntity:new (_Player, _OwnerSquad, _EntityToSummon)
 
 end
 
+function IdleSummmonEntity:UpdateEachTick() end
+
 function IdleSummmonEntity:Update()
 	
 	AddStacktrace("IdleSummmonEntity:Update")

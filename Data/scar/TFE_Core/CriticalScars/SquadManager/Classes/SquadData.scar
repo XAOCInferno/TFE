@@ -320,11 +320,19 @@ function SquadData:ManageIdleState()
 	--If we've been idle for enough time, perform the idle behaviour
 	self.TimeSinceIdle = GetWorldLifetime(self.IdleStartTime)
 
-	if self.IsIdle and self.HasPerformedIdleState == false then
-		
-		if self.TimeSinceIdle > self.IdleState.TimeMustBeIdleFor then
+	if self.IsIdle then
 
-			self:DoIdleState()
+		if self.HasPerformedIdleState == false then
+
+			if self.TimeSinceIdle > self.IdleState.TimeMustBeIdleFor then
+
+				self:DoIdleState()
+
+			end
+
+		elseif(self.IdleBehaviourController ~= nil) then			
+
+			self.IdleBehaviourController:UpdateEachTick()
 
 		end
 
