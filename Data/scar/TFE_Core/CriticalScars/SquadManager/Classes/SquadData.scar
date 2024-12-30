@@ -303,7 +303,7 @@ function SquadData:ManageIdleState()
 		
 	AddStacktrace("SquadData:ManageIdleState")
 
-	local isIdle = (self.SquadActiveCommand == SQUADSTATEID_Idle) and (self.IsMoving == false) and (self.IsAttacking == false)
+	local isIdle = (self.SquadActiveCommand == SQUADSTATEID_Idle) and (self.IsMoving == false) and (self.IsAttacking == false) and (self.SquadIsAttached == false)
 
 	if isIdle == true and self.IsIdle == false then
 
