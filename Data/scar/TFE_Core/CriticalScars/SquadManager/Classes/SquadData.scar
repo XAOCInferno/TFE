@@ -422,9 +422,14 @@ function SquadData:OnIdleEnd()
 
 		if self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_WORSHIP_CHAOS then
 
-			self.IdleBehaviourController:Update()
 			Anim_StopSquadAnim(self.SquadID, "sp_ritual")
 				
+		end
+
+		if(self.IdleBehaviourController ~= nil) then
+
+			self.IdleBehaviourController:Update()
+
 		end
 
 		for i = 1, table.getn(self.AppliedIdleModifiers) do
