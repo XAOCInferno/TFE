@@ -89,7 +89,7 @@ UnitCosting.guard_race =
 	},
 	guard_squad_psyker =
 	{
-		CostEntity = { Req = -10, Power = -1, Pop = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 		CostSquad = { Req = -0.3, Power = -0.25, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
