@@ -351,15 +351,11 @@ function SquadData:DoIdleState()
 		end
 
 		self.IdleBehaviourController:Update()
-		
-		if self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_WORSHIP_CHAOS then
 
-			Anim_PlaySquadAnim(self.SquadID, "sp_ritual")
-			table.insert(self.AppliedIdleModifiers, Modifier_ApplyToSquad(gMod_DisableShooting, self.SquadID))
-			table.insert(self.AppliedIdleModifiers, Modifier_ApplyToSquad(gMod_SightRadiusReduction60, self.SquadID))
-			table.insert(self.AppliedIdleModifiers, Modifier_ApplyToSquad(gMod_KeenSightRadiusReduction60, self.SquadID))
-
-		end
+		Anim_PlaySquadAnim(self.SquadID, "sp_ritual")
+		table.insert(self.AppliedIdleModifiers, Modifier_ApplyToSquad(gMod_DisableShooting, self.SquadID))
+		table.insert(self.AppliedIdleModifiers, Modifier_ApplyToSquad(gMod_SightRadiusReduction60, self.SquadID))
+		table.insert(self.AppliedIdleModifiers, Modifier_ApplyToSquad(gMod_KeenSightRadiusReduction60, self.SquadID))
 
 	end
 
