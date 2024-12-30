@@ -1,7 +1,9 @@
+--[[TODO: We currently only repair structures here. It would be good to also repair vehicles and stuff like the NL]]
+
 IdleRepair = {}
 function IdleRepair:new (_Player, _OwnerSquad, _RepairRadius)
 
-	AddStacktrace("FiresightVisionCircle:new")
+	AddStacktrace("IdleRepair:new")
 	
     local IdleRepairObject = 
     {
