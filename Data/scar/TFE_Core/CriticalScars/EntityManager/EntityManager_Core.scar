@@ -445,6 +445,29 @@ function GetAllDamagedAlliedStructuresInAoE(_Player, _Pos, _AoE)
 
 end
 
+function GetAllUnconstructedAlliedStructuresInAoE(_Player, _Pos, _AoE)
+
+	AddStacktrace("GetAllDamagedAlliedStructuresInAoE")	
+
+	local alliedStructures = GetAllAlliedStructuresInAoE(_Player, _Pos, _AoE)
+	local allUnconstructedStructures = {}
+
+	for i = 1, TableLength(alliedStructures) do
+
+		if(alliedStructures[i].EntityConstructionPercent ~= 1.0) then
+
+			table.insert(allUnconstructedStructures, alliedStructures[i])
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+	return allUnconstructedStructures
+
+end
+
 function GetClosestEntityInList(_Pos, _Entities)
 
 	AddStacktrace("GetClosestEntityInList")	

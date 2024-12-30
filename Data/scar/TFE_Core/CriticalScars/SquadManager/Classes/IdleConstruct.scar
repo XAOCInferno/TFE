@@ -1,0 +1,104 @@
+IdleConstruct = {}
+function IdleConstruct:new (_Player, _OwnerSquad, _ConstructRadius)
+
+	AddStacktrace("IdleConstruct:new")
+	
+    local IdleRepairObject = 
+    {
+		--Constants
+		IdleController = IdleControl:new(_Player, _OwnerSquad),
+		ConstructRadius = _ConstructRadius,
+
+		--Vars
+		StructureBuilding = nil
+    }
+
+	self.__index = self
+
+	RemoveStacktrace()
+
+	return setmetatable(IdleRepairObject, self)
+
+end
+
+function IdleConstruct:Update()
+	
+	AddStacktrace("IdleConstruct:Update")
+
+	if(self.IdleController.IsPerformingLogic) then
+
+		self.IdleController:Update()
+
+		--Need second if as previous logic can change this value
+		if(self.IdleController.IsPerformingLogic) then
+		
+			self:HandleStates()	
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+function IdleConstruct:UpdateEachTick() 
+	
+	AddStacktrace("IdleConstruct:UpdateEachTick")
+
+	self:HandleStates()
+
+	RemoveStacktrace()
+
+end
+
+function IdleConstruct:HandleStates()
+
+	AddStacktrace("IdleConstruct:HandleStates")
+    
+	if (self.IdleController.IsIdle == true) then		
+		--Don't forget to comment out
+		--Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "IdleConstruct: Applying IDLE state")
+
+		local getNewStructure = false
+
+		if (self.StructureBuilding ~= nil) then
+
+			if (self.StructureBuilding.EntityAvgHealth == 1.0) then
+
+				getNewStructure = true
+				self.StructureBuilding = nil
+
+			end
+
+		else
+
+			getNewStructure = true
+
+		end
+
+		local linkedSquad = self.IdleController.OwnerSquad
+		if(getNewStructure) then
+
+			local damagedStructures = GetAllUnconstructedAlliedStructuresInAoE(linkedSquad.OwnerPlayer, linkedSquad.SquadPosition, self.ConstructRadius)
+			self.StructureBuilding = GetClosestEntityInList(linkedSquad.SquadPosition, damagedStructures)
+
+		end
+
+		if(self.StructureBuilding ~= nil) then
+
+			Command_SquadEntity(linkedSquad.OwnedByPlayer, linkedSquad.SquadGroupID, SCMD_BuildStructure, self.StructureBuilding.EntityGroupID)
+
+		end
+
+	else
+		--Don't forget to comment out
+		--Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "IdleConstruct: Applying NOT IDLE state")
+
+		self.StructureBuilding = nil
+
+	end	
+
+	RemoveStacktrace()
+
+end
