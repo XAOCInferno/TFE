@@ -398,7 +398,7 @@ function GetAllAlliedStructuresInAoE(_Player, _Pos, _AoE)
 	
 	for i = 1, g_PlayerCount do
 
-		if(Player_IsAllied(_Player.Player, g_AllPlayers[i].Player)) then
+		if(_Player.PlayerIndex == g_AllPlayers[i].PlayerIndex or Player_IsAllied(_Player.Player, g_AllPlayers[i].Player)) then
 
 			for j = 1, TableLength(g_AllEntityData[i]) do
 
