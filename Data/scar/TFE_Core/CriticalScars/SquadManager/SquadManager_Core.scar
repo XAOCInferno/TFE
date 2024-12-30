@@ -864,14 +864,14 @@ function GetAllAlliedRepairableSquadsInAoE(_Player, _Pos, _AoE)
 
 				local compareSquad = g_AllSquadsData[i][j]
 
-				if(compareSquad ~= nil)
+				if(compareSquad ~= nil) then
 
 					if(World_DistancePointToPoint(_Pos, compareSquad.SquadPosition) <= _AoE and compareSquad.SquadIsRepairable == true) then
 
 						table.insert(allSquads, compareSquad)
 
 					end
-					
+
 				end
 
 			end

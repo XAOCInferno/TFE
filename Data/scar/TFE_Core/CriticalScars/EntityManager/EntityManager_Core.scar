@@ -403,8 +403,8 @@ function GetAllAlliedStructuresInAoE(_Player, _Pos, _AoE)
 			for j = 1, TableLength(g_AllEntityData[i]) do
 
 				local compareEntity = g_AllEntityData[i][j]
-				
-				if(compareEntity ~= nil)
+
+				if(compareEntity ~= nil) then
 
 					if(World_DistancePointToPoint(_Pos, compareEntity.EntityPosition) <= _AoE and compareEntity.EntityIsStructure == true) then
 
