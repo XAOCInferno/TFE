@@ -350,11 +350,51 @@ function SquadData:DoIdleState()
 
 		Command_Squad(self.OwnedByPlayer, self.SquadGroupID, SCMD_Cannibalize)
 
+	elseif self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_REPAIR then
+
+		if(self.IdleBehaviourController == nil) then
+
+			self.IdleBehaviourController = IdleRepair:new(self.OwnedByPlayer, self, nil, self.IdleState.Radius)
+	
+		end
+
+		self.IdleBehaviourController:Update()
+
+	elseif self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_CONSTRUCT then
+
+		if(self.IdleBehaviourController == nil) then
+
+			self.IdleBehaviourController = IdleConstruct:new(self.OwnedByPlayer, self, nil, self.IdleState.Radius)
+	
+		end
+
+		self.IdleBehaviourController:Update()
+
+	elseif self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_REPAIR_CONSTRUCT then
+
+		if(self.IdleBehaviourController == nil) then
+
+			self.IdleBehaviourController = IdleBuilder:new (self.OwnedByPlayer, self, self.IdleState.Radius, self.IdleState.Radius, false)
+
+		end
+		
+		self.IdleBehaviourController:Update()
+
+	elseif self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_REPAIR_CONSTRUCT_CANNIBALIZE then
+
+		if(self.IdleBehaviourController == nil) then
+
+			self.IdleBehaviourController = IdleBuilder:new (self.OwnedByPlayer, self, self.IdleState.Radius, self.IdleState.Radius, true)
+
+		end
+
+		self.IdleBehaviourController:Update()
+
 	elseif self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_WORSHIP_CHAOS then
 
 		if(self.IdleBehaviourController == nil) then
 
-			self.IdleBehaviourController = IdleSummmonEntity:new(self.OwnedByPlayer, self, "chaos_worship_aura_entity")
+			self.IdleBehaviourController = IdleSummmonEntity:new(self.OwnedByPlayer, self, nil, "chaos_worship_aura_entity")
 	
 		end
 
