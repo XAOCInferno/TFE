@@ -1,0 +1,94 @@
+IdleRepair = {}
+function IdleRepair:new (_Player, _OwnerSquad, _RepairRadius)
+
+	AddStacktrace("FiresightVisionCircle:new")
+	
+    local IdleRepairObject = 
+    {
+		--Constants
+		IdleController = IdleControl:new(_Player, _OwnerSquad),
+		RepairRadius = _RepairRadius,
+
+		--Vars
+		StructureRepairing = nil
+    }
+
+	self.__index = self
+
+	RemoveStacktrace()
+
+	return setmetatable(IdleRepairObject, self)
+
+end
+
+function IdleRepair:Update()
+	
+	AddStacktrace("IdleRepair:Update")
+
+	if(self.IdleController.IsPerformingLogic) then
+
+		self.IdleController:Update()
+
+		--Need second if as previous logic can change this value
+		if(self.IdleController.IsPerformingLogic) then
+		
+			self:HandleStates()	
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+function IdleRepair:HandleStates()
+
+	AddStacktrace("IdleRepair:HandleStates")
+    
+	if (self.IdleController.IsIdle == true) then		
+		--Don't forget to comment out
+		--Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "IdleRepair: Applying IDLE state")
+
+		local getNewStructure = false
+
+		if (self.StructureRepairing ~= nil) then
+
+			if (self.StructureRepairing.EntityAvgHealth == 1.0) then
+
+				getNewStructure = true
+				self.StructureRepairing = nil
+
+			end
+
+		else
+
+			getNewStructure = true
+
+		end
+
+		local linkedSquad = self.IdleController.OwnerSquad
+		if(getNewStructure) then
+
+			local damagedStructures = GetAllDamagedAlliedStructuresInAoE(linkedSquad.OwnerPlayer, linkedSquad.SquadPosition, self.RepairRadius)
+			self.StructureRepairing = GetClosestEntityInList(linkedSquad.SquadPosition, damagedStructures)
+
+		end
+
+		if(self.StructureRepairing ~= nil) then
+
+			Command_SquadEntity(linkedSquad.OwnedByPlayer, linkedSquad.SquadGroupID, SCMD_Repair, self.StructureRepairing.EntityGroupID)
+
+		end
+
+	else
+		--Don't forget to comment out
+		--Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "IdleRepair: Applying NOT IDLE state")
+
+		self.StructureRepairing = nil
+
+	end	
+
+	RemoveStacktrace()
+
+end

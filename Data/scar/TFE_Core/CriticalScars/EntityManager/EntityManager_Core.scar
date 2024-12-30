@@ -389,3 +389,84 @@ function GetCountOfPlayerOwnedAndCompletedStructuresOfBlueprint(_Player, _Bluepr
 	return count
 
 end
+
+function GetAllAlliedStructuresInAoE(_Player, _Pos, _AoE)
+
+	AddStacktrace("GetAllAlliedStructuresInAoE")	
+	
+	local allStructures = {}
+	
+	for i = 1, g_PlayerCount do
+
+		if(Player_IsAllied(_Player.Player, g_AllPlayers[i].Player)) then
+
+			for j = 1, TableLength(g_AllEntityData[i]) do
+
+				local compareEntity = g_AllEntityData[i][j]
+
+				if(World_DistancePointToPoint(_Pos, compareEntity.EntityPosition) <= _AoE and compareEntity.EntityIsStructure == true) then
+
+					table.insert(allStructures, compareEntity)
+
+				end
+
+			end
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+	return allStructures
+
+end
+
+function GetAllDamagedAlliedStructuresInAoE(_Player, _Pos, _AoE)
+
+	AddStacktrace("GetAllDamagedAlliedStructuresInAoE")	
+
+	local alliedStructures = GetAllAlliedStructuresInAoE(_Player, _Pos, _AoE)
+	local allDamagedStructures = {}
+
+	for i = 1, TableLength(alliedStructures) do
+
+		if(alliedStructures[i].EntityAvgHealth < 1.0) then
+
+			table.insert(allDamagedStructures, alliedStructures[i])
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+	return allDamagedStructures
+
+end
+
+function GetClosestEntityInList(_Pos, _Entities)
+
+	AddStacktrace("GetClosestEntityInList")	
+	
+	local closestDist = 10000
+	local closestEntity = nil
+
+	for i = 1, TableLength(_Entities) do
+
+		local newDist = World_DistancePointToPoint(_Pos, _Entities[i].EntityPosition)
+
+		if(newDist < closestDist) then
+
+			closestDist = newDist
+			closestEntity = _Entities[i]
+
+		end
+
+	end
+
+	RemoveStacktrace()
+	
+	return closestEntity
+
+end
