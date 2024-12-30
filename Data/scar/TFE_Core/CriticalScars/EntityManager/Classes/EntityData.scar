@@ -113,7 +113,7 @@ function EntityData:Update()
 
 end
 
-function EntityData::UpdatePosition() 
+function EntityData:UpdatePosition() 
 	
 	AddStacktrace("EntityData:UpdatePosition")
 
