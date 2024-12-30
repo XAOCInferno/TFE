@@ -3,6 +3,8 @@ import("TFE_Core/CriticalScars/SquadManager/Classes/SquadData.scar")
 import("TFE_Core/CriticalScars/SquadManager/Classes/IdleControl.scar")
 import("TFE_Core/CriticalScars/SquadManager/Classes/IdleSummonEntity.scar")
 import("TFE_Core/CriticalScars/SquadManager/Classes/IdleRepair.scar")
+import("TFE_Core/CriticalScars/SquadManager/Classes/IdleConstruct.scar")
+import("TFE_Core/CriticalScars/SquadManager/Classes/IdleBuilder.scar")
 
 --[[Data]]
 import("TFE_Core/CriticalScars/SquadManager/Data/SquadValidWeapons.lua")
