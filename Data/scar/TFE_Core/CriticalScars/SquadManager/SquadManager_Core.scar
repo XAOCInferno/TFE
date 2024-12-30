@@ -67,6 +67,8 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 					--A squad which we've previously had data on has now been detached, reassign their data to them.
 					elseif(SGroup_ContainsSquad(g_AllSquadsData[_PlayerIndex][l].SquadGroupID, _squadID)) then
 
+						--TODO: Ensure detached commanders upkeep is reset correctly 
+						
 						Log(eLOG_TYPE_INFO, eLOG_SIMPLE, g_AllSquadsData[_PlayerIndex][l].SquadBlueprint.." has detached, adding special tracking to it")
 						
 						--Firstly, correct the now changed SquadID and GameID. GameID may not have changed (this appears to be constant) but SquadID most certainly has
