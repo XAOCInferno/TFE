@@ -1,14 +1,14 @@
 --[[TODO: We currently only repair structures here. It would be good to also repair vehicles and stuff like the NL]]
 
 IdleRepair = {}
-function IdleRepair:new (_Player, _OwnerSquad, _RepairRadius)
+function IdleRepair:new (_Player, _OwnerSquad, _IdleController, _RepairRadius )
 
 	AddStacktrace("IdleRepair:new")
 	
     local IdleRepairObject = 
     {
 		--Constants
-		IdleController = IdleControl:new(_Player, _OwnerSquad),
+		IdleController = _IdleController or IdleControl:new(_Player, _OwnerSquad),
 		RepairRadius = _RepairRadius,
 
 		--Vars

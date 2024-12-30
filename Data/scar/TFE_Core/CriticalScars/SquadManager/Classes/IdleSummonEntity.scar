@@ -1,12 +1,12 @@
 IdleSummmonEntity = {}
-function IdleSummmonEntity:new (_Player, _OwnerSquad, _EntityToSummon)
+function IdleSummmonEntity:new (_Player, _OwnerSquad, _IdleController, _EntityToSummon)
 
 	AddStacktrace("FiresightVisionCircle:new")
 	
     local IdleSummmonEntityObject = 
     {
 		--Constants
-		IdleController = IdleControl:new(_Player, _OwnerSquad),
+		IdleController = _IdleController or IdleControl:new(_Player, _OwnerSquad),
         
         --Variables
 		LinkedEntityID = ActivateSummonEntityAbility(_EntityToSummon, _Player, _OwnerSquad.SquadPosition),

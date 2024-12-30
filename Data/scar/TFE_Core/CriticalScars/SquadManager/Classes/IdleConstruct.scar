@@ -1,12 +1,12 @@
 IdleConstruct = {}
-function IdleConstruct:new (_Player, _OwnerSquad, _ConstructRadius)
+function IdleConstruct:new (_Player, _OwnerSquad, _IdleController, _ConstructRadius)
 
 	AddStacktrace("IdleConstruct:new")
 	
     local IdleRepairObject = 
     {
 		--Constants
-		IdleController = IdleControl:new(_Player, _OwnerSquad),
+		IdleController = _IdleController or IdleControl:new(_Player, _OwnerSquad),
 		ConstructRadius = _ConstructRadius,
 
 		--Vars
