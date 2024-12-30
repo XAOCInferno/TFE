@@ -431,7 +431,7 @@ function GetAllDamagedAlliedStructuresInAoE(_Player, _Pos, _AoE)
 
 	for i = 1, TableLength(alliedStructures) do
 
-		if(alliedStructures[i].EntityAvgHealth < 1.0) then
+		if(alliedStructures[i].EntityAvgHealth < 1.0 and alliedStructures[i].EntityConstructionPercent == 1.0) then
 
 			table.insert(allDamagedStructures, alliedStructures[i])
 

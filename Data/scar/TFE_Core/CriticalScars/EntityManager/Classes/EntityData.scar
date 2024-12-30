@@ -40,6 +40,7 @@ function EntityData:new ( _eGameID, _eGroupID, _eIndex, _eID, _eRace, _eBP, _ePl
 		EntityPosition = Entity_GetPosition(_eID),
 		EntityPositionInt = Entity_GetPosition(_eID),
 		EntityAvgHealth = EGroup_GetAvgHealth( tmpEGroupName ),
+		EntityConstructionPercent = 0.0,
 		PreviouslyAttackedByPlayers = {},
 		PreviouslyAttackedTime = 0
 
@@ -76,7 +77,13 @@ function EntityData:Update()
 			self:UpdatePosition()
 
 		end
-		
+
+		if(self.EntityIsStructure) then
+
+			self.EntityConstructionPercent = Entity_GetBuildingProgress( self.EntityID )
+	
+		end
+
 		self.EntityAvgHealth = EGroup_GetAvgHealth( self.EntityGroupName )
 
 		--Get combat status
