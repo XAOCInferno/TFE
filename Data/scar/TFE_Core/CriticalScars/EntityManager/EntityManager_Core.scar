@@ -114,7 +114,7 @@ function Set_PlayerEntities_Immediate(_PlayerIndex)
 
 			end
 
-			local tmpData = EntityData:new( newEntityGameID, _egroupid, _itemindex, _entityID, g_AllPlayers[_PlayerIndex].RaceDetails.RaceName, entityBP, g_AllPlayers[_PlayerIndex], IsLP, IsGenerator, IsThermo)
+			local tmpData = EntityData:new( newEntityGameID, false, _itemindex, _entityID, g_AllPlayers[_PlayerIndex].RaceDetails.RaceName, entityBP, g_AllPlayers[_PlayerIndex], IsLP, IsGenerator, IsThermo)
 			
 			Log(eLOG_TYPE_INFO, eLOG_VERBOSE, "Entity data created for entity: "..tmpData.EntityBlueprint)
 			table.insert(g_AllEntityData[_PlayerIndex], tmpData)
