@@ -13,6 +13,7 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 	end
 	
 	local tmpSGroupName = SGroup_GetName(tmpSGroupID)
+	local squadRepairable, _ = TableContains(g_AllRepairableSquads, _sBP)
 
 	---------------------------------------------------------------------------------------
 	----If adding any new attributes, ensure to update Create copy and Total Copy funcs----
@@ -45,6 +46,7 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		SquadUpgradedWeapons = {},
 		SquadValidWeapons = g_ValidSquadWeapons[_sRace][_sBP] or {},
 		SquadActiveCommand = Squad_GetActiveCommand( _sID ),
+		SquadIsRepairable = squadRepairable,
 		OwnedByPlayer = Squad_GetPlayerOwner(_sID),
 		OwnerPlayer = _player, 
 		IsSelected_Unsynced = Misc_IsSquadSelected(_sID),
@@ -394,7 +396,7 @@ function SquadData:DoIdleState()
 
 		if(self.IdleBehaviourController == nil) then
 
-			self.IdleBehaviourController = IdleSummmonEntity:new(self.OwnedByPlayer, self, nil, "chaos_worship_aura_entity")
+			self.IdleBehaviourController = IdleSummmonEntity:new(self.OwnedByPlayer, self, nil, self.IdleState.EntityToSummon)
 	
 		end
 

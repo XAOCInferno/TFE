@@ -61,17 +61,14 @@ function IdleBuilder:HandleStates()
 		--Don't forget to comment out
 		--Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "IdleBuilder: Applying IDLE state")
 
-		print("trying to construct")
 		self.ConstructController:Update()
 
 		if(self.ConstructController.StructureBuilding == nil) then
 			
-			print("trying to repair")
 			self.RepairController:Update()
 
-			if(self.RepairController.StructureRepairing == nil and self.FallBackToCannibalize == true) then
+			if(self.RepairController.EntityRepairing == nil and self.FallBackToCannibalize == true) then
 	
-				print("trying to cannibalize")
 				local linkedSquad = self.IdleController.OwnerSquad
 				Command_Squad(linkedSquad.OwnedByPlayer, linkedSquad.SquadGroupID, SCMD_Cannibalize)
 
@@ -83,7 +80,6 @@ function IdleBuilder:HandleStates()
 		--Don't forget to comment out
 		--Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "IdleBuilder: Applying NOT IDLE state")
 
-		print("trying to resettiong as not idle")
 		self.ConstructController:Update()
 		self.RepairController:Update()
 

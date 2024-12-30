@@ -633,8 +633,8 @@ function GetClosestSquadInSquadTableToPos(_squads, _pos, _maxDistance)
 
 	if(TableLength(_squads) ~= 0) then
 	
-		ClosestSquad = nil
-		ShortestDistance = 10000
+		local ClosestSquad = nil
+		local ShortestDistance = 10000
 
 		for i = 1, TableLength(_squads) do
 
@@ -655,7 +655,7 @@ function GetClosestSquadInSquadTableToPos(_squads, _pos, _maxDistance)
 
 		if(ClosestSquad == nil) then
 
-			Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "No squads are in range of that position. You may need to increae the max distance.")
+			Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "No squads are in range of that position. You may need to increase the max distance.")
 
 		end
 
@@ -850,3 +850,84 @@ function GetAllSquadsOfArmourTypeFromPlayerTable(_players, _acceptedArmourTypes,
 
 end
 
+function GetAllAlliedRepairableSquadsInAoE(_Player, _Pos, _AoE)
+
+	AddStacktrace("GetAllAlliedRepairableSquadsInAoE")	
+	
+	local allSquads = {}
+	
+	for i = 1, g_PlayerCount do
+
+		if(_Player.PlayerIndex == g_AllPlayers[i].PlayerIndex or Player_IsAllied(_Player.Player, g_AllPlayers[i].Player)) then
+
+			for j = 1, TableLength(g_AllSquadsData[i]) do
+
+				local compareSquad = g_AllSquadsData[i][j]
+
+				if(World_DistancePointToPoint(_Pos, compareSquad.SquadPosition) <= _AoE and compareSquad.SquadIsRepairable == true) then
+
+					table.insert(allSquads, compareSquad)
+
+				end
+
+			end
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+	return allSquads
+
+end
+
+function GetAllDamagedAlliedSquadsInAoE(_Player, _Pos, _AoE)
+
+	AddStacktrace("GetAllDamagedAlliedSquadsInAoE")	
+
+	local alliedSquads = GetAllAlliedRepairableSquadsInAoE(_Player, _Pos, _AoE)
+	local allDamagedSquads = {}
+
+	for i = 1, TableLength(alliedSquads) do
+
+		if(alliedSquads[i].SquadAvgHealth < 1.0) then
+			
+			table.insert(allDamagedSquads, alliedSquads[i])
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+	return allDamagedSquads
+
+end
+
+
+function GetClosestSquadInList(_Pos, _Squads)
+
+	AddStacktrace("GetClosestSquadInList")	
+	
+	local closestDist = 10000
+	local closestSquad = nil
+
+	for i = 1, TableLength(_Squads) do
+
+		local newDist = World_DistancePointToPoint(_Pos, _Squads[i].SquadPosition)
+
+		if(newDist < closestDist) then
+
+			closestDist = newDist
+			closestSquad = _Squads[i]
+
+		end
+
+	end
+
+	RemoveStacktrace()
+	
+	return closestSquad
+
+end

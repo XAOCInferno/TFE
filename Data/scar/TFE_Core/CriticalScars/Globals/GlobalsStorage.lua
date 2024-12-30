@@ -83,6 +83,56 @@ g_MaximumHistories = 10
 
 g_CombatTimeWindow = 5
 
+--Update me
+g_AllRepairableSquads = 
+{
+	--[[CSM]]
+	"chaos_squad_defiler", "chaos_squad_hell_talon", "chaos_squad_hell_talon_nis", "chaos_squad_predator", 
+	"chaos_squad_predator_nurgle", "chaos_squad_predator_tzeentch", "chaos_squad_rhino", "chaos_squad_stalk_defiler",
+	
+	--[[DE]]
+	"dark_eldar_squad_dais_of_destruction", "dark_eldar_squad_pillager_reaver", "dark_eldar_squad_raider", 
+	"dark_eldar_squad_ravager", "dark_eldar_squad_raven", "dark_eldar_squad_reaver", "dark_eldar_squad_reaver_start",
+	"dark_eldar_squad_talos",
+	
+	--[[ELD]]
+	"eldar_squad_falcon_grav_tank", "eldar_squad_fire_prism", "eldar_squad_grav_platform", "eldar_squad_grav_platform_brightlance",
+	"eldar_squad_nightwing", "eldar_squad_vypers", "eldar_squad_vypers_anti-infantry", "eldar_squad_wraithlord",
+	
+	--[[GUARD]]
+	"guard_squad_baneblade", "guard_squad_basilisk", "guard_squad_chimera", "guard_squad_hellhound", "guard_squad_lemanruss",
+	"guard_squad_marauder", "guard_squad_scout_sentinel", "guard_squad_sentinel",
+	
+	--[[OM]]
+	"inquisition_squad_chimera_transport", "inquisition_squad_dreadnought_assault", "inquisition_squad_dreadnought_support",
+	"inquisition_squad_dreadnought_venerable", "inquisition_squad_dreadnought_venerable_hf", "inquisition_squad_land_raider", 
+	"inquisition_squad_land_raider_crusader", "inquisition_squad_razorback", "inquisition_squad_rhino", "inquisition_squad_vortimer_razorback",
+	"inquisition_squad_gk_tempest",
+	
+	--[[CRON]]
+	"necron_cryptek_squad", "necron_destroyer_squad", "necron_heavy_destroyer_squad", "necron_lord_destroyer_squad", "necron_lord_squad",
+	"necron_pariah_lord_squad", "necron_reclamator_squad", "necron_restored_monolith_squad", "necron_tomb_spyder_squad", "necron_wraith_squad",
+	"necron_wraith_t3_squad",
+	
+	--[[ORKS]]
+	"ork_squad_fighta_bomba", "ork_squad_killa_kan", "ork_squad_looted_tank", "ork_squad_squiggoth", "ork_squad_trukk", "ork_squad_wartrak",
+	
+	--[[SISTERS]]
+	"sisters_squad_exorcist_tank", "sisters_squad_immolator_tank", "sisters_squad_lightning", "sisters_squad_penitent_engine", "sisters_squad_rhino",
+	
+	--[[SM]]
+	"space_marine_squad_dreadnought", "space_marine_squad_dreadnought_hellfire", "space_marine_squad_drop_pod_emplacement", "space_marine_squad_land_raider", 
+	"space_marine_squad_land_speeder", "space_marine_squad_predator", "space_marine_squad_rhino", "space_marine_squad_tempest", "space_marine_squad_whirlwind",
+	
+	--[[SM V]]
+	"space_marine_squad_dreadnought_hellfire_veteran", "space_marine_squad_dreadnought_veteran", "space_marine_squad_land_raider_veteran", 
+	"space_marine_squad_land_speeder_veteran", "space_marine_squad_predator_veteran", "space_marine_squad_rhino_veteran", "space_marine_squad_tempest_veteran",
+	"space_marine_squad_whirlwind_veteran", 
+	
+	--[[TAU]]
+	"tau_barracuda_squad", "tau_broadside_battlesuit_squad", "tau_crisis_suit_squad", "tau_devilfish_troop_carrier", "tau_drone_harbinger_squad",
+	"tau_hammerhead_gunship_squad", "tau_skyray_squad"
+}
 
 g_SquadBlueprintToIgnore = 
 {

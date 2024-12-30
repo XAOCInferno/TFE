@@ -12,7 +12,8 @@ function IdleRepair:new (_Player, _OwnerSquad, _IdleController, _RepairRadius )
 		RepairRadius = _RepairRadius,
 
 		--Vars
-		StructureRepairing = nil
+		EntityRepairing = nil,
+		IsRepairingSquad = false
     }
 
 	self.__index = self
@@ -62,34 +63,81 @@ function IdleRepair:HandleStates()
 		--Don't forget to comment out
 		--Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "IdleRepair: Applying IDLE state")
 
-		local getNewStructure = false
+		local getNewEntity = false
 
-		if (self.StructureRepairing ~= nil) then
+		if (self.EntityRepairing ~= nil) then
+			
+			if (self.EntityRepairing.EntityAvgHealth == 1.0 or self.EntityRepairing.SquadAvgHealth == 1.0) then
 
-			if (self.StructureRepairing.EntityAvgHealth == 1.0) then
-
-				getNewStructure = true
-				self.StructureRepairing = nil
+				getNewEntity = true
+				self.EntityRepairing = nil
 
 			end
 
 		else
 
-			getNewStructure = true
+			getNewEntity = true
 
 		end
 
 		local linkedSquad = self.IdleController.OwnerSquad
-		if(getNewStructure) then
+		if(getNewEntity) then
 
+			local damagedSquads = GetAllDamagedAlliedSquadsInAoE(linkedSquad.OwnerPlayer, linkedSquad.SquadPosition, self.RepairRadius)
+			local closestDamagedSquad = GetClosestSquadInList(linkedSquad.SquadPosition, damagedSquads)
 			local damagedStructures = GetAllDamagedAlliedStructuresInAoE(linkedSquad.OwnerPlayer, linkedSquad.SquadPosition, self.RepairRadius)
-			self.StructureRepairing = GetClosestEntityInList(linkedSquad.SquadPosition, damagedStructures)
+			local closestDamagedEntity = GetClosestEntityInList(linkedSquad.SquadPosition, damagedStructures)
+
+			if(closestDamagedEntity ~= nil and closestDamagedSquad ~= nil) then
+
+				local squadDistFromIdler = World_DistancePointToPoint(linkedSquad.SquadPosition, closestDamagedSquad.SquadPosition)
+				local entityDistFromIdler = World_DistancePointToPoint(linkedSquad.SquadPosition, closestDamagedEntity.EntityPosition)
+
+				if(squadDistFromIdler <= entityDistFromIdler) then
+
+					self.EntityRepairing = closestDamagedSquad
+					self.IsRepairingSquad = true
+
+				else
+
+					self.EntityRepairing = closestDamagedEntity
+					self.IsRepairingSquad = false
+
+				end	
+
+			else
+				
+				if(closestDamagedEntity ~= nil) then
+					
+					self.EntityRepairing = closestDamagedEntity
+					self.IsRepairingSquad = false
+
+				elseif(closestDamagedSquad ~= nil) then
+					
+					self.EntityRepairing = closestDamagedSquad
+					self.IsRepairingSquad = true
+
+				else
+					
+					self.EntityRepairing = nil
+
+				end
+
+			end
 
 		end
 
-		if(self.StructureRepairing ~= nil) then
+		if(self.EntityRepairing ~= nil) then
 
-			Command_SquadEntity(linkedSquad.OwnedByPlayer, linkedSquad.SquadGroupID, SCMD_Repair, self.StructureRepairing.EntityGroupID)
+			if(self.IsRepairingSquad == true) then
+
+				Command_SquadSquad(linkedSquad.OwnedByPlayer, linkedSquad.SquadGroupID, SCMD_Repair, self.EntityRepairing.SquadGroupID)
+
+			else
+				
+				Command_SquadEntity(linkedSquad.OwnedByPlayer, linkedSquad.SquadGroupID, SCMD_Repair, self.EntityRepairing.EntityGroupID)
+
+			end
 
 		end
 
@@ -97,7 +145,7 @@ function IdleRepair:HandleStates()
 		--Don't forget to comment out
 		--Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "IdleRepair: Applying NOT IDLE state")
 
-		self.StructureRepairing = nil
+		self.EntityRepairing = nil
 
 	end	
 
