@@ -195,6 +195,8 @@ g_EntityBlueprintToIgnore =
 {
 	"blood_splat",
 	"blood_splat_long",
+	"blood_splat_short", 
+	"tau_pulse_buckshot",
 	"dark_eldar_death_blossom",
 	"dark_eldar_death_blossom_soul_destruction",
 	"world_AI_Difficulty_Scaler_Advanced",
