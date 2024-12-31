@@ -629,13 +629,15 @@ function GetClosestSquadToPos(_player, _pos, _maxDistance, _IgnoreSquadIDs)
 end
 
 --Use for single target in given group
+--[[TODO: Duplicate of 'GetClosestSquadInList', consider refactoring into that func and carry over the max distance var]]
 function GetClosestSquadInSquadTableToPos(_squads, _pos, _maxDistance)
 
 	AddStacktrace("GetClosestSquadInSquadTableToPos")	
 
+	local ClosestSquad = nil
+
 	if(TableLength(_squads) ~= 0) then
 	
-		local ClosestSquad = nil
 		local ShortestDistance = 10000
 
 		for i = 1, TableLength(_squads) do
