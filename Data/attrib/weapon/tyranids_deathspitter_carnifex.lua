@@ -19,11 +19,11 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_12"][
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_13"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_14"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\ranged_melta_heavy.lua]])
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\ranged_melta_light.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["damage_reduction_when_moving"] = 1
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 65 
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 42 
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 78 
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 48 
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 2
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 4.5
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events\Impact_Bolter_Hvy_Blood]]
