@@ -78,7 +78,148 @@ function Setup_ActualGlobalAbilies()
 		
 		end
 
-		
+
+		--[[GENERIC]]
+		AbilityStruct_GenericRetreatToBase = CreateGlobalAbility(
+				"",
+				i, 
+				"Generic_Retreat_To_Base", 
+				"generic_retreat_entity",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+		--Logic must be ended by the code not by the duration
+		AbilityStruct_GenericRetreatToBase.TimedAbilityEndAfterDuration = false
+			
+		AbilityStruct_GenericRetreatToBase.AcceptedArmourTypes = 
+		{
+			"tp_commander", "tp_sub_commander", "tp_infantry_heavy_med", "tp_infantry_heavy_high",
+			"tp_infantry_high", "tp_infantry_med", "tp_infantry_low"
+		}
+
+		AbilityStruct_GenericRetreatToBase.ModifiersToApplyOnRetreat = 
+		{
+			gMod_DisableShooting, gMod_DisableMelee, gMod_DisableMoraleRegen, gMod_MaxMoraleReduction100, gMod_DisableConstruction, 
+			gMod_DisableAbilities, gMod_DisableAbilitiesUI, gMod_DisableControl, gMod_DisableTeleport, gMod_DisableReinforce,
+			gMod_DisableUpgrades, gMod_MaxMorale00
+		}
+
+		AbilityStruct_GenericRetreatToBase.TrackedSquads = 
+		{
+
+		}
+
+		AbilityStruct_GenericRetreatToBase.NumberOfTrackedSquads = 0
+
+		AbilityStruct_GenericRetreatToBase.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+			local own, _, _, _ = GetAllPlayerRelationships(_self.CasterPlayer)				
+			local SquadsWithAcceptedArmour = GetAllSquadsOfArmourTypeFromPlayerTable(own, _self.AcceptedArmourTypes, true)
+			local ClosestSquad = GetClosestSquadInSquadTableToPos(SquadsWithAcceptedArmour, _pos, 100)
+				
+			if(ClosestSquad ~= nil) then
+
+				if(World_DistancePointToPoint(ClosestSquad.SquadPosition, ClosestSquad.OwnerPlayer.StartingPosition) > 20) then
+
+					_self.NumberOfTrackedSquads = _self.NumberOfTrackedSquads + 1
+					_self.TrackedSquads[_self.NumberOfTrackedSquads] = { Squad = ClosestSquad, AppliedModifiers = {} }
+
+					print("adding entity ".._self.NumberOfTrackedSquads)
+
+					if(_self.TimedAbilityIsActive == false) then
+						
+						_self:ActivateTimedAbility()
+
+					end
+
+				end
+				
+			end
+			
+		end
+
+		--TODO: When a squad arrives shift to the left the data 
+		AbilityStruct_GenericRetreatToBase.TimedAbilityUpdate = function(_self)
+			
+			for i = 0, _self.NumberOfTrackedSquads do
+				print("Number of retreaters ".._self.NumberOfTrackedSquads)
+				local index = _self.NumberOfTrackedSquads == 1 and 1 or _self.NumberOfTrackedSquads - i
+				print("HI")
+				local squadStruct = _self.TrackedSquads[index]	
+
+				if(squadStruct ~= nil) then
+
+					local squad = squadStruct.Squad					
+
+					if(squad ~= nil) then
+
+						--Apply initial mods if not already applied
+						if(TableLength(squadStruct.AppliedModifiers) == 0) then
+							print("APPLYING")
+							local appliedMods = {}
+	
+							for x = 1, TableLength(_self.ModifiersToApplyOnRetreat) do
+			
+								local newMod = Modifier_ApplyToSquad(_self.ModifiersToApplyOnRetreat[x], squad.SquadID)
+			
+								if(newMod ~= nil) then
+			
+									table.insert(appliedMods, newMod)
+			
+								end
+			
+							end
+							
+							_self.TrackedSquads[index].AppliedModifiers = appliedMods 
+							
+						end
+
+						Command_SquadPos(squad.OwnedByPlayer, squad.SquadGroupID, SCMD_Move, squad.OwnerPlayer.StartingPosition)
+
+						if(World_DistancePointToPoint(squad.SquadPosition, squad.OwnerPlayer.StartingPosition) <= 20) then
+
+							print("REMOVING!")
+							local modList = _self.TrackedSquads[index].AppliedModifiers
+
+							for modIndex = 1, TableLength(modList) do
+
+								pcall(Modifier_Remove, modList[modIndex])
+
+							end
+
+							_self.NumberOfTrackedSquads = _self.NumberOfTrackedSquads - 1
+							_self.TrackedSquads[index] = nil
+							break
+
+						end
+
+					else
+						
+						_self.NumberOfTrackedSquads = _self.NumberOfTrackedSquads - 1
+						_self.TrackedSquads[index] = nil
+						break
+
+					end
+
+				else
+
+					print("SQAUD STURCT IT NULL")
+
+				end
+
+			end
+
+			if(_self.NumberOfTrackedSquads == 0) then
+
+				print("retreat ability end")
+				_self.TimedAbilityIsActive = false
+
+			end
+
+		end
+
 
 		--[[CHAOS]]
 		if(RaceName == "chaos_marine_race") then

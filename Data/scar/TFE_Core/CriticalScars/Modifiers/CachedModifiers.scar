@@ -2,11 +2,25 @@
 function InitCachedModifiers()
 
 	gMod_DisableShooting = Modifier_Create( MAT_Squad, "enable_shooting", MUT_Enable, true, -1, "" )
+	gMod_DisableMelee = Modifier_Create( MAT_Squad, "enable_melee", MUT_Enable, true, -1, "" )
+
+	gMod_DisableMoraleRegen = Modifier_Create( MAT_Squad, "morale_rate_squad_modifier", MUT_Multiplication, true, 0, "" )	
+	gMod_DisableConstruction = Modifier_Create( MAT_Squad, "enable_can_build", MUT_Enable, true, -1, "" )
+	gMod_DisableAbilities = Modifier_Create( MAT_Squad, "enable_abilities", MUT_Enable, true, -1, "" )
+	gMod_DisableAbilitiesUI = Modifier_Create( MAT_Squad, "disable_abilities_ui", MUT_Enable, true, 1, "" )
+	gMod_DisableControl = Modifier_Create( MAT_Squad, "lose_control", MUT_Enable, true, -1, "" )
+	gMod_DisableTeleport = Modifier_Create( MAT_Squad, "enable_squad_jump", MUT_Enable, true, -1, "" )
+	gMod_DisableReinforce = Modifier_Create( MAT_Squad, "enable_squad_reinforcement", MUT_Enable, true, -1, "" )
+	gMod_DisableUpgrades = Modifier_Create( MAT_Squad, "enable_squad_upgrades", MUT_Enable, true, -1, "" )
 
 	gMod_SightRadiusReduction80 = Modifier_Create( MAT_Squad, "sight_radius_modifier", MUT_Multiplication, true, 0.2, "" )
 	gMod_SightRadiusReduction60 = Modifier_Create( MAT_Squad, "sight_radius_modifier", MUT_Multiplication, true, 0.4, "" )
 	
 	gMod_KeenSightRadiusReduction80 = Modifier_Create( MAT_Squad, "keen_sight_radius_modifier", MUT_Multiplication, true, 0.2, "" )
 	gMod_KeenSightRadiusReduction60 = Modifier_Create( MAT_Squad, "keen_sight_radius_modifier", MUT_Multiplication, true, 0.4, "" )
+	
+	gMod_MaxMoraleReduction100 = Modifier_Create( MAT_Squad, "morale_maximum_squad_modifier", MUT_Multiplication, true, 0.0, "" )
+
+	gMod_MaxSpeedIncrease40 = Modifier_Create( MAT_Squad, "speed_maximum_modifier", MUT_Multiplication, true, 1.4, "" )
 
 end

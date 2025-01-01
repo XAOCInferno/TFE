@@ -23,13 +23,15 @@ function GlobalAbility:new ( _LinkedSquadBP, _CasterPlayerIndex, _AbilityName, _
 		PosInTrackedAbilities = _PosInTrackedAbilities,
 
 		--Constants not defined in constructor
-		AbilityDuration,
+		Duration = 0,
 		
 		--Varaiables
 		CurrentAcceptedEntityStruct,
 		LastCastedEntityPosition,
 		AbilityCastTime,
+		ActivatedTime = 0,
 		TimedAbilityIsActive = false,
+		TimedAbilityEndAfterDuration = true,
 
 			--Vars when ability is active
 		AppliedModifierIDs = {},
@@ -99,8 +101,8 @@ function GlobalAbility:Update()
 
 	if(self.TimedAbilityIsActive) then
 
-		if(g_WorldTime - self.ActivatedTime >=  self.Duration) then
-
+		if((g_WorldTime - self.ActivatedTime >= self.Duration) and self.TimedAbilityEndAfterDuration == true) then
+			
 			self.TimedAbilityIsActive = false
 			self:TimedAbilityEnd(self)
 
