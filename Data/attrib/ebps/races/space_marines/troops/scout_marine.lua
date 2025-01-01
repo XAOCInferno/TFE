@@ -6,6 +6,7 @@ GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\marines_scout_k
 GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\marines_tracking_auspex.lua]]
 GameData["ability_ext"]["abilities"]["ability_11"] = [[abilities\generic_auto_force_reload.lua]]
 GameData["ability_ext"]["abilities"]["ability_12"] = [[abilities\generic_stonewall_type_ranged.lua]]
+GameData["ability_ext"]["abilities"]["ability_13"] = [[abilities\generic_retreat_to_base.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Main]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["hardpoint_weapon_variant_motion_name"] = [[Weapon_Range_Upgrade_Main]]
