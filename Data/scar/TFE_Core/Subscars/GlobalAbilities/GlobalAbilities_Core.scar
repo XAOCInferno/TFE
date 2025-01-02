@@ -115,6 +115,8 @@ function Setup_ActualGlobalAbilies()
 
 		AbilityStruct_GenericRetreatToBase.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 
+			--TODO: We need to filer out squads who are currently retreating so not to double add them
+			--TODO: Fix mods not applying / not working how we want them to work
 			local own, _, _, _ = GetAllPlayerRelationships(_self.CasterPlayer)				
 			local SquadsWithAcceptedArmour = GetAllSquadsOfArmourTypeFromPlayerTable(own, _self.AcceptedArmourTypes, true)
 			local ClosestSquad = GetClosestSquadInSquadTableToPos(SquadsWithAcceptedArmour, _pos, 100)
