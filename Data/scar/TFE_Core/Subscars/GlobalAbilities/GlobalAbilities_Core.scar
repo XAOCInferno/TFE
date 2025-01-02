@@ -102,7 +102,7 @@ function Setup_ActualGlobalAbilies()
 		AbilityStruct_GenericRetreatToBase.ModifiersToApplyOnRetreat = 
 		{
 			gMod_DisableShooting, gMod_DisableMelee, gMod_DisableMoraleRegen, gMod_DisableConstruction, 
-			gMod_DisableAbilities, gMod_DisableAbilitiesUI, gMod_DisableControl, gMod_DisableTeleport, gMod_DisableReinforce,
+			gMod_DisableAbilities, gMod_DisableAbilitiesUI, --[[gMod_DisableControl,]] gMod_DisableTeleport, gMod_DisableReinforce,
 			gMod_DisableUpgrades, gMod_MaxSpeedIncrease20, gMod_AccelerationIncrease1_5s
 		}
 
@@ -154,29 +154,40 @@ function Setup_ActualGlobalAbilies()
 
 					if(squad ~= nil) then
 
-						--Apply initial mods if not already applied
-						if(squadStruct.ModsApplied == false) then
-							
-							for x = 1, TableLength(_self.ModifiersToApplyOnRetreat) do
-			
-								ModifierUtil_ApplyToSGroup(squad.SquadGroupID, _self.ModifiersToApplyOnRetreat[x], true)
-			
+						if(squad.SquadLoadout > 0 and Squad_Exists(squad.SquadUniqueID)) then
+
+							--Apply initial mods if not already applied
+							if(squadStruct.ModsApplied == false) then
+								
+								Command_SquadPos(squad.OwnedByPlayer, squad.SquadGroupID, SCMD_Move, squad.OwnerPlayer.StartingPosition)
+															
+								for x = 1, TableLength(_self.ModifiersToApplyOnRetreat) do
+				
+									ModifierUtil_ApplyToSGroup(squad.SquadGroupID, _self.ModifiersToApplyOnRetreat[x], true)
+				
+								end
+
+								squadStruct.ModsApplied = true
+								
 							end
 
-							squadStruct.ModsApplied = true
-							
-						end
+							SGroup_SetAvgMorale(squad.SquadGroupName, 0.0)
+							Command_SquadPos(squad.OwnedByPlayer, squad.SquadGroupID, SCMD_Move, squad.OwnerPlayer.StartingPosition)
 
-						SGroup_SetAvgMorale(squad.SquadGroupName, 0.0)
-						Command_SquadPos(squad.OwnedByPlayer, squad.SquadGroupID, SCMD_Move, squad.OwnerPlayer.StartingPosition)
+							if(World_DistancePointToPoint(squad.SquadPosition, squad.OwnerPlayer.StartingPosition) <= 20) then
 
-						if(World_DistancePointToPoint(squad.SquadPosition, squad.OwnerPlayer.StartingPosition) <= 20) then
+								for x = 1, TableLength(_self.ModifiersToApplyOnRetreat) do
 
-							for x = 1, TableLength(_self.ModifiersToApplyOnRetreat) do
+									ModifierUtil_ApplyToSGroup(squad.SquadGroupID, _self.ModifiersToApplyOnRetreat[x], false)
 
-								ModifierUtil_ApplyToSGroup(squad.SquadGroupID, _self.ModifiersToApplyOnRetreat[x], false)
+								end
+
+								_self.RemoveSquadEntryAtIndex(_self, index)
+								break --Needed?
 
 							end
+
+						else
 
 							_self.RemoveSquadEntryAtIndex(_self, index)
 							break --Needed?
