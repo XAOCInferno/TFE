@@ -103,7 +103,7 @@ function Setup_ActualGlobalAbilies()
 		{
 			gMod_DisableShooting, gMod_DisableMelee, gMod_DisableMoraleRegen, gMod_DisableConstruction, 
 			gMod_DisableAbilities, gMod_DisableAbilitiesUI, gMod_DisableControl, gMod_DisableTeleport, gMod_DisableReinforce,
-			gMod_DisableUpgrades, gMod_MaxSpeedIncrease20
+			gMod_DisableUpgrades, gMod_MaxSpeedIncrease20, gMod_AccelerationIncrease1_5s
 		}
 
 		AbilityStruct_GenericRetreatToBase.TrackedSquads = 

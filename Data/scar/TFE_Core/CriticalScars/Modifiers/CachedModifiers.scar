@@ -22,5 +22,6 @@ function InitCachedModifiers()
 	gMod_MaxMoraleReduction100 = Modifier_Create( MAT_Squad, "morale_maximum_squad_modifier", MUT_Multiplication, true, 0.0, "" )
 
 	gMod_MaxSpeedIncrease20 = Modifier_Create( MAT_Squad, "speed_maximum_modifier", MUT_Multiplication, false, 1.2, "" )
+	gMod_AccelerationIncrease1_5s = Modifier_Create( MAT_Squad, "speed_acceleration_time_modifier", MUT_Addition, false, 1.5, "" )
 
 end
