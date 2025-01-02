@@ -158,7 +158,7 @@ function Setup_ActualGlobalAbilies()
 
 							--Apply initial mods if not already applied
 							if(squadStruct.ModsApplied == false) then
-								
+
 								Command_SquadPos(squad.OwnedByPlayer, squad.SquadGroupID, SCMD_Move, squad.OwnerPlayer.StartingPosition)
 															
 								for x = 1, TableLength(_self.ModifiersToApplyOnRetreat) do
@@ -174,7 +174,7 @@ function Setup_ActualGlobalAbilies()
 							SGroup_SetAvgMorale(squad.SquadGroupName, 0.0)
 							Command_SquadPos(squad.OwnedByPlayer, squad.SquadGroupID, SCMD_Move, squad.OwnerPlayer.StartingPosition)
 
-							if(World_DistancePointToPoint(squad.SquadPosition, squad.OwnerPlayer.StartingPosition) <= 20) then
+							if(World_DistancePointToPoint(squad.SquadPosition, squad.OwnerPlayer.StartingPosition) <= 45) then
 
 								for x = 1, TableLength(_self.ModifiersToApplyOnRetreat) do
 
