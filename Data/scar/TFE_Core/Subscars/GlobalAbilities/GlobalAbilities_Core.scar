@@ -124,7 +124,7 @@ function Setup_ActualGlobalAbilies()
 				if(World_DistancePointToPoint(ClosestSquad.SquadPosition, ClosestSquad.OwnerPlayer.StartingPosition) > 20) then
 
 					_self.NumberOfTrackedSquads = _self.NumberOfTrackedSquads + 1
-					_self.TrackedSquads[_self.NumberOfTrackedSquads] = { Squad = ClosestSquad, AppliedModifiers = {} }
+					_self.TrackedSquads[_self.NumberOfTrackedSquads] = { Squad = ClosestSquad, ModsApplied = false }
 
 					print("adding entity ".._self.NumberOfTrackedSquads)
 
@@ -143,10 +143,10 @@ function Setup_ActualGlobalAbilies()
 		--TODO: When a squad arrives shift to the left the data 
 		AbilityStruct_GenericRetreatToBase.TimedAbilityUpdate = function(_self)
 			
-			for i = 0, _self.NumberOfTrackedSquads do
+			for i = 0, _self.NumberOfTrackedSquads - 1 do
 				print("Number of retreaters ".._self.NumberOfTrackedSquads)
-				local index = _self.NumberOfTrackedSquads == 1 and 1 or _self.NumberOfTrackedSquads - i
-				print("HI")
+				local index = _self.NumberOfTrackedSquads - i --_self.NumberOfTrackedSquads == 1 and 1 or _self.NumberOfTrackedSquads - i
+				print("HI "..index)
 				local squadStruct = _self.TrackedSquads[index]	
 
 				if(squadStruct ~= nil) then
@@ -156,23 +156,14 @@ function Setup_ActualGlobalAbilies()
 					if(squad ~= nil) then
 
 						--Apply initial mods if not already applied
-						if(TableLength(squadStruct.AppliedModifiers) == 0) then
+						if(ModsApplied == false) then
 							print("APPLYING")
-							local appliedMods = {}
 	
 							for x = 1, TableLength(_self.ModifiersToApplyOnRetreat) do
 			
-								local newMod = Modifier_ApplyToSquad(_self.ModifiersToApplyOnRetreat[x], squad.SquadID)
-			
-								if(newMod ~= nil) then
-			
-									table.insert(appliedMods, newMod)
-			
-								end
+								ModifierUtil_ApplyToSGroup(squad.SquadGroupID, _self.ModifiersToApplyOnRetreat[x], true)
 			
 							end
-							
-							_self.TrackedSquads[index].AppliedModifiers = appliedMods 
 							
 						end
 
@@ -181,25 +172,21 @@ function Setup_ActualGlobalAbilies()
 						if(World_DistancePointToPoint(squad.SquadPosition, squad.OwnerPlayer.StartingPosition) <= 20) then
 
 							print("REMOVING!")
-							local modList = _self.TrackedSquads[index].AppliedModifiers
+							for x = 1, TableLength(_self.ModifiersToApplyOnRetreat) do
 
-							for modIndex = 1, TableLength(modList) do
-
-								pcall(Modifier_Remove, modList[modIndex])
+								ModifierUtil_ApplyToSGroup(squad.SquadGroupID, _self.ModifiersToApplyOnRetreat[x], false)
 
 							end
 
-							_self.NumberOfTrackedSquads = _self.NumberOfTrackedSquads - 1
-							_self.TrackedSquads[index] = nil
-							break
+							_self.RemoveSquadEntryAtIndex(_self, index)
+							break --Needed?
 
 						end
 
-					else
-						
-						_self.NumberOfTrackedSquads = _self.NumberOfTrackedSquads - 1
-						_self.TrackedSquads[index] = nil
-						break
+					else						
+
+						_self.RemoveSquadEntryAtIndex(_self, index)
+						break --Needed?
 
 					end
 
@@ -217,6 +204,14 @@ function Setup_ActualGlobalAbilies()
 				_self.TimedAbilityIsActive = false
 
 			end
+
+		end
+
+		AbilityStruct_GenericRetreatToBase.RemoveSquadEntryAtIndex = function(_self, _index)
+
+			_self.NumberOfTrackedSquads = _self.NumberOfTrackedSquads - 1
+			--_self.TrackedSquads[index] = nil
+			TableShiftLeftAfterIndex(_self.TrackedSquads, _index)
 
 		end
 

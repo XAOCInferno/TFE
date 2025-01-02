@@ -218,6 +218,49 @@ function TableGetRand(_Tbl)
 
 end
 
+function TableShiftLeftAfterIndex(_Tbl, _IndexToReplace)
+
+	AddStacktrace("TableShiftLeftAfterIndex")
+	
+	local returnTable = _Tbl
+
+	if(_Tbl == nil) then 
+
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, "Table is Nil!")
+
+	else
+
+		local tblLen = TableLength(_Tbl)
+
+		if(_IndexToReplace >= tblLen) then
+			
+			Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, "Cannot shift left due to index being out of bounds of table length!")
+			
+		else
+
+			returnTable = {} 
+			for addIndexBefore = 1, _IndexToReplace - 1 do
+
+				table.insert(returnTable, _Tbl[addIndexBefore])
+
+			end
+
+			for addIndexAfter = _IndexToReplace + 1, tblLen do
+
+				table.insert(returnTable, _Tbl[addIndexAfter])
+				
+			end
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+	return returnTable
+
+end
+
 
 --These are not table related! Move them into a maths scar later
 function round(num, numDecimalPlaces)
