@@ -1,9 +1,9 @@
-﻿Director and Lead Developer: Ben (LeEspresso)
+﻿Developers: 
+Ben (LeEspresso) 
+Omar (Dhar'dhaoneth Nazgûleth)
 
-Lead QA Tester, Designer and Map Creator: Omar (Dhar'dhaoneth Nazgûleth)
-
-Assistant Designer and Tester: PogChamp2021
 
 Pre-Alpha Testers:
+PogChamp2021
 indy
 renfrew
