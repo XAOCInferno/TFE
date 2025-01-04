@@ -1,7 +1,7 @@
 # ignore files in these directories
-designs/3D/HighPoly
-designs/3D/LowPoly
-designs/3D/
+Development/Art/3D/HighPoly
+Development/Art/3D/LowPoly
+Development/Art/3D/
 
 # for specific file types, use format *.filetype
 *.blend
