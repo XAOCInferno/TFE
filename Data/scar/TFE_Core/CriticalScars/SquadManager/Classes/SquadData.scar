@@ -151,6 +151,7 @@ function SquadData:ReaffirmConstants()
 		self.SquadID = _squadID
 		self.SquadIndex = _itemindex
 		self.SquadUniqueID = Squad_GetGameID( _squadID )
+		self.SquadBlueprint = Squad_GetBlueprintName( _squadID )
 
 	end
 

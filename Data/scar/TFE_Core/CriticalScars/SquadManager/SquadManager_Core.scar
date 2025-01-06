@@ -79,17 +79,30 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 
 						--Squad has previously attached, so we need to add reaffirm tracking to it and get which squad it probably attached to
 						copy.SquadHasAttached = true	
-						copy.History = copy.SquadAttachedTo.History
-						copy.SquadDetachedFrom = copy.SquadAttachedTo
 
-						--Update the attached to squad loadout by -1 so that we don't acidentally award a kill for this detach
-						copy.SquadAttachedTo.PreviousSquadLoadout = copy.SquadAttachedTo.PreviousSquadLoadout - 1
+						if(copy.SquadAttachedTo ~= nil) then
 
-						--Clearup attach data on the previously attached squad
-						copy.SquadAttachedTo.SquadHasBeenAttachedTo = false
-						copy.SquadAttachedTo.SquadHasAttachedToThis = nil
+							copy.History = copy.SquadAttachedTo.History
+							copy.SquadDetachedFrom = copy.SquadAttachedTo
 
-						copy.SquadAttachedTo = nil
+							--Update the attached to squad loadout by -1 so that we don't acidentally award a kill for this detach
+							copy.SquadAttachedTo.PreviousSquadLoadout = copy.SquadAttachedTo.PreviousSquadLoadout - 1
+
+							--Clearup attach data on the previously attached squad
+							copy.SquadAttachedTo.SquadHasBeenAttachedTo = false
+							copy.SquadAttachedTo.SquadHasAttachedToThis = nil
+
+							copy.SquadAttachedTo = nil
+
+						else
+
+							Log(eLOG_LOG_TYPE_WARNING, eLOG_SIMPLE, g_AllSquadsData[_PlayerIndex][l].SquadBlueprint.." has detached, but we don't know who they were previously attached to. Assigning new sGroup.")
+
+							copy.SquadGroupID = GetUniqueSG("SquadData_"..copy.SquadBlueprint)
+							SGroup_Add(copy.SquadGroupID, copy.SquadID)				
+							copy.SquadGroupName = SGroup_GetName(copy.SquadGroupID)
+
+						end
 
 						--Overwrite previous data
 						g_AllSquadsData[_PlayerIndex][l] = copy					
@@ -203,6 +216,10 @@ function Update_ExistingSquadDetails()
 
 						g_AllSquadsData[i][l].SquadAttachedTo.SquadHasBeenAttachedTo = true
 						g_AllSquadsData[i][l].SquadAttachedTo.SquadHasAttachedToThis = g_AllSquadsData[i][l]
+
+					else
+						
+						Log(eLOG_LOG_TYPE_WARNING, eLOG_SIMPLE, g_AllSquadsData[i][l].SquadBlueprint.." has attached, but we don't know who they attached to.")
 
 					end
 					
