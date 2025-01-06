@@ -196,10 +196,15 @@ function Update_ExistingSquadDetails()
 					g_AllSquadsData[i][l]:ReaffirmConstants()
 
 					--Assign the Squad we're attached as the nearest squad, weird assumption but works
-					g_AllSquadsData[i][l].SquadAttachedTo = GetClosestSquadToPos(i, g_AllSquadsData[i][l].SquadPosition, 30, { g_AllSquadsData[i][l].SquadID })
+					g_AllSquadsData[i][l].SquadAttachedTo = GetClosestSquadToPos(i, g_AllSquadsData[i][l].SquadPosition, 50, { g_AllSquadsData[i][l].SquadID })
 
-					g_AllSquadsData[i][l].SquadAttachedTo.SquadHasBeenAttachedTo = true
-					g_AllSquadsData[i][l].SquadAttachedTo.SquadHasAttachedToThis = g_AllSquadsData[i][l]
+					--[[TODO: Get what happens with null attached squad here, something to do with possessed attachable heroes?]]
+					if(g_AllSquadsData[i][l].SquadAttachedTo ~= nil) then
+
+						g_AllSquadsData[i][l].SquadAttachedTo.SquadHasBeenAttachedTo = true
+						g_AllSquadsData[i][l].SquadAttachedTo.SquadHasAttachedToThis = g_AllSquadsData[i][l]
+
+					end
 					
 				end
 			
