@@ -18,9 +18,9 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_13"][
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_14"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\melee_chain.lua]])
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 31.7310009
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 25.96100044
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 5
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 45.7310009
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 35.96100044
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 3
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 12
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events\Impact_Melee_HVY_Blood]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry02"]["event"] = [[Unit_Impact_events\Impact_Bolter_Hvy]]
