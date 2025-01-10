@@ -501,6 +501,8 @@ GameData["squad_requirement_ext"]["requirements"]["required_1"]["population_requ
 GameData["squad_requirement_ext"]["requirements"]["required_2"] = Reference([[requirements\required_structure.lua]])
 GameData["squad_requirement_ext"]["requirements"]["required_2"]["is_display_requirement"] = true 
 GameData["squad_requirement_ext"]["requirements"]["required_2"]["structure_name"] = [[ebps\races\orks\structures\ork_boy_hut.lua]]
+GameData["squad_requirement_ext"]["requirements"]["required_3"] = Reference([[requirements\required_squad_cap.lua]])
+GameData["squad_requirement_ext"]["requirements"]["required_3"]["max_squad_cap"] = 3
 GameData["squad_requirement_ext"]["requirements"]["required_9"] = Reference([[requirements\required_structure.lua]])
 GameData["squad_requirement_ext"]["requirements"]["required_9"]["structure_name"] = [[ebps\races\orks\structures\ork_hq.lua]]
 GameData["squad_requirement_ext"]["requirements"]["required_10"] = Reference([[requirements\required_structure.lua]])
