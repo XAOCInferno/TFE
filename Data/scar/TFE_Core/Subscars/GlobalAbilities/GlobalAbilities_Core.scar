@@ -222,6 +222,7 @@ function Setup_ActualGlobalAbilies()
 
 
 		--[[CHAOS]]
+			--[[IDEA: T2.5 Global, Spawn an Elite CSM squad or Demon. Chaos undivided by default. If you have a mark of chaos researched from the barracks, then spawn a squad of that god's mark]]
 		if(RaceName == "chaos_marine_race") then
 			
 			--[[NON GLOBALS]]
