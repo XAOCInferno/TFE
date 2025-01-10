@@ -224,7 +224,7 @@ function Setup_ActualGlobalAbilies()
 		--[[CHAOS]]
 			--[[IDEA: T2.5 Global, Spawn an Elite CSM squad or Demon. Chaos undivided by default. If you have a mark of chaos researched from the barracks, then spawn a squad of that god's mark]]
 		if(RaceName == "chaos_marine_race") then
-			
+
 			--[[NON GLOBALS]]
 			AbilityStruct_ChaosSorcererTeleportationNodes = CreateGlobalAbility(
 				"",
@@ -2134,6 +2134,8 @@ function Setup_ActualGlobalAbilies()
 				table.getn(g_AllTrackedAbilities)
 			)
 					
+			-- T0 Nids global Spread Influence. Choose an area on the map and place a tyranid node there. Over time, reclemation pools will build around it.
+			-- T1 Nids global, capillary tower, big aggressive building that provides benefits and possibly allows reclemation pools to be build around it
 
 			--Restricts the free abilities
 			PreRestrictHiveTyrantFreeWeaponSwapAbilities(g_AllPlayers[i].Player)
