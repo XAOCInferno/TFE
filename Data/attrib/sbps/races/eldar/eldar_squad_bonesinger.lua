@@ -463,7 +463,6 @@ GameData["squad_morale_ext"]["rate_per_second"] = 10
 GameData["squad_requirement_ext"] = Reference([[sbpextensions\squad_requirement_ext.lua]])
 GameData["squad_requirement_ext"]["requirements"]["required_1"] = Reference([[requirements\required_cumulative_squad_cap.lua]])
 GameData["squad_requirement_ext"]["requirements"]["required_1"]["max_cumulative_squad_cap"] = 4
-GameData["squad_requirement_ext"]["requirements"]["required_1"]["squad_table"]["squad_01"] = [[sbps\races\eldar\eldar_squad_bonesinger.lua]]
 GameData["squad_requirement_ext"]["requirements"]["required_1"]["squad_table"]["squad_02"] = [[sbps\races\eldar\eldar_squad_bonesinger_start.lua]]
 GameData["squad_requirement_ext"]["requirements"]["required_10"] = Reference([[requirements\required_structure.lua]])
 GameData["squad_requirement_ext"]["requirements"]["required_10"]["is_display_requirement"] = true 
