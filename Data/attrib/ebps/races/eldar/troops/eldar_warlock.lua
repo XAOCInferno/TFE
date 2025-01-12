@@ -5,7 +5,6 @@ GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\eldar_conceal.l
 GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\eldar_entanglement.lua]]
 GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\eldar_leadership_guardian_warlock.lua]]
 GameData["ability_ext"]["abilities"]["ability_05"] = [[abilities\eldar_embolden.lua]]
-GameData["ability_ext"]["abilities"]["ability_06"] = [[abilities\eldar_embolden_damage.lua]]
 GameData["ability_ext"]["abilities"]["ability_11"] = [[abilities\generic_auto_force_reload_leader.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Main]]

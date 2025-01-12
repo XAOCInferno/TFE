@@ -3,7 +3,6 @@ GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
 GameData["ability_ext"]["abilities"]["ability_05"] = [[abilities\eldar_conceal_seer.lua]]
 GameData["ability_ext"]["abilities"]["ability_06"] = [[abilities\eldar_entanglement.lua]]
 GameData["ability_ext"]["abilities"]["ability_07"] = [[abilities\eldar_embolden.lua]]
-GameData["ability_ext"]["abilities"]["ability_08"] = [[abilities\eldar_embolden_damage.lua]]
 GameData["ability_ext"]["abilities"]["ability_11"] = [[abilities\generic_auto_force_reload.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Main]]
@@ -567,7 +566,7 @@ GameData["synckill_ext"]["synckillinfos"]["synckillinfo_02"]["killer_invulnerabl
 GameData["synckill_ext"]["synckillinfos"]["synckillinfo_03"]["dead_zombie_time"] = 4.099999905
 GameData["synckill_ext"]["synckillinfos"]["synckillinfo_03"]["killer_invulnerable_time"] = 3.019999981
 GameData["type_ext"] = Reference([[ebpextensions\type_ext.lua]])
-GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_infantry_high.lua]])
+GameData["type_ext"]["type_armour"] = Reference([[type_armour\tp_sub_commander.lua]])
 GameData["ui_ext"] = Reference([[ebpextensions\ui_ext.lua]])
 GameData["ui_ext"]["minimap_enable"] = true 
 GameData["ui_ext"]["minimap_teamcolor"] = true 
