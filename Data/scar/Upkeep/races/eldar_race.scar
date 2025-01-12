@@ -28,7 +28,7 @@ UnitCosting.eldar_race =
 	},
 	eldar_guardian_squad =
 	{
-		CostEntity = { Req = -0.33, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.31, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 		CostSquad = { Req = -0.5, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = -0.6, Power = -0.1, Pop = 0, Faith = 0, Souls = 0 },
 	},
@@ -40,15 +40,15 @@ UnitCosting.eldar_race =
 	},
 	eldar_squad_banshees =
 	{
-		CostEntity = { Req = -0.39, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -1.1, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -1.1, Power = -0.34, Pop = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.35, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -0.8, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -1.1, Power = -0.25, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_squad_dark_reapers =
 	{
 		CostEntity = { Req = -0.34, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -1.32, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -0.8, Power = -0.2, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -1, Power = -0.2, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	eldar_squad_fire_dragon = 
 	{
