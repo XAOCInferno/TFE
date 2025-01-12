@@ -1,0 +1,11 @@
+GameData = Inherit([[sbpextensions\squad_jump_ext.lua]])
+GameData["breakdown_time"] = 1
+GameData["charge_jump_cost_max"] = 80
+GameData["charge_jump_cost_min"] = 80
+GameData["charge_max"] = 120
+GameData["charge_regeneration"] = 1.5
+GameData["jump_distance_max"] = 35
+GameData["jump_time_max"] = 2
+GameData["jump_time_min"] = 2
+GameData["setup_time"] = 1
+GameData["teleport"] = true 

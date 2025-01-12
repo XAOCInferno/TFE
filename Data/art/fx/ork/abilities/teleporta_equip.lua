@@ -2535,7 +2535,7 @@ fxtypes =
 				{
 					name = "Emitter_Duration",
 					type = "VARTYPE_FLOAT",
-					value = 18,
+					value = 28,
 				},
 				property_01 =  
 				{
@@ -2842,17 +2842,17 @@ fxtypes =
 					value =  
 					{
 						0,
+						2.13333,
+						0.10000,
+						1.60000,
+						0.21250,
+						1.46667,
+						0.48000,
 						1.20000,
-						0.09500,
-						1,
-						0.20750,
-						0.80000,
-						0.48125,
-						0.80000,
 						0.78500,
-						1.26667,
+						1.86667,
 						1,
-						2.53333,
+						3.46667,
 					},
 				},
 				property_01 =  
@@ -3132,7 +3132,7 @@ fxtypes =
 				{
 					name = "Emitter_Duration",
 					type = "VARTYPE_FLOAT",
-					value = 19,
+					value = 29,
 				},
 				property_01 =  
 				{
