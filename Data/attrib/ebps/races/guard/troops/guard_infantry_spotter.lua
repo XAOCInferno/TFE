@@ -3,7 +3,6 @@ GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
 GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\guard_spotter_normal_shell.lua]]
 GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\guard_spotter_inferno_shell.lua]]
 GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\guard_spotter_disruption_shell.lua]]
-GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\guard_detection_field_spotter.lua]]
 GameData["ability_ext"]["abilities"]["ability_05"] = [[abilities\guard_full_retreat.lua]]
 GameData["ability_ext"]["abilities"]["ability_11"] = [[abilities\generic_auto_force_reload.lua]]
 GameData["combat_ext"]= Reference([[ebpextensions\combat_ext.lua]])
