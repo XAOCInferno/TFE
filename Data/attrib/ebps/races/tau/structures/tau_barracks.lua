@@ -259,6 +259,7 @@ GameData["spawner_ext"]["squad_table"]["squad_04"] = [[sbps\races\tau\tau_crisis
 GameData["spawner_ext"]["squad_table"]["squad_05"] = [[sbps\races\tau\tau_broadside_battlesuit_squad.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_06"] = [[sbps\races\tau\tau_pathfinder_squad.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_07"] = [[sbps\races\tau\tau_breacher_squad.lua]]
+GameData["spawner_ext"]["squad_table"]["squad_08"] = [[sbps\races\tau\tau_drone_squad.lua]]
 GameData["structure_buildable_ext"] = Reference([[ebpextensions\structure_buildable_ext.lua]])
 GameData["structure_buildable_ext"]["build_menu_priority"] = 2
 GameData["structure_buildable_ext"]["return_power_percent"] = 0.1000000015
