@@ -261,6 +261,7 @@ GameData["spawner_ext"]["squad_table"]["squad_01"] = [[sbps\races\dark_eldar\dar
 GameData["spawner_ext"]["squad_table"]["squad_02"] = [[sbps\races\dark_eldar\dark_eldar_squad_warrior.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_03"] = [[sbps\races\dark_eldar\dark_eldar_squad_archon_hg_dxp3.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_04"] = [[sbps\races\dark_eldar\dark_eldar_squad_scourge.lua]]
+GameData["spawner_ext"]["squad_table"]["squad_05"] = [[sbps\races\dark_eldar\dark_eldar_squad_incubus.lua]]
 GameData["structure_buildable_ext"] = Reference([[ebpextensions\structure_buildable_ext.lua]])
 GameData["structure_buildable_ext"]["build_menu_priority"] = 2
 GameData["structure_ext"] = Reference([[ebpextensions\structure_ext.lua]])

@@ -1,6 +1,6 @@
 GameData = Inherit([[]])
-GameData["accuracy"] = 0.6000000238
-GameData["accuracy_reduction_when_moving"] = 0.35
+GameData["accuracy"] = 0.65
+GameData["accuracy_reduction_when_moving"] = 0.3
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["remove_modifiers_with_source_entity"] = true 
 GameData["area_effect"]["area_effect_information"]["start_from_caster"] = false
@@ -21,8 +21,8 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_14"][
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\Ranged_Psychic_Light.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 16
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 12
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 18
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 14
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 1
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 1.049999952
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events\Blood_Splatter_Impact_S]]
