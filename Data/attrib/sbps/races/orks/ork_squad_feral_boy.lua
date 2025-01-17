@@ -1,4 +1,5 @@
 GameData = Inherit([[]])
+GameData["squad_attach_receive_ext"] = Reference([[sbpextensions\squad_attach_receive_ext.lua]])
 GameData["squad_blueprint_ext"] = Reference([[sbpextensions\squad_blueprint_ext.lua]])
 GameData["squad_capture_strategic_point_ext"] = Reference([[sbpextensions\squad_capture_strategic_point_ext.lua]])
 GameData["squad_capture_strategic_point_ext"]["capture_rate"] = 0.44999999881
