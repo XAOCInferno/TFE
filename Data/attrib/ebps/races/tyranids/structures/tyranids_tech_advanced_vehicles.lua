@@ -60,7 +60,6 @@ GameData["spawner_ext"]["squad_table"]["squad_01"] = [[sbps\races\tyranids\tyran
 GameData["spawner_ext"]["squad_table"]["squad_02"] = [[sbps\races\tyranids\tyranids_squad_biovore.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_03"] = [[sbps\races\tyranids\tyranids_squad_carnifex.lua]]
 GameData["spawner_ext"]["squad_table"]["squad_04"] = [[sbps\races\tyranids\tyranids_squad_carnifex_ranged.lua]]
-GameData["spawner_ext"]["squad_table"]["squad_05"] = [[sbps\races\tyranids\tyranids_squad_carnifex_melee.lua]]
 GameData["structure_buildable_ext"] = Reference([[ebpextensions\structure_buildable_ext.lua]])
 GameData["structure_buildable_ext"]["advanced_build_option"] = true 
 GameData["structure_buildable_ext"]["build_menu_priority"] = 7
