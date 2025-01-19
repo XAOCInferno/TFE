@@ -29,21 +29,21 @@ UnitCosting.chaos_marine_race =
 	},
 	chaos_squad_cultist =
 	{
-		CostEntity = { Req = -0.115, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -0.45, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -0.4, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.09, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -0.4, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -0.35, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	chaos_squad_cultist_flame =
 	{
-		CostEntity = { Req = -0.28, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.26, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 		CostSquad = { Req = -0.6, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -1.8, Power = -0.5, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -1.8, Power = -0.55, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	chaos_marine_squad =
 	{
-		CostEntity = { Req = -0.34, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.33, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 		CostSquad = { Req = -0.9, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostLeader = { Req = -1.12, Power = -0.4, Pop = 0, Faith = 0, Souls = 0 },
+		CostLeader = { Req = -1.11, Power = -0.4, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	chaos_AL_Operative_squad =
 	{
@@ -59,26 +59,26 @@ UnitCosting.chaos_marine_race =
 	},
 	chaos_squad_noise_marine =
 	{
-		CostEntity = { Req = -0.3, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -1.05, Power = -0.2, Pop = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.285, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.1, Power = -0.2, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	chaos_squad_raptor =
 	{
-		CostEntity = { Req = -0.42, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -1.24, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.41, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -1.2, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = -1, Power = -0.3, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	chaos_squad_khorne_berserker =
 	{
-		CostEntity = { Req = -0.55, Power = -0.12, Pop = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.53, Power = -0.12, Pop = 0, Faith = 0, Souls = 0 },
 		CostSquad = { Req = -1, Power = -0.6, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	chaos_squad_horror =
 	{
-		CostEntity = { Req = -0.27, Power = -0.05, Pop = 0, Faith = 0, Souls = 0 },
-		CostSquad = { Req = -0.72, Power = -0.4, Pop = 0, Faith = 0, Souls = 0 },
+		CostEntity = { Req = -0.29, Power = -0.05, Pop = 0, Faith = 0, Souls = 0 },
+		CostSquad = { Req = -0.75, Power = -0.4, Pop = 0, Faith = 0, Souls = 0 },
 		CostLeader = { Req = 0, Power = 0, Pop = 0, Faith = 0, Souls = 0 },
 	},
 	chaos_squad_horror_blue =
