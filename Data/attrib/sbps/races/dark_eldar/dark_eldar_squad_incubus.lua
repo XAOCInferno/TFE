@@ -1,5 +1,7 @@
 GameData = Inherit([[]])
 GameData["squad_blueprint_ext"] = Reference([[sbpextensions\squad_blueprint_ext.lua]])
+GameData["squad_capture_strategic_point_ext"] = Reference([[sbpextensions\squad_capture_strategic_point_ext.lua]])
+GameData["squad_capture_strategic_point_ext"]["able_to_capture"] = false
 GameData["squad_cap_ext"] = Reference([[sbpextensions\squad_cap_ext.lua]])
 GameData["squad_cap_ext"]["squad_cap_usage"] = 3
 GameData["squad_combat_stance_ext"] = Reference([[sbpextensions\squad_combat_stance_ext.lua]])
@@ -69,7 +71,7 @@ GameData["squad_formation_ext"] = Reference([[sbpextensions\squad_formation_ext.
 GameData["squad_formation_ext"]["idle_formation"] = [[formations\block.lua]]
 GameData["squad_loadout_ext"] = Reference([[sbpextensions\squad_loadout_ext.lua]])
 GameData["squad_loadout_ext"]["trooper_base"]["type"] = [[ebps\races\dark_eldar\troops\dark_eldar_infantry_incubi.lua]]
-GameData["squad_loadout_ext"]["unit_max"] = 6
+GameData["squad_loadout_ext"]["unit_max"] = 5
 GameData["squad_loadout_ext"]["unit_min"] = 3
 GameData["squad_melee_stance_ext"] = Reference([[sbpextensions\squad_melee_stance_ext.lua]])
 GameData["squad_melee_stance_ext"]["default_to_melee"] = true 
