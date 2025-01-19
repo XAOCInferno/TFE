@@ -21,8 +21,8 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_14"][
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\Ranged_Plasma_Light.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 52 --45 --40.2
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 40 --29 --28.6
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 48
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 36.5
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 5
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 15.05000019
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events/Impact_plasma_sml]]
