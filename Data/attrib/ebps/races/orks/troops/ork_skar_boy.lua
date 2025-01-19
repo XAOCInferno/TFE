@@ -5,6 +5,7 @@ GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\ork_waagh_charg
 GameData["ability_ext"]["abilities"]["ability_05"] = [[abilities\ork_waagh_charge_extraweapondmg.lua]]
 GameData["ability_ext"]["abilities"]["ability_06"] = [[abilities\ork_skar_boy_on_hit_inspire.lua]]
 GameData["ability_ext"]["abilities"]["ability_11"] = [[abilities\generic_auto_force_reload_melee.lua]]
+GameData["ability_ext"]["abilities"]["ability_12"] = [[abilities\generic_retreat_to_base.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Main]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["hardpoint_weapon_variant_motion_name"] = [[Weapon_Range_Upgrade_Main]]

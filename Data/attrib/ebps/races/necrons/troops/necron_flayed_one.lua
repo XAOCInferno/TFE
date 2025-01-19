@@ -4,6 +4,7 @@ GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\necron_flayed_f
 GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\necron_flayed_fear_t2.lua]]
 GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\necron_flayed_fear_t3.lua]]
 GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\necron_flayed_fear_t4.lua]]
+GameData["ability_ext"]["abilities"]["ability_10"] = [[abilities\generic_retreat_to_base.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["hardpoint_weapon_variant_motion_name"] = [[]]

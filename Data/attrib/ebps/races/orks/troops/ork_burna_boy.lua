@@ -7,6 +7,7 @@ GameData["ability_ext"]["abilities"]["ability_05"] = [[abilities\ork_waagh_charg
 GameData["ability_ext"]["abilities"]["ability_06"] = [[abilities\ork_waagh_charge_extra_healthregen.lua]]
 GameData["ability_ext"]["abilities"]["ability_07"] = [[abilities\ork_waaagh_infantry.lua]]
 GameData["ability_ext"]["abilities"]["ability_11"] = [[abilities\generic_auto_force_reload_flamer.lua]]
+GameData["ability_ext"]["abilities"]["ability_13"] = [[abilities\generic_retreat_to_base.lua]]
 --GameData["ability_ext"]["abilities"]["ability_12"] = [[abilities\generic_stonewall_type_melee.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Main]]

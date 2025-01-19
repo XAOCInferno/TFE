@@ -4,6 +4,7 @@ GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\tau_damage_impr
 GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\generic_poison_clear_aura.lua]]
 GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\tau_kroot_shaper_leadership.lua]]
 GameData["ability_ext"]["abilities"]["ability_10"] = [[abilities\generic_auto_force_reload_leader.lua]]
+GameData["ability_ext"]["abilities"]["ability_11"] = [[abilities\generic_retreat_to_base.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["complex_upgrades"] = true 
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Main]]

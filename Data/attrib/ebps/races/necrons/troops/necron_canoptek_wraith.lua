@@ -1,6 +1,7 @@
 GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
 GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\necron_sabotage.lua]]
+GameData["ability_ext"]["abilities"]["ability_10"] = [[abilities\generic_retreat_to_base.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["hardpoint_weapon_variant_motion_name"] = [[Upgrade_Melee_Main]]

@@ -14,6 +14,7 @@ GameData["ability_ext"]["abilities"]["ability_11"] = [[abilities\generic_auto_fo
 GameData["ability_ext"]["abilities"]["ability_12"] = [[abilities\ork_chuck_em_me_tellyporta.lua]]
 GameData["ability_ext"]["abilities"]["ability_13"] = [[abilities\ork_banner_summon.lua]]
 GameData["ability_ext"]["abilities"]["ability_14"] = [[abilities\ork_stikkbombs_noanim.lua]]
+GameData["ability_ext"]["abilities"]["ability_15"] = [[abilities\generic_retreat_to_base.lua]]
 --GameData["ability_ext"]["abilities"]["ability_11"] = [[abilities\ork_waaagh_infantry_commander.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["complex_upgrades"] = true 

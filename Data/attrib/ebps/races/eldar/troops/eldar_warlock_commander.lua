@@ -8,6 +8,7 @@ GameData["ability_ext"]["abilities"]["ability_06"] = [[abilities\eldar_smite_war
 GameData["ability_ext"]["abilities"]["ability_07"] = [[abilities\eldar_warlock_reactive_strike_trigger.lua]]
 GameData["ability_ext"]["abilities"]["ability_09"] = [[abilities\eldar_fleetoffoot.lua]]
 GameData["ability_ext"]["abilities"]["ability_11"] = [[abilities\generic_auto_force_reload_leader.lua]]
+GameData["ability_ext"]["abilities"]["ability_12"] = [[abilities\generic_retreat_to_base.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Main]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["hardpoint_weapon_variant_motion_name"] = [[Weapon_Range_Upgrade_Main]]

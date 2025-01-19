@@ -3,6 +3,7 @@ GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
 GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\inquisition_eversor_combat_drugs.lua]]
 GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\inquisition_eversor_toxin_grenade.lua]]
 GameData["ability_ext"]["abilities"]["ability_10"] = [[abilities\generic_auto_force_reload_leader.lua]]
+GameData["ability_ext"]["abilities"]["ability_11"] = [[abilities\generic_retreat_to_base.lua]]
 GameData["aftermath_ext"] = Reference([[ebpextensions\aftermath_ext.lua]])
 GameData["aftermath_ext"]["chance"] = 0.6999999881
 GameData["aftermath_ext"]["duration"] = 2.349999905

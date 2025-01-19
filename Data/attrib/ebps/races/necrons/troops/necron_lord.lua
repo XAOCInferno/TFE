@@ -17,6 +17,7 @@ GameData["ability_ext"]["abilities"]["ability_14"] = [[abilities\necron_veil_aur
 GameData["ability_ext"]["abilities"]["ability_15"] = [[abilities\necron_nightmare_shroud.lua]]
 GameData["ability_ext"]["abilities"]["ability_16"] = [[abilities\necron_nightmare_shroud_passive.lua]]
 GameData["ability_ext"]["abilities"]["ability_17"] = [[abilities\necron_nl_repair_balance.lua]]
+GameData["ability_ext"]["abilities"]["ability_18"] = [[abilities\generic_retreat_to_base.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["complex_upgrades"] = true 
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Main]]

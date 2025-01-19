@@ -12,6 +12,7 @@ GameData["ability_ext"]["abilities"]["ability_09"] = [[abilities\ork_knife_stab.
 GameData["ability_ext"]["abilities"]["ability_10"] = [[abilities\ork_knockback_rounds.lua]]
 GameData["ability_ext"]["abilities"]["ability_11"] = [[abilities\generic_auto_force_reload_melee.lua]]
 GameData["ability_ext"]["abilities"]["ability_12"] = [[abilities\ork_mad_dok_speed_bonus.lua]]
+GameData["ability_ext"]["abilities"]["ability_13"] = [[abilities\generic_retreat_to_base.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Main]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["hardpoint_weapon_variant_motion_name"] = [[Weapon_Range_Upgrade_Main]]

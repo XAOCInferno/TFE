@@ -5,6 +5,7 @@ GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\necron_wraith_d
 GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\necron_wraith_defense_improved.lua]]
 GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\necron_wraith_phase_shift_adv.lua]]
 GameData["ability_ext"]["abilities"]["ability_05"] = [[abilities\necron_sabotage.lua]]
+GameData["ability_ext"]["abilities"]["ability_10"] = [[abilities\generic_retreat_to_base.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["hardpoint_weapon_variant_motion_name"] = [[Upgrade_Melee_Main]]

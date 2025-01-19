@@ -2,6 +2,7 @@ GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
 GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\tau_for_the_greater_good.lua]]
 GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\tau_death_pulse_child1_inner_damage.lua]]
+GameData["ability_ext"]["abilities"]["ability_10"] = [[abilities\generic_retreat_to_base.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["hardpoint_weapon_variant_motion_name"] = [[Upgrade_Melee_Main]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\tau_ethereal_honor_blade.lua]]

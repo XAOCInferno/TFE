@@ -3,6 +3,7 @@ GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
 GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\guard_assassin_assassinate.lua]]
 GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\guard_assassin_bomb.lua]]
 GameData["ability_ext"]["abilities"]["ability_07"] = [[abilities\guard_assassin_reactive_strike_trigger.lua]]
+GameData["ability_ext"]["abilities"]["ability_10"] = [[abilities\generic_retreat_to_base.lua]]
 GameData["addon_ext"] = Reference([[ebpextensions\addon_ext.lua]])
 GameData["addon_ext"]["addons"]["addon_01"] = [[addons\addon_guard_assassin.lua]]
 GameData["addon_ext"]["addons"]["addon_02"] = [[addons\addon_guard_assassin_vision.lua]]

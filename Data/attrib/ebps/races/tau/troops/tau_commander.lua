@@ -4,6 +4,7 @@ GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\tau_snare_trap.
 GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\tau_target_acquired.lua]]
 GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\tau_commander_snare_grenade.lua]]
 GameData["ability_ext"]["abilities"]["ability_11"] = [[abilities\generic_auto_force_reload_tau_commander.lua]]
+GameData["ability_ext"]["abilities"]["ability_12"] = [[abilities\generic_retreat_to_base.lua]]
 GameData["combat_ext"] = Reference([[ebpextensions\combat_ext.lua]])
 GameData["combat_ext"]["complex_upgrades"] = true 
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["attack_motion_variable_name"] = [[Weapon_Range_Tracking_Right]]
