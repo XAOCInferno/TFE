@@ -1,0 +1,29 @@
+SquadDataHistory = {}
+function SquadDataHistory:new (_Time, _State)
+
+	AddStacktrace("SquadDataHistory:new")
+
+    local SquadDataHistoryObject = 
+    {
+		Time = _Time,	
+		State = _State
+	}
+
+
+	self.__index = self
+
+	local globalObject = setmetatable(SquadDataHistoryObject, self)
+
+	RegisterClass(globalObject, "SquadDataHistory")
+
+	RemoveStacktrace()
+
+	return globalObject
+
+end
+
+function SquadDataHistory:Deconstruct()
+
+	DeconstructClass(self)
+
+end

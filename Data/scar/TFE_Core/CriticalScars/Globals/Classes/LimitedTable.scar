@@ -30,9 +30,13 @@ function FixedLengthTable:new (_MaximumTableEntries, _DefaultDataEntry)
 
 	self.__index = self
 
+	local globalObject = setmetatable(FixedLengthTableObject, self)
+
+	RegisterClass(globalObject, "FixedLengthTable")
+
 	RemoveStacktrace()
 
-	return setmetatable(FixedLengthTableObject, self)
+	return globalObject
 
 end 
 
@@ -40,7 +44,15 @@ function FixedLengthTable:Insert (_Object)
 
 	AddStacktrace("FixedLengthTable:Insert")
 
+	--Try and deconstruct a class that was inserted to this limited table before we overwrite it
+	if(type(self.Data[self.NextEntry]) == "Table") then
+
+		self.Data[self.NextEntry]:Deconstruct()
+
+	end
+
 	self.Data[self.NextEntry] = _Object
+	
 	self.NextEntry = math.mod(self.NextEntry, self.MaximumTableEntries) + 1
 
 	RemoveStacktrace()
@@ -64,3 +76,23 @@ function FixedLengthTable:GetFromKey (_Key)
 	return self.Data[_Key]
 
 end 
+
+function FixedLengthTable:Deconstruct()
+
+	AddStacktrace("FixedLengthTable:Deconstruct")
+
+	for i = 1, table.getn(self.Data) do
+
+		if(self.Data[i].Deconstruct ~= nil) then
+
+			self.Data[i]:Deconstruct()
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+	DeconstructClass(self)
+
+end

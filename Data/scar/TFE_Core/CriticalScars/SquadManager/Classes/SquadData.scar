@@ -2,7 +2,7 @@ SquadData = {}
 function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _player, _IsRelicUnit, _IdleState)
 
 	AddStacktrace("SquadData:new")
-
+	
 	local tmpSGroupID = _sGroupID
 	
 	if(_sGroupID == false) then
@@ -59,7 +59,7 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		SquadAppliedCoverMods_Index = {},
 
 		--Variables
-		History = FixedLengthTable:new(g_MaximumHistories, {Time = -1, State = nil}), --A collection of timestamped squad states 
+		History = FixedLengthTable:new(g_MaximumHistories, SquadDataHistory:new(-1, nil)), --A collection of timestamped squad states 
 		NextHistoryTime = g_WorldTime + g_HistoryUpdateRate,
 		IsUnderAttack = false,
 		IsAttacking = false,
@@ -83,6 +83,8 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 	self.__index = self
 
 	local globalObject = setmetatable(SquadDataObject, self)
+
+	RegisterClass(globalObject, "SquadData")
 
 	globalObject:LateConstructor()
 
@@ -276,7 +278,7 @@ function SquadData:Update(_self)
 	--Update history at set intervals
 	if g_WorldTime >= _self.NextHistoryTime then
 		
-		_self.History:Insert({Time = g_WorldTime, State = copy})
+		_self.History:Insert(SquadDataHistory:new(g_WorldTime, copy))
 		_self.NextHistoryTime = _self.NextHistoryTime + g_HistoryUpdateRate
 
 	end
@@ -580,5 +582,18 @@ function SquadData:CheckForDetachAndUpdateLoadout()
 	end
 
 	RemoveStacktrace()
+
+end
+
+function SquadData:Deconstruct()
+
+	AddStacktrace("SquadData:Deconstruct")
+	
+	self.XP:Deconstruct()
+	self.History:Deconstruct()
+
+	RemoveStacktrace()
+
+	DeconstructClass(self)
 
 end

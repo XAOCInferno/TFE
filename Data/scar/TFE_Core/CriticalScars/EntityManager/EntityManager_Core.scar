@@ -13,6 +13,17 @@ function Setup_EntityManager()
 
 end
 
+function RemoveEntityInDataAtIndex(_PlayerIndex, _ItemIndex)
+
+	AddStacktrace("RemoveEntityInDataAtIndex")
+
+	g_AllEntityData[_PlayerIndex][_ItemIndex]:Deconstruct()
+	table.remove(g_AllEntityData[_PlayerIndex], _ItemIndex)
+
+	RemoveStacktrace()
+
+end
+
 function Set_AllEntities_Immediate()
 	
 	AddStacktrace("Set_AllEntities_Immediate")
@@ -141,7 +152,7 @@ function Set_PlayerEntities_Immediate(_PlayerIndex)
 				if(g_AllEntityData[_PlayerIndex][k].EntityBlueprint == nil or g_AllEntityData[_PlayerIndex][k].EntityHealthCurrent == 0 or shouldIgnore) then
 
 					Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, "Entity is destroyed, removing.")
-					table.remove(g_AllEntityData[_PlayerIndex], k)
+					RemoveEntityInDataAtIndex(_PlayerIndex, k)
 					
 				end
 
@@ -189,7 +200,7 @@ function Update_ExistingEntityDetails()
 		
 					end	
 
-					g_AllEntityData[i][l] = nil	
+					RemoveEntityInDataAtIndex(i, l)
 
 				end
 
@@ -245,7 +256,7 @@ function DestroyEntityAndRemoveFromData(_Player, _EntityLocation)
 
 		--Entity found, ask game to destroy it then remove it from data
 		Entity_Destroy(g_AllEntityData[PlayerIndex][_EntityLocation].EntityID)
-		table.remove(g_AllEntityData[PlayerIndex][_EntityLocation])
+		RemoveEntityInDataAtIndex(PlayerIndex, _EntityLocation)
 		
 	end
 

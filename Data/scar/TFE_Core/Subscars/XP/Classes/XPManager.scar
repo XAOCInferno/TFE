@@ -22,9 +22,13 @@ function XPManager:new ()
 	
 	self.__index = self
 
+	local globalObject = setmetatable(XPManagerObject, self)
+
+	RegisterClass(globalObject, "XPManager")
+
 	RemoveStacktrace()
 
-	return setmetatable(XPManagerObject, self)
+	return globalObject
 
 end
 
@@ -207,7 +211,6 @@ function XPManager:ApplyLevelUpModifiers()
 
 end
 
-
 function XPManager:DisplayLevelUpEffect()
 
 	AddStacktrace("XPManager:DisplayLevelUpEffect")
@@ -217,5 +220,21 @@ function XPManager:DisplayLevelUpEffect()
 	World_FXEvent( "data:Art/Events/generic/ui/generic_level_up", position )
 	
 	RemoveStacktrace()
+
+end
+
+function XPManager:Deconstruct()
+
+	AddStacktrace("XPManager:Deconstruct")
+
+	for i = 1, table.getn(self.CurrentlyAppliedModifierIDs) do
+
+		pcall(Modifier_Remove, self.CurrentlyAppliedModifierIDs[i])
+
+	end
+
+	RemoveStacktrace()
+
+	DeconstructClass(self)
 
 end

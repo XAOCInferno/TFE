@@ -13,6 +13,17 @@ function Setup_SquadManager()
 
 end
 
+function RemoveSquadInDataAtIndex(_PlayerIndex, _ItemIndex)
+
+	AddStacktrace("RemoveSquadInDataAtIndex")
+
+	g_AllSquadsData[_PlayerIndex][_ItemIndex]:Deconstruct()
+	table.remove(g_AllSquadsData[_PlayerIndex], _ItemIndex)
+
+	RemoveStacktrace()
+
+end
+
 function Set_AllSquads_Immediate()
 	
 	AddStacktrace("Set_AllSquads_Immediate")
@@ -156,7 +167,7 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 
 				if(g_AllSquadsData[_PlayerIndex][k].SquadBlueprint == nil or g_AllSquadsData[_PlayerIndex][k].SquadLoadout == 0 or shouldIgnore) then
 
-					table.remove(g_AllSquadsData[_PlayerIndex], k)
+					RemoveSquadInDataAtIndex(_PlayerIndex, k)
 					
 				end
 
@@ -195,7 +206,8 @@ function Update_ExistingSquadDetails()
 					Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "REMOVING SQUAD VIA THE SQUAD_EXISTS")
 					Set_SquadCombatDetails(g_AllSquadsData[i][l], true)	
 					g_AllSquadsData[i][l].SquadHasPreviouslyExisted = true
-					table.remove(g_AllSquadsData[i], l)	
+
+					RemoveSquadInDataAtIndex(i, l)
 
 				--SGroup loadout is > 0 so squad is still alive but attached
 				elseif(g_AllSquadsData[i][l].SquadIsAttached == false) then
@@ -235,8 +247,9 @@ function Update_ExistingSquadDetails()
 				if(g_AllSquadsData[i][l].SquadLoadout == 0 and g_AllSquadsData[i][l].SquadHasPreviouslyExisted == true) then
 
 					Log(eLOG_TYPE_INFO, eLOG_FULL, "Squad has been destroyed but squad still exists?")	
-					Set_SquadCombatDetails(g_AllSquadsData[i][l], true)			
-					table.remove(g_AllSquadsData[i],l)	
+					Set_SquadCombatDetails(g_AllSquadsData[i][l], true)		
+					
+					RemoveSquadInDataAtIndex(i, l)
 
 				else
 					--Squad is alive and we update their combat status to look for dead members etc

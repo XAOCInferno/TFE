@@ -50,6 +50,8 @@ function EntityData:new ( _eGameID, _eGroupID, _eIndex, _eID, _eRace, _eBP, _ePl
 
 	local globalObject = setmetatable(EntityDataObject, self)
 
+	RegisterClass(globalObject, "EntityData")
+
 	globalObject:LateConstructor()
 
 	RemoveStacktrace()
@@ -130,5 +132,11 @@ function EntityData:UpdatePosition()
 	self.EntityPositionInt.z = math.floor(self.EntityPosition.z)
 
 	RemoveStacktrace()
+
+end
+
+function EntityData:Deconstruct()
+
+	DeconstructClass(self)
 
 end

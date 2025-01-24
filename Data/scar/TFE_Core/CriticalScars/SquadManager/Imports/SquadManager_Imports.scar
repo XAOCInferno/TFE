@@ -1,4 +1,5 @@
 --[[Classes]]
+import("TFE_Core/CriticalScars/SquadManager/Classes/SquadDataHistory.scar")
 import("TFE_Core/CriticalScars/SquadManager/Classes/SquadData.scar")
 import("TFE_Core/CriticalScars/SquadManager/Classes/IdleControl.scar")
 import("TFE_Core/CriticalScars/SquadManager/Classes/IdleSummonEntity.scar")
