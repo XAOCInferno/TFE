@@ -139,4 +139,6 @@ function EntityData:Deconstruct()
 
 	DeconstructClass(self)
 
+	self = nil
+
 end

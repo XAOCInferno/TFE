@@ -25,5 +25,6 @@ end
 function SquadDataHistory:Deconstruct()
 
 	DeconstructClass(self)
+	self = nil
 
 end

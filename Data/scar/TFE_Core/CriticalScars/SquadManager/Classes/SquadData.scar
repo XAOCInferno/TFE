@@ -595,5 +595,6 @@ function SquadData:Deconstruct()
 	RemoveStacktrace()
 
 	DeconstructClass(self)
+	self = nil
 
 end

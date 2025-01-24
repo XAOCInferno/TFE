@@ -67,7 +67,16 @@ function PlayerDetails:Update()
 
 	if(self.TauFiresightVisionCircle ~= nil) then
 
-		self.TauFiresightVisionCircle:Update()
+		if(self.TauFiresightVisionCircle.Update ~= nil) then
+
+			self.TauFiresightVisionCircle:Update()
+
+		else
+
+			--The circle has been deconstructed, likely as the firesight is dead, so remove it as a ref
+			self.TauFiresightVisionCircle = nil
+
+		end
 
 	end
 

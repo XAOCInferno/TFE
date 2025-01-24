@@ -453,6 +453,7 @@ function DeconstructClass(class)
 	Log(eLOG_TYPE_INFO, eLOG_VERBOSE, "Deconstructing Class: "..classType)
 	RegisteredClasses[class] = nil
 
+	class.__index = nil
 	setmetatable(class, nil)
 
 end
