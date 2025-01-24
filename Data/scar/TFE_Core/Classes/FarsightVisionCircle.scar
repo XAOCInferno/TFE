@@ -132,21 +132,26 @@ function FiresightVisionCircle:ValidateOwnerSquad()
 	AddStacktrace("FiresightVisionCircle:ValidateOwnerSquad")
 
 	local isValid = true
-
+	
 	if(self.OwnerSquad == nil) then
 
 		isValid = false
 
+	elseif(self.OwnerSquad.GetIfAlive == nil) then
+
+		--Squad has been deconstructed already
+		isValid = false
+
 	elseif(self.OwnerSquad:GetIfAlive() == false) then
 
+		--Squad has been killed but not deconstructed yet, this is probably impossible
 		isValid = false
 
 	end
 
 	if(isValid == false) then
-
-		Entity_Destroy(self.LinkedEntityID)
-		self.IsPerformingLogic = false
+		
+		self:Deconstruct()
 
 	end
 
@@ -258,5 +263,15 @@ function FiresightVisionCircle:RemoveModifierIfApplied()
 	end
 
 	RemoveStacktrace()
+
+end
+
+function FiresightVisionCircle:Deconstruct()
+
+	Entity_Destroy(self.LinkedEntityID)
+	self.IsPerformingLogic = false
+
+	DeconstructClass(self)	
+	self = nil
 
 end
