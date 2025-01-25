@@ -18,8 +18,7 @@ function RemoveSquadInDataAtIndex(_PlayerIndex, _ItemIndex)
 	AddStacktrace("RemoveSquadInDataAtIndex")
 
 	g_AllSquadsData[_PlayerIndex][_ItemIndex]:Deconstruct()
-	--table.remove(g_AllSquadsData[_PlayerIndex], _ItemIndex)
-	g_AllSquadsData[_PlayerIndex][_ItemIndex] = nil
+	table.remove(g_AllSquadsData[_PlayerIndex], _ItemIndex)
 
 	RemoveStacktrace()
 
@@ -162,8 +161,10 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 	--We should only run the squad checker if the player is alive
 	if (Player_IsAlive(g_AllPlayers[_PlayerIndex].Player)) then
 
+		EarlyUpdate_ExistingSquadDetails()
 		Update_ExistingSquadDetails()	
-		LateUpdate_ExistingSquadDetails()		
+		LateUpdate_ExistingSquadDetails()	
+
 		SGroup_ForEachEx(Player_GetSquads(g_AllPlayers[_PlayerIndex].Player), AddSGroupData, true, false)				
 		
 		for k = 1, TableLength(g_AllSquadsData[_PlayerIndex]) do
@@ -190,6 +191,16 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 
 end
 
+function EarlyUpdate_ExistingSquadDetails()
+
+	AddStacktrace("EarlyUpdate_ExistingSquadDetails")
+
+	LateUpdate_ExistingSquadDetails()
+
+	RemoveStacktrace()
+
+end
+
 function LateUpdate_ExistingSquadDetails()
 
 	AddStacktrace("LateUpdate_ExistingSquadDetails")
@@ -206,7 +217,7 @@ function LateUpdate_ExistingSquadDetails()
 
 						if(g_AllSquadsData[i][j].PreviouslyAttackedBySquads[k].__index == nil) then
 
-							g_AllSquadsData[i][j].PreviouslyAttackedBySquads[k] = nil
+							table.remove(g_AllSquadsData[i][j].PreviouslyAttackedBySquads, k)
 
 						end
 
@@ -236,7 +247,6 @@ function Update_ExistingSquadDetails()
 			if(g_AllSquadsData[i][l] == nil) then
 
 				table.remove(g_AllSquadsData[i], l)	
-
 
 			--Squad has been lost since our last check, so we need to check if the squad is attached or dead.
 			elseif(Squad_Exists(g_AllSquadsData[i][l].SquadUniqueID) == false ) then

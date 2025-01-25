@@ -107,7 +107,7 @@ function StatsManager:AddKills( _Units, _Leaders, _Commanders, _Squads, _Defende
 			else
 
 				criticalError = true
-				Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Cannot apply killer stats as the defender class has been deconstructed!") 
+				Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Cannot apply killer stats as the defender class is nil!") 
 
 			end
 		end
