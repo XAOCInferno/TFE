@@ -452,8 +452,10 @@ function DeconstructClass(class)
 	local classType = RegisteredClasses[class] or "? ? ?"
 	Log(eLOG_TYPE_INFO, eLOG_VERBOSE, "Deconstructing Class: "..classType)
 	RegisteredClasses[class] = nil
-
-	class.__index = nil
+	
+	setmetatable(class.__index, nil)
 	setmetatable(class, nil)
+	
+	class.__index = nil
 
 end

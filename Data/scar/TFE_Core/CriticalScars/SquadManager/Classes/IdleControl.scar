@@ -14,9 +14,13 @@ function IdleControl:new (_Player, _OwnerSquad)
 
 	self.__index = self
 
+	local globalObject = setmetatable(IdleControlObject, self)
+
+	RegisterClass(globalObject, "IdleControl")
+
 	RemoveStacktrace()
 
-	return setmetatable(IdleControlObject, self)
+	return globalObject
 
 end
 
@@ -64,5 +68,14 @@ function IdleControl:ValidateOwnerSquad()
 	end
 
 	RemoveStacktrace()
+
+end
+
+function IdleControl:Deconstruct()
+
+	DeconstructClass(self)
+	
+	self.__index = nil
+	self = nil
 
 end

@@ -94,6 +94,8 @@ function FixedLengthTable:Deconstruct()
 	RemoveStacktrace()
 
 	DeconstructClass(self)
+	
+	self.__index = nil
 	self = nil
 
 end

@@ -29,9 +29,13 @@ function FiresightVisionCircle:new (_Player, _OwnerSquad)
 
 	self.__index = self
 
+	local globalObject = setmetatable(FiresightVisionCircle, self)
+
+	RegisterClass(globalObject, "FiresightVisionCircle")
+
 	RemoveStacktrace()
 
-	return setmetatable(FiresightVisionCircle, self)
+	return globalObject
 
 end
 
@@ -269,9 +273,12 @@ end
 function FiresightVisionCircle:Deconstruct()
 
 	Entity_Destroy(self.LinkedEntityID)
+	Modifier_Destroy(ModifierToApplyWhenIdleAndNotTacking)
 	self.IsPerformingLogic = false
 
 	DeconstructClass(self)	
+	
+	self.__index = nil
 	self = nil
 
 end

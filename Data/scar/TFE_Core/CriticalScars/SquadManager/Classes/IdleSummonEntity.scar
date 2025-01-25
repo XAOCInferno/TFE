@@ -15,9 +15,13 @@ function IdleSummmonEntity:new (_Player, _OwnerSquad, _IdleController, _EntityTo
 
 	self.__index = self
 
+	local globalObject = setmetatable(IdleSummmonEntityObject, self)
+
+	RegisterClass(globalObject, "IdleSummmonEntity")
+
 	RemoveStacktrace()
 
-	return setmetatable(IdleSummmonEntityObject, self)
+	return globalObject
 
 end
 
@@ -38,7 +42,7 @@ function IdleSummmonEntity:Update()
 
 		else
 			
-			Entity_Destroy(self.LinkedEntityID)
+			self:Deconstruct()
 
 		end
 
@@ -78,5 +82,21 @@ function IdleSummmonEntity:HandleStates()
 	end	
 
 	RemoveStacktrace()
+
+end
+
+function IdleSummmonEntity:Deconstruct()
+
+	AddStacktrace("IdleSummmonEntity:Deconstruct")
+
+	pcall(Entity_Destroy, self.LinkedEntityID )
+	self.IdleController:Deconstruct()
+
+	RemoveStacktrace()
+
+	DeconstructClass(self)
+	
+	self.__index = nil
+	self = nil
 
 end

@@ -5,7 +5,7 @@ function IdleBuilder:new (_Player, _OwnerSquad, _ConstructRadius, _RepairRadius,
 
 	local idleController = IdleControl:new(_Player, _OwnerSquad)
 
-    local IdleRepairObject = 
+    local IdleBuilderObject = 
     {
 		--Constants
 		IdleController = idleController,
@@ -16,9 +16,13 @@ function IdleBuilder:new (_Player, _OwnerSquad, _ConstructRadius, _RepairRadius,
 
 	self.__index = self
 
+	local globalObject = setmetatable(IdleBuilderObject, self)
+
+	RegisterClass(globalObject, "IdleBuilder")
+
 	RemoveStacktrace()
 
-	return setmetatable(IdleRepairObject, self)
+	return globalObject
 
 end
 
@@ -86,5 +90,22 @@ function IdleBuilder:HandleStates()
 	end	
 
 	RemoveStacktrace()
+
+end
+
+function IdleBuilder:Deconstruct()
+
+	AddStacktrace("IdleBuilder:Deconstruct")
+
+	self.ConstructController:Deconstruct()
+	self.RepairController:Deconstruct()
+	self.IdleController:Deconstruct()
+
+	RemoveStacktrace()
+
+	DeconstructClass(self)
+	
+	self.__index = nil
+	self = nil
 
 end

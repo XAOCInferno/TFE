@@ -18,9 +18,13 @@ function IdleRepair:new (_Player, _OwnerSquad, _IdleController, _RepairRadius )
 
 	self.__index = self
 
+	local globalObject = setmetatable(IdleRepairObject, self)
+
+	RegisterClass(globalObject, "IdleRepair")
+
 	RemoveStacktrace()
 
-	return setmetatable(IdleRepairObject, self)
+	return globalObject
 
 end
 
@@ -150,5 +154,20 @@ function IdleRepair:HandleStates()
 	end	
 
 	RemoveStacktrace()
+
+end
+
+function IdleRepair:Deconstruct()
+
+	AddStacktrace("IdleRepair:Deconstruct")
+
+	self.IdleController:Deconstruct()
+
+	RemoveStacktrace()
+
+	DeconstructClass(self)
+	
+	self.__index = nil
+	self = nil
 
 end
