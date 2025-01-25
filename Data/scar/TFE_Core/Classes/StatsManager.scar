@@ -94,24 +94,28 @@ function StatsManager:AddKills( _Units, _Leaders, _Commanders, _Squads, _Defende
 	--Set the estimated position of the squad who killed the target and applies reward XP
 	local tmpKillerPosition = nil
 	local tmpKiller = nil
+	local criticalError = false
 	if(NumberAttackingSquads > 0) then
 
 		--Firstly, reward the killers
 		for killerIndex = 1, NumberAttackingSquads do
 
-			if(_DefenderSquadStruct.PreviouslyAttackedBySquads[killerIndex].__index ~= nil) then
+			if(_DefenderSquadStruct.PreviouslyAttackedBySquads[killerIndex] ~= nil) then
 
 				_DefenderSquadStruct.PreviouslyAttackedBySquads[killerIndex].XP:AddXP_CombatWithSquad(_DefenderSquadStruct.SquadBlueprint, _Units, _Leaders, _Squads, 1 / NumberAttackingSquads)
 
 			else
 
+				criticalError = true
 				Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Cannot apply killer stats as the defender class has been deconstructed!") 
 
 			end
 		end
 
-		--There are many attackers, pick a killer at random from among them
-		tmpKillerPosition = TableGetRand(_DefenderSquadStruct.PreviouslyAttackedBySquads).SquadPosition
+		if(criticalError == false) then
+			--There are many attackers, pick a killer at random from among them
+			tmpKillerPosition = TableGetRand(_DefenderSquadStruct.PreviouslyAttackedBySquads).SquadPosition
+		end
 
 	else
 
@@ -121,8 +125,12 @@ function StatsManager:AddKills( _Units, _Leaders, _Commanders, _Squads, _Defende
 
 	end
 
-	--Assign the stat as a recorded timestamp, used to determine kill rates 
-	table.insert(self.TimestampedUnitKills, KillTimestamp:new (_Units, _Leaders, _Commanders, _Squads, tmpKillerPosition))
+	if(criticalError == false) then
+
+		--Assign the stat as a recorded timestamp, used to determine kill rates 
+		table.insert(self.TimestampedUnitKills, KillTimestamp:new (_Units, _Leaders, _Commanders, _Squads, tmpKillerPosition))
+
+	end
 
 	RemoveStacktrace()
 
