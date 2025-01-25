@@ -267,35 +267,37 @@ function SquadData:GetClosestHistoryIndexToDesired(_TimeTravelAmmount)
 
 end
 
-function SquadData:Update(_self)
+function SquadData:Update()
 		
 	AddStacktrace("SquadData:Update")
 
 	--Store current state in our history
-	local copy = _self:CreateCopy()
+	local copy = self:CreateCopy()
 
 	--Update history at set intervals
-	if g_WorldTime >= _self.NextHistoryTime then
+	if g_WorldTime >= self.NextHistoryTime then
 		
-		_self.History:Insert(SquadDataHistory:new(g_WorldTime, copy))
-		_self.NextHistoryTime = _self.NextHistoryTime + g_HistoryUpdateRate
+		self.History:Insert(SquadDataHistory:new(g_WorldTime, copy))
+		self.NextHistoryTime = self.NextHistoryTime + g_HistoryUpdateRate
 
 	end
 
-	_self.IsAttacking = GetWorldLifetime(_self.PreviouslyAttackingTime) <= g_CombatTimeWindow 
+	self.IsAttacking = GetWorldLifetime(self.PreviouslyAttackingTime) <= g_CombatTimeWindow 
 
 	--Update current state, doesn't matter which order we do this as 
 	if copy ~= nil then
 
-		_self.IsMoving = World_DistancePointToPoint(_self.SquadPosition, copy.SquadPosition) ~= 0 	
+		self.IsMoving = World_DistancePointToPoint(self.SquadPosition, copy.SquadPosition) ~= 0 	
 		
-		_self:SyncSquadDataStates(copy)
+		self:SyncSquadDataStates(copy)
+
+		copy:Deconstruct()
 
 	end
 
-	if _self.IdleState.Behaviour ~= eIDLE_STATE_BEHAVIOUR_NONE then
+	if self.IdleState.Behaviour ~= eIDLE_STATE_BEHAVIOUR_NONE then
 
-		_self:ManageIdleState()
+		self:ManageIdleState()
 
 	end
 
@@ -590,7 +592,12 @@ function SquadData:Deconstruct()
 	
 	--Note we do not need to deconstruct the idle behaviour here as it handles itself
 	self.XP:Deconstruct()
+
+	--if(self.History.Deconstruct ~= nil) then
+
 	self.History:Deconstruct()
+
+	--end
 
 	RemoveStacktrace()
 

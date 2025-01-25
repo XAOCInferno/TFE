@@ -5,7 +5,7 @@ function SpecificRaceResourceGenerationDetails:new (_RaceName, _HasPassiveResGen
 
 	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Importing race: '".._RaceName.."'...")
 	
-    local o = 
+    local SpecificRaceResourceGenerationDetailsObject = 
     {
 
     	HasPassiveResGen = _HasPassiveResGen,
@@ -23,11 +23,29 @@ function SpecificRaceResourceGenerationDetails:new (_RaceName, _HasPassiveResGen
     }
 	
 	self.__index = self
-	
+
 	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Importing race: '".._RaceName.."' Success!")
-	
+
+	local globalObject = setmetatable(SpecificRaceResourceGenerationDetailsObject, self)
+
+	RegisterClass(globalObject, "SpecificRaceResourceGenerationDetails")
+
+	globalObject:LateConstructor()
+
 	RemoveStacktrace()
 
-    return setmetatable(o, self)
+	return globalObject
+
+end
+
+function SpecificRaceResourceGenerationDetails:LateConstructor()
+
+	AddStacktrace("SpecificRaceResourceGenerationDetails:LateConstructor")
+
+	self.MaxNumberOfGlobals:SetZombieLifetime()
+	self.BaseMatureLimits:SetZombieLifetime()
+	self.ResourceGeneration:SetZombieLifetime()
+
+	RemoveStacktrace()
 
 end

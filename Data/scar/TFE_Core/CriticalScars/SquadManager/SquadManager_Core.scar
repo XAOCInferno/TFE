@@ -18,7 +18,8 @@ function RemoveSquadInDataAtIndex(_PlayerIndex, _ItemIndex)
 	AddStacktrace("RemoveSquadInDataAtIndex")
 
 	g_AllSquadsData[_PlayerIndex][_ItemIndex]:Deconstruct()
-	table.remove(g_AllSquadsData[_PlayerIndex], _ItemIndex)
+	--table.remove(g_AllSquadsData[_PlayerIndex], _ItemIndex)
+	g_AllSquadsData[_PlayerIndex][_ItemIndex] = nil
 
 	RemoveStacktrace()
 
@@ -62,25 +63,23 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 			
 				for l = 1, TableLength(g_AllSquadsData[_PlayerIndex]) do
 
-					--Do we need this functionality here? It should probably be in a seperate Update.
+					
 					if(g_AllSquadsData[_PlayerIndex][l] == nil) then
 
+						--Squad is null so simply remove
 						table.remove(g_AllSquadsData[_PlayerIndex], l)	
 
-					end
-					
-					--Squad is already in data so we don't need to track it
-					if(g_AllSquadsData[_PlayerIndex][l].SquadUniqueID == newSquadGameID) then
-						
+					elseif(g_AllSquadsData[_PlayerIndex][l].SquadUniqueID == newSquadGameID) then
+
+						--Squad is already in data so we don't need to track it
 						criticalError = true
 						break
 
 					--A squad which we've previously had data on has now been detached, reassign their data to them.
 					elseif(SGroup_ContainsSquad(g_AllSquadsData[_PlayerIndex][l].SquadGroupID, _squadID)) then
 
-						--TODO: Ensure detached commanders upkeep is reset correctly 
+						--TODO: Ensure detached commanders upkeep is reset correctly			
 						
-						Log(eLOG_TYPE_INFO, eLOG_SIMPLE, g_AllSquadsData[_PlayerIndex][l].SquadBlueprint.." has detached, adding special tracking to it")
 						
 						--Firstly, correct the now changed SquadID and GameID. GameID may not have changed (this appears to be constant) but SquadID most certainly has
 						g_AllSquadsData[_PlayerIndex][l]:ReaffirmConstants()
@@ -88,12 +87,18 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 						--New squad data to reset tracking
 						local copy = g_AllSquadsData[_PlayerIndex][l]:CreateTotalCopy()
 
+						Log(eLOG_TYPE_INFO, eLOG_SIMPLE, copy.SquadBlueprint.." has detached, adding special tracking to it")
+
 						--Squad has previously attached, so we need to add reaffirm tracking to it and get which squad it probably attached to
 						copy.SquadHasAttached = true	
 
 						if(copy.SquadAttachedTo ~= nil) then
 
-							copy.History = copy.SquadAttachedTo.History
+							--TODO: We need to fix this history part to take history from detached squad
+							--TODO: Something weird happens when a squad is attached then detached, the squad will not correctly remove its data from the attached or visa versa. Tracking stops when 1 dies
+							--TODO: When killing the detached hero first this seems to break tracking no idea why..........
+							--copy.History = copy.SquadAttachedTo.History
+							copy.History = FixedLengthTable:new(g_MaximumHistories, SquadDataHistory:new(-1, nil))
 							copy.SquadDetachedFrom = copy.SquadAttachedTo
 
 							--Update the attached to squad loadout by -1 so that we don't acidentally award a kill for this detach
@@ -107,7 +112,7 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 
 						else
 
-							Log(eLOG_LOG_TYPE_WARNING, eLOG_SIMPLE, g_AllSquadsData[_PlayerIndex][l].SquadBlueprint.." has detached, but we don't know who they were previously attached to. Assigning new sGroup.")
+							Log(eLOG_LOG_TYPE_WARNING, eLOG_SIMPLE, copy.SquadBlueprint.." has detached, but we don't know who they were previously attached to. Assigning new sGroup.")
 
 							copy.SquadGroupID = GetUniqueSG("SquadData_"..copy.SquadBlueprint)
 							SGroup_Add(copy.SquadGroupID, copy.SquadID)				
@@ -116,7 +121,8 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 						end
 
 						--Overwrite previous data
-						g_AllSquadsData[_PlayerIndex][l] = copy					
+						RemoveSquadInDataAtIndex(_PlayerIndex, l)
+						table.insert(g_AllSquadsData[_PlayerIndex], copy)					
 
 						--Break with "error" so we don't try to create a new squad for this guy
 						criticalError = true
@@ -156,7 +162,8 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 	--We should only run the squad checker if the player is alive
 	if (Player_IsAlive(g_AllPlayers[_PlayerIndex].Player)) then
 
-		Update_ExistingSquadDetails()		
+		Update_ExistingSquadDetails()	
+		LateUpdate_ExistingSquadDetails()		
 		SGroup_ForEachEx(Player_GetSquads(g_AllPlayers[_PlayerIndex].Player), AddSGroupData, true, false)				
 		
 		for k = 1, TableLength(g_AllSquadsData[_PlayerIndex]) do
@@ -176,6 +183,40 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 		end
 			
 		g_PlayerSquadCount[_PlayerIndex] = Player_GetActiveSquadCount(g_AllPlayers[_PlayerIndex].Player)
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+function LateUpdate_ExistingSquadDetails()
+
+	AddStacktrace("LateUpdate_ExistingSquadDetails")
+
+	for i = 1, g_PlayerCount do
+
+		for j = 1, TableLength(g_AllSquadsData[i]) do
+			
+			if(g_AllSquadsData[i][j] ~= nil) then
+
+				for k = 1, TableLength(g_AllSquadsData[i][j].PreviouslyAttackedBySquads) do
+
+					if(g_AllSquadsData[i][j].PreviouslyAttackedBySquads[k] ~= nil) then
+
+						if(g_AllSquadsData[i][j].PreviouslyAttackedBySquads[k].__index == nil) then
+
+							g_AllSquadsData[i][j].PreviouslyAttackedBySquads[k] = nil
+
+						end
+
+					end
+
+				end
+
+			end
+
+		end
 
 	end
 
@@ -203,7 +244,7 @@ function Update_ExistingSquadDetails()
 				--SGroup persists after squad is attached, but SGroup loadout is 0 so squad is dead confirmed
 				if(SGroup_CountSpawned( g_AllSquadsData[i][l].SquadGroupID ) <= 0) then
 
-					Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "REMOVING SQUAD VIA THE SQUAD_EXISTS")
+					Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "REMOVING SQUAD: "..g_AllSquadsData[i][l].SquadGroupName.." as they have no models.")
 					Set_SquadCombatDetails(g_AllSquadsData[i][l], true)	
 					g_AllSquadsData[i][l].SquadHasPreviouslyExisted = true
 
@@ -212,7 +253,7 @@ function Update_ExistingSquadDetails()
 				--SGroup loadout is > 0 so squad is still alive but attached
 				elseif(g_AllSquadsData[i][l].SquadIsAttached == false) then
 				
-					Log(eLOG_TYPE_INFO, eLOG_SIMPLE, g_AllSquadsData[i][l].SquadBlueprint.." has attached")
+					Log(eLOG_TYPE_INFO, eLOG_SIMPLE, g_AllSquadsData[i][l].SquadGroupName.." has attached")
 
 					g_AllSquadsData[i][l].SquadIsAttached = true
 					g_AllSquadsData[i][l].SquadHasAttached = true	
@@ -239,8 +280,8 @@ function Update_ExistingSquadDetails()
 			
 			--Squad exists and has more than 0 members so let's update their squad details.
 			else	
-								
-				g_AllSquadsData[i][l]:Update(g_AllSquadsData[i][l])
+							
+				g_AllSquadsData[i][l]:Update()
 				Set_SquadCombatDetails(g_AllSquadsData[i][l], false)		
 
 				--Squad exists but now has 0 members. At 0 members the squad is destroyed so this likely will never happen. If log isn't ever observed, delete this.

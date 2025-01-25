@@ -7,7 +7,6 @@ function ResourceGroup:new(_RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Fait
 
 	local ResourceGroupObject = 
 	{
-
 		--Variables
 		--The passed variables are all optional, so if any are null default to 0
 		RT_Red = _RT_Red or 0,
@@ -15,15 +14,50 @@ function ResourceGroup:new(_RT_Red, _RT_Requsition, _RT_Power, _RT_Pop, _RT_Fait
 	    RT_Power =  _RT_Power or 0,
 	    RT_Pop =  _RT_Pop or 0,
 	    RT_Faith = _RT_Faith or 0, 
-	    RT_Souls = _RT_Souls or 0
-
+	    RT_Souls = _RT_Souls or 0,
+		SelfLimitingIndex = nil
 	}
 	
 	self.__index = self
 
+	local globalObject = setmetatable(ResourceGroupObject, self)
+
+	RegisterClass(globalObject, "ResourceGroup")
+
+	globalObject:SetSelfLimiting()
+
 	RemoveStacktrace()
 
-   	return setmetatable(ResourceGroupObject, self)
+	return globalObject
+
+end
+
+function ResourceGroup:SetSelfLimiting()
+
+	AddStacktrace("ResourceGroup:SetSelfLimiting")
+
+	if(self.SelfLimitingIndex == nil) then
+
+		self.SelfLimitingIndex = AddLimitedResourceGroup(self) 
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+function ResourceGroup:SetZombieLifetime()
+
+	AddStacktrace("ResourceGroup:SetZombieLifetime")
+
+	if(self.SelfLimitingIndex ~= nil) then
+
+		RemoveLimitedResourceGroupAtIndex(self.SelfLimitingIndex)
+		self.SelfLimitingIndex = nil
+
+	end
+
+	RemoveStacktrace()
 
 end
 
@@ -129,5 +163,8 @@ end
 function ResourceGroup:Deconstruct()
 
 	DeconstructClass(self)
+	
+	self.__index = nil
+	self = nil
 
 end

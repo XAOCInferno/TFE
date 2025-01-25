@@ -3,6 +3,8 @@ import("TFE_Core/Imports/TFECore_Imports.scar")
 eBASIC_FUNCTION = 0
 eREQUIRED_FUNCTION = 1
 
+--Move these out
+local LimitedResourceGroups = {}
 local RegisteredClasses = {}
 
 function Core_Game_Load()
@@ -225,6 +227,7 @@ function Core_MainLoop()
 		{ Function = Update_Achievements, Necessity = eBASIC_FUNCTION },
 		{ Function = Update_XPManager, Necessity = eBASIC_FUNCTION },
 		{ Function = Update_Players, Necessity = eREQUIRED_FUNCTION },
+		{ Function = DeconstructResourceGroupClasses, Necessity = eREQUIRED_FUNCTION },
 	}
 
 	InvokeFunctionsFromFunctionTree(MainLoopFunctionTree)
@@ -441,6 +444,49 @@ function Update_Players()
 
 end
 
+function AddLimitedResourceGroup(_Class) 
+
+	AddStacktrace("AddLimitedResourceGroup")
+
+	table.insert(LimitedResourceGroups, _Class)
+	selfLimitingIndex = table.getn(LimitedResourceGroups)
+
+	RemoveStacktrace()
+
+	return selfLimitingIndex
+
+end
+
+function RemoveLimitedResourceGroupAtIndex(_Index) 
+
+	AddStacktrace("RemoveLimitedResourceGroupAtIndex")
+
+	LimitedResourceGroups[_Index] = nil
+
+	RemoveStacktrace()
+
+end
+
+function DeconstructResourceGroupClasses()
+
+	AddStacktrace("DeconstructResourceGroupClasses")
+
+	for i = 1, table.getn(LimitedResourceGroups) do
+
+		if(LimitedResourceGroups[i] ~= nil) then
+
+			LimitedResourceGroups[i]:Deconstruct()
+
+		end
+
+	end
+
+	LimitedResourceGroups = {}
+
+	RemoveStacktrace()
+
+end
+
 function RegisterClass(self, type)
 
 	RegisteredClasses[self] = type
@@ -450,7 +496,7 @@ end
 function DeconstructClass(class)
 
 	local classType = RegisteredClasses[class] or "? ? ?"
-	Log(eLOG_TYPE_INFO, eLOG_VERBOSE, "Deconstructing Class: "..classType)
+	--Log(eLOG_TYPE_INFO, eLOG_VERBOSE, "Deconstructing Class: "..classType)
 	RegisteredClasses[class] = nil
 	
 	setmetatable(class.__index, nil)

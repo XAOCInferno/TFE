@@ -50,9 +50,29 @@ function StatsManager:new (_Parent)
 
 	self.__index = self
 
+	local globalObject = setmetatable(StatsManagerObject, self)
+
+	RegisterClass(globalObject, "StatsManager")
+
+	globalObject:LateConstructor()
+
 	RemoveStacktrace()
 
-   	return setmetatable(StatsManagerObject, self)
+	return globalObject
+
+end
+
+function StatsManager:LateConstructor()
+
+	AddStacktrace("StatsManager:LateConstructor")
+
+	self.ActiveArmyCost:SetZombieLifetime()
+	self.ResourcesGathered:SetZombieLifetime()
+	--self.ResourcesGatheredScore:SetZombieLifetime()
+	self.ResourcesSpent:SetZombieLifetime()
+	self.ResourcesTributed:SetZombieLifetime()
+
+	RemoveStacktrace()
 
 end
 

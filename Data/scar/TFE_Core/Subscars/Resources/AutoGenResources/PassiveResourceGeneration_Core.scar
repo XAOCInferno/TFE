@@ -96,11 +96,7 @@ function Set_PassiveResources()
 		
 	end
 
-	if pcall(AddResources) == false then
-
-		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, debug_PassiveResourceGeneration_Core_FileName, "Set_PassiveResources", "Cannot add passive resources!")
-
-	end
+	DoBasicFunction(AddResources)
 
 	RemoveStacktrace()
 	

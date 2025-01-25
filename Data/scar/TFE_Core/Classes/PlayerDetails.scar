@@ -43,6 +43,11 @@ end
 
 function PlayerDetails:LateConstructor()
 
+	self.CurrentResources:SetZombieLifetime()
+	self.CurrentNumberOfResearchedGlobals:SetZombieLifetime()
+	self.CurrentAddResources:SetZombieLifetime()
+	self.CurrentFireCosts:SetZombieLifetime()
+
 	if(self.RaceDetails.RaceName == "tau_race") then
 		
 		local scoutSquads = GetAllSquadsOfBlueprint(self.PlayerIndex+1, {"tau_firesight_marksmen_squad"})
