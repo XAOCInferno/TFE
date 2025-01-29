@@ -5,76 +5,11 @@ Playable = 1
 DllName = WXPMod
 ModFolder = TFE
 ModVersion = 0.0.1.
-1608
+1609
 
-1607
+ModGitCommit = bf668264351b9af77dec43c5cf47e3a607a8ce28
 
-1607
-
-1607
-
-1607
-
-1607
-
-1607
-
-1607
-
-1606
-
-1606
-
-1606
-
-1606
-
-1606
-
-1606
-
-1606
-
-1606
-
-1606
-
-1606
-
-1606
-
-1605
-
-
-
-
-
-ModGitCommit = 2091d7271df4c1bd904cc2e47ff0009fd3add03c
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-TextureFE = 
+TextureFE =
 TextureIcon = 
 
 DataFolder.1 = %LOCALE%\Data
