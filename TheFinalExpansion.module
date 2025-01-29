@@ -5,6 +5,8 @@ Playable = 1
 DllName = WXPMod
 ModFolder = TFE
 ModVersion = 0.0.1.
+1608
+
 1607
 
 1607
@@ -47,7 +49,8 @@ ModVersion = 0.0.1.
 
 
 
-ModGitCommit = 92da98dee6ec81eb48abd1b18f191c145c6862f2
+ModGitCommit = 2091d7271df4c1bd904cc2e47ff0009fd3add03c
+
 
 
 
