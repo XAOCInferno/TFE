@@ -1,6 +1,8 @@
 # ignore files in these directories
 TFE/Development/Art/3D
 TFE/Development/Code/build
+TFE/Development/Code/info
+
 Badges
 Banners
 BugReport

@@ -8,13 +8,13 @@ CODE_PATH = GAME_PATH + "\TFE\Development\Code"
 versionLine = -1
 gitCommitLine = -1
 
-with open(CODE_PATH + "\ModVersion.txt") as modVfile:
+with open(CODE_PATH + "\info\ModVersion.txt") as modVfile:
     VersionNumber = modVfile.readlines()[0]
     
-with open(CODE_PATH + "\GitCommit.txt") as gitfile:
+with open(CODE_PATH + "\info\GitCommit.txt") as gitfile:
     GitCommit = gitfile.readlines()[0]
 
-with open(CODE_PATH + "\BaseModVersion.txt") as baseModFile:
+with open(CODE_PATH + "\info\BaseModVersion.txt") as baseModFile:
     BaseVersion = baseModFile.readlines()[0].replace("\n","")
     
 with open(MODULE_FILE_PATH, "r") as file:
