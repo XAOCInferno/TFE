@@ -90,19 +90,20 @@ warnings.log
 autoexec.lua
 CampaignMissions.module
 CornCobMod.module
-dawn_of_war_.mnodule
+dawn_of_war_.module
 DoWpro.module
-dkhook.log
+dxhook.log
 error.log
 error.log.000
 FreeUI.module
-g4gb_path.exe
+g4gb_patch.exe
 gBsSndrpt.exe
 gBsSndrpt.exe.dat
 HOTKEYS REAME.zip
 Inquisition_daemonhunt.module
 LastStand.module
 MODS For SS.zip
+objective_points_UA.module
 objective_points_ss.module
 README.txt
 SSStats.exe
@@ -114,7 +115,7 @@ SurvivalMaps.module
 TFE_ReduxMaps.zip
 tyranids.ico
 Tyranids_GDM.module
-TyranidsUninstall/exe
+TyranidsUninstall.exe
 UA - THB Installation.txt
 UA-Uninstall.exe
 UltimateApocalypse_Daemons.module
@@ -125,8 +126,8 @@ Uninstal.exe
 UninstallDoWpro.exe
 Unit_Swapper_Mod.module
 update.log
-W40k.ini.Bakcup
-With_Hunters.module
+W40k.ini.Backup
+Witch_Hunters.module
 
 
 # for specific file types, use format *.filetype
