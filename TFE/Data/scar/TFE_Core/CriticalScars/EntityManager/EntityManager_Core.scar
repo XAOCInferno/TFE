@@ -330,20 +330,17 @@ function GetClosestLP(_Player, _Pos)
 	local LP = nil
 	local closestDist = 1000000
 
+	--[[NOTE: TableLength is returning nil. Why is it?]]
 	for i = 1, TableLength(g_AllEntityData[_Player]) do
 
-		if(g_AllEntityData[_Player][i] ~= nil) then
+		if(g_AllEntityData[_Player][i].EntityIsLP == true) then
 
-			if(g_AllEntityData[_Player][i].EntityIsLP == true) then
+			local DistanceToPoint = World_DistancePointToPoint(_Pos, g_AllEntityData[_Player][i].EntityPosition)
 
-				local DistanceToPoint = World_DistancePointToPoint(_Pos, g_AllEntityData[_Player][i].EntityPosition)
+			if(DistanceToPoint < closestDist) then
 
-				if(DistanceToPoint < closestDist) then
-
-					LP = g_AllEntityData[_Player][i]
-					closestDist = DistanceToPoint
-
-				end
+				LP = g_AllEntityData[_Player][i]
+				closestDist = DistanceToPoint
 
 			end
 
