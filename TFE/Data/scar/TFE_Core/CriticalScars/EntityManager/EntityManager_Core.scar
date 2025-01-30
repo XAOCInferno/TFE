@@ -332,14 +332,18 @@ function GetClosestLP(_Player, _Pos)
 
 	for i = 1, TableLength(g_AllEntityData[_Player]) do
 
-		if(g_AllEntityData[_Player][i].EntityIsLP == true) then
+		if(g_AllEntityData[_Player][i] ~= nil) then
 
-			local DistanceToPoint = World_DistancePointToPoint(_Pos, g_AllEntityData[_Player][i].EntityPosition)
+			if(g_AllEntityData[_Player][i].EntityIsLP == true) then
 
-			if(DistanceToPoint < closestDist) then
+				local DistanceToPoint = World_DistancePointToPoint(_Pos, g_AllEntityData[_Player][i].EntityPosition)
 
-				LP = g_AllEntityData[_Player][i]
-				closestDist = DistanceToPoint
+				if(DistanceToPoint < closestDist) then
+
+					LP = g_AllEntityData[_Player][i]
+					closestDist = DistanceToPoint
+
+				end
 
 			end
 
