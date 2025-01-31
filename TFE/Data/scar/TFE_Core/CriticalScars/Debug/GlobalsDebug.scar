@@ -148,7 +148,7 @@ function Log(_LogType, _Verbosity, _Line)
 			SetStacktracePath(_Verbosity)
 
 		end
-
+		
 		--Simply print statement with fancy formatting
 		if(_Verbosity == eLOG_NONE) then
 

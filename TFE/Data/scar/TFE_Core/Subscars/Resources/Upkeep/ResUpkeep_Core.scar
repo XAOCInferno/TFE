@@ -64,7 +64,16 @@ function Set_PlayerUpkeep()
 						InterpretedBlueprintCostDetails.CostSquad:SetFromBlueprint(BlueprintCostDetails.CostSquad)
 						InterpretedBlueprintCostDetails.CostLeader:SetFromBlueprint(BlueprintCostDetails.CostLeader)
 
-						InterpretedBlueprintCostDetails.CostEntity:MultiplyByFloat(tmpStruct.SquadLoadout)
+
+						local loadout = tmpStruct.SquadLoadout
+
+						if(tmpStruct.SquadHasAttachedToThis == true) then
+							
+							loadout = loadout - 1
+
+						end
+
+						InterpretedBlueprintCostDetails.CostEntity:MultiplyByFloat(loadout)
 						InterpretedBlueprintCostDetails.CostLeader:MultiplyByFloat(LeaderCount)
 						
 						MaxUpkeep:Add(InterpretedBlueprintCostDetails.CostEntity)

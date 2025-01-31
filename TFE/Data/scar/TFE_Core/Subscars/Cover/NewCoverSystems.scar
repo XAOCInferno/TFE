@@ -278,13 +278,13 @@ function Set_AllSquadCoverModifiers()
 
 	    	CalculateSquadCoverModifiersAndApply(TargetSquad)
 					
-	   	end		
+	   	end	
+
 	end
 
 	RemoveStacktrace()
 
 end
-
 
 function Set_CoverModifiers(TargetSquad, ModsToRemove, ModsToAdd)
 	
@@ -310,7 +310,9 @@ function Set_CoverModifiers(TargetSquad, ModsToRemove, ModsToAdd)
 				LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Cover mod at pos: "..debugRemovePos.." Is not applied! Cannot remove.")
 					
 			end	
-		end			
+
+		end	
+
 	end
 	
 	--APPLY--
@@ -334,7 +336,8 @@ function Set_CoverModifiers(TargetSquad, ModsToRemove, ModsToAdd)
 
 			end	
 			
-		end			
+		end		
+
 	end	
 
 	RemoveStacktrace()
@@ -345,6 +348,7 @@ end
 function RemoveCoverMod(removeMod, tmpStruct, modIndex)
 
 	AddStacktrace("RemoveCoverMod")
+
 	local functionSuccess = false
 
 	if (Modifier_Exists(tmpStruct.SquadAppliedCoverMods_IDs[modIndex])) then
@@ -381,18 +385,19 @@ function ApplyCoverMod(addMod, tmpStruct, modIndex)
 
 		if (functionSuccess == false) then 
 			
-			LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Cover mod at pos: "..modIndex.." Can't be added for unknown reason! Triggered pcall.")
-			return 
+			LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Cover mod at pos: "..modIndex.." Can't be added for unknown reason! Triggered pcall.") 
+
+		else
+	
+			-- Get modifier index
+			local tmpModIndex = ModifierUtil_GetSquadApplierIndex(addMod, tmpStruct.SquadID)
+		
+			-- Store modifier info
+			table.insert(tmpStruct.SquadAppliedCoverMods, addMod)	
+			table.insert(tmpStruct.SquadAppliedCoverMods_IDs, tmpModID)	
+			table.insert(tmpStruct.SquadAppliedCoverMods_Index, tmpModIndex)	
 
 		end
-	
-		-- Get modifier index
-		local tmpModIndex = ModifierUtil_GetSquadApplierIndex(addMod, tmpStruct.SquadID)
-	
-		-- Store modifier info
-		table.insert(tmpStruct.SquadAppliedCoverMods, addMod)	
-		table.insert(tmpStruct.SquadAppliedCoverMods_IDs, tmpModID)	
-		table.insert(tmpStruct.SquadAppliedCoverMods_Index, tmpModIndex)	
 
 	end
 

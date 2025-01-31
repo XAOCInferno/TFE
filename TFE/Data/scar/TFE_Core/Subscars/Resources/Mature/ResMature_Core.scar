@@ -12,46 +12,9 @@ function Setup_MatureSystem()
 
 end
 
-local function Get_StrategicPointsStatus()
-
-	AddStacktrace("Get_StrategicPointsStatus")
-
-	for i = 1, g_NumberStratPoints do
-		--[[Firstly check if control has switched.]]
-		
-		if(not World_OwnsEntity(g_AllStrategicPointsStructs[i].ID)) then
-		
-			local TmpOwner = Entity_GetPlayerOwner(g_AllStrategicPointsStructs[i].ID)
-
-			local OwnerPlayer = World_GetPlayerIndex(TmpOwner)
-
-			if(g_AllStrategicPointsStructs[i].OwnedBy ~= OwnerPlayer) then
-
-				g_AllStrategicPointsStructs[i].InitTime = g_WorldTime	
-				g_AllStrategicPointsStructs[i].OwnedBy = OwnerPlayer
-				g_AllStrategicPointsStructs[i].FullyMatured = false
-
-			end
-
-		elseif(g_AllStrategicPointsStructs[i].OwnedBy ~= -1) then
-			
-			g_AllStrategicPointsStructs[i].OwnedBy = -1
-			g_AllStrategicPointsStructs[i].InitTime = g_WorldTime
-			g_AllStrategicPointsStructs[i].FullyMatured = false
-
-		end
-
-	end
-	
-	RemoveStacktrace()
-
-end
-
 function Set_ResourceMature()
 
 	AddStacktrace("Set_ResourceMature")
-
-	Get_StrategicPointsStatus()
 
 	for j = 1, g_PlayerCount do
 
@@ -91,7 +54,6 @@ end
 if(DISABLE_MATURE == true) then
 
 	function Setup_MatureSystem() end
-	function Get_StrategicPointsStatus() end
 	function Set_ResourceMature() end
 	
 end

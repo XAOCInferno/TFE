@@ -28,6 +28,7 @@ function StrategicPoint:Update()
 
 	AddStacktrace("StrategicPoint:Update")
 
+    self:UpdateOwner()
     self:SetHasListeningPost()
 
     if(self.HasListeningPost) then
@@ -37,6 +38,40 @@ function StrategicPoint:Update()
     end
     
     RemoveStacktrace()
+
+end
+
+function StrategicPoint:UpdateOwner()
+
+	AddStacktrace("StrategicPoint:UpdateOwner")
+
+    if(not World_OwnsEntity(self.ID)) then
+		
+        local TmpOwner = Entity_GetPlayerOwner(self.ID)
+
+        local OwnerPlayer = World_GetPlayerIndex(TmpOwner)
+
+        if(self.OwnedBy ~= OwnerPlayer) then
+
+            self.InitTime = g_WorldTime	
+            self.OwnedBy = OwnerPlayer
+            self.FullyMatured = false
+
+        end
+
+    elseif(self.OwnedBy ~= -1) then
+        
+        self.OwnedBy = -1
+        self.InitTime = g_WorldTime
+        self.FullyMatured = false
+
+    end
+
+    RemoveStacktrace()
+
+end
+
+function StrategicPoint:GetIfOwnershipChanged()
 
 end
 
@@ -77,19 +112,33 @@ function StrategicPoint:SetHasListeningPost()
 
     end
 
-    if(newHasLP == true and self.HasListeningPost == false and OwnedBy ~= -1) then
+    if(newHasLP == true and self.HasListeningPost == false) then
 
-        local newLP = GetClosestLP(self.OwnedBy + 1, self.EntityPosition)
+        if(self.OwnedBy == -1) then
+            
+            self:UpdateOwner()
 
-        if(newLP ~= nil) then
+        end
 
-            self.HasListeningPost = true
-            self.ListeningPostAddonData = EntityAddonManager:new(newLP, g_ListeningPostValidAddons)
-            self.ListeningPostAddonData:LateConstructor()
+        if(self.OwnedBy ~= -1) then
+        
+            local newLP = GetClosestLP(self.OwnedBy + 1, self.EntityPosition)
+
+            if(newLP ~= nil) then
+
+                self.HasListeningPost = true
+                self.ListeningPostAddonData = EntityAddonManager:new(newLP, g_ListeningPostValidAddons)
+                self.ListeningPostAddonData:LateConstructor()
+
+            else
+
+                Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Cannot find LP although we have one!") 
+
+            end
 
         else
 
-            Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Cannot find LP although we have one!") 
+            Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "We have LP but cannot find it as we don't know our owner!") 
 
         end
 

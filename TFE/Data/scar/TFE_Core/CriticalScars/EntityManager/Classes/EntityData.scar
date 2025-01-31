@@ -71,54 +71,69 @@ function EntityData:Update()
 
 	AddStacktrace("EntityData:Update")
 
+	local entityIsValid = true
 	local privateUpdate = function()
 	
-		--We don't need to update pos of structures as they generally don't move. We may need to do this for eldar who can move their structures
-		if(self.EntityCanMove == true) then
+		entityIsValid = Entity_Exists(self.EntityID)
+		
+		if(entityIsValid) then
 
-			self:UpdatePosition()
+			--We don't need to update pos of structures as they generally don't move. We may need to do this for eldar who can move their structures
+			if(self.EntityCanMove == true) then
 
-		end
+				self:UpdatePosition()
 
-		if(self.EntityIsStructure) then
-
-			self.EntityConstructionPercent = Entity_GetBuildingProgress( self.EntityID )
-	
-		end
-
-		self.EntityAvgHealth = EGroup_GetAvgHealth( self.EntityGroupName )
-
-		--Get combat status
-		if(Entity_IsUnderAttack(self.EntityID)) then
-
-			local PlayersToRemove = {}
-			for i = 1, g_PlayerCount do
-				
-				if(Entity_IsUnderAttackByPlayer(self.EntityID, g_AllPlayers[i].Player)) then
-					
-					local contains, _  = TableContains(self.PreviouslyAttackedByPlayers, g_AllPlayers[i])
-	
-					if(contains == false) then
-	
-						table.insert(self.PreviouslyAttackedByPlayers, g_AllPlayers[i])
-	
-					end
-				
-				end
 			end
 
-		elseif(GetWorldLifetime(self.PreviouslyAttackedTime) > g_CombatTimeWindow) then 
-			
-			--Entity not been attacked for awhile, so we will forget who was attacking them
-			self.PreviouslyAttackedByPlayers = {}
+			if(self.EntityIsStructure) then
+
+				self.EntityConstructionPercent = Entity_GetBuildingProgress( self.EntityID )
+		
+			end
+
+			self.EntityAvgHealth = EGroup_GetAvgHealth( self.EntityGroupName )
+
+			--Get combat status
+			if(Entity_IsUnderAttack(self.EntityID)) then
+
+				local PlayersToRemove = {}
+				for i = 1, g_PlayerCount do
+					
+					if(Entity_IsUnderAttackByPlayer(self.EntityID, g_AllPlayers[i].Player)) then
+						
+						local contains, _  = TableContains(self.PreviouslyAttackedByPlayers, g_AllPlayers[i])
+		
+						if(contains == false) then
+		
+							table.insert(self.PreviouslyAttackedByPlayers, g_AllPlayers[i])
+		
+						end
+					
+					end
+				end
+
+			elseif(GetWorldLifetime(self.PreviouslyAttackedTime) > g_CombatTimeWindow) then 
+				
+				--Entity not been attacked for awhile, so we will forget who was attacking them
+				self.PreviouslyAttackedByPlayers = {}
+
+			end
 
 		end
 
 	end
 
+	entityIsValid = entityIsValid and DoBasicFunction(privateUpdate)
+
+	if(entityIsValid == false) then
+
+		RemoveStacktrace()
+
+	end
+
 	RemoveStacktrace()
 	
-	return pcall(privateUpdate)
+	return entityIsValid
 
 end
 

@@ -175,34 +175,31 @@ function Update_ExistingEntityDetails()
 	for i = 1, g_PlayerCount do
 
 		for l = 1, TableLength(g_AllEntityData[i]) do
-
+ 
 			--Simple check to avoid null ref
 			if(g_AllEntityData[i][l] == nil) then
 				
 				Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Entity is nil, this should never happen.")
+				table.remove(g_AllEntityData[i], l)
 
-			else
+			elseif(g_AllEntityData[i][l]:Update() == false) then
 
 				--Logic will run, but if there is an error (entity no longer exists) then we remove it
-				if(g_AllEntityData[i][l]:Update() == false) then
+				local EntityLosses = 1
+				local StructureLosses =  bool_to_number(g_AllEntityData[i][l].EntityIsStructure)
+				local LPLosses = bool_to_number(g_AllEntityData[i][l].EntityIsLP)
+				local GenLosses = bool_to_number(g_AllEntityData[i][l].EntityIsGen)
+				local ThermoLosses = bool_to_number(g_AllEntityData[i][l].EntityIsThermo)
 
-					local EntityLosses = 1
-					local StructureLosses =  bool_to_number(g_AllEntityData[i][l].EntityIsStructure)
-					local LPLosses = bool_to_number(g_AllEntityData[i][l].EntityIsLP)
-					local GenLosses = bool_to_number(g_AllEntityData[i][l].EntityIsGen)
-					local ThermoLosses = bool_to_number(g_AllEntityData[i][l].EntityIsThermo)
-	
-					for z = 1, table.getn(g_AllEntityData[i][l].PreviouslyAttackedByPlayers) do
+				for z = 1, table.getn(g_AllEntityData[i][l].PreviouslyAttackedByPlayers) do
 		
-						--Again redo this so defender isn't given multiple bonuses...
-						UpdateEntityCombatDeathResources(g_AllEntityData[i][l].PreviouslyAttackedByPlayers[z], g_AllEntityData[i][l].OwnerPlayer, EntityLosses, StructureLosses, LPLosses, GenLosses, ThermoLosses ) 
-						UpdateEntityCombatDeathStats(g_AllEntityData[i][l].PreviouslyAttackedByPlayers[z], g_AllEntityData[i][l].OwnerPlayer, EntityLosses, StructureLosses, LPLosses, GenLosses, ThermoLosses ) 
+					--Again redo this so defender isn't given multiple bonuses...
+					UpdateEntityCombatDeathResources(g_AllEntityData[i][l].PreviouslyAttackedByPlayers[z], g_AllEntityData[i][l].OwnerPlayer, EntityLosses, StructureLosses, LPLosses, GenLosses, ThermoLosses ) 
+					UpdateEntityCombatDeathStats(g_AllEntityData[i][l].PreviouslyAttackedByPlayers[z], g_AllEntityData[i][l].OwnerPlayer, EntityLosses, StructureLosses, LPLosses, GenLosses, ThermoLosses ) 
 		
-					end	
-
-					RemoveEntityInDataAtIndex(i, l)
-
-				end
+				end	
+					
+				RemoveEntityInDataAtIndex(i, l)
 
 			end
 
@@ -270,10 +267,14 @@ function Entity_Exists(_EntityID)
 	
 	local EntityExists = false
 
-	if Entity_GetGameID(_EntityID) ~= 0 then
+	if pcall(Entity_GetGameID, _EntityID) then
 
-		EntityExists = true
-		
+		if Entity_GetGameID(_EntityID) ~= 0 then
+
+			EntityExists = true
+			
+		end
+
 	end
 	
 	RemoveStacktrace()
@@ -330,7 +331,6 @@ function GetClosestLP(_Player, _Pos)
 	local LP = nil
 	local closestDist = 1000000
 
-	--[[NOTE: TableLength is returning nil. Why is it?]]
 	for i = 1, TableLength(g_AllEntityData[_Player]) do
 
 		if(g_AllEntityData[_Player][i].EntityIsLP == true) then

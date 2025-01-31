@@ -120,7 +120,7 @@ function TableLength(_Tbl)
 	if(_Tbl == nil) then 
 
 		Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, "Table is Nil!")
-		count = 1000 --Should we really enforce a count of 1000 here? Shouldn't we assume 0?
+		count = 0 --Should we really enforce a count of 1000 here? Shouldn't we assume 0?
 
 	else
 	
