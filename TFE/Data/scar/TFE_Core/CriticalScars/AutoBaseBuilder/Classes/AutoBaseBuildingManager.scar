@@ -1,0 +1,206 @@
+AutomaticBaseBuildingManager = {}
+function AutomaticBaseBuildingManager:new (_Player, _BuildingStruct)
+
+    local AutomaticBaseBuildingManagerObject = 
+    {
+    	--Constants
+		Player = _Player,
+		BuildingStruct = _BuildingStruct,
+		BuildingStructLength = TableLength(_BuildingStruct),
+
+		--Variables
+		IsTryingToBuild = false,
+		IsTryingToBuildExtra = false
+    }
+
+	self.__index = self
+   	return setmetatable(AutomaticBaseBuildingManagerObject, self)
+
+end
+
+function AutomaticBaseBuildingManager:Update()
+
+	if(self.IsTryingToBuild == false) then
+		local AllOwnedStratPoints = GetAllStrategicPointsOwnedByPlayer(self.Player)
+		--[[local _, entityPositions = Get_EntityDataFromEntityBP("tyranids_hq", self.Player.PlayerIndex + 1)
+		local _, entityPositions2 = Get_EntityDataFromEntityBP("tyranids_reclemation_pool", self.Player.PlayerIndex + 1)
+
+		--Ideally we want to build outwards instead of always from the HQ
+		if(TableLength(entityPositions2) > 0 ) then
+
+			entityPositions = entityPositions2
+
+		end]]
+		
+		local _, lpPositions = Get_EntityDataFromEntityBP("tyranids_listening_post", self.Player.PlayerIndex + 1)
+		for i = 1, TableLength(g_AllStrategicPointsStructs) do
+
+			--local TmpOwner = Entity_GetPlayerOwner(g_AllStrategicPointsStructs[i].ID)
+			--local OwnerPlayer = World_GetPlayerIndex(TmpOwner)
+			
+			if(g_AllStrategicPointsStructs[i].OwnedBy == self.Player.PlayerIndex and Entity_GetBlueprintName(g_AllStrategicPointsStructs[i].ID) ~= "strategic_objective_struct") then
+
+				local error = false
+				local UniquePointEGroup = GetUniqueEG("tmpPointEGroup")
+				local UniquePointEGroupName = EGroup_GetName(UniquePointEGroup)
+				EGroup_Add(UniquePointEGroup, g_AllStrategicPointsStructs[i].ID)			
+				local PointPos = Entity_GetPosition(g_AllStrategicPointsStructs[i].ID)
+
+				for j = 1, TableLength(lpPositions) do
+
+					if(World_DistancePointToPoint(g_AllEntityData[self.Player.PlayerIndex + 1][lpPositions[j]].EntityPosition, PointPos) < 1) then
+						error = true
+						break
+					end
+
+				end
+
+				if(error == false) then
+					--TyranidsAutoConstructLP( g_AllStrategicPointsStructs[i], self.Player )
+				end
+
+			end
+
+		end
+
+		local allReclemationPools, _ = Get_EntityDataFromEntityBP("tyranids_reclemation_pool", self.Player.PlayerIndex + 1)
+		local numberLPs = TableLength(lpPositions)
+		local numberCompletedLPs = 0
+		local reclemationCountMultiplier = 2 
+		for i = 1, numberLPs do
+
+			if(Entity_GetBuildingProgress( g_AllEntityData[self.Player.PlayerIndex + 1][lpPositions[i]].EntityID ) == 1) then
+
+				numberCompletedLPs = numberCompletedLPs + 1
+
+			end
+
+		end
+
+		if(Player_GetResearchState(self.Player.Player, ResourceGlobalNames.tyranids_race.RT_Requistion.First) == RS_Complete ) then
+
+			reclemationCountMultiplier = 4
+
+		elseif(Player_GetResearchState(self.Player.Player, ResourceGlobalNames.tyranids_race.RT_Requistion.Second) == RS_Complete ) then
+
+			reclemationCountMultiplier = 3
+
+		end
+
+		if(numberCompletedLPs * reclemationCountMultiplier > TableLength(allReclemationPools)) then
+			--for i = 1, TableLength(AllOwnedStratPoints) do
+			for i = 1, numberLPs do
+
+				if(Entity_GetBuildingProgress( g_AllEntityData[self.Player.PlayerIndex + 1][lpPositions[i]].EntityID ) == 1) then
+				
+					local Success = false
+					print(g_AllEntityData[self.Player.PlayerIndex+1][lpPositions[i]].EntityPosition.x)
+					local Offset = 
+					{
+						x = g_AllEntityData[self.Player.PlayerIndex+1][lpPositions[i]].EntityPosition.x + World_GetRand(-5,5), 
+						y = g_AllEntityData[self.Player.PlayerIndex+1][lpPositions[i]].EntityPosition.y + World_GetRand(-5,5), 
+						z = g_AllEntityData[self.Player.PlayerIndex+1][lpPositions[i]].EntityPosition.z + World_GetRand(-5,5)
+					}
+					self.IsTryingToBuild = true
+					for i = 1, 25 do
+						Success = TyranidsDebugActivateAutoConstructionAbility(World_Pos(Offset.x, Offset.y, Offset.z), self.Player, "tyranids_reclemation_pool")
+
+						if (Success) then
+
+							self.IsTryingToBuild = false
+							break
+
+						end
+
+						Offset.x = Offset.x + World_GetRand(-2, 2)
+						Offset.z = Offset.z + World_GetRand(-2, 2)
+
+					end
+
+					if (Success == false) then
+
+						self.IsTryingToBuild = false
+						print("TOTAL FAILURE!")
+
+					end
+				end
+			end
+		end
+
+		--local GauntStructure = { name = "tyranids_tech_gaunt", requiredAddon = "addon_tyranids_tech_gaunt", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
+	
+		for i = 1, self.BuildingStructLength do
+
+			local BuiltBuildings, _ = Get_EntityDataFromEntityBP(self.BuildingStruct[i].name, self.Player.PlayerIndex + 1)
+			local BuiltFromEntities, _ = Get_EntityDataFromEntityBP(self.BuildingStruct[i].builtFromEntity, self.Player.PlayerIndex + 1)
+
+			for j = 1, TableLength(BuiltFromEntities) do
+
+				if(BuiltFromEntities[j].EntityAvgHealth ~= 0.0) then
+
+					local HasAddon = Entity_ContainsAddOn(BuiltFromEntities[j].EntityID, self.BuildingStruct[i].requiredAddon)
+
+					if(HasAddon == false) then
+
+						BuiltFromEntities[j] = nil
+
+					end
+
+				end
+
+			end
+
+			for z = 1, TableLength(BuiltFromEntities) do
+
+				if(TableLength(BuiltFromEntities) - TableLength(BuiltBuildings) + self.BuildingStruct[i].numberPerAddon - 1 <= 0) then
+
+					break
+
+				end
+
+				if(BuiltFromEntities[z] == nil) then
+
+					break
+
+				end
+
+				local Success = false
+				print(self.BuildingStruct[i].name)
+				print(BuiltFromEntities[z])
+				local Offset = 
+				{
+					x = BuiltFromEntities[z].EntityPosition.x + World_GetRand(-self.BuildingStruct[i].distanceFromBuilding, self.BuildingStruct[i].distanceFromBuilding), 
+					y = BuiltFromEntities[z].EntityPosition.y + World_GetRand(-self.BuildingStruct[i].distanceFromBuilding, self.BuildingStruct[i].distanceFromBuilding), 
+					z = BuiltFromEntities[z].EntityPosition.z + World_GetRand(-self.BuildingStruct[i].distanceFromBuilding, self.BuildingStruct[i].distanceFromBuilding)
+				}
+				self.IsTryingToBuildExtra = true
+				for x = 1, 40 do
+					Success = TyranidsDebugActivateAutoConstructionAbility(World_Pos(Offset.x, Offset.y, Offset.z), self.Player, self.BuildingStruct[i].name)
+
+					if (Success) then
+
+						print("SPAWNING "..self.BuildingStruct[i].name)
+						self.IsTryingToBuildExtra = false
+						break
+
+					end
+
+					Offset.x = Offset.x + World_GetRand(-4, 4)
+					Offset.z = Offset.z + World_GetRand(-4, 4)
+
+				end
+
+				if (Success == false) then
+
+					self.IsTryingToBuildExtra = false
+					print("TOTAL FAILURE!")
+
+				end
+
+			end			
+				
+		end
+		--end
+	end
+
+end

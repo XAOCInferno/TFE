@@ -72,23 +72,41 @@ function Update_StrategicPoints()
 
 end
 
+function GetAllStrategicPointsOwnedByPlayer(_Player)
+
+	AddStacktrace("GetAllStrategicPointsOwnedByPlayer")
+	
+	local AllOwnedStratPoints = {}
+	for i = 1, TableLength(g_AllStrategicPointsStructs) do
+
+		if(g_AllStrategicPointsStructs[i].OwnedBy == _Player.PlayerIndex) then
+
+			table.insert(AllOwnedStratPoints, g_AllStrategicPointsStructs[i])
+
+		end
+	
+	end
+
+	RemoveStacktrace()
+
+	return AllOwnedStratPoints
+
+end
+
 function GetNumberOfSpecificPlayerOwnedListeningPostAddons(_AddonName, _Player)
 
 	AddStacktrace("GetNumberOfSpecificPlayerOwnedListeningPostAddons")
 
 	local numberOfAddons = 0
+	local playerOwnedStrategicPoints = GetAllStrategicPointsOwnedByPlayer(_Player)
 
-	for i = 1, g_NumberStratPoints do
-		
-		if(g_AllStrategicPointsStructs[i].OwnedBy == _Player.PlayerIndex) then
+	for i = 1, TableLength(playerOwnedStrategicPoints) do		
 
-			if(g_AllStrategicPointsStructs[i].HasListeningPost) then
+		if(playerOwnedStrategicPoints[i].HasListeningPost) then
 
-				if(g_AllStrategicPointsStructs.ListeningPostAddonData) then
+			if(playerOwnedStrategicPoints.ListeningPostAddonData) then
 
-					numberOfAddons = numberOfAddons + g_AllStrategicPointsStructs.ListeningPostAddonData:GetAddonCount(_AddonName)
-
-				end
+				numberOfAddons = numberOfAddons + playerOwnedStrategicPoints.ListeningPostAddonData:GetAddonCount(_AddonName)
 
 			end
 

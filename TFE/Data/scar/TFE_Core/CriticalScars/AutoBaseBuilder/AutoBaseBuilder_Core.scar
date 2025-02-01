@@ -1,0 +1,167 @@
+import("TFE_Core/CriticalScars/AutoBaseBuilder/Imports/AutoBaseBuilder_Imports.scar")
+
+--This needs to be assigned on a per-map basis
+g_MaxMapX = 255
+g_MaxMapY = 255
+g_MaxMapZ = 255
+
+g_AllAutomaticBaseBuildingManagers = {}
+
+--FML change this one later..
+function TyranidsDebugActivateAutoConstructionAbility(_pos, _PlayerStruct, _structureEbps)
+
+	local success = true
+
+	local UniqueBuildingEGroup = GetUniqueEG("tmpBuildingEGroup")
+	local UniqueBuilderSGroup = GetUniqueSG("tmpBuilderGroup")
+	local UniqueBuildingEGroupName = EGroup_GetName(UniqueBuildingEGroup)
+	local UniqueBuilderSGroupName =  SGroup_GetName(UniqueBuilderSGroup)
+
+	if(_pos == nil) then
+		
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, "Autobuild targeted position is nil, this shouldn't happen. Defaulting to map center.")
+		_pos = World_Pos(0, 0, 0)
+
+	end
+
+	_pos = WorldPosClamp(_pos, 1, 255)
+	_pos = World_Pos(_pos.x,_pos.y,_pos.z)
+	print(_pos.x)
+	print(_pos.y)
+	print(_pos.z)
+	
+	local building = Entity_Create( _structureEbps, _PlayerStruct.Player, World_Pos(0,0,0) )
+
+	if(building ~= nil) then
+
+		--local building = Entity_CreateBuildingPosition(_PlayerStruct.Player, UniqueBuildingEGroupName, _structureEbps, _pos, 0)
+
+		Entity_DeSpawn(building)
+		--Entity_CreateBuildingPosition(_PlayerStruct.Player, UniqueBuildingEGroupName, _structureEbps, _pos, 0)
+
+		--If group size is 0 we have not created the above entity / squad. Likely due to it being placed in a bad position. Must show error and stop function
+		--[[if(EGroup_Count(UniqueBuildingEGroup) == 0) then
+
+			success = false
+
+		else]]
+
+			Util_CreateSquadsAtPositionRandom(_PlayerStruct.Player, UniqueBuilderSGroupName, "world_squad_global_builder", _pos, 1)
+
+			if(SGroup_Count(UniqueBuilderSGroup) == 0) then
+
+				EGroup_ForEach(UniqueBuildingEGroup, Entity_Despawn)
+				EGroup_ForEach(UniqueBuildingEGroup, Entity_Destroy)
+				success = false
+				print("Cannot build structure as builder is nil")
+
+			else
+				EGroup_Add(UniqueBuildingEGroup, building)
+
+				_pos = World_GetSpawnablePosition(_pos, building)
+				Entity_SetPosition(building, _pos)
+				Entity_Spawn(building)
+				Entity_ResetConstructionState(building)
+				
+				Command_SquadEntity( _PlayerStruct.Player, UniqueBuilderSGroup, SCMD_BuildStructure, UniqueBuildingEGroup )
+
+			end
+			--table.insert(g_AllTrackedAbilityBuilders, GlobalAbilityBuilder:new( _PlayerStruct.Player, UniqueBuilderSGroup, UniqueBuilderSGroupName, UniqueBuildingEGroupName ))
+			--g_AllTrackedAbilityBuildersCount = g_AllTrackedAbilityBuildersCount + 1
+
+		--end
+
+	else
+
+		print("Entity is nil on creation")
+
+	end
+	
+	EGroup_Destroy(UniqueBuildingEGroupName)
+	SGroup_Destroy(UniqueBuilderSGroupName)
+
+	return success
+
+end
+
+--FML change this one later..
+function TyranidsAutoConstructLP(_TargetPoint, _PlayerStruct)
+
+	print("ATTEMPTING TO BUILD NIDS LP")
+	local UniquePointEGroup = GetUniqueEG("tmpPointEGroup")
+	local UniquePointEGroupName = EGroup_GetName(UniquePointEGroup)
+	EGroup_Add(UniquePointEGroup, _TargetPoint.ID)
+
+	local UniqueBuildingEGroup = GetUniqueEG("tmpBuildingEGroup")
+	local UniqueBuilderSGroup = GetUniqueSG("tmpBuilderGroup")
+	local UniqueBuildingEGroupName = EGroup_GetName(UniqueBuildingEGroup)
+	local UniqueBuilderSGroupName =  SGroup_GetName(UniqueBuilderSGroup)
+
+	_pos = Entity_GetPosition(_TargetPoint.ID)
+	Util_CreateSquadsAtPositionRandom(_PlayerStruct.Player, UniqueBuilderSGroupName, "world_squad_global_builder", _pos, 1)
+
+	Cmd_ConstructBlueprintOnEGroup(UniqueBuilderSGroupName, "tyranids_listening_post", UniquePointEGroupName)
+
+	--table.insert(g_AllTrackedAbilityBuilders, GlobalAbilityBuilder:new( _PlayerStruct.Player, UniqueBuilderSGroup, UniqueBuilderSGroupName, UniqueBuildingEGroupName ))
+	--g_AllTrackedAbilityBuildersCount = g_AllTrackedAbilityBuildersCount + 1
+
+end
+
+function Tyranids_GameSetup()
+
+	--AddStacktrace("Tyranids_GameSetup")
+	
+	Log(0, 0, "Starting: 'Tyranids_GameSetup'...")
+	
+	for i = 1, g_PlayerCount do
+
+		if(g_AllPlayers[i].RaceDetails.RaceName == "tyranids_race") then
+			
+			--Log(0, 0, "Player: "..g_AllPlayers[i].PlayerIndex.."' is Tyranids, assigning them an AutomaticBaseBuildingManager.")
+			print("Player: "..g_AllPlayers[i].PlayerIndex.."' is Tyranids, assigning them an AutomaticBaseBuildingManager.")
+			local GauntStructure = { name = "tyranids_tech_gaunt", requiredAddon = "addon_tyranids_tech_gaunt", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
+			local LictorStructure = { name = "tyranids_tech_lictor", requiredAddon = "addon_tyranids_tech_lictor", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
+			local WarriorStructure = { name = "tyranids_tech_warrior", requiredAddon = "addon_tyranids_tech_warrior", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
+			local RavenerStructure = { name = "tyranids_tech_ravener", requiredAddon = "addon_tyranids_tech_ravener", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
+			local Tier2InfantryStructure = { name = "tyranids_tech_tier2_infantry", requiredAddon = "addon_tyranids_tech_tier2_infantry", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 40 }
+			local GeneratorStructure = { name = "tyranids_generator", requiredAddon = "addon_tyranids_generator", numberPerAddon = 3, builtFromEntity = "tyranids_listening_post", distanceFromBuilding = 5 }
+			local BasicVehiclesStructure = { name = "tyranids_tech_basic_vehicles", requiredAddon = "addon_tyranids_tech_basic_vehicles", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 50 }
+			local AdvancedVehiclesStructure = { name = "tyranids_tech_advanced_vehicles", requiredAddon = "addon_tyranids_tech_advanced_vehicles", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 50 }
+			local Tier4Structure = { name = "tyranids_tech_tier4", requiredAddon = "addon_tyranids_tech_tier4", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 50 }
+			local NewHQ = { name = "tyranids_hq", requiredAddon = "addon_tyranids_new_hq", numberPerAddon = 2, builtFromEntity = "tyranids_hq", distanceFromBuilding = 70 }
+			local NidsBuildings = { GauntStructure, LictorStructure, WarriorStructure, RavenerStructure, Tier2InfantryStructure, GeneratorStructure, BasicVehiclesStructure, AdvancedVehiclesStructure, Tier4Structure, NewHQ }
+			table.insert(g_AllAutomaticBaseBuildingManagers, AutomaticBaseBuildingManager:new(g_AllPlayers[i], NidsBuildings))
+
+		else
+
+			--Log(0, 0, "Player: "..g_AllPlayers[i].PlayerIndex.."' is not Tyranids.")
+			print("Player: "..g_AllPlayers[i].PlayerIndex.."' is not Tyranids.")
+
+		end
+
+	end
+	
+	Log(0, 0, "Finished: 'Tyranids_GameSetup'...")
+
+	Rule_AddInterval(Update_AutomaticBaseBuildingManagers, 3)
+
+	--RemoveStacktrace()
+
+end
+
+function Update_AutomaticBaseBuildingManagers()
+
+	--AddStacktrace("Update_AutomaticBaseBuildingManagers")
+	if(World_GetRand(0,100) >= 45) then
+
+		for i = 1, TableLength(g_AllAutomaticBaseBuildingManagers) do
+
+			g_AllAutomaticBaseBuildingManagers[i]:Update()
+
+		end
+
+	end
+
+	--RemoveStacktrace()
+
+end

@@ -280,3 +280,88 @@ function bool_to_number(value)
 	return value and 1 or 0
 
 end
+
+function Clamp(numb, min, max)
+
+	AddStacktrace("Clamp")
+
+	if(numb < min) then
+
+		numb = min
+
+	elseif(numb > max) then
+
+		numb = max
+
+	end
+
+	RemoveStacktrace()
+
+	return numb
+
+end
+
+function VectorClamp(vector, min, max)
+
+	AddStacktrace("VectorClamp")
+
+	local dataType = type(vector)
+
+	if(dataType ~= "table") then
+
+		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Cannot vector clamp data of type: '"..dataType.."'!")
+
+	else
+
+		for i = 1, TableLength(vector) do
+
+			vector[i] = Clamp(vector[i], min, max)
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+	return vector
+
+end
+
+function WorldPosClamp(worldPos, min, max)
+
+	AddStacktrace("WorldPosClamp")
+
+	local dataType = type(worldPos)
+
+	if(dataType ~= "table") then
+
+		Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Cannot world pos clamp data of type: '"..dataType.."'!")
+
+	else
+
+		local x = worldPos.x
+		local y = worldPos.y
+		local z = worldPos.z
+
+		if(x and y and z) then
+
+			local tbl = { x, y, z }
+			tbl = VectorClamp(tbl, min, max)
+
+			worldPos.x = tbl[1]
+			worldPos.y = tbl[2]
+			worldPos.z = tbl[3]
+
+		else
+
+			Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Cannot world pos clamp data as one or many axis is nil!")
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+	return worldPos
+
+end
