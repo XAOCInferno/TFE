@@ -24,7 +24,6 @@ g_SquadIdleBehaviours =
 	tyranids_squad_builder = { Behaviour = eIDLE_STATE_BEHAVIOUR_CONSTRUCT, TimeMustBeIdleFor = 12, Radius = 40 },
 	
 	--[[Cannibalize]]
-	dark_eldar_squad_mandrake = { Behaviour = eIDLE_STATE_BEHAVIOUR_CANNIBALIZE, TimeMustBeIdleFor = 30 },
 	tau_kroot_carnivore_squad = { Behaviour = eIDLE_STATE_BEHAVIOUR_CANNIBALIZE, TimeMustBeIdleFor = 18 },
 	necron_flayed_one_squad = { Behaviour = eIDLE_STATE_BEHAVIOUR_CANNIBALIZE, TimeMustBeIdleFor = 18 },
 	
