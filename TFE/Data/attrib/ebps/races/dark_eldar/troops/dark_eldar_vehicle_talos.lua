@@ -20,7 +20,7 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["vertical_aim_motion_variab
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\dark_eldar_talos_claws.lua]]
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
-GameData["cost_ext"]["time_cost"]["cost"]["power"] = 300
+GameData["cost_ext"]["time_cost"]["cost"]["power"] = 290
 GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 200
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 25
 GameData["cost_ext"]["time_cost"]["time_seconds"] = 45
