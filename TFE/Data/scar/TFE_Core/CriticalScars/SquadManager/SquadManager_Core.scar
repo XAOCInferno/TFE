@@ -576,7 +576,7 @@ function GetAllSquadsInArea_NonPlayerSpecific(_pos, _proximity)
 	
 	AddStacktrace("GetAllSquadsInArea_NonPlayerSpecific")	
 	
-	SquadsInRange = {}
+	local SquadsInRange = {}
 
 	for z = 1, g_PlayerCount do
 
@@ -608,7 +608,7 @@ function GetAllSquadsInArea(_player, _pos, _proximity)
 	
 	AddStacktrace("GetAllSquadsInArea")	
 
-	SquadsInRange = {}
+	local SquadsInRange = {}
 
 	for i = 1, g_PlayerSquadCount[_player] do
 
@@ -636,7 +636,7 @@ function GetAllSquadsInAreaFromPlayerTable(_players, _pos, _proximity)
 	
 	AddStacktrace("GetAllSquadsInAreaFromPlayerTable")
 
-	SquadsInRange = {}
+	local SquadsInRange = {}
 
 	for j = 1, TableLength(_players) do
 
@@ -751,7 +751,7 @@ function GetClosestSquadInSquadTableToPos(_squads, _pos, _maxDistance)
 
 	else
 		
-		Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "No squads are near that position as player has no squads.")
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "No squads are near that position as provided squad table has no squads.")
 		
 	end
 
@@ -999,7 +999,6 @@ function GetAllDamagedAlliedSquadsInAoE(_Player, _Pos, _AoE)
 
 end
 
-
 function GetClosestSquadInList(_Pos, _Squads)
 
 	AddStacktrace("GetClosestSquadInList")	
@@ -1023,5 +1022,48 @@ function GetClosestSquadInList(_Pos, _Squads)
 	RemoveStacktrace()
 	
 	return closestSquad
+
+end
+
+function MoveSquadToPositionInstantly(_Squad, _Pos, _FromGroundEffect, _FromModelEffect, _ToGroundEffect, _ToModelEffect)
+
+	if(_Squad ~= nil) then
+
+		--Play pre-teleport effects
+		--Ground Only
+		if(_FromGroundEffect ~= nil) then
+
+			World_FXEvent( _FromGroundEffect, _Squad.SquadPosition )
+
+		end
+
+		--Each model
+		if(_FromModelEffect ~= nil) then
+
+			World_FXEventSquad( _FromModelEffect, _Squad.SquadGroupID )
+
+		end
+
+		--Despawn and respawn the squad at the location
+		SGroup_DeSpawn(_Squad.SquadGroupName)
+		SGroup_ReSpawnPosition(_Squad.SquadGroupName, _Pos)
+
+
+		--Play post-teleport effects
+		--Ground Only
+		if(_ToGroundEffect ~= nil) then
+
+			World_FXEvent( _ToGroundEffect, _Pos )
+
+		end
+
+		--Each model
+		if(_ToModelEffect ~= nil) then
+
+			World_FXEventSquad( _ToModelEffect, _Squad.SquadGroupID )
+
+		end
+
+	end
 
 end

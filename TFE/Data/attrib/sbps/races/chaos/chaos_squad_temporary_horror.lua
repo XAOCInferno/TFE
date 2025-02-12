@@ -1,0 +1,9 @@
+GameData = Inherit([[sbps\races\chaos\chaos_squad_horror.lua]])
+GameData["squad_cap_ext"]["squad_cap_usage"] = 0
+GameData["squad_jump_ext"] = nil
+GameData["squad_loadout_ext"]["trooper_base"]["type"] = [[ebps\races\chaos\troops\chaos_temporary_horror.lua]]
+GameData["squad_loadout_ext"]["unit_max"] = 3
+GameData["squad_loadout_ext"]["unit_min"] = 3
+GameData["squad_reinforce_ext"] = nil
+GameData["squad_transportable_ext"] = nil
+GameData["squad_ui_ext"]["ui_info"]["icon_name"] = [[chaos_icons/horror_temporary_icon]]

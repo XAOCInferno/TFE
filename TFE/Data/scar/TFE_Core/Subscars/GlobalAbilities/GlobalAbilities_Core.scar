@@ -226,6 +226,99 @@ function Setup_ActualGlobalAbilies()
 		if(RaceName == "chaos_marine_race") then
 
 			--[[NON GLOBALS]]
+			AbilityStruct_ChaosSorcererMultiUseTeleportation = CreateGlobalAbility(
+				"",
+				i, 
+				"Chaos_Sorcerer_Multi_Use_Teleport", 
+				"chaos_sorcerer_multi_use_teleportation_node_entity",
+				"TARGETED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			AbilityStruct_ChaosSorcererMultiUseTeleportation.ProximityToLookForSquads = 8
+			AbilityStruct_ChaosSorcererMultiUseTeleportation.MinDistanceForTeleport = 22
+			AbilityStruct_ChaosSorcererMultiUseTeleportation.FromGroundEffect = "data:Art/Events/ground_impact/impact_frag_grenade"
+			AbilityStruct_ChaosSorcererMultiUseTeleportation.ToGroundEffect = "data:Art/Events/ground_impact/impact_frag_grenade"
+			AbilityStruct_ChaosSorcererMultiUseTeleportation.FromModelEffect = "data:Art/Events/Unit_Upgrade_Morale_FX/Reinforce_Trooper"
+			AbilityStruct_ChaosSorcererMultiUseTeleportation.ToModelEffect = "data:Art/Events/Unit_Upgrade_Morale_FX/Reinforce_Trooper"
+			AbilityStruct_ChaosSorcererMultiUseTeleportation.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				_self.targetPos = World_Pos(_pos.x, _pos.y, _pos.z)
+				
+				local CastingSorcerers = GetAllSquadsOfBlueprint(_self.CasterPlayerIndex, {"chaos_squad_sorcerer"})
+
+				if(TableLength(CastingSorcerers) == 0) then
+							
+					--Log error
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' as we have found no allied sorcerers, likely they are dead.")
+
+				else
+
+					local sorcSquad = CastingSorcerers[1]
+					local castingSorcPos = sorcSquad.SquadPosition
+					local allSquadsInArea = GetAllSquadsInArea_NonPlayerSpecific(_self.targetPos, _self.ProximityToLookForSquads)
+					local targetSquad = GetClosestSquadInList(_self.targetPos, allSquadsInArea)
+					local summonSquadsInsteadOfTeleport = false
+
+					if(targetSquad == nil or World_DistancePointToPoint( castingSorcPos, _self.targetPos ) <= _self.MinDistanceForTeleport) then
+
+						--We have no squads or the distance is close to the sorc
+						summonSquadsInsteadOfTeleport = true
+
+					else
+
+						if(targetSquad.SquadUniqueID == sorcSquad.SquadUniqueID) then
+
+							--Targeted ourselves
+							summonSquadsInsteadOfTeleport = true
+
+						else
+							
+							summonSquadsInsteadOfTeleport = false
+
+							if(Player_GetRelationship( sorcSquad.OwnerPlayer.Player, targetSquad.OwnerPlayer.Player ) == R_ENEMY) then
+
+								--We ideally want the target squad to try and run back to their positions as if they're running away so no stopping them here
+
+								--Stop the sorc from trying to run back to their prev location
+								Command_SquadPos( sorcSquad.OwnerPlayer.Player, targetSquad.SquadGroupID, SCMD_Move, _self.targetPos )
+
+								--Target is an enemy so swap positions with them
+								MoveSquadToPositionInstantly(targetSquad, castingSorcPos, _self.FromGroundEffect, _self.FromModelEffect, _self.ToGroundEffect, _self.ToModelEffect)
+								MoveSquadToPositionInstantly(sorcSquad, _self.targetPos, _self.FromGroundEffect, _self.FromModelEffect, _self.ToGroundEffect, _self.ToModelEffect)
+
+								--Stop the sorc from trying to run back to their prev location
+								Command_SquadPos( sorcSquad.OwnerPlayer.Player, targetSquad.SquadGroupID, SCMD_Move, _self.targetPos )
+								
+							else
+								
+								--Stop the target squad from trying to run back to their prev location
+								Command_SquadPos( targetSquad.OwnerPlayer.Player, targetSquad.SquadGroupID, SCMD_Move, castingSorcPos )
+
+								--Target is an ally so teleport them to us
+								MoveSquadToPositionInstantly(targetSquad, castingSorcPos, _self.FromGroundEffect, _self.FromModelEffect, _self.ToGroundEffect, _self.ToModelEffect)
+
+								--Stop the target squad from trying to run back to their prev location
+								Command_SquadPos( targetSquad.OwnerPlayer.Player, targetSquad.SquadGroupID, SCMD_Move, castingSorcPos )
+
+							end
+
+						end
+
+					end
+
+					if(summonSquadsInsteadOfTeleport) then
+
+						ActivateMultiSummonSquadAbility("chaos_squad_temporary_horror", sorcSquad.OwnerPlayer.Player, castingSorcPos, {x = 1, y = 0, z = 1}, 2, 10, 10) 
+						World_FXEvent( _self.FromGroundEffect, castingSorcPos )
+
+					end
+
+				end
+
+			end
+
 			AbilityStruct_ChaosSorcererTeleportationNodes = CreateGlobalAbility(
 				"",
 				i, 
@@ -238,8 +331,8 @@ function Setup_ActualGlobalAbilies()
 			
 			AbilityStruct_ChaosSorcererTeleportationNodes.DelayBeforeSorcererPortal = 2
 			AbilityStruct_ChaosSorcererTeleportationNodes.TeleportationNodeArea = 7
-			AbilityStruct_ChaosSorcererTeleportationNodes.TeleportSetupTime = 2 --[[To be implemented, time the units need to be in portal before they can TP]]
-			AbilityStruct_ChaosSorcererTeleportationNodes.TeleportTravelTime = 3 --[[To be implemented, time it takes to travel from 1 portal to another]]
+			AbilityStruct_ChaosSorcererTeleportationNodes.TeleportSetupTime = 2 --To be implemented, time the units need to be in portal before they can TP
+			AbilityStruct_ChaosSorcererTeleportationNodes.TeleportTravelTime = 3 --To be implemented, time it takes to travel from 1 portal to another
 			AbilityStruct_ChaosSorcererTeleportationNodes.Duration = 60
 			AbilityStruct_ChaosSorcererTeleportationNodes.BlacklistedSquadsFromNode = {}
 			AbilityStruct_ChaosSorcererTeleportationNodes.SquadsPreparingForTeleport = {}
@@ -1920,6 +2013,7 @@ function Setup_ActualGlobalAbilies()
 						Squad_DeSpawn(squadID)
 						local loadout = 1000
 						
+						--TODO: This needs updating as the loadout mods have changed
 						--Special cases that have varying squad sizes. any units that have a change in squad size need special adjustments here in code as game not smart enough to work out mods
 						if(squadBP == "guard_squad_guardsmen") then
 							if(Player_GetResearchState(_self.CasterPlayer.Player, "guard_gu_members_t2") == RS_Complete) then
