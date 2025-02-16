@@ -277,6 +277,8 @@ function Update_ExistingSquadDetails()
 					--[[TODO: Get what happens with null attached squad here, something to do with possessed attachable heroes?]]
 					if(g_AllSquadsData[i][l].SquadAttachedTo ~= nil) then
 
+						Log(eLOG_TYPE_INFO, eLOG_SIMPLE, g_AllSquadsData[i][l].SquadGroupName.." has attached to "..g_AllSquadsData[i][l].SquadAttachedTo.SquadGroupName..".")
+
 						g_AllSquadsData[i][l].SquadAttachedTo.SquadHasBeenAttachedTo = true
 						g_AllSquadsData[i][l].SquadAttachedTo.SquadHasAttachedToThis = g_AllSquadsData[i][l]
 
@@ -788,6 +790,47 @@ function GetAllSquadsOfBlueprint(_player, _acceptedBlueprints)
 	if(TableLength(AllSquadsOfBlueprint) == 0) then
 
 		Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "No squads of the specified blueprint are owned by player.")
+
+	end
+
+	RemoveStacktrace()
+
+	return AllSquadsOfBlueprint
+
+end
+
+function GetAllAttachedSquadsOfBlueprint(_player, _acceptedBlueprints)
+
+	AddStacktrace("GetAllAttachedSquadsOfBlueprint")
+
+	local AllSquadsOfBlueprint = {}
+
+	for i = 1, TableLength(_acceptedBlueprints) do
+
+		for j = 1, g_PlayerSquadCount[_player] do
+			
+			if(g_AllSquadsData[_player][j] ~= nil) then
+
+				if(g_AllSquadsData[_player][j].SquadHasBeenAttachedTo == true) then
+
+					print(g_AllSquadsData[_player][j].SquadHasAttachedToThis.SquadBlueprint)
+					if(g_AllSquadsData[_player][j].SquadHasAttachedToThis.SquadBlueprint == _acceptedBlueprints[i]) then
+
+						table.insert(AllSquadsOfBlueprint, g_AllSquadsData[_player][j].SquadHasAttachedToThis)
+
+					end
+
+				end
+
+			end
+
+		end
+
+	end
+
+	if(TableLength(AllSquadsOfBlueprint) == 0) then
+
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "No attached squads of the specified blueprint are owned by player.")
 
 	end
 

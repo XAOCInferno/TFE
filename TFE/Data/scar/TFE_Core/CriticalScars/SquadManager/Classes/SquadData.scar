@@ -152,7 +152,8 @@ function SquadData:ReaffirmConstants()
 		self.SquadID = _squadID
 		self.SquadIndex = _itemindex
 		self.SquadUniqueID = Squad_GetGameID( _squadID )
-		self.SquadBlueprint = Squad_GetBlueprintName( _squadID )
+		--[[We should probably not update the BP here as this changes when a squad attaches to the attachee squad]]
+		--self.SquadBlueprint = Squad_GetBlueprintName( _squadID )
 
 	end
 

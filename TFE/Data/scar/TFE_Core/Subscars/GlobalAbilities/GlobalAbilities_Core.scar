@@ -233,6 +233,12 @@ function Setup_ActualGlobalAbilies()
 				local CastingSorcerers = GetAllSquadsOfBlueprint(_self.CasterPlayerIndex, {"chaos_squad_sorcerer"})
 
 				if(TableLength(CastingSorcerers) == 0) then
+
+					CastingSorcerers = GetAllAttachedSquadsOfBlueprint(_self.CasterPlayerIndex, {"chaos_squad_sorcerer"})
+
+				end
+
+				if(TableLength(CastingSorcerers) == 0) then
 							
 					--Log error
 					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' as we have found no allied sorcerers, likely they are dead.")
@@ -337,7 +343,6 @@ function Setup_ActualGlobalAbilies()
 				table.getn(g_AllTrackedAbilities)
 			)
 
-			--[[TODO: Fix the attach bug not finding sorcerer]]
 			AbilityStruct_ChaosSorcererMultiUseTeleportation_Own.ProximityToLookForSquads = 8
 			AbilityStruct_ChaosSorcererMultiUseTeleportation_Own.MinDistanceForTeleport = 22
 			AbilityStruct_ChaosSorcererMultiUseTeleportation_Own.FromGroundEffect = "data:Art/Events/ground_impact/impact_frag_grenade"
