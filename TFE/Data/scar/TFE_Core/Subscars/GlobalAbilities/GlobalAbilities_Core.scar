@@ -226,28 +226,7 @@ function Setup_ActualGlobalAbilies()
 		if(RaceName == "chaos_marine_race") then
 
 			--[[NON GLOBALS]]
-			AbilityStruct_ChaosSorcererMultiUseTeleportation = CreateGlobalAbility(
-				"",
-				i, 
-				"Chaos_Sorcerer_Multi_Use_Teleport", 
-				"chaos_sorcerer_multi_use_teleportation_node_entity",
-				"TARGETED",
-				"NONE",
-				table.getn(g_AllTrackedAbilities)
-			)
-
-			--[[TODO: Rename to reality manipulation]]
-			--[[TODO: Force code to update squad positions on calling this ability to improve accuracy]]
-			--[[TODO: If above doesn't work, and there's a group in close proximity, the sorc will teleport to the group and debuff enemies]]
-			--[[TODO: Increase charge time for ability]]
-			--[[TODO: Fix the attach bug not finding sorcerer]]
-			AbilityStruct_ChaosSorcererMultiUseTeleportation.ProximityToLookForSquads = 8
-			AbilityStruct_ChaosSorcererMultiUseTeleportation.MinDistanceForTeleport = 22
-			AbilityStruct_ChaosSorcererMultiUseTeleportation.FromGroundEffect = "data:Art/Events/ground_impact/impact_frag_grenade"
-			AbilityStruct_ChaosSorcererMultiUseTeleportation.ToGroundEffect = "data:Art/Events/ground_impact/impact_frag_grenade"
-			AbilityStruct_ChaosSorcererMultiUseTeleportation.FromModelEffect = "data:Art/Events/Unit_Upgrade_Morale_FX/Reinforce_Trooper"
-			AbilityStruct_ChaosSorcererMultiUseTeleportation.ToModelEffect = "data:Art/Events/Unit_Upgrade_Morale_FX/Reinforce_Trooper"
-			AbilityStruct_ChaosSorcererMultiUseTeleportation.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+			local SorcererMultiUseTeleportSharedDoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 
 				_self.targetPos = World_Pos(_pos.x, _pos.y, _pos.z)
 				
@@ -263,7 +242,21 @@ function Setup_ActualGlobalAbilies()
 					local sorcSquad = CastingSorcerers[1]
 					local castingSorcPos = sorcSquad.SquadPosition
 					local allSquadsInArea = GetAllSquadsInArea_NonPlayerSpecific(_self.targetPos, _self.ProximityToLookForSquads)
-					local targetSquad = GetClosestSquadInList(_self.targetPos, allSquadsInArea)
+					local acceptedAllSquadsInArea = {}
+
+					for i = 1, table.getn(allSquadsInArea) do
+
+						local isEnemy = Player_GetRelationship( sorcSquad.OwnerPlayer.Player, allSquadsInArea[i].OwnerPlayer.Player ) == R_ENEMY
+						local shouldAdd = (_self.DesiredIsEnemy and isEnemy) or (_self.DesiredIsEnemy == false and isEnemy == false)
+						if(shouldAdd) then
+
+							table.insert(acceptedAllSquadsInArea, allSquadsInArea[i])
+
+						end
+
+					end
+
+					local targetSquad = GetClosestSquadInList(_self.targetPos, acceptedAllSquadsInArea)
 					local summonSquadsInsteadOfTeleport = false
 
 					if(targetSquad == nil or World_DistancePointToPoint( castingSorcPos, _self.targetPos ) <= _self.MinDistanceForTeleport) then
@@ -323,6 +316,46 @@ function Setup_ActualGlobalAbilies()
 				end
 
 			end
+
+			AbilityStruct_ChaosSorcererMultiUseTeleportation_Own = CreateGlobalAbility(
+				"",
+				i, 
+				"Chaos_Sorcerer_Multi_Use_Teleport_Own", 
+				"chaos_sorcerer_multi_use_teleportation_node_own_entity",
+				"TARGETED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			AbilityStruct_ChaosSorcererMultiUseTeleportation_Enemy = CreateGlobalAbility(
+				"",
+				i, 
+				"Chaos_Sorcerer_Multi_Use_Teleport_Enemy", 
+				"chaos_sorcerer_multi_use_teleportation_node_enemy_entity",
+				"TARGETED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+
+			--[[TODO: Fix the attach bug not finding sorcerer]]
+			AbilityStruct_ChaosSorcererMultiUseTeleportation_Own.ProximityToLookForSquads = 8
+			AbilityStruct_ChaosSorcererMultiUseTeleportation_Own.MinDistanceForTeleport = 22
+			AbilityStruct_ChaosSorcererMultiUseTeleportation_Own.FromGroundEffect = "data:Art/Events/ground_impact/impact_frag_grenade"
+			AbilityStruct_ChaosSorcererMultiUseTeleportation_Own.ToGroundEffect = "data:Art/Events/ground_impact/impact_frag_grenade"
+			AbilityStruct_ChaosSorcererMultiUseTeleportation_Own.FromModelEffect = "data:Art/Events/Unit_Upgrade_Morale_FX/Reinforce_Trooper"
+			AbilityStruct_ChaosSorcererMultiUseTeleportation_Own.ToModelEffect = "data:Art/Events/Unit_Upgrade_Morale_FX/Reinforce_Trooper"
+			AbilityStruct_ChaosSorcererMultiUseTeleportation_Own.DesiredIsEnemy = false
+			AbilityStruct_ChaosSorcererMultiUseTeleportation_Own.DoAbility = SorcererMultiUseTeleportSharedDoAbility
+
+			AbilityStruct_ChaosSorcererMultiUseTeleportation_Enemy.ProximityToLookForSquads = 8
+			AbilityStruct_ChaosSorcererMultiUseTeleportation_Enemy.MinDistanceForTeleport = 22
+			AbilityStruct_ChaosSorcererMultiUseTeleportation_Enemy.FromGroundEffect = "data:Art/Events/ground_impact/impact_frag_grenade"
+			AbilityStruct_ChaosSorcererMultiUseTeleportation_Enemy.ToGroundEffect = "data:Art/Events/ground_impact/impact_frag_grenade"
+			AbilityStruct_ChaosSorcererMultiUseTeleportation_Enemy.FromModelEffect = "data:Art/Events/Unit_Upgrade_Morale_FX/Reinforce_Trooper"
+			AbilityStruct_ChaosSorcererMultiUseTeleportation_Enemy.ToModelEffect = "data:Art/Events/Unit_Upgrade_Morale_FX/Reinforce_Trooper"
+			AbilityStruct_ChaosSorcererMultiUseTeleportation_Enemy.DesiredIsEnemy = true
+			AbilityStruct_ChaosSorcererMultiUseTeleportation_Enemy.DoAbility = SorcererMultiUseTeleportSharedDoAbility
+		
 
 			AbilityStruct_ChaosSorcererTeleportationNodes = CreateGlobalAbility(
 				"",

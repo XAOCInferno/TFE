@@ -314,6 +314,7 @@ GameData["research_ext"]["research_table"]["research_05"] = [[research\chaos_com
 GameData["research_ext"]["research_table"]["research_06"] = [[research\chaos_commander_health_research_2.lua]]
 GameData["research_ext"]["research_table"]["research_07"] = [[research\chaos_possessed_daemon_fire_research.lua]]
 GameData["research_ext"]["research_table"]["research_08"] = [[research\chaos_greater_worship_research.lua]]
+GameData["research_ext"]["research_table"]["research_09"] = [[research\chaos_sorcerer_research_multi_teleport.lua]]
 GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
 GameData["sight_ext"]["sight_radius"] = 15
 GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
