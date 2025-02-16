@@ -236,6 +236,11 @@ function Setup_ActualGlobalAbilies()
 				table.getn(g_AllTrackedAbilities)
 			)
 
+			--[[TODO: Rename to reality manipulation]]
+			--[[TODO: Force code to update squad positions on calling this ability to improve accuracy]]
+			--[[TODO: If above doesn't work, and there's a group in close proximity, the sorc will teleport to the group and debuff enemies]]
+			--[[TODO: Increase charge time for ability]]
+			--[[TODO: Fix the attach bug not finding sorcerer]]
 			AbilityStruct_ChaosSorcererMultiUseTeleportation.ProximityToLookForSquads = 8
 			AbilityStruct_ChaosSorcererMultiUseTeleportation.MinDistanceForTeleport = 22
 			AbilityStruct_ChaosSorcererMultiUseTeleportation.FromGroundEffect = "data:Art/Events/ground_impact/impact_frag_grenade"
