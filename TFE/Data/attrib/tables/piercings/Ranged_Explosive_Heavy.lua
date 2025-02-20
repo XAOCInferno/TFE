@@ -1,14 +1,14 @@
 GameData = Inherit([[]])
 GameData["entry_01"] = Reference([[tables\armour_entry.lua]])
-GameData["entry_01"]["armour_piercing_value"] = 60
+GameData["entry_01"]["armour_piercing_value"] = 65
 GameData["entry_01"]["armour_type"] = Reference([[type_armour\tp_vehicle_low.lua]])
 GameData["entry_01"]["armour_type"]["screen_name_id"] = [[$90107]] -- Vehicle
 GameData["entry_02"] = Reference([[tables\armour_entry.lua]])
-GameData["entry_02"]["armour_piercing_value"] = 40
+GameData["entry_02"]["armour_piercing_value"] = 50
 GameData["entry_02"]["armour_type"] = Reference([[type_armour\tp_vehicle_med.lua]])
 GameData["entry_02"]["armour_type"]["screen_name_id"] = [[$90107]] -- Vehicle
 GameData["entry_03"] = Reference([[tables\armour_entry.lua]])
-GameData["entry_03"]["armour_piercing_value"] = 25
+GameData["entry_03"]["armour_piercing_value"] = 30
 GameData["entry_03"]["armour_type"] = Reference([[type_armour\tp_vehicle_high.lua]])
 GameData["entry_03"]["armour_type"]["screen_name_id"] = [[$90107]] -- Vehicle
 GameData["entry_04"] = Reference([[tables\armour_entry.lua]])
