@@ -152,14 +152,16 @@ function AutomaticBaseBuildingManager:Update()
 
 			for z = 1, TableLength(BuiltFromEntities) do
 
-				if(TableLength(BuiltFromEntities) - TableLength(BuiltBuildings) + self.BuildingStruct[i].numberPerAddon - 1 <= 0) then
+				if(BuiltFromEntities[z] == nil) then
 
+					print("Built from entity is nil")
 					break
 
 				end
 
-				if(BuiltFromEntities[z] == nil) then
+				if(TableLength(BuiltFromEntities) - TableLength(BuiltBuildings) + self.BuildingStruct[i].numberPerAddon - 1 <= 0) then
 
+					print(self.BuildingStruct[i].name.."  Too many buildings - Breaking early")
 					break
 
 				end
