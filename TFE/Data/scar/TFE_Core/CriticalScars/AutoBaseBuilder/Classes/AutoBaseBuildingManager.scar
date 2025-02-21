@@ -132,34 +132,39 @@ function AutomaticBaseBuildingManager:Update()
 		for i = 1, self.BuildingStructLength do
 
 			local BuiltBuildings, _ = Get_EntityDataFromEntityBP(self.BuildingStruct[i].name, self.Player.PlayerIndex + 1)
-			local BuiltFromEntities, _ = Get_EntityDataFromEntityBP(self.BuildingStruct[i].builtFromEntity, self.Player.PlayerIndex + 1)
+			local BuiltFromAllEntitities, _ = Get_EntityDataFromEntityBP(self.BuildingStruct[i].builtFromEntity, self.Player.PlayerIndex + 1)
+			local BuiltFromAllValidEntities = {}
 
-			for j = 1, TableLength(BuiltFromEntities) do
+			for j = 1, TableLength(BuiltFromAllEntitities) do
 
-				if(BuiltFromEntities[j].EntityAvgHealth ~= 0.0) then
+				if(BuiltFromAllEntitities[j].EntityAvgHealth ~= 0.0) then
 
-					local HasAddon = Entity_ContainsAddOn(BuiltFromEntities[j].EntityID, self.BuildingStruct[i].requiredAddon)
+					local HasAddon = Entity_ContainsAddOn(BuiltFromAllEntitities[j].EntityID, self.BuildingStruct[i].requiredAddon)
 
-					if(HasAddon == false) then
+					if(HasAddon == true) then
 
-						BuiltFromEntities[j] = nil
+						table.insert(BuiltFromAllValidEntities, BuiltFromAllEntitities[j])
 
 					end
+
+					BuiltFromAllEntitities[j] = nil
 
 				end
 
 			end
 
-			for z = 1, TableLength(BuiltFromEntities) do
+			BuiltFromAllEntitities = nil
 
-				if(BuiltFromEntities[z] == nil) then
+			for z = 1, TableLength(BuiltFromAllValidEntities) do
+
+				if(BuiltFromAllValidEntities[z] == nil) then
 
 					print("Built from entity is nil")
 					break
 
 				end
 
-				if(TableLength(BuiltFromEntities) - TableLength(BuiltBuildings) + self.BuildingStruct[i].numberPerAddon - 1 <= 0) then
+				if(TableLength(BuiltFromAllValidEntities) - TableLength(BuiltBuildings) + self.BuildingStruct[i].numberPerAddon - 1 <= 0) then
 
 					print(self.BuildingStruct[i].name.."  Too many buildings - Breaking early")
 					break
@@ -168,12 +173,12 @@ function AutomaticBaseBuildingManager:Update()
 
 				local Success = false
 				print(self.BuildingStruct[i].name)
-				print(BuiltFromEntities[z])
+				print(BuiltFromAllValidEntities[z])
 				local Offset = 
 				{
-					x = BuiltFromEntities[z].EntityPosition.x + World_GetRand(-self.BuildingStruct[i].distanceFromBuilding, self.BuildingStruct[i].distanceFromBuilding), 
-					y = BuiltFromEntities[z].EntityPosition.y + World_GetRand(-self.BuildingStruct[i].distanceFromBuilding, self.BuildingStruct[i].distanceFromBuilding), 
-					z = BuiltFromEntities[z].EntityPosition.z + World_GetRand(-self.BuildingStruct[i].distanceFromBuilding, self.BuildingStruct[i].distanceFromBuilding)
+					x = BuiltFromAllValidEntities[z].EntityPosition.x + World_GetRand(-self.BuildingStruct[i].distanceFromBuilding, self.BuildingStruct[i].distanceFromBuilding), 
+					y = BuiltFromAllValidEntities[z].EntityPosition.y + World_GetRand(-self.BuildingStruct[i].distanceFromBuilding, self.BuildingStruct[i].distanceFromBuilding), 
+					z = BuiltFromAllValidEntities[z].EntityPosition.z + World_GetRand(-self.BuildingStruct[i].distanceFromBuilding, self.BuildingStruct[i].distanceFromBuilding)
 				}
 				self.IsTryingToBuildExtra = true
 				for x = 1, 40 do
