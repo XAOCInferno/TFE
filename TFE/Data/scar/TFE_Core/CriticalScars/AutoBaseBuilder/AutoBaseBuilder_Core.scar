@@ -168,7 +168,6 @@ function Tyranids_GameSetup()
 	
 	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Finished: 'Tyranids_GameSetup'...")
 
-	--Rule_AddInterval(Update_AutomaticBaseBuildingManagers, 3)
 	Rule_AddInterval(Update_AutomaticBaseBuildingManagers, 1)
 
 	RemoveStacktrace()
@@ -178,15 +177,12 @@ end
 function Update_AutomaticBaseBuildingManagers()
 
 	AddStacktrace("Update_AutomaticBaseBuildingManagers")
-	--if(World_GetRand(0,100) >= 45) then
 
-		for i = 1, TableLength(g_AllAutomaticBaseBuildingManagers) do
+	for i = 1, TableLength(g_AllAutomaticBaseBuildingManagers) do
 
-			g_AllAutomaticBaseBuildingManagers[i]:Update()
+		g_AllAutomaticBaseBuildingManagers[i]:Update()
 
-		end
-
-	--end
+	end
 
 	RemoveStacktrace()
 
