@@ -1,0 +1,16 @@
+GameData = Inherit([[]])
+GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
+GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
+GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 0
+GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
+GameData["cost_ext"]["time_cost"]["time_seconds"] = 0
+GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
+GameData["entity_blueprint_ext"]["animator"] = [[Environment\Necron\solar_pulse]]
+GameData["entity_blueprint_ext"]["scale_x"] = 0
+GameData["entity_blueprint_ext"]["scale_z"] = 0
+GameData["moving_ext"] = Reference([[ebpextensions\moving_ext.lua]])
+GameData["moving_ext"]["speed_max"] = 0
+GameData["moving_ext"]["air_unit"] = false 
+GameData["moving_ext"]["turning_behavior_template"] = [[infantry]]
+GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
+GameData["type_ext"] = Reference([[ebpextensions\type_ext.lua]])
