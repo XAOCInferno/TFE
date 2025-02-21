@@ -149,7 +149,7 @@ function Set_PlayerEntities_Immediate(_PlayerIndex)
 				local shouldIgnore, _ = TableContains(g_EntityBlueprintToIgnore, g_AllEntityData[_PlayerIndex][k].EntityBlueprint)
 				--Should there be a different check for entity instead of health?
 
-				if(g_AllEntityData[_PlayerIndex][k].EntityBlueprint == nil or g_AllEntityData[_PlayerIndex][k].EntityHealthCurrent == 0 or shouldIgnore) then
+				if(g_AllEntityData[_PlayerIndex][k].EntityBlueprint == nil or g_AllEntityData[_PlayerIndex][k].EntityAvgHealth == 0 or shouldIgnore) then
 
 					Log(eLOG_LOG_TYPE_WARNING, eLOG_FULL, "Entity is destroyed, removing.")
 					RemoveEntityInDataAtIndex(_PlayerIndex, k)
