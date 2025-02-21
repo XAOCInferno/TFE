@@ -1,9 +1,14 @@
 import("TFE_Core/CriticalScars/AutoBaseBuilder/Imports/AutoBaseBuilder_Imports.scar")
 
+g_TinyMapMinMaxCoord = 50
+g_SmallMapMinMaxCoord = 100
+g_LargeMapMinMaxCoord = 450
+g_HugeMapMinMaxCoord = 950
+
 --This needs to be assigned on a per-map basis
-g_MaxMapX = 255
-g_MaxMapY = 255
-g_MaxMapZ = 255
+g_MaxMapX = g_SmallMapMinMaxCoord
+g_MaxMapY = g_SmallMapMinMaxCoord
+g_MaxMapZ = g_SmallMapMinMaxCoord
 
 g_AllAutomaticBaseBuildingManagers = {}
 
@@ -24,7 +29,7 @@ function TyranidsDebugActivateAutoConstructionAbility(_pos, _PlayerStruct, _stru
 
 	end
 
-	_pos = WorldPosClamp(_pos, 1, 255)
+	_pos = WorldPosClamp(_pos, -g_MaxMapX, g_MaxMapX)
 	_pos = World_Pos(_pos.x,_pos.y,_pos.z)
 	print(_pos.x)
 	print(_pos.y)
@@ -46,8 +51,9 @@ function TyranidsDebugActivateAutoConstructionAbility(_pos, _PlayerStruct, _stru
 
 		else]]
 
+			_pos = World_GetSpawnablePosition(_pos, building)
 			Util_CreateSquadsAtPositionRandom(_PlayerStruct.Player, UniqueBuilderSGroupName, "world_squad_global_builder", _pos, 1)
-
+			
 			if(SGroup_Count(UniqueBuilderSGroup) == 0) then
 
 				EGroup_ForEach(UniqueBuildingEGroup, Entity_Despawn)
@@ -56,14 +62,24 @@ function TyranidsDebugActivateAutoConstructionAbility(_pos, _PlayerStruct, _stru
 				print("Cannot build structure as builder is nil")
 
 			else
-				EGroup_Add(UniqueBuildingEGroup, building)
-
+				_pos = SGroup_GetPosition(UniqueBuilderSGroup)
 				_pos = World_GetSpawnablePosition(_pos, building)
+				EGroup_Add(UniqueBuildingEGroup, building)
 				Entity_SetPosition(building, _pos)
 				Entity_Spawn(building)
 				Entity_ResetConstructionState(building)
-				
 				Command_SquadEntity( _PlayerStruct.Player, UniqueBuilderSGroup, SCMD_BuildStructure, UniqueBuildingEGroup )
+				--[[Entity_Destroy(building)
+				local impassTestBuilding = Entity_CreateBuildingPosition(_PlayerStruct.Player, UniqueBuildingEGroupName, _structureEbps, _pos, 0)
+				if(EGroup_Count(UniqueBuildingEGroup) == 0) then
+
+					success = false
+		
+				else
+				
+					Command_SquadEntity( _PlayerStruct.Player, UniqueBuilderSGroup, SCMD_BuildStructure, UniqueBuildingEGroup )
+
+				end]]
 
 			end
 			--table.insert(g_AllTrackedAbilityBuilders, GlobalAbilityBuilder:new( _PlayerStruct.Player, UniqueBuilderSGroup, UniqueBuilderSGroupName, UniqueBuildingEGroupName ))
@@ -74,6 +90,12 @@ function TyranidsDebugActivateAutoConstructionAbility(_pos, _PlayerStruct, _stru
 	else
 
 		print("Entity is nil on creation")
+
+	end
+	
+	if(success == false) then
+
+		SGroup_DestroyAllSquads(UniqueBuilderSGroupName)
 
 	end
 	
@@ -143,8 +165,8 @@ function Tyranids_GameSetup()
 	
 	Log(0, 0, "Finished: 'Tyranids_GameSetup'...")
 
-	Rule_AddInterval(Update_AutomaticBaseBuildingManagers, 3)
-
+	--Rule_AddInterval(Update_AutomaticBaseBuildingManagers, 3)
+	Rule_AddInterval(Update_AutomaticBaseBuildingManagers, 0.5)
 	--RemoveStacktrace()
 
 end
@@ -152,7 +174,7 @@ end
 function Update_AutomaticBaseBuildingManagers()
 
 	--AddStacktrace("Update_AutomaticBaseBuildingManagers")
-	if(World_GetRand(0,100) >= 45) then
+	--if(World_GetRand(0,100) >= 45) then
 
 		for i = 1, TableLength(g_AllAutomaticBaseBuildingManagers) do
 
@@ -160,7 +182,7 @@ function Update_AutomaticBaseBuildingManagers()
 
 		end
 
-	end
+	--end
 
 	--RemoveStacktrace()
 
