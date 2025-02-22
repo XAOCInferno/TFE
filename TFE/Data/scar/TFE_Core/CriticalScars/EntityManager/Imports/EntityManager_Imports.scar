@@ -1,3 +1,6 @@
 --[[Classes]]
 import("TFE_Core/CriticalScars/EntityManager/Classes/EntityData.scar")
 
+--[[Data]]
+import("TFE_Core/CriticalScars/EntityManager/Data/EntitySynapseScore.lua")
+

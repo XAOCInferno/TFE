@@ -26,6 +26,8 @@ function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
 	    CurrentAddResources = ResourceGroup:new(),	    
 	    CurrentFireCosts = ResourceGroup:new(),
 
+		CurrentSynapseScore = 0,
+
 		--Tau only logic
 		TauFiresightVisionCircle = nil
 
@@ -181,6 +183,29 @@ function PlayerDetails:PlayerAddResources_FromResourceGroup(_resourceGroup)
 	Player_AddResource(self.Player, RT_Pop, _resourceGroup.RT_Pop)
 	Player_AddResource(self.Player, RT_Faith, _resourceGroup.RT_Faith)
 	Player_AddResource(self.Player, RT_Souls, _resourceGroup.RT_Souls)
+
+	RemoveStacktrace()
+
+end
+
+function PlayerDetails:ApplySynapseScore(_score)
+
+	AddStacktrace("PlayerDetails:ApplySynapseScore")
+	
+	self.CurrentSynapseScore = self.CurrentSynapseScore + _score
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Applying Synapse Score of: '".._score.. "'. Total Score is now: "..self.CurrentSynapseScore)
+
+	RemoveStacktrace()
+
+end
+
+	
+function PlayerDetails:UnApplySynapseScore(_score)
+
+	AddStacktrace("PlayerDetails:UnApplySynapseScore")
+
+	self.CurrentSynapseScore = self.CurrentSynapseScore - _score
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Unapplying Synapse Score of: '".._score.. "'. Total Score is now: "..self.CurrentSynapseScore)
 
 	RemoveStacktrace()
 

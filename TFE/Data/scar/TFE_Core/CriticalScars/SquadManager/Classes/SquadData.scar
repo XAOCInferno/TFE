@@ -51,6 +51,7 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		OwnerPlayer = _player, 
 		IsSelected_Unsynced = Misc_IsSquadSelected(_sID),
 		IdleBehaviourController = nil,
+		HasSynapseScore = g_SquadSynapseScore[_sBP] ~= nil,
 
 		XP = XPManager:new(),
 
@@ -70,6 +71,8 @@ function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _playe
 		PreviouslyAttackedTime = 0,
 		PreviouslyAttackedBySquads = {},
 		PreviouslyAttackingTime = 0,
+		HasAppliedSynapseScore = false,
+		HasAppliedSynapseLeaderScore = false,
 		
 		IdleState = _IdleState,
 		IsIdle = false,
@@ -195,6 +198,8 @@ function SquadData:CreateTotalCopy()
 	copy.SquadActiveCommand = self.SquadActiveCommand
 	copy.IdleBehaviourController = self.IdleBehaviourController
 	copy.IsMoving = self.IsMoving
+	copy.HasAppliedSynapseScore = self.HasAppliedSynapseScore
+	copy.HasAppliedSynapseLeaderScore = self.HasAppliedSynapseLeaderScore
 
 	return copy
 
@@ -299,6 +304,38 @@ function SquadData:Update()
 	if self.IdleState.Behaviour ~= eIDLE_STATE_BEHAVIOUR_NONE then
 
 		self:ManageIdleState()
+
+	end
+
+	if self.HasSynapseScore == true then
+
+		if self.HasAppliedSynapseScore == false then
+			
+			self.HasAppliedSynapseScore = true
+			self.OwnerPlayer:ApplySynapseScore(g_SquadSynapseScore[self.SquadBlueprint].SquadScore)
+
+		end
+
+		if self.HasAppliedSynapseLeaderScore == false then
+
+			if self.SquadLeaderCount ~= 0 then
+
+				self.HasAppliedSynapseLeaderScore = true
+				self.OwnerPlayer:ApplySynapseScore(g_SquadSynapseScore[self.SquadBlueprint].SquadLeaderScore)
+
+			end
+
+		else
+
+			if self.SquadLeaderCount == 0 then
+
+				self.HasAppliedSynapseLeaderScore = false
+				self.OwnerPlayer:UnApplySynapseScore(g_SquadSynapseScore[self.SquadBlueprint].SquadLeaderScore)
+
+			end
+
+		end
+
 
 	end
 
@@ -591,14 +628,22 @@ function SquadData:Deconstruct()
 
 	AddStacktrace("SquadData:Deconstruct")
 	
+	if(self.HasAppliedSynapseScore) then
+		
+		self.OwnerPlayer:UnApplySynapseScore(g_SquadSynapseScore[self.SquadBlueprint].SquadScore)
+
+	end
+
+	if(self.HasAppliedSynapseLeaderScore) then
+		
+		self.OwnerPlayer:UnApplySynapseScore(g_SquadSynapseScore[self.SquadBlueprint].SquadLeaderScore)
+
+	end
+
 	--Note we do not need to deconstruct the idle behaviour here as it handles itself
 	self.XP:Deconstruct()
-
-	--if(self.History.Deconstruct ~= nil) then
-
 	self.History:Deconstruct()
 
-	--end
 
 	RemoveStacktrace()
 

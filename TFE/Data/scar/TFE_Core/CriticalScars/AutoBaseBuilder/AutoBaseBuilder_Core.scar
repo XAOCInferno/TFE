@@ -1,6 +1,8 @@
 import("TFE_Core/CriticalScars/AutoBaseBuilder/Imports/AutoBaseBuilder_Imports.scar")
 
 g_AllAutomaticBaseBuildingManagers = {}
+g_BuildCommandOnNextTick = {}
+g_DeleteOnNextTick = {}
 
 --TODO: Generalise name of this
 function TyranidsDebugActivateAutoConstructionAbility(_pos, _PlayerStruct, _structureEbps)
@@ -38,28 +40,32 @@ function TyranidsDebugActivateAutoConstructionAbility(_pos, _PlayerStruct, _stru
 		EGroup_Add(UniqueBuildingEGroup, building)
 
 		--Spawn in our dummy squad, this is done to prevent us from spawning the structure in out of bounds (causing crash) or in impassable terrain
-		Util_CreateSquadsAtPositionRandom(_PlayerStruct.Player, UniqueBuilderSGroupName, "world_squad_dummy", _pos, 1)
-		
-		if(SGroup_Count(UniqueBuilderSGroup) == 0) then
+		local dummySquad = ActivateSummonSquadAbility("world_squad_dummy", _PlayerStruct.Player, _pos, 1)
+
+		if(dummySquad == nil) then
 
 			--If our dummy squad hasn't spawned then log warning and stop
 			Log(eLOG_LOG_TYPE_WARNING, eLOG_SIMPLE, "Cannot build structure as dummy squad failed to spawn.")
 
 		else
+			--Add the builder to the group for later
+			SGroup_Add( UniqueBuilderSGroup, dummySquad )
 
 			--Get the position of the dummy. This will always be a valid position in the world as dummy is not a flyer therefore can only live in passable terrain
-			_pos = SGroup_GetPosition(UniqueBuilderSGroup)
+			_pos = Squad_GetPosition(dummySquad)
 
 			--Now try get spawnable position from the dummy pos. This will likely not change the position
 			_pos = World_GetSpawnablePosition(_pos, building)
 
 			--We're done with the dummy, so clean it up
 			SGroup_DestroyAllSquads(UniqueBuilderSGroupName)
-
+			SGroup_Clear(UniqueBuilderSGroupName)
+			
 			--Now spawn in our flying builder to try and build the structure that we spawned in
-			Util_CreateSquadsAtPositionRandom(_PlayerStruct.Player, UniqueBuilderSGroupName, "world_squad_global_builder", _PlayerStruct.StartingPosition, 1)
+			local builderSquad = ActivateSummonSquadAbility("world_squad_global_builder", _PlayerStruct.Player, _PlayerStruct.StartingPosition, 1)
+			--Util_CreateSquadsAtPositionRandom(_PlayerStruct.Player, UniqueBuilderSGroupName, "world_squad_global_builder", _PlayerStruct.StartingPosition, 4)
 
-			if(SGroup_Count(UniqueBuilderSGroup) == 0) then
+			if(builderSquad == nil) then
 
 				--Our builder failed to spawn in, so log warning and stop
 				Log(eLOG_LOG_TYPE_WARNING, eLOG_SIMPLE, "Cannot build structure as global builder failed to spawn.")
@@ -68,6 +74,9 @@ function TyranidsDebugActivateAutoConstructionAbility(_pos, _PlayerStruct, _stru
 
 				--We've done every pre-requisit step so mark this as a success, there should be no points of failure after this
 				success = true
+				
+				--Add the builder to the group for later
+				SGroup_Add( UniqueBuilderSGroup, builderSquad )
 
 				--Move our building to the safe position and spawn it into the world
 				Entity_SetPosition(building, _pos)
@@ -76,9 +85,9 @@ function TyranidsDebugActivateAutoConstructionAbility(_pos, _PlayerStruct, _stru
 				--Reset state to unconstructed
 				Entity_ResetConstructionState(building)
 
-				--Tell global builder to build the structure
-				Command_SquadEntity( _PlayerStruct.Player, UniqueBuilderSGroup, SCMD_BuildStructure, UniqueBuildingEGroup )
-
+				--Tell to build on next tick
+				table.insert(g_BuildCommandOnNextTick, { Player = _PlayerStruct.Player, SGroupFrom = UniqueBuilderSGroup, SGroupFromName = UniqueBuilderSGroupName, EGroupTo = UniqueBuildingEGroup })
+				
 				--TODO: Add tracking to the building / global builder which destroys the global builder after the building is started to be made
 				--TODO: Merge global builder to the GlobalAbilities system, no reason for it to act differently
 
@@ -98,12 +107,11 @@ function TyranidsDebugActivateAutoConstructionAbility(_pos, _PlayerStruct, _stru
 		--We failed to do something important so destroy the builders and the buildings
 		SGroup_DestroyAllSquads(UniqueBuilderSGroupName)
 		EGroup_DestroyAllEntities(UniqueBuildingEGroupName)
+		EGroup_Destroy(UniqueBuildingEGroupName)
+		SGroup_Destroy(UniqueBuilderSGroupName)
 
 	end
 	
-	--Now destroy the temporary E/SGroups
-	EGroup_Destroy(UniqueBuildingEGroupName)
-	SGroup_Destroy(UniqueBuilderSGroupName)
 
 	--Return if we succeeded or not
 	return success
@@ -149,16 +157,12 @@ function Tyranids_GameSetup()
 			
 			Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Player: "..g_AllPlayers[i].PlayerIndex.."' is Tyranids, assigning them an AutomaticBaseBuildingManager.")
 			local GauntStructure = { name = "tyranids_tech_gaunt", requiredAddon = "addon_tyranids_tech_gaunt", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
-			local LictorStructure = { name = "tyranids_tech_lictor", requiredAddon = "addon_tyranids_tech_lictor", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
-			local WarriorStructure = { name = "tyranids_tech_warrior", requiredAddon = "addon_tyranids_tech_warrior", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
-			local RavenerStructure = { name = "tyranids_tech_ravener", requiredAddon = "addon_tyranids_tech_ravener", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
-			local Tier2InfantryStructure = { name = "tyranids_tech_tier2_infantry", requiredAddon = "addon_tyranids_tech_tier2_infantry", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 35 }
-			local GeneratorStructure = { name = "tyranids_generator", requiredAddon = "addon_tyranids_generator", numberPerAddon = 3, builtFromEntity = "tyranids_listening_post", distanceFromBuilding = 5 }
-			local BasicVehiclesStructure = { name = "tyranids_tech_basic_vehicles", requiredAddon = "addon_tyranids_tech_basic_vehicles", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 45 }
-			local AdvancedVehiclesStructure = { name = "tyranids_tech_advanced_vehicles", requiredAddon = "addon_tyranids_tech_advanced_vehicles", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 45 }
-			local Tier4Structure = { name = "tyranids_tech_tier4", requiredAddon = "addon_tyranids_tech_tier4", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 45 }
+			local InfantryStructure = { name = "tyranids_tech_infantry", requiredAddon = "addon_tyranids_tech_infantry", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
+			local CommanderStructure = { name = "tyranids_tech_commander", requiredAddon = "addon_tyranids_tech_commander", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
+			local PsychicStructure = { name = "tyranids_tech_psychic", requiredAddon = "addon_tyranids_tech_psychic", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
+			local VehicleStructure = { name = "tyranids_tech_vehicles", requiredAddon = "addon_tyranids_tech_vehicle", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
 			local NewHQ = { name = "tyranids_hq", requiredAddon = "addon_tyranids_new_hq", numberPerAddon = 2, builtFromEntity = "tyranids_hq", distanceFromBuilding = 55 }
-			local NidsBuildings = { GauntStructure, LictorStructure, WarriorStructure, RavenerStructure, Tier2InfantryStructure, GeneratorStructure, BasicVehiclesStructure, AdvancedVehiclesStructure, Tier4Structure, NewHQ }
+			local NidsBuildings = { GauntStructure, InfantryStructure, CommanderStructure, PsychicStructure, VehicleStructure, NewHQ }
 			table.insert(g_AllAutomaticBaseBuildingManagers, AutomaticBaseBuildingManager:new(g_AllPlayers[i], NidsBuildings))
 
 		else

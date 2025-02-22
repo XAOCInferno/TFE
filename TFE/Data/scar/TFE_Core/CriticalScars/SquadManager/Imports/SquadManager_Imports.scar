@@ -11,4 +11,5 @@ import("TFE_Core/CriticalScars/SquadManager/Classes/IdleBuilder.scar")
 import("TFE_Core/CriticalScars/SquadManager/Data/SquadValidWeapons.lua")
 import("TFE_Core/CriticalScars/SquadManager/Data/SquadMultiLeaders.lua")
 import("TFE_Core/CriticalScars/SquadManager/Data/SquadIdleBehaviours.lua")
+import("TFE_Core/CriticalScars/SquadManager/Data/SquadSynapseScore.lua")
 

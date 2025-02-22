@@ -22,6 +22,27 @@ end
 
 function AutomaticBaseBuildingManager:Update()
 
+	for j = 1, TableLength(g_DeleteOnNextTick) do
+
+		--Now delete our builders
+		SGroup_DestroyAllSquads(g_DeleteOnNextTick[j].SGroupFromName)
+		EGroup_Destroy(g_DeleteOnNextTick[j].EGroupTo)
+		SGroup_Destroy(g_DeleteOnNextTick[j].SGroupFrom)
+
+	end
+
+	g_DeleteOnNextTick = {}
+
+	for i = 1, TableLength(g_BuildCommandOnNextTick) do
+
+		--Tell global builder to build the structure
+		Command_SquadEntity( g_BuildCommandOnNextTick[i].Player, g_BuildCommandOnNextTick[i].SGroupFrom, SCMD_BuildStructure, g_BuildCommandOnNextTick[i].EGroupTo )
+		table.insert(g_DeleteOnNextTick, g_BuildCommandOnNextTick[i])
+
+	end
+
+	g_BuildCommandOnNextTick = {}
+
 	if(self.IsTryingToBuild == false) then
 		local AllOwnedStratPoints = GetAllStrategicPointsOwnedByPlayer(self.Player)
 		--[[local _, entityPositions = Get_EntityDataFromEntityBP("tyranids_hq", self.Player.PlayerIndex + 1)

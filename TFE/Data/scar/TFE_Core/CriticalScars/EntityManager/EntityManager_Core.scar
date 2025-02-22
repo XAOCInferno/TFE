@@ -91,6 +91,12 @@ function Set_PlayerEntities_Immediate(_PlayerIndex)
 
 				end	
 
+				if(Entity_GetHealth(_entityID) <= 0 and Entity_GetHealthInvulnerable(_entityID) == false) then
+					
+					addNewDataEntry = false
+
+				end
+
 			else
 
 				addNewDataEntry = false

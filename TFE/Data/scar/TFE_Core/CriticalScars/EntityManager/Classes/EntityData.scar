@@ -35,6 +35,7 @@ function EntityData:new ( _eGameID, _eGroupID, _eIndex, _eID, _eRace, _eBP, _ePl
 		EntityCanMove = false,
 		OwnedByPlayer = Entity_GetPlayerOwner(_eID), 		
 		OwnerPlayer = _ePlayer, 
+		HasSynapseScore = g_EntitySynapseScore[_eBP] ~= nil,
 
 		--Variables
 		EntityPosition = Entity_GetPosition(_eID),
@@ -44,7 +45,8 @@ function EntityData:new ( _eGameID, _eGroupID, _eIndex, _eID, _eRace, _eBP, _ePl
 		EntityInvulnerable = EGroup_GetHealthInvulnerable(tmpEGroupName, true),
 		EntityConstructionPercent = 0.0,
 		PreviouslyAttackedByPlayers = {},
-		PreviouslyAttackedTime = 0
+		PreviouslyAttackedTime = 0,
+		HasAppliedSynapseScore = false
 
 	}
 
@@ -90,6 +92,21 @@ function EntityData:Update()
 			if(self.EntityIsStructure) then
 
 				self.EntityConstructionPercent = Entity_GetBuildingProgress( self.EntityID )
+
+				if(self.HasSynapseScore) then
+
+					if(self.HasAppliedSynapseScore == false) then
+
+						if(self.EntityConstructionPercent >= 1) then
+
+							self.HasAppliedSynapseScore = true
+							self.OwnerPlayer:ApplySynapseScore(g_EntitySynapseScore[self.EntityBlueprint].EntityScore)
+
+						end
+
+					end
+
+				end
 		
 			end
 
@@ -173,9 +190,19 @@ end
 
 function EntityData:Deconstruct()
 
+	AddStacktrace("EntityData:Deconstruct")
+
+	if(self.HasAppliedSynapseScore) then
+		
+		self.OwnerPlayer:UnApplySynapseScore(g_EntitySynapseScore[self.EntityBlueprint].EntityScore)
+
+	end
+
 	DeconstructClass(self)
 	
 	self.__index = nil
 	self = nil
+
+	RemoveStacktrace()
 
 end
