@@ -40,6 +40,8 @@ function EntityData:new ( _eGameID, _eGroupID, _eIndex, _eID, _eRace, _eBP, _ePl
 		EntityPosition = Entity_GetPosition(_eID),
 		EntityPositionInt = Entity_GetPosition(_eID),
 		EntityAvgHealth = EGroup_GetAvgHealth( tmpEGroupName ),
+		EntityMaxHealth = Entity_GetHealthMax( _eID ),
+		EntityInvulnerable = EGroup_GetHealthInvulnerable(tmpEGroupName, true),
 		EntityConstructionPercent = 0.0,
 		PreviouslyAttackedByPlayers = {},
 		PreviouslyAttackedTime = 0
@@ -92,6 +94,7 @@ function EntityData:Update()
 			end
 
 			self.EntityAvgHealth = EGroup_GetAvgHealth( self.EntityGroupName )
+			self.EntityInvulnerable = EGroup_GetHealthInvulnerable(self.EntityGroupName, true)
 
 			--Get combat status
 			if(Entity_IsUnderAttack(self.EntityID)) then
@@ -147,6 +150,24 @@ function EntityData:UpdatePosition()
 	self.EntityPositionInt.z = math.floor(self.EntityPosition.z)
 
 	RemoveStacktrace()
+
+end
+
+function EntityData:EntityIsDead()
+
+	AddStacktrace("EntityData:EntityIsDead")
+	
+	local isDead = false
+
+	if(self.EntityInvulnerable == false and self.EntityAvgHealth <= 0 and self.EntityMaxHealth ~= 0) then
+
+		isDead = true
+
+	end
+
+	RemoveStacktrace()
+	
+	return isDead
 
 end
 

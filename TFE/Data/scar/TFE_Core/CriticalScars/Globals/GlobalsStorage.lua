@@ -307,7 +307,9 @@ g_EntityBlueprintToIgnore =
 	"world_global_ability_caster_tau_race",
 	"world_global_builder",
 	"world_global_dust_storm",
-	"world_tornado"
+	"world_tornado",
+	"fx_rain_01",
+	"fx_rain_02"
 }
 
 g_AllSquadUpkeeps = 
