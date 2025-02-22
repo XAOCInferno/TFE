@@ -8,10 +8,11 @@ eREQUIREMENT_TYPE_ANY = 0
 eREQUIREMENT_TYPE_CUMULATIVE = 1
 eREQUIREMENT_TYPE_ALL = 2
 
-g_AdvancedRaceRestrictions = 
-{	
+g_AdvancedRaceRestrictions = {}
+	
+g_AdvancedRaceRestrictions["sisters_race"] =
+{
 	{ 
-		Race = "sisters_race",
 		Item = RestrictedItem:new("sisters_squad_dogmata", eRESTRICTED_TYPE_SQUAD), 
 		RequirementType = eREQUIREMENT_TYPE_CUMULATIVE,
 		RequirementCumulativeCount = 1,
@@ -22,20 +23,17 @@ g_AdvancedRaceRestrictions =
 		}, 
 		AchievedForPlayers = {}
 	},
-	
+		
 	{ 
-		Race = "sisters_race",
 		Item = RestrictedItem:new("sisters_squad_repentia", eRESTRICTED_TYPE_SQUAD), 
 		RequirementType = eREQUIREMENT_TYPE_ANY,
 		RequirementTable = 
 		{
-			
+				
 			PurchasedItem:new("addon_sisters_holy_icon", 2, ePURCHASED_ITEM_TYPE_ADDON_LP),	
 			PurchasedItem:new("sisters_holy_reliquary", 1, ePURCHASED_ITEM_TYPE_COMPLETED_STRUCTURE),	
-			
+				
 		},  
 		AchievedForPlayers = {}
 	}
 }
-
-g_AdvancedRaceRestrictions_Count = table.getn(g_AdvancedRaceRestrictions)

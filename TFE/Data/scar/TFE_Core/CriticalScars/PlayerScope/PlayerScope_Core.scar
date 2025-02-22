@@ -7,6 +7,35 @@ function Setup_PlayerScope()
 	
 	AddStacktrace("Setup_PlayerScope")
 
+	--Create our data structure
+	g_AdvancedRaceRestrictions_Count = {}
+
+	--Iterate over every player
+	for i = 1, g_PlayerCount do
+
+		--Get their race. We will use this for assigning the count of their race restrictions from the data file
+		local raceName = g_AllPlayers[i].RaceDetails.RaceName
+
+		--If we've not already assigned the count
+		if(g_AdvancedRaceRestrictions_Count[raceName] == nil) then
+
+			--Default to 0 in case this race has no restrictions
+			local count = 0
+
+			--If this race has restrictions
+			if(g_AdvancedRaceRestrictions[raceName] ~= nil) then
+
+				--Then update the count
+				count = table.getn(g_AdvancedRaceRestrictions[raceName])
+
+			end
+
+			--Now assign it to our data structure
+			g_AdvancedRaceRestrictions_Count[raceName] = count
+
+		end
+
+	end
 
 	RemoveStacktrace()
 
@@ -26,15 +55,17 @@ function Update_RaceRestrictions()
 
 	AddStacktrace("Update_RaceRestrictions")
 
+	--For each player
 	for i = 1, g_PlayerCount do
-		
-		for j = 1, g_AdvancedRaceRestrictions_Count do
+
+		--Get their race name
+		local raceName = g_AllPlayers[i].RaceDetails.RaceName
+
+		--Iterate over each restriction in their race
+		for j = 1, g_AdvancedRaceRestrictions_Count[raceName] or 0 do
 			
-			if(g_AdvancedRaceRestrictions[j].Race == g_AllPlayers[i].RaceDetails.RaceName) then
-
-				ApplyOrUnapplyRestriction(g_AdvancedRaceRestrictions[j], g_AllPlayers[i])				
-
-			end
+			--Work out if this restriction should be applied or unapplied
+			ApplyOrUnapplyRestriction(g_AdvancedRaceRestrictions[raceName][j], g_AllPlayers[i])			
 
 		end
 
@@ -48,67 +79,66 @@ function CheckIfRequirementAchieved(_AddonRequirementAndRestriction, _Player)
 	
 	AddStacktrace("CheckIfRequirementAchieved")
 
-	local achieved = false
-	local achievedCount = 0
-	local allAchieved = false
+	--Init vars
+
+	--Assume we failed
+	local hasAchievedRestrictionRequirements = false
+
+	local countOfAchievedRequirements = 0
 	local numberOfRequirements = table.getn(_AddonRequirementAndRestriction.RequirementTable)
 
 	for i = 1, numberOfRequirements do
 
-		local singleRequirementAchieved = false
+		local thisSingleRequirementAchieved = false
+
+		--Get our requirement
 		local requirement = _AddonRequirementAndRestriction.RequirementTable[i]
 		
 		if(requirement.TypeOfItem == ePURCHASED_ITEM_TYPE_ADDON_LP) then
 		
-			singleRequirementAchieved = GetNumberOfSpecificPlayerOwnedListeningPostAddons(requirement.ID, _Player) >= requirement.Count
+			--If the player's LPs have a specific count of addons
+			thisSingleRequirementAchieved = GetNumberOfSpecificPlayerOwnedListeningPostAddons(requirement.ID, _Player) >= requirement.Count
 
 		elseif(requirement.TypeOfItem == ePURCHASED_ITEM_TYPE_ENTITY) then
 		
-			singleRequirementAchieved = GetCountOfPlayerOwnedEntityBlueprints(_Player.PlayerIndex + 1, requirement.ID) >= requirement.Count
+			--If player has a count of entities. This wont check if structures are complete
+			thisSingleRequirementAchieved = GetCountOfPlayerOwnedEntityBlueprints(_Player.PlayerIndex + 1, requirement.ID) >= requirement.Count
 
 		elseif(requirement.TypeOfItem == ePURCHASED_ITEM_TYPE_COMPLETED_STRUCTURE) then
 		
-			singleRequirementAchieved = GetCountOfPlayerOwnedAndCompletedStructuresOfBlueprint(_Player.PlayerIndex + 1, requirement.ID) >= requirement.Count
+			--If player has a count of fully constructed structures
+			thisSingleRequirementAchieved = GetCountOfPlayerOwnedAndCompletedStructuresOfBlueprint(_Player.PlayerIndex + 1, requirement.ID) >= requirement.Count
 
 		end
 
-		achievedCount = achievedCount + bool_to_number(singleRequirementAchieved)
+		countOfAchievedRequirements = countOfAchievedRequirements + bool_to_number(thisSingleRequirementAchieved)
 
 	end
 
 	if _AddonRequirementAndRestriction.RequirementType == eREQUIREMENT_TYPE_ANY then
 
-		if(achievedCount >= 1) then
+		--1 or more success is a pass with ANY
+		if(countOfAchievedRequirements >= 1) then
 
-			achieved = true
-
-		else
-
-			achieved = false
+			hasAchievedRestrictionRequirements = true
 
 		end
 
 	elseif _AddonRequirementAndRestriction.RequirementType == eREQUIREMENT_TYPE_CUMULATIVE then
 
-		if(achievedCount >= _AddonRequirementAndRestriction.RequirementCumulativeCount) then
+		--If we have more or equal successes than the desired we pass
+		if(countOfAchievedRequirements >= _AddonRequirementAndRestriction.RequirementCumulativeCount) then
 
-			achieved = true
-
-		else
-
-			achieved = false
+			hasAchievedRestrictionRequirements = true
 
 		end
 
 	elseif(_AddonRequirementAndRestriction.RequirementType == eREQUIREMENT_TYPE_ALL) then
 
-		if(achievedCount >= numberOfRequirements) then
+		--We need to pass all requirements
+		if(countOfAchievedRequirements >= numberOfRequirements) then
 
-			achieved = true
-
-		else
-
-			achieved = false
+			hasAchievedRestrictionRequirements = true
 
 		end
 
@@ -116,7 +146,8 @@ function CheckIfRequirementAchieved(_AddonRequirementAndRestriction, _Player)
 	
 	RemoveStacktrace()
 
-	return achieved
+	--Finally return if we passed
+	return hasAchievedRestrictionRequirements
 
 end
 
