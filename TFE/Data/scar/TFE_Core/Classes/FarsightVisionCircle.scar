@@ -273,7 +273,7 @@ end
 function FiresightVisionCircle:Deconstruct()
 
 	Entity_Destroy(self.LinkedEntityID)
-	Modifier_Destroy(ModifierToApplyWhenIdleAndNotTacking)
+	Modifier_Destroy(self.ModifierToApplyWhenIdleAndNotTacking)
 	self.IsPerformingLogic = false
 
 	DeconstructClass(self)	
