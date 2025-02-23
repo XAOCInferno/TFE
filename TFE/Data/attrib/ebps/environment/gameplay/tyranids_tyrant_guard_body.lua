@@ -1,6 +1,6 @@
 GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
-GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\necron_body_autorevive.lua]]
+GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\tyranids_tyrant_guard_body_autorevive.lua]]
 GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
 GameData["entity_blueprint_ext"]["animator"] = [[Races/Tyranids/Troops/tyrant_guard]]
 GameData["entity_blueprint_ext"]["minimum_update_radius"] = 35

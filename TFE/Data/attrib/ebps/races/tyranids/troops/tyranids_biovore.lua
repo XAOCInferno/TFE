@@ -13,8 +13,8 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"
 GameData["combat_ext"]["hardpoints"]["hardpoint_01"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\tyranids_spore_mine_launcher_biovore.lua]]
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
-GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 150
-GameData["cost_ext"]["time_cost"]["cost"]["power"] = 250
+GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 160
+GameData["cost_ext"]["time_cost"]["cost"]["power"] = 280
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
 GameData["cost_ext"]["time_cost"]["time_seconds"] = 40
 GameData["cover_ext"] = Reference([[ebpextensions\cover_ext.lua]])
