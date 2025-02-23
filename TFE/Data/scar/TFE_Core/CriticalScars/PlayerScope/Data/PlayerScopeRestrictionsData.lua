@@ -303,6 +303,16 @@ g_AdvancedRaceRestrictions["tyranids_race"] =
 	},
 	
 	{ 
+		Item = RestrictedItem:new("tyranids_tyrant_guard_health", eRESTRICTED_TYPE_RESEARCH), 
+		RequirementType = eREQUIREMENT_TYPE_ALL,
+		RequirementTable = 
+		{
+			PurchasedItem:new("", TyranidsTier2Cost, ePURCHASED_ITEM_TYPE_SYNAPSE_LEVEL),	
+		}, 
+		AchievedForPlayers = {}
+	},
+	
+	{ 
 		Item = RestrictedItem:new("tyranids_gaunt_squad_size_1", eRESTRICTED_TYPE_RESEARCH), 
 		RequirementType = eREQUIREMENT_TYPE_ALL,
 		RequirementTable = 
@@ -314,6 +324,16 @@ g_AdvancedRaceRestrictions["tyranids_race"] =
 	
 	{ 
 		Item = RestrictedItem:new("tyranids_warrior_adrenal_glands", eRESTRICTED_TYPE_RESEARCH), 
+		RequirementType = eREQUIREMENT_TYPE_ALL,
+		RequirementTable = 
+		{
+			PurchasedItem:new("", TyranidsTier2Cost, ePURCHASED_ITEM_TYPE_SYNAPSE_LEVEL),	
+		}, 
+		AchievedForPlayers = {}
+	},
+	
+	{ 
+		Item = RestrictedItem:new("tyranids_ravener_squad_size_1", eRESTRICTED_TYPE_RESEARCH), 
 		RequirementType = eREQUIREMENT_TYPE_ALL,
 		RequirementTable = 
 		{

@@ -189,14 +189,12 @@ function AutomaticBaseBuildingManager:Update()
 
 				if(TableLength(BuiltFromAllValidEntities) - TableLength(BuiltBuildings) + self.BuildingStruct[i].numberPerAddon - 1 <= 0) then
 
-					print(self.BuildingStruct[i].name.."  Too many buildings - Breaking early")
+					--print(self.BuildingStruct[i].name.."  Too many buildings - Breaking early")
 					break
 
 				end
 
 				local Success = false
-				print(self.BuildingStruct[i].name)
-				print(BuiltFromAllValidEntities[z])
 				local Offset = 
 				{
 					x = BuiltFromAllValidEntities[z].EntityPosition.x + World_GetRand(-self.BuildingStruct[i].distanceFromBuilding, self.BuildingStruct[i].distanceFromBuilding), 

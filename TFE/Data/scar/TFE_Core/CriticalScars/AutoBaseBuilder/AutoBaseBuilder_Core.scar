@@ -156,11 +156,11 @@ function Tyranids_GameSetup()
 		if(g_AllPlayers[i].RaceDetails.RaceName == "tyranids_race") then
 			
 			Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Player: "..g_AllPlayers[i].PlayerIndex.."' is Tyranids, assigning them an AutomaticBaseBuildingManager.")
-			local GauntStructure = { name = "tyranids_tech_gaunt", requiredAddon = "addon_tyranids_tech_gaunt", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
-			local InfantryStructure = { name = "tyranids_tech_infantry", requiredAddon = "addon_tyranids_tech_infantry", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
-			local CommanderStructure = { name = "tyranids_tech_commander", requiredAddon = "addon_tyranids_tech_commander", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
-			local PsychicStructure = { name = "tyranids_tech_psychic", requiredAddon = "addon_tyranids_tech_psychic", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
-			local VehicleStructure = { name = "tyranids_tech_vehicles", requiredAddon = "addon_tyranids_tech_vehicle", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 25 }
+			local GauntStructure = { name = "tyranids_tech_gaunt", requiredAddon = "addon_tyranids_tech_gaunt", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 35 }
+			local InfantryStructure = { name = "tyranids_tech_infantry", requiredAddon = "addon_tyranids_tech_infantry", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 35 }
+			local CommanderStructure = { name = "tyranids_tech_commander", requiredAddon = "addon_tyranids_tech_commander", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 35 }
+			local PsychicStructure = { name = "tyranids_tech_psychic", requiredAddon = "addon_tyranids_tech_psychic", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 35 }
+			local VehicleStructure = { name = "tyranids_tech_vehicles", requiredAddon = "addon_tyranids_tech_vehicle", numberPerAddon = 1, builtFromEntity = "tyranids_hq", distanceFromBuilding = 35 }
 			local NewHQ = { name = "tyranids_hq", requiredAddon = "addon_tyranids_new_hq", numberPerAddon = 2, builtFromEntity = "tyranids_hq", distanceFromBuilding = 55 }
 			local NidsBuildings = { GauntStructure, InfantryStructure, CommanderStructure, PsychicStructure, VehicleStructure, NewHQ }
 			table.insert(g_AllAutomaticBaseBuildingManagers, AutomaticBaseBuildingManager:new(g_AllPlayers[i], NidsBuildings))
