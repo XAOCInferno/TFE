@@ -1,6 +1,6 @@
 [global]
 UIName = TheFinalExpansion
-Description = 
+Description = test
 Playable = 1
 DllName = WXPMod
 ModFolder = TFE
