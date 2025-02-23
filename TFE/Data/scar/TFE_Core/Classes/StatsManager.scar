@@ -102,7 +102,16 @@ function StatsManager:AddKills( _Units, _Leaders, _Commanders, _Squads, _Defende
 
 			if(_DefenderSquadStruct.PreviouslyAttackedBySquads[killerIndex] ~= nil) then
 
-				_DefenderSquadStruct.PreviouslyAttackedBySquads[killerIndex].XP:AddXP_CombatWithSquad(_DefenderSquadStruct.SquadBlueprint, _Units, _Leaders, _Squads, 1 / NumberAttackingSquads)
+				if(_DefenderSquadStruct.PreviouslyAttackedBySquads[killerIndex].__index ~= nil) then
+
+					_DefenderSquadStruct.PreviouslyAttackedBySquads[killerIndex].XP:AddXP_CombatWithSquad(_DefenderSquadStruct.SquadBlueprint, _Units, _Leaders, _Squads, 1 / NumberAttackingSquads)
+					
+				else
+					
+					criticalError = true
+					Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Cannot apply killer stats as the defender index is nil, although defender is not nil!") 
+
+				end
 
 			else
 
@@ -113,8 +122,10 @@ function StatsManager:AddKills( _Units, _Leaders, _Commanders, _Squads, _Defende
 		end
 
 		if(criticalError == false) then
+
 			--There are many attackers, pick a killer at random from among them
 			tmpKillerPosition = TableGetRand(_DefenderSquadStruct.PreviouslyAttackedBySquads).SquadPosition
+
 		end
 
 	else
