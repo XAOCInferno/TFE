@@ -1,7 +1,7 @@
 GameData = Inherit([[]])
 GameData["modifiers"] = Reference([[tables\modifier_table.lua]])
 GameData["modifiers"]["modifier_01"] = Reference([[modifiers\income_requisition_player_modifier.lua]])
-GameData["modifiers"]["modifier_01"]["value"] = 1.149999976
+GameData["modifiers"]["modifier_01"]["value"] = 1.05
 GameData["modifiers"]["modifier_02"]["shield_of_faith"] = nil
 GameData["modifiers"]["modifier_03"]["shield_of_faith"] = nil
 GameData["modifiers"]["modifier_04"]["shield_of_faith"] = nil
