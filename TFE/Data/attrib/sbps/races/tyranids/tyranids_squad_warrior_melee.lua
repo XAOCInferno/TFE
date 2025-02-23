@@ -1,7 +1,7 @@
 GameData = Inherit([[]])
 GameData["squad_blueprint_ext"] = Reference([[sbpextensions\squad_blueprint_ext.lua]])
 GameData["squad_cap_ext"] = Reference([[sbpextensions\squad_cap_ext.lua]])
-GameData["squad_cap_ext"]["squad_cap_usage"] = 4
+GameData["squad_cap_ext"]["squad_cap_usage"] = 5
 GameData["squad_capture_strategic_point_ext"] = Reference([[sbpextensions\squad_capture_strategic_point_ext.lua]])
 GameData["squad_capture_strategic_point_ext"]["capture_rate"] = 0.6299999952
 GameData["squad_combat_stance_ext"] = Reference([[sbpextensions\squad_combat_stance_ext.lua]])
@@ -386,7 +386,7 @@ GameData["squad_melee_stance_ext"]["default_to_melee"] = true
 GameData["squad_modifier_apply_ext"] = Reference([[sbpextensions\squad_modifier_apply_ext.lua]])
 GameData["squad_modifier_ext"] = Reference([[sbpextensions\squad_modifier_ext.lua]])
 GameData["squad_reinforce_ext"] = Reference([[sbpextensions\squad_reinforce_ext.lua]])
-GameData["squad_reinforce_ext"]["cost"]["cost"]["requisition"] = 65
+GameData["squad_reinforce_ext"]["cost"]["cost"]["requisition"] = 70
 GameData["squad_reinforce_ext"]["cost"]["cost"]["faith"] = 0
 GameData["squad_reinforce_ext"]["cost"]["cost"]["souls"] = 0
 GameData["squad_reinforce_ext"]["cost"]["time_seconds"] = 15

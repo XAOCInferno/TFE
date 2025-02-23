@@ -1,6 +1,7 @@
 GameData = Inherit([[]])
 GameData["squad_blueprint_ext"] = Reference([[sbpextensions\squad_blueprint_ext.lua]])
 GameData["squad_cap_ext"] = Reference([[sbpextensions\squad_cap_ext.lua]])
+GameData["squad_cap_ext"]["squad_cap_usage"] = 2
 GameData["squad_combat_stance_ext"] = Reference([[sbpextensions\squad_combat_stance_ext.lua]])
 GameData["squad_combat_stance_ext"]["attack_priorities"]["priority_01"] = Reference([[type_armour\tp_infantry_high.lua]])
 GameData["squad_combat_stance_ext"]["attack_priorities"]["priority_02"] = Reference([[type_armour\tp_infantry_med.lua]])
@@ -377,7 +378,7 @@ GameData["squad_formation_ext"] = Reference([[sbpextensions\squad_formation_ext.
 GameData["squad_formation_ext"]["idle_formation"] = [[formations\swarm.lua]]
 GameData["squad_loadout_ext"] = Reference([[sbpextensions\squad_loadout_ext.lua]])
 GameData["squad_loadout_ext"]["trooper_base"]["type"] = [[ebps\races\tyranids\troops\tyranids_spore_mine.lua]]
-GameData["squad_loadout_ext"]["unit_max"] = 12
+GameData["squad_loadout_ext"]["unit_max"] = 9
 GameData["squad_loadout_ext"]["unit_min"] = 5
 GameData["squad_melee_stance_ext"] = Reference([[sbpextensions\squad_melee_stance_ext.lua]])
 GameData["squad_melee_stance_ext"]["default_to_melee"] = true 
