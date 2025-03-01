@@ -148,7 +148,7 @@ local function GetUniqueGroupInternal(BaseGroup, isSquadGroup)
 	end
 
 	local UniqueG = ""
-
+	local hasFoundUniqueGroupID = false
 	--Our max group ID is 99,999 - this will not work correctly if we somehow exceed this number, although, I think the game would break first...
 	for i = 1, 99999 do
 
@@ -160,9 +160,16 @@ local function GetUniqueGroupInternal(BaseGroup, isSquadGroup)
 		local _, exists = pcall(func, UniqueG)
 		if(exists == false) then
 
+			hasFoundUniqueGroupID = true
 			break
 
 		end
+
+	end
+
+	if(hasFoundUniqueGroupID == false) then
+
+		LogError("Could not find unique "..groupTypeAsString.."G for "..BaseGroup.." limit of 99999 somehow exceeded!")		
 
 	end
 
