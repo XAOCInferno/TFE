@@ -111,7 +111,7 @@ function EntityData:Update()
 			end
 
 			self.EntityAvgHealth = EGroup_GetAvgHealth( self.EntityGroupName )
-			self.EntityInvulnerable = EGroup_GetHealthInvulnerable(self.EntityGroupName, true)
+			self:SetIsEntityInvulnerable()
 
 			--Get combat status
 			if(Entity_IsUnderAttack(self.EntityID)) then
@@ -154,6 +154,20 @@ function EntityData:Update()
 	RemoveStacktrace()
 	
 	return entityIsValid
+
+end
+
+function EntityData:SetIsEntityInvulnerable()
+
+	if(self.EntityBlueprint == "strategic_objective_struct" or self.EntityBlueprint == "strategic_point_flag" or self.EntityBlueprint == "relic_struct") then
+
+		self.IsEntityInvulnerable = true
+
+	else
+
+		self.IsEntityInvulnerable = EGroup_GetHealthInvulnerable(self.EntityGroupName, false)
+
+	end
 
 end
 
