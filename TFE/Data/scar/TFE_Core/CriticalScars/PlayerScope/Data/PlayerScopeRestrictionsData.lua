@@ -277,7 +277,7 @@ g_AdvancedRaceRestrictions["tyranids_race"] =
 		RequirementType = eREQUIREMENT_TYPE_ALL,
 		RequirementTable = 
 		{
-			PurchasedItem:new("", TyranidsTier1Cost, ePURCHASED_ITEM_TYPE_SYNAPSE_LEVEL),	
+			PurchasedItem:new("", TyranidsTier1And5Cost, ePURCHASED_ITEM_TYPE_SYNAPSE_LEVEL),	
 		}, 
 		AchievedForPlayers = {}
 	},
