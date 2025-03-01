@@ -5,8 +5,7 @@
 import("TFE_Core/CriticalScars/Globals/Imports/Globals_Imports.scar")
 
 --local GlobalUniqueSquadID = 0
-local UsedUniqueSquadIDs = {}
-local UsedUniqueEntityIDs = {}
+local UsedUniqueGroupIDs = {}
 
 ---------------
 --Main Script--
@@ -128,53 +127,102 @@ function GetWorldLifetime(StartTime)
 
 end
 
+local function GetUniqueGroupInternal(BaseGroup, isSquadGroup)
+
+	AddStacktrace("GetUniqueGroupInternal")
+
+	--Get which internal function is used to check if this group exists
+	local func = isSquadGroup and SGroup_Exists or EGroup_Exists
+
+	--Get name either E for entity or S for squad
+	local groupTypeAsString = isSquadGroup and "S" or "E"
+
+	--If we haven't provided a base group name, then create a generic one
+	BaseGName = BaseGroup or "Unique"..groupTypeAsString.."G"
+
+	--If this is the first entry then add it to the data
+	if(UsedUniqueGroupIDs[BaseGName] == nil) then
+
+		UsedUniqueGroupIDs[BaseGName] = { NextIndex = 1 }
+
+	end
+
+	local UniqueG = ""
+
+	--Our max group ID is 99,999 - this will not work correctly if we somehow exceed this number, although, I think the game would break first...
+	for i = 1, 99999 do
+
+		--Get the group then index by + 1, if we succeed here this indexed number will be used next time we have a duplicate entry
+		UniqueG = BaseGName..GetTrailingGroupIDFromInt(UsedUniqueGroupIDs[BaseGName].NextIndex)
+		UsedUniqueGroupIDs[BaseGName].NextIndex = UsedUniqueGroupIDs[BaseGName].NextIndex + 1 
+		
+		--Check if it exists, if so break out the loop
+		local _, exists = pcall(func, UniqueG)
+		if(exists == false) then
+
+			break
+
+		end
+
+	end
+
+	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Assigned Unique "..groupTypeAsString.."G: "..UniqueG)
+
+	RemoveStacktrace()
+	
+	return UniqueG
+
+end
+
+--Do not simplify to 1 line as the stacktrace is useful for logging
 function GetUniqueSG(BaseSGName)
 
 	AddStacktrace("GetUniqueSG")
 	
-	BaseSGName = BaseSGName or "UniqueSG."
-	local UniqueSG = BaseSGName	
-
-	while(SGroup_Exists(UniqueSG) == true or TableContains(UsedUniqueSquadIDs,UniqueSG)) do
-	
-		local index1, index2, index3, index4, index5 = Rdm_GetInts5()
-		UniqueSG = BaseSGName..index1..index2..index3..index4..index5
-		
-	end
-	
-	table.insert(UsedUniqueSquadIDs,UniqueSG) 
-	
-	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Assigned Unique Squad ID: "..UniqueSG)
+	local group = SGroup_Create(GetUniqueGroupInternal(BaseSGName, true))
 	
 	RemoveStacktrace()
-	return SGroup_Create(UniqueSG)
+
+	return group
 	
 end
 
+--Do not simplify to 1 line as the stacktrace is useful for logging
 function GetUniqueEG(BaseEGName)
 
 	AddStacktrace("GetUniqueEG")
 	
-	BaseEGName = BaseEGName or "UniqueEG."
-	local UniqueEG = BaseEGName	
-
-	while(EGroup_Exists(UniqueEG) == true or TableContains(UsedUniqueEntityIDs,UniqueEG)) do
-	
-		local index1, index2, index3, index4, index5 = Rdm_GetInts5()
-		UniqueEG = BaseEGName..index1..index2..index3..index4..index5
-		
-	end
-	
-	table.insert(UsedUniqueEntityIDs,UniqueEG) 
-	
-	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Assigned Unique Entity ID: "..UniqueEG)
+	local group = EGroup_Create(GetUniqueGroupInternal(BaseEGName, false))
 	
 	RemoveStacktrace()
 	
-	return EGroup_Create(UniqueEG)
+	return group
 	
 end
 
+--Will convert an int into ten-thousands format with leading zeros
+--EG: 1 would be converted to 00001
+function GetTrailingGroupIDFromInt(trailingInt)
+
+	AddStacktrace("GetTrailingGroupIDFromInt")
+
+	local trailingID = ""
+	local length = math.floor(math.log10(trailingInt)+1)
+	for i = length, 4 do
+
+		trailingID = trailingID.."0"
+
+	end
+
+	trailingID = trailingID..trailingInt	
+
+	RemoveStacktrace()
+
+	return trailingID
+
+end
+
+--Previously used for random GroupIDs, depreciated
 function Rdm_GetInts5()
 	
 	return World_GetRand(1,9), World_GetRand(1,9), World_GetRand(1,9), World_GetRand(1,9), World_GetRand(1,9) 
