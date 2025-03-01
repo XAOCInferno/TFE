@@ -44,47 +44,10 @@ function AutomaticBaseBuildingManager:Update()
 	g_BuildCommandOnNextTick = {}
 
 	if(self.IsTryingToBuild == false) then
-		local AllOwnedStratPoints = GetAllStrategicPointsOwnedByPlayer(self.Player)
-		--[[local _, entityPositions = Get_EntityDataFromEntityBP("tyranids_hq", self.Player.PlayerIndex + 1)
-		local _, entityPositions2 = Get_EntityDataFromEntityBP("tyranids_reclemation_pool", self.Player.PlayerIndex + 1)
 
-		--Ideally we want to build outwards instead of always from the HQ
-		if(TableLength(entityPositions2) > 0 ) then
-
-			entityPositions = entityPositions2
-
-		end]]
+		--local AllOwnedStratPoints = GetAllStrategicPointsOwnedByPlayer(self.Player)
 		
 		local _, lpPositions = Get_EntityDataFromEntityBP("tyranids_listening_post", self.Player.PlayerIndex + 1)
-		for i = 1, TableLength(g_AllStrategicPointsStructs) do
-
-			--local TmpOwner = Entity_GetPlayerOwner(g_AllStrategicPointsStructs[i].ID)
-			--local OwnerPlayer = World_GetPlayerIndex(TmpOwner)
-			
-			if(g_AllStrategicPointsStructs[i].OwnedBy == self.Player.PlayerIndex and Entity_GetBlueprintName(g_AllStrategicPointsStructs[i].ID) ~= "strategic_objective_struct") then
-
-				local error = false
-				local UniquePointEGroup = GetUniqueEG("tmpPointEGroup")
-				local UniquePointEGroupName = EGroup_GetName(UniquePointEGroup)
-				EGroup_Add(UniquePointEGroup, g_AllStrategicPointsStructs[i].ID)			
-				local PointPos = Entity_GetPosition(g_AllStrategicPointsStructs[i].ID)
-
-				for j = 1, TableLength(lpPositions) do
-
-					if(World_DistancePointToPoint(g_AllEntityData[self.Player.PlayerIndex + 1][lpPositions[j]].EntityPosition, PointPos) < 1) then
-						error = true
-						break
-					end
-
-				end
-
-				if(error == false) then
-					--TyranidsAutoConstructLP( g_AllStrategicPointsStructs[i], self.Player )
-				end
-
-			end
-
-		end
 
 		local allReclemationPools, _ = Get_EntityDataFromEntityBP("tyranids_reclemation_pool", self.Player.PlayerIndex + 1)
 		local numberLPs = TableLength(lpPositions)
