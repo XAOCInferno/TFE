@@ -391,8 +391,8 @@ GameData["squad_jump_ext"]["screaming_jets_area_effect"]["area_effect_informatio
 GameData["squad_jump_ext"]["screaming_jets_area_effect"]["area_effect_information"]["area_effect_events"]["rock"] = [[Unit_Ability_FX/chaos_frag_grenade_explosion]]
 GameData["squad_jump_ext"]["screaming_jets_area_effect"]["area_effect_information"]["area_effect_events"]["water"] = [[Unit_Ability_FX/chaos_frag_grenade_explosion]]
 GameData["squad_jump_ext"]["screaming_jets_area_effect"]["area_effect_information"]["filter_type"] = Reference([[type_areafilter\tp_area_filter_enemy.lua]])
-GameData["squad_jump_ext"]["screaming_jets_area_effect"]["area_effect_information"]["radius"] = 10
-GameData["squad_jump_ext"]["screaming_jets_area_effect"]["sweeping_information"]["sweep_duration"] = 1
+GameData["squad_jump_ext"]["screaming_jets_area_effect"]["area_effect_information"]["radius"] = 6.5
+GameData["squad_jump_ext"]["screaming_jets_area_effect"]["sweeping_information"]["sweep_duration"] = 0.5
 GameData["squad_jump_ext"]["screaming_jets_area_effect"]["sweeping_information"]["sweep_type"] = Reference([[type_areasweep\tp_areasweep_in_to_out.lua]])
 GameData["squad_jump_ext"]["screaming_jets_area_effect"]["throw_data"]["force_max"] = 38
 GameData["squad_jump_ext"]["screaming_jets_area_effect"]["throw_data"]["force_min"] = 30

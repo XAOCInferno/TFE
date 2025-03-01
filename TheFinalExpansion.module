@@ -4,8 +4,8 @@ Description =
 Playable = 1
 DllName = WXPMod
 ModFolder = TFE
-ModVersion = 0.0.1.1694
-ModGitParentCommit = 6f8d194e
+ModVersion = 0.0.1.1695
+ModGitParentCommit = 635d71bb
 TextureFE =
 TextureIcon = 
 
