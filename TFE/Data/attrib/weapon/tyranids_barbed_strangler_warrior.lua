@@ -8,13 +8,13 @@ GameData["area_effect"]["area_effect_information"]["area_effect_events"]["rock"]
 GameData["area_effect"]["area_effect_information"]["area_effect_events"]["water"] = [[unit_impact_events/barbed_strangler_explosion]]
 GameData["area_effect"]["area_effect_information"]["area_type"] = Reference([[TYPE_AreaEffect\tp_area_effect_circle.lua]])
 GameData["area_effect"]["area_effect_information"]["filter_type"] = Reference([[TYPE_AreaFilter\tp_area_filter_enemy.lua]])
-GameData["area_effect"]["area_effect_information"]["radius"] = 4.5
+GameData["area_effect"]["area_effect_information"]["radius"] = 4.75
 GameData["area_effect"]["area_effect_information"]["remove_modifiers_with_source_entity"] = true 
 GameData["area_effect"]["area_effect_information"]["start_from_caster"] = false
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\ranged_flamer_light.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 68
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 54
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 70
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 60
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 9
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 19.5
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events\barbed_strangler_hit]]
