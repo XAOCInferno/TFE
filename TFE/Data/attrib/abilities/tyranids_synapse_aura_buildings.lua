@@ -60,6 +60,7 @@ GameData["fire_cost"]["faith"] = nil
 GameData["fire_cost"]["souls"] = nil
 GameData["initial_delay_time"] = 0
 GameData["looping_event_name"] = [[]]
+GameData["persist_across_squad_leader_death"] = false
 GameData["projectile_name"] = [[]]
 GameData["projectile_spawn_pos"] = Reference([[tables\position.lua]])
 GameData["projectile_spawn_pos"]["y"] = 1
