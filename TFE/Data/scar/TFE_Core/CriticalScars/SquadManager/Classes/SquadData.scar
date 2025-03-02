@@ -104,6 +104,17 @@ function SquadData:LateConstructor()
 	self:SetInitialWeaponData()
 	self:SetWeaponLoadout()
 
+	
+	if(self.HasSynapseScore) then
+
+		if(g_SquadSynapseScore[self.SquadBlueprint].SquadScore == 0) then
+
+			self.HasSynapseScore = false
+			
+		end
+
+	end
+
 end
 
 function SquadData:GetIfAlive()

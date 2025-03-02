@@ -69,6 +69,16 @@ function EntityData:LateConstructor()
 	--Eldar can move structures with relocation, so will need to update pos. Other factions cannot currently
 	self.EntityCanMove = (self.EntityIsStructure == true) and (self.OwnerPlayer.RaceDetails.RaceName ~= "eldar_race")
 
+	if(self.HasSynapseScore) then
+
+		if(g_EntitySynapseScore[self.EntityBlueprint].EntityScore == 0) then
+
+			self.HasSynapseScore = false
+
+		end
+
+	end
+
 end
 
 function EntityData:Update()

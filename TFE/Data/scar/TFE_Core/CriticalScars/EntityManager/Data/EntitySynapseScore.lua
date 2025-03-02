@@ -19,13 +19,13 @@ g_EntitySynapseScore["tyranids_reclemation_pool"] =
 	AddonScore = None,
 }
 
-g_EntitySynapseScore["tyranids_tech_advanced_vehicles"] = 
+g_EntitySynapseScore["tyranids_capillary_tower"] = 
 {
 	EntityScore = MainStructureScore,
 	AddonScore = None,
 }
 
-g_EntitySynapseScore["tyranids_tech_basic_vehicles"] = 
+g_EntitySynapseScore["tyranids_tech_commander"] = 
 {
 	EntityScore = MainStructureScore,
 	AddonScore = None,
@@ -37,49 +37,25 @@ g_EntitySynapseScore["tyranids_tech_gaunt"] =
 	AddonScore = None,
 }
 
-g_EntitySynapseScore["tyranids_tech_lictor"] = 
+g_EntitySynapseScore["tyranids_tech_infantry"] = 
 {
 	EntityScore = MainStructureScore,
 	AddonScore = None,
 }
 
-g_EntitySynapseScore["tyranids_tech_ravener"] = 
+g_EntitySynapseScore["tyranids_tech_vehicles"] = 
 {
 	EntityScore = MainStructureScore,
 	AddonScore = None,
 }
 
-g_EntitySynapseScore["tyranids_tech_tier2_infantry"] = 
-{
-	EntityScore = MainStructureScore,
-	AddonScore = None,
-}
-
-g_EntitySynapseScore["tyranids_tech_tier4"] = 
-{
-	EntityScore = MainStructureScore,
-	AddonScore = None,
-}
-
-g_EntitySynapseScore["tyranids_tech_warrior"] = 
+g_EntitySynapseScore["tyranids_tech_psychic"] = 
 {
 	EntityScore = MainStructureScore,
 	AddonScore = None,
 }
 
 g_EntitySynapseScore["tyranids_thermo_generator"] = 
-{
-	EntityScore = MainStructureScore,
-	AddonScore = None,
-}
-
-g_EntitySynapseScore["tyranids_capillary_tower"] = 
-{
-	EntityScore = MainStructureScore,
-	AddonScore = None,
-}
-
-g_EntitySynapseScore["tyranids_capillary_tower"] = 
 {
 	EntityScore = MainStructureScore,
 	AddonScore = None,
