@@ -2,6 +2,8 @@ g_ModName = "TFE"
 g_ModAbbreviation = "TFE"
 
 g_ModRunning = true
+g_DebugTrackClassCounts = true
+g_DebugPrintClassCountsInterval = 5
 
 g_AllPlayers = { }
 g_PlayerCount = World_GetPlayerCount()

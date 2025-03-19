@@ -6,6 +6,9 @@ eREQUIRED_FUNCTION = 1
 --Move these out
 local LimitedResourceGroups = {}
 local RegisteredClasses = {}
+local NumberOfRegisteredClassesByType = {}
+local ClassTypeToIndex = {}
+local NumberOfClassTypesThatAreRegistered = 0
 
 function Core_Game_Load()
 
@@ -489,19 +492,68 @@ end
 
 function RegisterClass(self, type)
 
+	AddStacktrace("RegisterClass")
+
+	if(g_DebugTrackClassCounts) then
+
+		local index = -1
+
+		if(ClassTypeToIndex[type] == nil) then
+			
+			NumberOfClassTypesThatAreRegistered = NumberOfClassTypesThatAreRegistered + 1
+			index = NumberOfClassTypesThatAreRegistered
+			ClassTypeToIndex[type] = index
+			NumberOfRegisteredClassesByType[index] = { Type = type, Count = 1 }
+
+		else
+
+			index = ClassTypeToIndex[type]
+			NumberOfRegisteredClassesByType[index].Count = NumberOfRegisteredClassesByType[index].Count + 1
+
+		end
+
+	end
+
 	RegisteredClasses[self] = type
+
+	RemoveStacktrace()
 
 end
 
 function DeconstructClass(class)
 
-	local classType = RegisteredClasses[class] or "? ? ?"
+	AddStacktrace("DeconstructClass")
+
+	local missingClassType = "? ? ?"
+	local classType = RegisteredClasses[class] or missingClassType
 	--Log(eLOG_TYPE_INFO, eLOG_VERBOSE, "Deconstructing Class: "..classType)
+
+	if(g_DebugTrackClassCounts and classType ~= missingClassType) then
+
+		--Class may not be registered due to programmer error / laziness
+		if(ClassTypeToIndex[classType] ~= nil) then
+
+			local index = ClassTypeToIndex[classType]
+
+			NumberOfRegisteredClassesByType[index].Count = math.max(NumberOfRegisteredClassesByType[index].Count - 1, 0)
+
+		end
+
+	end
+
 	RegisteredClasses[class] = nil
 	
 	setmetatable(class.__index, nil)
 	setmetatable(class, nil)
 	
 	class.__index = nil
+
+	RemoveStacktrace()
+
+end
+
+function DebugGetNumberOfRegisteredClassesByType()
+
+	return NumberOfRegisteredClassesByType
 
 end

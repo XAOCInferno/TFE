@@ -1,1 +1,55 @@
 g_DebugMode = true
+
+function SetupDebugLogClassCount()
+
+    AddStacktrace("SetupDebugLogClassCount")
+
+    if(g_DebugTrackClassCounts) then 
+
+        function DebugLogClassCount()
+
+            local logString = ""
+            local numberOfRegisteredClassesByType = DebugGetNumberOfRegisteredClassesByType()
+            local n = table.getn(numberOfRegisteredClassesByType)
+
+            --Bubble sort so largest class types on left of the log
+            for i = 1, n do
+
+                for j = 1, n - 1 - i do
+
+                    local countCurrent = numberOfRegisteredClassesByType[j].Count
+                    local countNext = numberOfRegisteredClassesByType[j + 1].Count
+
+                    if(countCurrent < countNext) then
+
+                        local tmpEntry = numberOfRegisteredClassesByType[j]
+                        numberOfRegisteredClassesByType[j] = numberOfRegisteredClassesByType[j + 1]
+                        numberOfRegisteredClassesByType[j + 1] = tmpEntry
+
+                    end
+
+                end
+
+            end
+
+            --Concat log
+            for i = 1, n do
+                
+                logString = logString..numberOfRegisteredClassesByType[i].Type.."::"..numberOfRegisteredClassesByType[i].Count.." ~ "
+
+            end
+
+            --Print to console
+            Log(eLOG_TYPE_INFO, eLOG_FULL, logString)
+
+        end
+
+        Rule_AddInterval(DebugLogClassCount, g_DebugPrintClassCountsInterval)
+
+    end
+    
+    RemoveStacktrace()
+
+end
+
+Rule_AddOneShot(SetupDebugLogClassCount, 1)
