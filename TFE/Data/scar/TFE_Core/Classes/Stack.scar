@@ -97,3 +97,11 @@ function Stack:IsEmpty()
 
 end
 
+function Stack:Deconstruct()
+
+	DeconstructClass(self)	
+	
+	self.__index = nil
+	self = nil
+
+end

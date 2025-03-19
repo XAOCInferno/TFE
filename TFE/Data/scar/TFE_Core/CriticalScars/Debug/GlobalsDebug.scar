@@ -125,6 +125,8 @@ local function SetStacktracePath(_Verbosity)
 
 	end
 
+	StacktraceCopy:Deconstruct()
+	
 	RemoveStacktrace()
 
 end
