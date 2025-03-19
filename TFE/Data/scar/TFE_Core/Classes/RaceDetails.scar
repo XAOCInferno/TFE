@@ -12,11 +12,15 @@ function RaceDetails:new (_RaceName, _RaceIndex, _RaceResourceInfo)
 	    RaceIndex = _RaceIndex,
 	    RaceResourceInfo = _RaceResourceInfo 
     }
-
+	
 	self.__index = self
 
+	local globalObject = setmetatable(RaceDetailsObject, self)
+	
+	RegisterClass(RaceDetailsObject, "RaceDetails")
+	
 	RemoveStacktrace()
-
-   	return setmetatable(RaceDetailsObject, self)
+	
+	return globalObject
 	
 end

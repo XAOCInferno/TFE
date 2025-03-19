@@ -15,11 +15,15 @@ function NumberNode:new (_WeightedKey, _Data)
         WeightedKey = _WeightedKey,
 		Data = _Data
 	}
-    
+	
 	self.__index = self
+
+	local globalObject = setmetatable(NumberNodeObject, self)
+	
+	RegisterClass(NumberNodeObject, "NumberNode")
 	
 	RemoveStacktrace()
-
-   	return setmetatable(NumberNodeObject, self)
+	
+	return globalObject
 
 end

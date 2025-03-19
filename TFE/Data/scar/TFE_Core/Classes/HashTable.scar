@@ -19,10 +19,14 @@ function HashTable:new (_Capacity)
 	end
 
 	self.__index = self
+
+	local globalObject = setmetatable(HashTableObject, self)
+	
+	RegisterClass(HashTableObject, "HashTable")
 	
 	RemoveStacktrace()
-
-   	return setmetatable(HashTableObject, self)
+	
+	return globalObject
 
 end
 

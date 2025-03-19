@@ -7,10 +7,16 @@ function Stack:new (_Capacity)
 		Length = 0,
 		Capacity = _Capacity
 	}
-
+	
 	self.__index = self
 
-   	return setmetatable(StackObject, self)
+	local globalObject = setmetatable(StackObject, self)
+	
+	RegisterClass(StackObject, "Stack")
+	
+	RemoveStacktrace()
+	
+	return globalObject
 
 end
 

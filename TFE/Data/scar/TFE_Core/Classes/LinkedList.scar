@@ -16,10 +16,14 @@ function LinkedList:new (_Capacity)
 	LinkedListObject.Head.Previous = LinkedListObject.Head
 
 	self.__index = self
+
+	local globalObject = setmetatable(LinkedListObject, self)
+	
+	RegisterClass(LinkedListObject, "LinkedList")
 	
 	RemoveStacktrace()
-
-   	return setmetatable(LinkedListObject, self)
+	
+	return globalObject
 
 end
 

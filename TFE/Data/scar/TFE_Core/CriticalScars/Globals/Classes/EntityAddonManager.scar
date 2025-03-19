@@ -12,12 +12,16 @@ function EntityAddonManager:new (_AttachedEntityStruct, _ValidAddons)
         NumberOfAddons = 0,
         CompletedAddonIndexByNameDictionary = {}
     }
-
+	
 	self.__index = self
-    
-	RemoveStacktrace()
 
-    return setmetatable(EntityAddonManagerObject, self)
+	local globalObject = setmetatable(EntityAddonManagerObject, self)
+	
+	RegisterClass(EntityAddonManagerObject, "EntityAddonManager")
+	
+	RemoveStacktrace()
+	
+	return globalObject
 
 end
 

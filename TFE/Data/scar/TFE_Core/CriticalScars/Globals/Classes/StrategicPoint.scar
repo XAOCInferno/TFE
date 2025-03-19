@@ -15,12 +15,16 @@ function StrategicPoint:new (_ID, _OwnedBy, _InitTime)
         ListeningPostAddonData = nil,
         EntityPosition = Entity_GetPosition(_ID)
     }
-
+	
 	self.__index = self
 
-    RemoveStacktrace()
-
-    return setmetatable(StrategicPointObject, self)
+	local globalObject = setmetatable(StrategicPointObject, self)
+	
+	RegisterClass(StrategicPointObject, "StrategicPoint")
+	
+	RemoveStacktrace()
+	
+	return globalObject
 
 end
 

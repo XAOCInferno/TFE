@@ -11,9 +11,13 @@ function LinkedListNode:new (_Data, _Previous, _Next)
 	}
 
 	self.__index = self
+
+	local globalObject = setmetatable(LinkedListNodeObject, self)
+	
+	RegisterClass(LinkedListNodeObject, "LinkedListNode")
 	
 	RemoveStacktrace()
-
-   	return setmetatable(LinkedListNodeObject, self)
+	
+	return globalObject	
 
 end

@@ -1,3 +1,5 @@
+function RegisterClass(self, type) end
+
 import("TFE_Core/Imports/TFECore_Imports.scar")
 
 eBASIC_FUNCTION = 0

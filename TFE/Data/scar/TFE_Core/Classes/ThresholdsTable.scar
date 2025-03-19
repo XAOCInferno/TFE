@@ -7,6 +7,7 @@ import("TFE_Core/Classes/NumberNode.scar")
 
 ThresholdsTable = {}
 function ThresholdsTable:new ()
+	
 	AddStacktrace("ThresholdsTable:new")
 
     local ThresholdsTableObject = 
@@ -15,12 +16,16 @@ function ThresholdsTable:new ()
 		Data = {},
 		DataLength = 0	
 	}
-
+	
 	self.__index = self
 
+	local globalObject = setmetatable(ThresholdsTableObject, self)
+	
+	RegisterClass(ThresholdsTableObject, "ThresholdsTable")
+	
 	RemoveStacktrace()
-
-	return setmetatable(ThresholdsTableObject, self)
+	
+	return globalObject
 
 end 
 

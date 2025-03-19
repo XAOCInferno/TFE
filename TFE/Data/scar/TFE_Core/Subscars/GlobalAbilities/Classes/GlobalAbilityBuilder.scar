@@ -15,9 +15,13 @@ function GlobalAbilityBuilder:new (_OwnedByPlayer, _SGroupID, _SGroupName, _Targ
 
 	self.__index = self
 
+	local globalObject = setmetatable(GlobalAbilityBuilderObject, self)
+	
+	RegisterClass(GlobalAbilityBuilderObject, "GlobalAbilityBuilder")
+	
 	RemoveStacktrace()
-
-   	return setmetatable(GlobalAbilityBuilderObject, self)
+	
+	return globalObject
 
 end
 

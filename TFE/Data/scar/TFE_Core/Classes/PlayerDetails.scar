@@ -34,12 +34,16 @@ function PlayerDetails:new (_Player, _PlayerIndex, _DisplayName, _RaceDetails)
     }	
 
 	PlayerDetailsObject.StatsManager = StatsManager:new(PlayerDetailsObject)
-
+	
 	self.__index = self
 
+	local globalObject = setmetatable(PlayerDetailsObject, self)
+	
+	RegisterClass(PlayerDetailsObject, "PlayerDetails")
+	
 	RemoveStacktrace()
-
-	return setmetatable(PlayerDetailsObject, self)
+	
+	return globalObject
 
 end
 

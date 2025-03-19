@@ -14,9 +14,16 @@ function AutomaticBaseBuildingManager:new (_Player, _BuildingStruct)
 		IsTryingToBuild = false,
 		IsTryingToBuildExtra = false
     }
-
+	
 	self.__index = self
-   	return setmetatable(AutomaticBaseBuildingManagerObject, self)
+
+	local globalObject = setmetatable(AutomaticBaseBuildingManagerObject, self)
+	
+	RegisterClass(AutomaticBaseBuildingManagerObject, "AutomaticBaseBuildingManager")
+	
+	RemoveStacktrace()
+	
+	return globalObject
 
 end
 

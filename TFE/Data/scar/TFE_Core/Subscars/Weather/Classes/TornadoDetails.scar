@@ -19,8 +19,12 @@ function TornadoDetails:new (_sGameID, _sGroupID, _sIndex, _sID, _MarkerGroup, _
 
 	self.__index = self
 
+	local globalObject = setmetatable(TornadoDetailsObject, self)
+	
+	RegisterClass(TornadoDetailsObject, "TornadoDetails")
+	
 	RemoveStacktrace()
-
-   	return setmetatable(TornadoDetailsObject, self)
+	
+	return globalObject
 	
 end

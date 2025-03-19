@@ -6,8 +6,15 @@ function RestrictedItem:new (_ID, _TypeOfItem)
         ID = _ID,
         TypeOfItem = _TypeOfItem
     }
-
+	
 	self.__index = self
-    return setmetatable(RestrictedItemObject, self)
+
+	local globalObject = setmetatable(RestrictedItemObject, self)
+	
+	RegisterClass(RestrictedItemObject, "RestrictedItem")
+	
+	RemoveStacktrace()
+	
+	return globalObject
 
 end

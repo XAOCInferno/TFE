@@ -45,11 +45,16 @@ function GlobalAbility:new ( _LinkedSquadBP, _CasterPlayerIndex, _AbilityName, _
     }
 
 	--SGroup_Add(GlobalAbilityObject.LinkedSquadGroup, GlobalAbilityObject.LinkedSquad)
+
 	self.__index = self
 
+	local globalObject = setmetatable(GlobalAbilityObject, self)
+	
+	RegisterClass(GlobalAbilityObject, "GlobalAbility")
+	
 	RemoveStacktrace()
-
-   	return setmetatable(GlobalAbilityObject, self)
+	
+	return globalObject
 
 end
 

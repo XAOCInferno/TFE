@@ -13,8 +13,12 @@ function MarkerDetails:new (_MarkerID, _MarkerName, _MarkerType)
 
 	self.__index = self
 
+	local globalObject = setmetatable(MarkerDetailsObject, self)
+	
+	RegisterClass(MarkerDetailsObject, "MarkerDetails")
+	
 	RemoveStacktrace()
 	
-   	return setmetatable(MarkerDetailsObject, self)
+	return globalObject
 
 end

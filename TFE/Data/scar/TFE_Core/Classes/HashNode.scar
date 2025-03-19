@@ -10,9 +10,13 @@ function HashNode:new (_Key, _Data)
 	}
 
 	self.__index = self
-	
+   
+	local globalObject = setmetatable(HashNodeObject, self)
+   
+	RegisterClass(HashNodeObject, "HashNode")
+   
 	RemoveStacktrace()
-
-   	return setmetatable(HashNodeObject, self)
+   
+	return globalObject
 
 end

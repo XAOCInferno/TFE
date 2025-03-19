@@ -15,17 +15,21 @@ function AchievementDetails:new (_ViewState, _ObjectiveTable)
 		HasCompleted = false	
 	}
 
-	self.__index = self
-
 	if(_ViewState == eACHIEVEMENT_VIEW_ACTIVE) then
 			
 		Objective_Add(_ObjectiveTable, false)
 	
 	end
 
-	RemoveStacktrace()
+	self.__index = self
 
-   	return setmetatable(AchievementDetailsObject, self)
+	local globalObject = setmetatable(AchievementDetailsObject, self)
+	
+	RegisterClass(AchievementDetailsObject, "AchievementDetails")
+	
+	RemoveStacktrace()
+	
+	return globalObject
 	
 end
 
