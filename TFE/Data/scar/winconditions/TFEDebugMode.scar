@@ -15,7 +15,7 @@ function SetupDebugLogClassCount()
             --Bubble sort so largest class types on left of the log
             for i = 1, n do
 
-                for j = 1, n - 1 - i do
+                for j = 1, n - i do
 
                     local countCurrent = numberOfRegisteredClassesByType[j].Count
                     local countNext = numberOfRegisteredClassesByType[j + 1].Count
