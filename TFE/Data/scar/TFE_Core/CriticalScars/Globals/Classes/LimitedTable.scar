@@ -45,9 +45,13 @@ function FixedLengthTable:Insert (_Object)
 	AddStacktrace("FixedLengthTable:Insert")
 
 	--Try and deconstruct a class that was inserted to this limited table before we overwrite it
-	if(type(self.Data[self.NextEntry]) == "Table") then
+	if(type(self.Data[self.NextEntry]) == "table") then
 
-		self.Data[self.NextEntry]:Deconstruct()
+		if(self.Data[self.NextEntry].Deconstruct ~= nil) then
+			
+			self.Data[self.NextEntry]:Deconstruct()
+
+		end
 
 	end
 
