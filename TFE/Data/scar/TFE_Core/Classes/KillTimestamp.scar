@@ -14,11 +14,24 @@ function KillTimestamp:new (_Units, _Leaders, _Commanders, _Squads, _KillerPosit
 		KillerPosition = _KillerPosition or World_Pos(0,0,0)
 
 	}
-
+	
 	self.__index = self
 
+	local globalObject = setmetatable(KillTimestampObject, self)
+   
+	RegisterClass(globalObject, "KillTimestamp")
+   
 	RemoveStacktrace()
+   
+	return globalObject
 
-   	return setmetatable(KillTimestampObject, self)
+end
+
+function KillTimestamp:Deconstruct()
+
+	DeconstructClass(self)	
+	
+	self.__index = nil
+	self = nil
 
 end
