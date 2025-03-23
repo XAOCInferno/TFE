@@ -22,8 +22,8 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"][
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\Ranged_Bolt_Heavy.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["damage_reduction_when_moving"] = 1
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 35
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 31
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 32
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 28
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 2
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 10
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events\Impact_bolter_hvy_blood_only]]
