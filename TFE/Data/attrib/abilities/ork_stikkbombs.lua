@@ -14,7 +14,7 @@ GameData["area_effect"]["area_effect_information"]["area_effect_events"]["rock"]
 GameData["area_effect"]["area_effect_information"]["area_effect_events"]["water"] = [[Ground_Impact/Impact_stick_bom]]
 GameData["area_effect"]["area_effect_information"]["area_type"] = Reference([[type_areaeffect\tp_area_effect_circle.lua]])
 GameData["area_effect"]["area_effect_information"]["filter_type"] = Reference([[type_areafilter\tp_area_filter_enemy.lua]])
-GameData["area_effect"]["area_effect_information"]["radius"] = 4
+GameData["area_effect"]["area_effect_information"]["radius"] = 6
 GameData["area_effect"]["area_effect_information"]["remove_modifiers_with_source_entity"] = true 
 GameData["area_effect"]["area_effect_information"]["start_from_caster"] = false
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_01"] = Reference([[type_armour\tp_infantry_low.lua]])
