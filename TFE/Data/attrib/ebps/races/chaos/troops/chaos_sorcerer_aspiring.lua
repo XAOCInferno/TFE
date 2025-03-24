@@ -745,7 +745,7 @@ GameData["modifier_apply_ext"]["modifiers_immediate"]["modifier_45"]["shield_of_
 GameData["modifier_ext"] = Reference([[ebpextensions\modifier_ext.lua]])
 GameData["morale_add_ext"] = Reference([[ebpextensions\morale_add_ext.lua]])
 GameData["morale_add_ext"]["inc_morale_max"] = 125
-GameData["morale_add_ext"]["inc_morale_rate"] = 8
+GameData["morale_add_ext"]["inc_morale_rate"] = 7.5
 GameData["moving_ext"] = Reference([[ebpextensions\moving_ext.lua]])
 GameData["moving_ext"]["speed_max"] = 17
 GameData["requirement_ext"] = Reference([[ebpextensions\requirement_ext.lua]])
