@@ -12,8 +12,8 @@ simvis_attributes =
 	shadow_type			= 1,
 	shadow_scale			= 0.0275,
 	
-	vis_scale_min			= 1.11,	
-	vis_scale_max			= 1.1,	
+	vis_scale_min			= 1.16,	
+	vis_scale_max			= 1.15,	
 
 	infantry_physics	    					= 1,
 	infantry_sway_update_time		= 1,
