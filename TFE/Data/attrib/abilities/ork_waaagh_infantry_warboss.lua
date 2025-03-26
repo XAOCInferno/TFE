@@ -238,7 +238,7 @@ GameData["execute_table"]["weapon_damage_table"]["modifiers"]["modifier_10"]["mo
 GameData["fire_cost"] = Reference([[tables\cost_table.lua]])
 GameData["fire_cost"]["faith"] = 0
 GameData["fire_cost"]["population"] = 2.45
-GameData["fire_cost"]["power"] = 5
+GameData["fire_cost"]["power"] = 0
 GameData["fire_cost"]["requisition"] = 5
 GameData["fire_cost"]["souls"] = 0
 GameData["fire_cost"]["time_seconds"] = 0
