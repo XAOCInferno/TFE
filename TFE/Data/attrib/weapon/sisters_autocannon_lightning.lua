@@ -21,10 +21,10 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_14"][
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\Ranged_Explosive_Medium.lua]])
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] = 0
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 95
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 80
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 115
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 90
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 0.5
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 5
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 6
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events\impact_autocannon_flesh]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry02"]["event"] = [[Unit_Impact_events\impact_autocannon_all]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry03"]["event"] = [[Unit_Impact_events\impact_autocannon_all]]
