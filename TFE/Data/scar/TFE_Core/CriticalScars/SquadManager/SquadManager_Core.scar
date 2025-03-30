@@ -11,7 +11,7 @@ function Setup_SquadManager()
 
 	AsyncSquadManagerObject = AsyncSquadManager:new()
 
-	Set_AllSquads_Immediate()
+	--Set_AllSquads_Immediate()
 
 	RemoveStacktrace()
 

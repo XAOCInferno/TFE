@@ -6,7 +6,7 @@ function AsyncSquadManager:new ()
     local AsyncSquadManagerObject = 
     {
 		--Constants
-		SquadsToUpdatePerTick = 5,
+		SquadsToUpdatePerTick = 4,
 		STATE = {
 			PRE_UPDATE_EXISTING_DATA = 1,
 			UPDATE_EXISTING_DATA = 2,
@@ -208,6 +208,7 @@ function AsyncSquadManager:OnUpdate_GetSquadsFromGame()
 
 		--Go to next player
 		self.CurrentPlayerIndex = self.CurrentPlayerIndex + 1
+		self.CurrentSquadIndex = 1
 
 	end
 
@@ -265,14 +266,17 @@ function AsyncSquadManager:OnUpdate_HandleSquadsFromGame()
 
 			--Cleanup data we don't need to be using anymore now that it's in SquadData
 			self.CachedSquads[self.CurrentPlayerIndex] = {}
+			g_PlayerSquadCount[self.CurrentPlayerIndex] = self.PlayerSquadCounts[self.CurrentPlayerIndex]
 
 			if(self.CurrentPlayerIndex == g_PlayerCount) then
 
 				--We've checked all players so go to next state
 				self:GoToNextState(true)
+
 			else
 
 				--We still have more players to check, so go back to last state to do pre-check logic
+				self.CurrentPlayerIndex = self.CurrentPlayerIndex + 1
 				self:GoToPreviousState()
 
 			end
