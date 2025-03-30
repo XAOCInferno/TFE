@@ -1,11 +1,15 @@
 import("TFE_Core/CriticalScars/SquadManager/Imports/SquadManager_Imports.scar")
 
+local AsyncSquadManagerObject = nil;
+
 ---------------
 --Main Script--
 ---------------
 function Setup_SquadManager()
 	
 	AddStacktrace("Setup_SquadManager")
+
+	AsyncSquadManagerObject = AsyncSquadManager:new()
 
 	Set_AllSquads_Immediate()
 
@@ -19,6 +23,16 @@ function RemoveSquadInDataAtIndex(_PlayerIndex, _ItemIndex)
 
 	g_AllSquadsData[_PlayerIndex][_ItemIndex]:Deconstruct()
 	table.remove(g_AllSquadsData[_PlayerIndex], _ItemIndex)
+
+	RemoveStacktrace()
+
+end
+
+function Set_AllSquads_Async()
+
+	AddStacktrace("Set_AllSquads_Async")
+
+	AsyncSquadManagerObject:Update()
 
 	RemoveStacktrace()
 
@@ -38,17 +52,16 @@ function Set_AllSquads_Immediate()
 
 end
 
-function Set_PlayerSquads_Immediate(_PlayerIndex)	
+function HandleNewGameSquad(_PlayerIndex, _sgroupid, _itemindex, _squadID)
 
-	AddStacktrace("Set_PlayerSquads_Immediate")
-					
-	local AddSGroupData = function(_sgroupid, _itemindex, _squadID)
+	AddStacktrace("HandleNewGameSquad")
 		
-		AddStacktrace("AddSGroupData")
 
-		local newSquadGameID = Squad_GetGameID( _squadID )
-		local squadBP = Squad_GetBlueprintName( _squadID )		
+	if(pcall(Squad_GetGameID, _squadID)) then
+
 		local criticalError = false
+		local newSquadGameID = Squad_GetGameID(_squadID)
+		local squadBP = Squad_GetBlueprintName( _squadID )	
 
 		local shouldIgnore, _ = TableContains(g_SquadBlueprintToIgnore, squadBP)
 		
@@ -61,7 +74,6 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 			if(squadBP ~= nil) then
 			
 				for l = 1, TableLength(g_AllSquadsData[_PlayerIndex]) do
-
 					
 					if(g_AllSquadsData[_PlayerIndex][l] == nil) then
 
@@ -138,10 +150,10 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 			
 			end
 
-		end		
-		
+		end	
+
 		if(criticalError == false) then
-			
+		
 			--Need to probably move the relic units table to a global place
 			local isRelicUnit, _ = TableContains({"chaos_squad_bloodthirster", "dark_eldar_squad_dais_of_destruction", "eldar_squad_avatar", "guard_squad_baneblade", "inquisition_squad_land_raider_crusader", "necron_restored_monolith_squad", "ork_squad_squiggoth", "sisters_squad_living_saint", "space_marine_squad_land_raider", "space_marine_squad_land_raider_veteran", "tau_krootox_squad", "tyranids_squad_swarmlord"},squadBP)
 			
@@ -151,12 +163,24 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 			--Might need to create a unique sgroupid later...
 			local tmpData = SquadData:new( newSquadGameID, false, _itemindex, _squadID, g_AllPlayers[_PlayerIndex].RaceDetails.RaceName, squadBP, g_AllPlayers[_PlayerIndex], isRelicUnit, idleState)
 			table.insert(g_AllSquadsData[_PlayerIndex], tmpData)	
-
+	
 		end
 
-		RemoveStacktrace()
+	else
+
+		print("SQUAD DOES NOT EXIST")
 
 	end
+	
+	
+
+	RemoveStacktrace()
+
+end
+
+function Set_PlayerSquads_Immediate(_PlayerIndex)	
+
+	AddStacktrace("Set_PlayerSquads_Immediate")
 	
 	--We should only run the squad checker if the player is alive
 	if (Player_IsAlive(g_AllPlayers[_PlayerIndex].Player)) then
@@ -165,8 +189,21 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 		Update_ExistingSquadDetails()	
 		LateUpdate_ExistingSquadDetails()	
 
-		SGroup_ForEachEx(Player_GetSquads(g_AllPlayers[_PlayerIndex].Player), AddSGroupData, true, false)				
+		local squadArr = {}
+		local function AddSquadToArr(_sgroupid, _itemindex, _squadID)
+
+			table.insert(squadArr, { SGroupID = _sgroupid, ItemIndex = _itemindex, SquadID = _squadID } )
+
+		end
+
+		SGroup_ForEachEx(Player_GetSquads(g_AllPlayers[_PlayerIndex].Player), AddSquadToArr, true, false)				
 		
+		for i = 1, TableLength(squadArr) do
+
+			HandleNewGameSquad(_PlayerIndex, squadArr[i].SGroupID, squadArr[i].ItemIndex, squadArr[i].SquadID)
+
+		end
+
 		for k = 1, TableLength(g_AllSquadsData[_PlayerIndex]) do
 
 			if(g_AllSquadsData[_PlayerIndex][k] ~= nil) then
@@ -243,79 +280,131 @@ function Update_ExistingSquadDetails()
 
 		for l = 1, TableLength(g_AllSquadsData[i]) do
 
-			--Simple check to avoid null ref
-			if(g_AllSquadsData[i][l] == nil) then
-
-				table.remove(g_AllSquadsData[i], l)	
-
-			--Squad has been lost since our last check, so we need to check if the squad is attached or dead.
-			elseif(Squad_Exists(g_AllSquadsData[i][l].SquadUniqueID) == false ) then
-				
-				--SGroup persists after squad is attached, but SGroup loadout is 0 so squad is dead confirmed
-				if(SGroup_CountSpawned( g_AllSquadsData[i][l].SquadGroupID ) <= 0) then
-
-					Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "REMOVING SQUAD: "..g_AllSquadsData[i][l].SquadGroupName.." as they have no models.")
-					Set_SquadCombatDetails(g_AllSquadsData[i][l], true)	
-					g_AllSquadsData[i][l].SquadHasPreviouslyExisted = true
-
-					RemoveSquadInDataAtIndex(i, l)
-
-				--SGroup loadout is > 0 so squad is still alive but attached
-				elseif(g_AllSquadsData[i][l].SquadIsAttached == false) then
-				
-					Log(eLOG_TYPE_INFO, eLOG_SIMPLE, g_AllSquadsData[i][l].SquadGroupName.." has attached")
-
-					g_AllSquadsData[i][l].SquadIsAttached = true
-					g_AllSquadsData[i][l].SquadHasAttached = true	
-
-					--Now that we've attached, must reaffirm SquadID
-					g_AllSquadsData[i][l]:ReaffirmConstants()
-
-					--Assign the Squad we're attached as the nearest squad, weird assumption but works
-					g_AllSquadsData[i][l].SquadAttachedTo = GetClosestSquadToPos(i, g_AllSquadsData[i][l].SquadPosition, 50, { g_AllSquadsData[i][l].SquadID })
-
-					--[[TODO: Get what happens with null attached squad here, something to do with possessed attachable heroes?]]
-					if(g_AllSquadsData[i][l].SquadAttachedTo ~= nil) then
-
-						Log(eLOG_TYPE_INFO, eLOG_SIMPLE, g_AllSquadsData[i][l].SquadGroupName.." has attached to "..g_AllSquadsData[i][l].SquadAttachedTo.SquadGroupName..".")
-
-						g_AllSquadsData[i][l].SquadAttachedTo.SquadHasBeenAttachedTo = true
-						g_AllSquadsData[i][l].SquadAttachedTo.SquadHasAttachedToThis = g_AllSquadsData[i][l]
-
-					else
-						
-						Log(eLOG_LOG_TYPE_WARNING, eLOG_SIMPLE, g_AllSquadsData[i][l].SquadBlueprint.." has attached, but we don't know who they attached to.")
-
-					end
-					
-				end
-			
-			--Squad exists and has more than 0 members so let's update their squad details.
-			else	
-							
-				g_AllSquadsData[i][l]:Update()
-				Set_SquadCombatDetails(g_AllSquadsData[i][l], false)		
-
-				--Squad exists but now has 0 members. At 0 members the squad is destroyed so this likely will never happen. If log isn't ever observed, delete this.
-				if(g_AllSquadsData[i][l].SquadLoadout == 0 and g_AllSquadsData[i][l].SquadHasPreviouslyExisted == true) then
-
-					Log(eLOG_TYPE_INFO, eLOG_FULL, "Squad has been destroyed but squad still exists?")	
-					Set_SquadCombatDetails(g_AllSquadsData[i][l], true)		
-					
-					RemoveSquadInDataAtIndex(i, l)
-
-				else
-					--Squad is alive and we update their combat status to look for dead members etc
-					Set_SquadCombatDetails(g_AllSquadsData[i][l], false)
-
-				end
-			end
+			Update_SingleSquad(i, l)
 
 		end	
 
 	end
 
 	RemoveStacktrace()
+
+end
+
+function GetSquadCountOfPlayerInData(_PlayerIndex)
+
+	return TableLength(g_AllSquadsData[_PlayerIndex])
+
+end
+
+function HasSquadOfIndexInData(PlayerIndex, SquadIndex) 
+
+	AddStacktrace("HasSquadOfIndexInData")
+
+	local success = true
+
+	if(TableLength(g_AllSquadsData) < PlayerIndex) then
+		
+		success = false
+
+	elseif(TableLength(g_AllSquadsData[PlayerIndex]) < SquadIndex) then
+
+		success = false
+
+	end
+
+	RemoveStacktrace()
+
+	return success
+
+end
+
+function Update_SingleSquad(PlayerIndex, SquadIndex)
+
+	AddStacktrace("Update_SingleSquad")
+	
+	local success = true
+
+	--Ensure the squad is in range
+	if(HasSquadOfIndexInData(PlayerIndex, SquadIndex)) then
+
+		--Simple check to avoid null ref
+		if(g_AllSquadsData[PlayerIndex][SquadIndex] == nil) then
+
+			table.remove(g_AllSquadsData[PlayerIndex], SquadIndex)	
+
+		--Squad has been lost since our last check, so we need to check if the squad is attached or dead.
+		elseif(Squad_Exists(g_AllSquadsData[PlayerIndex][SquadIndex].SquadUniqueID) == false ) then
+			
+			--SGroup persists after squad is attached, but SGroup loadout is 0 so squad is dead confirmed
+			if(SGroup_CountSpawned( g_AllSquadsData[PlayerIndex][SquadIndex].SquadGroupID ) <= 0) then
+
+				Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "REMOVING SQUAD: "..g_AllSquadsData[PlayerIndex][SquadIndex].SquadGroupName.." as they have no models.")
+				Set_SquadCombatDetails(g_AllSquadsData[PlayerIndex][SquadIndex], true)	
+				g_AllSquadsData[PlayerIndex][SquadIndex].SquadHasPreviouslyExisted = true
+
+				RemoveSquadInDataAtIndex(PlayerIndex, SquadIndex)
+
+			--SGroup loadout is > 0 so squad is still alive but attached
+			elseif(g_AllSquadsData[PlayerIndex][SquadIndex].SquadIsAttached == false) then
+			
+				Log(eLOG_TYPE_INFO, eLOG_SIMPLE, g_AllSquadsData[PlayerIndex][SquadIndex].SquadGroupName.." has attached")
+
+				g_AllSquadsData[PlayerIndex][SquadIndex].SquadIsAttached = true
+				g_AllSquadsData[PlayerIndex][SquadIndex].SquadHasAttached = true	
+
+				--Now that we've attached, must reaffirm SquadID
+				g_AllSquadsData[PlayerIndex][SquadIndex]:ReaffirmConstants()
+
+				--Assign the Squad we're attached as the nearest squad, weird assumption but works
+				g_AllSquadsData[PlayerIndex][SquadIndex].SquadAttachedTo = GetClosestSquadToPos(PlayerIndex, g_AllSquadsData[PlayerIndex][SquadIndex].SquadPosition, 50, { g_AllSquadsData[PlayerIndex][SquadIndex].SquadID })
+
+				--[[TODO: Get what happens with null attached squad here, something to do with possessed attachable heroes?]]
+				if(g_AllSquadsData[PlayerIndex][SquadIndex].SquadAttachedTo ~= nil) then
+
+					Log(eLOG_TYPE_INFO, eLOG_SIMPLE, g_AllSquadsData[PlayerIndex][SquadIndex].SquadGroupName.." has attached to "..g_AllSquadsData[PlayerIndex][SquadIndex].SquadAttachedTo.SquadGroupName..".")
+
+					g_AllSquadsData[PlayerIndex][SquadIndex].SquadAttachedTo.SquadHasBeenAttachedTo = true
+					g_AllSquadsData[PlayerIndex][SquadIndex].SquadAttachedTo.SquadHasAttachedToThis = g_AllSquadsData[PlayerIndex][SquadIndex]
+
+				else
+					
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_SIMPLE, g_AllSquadsData[PlayerIndex][SquadIndex].SquadBlueprint.." has attached, but we don't know who they attached to.")
+
+				end
+				
+			end
+
+		--Squad exists and has more than 0 members so let's update their squad details.
+		else	
+						
+			g_AllSquadsData[PlayerIndex][SquadIndex]:Update()
+			Set_SquadCombatDetails(g_AllSquadsData[PlayerIndex][SquadIndex], false)		
+
+			--Squad exists but now has 0 members. At 0 members the squad is destroyed so this likely will never happen. If log isn't ever observed, delete this.
+			if(g_AllSquadsData[PlayerIndex][SquadIndex].SquadLoadout == 0 and g_AllSquadsData[PlayerIndex][SquadIndex].SquadHasPreviouslyExisted == true) then
+
+				Log(eLOG_TYPE_INFO, eLOG_FULL, "Squad has been destroyed but squad still exists?")	
+				Set_SquadCombatDetails(g_AllSquadsData[PlayerIndex][SquadIndex], true)		
+				
+				RemoveSquadInDataAtIndex(PlayerIndex, SquadIndex)
+
+			else
+
+				--Squad is alive and we update their combat status to look for dead members etc
+				Set_SquadCombatDetails(g_AllSquadsData[PlayerIndex][SquadIndex], false)
+
+			end
+
+		end
+	else
+
+		success = false
+
+	end
+
+	RemoveStacktrace()
+
+	return success
 
 end
 

@@ -6,6 +6,7 @@ import("TFE_Core/CriticalScars/SquadManager/Classes/IdleSummonEntity.scar")
 import("TFE_Core/CriticalScars/SquadManager/Classes/IdleRepair.scar")
 import("TFE_Core/CriticalScars/SquadManager/Classes/IdleConstruct.scar")
 import("TFE_Core/CriticalScars/SquadManager/Classes/IdleBuilder.scar")
+import("TFE_Core/CriticalScars/SquadManager/Classes/AsyncSquadManager.scar")
 
 --[[Data]]
 import("TFE_Core/CriticalScars/SquadManager/Data/SquadValidWeapons.lua")

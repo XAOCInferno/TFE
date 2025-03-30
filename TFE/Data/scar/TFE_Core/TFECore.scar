@@ -12,6 +12,7 @@ local NumberOfRegisteredClassesByType = {}
 local ClassTypeToIndex = {}
 local NumberOfClassTypesThatAreRegistered = 0
 
+
 function Core_Game_Load()
 
 	AddStacktrace("Core_Game_Load")	
@@ -20,7 +21,9 @@ function Core_Game_Load()
 	DoBasicFunction(Core_CheckForSecondaryScars)
 
 	--Then begin logic
-	Rule_AddInterval(Core_MainLoop, g_WorldTimeFidelity)
+	--TODO: Remove this global about world time fidelity
+	Rule_Add(Core_Tick);
+	Rule_AddInterval(Set_UpdatedGameTime, g_WorldTimeFidelity)
 
 	RemoveStacktrace()
 	
@@ -210,16 +213,29 @@ function DebugDisableCodeProtections()
 	
 end
 
-function Core_MainLoop()
-	
-	AddStacktrace("Core_MainLoop")
+function Core_Tick()
+
+	AddStacktrace("Core_Tick")
 
 	--Main loop of the mod, runs each "tick"
-	
+
 	local MainLoopFunctionTree = 
 	{
-		{ Function = Set_UpdatedGameTime, Necessity = eREQUIRED_FUNCTION },
-		{ Function = Set_AllSquads_Immediate, Necessity = eREQUIRED_FUNCTION },
+		{ Function = Set_AllSquads_Async, Necessity = eREQUIRED_FUNCTION },
+	}
+
+	InvokeFunctionsFromFunctionTree(MainLoopFunctionTree)
+
+	RemoveStacktrace()
+	
+end
+
+function OnAsyncSquadUpdateComplete()
+
+	AddStacktrace("OnAsyncSquadUpdateComplete")
+	
+	local FunctionTree = 
+	{
 		{ Function = Set_AllEntities_Immediate, Necessity = eREQUIRED_FUNCTION },
 		{ Function = Set_AllSquadCoverModifiers, Necessity = eREQUIRED_FUNCTION },
 		{ Function = Set_PlayerUpkeep, Necessity = eREQUIRED_FUNCTION },
@@ -235,7 +251,7 @@ function Core_MainLoop()
 		{ Function = DeconstructResourceGroupClasses, Necessity = eREQUIRED_FUNCTION },
 	}
 
-	InvokeFunctionsFromFunctionTree(MainLoopFunctionTree)
+	InvokeFunctionsFromFunctionTree(FunctionTree)
 
 	RemoveStacktrace()
 	

@@ -1,0 +1,358 @@
+AsyncSquadManager = {}
+function AsyncSquadManager:new ()
+
+	AddStacktrace("AsyncSquadManager:new")
+	
+    local AsyncSquadManagerObject = 
+    {
+		--Constants
+		SquadsToUpdatePerTick = 5,
+		STATE = {
+			PRE_UPDATE_EXISTING_DATA = 1,
+			UPDATE_EXISTING_DATA = 2,
+			GET_SQUADS_FROM_GAME = 3,
+			PRE_HANDLE_SQUADS_FROM_GAME = 4,
+			HANDLE_SQUADS_FROM_GAME = 5,
+			CLEANUP = 6,
+			Count = 0,
+		},
+
+		--Vars
+		CurrentStateIndex = 1,
+		CurrentPlayerIndex = 1,
+		CurrentSquadIndex = 1,
+		LastRecordedSquadDataSize = 0,
+		CachedSquads = {},
+		PlayerSquadCounts = {},
+		CurrentNumberOfTicksForFullUpdate = 0
+    }
+
+	AsyncSquadManagerObject.STATE.Count = TableLength(AsyncSquadManagerObject.STATE) - 1
+	
+	AsyncSquadManagerObject.STATE[1] = AsyncSquadManagerObject.STATE.PRE_UPDATE_EXISTING_DATA
+	AsyncSquadManagerObject.STATE[2] = AsyncSquadManagerObject.STATE.UPDATE_EXISTING_DATA
+	AsyncSquadManagerObject.STATE[3] = AsyncSquadManagerObject.STATE.GET_SQUADS_FROM_GAME
+	AsyncSquadManagerObject.STATE[4] = AsyncSquadManagerObject.STATE.PRE_HANDLE_SQUADS_FROM_GAME
+	AsyncSquadManagerObject.STATE[5] = AsyncSquadManagerObject.STATE.HANDLE_SQUADS_FROM_GAME
+	AsyncSquadManagerObject.STATE[6] = AsyncSquadManagerObject.STATE.CLEANUP
+
+
+	self.__index = self
+
+	local globalObject = setmetatable(AsyncSquadManagerObject, self)
+
+	RegisterClass(globalObject, "AsyncSquadManager")
+
+	RemoveStacktrace()
+
+	return globalObject
+
+end
+
+function AsyncSquadManager:Update()
+	
+	AddStacktrace("AsyncSquadManager:Update")
+
+	self.CurrentNumberOfTicksForFullUpdate = self.CurrentNumberOfTicksForFullUpdate + 1
+
+	--Get the state enum
+	local UpdateState = self.STATE[self.CurrentStateIndex] or "nil"
+	
+	if(UpdateState == self.STATE.PRE_UPDATE_EXISTING_DATA) then
+
+		self:OnUpdate_PreUpdateExistingSquads()
+
+	elseif(UpdateState == self.STATE.UPDATE_EXISTING_DATA) then
+
+		self:OnUpdate_UpdateExistingSquads()
+
+	elseif(UpdateState == self.STATE.GET_SQUADS_FROM_GAME) then
+
+		self:OnUpdate_GetSquadsFromGame()
+
+	elseif(UpdateState == self.STATE.PRE_HANDLE_SQUADS_FROM_GAME) then
+
+		self:OnUpdate_PreHandleSquadsFromGame()
+		
+	elseif(UpdateState == self.STATE.HANDLE_SQUADS_FROM_GAME) then
+
+		self:OnUpdate_HandleSquadsFromGame()
+
+	elseif(UpdateState == self.STATE.CLEANUP) then
+
+		self:OnUpdate_Reset()
+
+	else
+
+		Log(eLOG_LOG_TYPE_WARNING, eLOG_SIMPLE, "Attempting to update invalid state '"..UpdateState.."' with index '"..self.CurrentStateIndex.."'. Ensure this enum is handled.")
+		self:GoToNextStateNow(true)
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+function AsyncSquadManager:OnUpdate_PreUpdateExistingSquads()
+
+	AddStacktrace("AsyncSquadManager:OnUpdate_PreUpdateExistingSquads")
+
+	if(self.CurrentPlayerIndex > g_PlayerCount) then
+
+		--We've checked all players, now we are out of range, so skip next state
+		--This will only happen if no players have squads
+		self:GoToNextState(false)
+		self:GoToNextStateNow(true)
+
+	else
+
+		self.LastRecordedSquadDataSize = GetSquadCountOfPlayerInData(self.CurrentPlayerIndex)
+
+		if(self.LastRecordedSquadDataSize == 0) then
+
+			--There are no squads to update for this player, so do this state again
+			self.CurrentPlayerIndex = self.CurrentPlayerIndex + 1
+			self:Update()
+
+		else
+
+			--We have data so go to the next state this frame
+			self:GoToNextStateNow(false)
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+--Updates status of our current squads that we have in data
+function AsyncSquadManager:OnUpdate_UpdateExistingSquads()
+
+	AddStacktrace("AsyncSquadManager:OnUpdate_UpdateExistingSquads")
+
+	for i = 0, self.SquadsToUpdatePerTick do
+
+		if(Update_SingleSquad(self.CurrentPlayerIndex, self.CurrentSquadIndex)) then
+			
+			--We successfully updated the squad, so we are in range. 
+			local newDataSize = GetSquadCountOfPlayerInData(self.CurrentPlayerIndex)
+
+			if(newDataSize < self.LastRecordedSquadDataSize) then
+
+				--The size of the array has shrunk, this means the last updated squad was removed from data
+				--Therefore don't increment as we need to repeat check on current index
+				self.LastRecordedSquadDataSize = newDataSize
+
+			else
+
+				--Increment to check next squad
+				self.CurrentSquadIndex = self.CurrentSquadIndex + 1
+
+			end
+
+		else
+
+			--We failed to update, this is because we've reached the end of data, now we can move to next state
+
+			if(self.CurrentPlayerIndex == g_PlayerCount) then
+
+				--No expensive logic run here this tick so we can for the next state
+				self:GoToNextStateNow(true)
+
+			else
+
+				--We have another player to update
+				self.CurrentPlayerIndex = self.CurrentPlayerIndex + 1
+
+				--Return to previous state to do the pre-handle logic as we have more players to check
+				self:GoToPreviousState()
+
+			end
+			
+			--Break as we no longer in this state
+			break
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+--Calls relic function to grab data of all the squads for the current player
+function AsyncSquadManager:OnUpdate_GetSquadsFromGame()
+
+	AddStacktrace("AsyncSquadManager:OnUpdate_GetSquadsFromGame")
+
+	self.CachedSquads[self.CurrentPlayerIndex] = {}	
+	self.PlayerSquadCounts[self.CurrentPlayerIndex] = Player_GetActiveSquadCount(g_AllPlayers[self.CurrentPlayerIndex].Player)
+
+	local function CacheSquadsFromPlayer(_sgroupid, _itemindex, _squadID)
+
+		self.CachedSquads[self.CurrentPlayerIndex][self.CurrentSquadIndex] = { SGroupID = _sgroupid, ItemIndex = _itemindex, SquadID = _squadID }
+		self.CurrentSquadIndex = self.CurrentSquadIndex + 1
+
+	end
+
+	SGroup_ForEachEx(Player_GetSquads(g_AllPlayers[self.CurrentPlayerIndex].Player), CacheSquadsFromPlayer, true, false)
+	
+	if(self.CurrentPlayerIndex == g_PlayerCount) then
+
+		--We've done all players now so go to next state
+		self:GoToNextState(true)
+
+	else
+
+		--Go to next player
+		self.CurrentPlayerIndex = self.CurrentPlayerIndex + 1
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+function AsyncSquadManager:OnUpdate_PreHandleSquadsFromGame()
+
+	AddStacktrace("AsyncSquadManager:OnUpdate_PreHandleSquadsFromGame")
+
+	if(self.CurrentPlayerIndex > g_PlayerCount) then
+
+		--We've checked all players, now we are out of range, so skip next state
+		--This will only happen if no players have squads
+		self:GoToNextState(false)
+		self:GoToNextStateNow(true)
+
+	else
+		
+		if(TableLength(self.CachedSquads[self.CurrentPlayerIndex]) > 0) then
+
+			--This player has squads so go to the next state
+			self:GoToNextStateNow(false)
+
+		else
+
+			--This player has no squads so no need to go to next state
+			self.CurrentPlayerIndex = self.CurrentPlayerIndex + 1
+			self:Update()
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+--Handles the squad data for the newly added squads
+function AsyncSquadManager:OnUpdate_HandleSquadsFromGame()
+
+	AddStacktrace("AsyncSquadManager:OnUpdate_HandleSquadsFromGame")
+
+	for i = 0, self.SquadsToUpdatePerTick do
+
+		local squad = self.CachedSquads[self.CurrentPlayerIndex][self.CurrentSquadIndex]
+		
+		if(squad) then			
+			
+			HandleNewGameSquad(self.CurrentPlayerIndex, squad.SGroupID, squad.ItemIndex, squad.SquadID)
+			self.CurrentSquadIndex = self.CurrentSquadIndex + 1
+
+		else
+
+			--Cleanup data we don't need to be using anymore now that it's in SquadData
+			self.CachedSquads[self.CurrentPlayerIndex] = {}
+
+			if(self.CurrentPlayerIndex == g_PlayerCount) then
+
+				--We've checked all players so go to next state
+				self:GoToNextState(true)
+			else
+
+				--We still have more players to check, so go back to last state to do pre-check logic
+				self:GoToPreviousState()
+
+			end
+
+			--Break as we are no longer in this state
+			break
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+end
+
+--Resets this, so that it's ready to go again at start of flow
+function AsyncSquadManager:OnUpdate_Reset()
+
+	AddStacktrace("AsyncSquadManager:OnUpdate_Reset")
+
+	self.CachedSquads = {}
+	self.PlayerSquadCounts = {}
+
+	self:GoToNextState(true)
+
+	RemoveStacktrace()
+
+end
+
+function AsyncSquadManager:GoToNextState(ResetPlayerIndex)
+
+	AddStacktrace("AsyncSquadManager:GoToNextState")
+
+	if(ResetPlayerIndex) then
+
+		self.CurrentPlayerIndex = 1
+
+	end
+
+	self.CurrentSquadIndex = 1
+
+	--If we were previously on the final state then state index to 1
+	if(self.CurrentStateIndex == self.STATE.Count) then
+
+		self.CurrentStateIndex = 1
+		DoBasicFunction(OnAsyncSquadUpdateComplete)
+		Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Total number of frames required to async update squads = "..self.CurrentNumberOfTicksForFullUpdate)
+		self.CurrentNumberOfTicksForFullUpdate = 0
+
+	else
+
+		--Otherwise iterate state index by 1
+		self.CurrentStateIndex = self.CurrentStateIndex + 1
+		
+	end
+
+	RemoveStacktrace()
+
+end
+
+function AsyncSquadManager:GoToNextStateNow(ResetPlayerIndex)
+
+	AddStacktrace("AsyncSquadManager:GoToNextStateNow")
+
+	--Change to the next state and force an update now
+	--Use this when we haven't done anything expensive this frame and want to squeeze more stuff into it
+	self:GoToNextState(ResetPlayerIndex)
+	self:Update()
+
+	RemoveStacktrace()
+
+end
+
+function AsyncSquadManager:GoToPreviousState()
+
+	AddStacktrace("AsyncSquadManager:GoToPreviousState")
+
+	self.CurrentSquadIndex = 1
+	self.CurrentStateIndex = math.max(self.CurrentStateIndex - 1, 1)
+
+	RemoveStacktrace()
+
+end
