@@ -75,7 +75,7 @@ function Set_PlayerSquads_Immediate(_PlayerIndex)
 						break
 
 					--A squad which we've previously had data on has now been detached, reassign their data to them.
-					elseif(SGroup_ContainsSquad(g_AllSquadsData[_PlayerIndex][l].SquadGroupID, _squadID)) then
+					elseif(g_AllSquadsData[_PlayerIndex][l].SquadIsAttached and SGroup_ContainsSquad(g_AllSquadsData[_PlayerIndex][l].SquadGroupID, _squadID)) then
 
 						--TODO: Ensure detached commanders upkeep is reset correctly			
 						
