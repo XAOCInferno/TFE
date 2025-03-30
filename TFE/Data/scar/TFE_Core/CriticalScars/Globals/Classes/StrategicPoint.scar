@@ -105,10 +105,10 @@ function StrategicPoint:SetHasListeningPost()
 
     if(self.HasListeningPost == true and newHasLP == false) then
 
-        if(self.ListeningPostData ~= nil) then
+        if(self.ListeningPostAddonData ~= nil) then
             
-            self.ListeningPostData:Deconstruct()
-            self.ListeningPostData = nil
+            self.ListeningPostAddonData:Deconstruct()
+            self.ListeningPostAddonData = nil
 
         end
 
