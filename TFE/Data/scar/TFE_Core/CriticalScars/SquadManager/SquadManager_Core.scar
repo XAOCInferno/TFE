@@ -21,8 +21,10 @@ function RemoveSquadInDataAtIndex(_PlayerIndex, _ItemIndex)
 
 	AddStacktrace("RemoveSquadInDataAtIndex")
 
-	g_AllSquadsData[_PlayerIndex][_ItemIndex]:Deconstruct()
+	--Remove the item from data before deconstructing so that async operations do not access it at this point [tentative fix]
+	local squadDataToDeconstruct = g_AllSquadsData[_PlayerIndex][_ItemIndex]	
 	table.remove(g_AllSquadsData[_PlayerIndex], _ItemIndex)
+	squadDataToDeconstruct:Deconstruct()
 
 	RemoveStacktrace()
 
@@ -103,17 +105,25 @@ function HandleNewGameSquad(_PlayerIndex, _sgroupid, _itemindex, _squadID)
 						--Squad has previously attached, so we need to add reaffirm tracking to it and get which squad it probably attached to
 						copy.SquadHasAttached = true	
 
-						if(copy.SquadAttachedTo ~= nil) then
+						--[[TODO: We need to refactor the attach / unattach system. It doesn't really work...]]
+						if(copy.History == nil) then
 
 							--TODO: We need to fix this history part to take history from detached squad
 							--TODO: Something weird happens when a squad is attached then detached, the squad will not correctly remove its data from the attached or visa versa. Tracking stops when 1 dies
 							--TODO: When killing the detached hero first this seems to break tracking no idea why..........
-							--copy.History = copy.SquadAttachedTo.History
+							
 							copy.History = FixedLengthTable:new(g_MaximumHistories, SquadDataHistory:new(-1, nil))
+							Log(eLOG_LOG_TYPE_ERROR, eLOG_SIMPLE, "The last detached cmdr has NO History, this should not happen and we need to find a solution. Assigning a default history to it as a workaround.")
+
+						end
+
+						if(copy.SquadAttachedTo ~= nil) then
+
 							copy.SquadDetachedFrom = copy.SquadAttachedTo
 
 							--Update the attached to squad loadout by -1 so that we don't acidentally award a kill for this detach
 							copy.SquadAttachedTo.PreviousSquadLoadout = copy.SquadAttachedTo.PreviousSquadLoadout - 1
+							--copy.History = copy.SquadAttachedTo.History
 
 							--Clearup attach data on the previously attached squad
 							copy.SquadAttachedTo.SquadHasBeenAttachedTo = false
