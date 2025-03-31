@@ -292,7 +292,7 @@ function SquadData:Update()
 	local copy = self:CreateCopy()
 
 	--Update history at set intervals
-	if g_WorldTime >= self.NextHistoryTime then
+	if g_WorldTime >= self.NextHistoryTime and self.History ~= nil then
 		
 		self.History:Insert(SquadDataHistory:new(g_WorldTime, copy))
 		self.NextHistoryTime = self.NextHistoryTime + g_HistoryUpdateRate
@@ -653,8 +653,12 @@ function SquadData:Deconstruct()
 
 	--Note we do not need to deconstruct the idle behaviour here as it handles itself
 	self.XP:Deconstruct()
-	self.History:Deconstruct()
 
+	if(self.History ~= nil) then
+
+		self.History:Deconstruct()
+
+	end
 
 	RemoveStacktrace()
 
