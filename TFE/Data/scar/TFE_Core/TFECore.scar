@@ -13,6 +13,8 @@ local ClassTypeToIndex = {}
 local NumberOfClassTypesThatAreRegistered = 0
 
 
+local WorldTimeOfLastUpkeepMatureImplementation = 0
+
 function Core_Game_Load()
 
 	AddStacktrace("Core_Game_Load")	
@@ -273,6 +275,8 @@ end
 function Implement_UpkeepAndMature()
 
 	AddStacktrace("Implement_UpkeepAndMature")
+
+	local TimeSinceLastUpdate = GetWorldLifetime(WorldTimeOfLastUpkeepMatureImplementation)
 	
 	for i = 1, g_PlayerCount do
 
@@ -324,7 +328,7 @@ function Implement_UpkeepAndMature()
 			--Calculate resources to add
 			tmpCurrentAddResources_ResourceGroup = ResourceGroup:new()
 			tmpCurrentAddResources_ResourceGroup:Set(g_AllPlayers[Index].CurrentAddResources)
-			tmpCurrentAddResources_ResourceGroup:MultiplyByFloat(g_WorldTimeFidelity * g_BonusResourcesMultiplier)
+			tmpCurrentAddResources_ResourceGroup:MultiplyByFloat(TimeSinceLastUpdate * g_BonusResourcesMultiplier)
 
 			--Now calculate the CurrentFireCosts (global abilities usually)
 			--Calculate resources to remove			
@@ -356,6 +360,8 @@ function Implement_UpkeepAndMature()
 		--g_AllPlayers[Index].StatsManager:DebugDumpInfo() --This should probably be moved later
 
 	end
+
+	WorldTimeOfLastUpkeepMatureImplementation = g_WorldTime
 	
 	RemoveStacktrace()
 
