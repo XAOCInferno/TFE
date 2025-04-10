@@ -432,6 +432,7 @@ GameData["research_ext"]["research_table"]["research_15"] = [[ork_research_eavy_
 GameData["research_ext"]["research_table"]["research_18"] = [[ork_research_warboss_ranged_1]]
 GameData["research_ext"]["research_table"]["research_19"] = [[ork_research_moredakka]]
 GameData["research_ext"]["research_table"]["research_20"] = [[ork_research_evenmoredakka]]
+GameData["research_ext"]["research_table"]["research_21"] = [[research\ork_research_rokkit_launcha.lua]]
 GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
 GameData["sight_ext"]["sight_radius"] = 15
 GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
