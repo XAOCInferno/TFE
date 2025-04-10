@@ -484,6 +484,7 @@ GameData["squad_reinforce_ext"]["cost"]["cost"]["souls"] = 0
 GameData["squad_reinforce_ext"]["cost"]["time_seconds"] = 10
 GameData["squad_reinforce_ext"]["leader_event"] = [[Unit_Upgrade_Morale_FX/reinforce_ork_trooper]]
 GameData["squad_reinforce_ext"]["trooper_event"] = [[Unit_Upgrade_Morale_FX/reinforce_ork_trooper]]
+GameData["squad_reinforce_ext"]["max_upgrades"] = 5
 GameData["squad_reinforce_ext"]["weapon_event"] = [[Unit_Upgrade_Morale_FX/Ork_Weapon_Upgrade]]
 GameData["squad_requirement_ext"] = Reference([[sbpextensions\squad_requirement_ext.lua]])
 GameData["squad_requirement_ext"]["requirements"]["required_1"] = Reference([[requirements\required_total_pop.lua]])
