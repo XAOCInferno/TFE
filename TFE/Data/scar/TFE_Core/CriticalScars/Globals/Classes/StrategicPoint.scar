@@ -35,9 +35,18 @@ function StrategicPoint:Update()
     self:UpdateOwner()
     self:SetHasListeningPost()
 
-    if(self.HasListeningPost) then
+    --[[TODO: Ensure self.ListeningPostAddonData is not going nil for the wrong reasons, we may need to fix this before it gets here in update.]]
+    if(self.HasListeningPost and self.ListeningPostAddonData ~= nil) then
 
-        self.ListeningPostAddonData:UpdateAddonsList()
+        if(self.ListeningPostAddonData ~= nil) then
+
+            self.ListeningPostAddonData:UpdateAddonsList()
+
+        else
+
+            Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Strategic Point has LP but does not have an associated EntityAddonData! If this is not rectified soon then there is a problem.") 
+
+        end
 
     end
     
@@ -105,14 +114,15 @@ function StrategicPoint:SetHasListeningPost()
 
     if(self.HasListeningPost == true and newHasLP == false) then
 
+        self.HasListeningPost = false
+
+        --[[TODO: Is this nil check required? Is it made nil anywhere else?]]
         if(self.ListeningPostAddonData ~= nil) then
             
             self.ListeningPostAddonData:Deconstruct()
             self.ListeningPostAddonData = nil
 
         end
-
-        self.HasListeningPost = false
 
     end
 
@@ -130,9 +140,9 @@ function StrategicPoint:SetHasListeningPost()
 
             if(newLP ~= nil) then
 
-                self.HasListeningPost = true
                 self.ListeningPostAddonData = EntityAddonManager:new(newLP, g_ListeningPostValidAddons)
                 self.ListeningPostAddonData:LateConstructor()
+                self.HasListeningPost = true
 
             else
 
