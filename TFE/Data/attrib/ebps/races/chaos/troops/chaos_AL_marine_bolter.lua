@@ -1,7 +1,7 @@
 GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
 GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\chaos_frag_grenades.lua]]
-GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\chaos_bile_grenades.lua]]
+GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\chaos_blight_grenades.lua]]
 GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\chaos_csm_mark_khorne.lua]]
 GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\chaos_csm_mark_nurgle.lua]]
 GameData["ability_ext"]["abilities"]["ability_05"] = [[abilities\chaos_csm_mark_tzeentch.lua]]
