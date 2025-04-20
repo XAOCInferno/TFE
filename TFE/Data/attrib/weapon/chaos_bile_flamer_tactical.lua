@@ -29,7 +29,7 @@ GameData["area_effect"]["weapon_damage"]["armour_damage"]["life_leech_damage"] =
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 10
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 8.2
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 1
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 15
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 13
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[unit_impact_events/chaos_flamer_hit_nurgle]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry02"]["event"] = [[unit_impact_events/chaos_flamer_hit_nurgle]]
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry03"]["event"] = [[unit_impact_events/chaos_flamer_hit_nurgle]]
@@ -67,7 +67,7 @@ GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_06"]["modifier"]
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_06"]["modifier"]["exclusive"] = true
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_06"]["modifier"]["shield_of_faith"] = false
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_06"]["modifier"]["usage_type"] = Reference([[type_modifierusagetype\tp_mod_usage_multiplication.lua]])
-GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_06"]["modifier"]["value"] = 0.5
+GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_06"]["modifier"]["value"] = 0.6
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_07"]["modifier"]["shield_of_faith"] = false
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_08"] = Reference([[tables\time_modify_entry.lua]])
 GameData["area_effect"]["weapon_damage"]["modifiers"]["modifier_08"]["modifier"]["shield_of_faith"] = false
