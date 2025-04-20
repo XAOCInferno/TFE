@@ -568,6 +568,10 @@ GameData["squad_requirement_ext"]["requirements"]["required_1"]["structure_name"
 GameData["squad_transportable_ext"] = Reference([[sbpextensions\squad_transportable_ext.lua]])
 GameData["squad_transportable_ext"]["activate_transport_ability"] = true 
 GameData["squad_ui_ext"] = Reference([[sbpextensions\squad_ui_ext.lua]])
+GameData["squad_ui_ext"]["completed_research_display"] = true 
+GameData["squad_ui_ext"]["completed_research_filter"]["research_01"] = [[research\chaos_csm_mark_tzeentch_research.lua]]
+GameData["squad_ui_ext"]["completed_research_filter"]["research_02"] = [[research\chaos_csm_mark_nurgle_research.lua]]
+GameData["squad_ui_ext"]["completed_research_filter"]["research_03"] = [[research\chaos_csm_mark_khorne_research.lua]]
 GameData["squad_ui_ext"]["counter_text_id"] = [[$0]]
 GameData["squad_ui_ext"]["multi_select_priority"] = 4
 GameData["squad_ui_ext"]["ui_info"]["help_text_id"] = [[$97251]] -- 
