@@ -1,6 +1,6 @@
 GameData = Inherit([[]])
 GameData["accuracy"] = 0.6
-GameData["accuracy_reduction_when_moving"] = 0.3000000119
+GameData["accuracy_reduction_when_moving"] = 1
 GameData["area_effect"] = Reference([[tables\area_effect_table.lua]])
 GameData["area_effect"]["area_effect_information"]["angle_left"] = -14
 GameData["area_effect"]["area_effect_information"]["angle_right"] = 14
@@ -148,7 +148,7 @@ GameData["requirements"]["required_1"] = Reference([[requirements\required_struc
 GameData["requirements"]["required_1"]["structure_name"] = [[ebps\races\chaos\structures\chaos_armoury.lua]]
 GameData["requirements"]["required_2"] = Reference([[requirements\required_research.lua]])
 GameData["requirements"]["required_2"]["research_name"] = [[chaos_csm_mark_nurgle_research.lua]]
-GameData["setup_time"] = 0
+GameData["setup_time"] = 1.5
 GameData["shot_delay_time"] = 0
 GameData["show_in_reinforce"] = true 
 GameData["single_shot"] = false
