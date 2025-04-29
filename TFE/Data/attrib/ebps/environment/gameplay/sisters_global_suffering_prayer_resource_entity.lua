@@ -1,0 +1,12 @@
+GameData = Inherit([[]])
+GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
+GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
+GameData["entity_blueprint_ext"]["animator"] = [[Environment\Necron\solar_pulse]]
+GameData["resource_ext"] = Reference([[ebpextensions\resource_ext.lua]])
+GameData["resource_ext"]["decay_enabled"] = false 
+GameData["resource_ext"]["faith_per_second"] = 0.25
+GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
+GameData["sight_ext"]["keen_sight_radius"] = 0
+GameData["sight_ext"]["sight_radius"] = 0
+GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
+GameData["type_ext"] = Reference([[ebpextensions\type_ext.lua]])
