@@ -1505,22 +1505,38 @@ function Setup_ActualGlobalAbilies()
 					Veterans of Aurelia
 			 ]]
 
-			AbilityStruct_Sisters1.Duration = 30
-			--TODO: Change effects
-			AbilityStruct_Sisters1.SquadEffect = "data:Art/Events/races/chaos/chaos_tzeentch_marines_passive"
-			AbilityStruct_Sisters1.SquadEffect_LowHealth = "data:Art/Events/races/chaos/chaos_khorne_marines_passive"
+			AbilityStruct_Sisters1.Cost = ResourceGroup:new(-50)
+			AbilityStruct_Sisters1.Duration = 40
 
+			--[[TODO: We are currently using placeholder effects for these]]
+			--[[TODO: Test how this interacts with attachable units, will likely need to handle it differently]]
+			AbilityStruct_Sisters1.SquadEffectMod = "ability_beserk_event"
+			AbilityStruct_Sisters1.SquadEffectMod_LowHealth = "ability_possesion_event"
+			AbilityStruct_Sisters1.HasReachedLowHealth = false
+			AbilityStruct_Sisters1.LowHealthThreshold = 0.8
+
+			mod_SistersSufferingPrayer__modifier_FX = Modifier_Create(MAT_Squad, AbilityStruct_Sisters1.SquadEffectMod, MUT_Enable, 1, 1, "")
+			table.insert(g_GlobalAbilityMods, mod_SistersSufferingPrayer__modifier_FX)
+			mod_SistersSufferingPrayer__modifier_01 = Modifier_Create(MAT_Squad, "morale_rate_squad_modifier", MUT_Multiplication, 1, 1.5, "")
+			table.insert(g_GlobalAbilityMods, mod_SistersSufferingPrayer_LowHealth__modifier_01)
+
+			mod_SistersSufferingPrayer_LowHealth__modifier_FX = Modifier_Create(MAT_Squad, AbilityStruct_Sisters1.SquadEffectMod_LowHealth, MUT_Enable, 1, 1, "")
+			table.insert(g_GlobalAbilityMods, mod_SistersSufferingPrayer_LowHealth__modifier_FX)
 			mod_SistersSufferingPrayer_LowHealth__modifier_01 = Modifier_Create(MAT_Squad, "min_damage_weapon_modifier", MUT_Multiplication, 1, 1.3, "")
 			table.insert(g_GlobalAbilityMods, mod_SistersSufferingPrayer_LowHealth__modifier_01)
 			mod_SistersSufferingPrayer_LowHealth__modifier_02 = Modifier_Create(MAT_Squad, "max_damage_weapon_modifier", MUT_Multiplication, 1, 1.3, "")
 			table.insert(g_GlobalAbilityMods, mod_SistersSufferingPrayer_LowHealth__modifier_02)
-			mod_SistersSufferingPrayer_LowHealth__modifier_03 = Modifier_Create(MAT_Squad, "speed_maximum_modifier", MUT_Multiplication, 1, 1.2, "")
+			mod_SistersSufferingPrayer_LowHealth__modifier_03 = Modifier_Create(MAT_Squad, "speed_maximum_modifier", MUT_Multiplication, 1, 1.1, "")
 			table.insert(g_GlobalAbilityMods, mod_SistersSufferingPrayer_LowHealth__modifier_03)
-			AbilityStruct_Sisters1.LowHealthModifiers = { mod_SistersSufferingPrayer_LowHealth__modifier_01, mod_SistersSufferingPrayer_LowHealth__modifier_02, mod_SistersSufferingPrayer_LowHealth__modifier_03 }
-			AbilityStruct_Sisters1.AllModifiersThatCanBeApplied = { mod_SistersSufferingPrayer_LowHealth__modifier_01, mod_SistersSufferingPrayer_LowHealth__modifier_02, mod_SistersSufferingPrayer_LowHealth__modifier_03 }
+			mod_SistersSufferingPrayer__modifier_04 = Modifier_Create(MAT_Squad, "morale_rate_squad_modifier", MUT_Multiplication, 1, 2, "")
+			table.insert(g_GlobalAbilityMods, mod_SistersSufferingPrayer_LowHealth__modifier_04)
+
+			AbilityStruct_Sisters1.HighHealthModifiers = { mod_SistersSufferingPrayer__modifier_FX, mod_SistersSufferingPrayer__modifier_01 }
+			AbilityStruct_Sisters1.LowHealthModifiers = { mod_SistersSufferingPrayer_LowHealth__modifier_FX, mod_SistersSufferingPrayer_LowHealth__modifier_01, mod_SistersSufferingPrayer_LowHealth__modifier_02, mod_SistersSufferingPrayer_LowHealth__modifier_03, mod_SistersSufferingPrayer_LowHealth__modifier_04 }
+			AbilityStruct_Sisters1.AllModifiersThatCanBeApplied = { mod_SistersSufferingPrayer__modifier_FX, mod_SistersSufferingPrayer_LowHealth__modifier_FX, mod_SistersSufferingPrayer_LowHealth__modifier_01, mod_SistersSufferingPrayer_LowHealth__modifier_02, mod_SistersSufferingPrayer_LowHealth__modifier_03, mod_SistersSufferingPrayer_LowHealth__modifier_04 }
 			AbilityStruct_Sisters1.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )				
  
-				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new(-50))
+				local costSuccess = FireCost(_self.CasterPlayer, _self.Cost)
  
 				if(costSuccess) then
 
@@ -1535,19 +1551,13 @@ function Setup_ActualGlobalAbilies()
 						
 						_self.ModifierEntityID = ActivateSummonEntityAbility("sisters_global_suffering_prayer_resource_entity", _self.CasterPlayer.Player, _pos)
 
-						if(_self.TargetSquad.SquadAvgHealth <= 0.6) then
+						if(_self:GetIsLowHealth(_self)) then
 
-							_self.AppliedSquadEffect = World_FXEventSquad(_self.SquadEffect_LowHealth, _self.TargetSquad.SquadGroupID)
-
-							for i = 1, table.getn(_self.LowHealthModifiers) do
-
-								ModifierUtil_ApplyToSGroup( _self.TargetSquad.SquadGroupID, _self.LowHealthModifiers[i], true )
-
-							end
+							_self:ApplyLowHealthModifiers()
 							
 						else
-							
-							_self.AppliedSquadEffect = World_FXEventSquad(_self.SquadEffect, _self.TargetSquad.SquadGroupID)
+
+							_self:ApplyHighHealthModifiers()
 
 						end
 
@@ -1564,29 +1574,95 @@ function Setup_ActualGlobalAbilies()
  
 			end	
 
-			AbilityStruct_Sisters1.Reset = function(_self)
- 
-				_self.TimedAbilityIsActive = false
+			AbilityStruct_Sisters1.GetTargetSquadIsValid = function(_self)
+
+				local isValid = false	
 
 				if(_self.TargetSquad ~= nil) then
-
+					
 					if(Squad_Exists(_self.TargetSquad.SquadUniqueID)) then
-						
-						for i = 1, table.getn(_self.AllModifiersThatCanBeApplied) do
 
-							if(ModifierUtil_GetSquadApplierIndex(_self.AllModifiersThatCanBeApplied[i], _self.TargetSquad.SquadID) ~= 0) then
-
-								ModifierUtil_ApplyToSGroup(_self.TargetSquad.SquadGroupID, _self.AllModifiersThatCanBeApplied[i], false)
-
-							end
-
-						end
-
-						_self.TargetSquad = nil
+						isValid = true
 
 					end
 
 				end
+
+				return isValid
+
+			end
+
+			AbilityStruct_Sisters1.ApplyLowHealthModifiers = function(_self)
+
+				if(_self:GetTargetSquadIsValid()) then
+
+					for i = 1, table.getn(_self.LowHealthModifiers) do
+
+						ModifierUtil_ApplyToSGroup( _self.TargetSquad.SquadGroupID, _self.LowHealthModifiers[i], true )
+
+					end
+
+				end
+
+			end
+
+			AbilityStruct_Sisters1.ApplyHighHealthModifiers = function(_self)
+
+				if(_self:GetTargetSquadIsValid()) then
+					
+					for i = 1, table.getn(_self.LowHealthModifiers) do
+
+						ModifierUtil_ApplyToSGroup( _self.TargetSquad.SquadGroupID, _self.HighHealthModifiers[i], true )
+
+					end
+
+				end
+
+			end
+
+			AbilityStruct_Sisters1.ClearAnyAppliedModifiers = function(_self)
+
+				if(_self:GetTargetSquadIsValid()) then
+						
+					for i = 1, table.getn(_self.AllModifiersThatCanBeApplied) do
+
+						if(ModifierUtil_GetSquadApplierIndex(_self.AllModifiersThatCanBeApplied[i], _self.TargetSquad.SquadID) ~= 0) then
+
+							ModifierUtil_ApplyToSGroup(_self.TargetSquad.SquadGroupID, _self.AllModifiersThatCanBeApplied[i], false)
+
+						end
+
+					end
+
+				end
+
+			end
+
+
+			AbilityStruct_Sisters1.GetIsLowHealth = function(_self)
+
+				if(_self:GetTargetSquadIsValid()) then
+
+					if(_self.TargetSquad.SquadAvgHealth <= _self.LowHealthThreshold) then
+
+						_self.HasReachedLowHealth = true
+						return true
+
+					end
+
+				end
+
+				return false
+
+			end
+
+			AbilityStruct_Sisters1.Reset = function(_self)
+ 
+				_self.TimedAbilityIsActive = false
+
+				_self:ClearAnyAppliedModifiers()
+
+				_self.TargetSquad = nil
 
 				if(_self.ModifierEntityID ~= nil) then
 
@@ -1595,29 +1671,24 @@ function Setup_ActualGlobalAbilies()
 
 				end
 
-				if(_self.AppliedSquadEffect ~= nil) then
-
-					World_FXEventDestroy(_self.AppliedSquadEffect)
-					_self.AppliedSquadEffect = nil
-
-				end
-
 			end
 
 			AbilityStruct_Sisters1.TimedAbilityUpdate = function(_self)
  
-				local squadDestroyed = true
-				if(_self.TargetSquad ~= nil) then
-
-					if(Squad_Exists(_self.TargetSquad.SquadUniqueID)) then
+				if(_self:GetTargetSquadIsValid()) then
 						
-						squadDestroyed = false
+					if(_self.HasReachedLowHealth == false) then
+
+						if(_self:GetIsLowHealth()) then
+
+							_self:ClearAnyAppliedModifiers()
+							_self:ApplyLowHealthModifiers()
+
+						end
 
 					end
 
-				end
-
-				if squadDestroyed then
+				else
 
 					_self:Reset()
 
