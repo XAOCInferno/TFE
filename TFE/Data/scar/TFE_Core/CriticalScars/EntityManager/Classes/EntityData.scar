@@ -85,13 +85,12 @@ function EntityData:Update()
 
 	AddStacktrace("EntityData:Update")
 
-	local entityIsValid = true
-	local privateUpdate = function()
-	
-		entityIsValid = Entity_Exists(self.EntityID)
-		
-		if(entityIsValid) then
+	local entityIsValid = Entity_Exists(self.EntityID)
 
+	if(entityIsValid) then
+
+		local updateEntityLambda = function()
+				
 			--We don't need to update pos of structures as they generally don't move. We may need to do this for eldar who can move their structures
 			if(self.EntityCanMove == true) then
 
@@ -147,13 +146,13 @@ function EntityData:Update()
 				--Entity not been attacked for awhile, so we will forget who was attacking them
 				self.PreviouslyAttackedByPlayers = {}
 
-			end
+			end			
 
 		end
 
-	end
+		entityIsValid = DoBasicFunction(updateEntityLambda)
 
-	entityIsValid = entityIsValid and DoBasicFunction(privateUpdate)
+	end
 
 	if(entityIsValid == false) then
 

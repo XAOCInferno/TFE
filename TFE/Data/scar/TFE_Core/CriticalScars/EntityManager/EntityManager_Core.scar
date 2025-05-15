@@ -332,12 +332,14 @@ function UpdateEntityCombatDeathStats(_AttackerPlayer, _DefenderPlayer, _EntityL
 
 end
 
-function GetClosestLP(_Player, _Pos)
+function GetClosestLP(_Player, _Pos, _MaxDist)
 
 	AddStacktrace("GetClosestLP")	
 
+	_MaxDist = _MaxDist or 10000
+
 	local LP = nil
-	local closestDist = 1000000
+	local closestDist = _MaxDist
 
 	for i = 1, TableLength(g_AllEntityData[_Player]) do
 

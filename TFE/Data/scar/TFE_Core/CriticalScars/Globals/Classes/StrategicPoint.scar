@@ -33,20 +33,12 @@ function StrategicPoint:Update()
 	AddStacktrace("StrategicPoint:Update")
 
     self:UpdateOwner()
-    self:SetHasListeningPost()
+    self:SetListeningPostState()
 
-    --[[TODO: Ensure self.ListeningPostAddonData is not going nil for the wrong reasons, we may need to fix this before it gets here in update.]]
-    if(self.HasListeningPost and self.ListeningPostAddonData ~= nil) then
+    --Handle will check if we have LP, and that we have a valid LP
+    if(self:HandleIsEntityAddonDataValid()) then
 
-        if(self.ListeningPostAddonData ~= nil) then
-
-            self.ListeningPostAddonData:UpdateAddonsList()
-
-        else
-
-            Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "Strategic Point has LP but does not have an associated EntityAddonData! If this is not rectified soon then there is a problem.") 
-
-        end
+        self.ListeningPostAddonData:UpdateAddonsList()
 
     end
     
@@ -84,50 +76,52 @@ function StrategicPoint:UpdateOwner()
 
 end
 
-function StrategicPoint:GetIfOwnershipChanged()
+--This is public facing
+function StrategicPoint:GetHasListeningPost()
+
+    return self:HandleIsEntityAddonDataValid()
 
 end
 
-function StrategicPoint:GetHasListeningPost()
+--Only to be used internally, this is not public facing
+function StrategicPoint:GetHasListeningPostInternal()
 
-	AddStacktrace("StrategicPoint:GetHasListeningPost")
-    
-    local result = false
+    return Entity_StrategicPointHasStructure(self.ID)
 
-    if(Entity_StrategicPointHasStructure(self.ID)) then
+end
 
-        result = true
-    
-    end
+function StrategicPoint:SetListeningPostState()
+
+	AddStacktrace("StrategicPoint:SetListeningPostState")    
+
+    if(self:GetHasListeningPostInternal()) then
+        
+        self:SetHasGotListeningPost()
+
+    else
+
+        self:SetHasNotGotListeningPost()
+
+    end    
 
     RemoveStacktrace()
 
-    return result
-
 end
 
-function StrategicPoint:SetHasListeningPost()
+--This function is called every update if the game tells us we have a listening post
+--It will continue until LP has been found, otherwise it will early out at the first if statement 
+function StrategicPoint:SetHasGotListeningPost()
 
-	AddStacktrace("StrategicPoint:SetHasListeningPost")
-    
-    local newHasLP = self:GetHasListeningPost()
+	AddStacktrace("StrategicPoint:SetHasGotListeningPost")
 
-    if(self.HasListeningPost == true and newHasLP == false) then
+    --Firstly check if the current LP has valid attached entity struct
+    --The player can build an LP, lose it, and add a new one before this strategic point is updated
+    --This will cause a crash due to invalid entity ID, so the bellow will check for that
+    self:HandleIsEntityAddonDataValid()
 
-        self.HasListeningPost = false
-
-        --[[TODO: Is this nil check required? Is it made nil anywhere else?]]
-        if(self.ListeningPostAddonData ~= nil) then
-            
-            self.ListeningPostAddonData:Deconstruct()
-            self.ListeningPostAddonData = nil
-
-        end
-
-    end
-
-    if(newHasLP == true and self.HasListeningPost == false) then
-
+    --Another "HasListeningPost" bool check as it can be set to false above
+    if(self.HasListeningPost == false) then
+        
         if(self.OwnedBy == -1) then
             
             self:UpdateOwner()
@@ -136,10 +130,10 @@ function StrategicPoint:SetHasListeningPost()
 
         if(self.OwnedBy ~= -1) then
         
-            local newLP = GetClosestLP(self.OwnedBy + 1, self.EntityPosition)
+            local newLP = GetClosestLP(self.OwnedBy + 1, self.EntityPosition, 1)
 
             if(newLP ~= nil) then
-
+                
                 self.ListeningPostAddonData = EntityAddonManager:new(newLP, g_ListeningPostValidAddons)
                 self.ListeningPostAddonData:LateConstructor()
                 self.HasListeningPost = true
@@ -159,5 +153,51 @@ function StrategicPoint:SetHasListeningPost()
     end
 
     RemoveStacktrace()
+
+end
+
+--This function is called every update if the game tells us we DON'T have a listening post
+--It will early out if we don't have an LP in our data
+function StrategicPoint:SetHasNotGotListeningPost()
+
+	AddStacktrace("StrategicPoint:SetHasNotGotListeningPost")
+
+    if(self.HasListeningPost == true) then
+
+        self.HasListeningPost = false
+            
+        self.ListeningPostAddonData:Deconstruct()
+        self.ListeningPostAddonData = nil
+
+    end
+
+    RemoveStacktrace()
+
+end
+
+--Gets if we have an LP and if that LP data is valid. Also handles if the struct is invalid
+function StrategicPoint:HandleIsEntityAddonDataValid()
+    
+	AddStacktrace("StrategicPoint:HandleIsEntityAddonDataValid")
+
+    local success = self.HasListeningPost
+
+    if(success) then
+
+        Check(self.ListeningPostAddonData)
+
+        if(self.ListeningPostAddonData:GetIsAttachedToValidEntityStruct() == false) then
+            
+            --Our LP is invalid, so clear the broken data and act as if we don't have data so it can be added on next update
+            self:SetHasNotGotListeningPost()
+            success = false
+            
+        end
+
+    end
+
+    RemoveStacktrace()
+
+    return success
 
 end

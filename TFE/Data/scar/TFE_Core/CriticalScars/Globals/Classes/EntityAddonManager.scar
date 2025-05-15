@@ -25,6 +25,12 @@ function EntityAddonManager:new (_AttachedEntityStruct, _ValidAddons)
 
 end
 
+function EntityAddonManager:GetIsAttachedToValidEntityStruct()
+
+    return Entity_Exists(self.AttachedEntityStruct.EntityID)
+
+end
+
 function EntityAddonManager:LateConstructor()
 
 	AddStacktrace("EntityAddonManager:LateConstructor")

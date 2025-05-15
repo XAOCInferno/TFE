@@ -97,17 +97,17 @@ function CheckIfRequirementAchieved(_AddonRequirementAndRestriction, _Player)
 		if(requirement.TypeOfItem == ePURCHASED_ITEM_TYPE_ADDON_LP) then
 		
 			--If the player's LPs have a specific count of addons
-			thisSingleRequirementAchieved = GetNumberOfSpecificPlayerOwnedListeningPostAddons(requirement.ID, _Player) >= requirement.Count
+			thisSingleRequirementAchieved = CheckIfLPAddonRequirementAchieved(requirement, _Player)
 
 		elseif(requirement.TypeOfItem == ePURCHASED_ITEM_TYPE_ENTITY) then
 		
 			--If player has a count of entities. This wont check if structures are complete
-			thisSingleRequirementAchieved = GetCountOfPlayerOwnedEntityBlueprints(_Player.PlayerIndex + 1, requirement.ID) >= requirement.Count
+			thisSingleRequirementAchieved = CheckIfEntityRequirementAchieved(requirement, _Player)
 
 		elseif(requirement.TypeOfItem == ePURCHASED_ITEM_TYPE_COMPLETED_STRUCTURE) then
 		
 			--If player has a count of fully constructed structures
-			thisSingleRequirementAchieved = GetCountOfPlayerOwnedAndCompletedStructuresOfBlueprint(_Player.PlayerIndex + 1, requirement.ID) >= requirement.Count
+			thisSingleRequirementAchieved = GetIfStructureRequirementAchieved(requirement, _Player)
 
 		elseif(requirement.TypeOfItem == ePURCHASED_ITEM_TYPE_SYNAPSE_LEVEL) then
 
@@ -162,9 +162,10 @@ function CheckIfLPAddonRequirementAchieved(_AddonRequirement, _Player)
 
 	local count = GetNumberOfSpecificPlayerOwnedListeningPostAddons(_AddonRequirement.ID, _Player)
 	local success = count >= _AddonRequirement.Count
-	
+	local successString = success and "success" or "failure"
+
 	--Dbg Log
-	--print("addon:".._AddonRequirement.ID.." count is "..count.." and requires ".._AddonRequirement.Count)
+	--print("addon:".._AddonRequirement.ID.." "..successString.."! Count is "..count.." and requires ".._AddonRequirement.Count)
 
 	RemoveStacktrace()
 
@@ -174,13 +175,31 @@ end
 
 function CheckIfEntityRequirementAchieved(_EntityRequirement, _Player)
 	
-	AddStacktrace("CheckIfStructureRequirementAchieved")
+	AddStacktrace("CheckIfEntityRequirementAchieved")
 
 	local count = GetCountOfPlayerOwnedEntityBlueprints(_Player.PlayerIndex + 1, _EntityRequirement.ID)
 	local success = count >= _EntityRequirement.Count
+	local successString = success and "success" or "failure"
 	
 	--Dbg Log
-	--print("entity:".._EntityRequirement.ID.." count is "..count.." and requires ".._EntityRequirement.Count)
+	--print("entity:".._EntityRequirement.ID.." "..successString.."! Count is "..count.." and requires ".._EntityRequirement.Count)
+
+	RemoveStacktrace()
+
+	return success
+
+end
+
+function GetIfStructureRequirementAchieved(_StructureRequirement, _Player)
+	
+	AddStacktrace("CheckIfStructureRequirementAchieved")
+
+	local count = GetCountOfPlayerOwnedAndCompletedStructuresOfBlueprint(_Player.PlayerIndex + 1, _StructureRequirement.ID)
+	local success = count >= _StructureRequirement.Count
+	local successString = success and "success" or "failure"
+	
+	--Dbg Log
+	--print("structure:".._StructureRequirement.ID.." "..successString.."! Count is "..count.." and requires ".._StructureRequirement.Count)
 
 	RemoveStacktrace()
 
@@ -196,11 +215,11 @@ function GetNumberOfSpecificPlayerOwnedListeningPostAddons(_AddonID, _Player)
 	for i = 1, g_NumberStratPoints do
 
 		if(g_AllStrategicPointsStructs[i].OwnedBy == _Player.PlayerIndex) then
-
+			
 			if(g_AllStrategicPointsStructs[i]:GetHasListeningPost()) then
-				
+
 				count = count + g_AllStrategicPointsStructs[i].ListeningPostAddonData:GetAddonCount(_AddonID)
-				
+
 			end
 
 		end		
@@ -220,7 +239,6 @@ function ApplyOrUnapplyRestriction(_AddonRequirementAndRestriction, _Player)
 	local isAchieved = CheckIfRequirementAchieved(_AddonRequirementAndRestriction, _Player)
 
 	local restrictionApplied, pos = TableContains(_AddonRequirementAndRestriction.AchievedForPlayers, _Player.PlayerIndex)
-
 	local numberOfTrue = bool_to_number(isAchieved) + bool_to_number(restrictionApplied)
 
 	if(_AddonRequirementAndRestriction.Item.TypeOfItem == eRESTRICTED_TYPE_SQUAD) then

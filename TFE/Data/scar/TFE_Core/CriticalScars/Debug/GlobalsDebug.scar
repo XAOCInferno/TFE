@@ -321,3 +321,70 @@ function DoFatalError()
 	RemoveStacktrace()
 
 end
+
+function Check(validityCheck)
+
+	AddStacktrace("Check")
+
+	if(g_DebugMode) then
+
+		local isValid = true
+		local errMsg = ""
+		local typeOf = type(validityCheck)
+
+		--Consider this as a switch statement
+		if(typeOf == nil) then
+
+			isValid = false
+			errMsg = "Object is nil!"
+
+		elseif(typeOf == "string" or typeOf == "number" or typeOf == "table" or typeOf == "function") then
+			--This is a valid case, we do not need to handle it. Just included to support the "else" later
+
+		elseif(typeOf == "bool") then
+
+			if(validityCheck == false) then
+
+				isValid = false
+				errMsg = "Bool is false!"
+
+			end
+		
+		elseif(typeOf == "thread" or typeOf == "userdata") then
+
+			isValid = false
+			errMsg = "Object data type is unsupported, Dawn of War does not support 'thread' or 'userdata'!"
+		
+		else
+			--We've checked every other data type, so now we are checking custom data types eg our classes
+			
+			--Check if it's a class, we can only do this currently via checking our registered classes
+			local registeredClass = RegisteredClasses[validityCheck]
+			if(registeredClass == nil) then
+
+				isValid = false
+				errMsg = "Object data type is unknown!"
+
+			else
+
+				if(registeredClass.__index == nil) then
+
+					isValid = false
+					errMsg = "Object class has been deconstructed!"
+
+				end
+			end
+
+		end
+
+		if(isValid == false) then
+
+			DoFatalError("Check Failed: "..errMsg)
+
+		end
+
+	end
+
+	RemoveStacktrace()
+
+end
