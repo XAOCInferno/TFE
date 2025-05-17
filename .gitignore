@@ -51,7 +51,7 @@ UltimateApocalypse_Daemons
 UltimateApocalypse_Inquisition
 UltimateApocalypse_Tyranids
 Unit_Swapper_Mod
-
+DoWRedefined
 
 # specific files
 BsSndRpt.exe
@@ -130,6 +130,7 @@ update.log
 W40k.ini.Backup
 Witch_Hunters.module
 things to do.txt
+DoWRedefined.module
 
 
 # for specific file types, use format *.filetype
