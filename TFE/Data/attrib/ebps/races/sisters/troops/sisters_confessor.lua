@@ -24,7 +24,7 @@ GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["vertical_aim_motion_variab
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_01"]["name_for_this_weapon_choice"] = [[Sisters_of_Battle_Mace_of_Valaan]]
 GameData["combat_ext"]["hardpoints"]["hardpoint_02"]["weapon_table"]["weapon_01"]["weapon"] = [[weapon\sisters_mace_of_valaan.lua]]
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
-GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 30
+GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 10
 GameData["cost_ext"]["time_cost"]["cost"]["power"] = 60
 GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 250
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
