@@ -222,6 +222,7 @@ GameData["moving_ext"]["speed_max"] = 17.25
 GameData["moving_ext"]["turning_behavior_template"] = [[infantry]]
 GameData["requirement_ext"] = Reference([[ebpextensions\requirement_ext.lua]])
 GameData["requirement_ext"]["requirements"]["required_1"] = Reference([[requirements\required_structure.lua]])
+GameData["requirement_ext"]["requirements"]["required_1"]["structure_name"] = [[ebps\races\sisters\structures\sisters_sanctuary.lua]]
 GameData["sight_ext"] = Reference([[ebpextensions\sight_ext.lua]])
 GameData["sight_ext"]["sight_radius"] = 25
 GameData["sim_entity_ext"] = Reference([[ebpextensions\sim_entity_ext.lua]])
