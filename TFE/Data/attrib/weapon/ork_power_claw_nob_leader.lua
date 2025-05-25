@@ -17,9 +17,9 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_12"][
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_13"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_14"]["screen_name_id"] = [[$90100]] -- Armour
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_15"]["screen_name_id"] = [[$90100]] -- Armour
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\melee_power.lua]])
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 151.25
-GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 123.75
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"] = Reference([[tables\piercings\melee_shredding.lua]])
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["max_damage"] = 150
+GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage"] = 120
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["min_damage_value"] = 10
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["morale_damage"] = 80
 GameData["area_effect"]["weapon_damage"]["hit_events"]["entry01"]["event"] = [[Unit_Impact_events\Impact_Melee_HVY_Blood]]
