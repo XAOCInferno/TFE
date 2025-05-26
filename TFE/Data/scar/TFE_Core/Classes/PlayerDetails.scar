@@ -95,6 +95,11 @@ function PlayerDetails:Update()
 
 end
 
+function PlayerDetails:GetRaceName()
+
+	return self.RaceDetails.RaceName
+	
+end
 
 --The player has done something that costs resources so charge them for it
 function PlayerDetails:AddFireCost( _ResourceGroup )

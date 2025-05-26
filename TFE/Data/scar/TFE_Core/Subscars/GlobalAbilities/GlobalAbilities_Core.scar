@@ -90,6 +90,62 @@ function Setup_ActualGlobalAbilies()
 		
 		end
 
+		--[[GENERIC]]
+		AbilityStruct_GenericSpawnScoutSquad = CreateGlobalAbility(
+				"",
+				i, 
+				"Generic_Spawn_Scout_Squad", 
+				"global_generic_spawn_scout_squad_entity",
+				"TIMED",
+				"NONE",
+				table.getn(g_AllTrackedAbilities)
+			)
+			
+		AbilityStruct_GenericSpawnScoutSquad.SquadsToSpawn = {}
+		
+		AbilityStruct_GenericSpawnScoutSquad.SquadsToSpawn["chaos_marine_race"] = { Squad = "chaos_squad_undercover_cultist", StartWithLeader = true }
+		AbilityStruct_GenericSpawnScoutSquad.SquadsToSpawn["dark_eldar_race"] = { Squad = "dark_eldar_squad_pillager_reaver", StartWithLeader = false }
+		AbilityStruct_GenericSpawnScoutSquad.SquadsToSpawn["eldar_race"] = { Squad = "eldar_striking_scorpion_squad", StartWithLeader = false }
+		AbilityStruct_GenericSpawnScoutSquad.SquadsToSpawn["guard_race"] = { Squad = "guard_squad_scout_sentinel", StartWithLeader = false }
+		AbilityStruct_GenericSpawnScoutSquad.SquadsToSpawn["inquisition_daemonhunt_race"] = { Squad = "inquisition_squad_apprentice_acolyte", StartWithLeader = false }
+		AbilityStruct_GenericSpawnScoutSquad.SquadsToSpawn["necron_race"] = { Squad = "necron_canoptek_wraith_squad", StartWithLeader = false }
+		AbilityStruct_GenericSpawnScoutSquad.SquadsToSpawn["ork_race"] = { Squad = "ork_squad_feral_boy", StartWithLeader = false }
+		AbilityStruct_GenericSpawnScoutSquad.SquadsToSpawn["sisters_race"] = { Squad = "sisters_squad_novice_sister", StartWithLeader = false }
+		AbilityStruct_GenericSpawnScoutSquad.SquadsToSpawn["space_marine_race"] = { Squad = "space_marine_squad_eliminator_scout", StartWithLeader = false }
+		AbilityStruct_GenericSpawnScoutSquad.SquadsToSpawn["space_marine_veteran_race"] = { Squad = "space_marine_squad_eliminator_scout", StartWithLeader = false }
+		AbilityStruct_GenericSpawnScoutSquad.SquadsToSpawn["tau_race"] = { Squad = "tyranids_squad_genestealer_acolyte", StartWithLeader = false }
+		
+		--[[TODO: Hide the ability after squad is spawned]]
+		AbilityStruct_GenericSpawnScoutSquad.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+			local spawningInformation = _self.SquadsToSpawn[_self.CasterPlayer:GetRaceName()]
+
+			if(spawningInformation) then
+
+				if(FireCost(_self.CasterPlayer, ResourceGroup:new(-50))) then
+
+					local squadID = ActivateSummonSquadAbility(spawningInformation.Squad, _self.CasterPlayer.Player, _self.CasterPlayer.StartingPosition, 100)
+
+					if(spawningInformation.StartWithLeader) then
+
+						local sgroupID = GetUniqueSG("leader_reinforce_temporary")
+						local sgroupName = SGroup_GetName(sgroupID)
+						SGroup_Add(sgroupID, squadID)
+						SGroup_AddLeaders( sgroupName )
+						SGroup_Clear( sgroupID )
+						SGroup_Destroy( sgroupID )
+
+					end
+
+				end
+
+			else
+				
+				Log(eLOG_LOG_TYPE_ERROR, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' as no scout squad info defined for race: ".._self.CasterPlayer:GetRaceName())
+
+			end
+			
+		end
 
 		--[[GENERIC]]
 		AbilityStruct_GenericRetreatToBase = CreateGlobalAbility(
@@ -825,6 +881,7 @@ function Setup_ActualGlobalAbilies()
 					
 			AbilityStruct_NecronCryptekSummonScarabOnHit.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
 				
+				--TODO: If we're using this in future fix g_AllPlayers[i] as i will be nil
 				_pos = _self.LastCastedEntityPosition
 				ActivateSummonSquadAbility("necron_scarab_ground_squad", g_AllPlayers[i].Player, _pos, 1)
 

@@ -27,7 +27,6 @@ GameData["starting_res_quickstart"]["power"] = 10000
 GameData["starting_res_quickstart"]["requisition"] = 10000
 GameData["starting_squads"] = Reference([[tables\squad_table.lua]])
 GameData["starting_squads"]["squad_02"] = [[eldar_squad_bonesinger_start]]
-GameData["starting_squads"]["squad_03"] = [[eldar_striking_scorpion_squad]]
 GameData["teamcolour_preview"] = Reference([[tables\race_teamcolour_preview_entities.lua]])
 GameData["teamcolour_preview"]["entity_01"] = [[eldar_guardian]]
 GameData["teamcolour_preview"]["entity_02"] = [[eldar_falcon_grav_tank]]

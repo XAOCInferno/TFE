@@ -50,7 +50,6 @@ GameData["starting_squads"]["squad_01"] = [[sbps\races\dark_eldar\dark_eldar_squ
 GameData["starting_squads"]["squad_02"] = [[sbps\races\dark_eldar\dark_eldar_squad_slave_murdered_long.lua]]
 GameData["starting_squads"]["squad_03"] = [[sbps\races\dark_eldar\dark_eldar_squad_slave_murdered_long.lua]]
 GameData["starting_squads"]["squad_04"] = [[sbps\races\dark_eldar\dark_eldar_squad_slave_murdered_long.lua]]
-GameData["starting_squads"]["squad_05"] = [[sbps\races\dark_eldar\dark_eldar_squad_pillager_reaver.lua]]
 GameData["teamcolour_preview"] = Reference([[tables\race_teamcolour_preview_entities.lua]])
 GameData["teamcolour_preview"]["entity_01"] = [[dark_eldar_infantry_warrior]]
 GameData["teamcolour_preview"]["entity_02"] = [[dark_eldar_vehicle_talos]]

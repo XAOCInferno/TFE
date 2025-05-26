@@ -26,7 +26,6 @@ GameData["starting_res_quickstart"]["power"] = 10000
 GameData["starting_res_quickstart"]["requisition"] = 10000
 GameData["starting_squads"] = Reference([[tables\squad_table.lua]])
 GameData["starting_squads"]["squad_01"] = [[space_marine_squad_servitor]]
-GameData["starting_squads"]["squad_02"] = [[space_marine_squad_eliminator_scout]]
 GameData["teamcolour_preview"] = Reference([[tables\race_teamcolour_preview_entities.lua]])
 GameData["teamcolour_preview"]["entity_01"] = [[space_marine_tactical_bolter]]
 GameData["teamcolour_preview"]["entity_02"] = [[predator]]

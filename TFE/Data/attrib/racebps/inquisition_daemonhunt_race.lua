@@ -30,7 +30,6 @@ GameData["starting_squad_offset_01"] = Reference([[tables\position.lua]])
 GameData["starting_squad_offset_01"]["z"] = -5
 GameData["starting_squads"] = Reference([[tables\squad_table.lua]])
 GameData["starting_squads"]["squad_01"] = [[inquisition_squad_archivist]]
-GameData["starting_squads"]["squad_02"] = [[inquisition_squad_apprentice_acolyte]]
 GameData["teamcolour_preview"] = Reference([[tables\race_teamcolour_preview_entities.lua]])
 GameData["teamcolour_preview"]["entity_01"] = [[inquisition_shock_troops]]
 GameData["teamcolour_preview"]["entity_02"] = [[inquisition_brotherhood_champion]]

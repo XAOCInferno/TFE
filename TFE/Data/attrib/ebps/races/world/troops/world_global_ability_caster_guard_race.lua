@@ -1,7 +1,8 @@
 GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
 GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\global_guard_summon_bunker.lua]]
-GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\global_guard_debuff_flare.lua]]
+GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\global_generic_spawn_scout_squad.lua]]
+GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\global_guard_debuff_flare.lua]]
 GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\global_guard_valkyrie_reinforce.lua]]
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0

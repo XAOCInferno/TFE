@@ -33,7 +33,6 @@ GameData["starting_squad_offset_01"] = Reference([[tables\position.lua]])
 GameData["starting_squad_offset_01"]["x"] = 9.7
 GameData["starting_squads"] = Reference([[tables\squad_table.lua]])
 GameData["starting_squads"]["squad_01"] = [[sbps\races\orks\ork_squad_grot.lua]]
-GameData["starting_squads"]["squad_02"] = [[sbps\races\orks\ork_squad_feral_boy.lua]]
 GameData["teamcolour_preview"] = Reference([[tables\race_teamcolour_preview_entities.lua]])
 GameData["teamcolour_preview"]["entity_01"] = [[ork_slugga_boy]]
 GameData["teamcolour_preview"]["entity_02"] = [[ork_wartrak]]

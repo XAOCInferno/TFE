@@ -48,7 +48,6 @@ GameData["starting_squads"]["squad_02"] = [[sbps\races\necrons\necron_tomb_spyde
 GameData["starting_squads"]["squad_03"] = [[sbps\races\necrons\necron_tomb_spyder_squad.lua]]]]
 GameData["starting_squads"]["squad_04"] = [[sbps\races\necrons\necron_builder_scarab_squad.lua]]
 --GameData["starting_squads"]["squad_05"] = [[sbps\races\necrons\necron_lord_squad.lua]]
-GameData["starting_squads"]["squad_06"] = [[sbps\races\necrons\necron_canoptek_wraith_squad.lua]]
 GameData["teamcolour_preview"] = Reference([[tables\race_teamcolour_preview_entities.lua]])
 GameData["teamcolour_preview"]["entity_01"] = [[necron_basic_warrior]]
 GameData["teamcolour_preview"]["entity_02"] = [[necron_tomb_spyder]]

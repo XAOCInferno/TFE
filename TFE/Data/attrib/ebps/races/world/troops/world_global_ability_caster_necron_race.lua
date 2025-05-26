@@ -1,8 +1,9 @@
 GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
 GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\global_necron_production_overload.lua]]
-GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\global_necron_summon_obelisk.lua]]
-GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\global_necron_scarab_swarm.lua]]
+GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\global_generic_spawn_scout_squad.lua]]
+GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\global_necron_summon_obelisk.lua]]
+--GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\global_necron_scarab_swarm.lua]]
 GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\necron_thermo_overcharge.lua]]
 GameData["ability_ext"]["abilities"]["ability_05"] = [[abilities\global_necron_eternal_march.lua]]
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])

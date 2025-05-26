@@ -29,7 +29,6 @@ GameData["starting_squad_offset_01"]["z"] = 15
 GameData["starting_squads"] = Reference([[tables\squad_table.lua]])
 --GameData["starting_squads"]["squad_01"] = [[chaos_squad_global_caster]]
 GameData["starting_squads"]["squad_02"] = [[chaos_squad_slave]]
-GameData["starting_squads"]["squad_03"] = [[chaos_squad_undercover_cultist]]
 GameData["teamcolour_preview"] = Reference([[tables\race_teamcolour_preview_entities.lua]])
 GameData["teamcolour_preview"]["entity_01"] = [[chaos_noise_marine]]
 GameData["teamcolour_preview"]["entity_02"] = [[chaos_marine_bolter]]

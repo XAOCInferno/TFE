@@ -29,7 +29,6 @@ GameData["starting_squad_offset_01"] = Reference([[tables\position.lua]])
 GameData["starting_squad_offset_01"]["x"] = 5
 GameData["starting_squads"] = Reference([[tables\squad_table.lua]])
 GameData["starting_squads"]["squad_01"] = [[sbps\races\sisters\sisters_squad_servitor.lua]]
-GameData["starting_squads"]["squad_02"] = [[sbps\races\sisters\sisters_squad_novice_sister.lua]]
 GameData["teamcolour_preview"] = Reference([[tables\race_teamcolour_preview_entities.lua]])
 GameData["teamcolour_preview"]["entity_01"] = [[sisters_battle_sister]]
 GameData["teamcolour_preview"]["entity_02"] = [[sisters_exorcist_tank]]

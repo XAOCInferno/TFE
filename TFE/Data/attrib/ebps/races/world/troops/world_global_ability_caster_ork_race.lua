@@ -1,9 +1,10 @@
 GameData = Inherit([[]])
 GameData["ability_ext"] = Reference([[ebpextensions\ability_ext.lua]])
 GameData["ability_ext"]["abilities"]["ability_01"] = [[abilities\global_ork_production_cost_reduction.lua]]
-GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\global_ork_use_your_choppas_and_dakka.lua]]
-GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\global_ork_feral_boy_summon.lua]]
-GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\global_ork_cult_of_speed.lua]]
+GameData["ability_ext"]["abilities"]["ability_02"] = [[abilities\global_generic_spawn_scout_squad.lua]]
+GameData["ability_ext"]["abilities"]["ability_03"] = [[abilities\global_ork_use_your_choppas_and_dakka.lua]]
+GameData["ability_ext"]["abilities"]["ability_04"] = [[abilities\global_ork_feral_boy_summon.lua]]
+GameData["ability_ext"]["abilities"]["ability_05"] = [[abilities\global_ork_cult_of_speed.lua]]
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
 GameData["cost_ext"]["time_cost"]["cost"]["requisition"] = 0
