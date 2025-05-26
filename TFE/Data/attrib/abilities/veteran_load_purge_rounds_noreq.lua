@@ -1,0 +1,13 @@
+GameData = Inherit([[abilities\veteran_load_purge_rounds.lua]])
+GameData["requirements"] = Reference([[tables\requirements.lua]])
+GameData["requirements"]["required_1"] = Reference([[requirements\required_structure.lua]])
+GameData["requirements"]["required_1"]["is_display_requirement"] = true
+GameData["requirements"]["required_1"]["structure_name"] = [[ebps\races\space_marines\structures\space_marine_hq.lua]]
+GameData["requirements"]["required_2"] = nil
+GameData["requirements"]["required_3"] = nil
+GameData["requirements"]["required_4"] = nil
+GameData["requirements"]["required_5"] = nil
+GameData["requirements"]["required_6"] = nil
+GameData["requirements"]["required_7"] = nil
+GameData["requirements"]["required_8"] = nil
+GameData["requirements"]["required_9"] = nil

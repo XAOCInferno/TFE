@@ -1993,12 +1993,35 @@ function Setup_ActualGlobalAbilies()
 			local AbilityStruct_SpaceMarine5 = CreateGlobalAbility(
 				squadBP,
 				i, 
-				"", 
-				"",
-				"TIMED",
+				"GlobalAbility_SpaceMarines_SummonTheElite", 
+				"global_space_marines_summon_veteran_entity",
+				"TARGETED",
 				"NONE",
 				table.getn(g_AllTrackedAbilities)
 			)
+			
+			--[[TODO: Hide the ability after squad is spawned]]
+			AbilityStruct_SpaceMarine5.DoAbility = function( _self, _pos, _targetSquad, _targetEntity )
+
+				local costSuccess = FireCost(_self.CasterPlayer, ResourceGroup:new(-150, -250, -50))
+
+				if(costSuccess) then
+
+					local sgroupID = GetUniqueSG("summon_elite_temporary")
+					local sgroupName = SGroup_GetName(sgroupID)
+
+					Util_CreateSquadsAndDropPodIn_GlobalAbility( _self.CasterPlayer.Player, sgroupName, "space_marine_veteran_squad_tactical_global", _pos, 1, 100 )
+						
+					SGroup_Clear( sgroupID )
+					SGroup_Destroy( sgroupID )		
+
+				else
+
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
+
+				end
+			
+			end
 
 			--T1 For the emperor, damage buff and kb resistance
 			--T2 Single drop pod that does high KB to enemy and provides cover around it and decreases reinforce time, can be destroyed if focused. possibly make it able to produce tacs and maybe give it addons like tunnel
