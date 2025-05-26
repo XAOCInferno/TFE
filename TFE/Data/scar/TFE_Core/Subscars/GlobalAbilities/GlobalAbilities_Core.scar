@@ -92,7 +92,7 @@ function Setup_ActualGlobalAbilies()
 
 		--[[GENERIC]]
 		AbilityStruct_GenericSpawnScoutSquad = CreateGlobalAbility(
-				"",
+				squadBP,
 				i, 
 				"Generic_Spawn_Scout_Squad", 
 				"global_generic_spawn_scout_squad_entity",
@@ -136,6 +136,10 @@ function Setup_ActualGlobalAbilies()
 						SGroup_Destroy( sgroupID )
 
 					end
+
+				else
+
+					Log(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE, "Failed to cast global ability '".._self.AbilityName.."' due to lack of resources.")
 
 				end
 
