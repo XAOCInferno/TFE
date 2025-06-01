@@ -35,9 +35,9 @@ GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_13"] 
 GameData["area_effect"]["area_effect_information"]["target_filter"]["entry_14"] = Reference([[type_armour\tp_vehicle_med.lua]])
 GameData["area_effect"]["sweeping_information"]["sweep_duration"] = 0.2
 GameData["area_effect"]["sweeping_information"]["sweep_type"] = Reference([[type_areasweep\tp_areasweep_in_to_out.lua]])
-GameData["area_effect"]["throw_data"]["force_max"] = 58
-GameData["area_effect"]["throw_data"]["force_min"] = 52
-GameData["area_effect"]["throw_data"]["up_angle_max"] = 40
+GameData["area_effect"]["throw_data"]["force_max"] = 62
+GameData["area_effect"]["throw_data"]["force_min"] = 54
+GameData["area_effect"]["throw_data"]["up_angle_max"] = 38
 GameData["area_effect"]["throw_data"]["up_angle_min"] = 25
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing"] = 100
 GameData["area_effect"]["weapon_damage"]["armour_damage"]["armour_piercing_types"]["entry_08"]["armour_piercing"] = 45

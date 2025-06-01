@@ -460,13 +460,13 @@ GameData["squad_morale_ext"]["broken_modifiers"]["modifier_45"]["shield_of_faith
 GameData["squad_morale_ext"]["default"] = 400
 GameData["squad_morale_ext"]["max"] = 400
 GameData["squad_morale_ext"]["morale_armour"] = 0.5
-GameData["squad_morale_ext"]["rate_per_second"] = 8
+GameData["squad_morale_ext"]["rate_per_second"] = 10
 GameData["squad_reinforce_ext"] = Reference([[sbpextensions\squad_reinforce_ext.lua]])
 GameData["squad_reinforce_ext"]["cost"]["cost"]["faith"] = 0
 GameData["squad_reinforce_ext"]["cost"]["cost"]["power"] = 15
 GameData["squad_reinforce_ext"]["cost"]["cost"]["requisition"] = 55
 GameData["squad_reinforce_ext"]["cost"]["cost"]["souls"] = 0
-GameData["squad_reinforce_ext"]["cost"]["time_seconds"] = 11.5
+GameData["squad_reinforce_ext"]["cost"]["time_seconds"] = 12
 GameData["squad_requirement_ext"] = Reference([[sbpextensions\squad_requirement_ext.lua]])
 GameData["squad_requirement_ext"]["requirements"]["required_1"] = Reference([[requirements\local_required_addon.lua]])
 GameData["squad_requirement_ext"]["requirements"]["required_1"]["addon_name"] = [[addons\addon_guard_ogryn_quarters.lua]]

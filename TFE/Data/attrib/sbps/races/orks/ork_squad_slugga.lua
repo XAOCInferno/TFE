@@ -491,6 +491,7 @@ GameData["squad_reinforce_ext"]["cost"]["cost"]["population"] = 1
 GameData["squad_reinforce_ext"]["cost"]["cost"]["requisition"] = 25
 GameData["squad_reinforce_ext"]["cost"]["cost"]["souls"] = 0
 GameData["squad_reinforce_ext"]["cost"]["time_seconds"] = 6
+GameData["squad_reinforce_ext"]["in_combat_time_multiplier"] = 1.25
 GameData["squad_reinforce_ext"]["leader_event"] = [[Unit_Upgrade_Morale_FX/reinforce_ork_trooper]]
 GameData["squad_reinforce_ext"]["max_upgrades"] = 1
 GameData["squad_reinforce_ext"]["trooper_event"] = [[Unit_Upgrade_Morale_FX/reinforce_ork_trooper]]
