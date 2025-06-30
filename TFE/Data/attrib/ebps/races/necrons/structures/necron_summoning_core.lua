@@ -1,9 +1,9 @@
 GameData = Inherit([[]])
 GameData["cost_ext"] = Reference([[ebpextensions\cost_ext.lua]])
 GameData["cost_ext"]["time_cost"]["cost"]["faith"] = 0
-GameData["cost_ext"]["time_cost"]["cost"]["power"] = 160
+GameData["cost_ext"]["time_cost"]["cost"]["power"] = 150
 GameData["cost_ext"]["time_cost"]["cost"]["souls"] = 0
-GameData["cost_ext"]["time_cost"]["time_seconds"] = 40
+GameData["cost_ext"]["time_cost"]["time_seconds"] = 36
 GameData["entity_blueprint_ext"] = Reference([[ebpextensions\entity_blueprint_ext.lua]])
 GameData["entity_blueprint_ext"]["animator"] = [[Races/Necrons/Structures/Necron_Summoning_Core]]
 GameData["entity_blueprint_ext"]["scale_x"] = 2

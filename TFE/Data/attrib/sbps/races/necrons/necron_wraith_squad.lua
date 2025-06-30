@@ -477,8 +477,6 @@ GameData["squad_requirement_ext"]["requirements"]["required_2"]["research_must_n
 GameData["squad_requirement_ext"]["requirements"]["required_2"]["research_name"] = [[research\necron_wraith_t3.lua]]
 GameData["squad_requirement_ext"]["requirements"]["required_11"] = Reference([[requirements\required_squad_cap.lua]])
 GameData["squad_requirement_ext"]["requirements"]["required_11"]["max_squad_cap"] = 6
-GameData["squad_requirement_ext"]["requirements"]["required_10"] = Reference([[requirements\required_structure.lua]])
-GameData["squad_requirement_ext"]["requirements"]["required_10"]["structure_name"] = [[ebps\races\necrons\structures\necron_summoning_core.lua]]
 GameData["squad_transportable_ext"] = Reference([[sbpextensions\squad_transportable_ext.lua]])
 GameData["squad_transportable_ext"]["transport_type"] = Reference([[type_transportable\transport_chaoshorror.lua]])
 GameData["squad_ui_ext"] = Reference([[sbpextensions\squad_ui_ext.lua]])
