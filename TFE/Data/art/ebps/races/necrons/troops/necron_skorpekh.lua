@@ -1,7 +1,7 @@
 simvis_attributes =
 {
-	vis_scale_max = 1.3,
-	vis_scale_min = 1.3,
+	vis_scale_max = 1.4,
+	vis_scale_min = 1.4,
 
 	melee_size 									= 2,		-- medium
 	melee_block_ratio						= 30,
@@ -17,7 +17,7 @@ simvis_attributes =
 	-- 3 = shadow map
 	-- 4 = stencil shadow volume
 	shadow_type			= 1,
-	shadow_scale			= 0.05,
+	shadow_scale			= 0.0528,
 	
 	vehicle_physics						= 1,
 	vehicle_width							= 3,
