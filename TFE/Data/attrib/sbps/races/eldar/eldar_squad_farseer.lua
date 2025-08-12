@@ -463,8 +463,6 @@ GameData["squad_requirement_ext"]["requirements"]["required_1"]["squad_table"]["
 GameData["squad_requirement_ext"]["requirements"]["required_1"]["squad_table"]["squad_02"] = [[sbps\races\eldar\eldar_squad_farseer_advance_sp.lua]]
 GameData["squad_requirement_ext"]["requirements"]["required_1"]["squad_table"]["squad_03"] = [[sbps\races\eldar\eldar_squad_farseer_sp.lua]]
 GameData["squad_requirement_ext"]["requirements"]["required_1"]["squad_table"]["squad_04"] = [[sbps\races\eldar\eldar_squad_farseer_stronghold_sp.lua]]
-GameData["squad_requirement_ext"]["requirements"]["required_1"]["squad_table"]["squad_05"] = [[sbps\races\eldar\eldar_squad_farseer_support.lua]]
-GameData["squad_requirement_ext"]["requirements"]["required_1"]["squad_table"]["squad_06"] = [[sbps\races\eldar\eldar_squad_farseer_hunter.lua]]
 GameData["squad_requirement_ext"]["requirements"]["required_2"] = Reference([[requirements\required_structure.lua]])
 GameData["squad_requirement_ext"]["requirements"]["required_2"]["structure_name"] = [[ebps\races\eldar\structures\eldar_hq.lua]]
 GameData["squad_requirement_ext"]["requirements"]["required_10"] = Reference([[requirements\required_structure.lua]])
