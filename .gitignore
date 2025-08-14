@@ -3,6 +3,13 @@ TFE/Development/Art/3D
 TFE/Development/Code/build
 TFE/Development/Code/info
 
+Dev
+DoWDE
+DXP3
+Licenses
+ModTools
+Tools
+WXP
 Badges
 Banners
 BugReport
@@ -55,6 +62,22 @@ DoWRedefined
 
 # specific files
 BsSndRpt.exe
+Archive.exe
+AudioEditor.exe
+BsSndRpt64.exe
+BugSplatHD64.exe
+BurnerImp.exe
+BurnerTool.exe
+DoWDE.module
+DXP3.module
+FBXtoSGM.exe
+FXTool.exe
+mod_compatibility.ini
+ModPackager.exe
+ObjectEditor.exe
+UIEditor.exe
+W40k.exe
+WXP.module
 Chaos_Daemons.module
 dlltie.log
 DXP2.module
