@@ -1,0 +1,2010 @@
+StyleSheet =  
+{
+	Styles =  
+	{
+		 
+		{
+			HitArea =  
+			{
+				 
+				{
+					type = "Rectangle",
+					size =  
+					{
+						1,
+						1,
+					},
+					position =  
+					{
+						0,
+						0,
+					},
+				},
+			},
+			name = "defStyleGroup",
+			Presentation =  
+			{
+				Art =  
+				{
+					 
+					{
+						type = "Rectangle",
+						ID = 0,
+						colour = "TestDialogBackground",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+					 
+					{
+						type = "Rectangle",
+						ID = 1,
+						colour = "TestDialogExternalBorder",
+						rectangleType = "Border",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+				},
+			},
+			type = "Style",
+		},
+		 
+		{
+			type = "ScrollBarStyle",
+			ButtonUp =  
+			{
+				HitArea =  
+				{
+					 
+					{
+						type = "Rectangle",
+						size =  
+						{
+							1,
+							1,
+						},
+						position =  
+						{
+							0,
+							0,
+						},
+					},
+				},
+				type = "ButtonStyle",
+				Presentation =  
+				{
+					Art =  
+					{
+						 
+						{
+							type = "Graphic",
+							ID = 4,
+							colour = "White",
+							texture = "art/ui/textures/widgets/scroll_button_up",
+							states =  
+							{
+								"Normal",
+								"Active",
+								"Disabled",
+							},
+						},
+						 
+						{
+							type = "Graphic",
+							ID = 5,
+							colour = "White",
+							texture = "art/ui/textures/widgets/scroll_button_up_highlight",
+							states =  
+							{
+								"Hover",
+							},
+						},
+						 
+						{
+							type = "Rectangle",
+							ID = 6,
+							colour = "TestDialogInternalBorder",
+							rectangleType = "Border",
+							states =  
+							{
+								"Normal",
+								"Active",
+								"Hover",
+								"Disabled",
+							},
+						},
+					},
+				},
+				size =  
+				{
+					0.02500,
+					0.02500,
+				},
+			},
+			range =  
+			{
+				0,
+				1,
+			},
+			ButtonRight =  
+			{
+				HitArea =  
+				{
+					 
+					{
+						type = "Rectangle",
+						size =  
+						{
+							1,
+							1,
+						},
+						position =  
+						{
+							0,
+							0,
+						},
+					},
+				},
+				type = "ButtonStyle",
+				Presentation =  
+				{
+					Art =  
+					{
+						 
+						{
+							type = "Graphic",
+							ID = 13,
+							colour = "White",
+							texture = "art/ui/textures/widgets/scroll_button_right",
+							states =  
+							{
+								"Normal",
+								"Active",
+								"Disabled",
+							},
+						},
+						 
+						{
+							type = "Graphic",
+							ID = 14,
+							colour = "White",
+							texture = "art/ui/textures/widgets/scroll_button_right_highlight",
+							states =  
+							{
+								"Hover",
+							},
+						},
+						 
+						{
+							type = "Rectangle",
+							ID = 15,
+							colour = "TestDialogInternalBorder",
+							rectangleType = "Border",
+							states =  
+							{
+								"Normal",
+								"Active",
+								"Hover",
+								"Disabled",
+							},
+						},
+					},
+				},
+				size =  
+				{
+					0.02500,
+					0.02500,
+				},
+			},
+			HitArea =  
+			{
+				 
+				{
+					type = "Rectangle",
+					size =  
+					{
+						1,
+						1,
+					},
+					position =  
+					{
+						0,
+						0,
+					},
+				},
+			},
+			name = "defStyleScrollBar",
+			ButtonDown =  
+			{
+				HitArea =  
+				{
+					 
+					{
+						type = "Rectangle",
+						size =  
+						{
+							1,
+							1,
+						},
+						position =  
+						{
+							0,
+							0,
+						},
+					},
+				},
+				type = "ButtonStyle",
+				Presentation =  
+				{
+					Art =  
+					{
+						 
+						{
+							type = "Graphic",
+							ID = 10,
+							colour = "White",
+							texture = "art/ui/textures/widgets/scroll_button_down",
+							states =  
+							{
+								"Normal",
+								"Active",
+								"Disabled",
+							},
+						},
+						 
+						{
+							type = "Graphic",
+							ID = 11,
+							colour = "White",
+							texture = "art/ui/textures/widgets/scroll_button_down_highlight",
+							states =  
+							{
+								"Hover",
+							},
+						},
+						 
+						{
+							type = "Rectangle",
+							ID = 12,
+							colour = "TestDialogInternalBorder",
+							rectangleType = "Border",
+							states =  
+							{
+								"Normal",
+								"Active",
+								"Hover",
+								"Disabled",
+							},
+						},
+					},
+				},
+				size =  
+				{
+					0.02500,
+					0.02500,
+				},
+			},
+			stepSize = 0.01000,
+			ButtonLeft =  
+			{
+				HitArea =  
+				{
+					 
+					{
+						type = "Rectangle",
+						size =  
+						{
+							1,
+							1,
+						},
+						position =  
+						{
+							0,
+							0,
+						},
+					},
+				},
+				type = "ButtonStyle",
+				Presentation =  
+				{
+					Art =  
+					{
+						 
+						{
+							type = "Graphic",
+							ID = 7,
+							colour = "White",
+							texture = "art/ui/textures/widgets/scroll_button_left",
+							states =  
+							{
+								"Normal",
+								"Active",
+								"Disabled",
+							},
+						},
+						 
+						{
+							type = "Graphic",
+							ID = 8,
+							colour = "White",
+							texture = "art/ui/textures/widgets/scroll_button_left_highlight",
+							states =  
+							{
+								"Hover",
+							},
+						},
+						 
+						{
+							type = "Rectangle",
+							ID = 9,
+							colour = "TestDialogInternalBorder",
+							rectangleType = "Border",
+							states =  
+							{
+								"Normal",
+								"Active",
+								"Hover",
+								"Disabled",
+							},
+						},
+					},
+				},
+				size =  
+				{
+					0.02500,
+					0.02500,
+				},
+			},
+			Presentation =  
+			{
+				Art =  
+				{
+					 
+					{
+						type = "Rectangle",
+						ID = 2,
+						colour =  
+						{
+							0,
+							0,
+							0,
+							64,
+						},
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+					 
+					{
+						type = "Rectangle",
+						ID = 3,
+						colour = "TestDialogInternalBorder",
+						rectangleType = "Border",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+				},
+			},
+			orientation = "Vertical",
+		},
+		 
+		{
+			HitArea =  
+			{
+				 
+				{
+					type = "Rectangle",
+					size =  
+					{
+						1,
+						1,
+					},
+					position =  
+					{
+						0,
+						0,
+					},
+				},
+			},
+			name = "defStyleLabel",
+			type = "Style",
+			Presentation =  
+			{
+				Art =  
+				{
+					 
+					{
+						type = "Rectangle",
+						ID = 22,
+						colour = "TestDialogTitleBackground",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+					 
+					{
+						type = "Line",
+						colour = "TestDialogInternalBorder",
+						ID = 23,
+						p2 =  
+						{
+							0.25000,
+							0.02500,
+						},
+						p1 =  
+						{
+							0,
+							0.02500,
+						},
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+				},
+			},
+			size =  
+			{
+				0.25000,
+				0.02500,
+			},
+		},
+		 
+		{
+			HitArea =  
+			{
+				 
+				{
+					type = "Rectangle",
+					size =  
+					{
+						1,
+						1,
+					},
+					position =  
+					{
+						0,
+						0,
+					},
+				},
+			},
+			name = "defStyleTextLabel",
+			type = "Style",
+			Presentation =  
+			{
+				Art =  
+				{
+					 
+					{
+						type = "Rectangle",
+						ID = 24,
+						colour = "TestDialogTitleBackground",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+					 
+					{
+						type = "Text",
+						textColourBottom = "TestTitleText",
+						horzAlign = "Centre",
+						ID = 25,
+						textColourTop = "TestTitleText",
+						fontname = "century16",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+					 
+					{
+						type = "Line",
+						colour = "TestDialogInternalBorder",
+						ID = 26,
+						p2 =  
+						{
+							0.25000,
+							0.02500,
+						},
+						p1 =  
+						{
+							0,
+							0.02500,
+						},
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+				},
+			},
+			size =  
+			{
+				0.25000,
+				0.02500,
+			},
+		},
+		 
+		{
+			HitArea =  
+			{
+				 
+				{
+					type = "Rectangle",
+					size =  
+					{
+						1,
+						1,
+					},
+					position =  
+					{
+						0,
+						0,
+					},
+				},
+			},
+			name = "defStyleButton",
+			type = "ButtonStyle",
+			Presentation =  
+			{
+				Art =  
+				{
+					 
+					{
+						type = "Rectangle",
+						ID = 27,
+						colour = "TestButtonAcceptBackground",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Disabled",
+						},
+					},
+					 
+					{
+						type = "Rectangle",
+						ID = 28,
+						colour = "TestButtonAcceptBackgroundHighlight",
+						states =  
+						{
+							"Hover",
+						},
+					},
+					 
+					{
+						type = "Text",
+						textColourBottom = "TestButtonAcceptText",
+						horzAlign = "Centre",
+						ID = 29,
+						textColourTop = "TestButtonAcceptText",
+						fontname = "century16",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+					 
+					{
+						type = "Line",
+						colour = "TestDialogInternalBorder",
+						ID = 30,
+						p2 =  
+						{
+							1,
+							0,
+						},
+						p1 =  
+						{
+							0,
+							0,
+						},
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+					 
+					{
+						type = "Line",
+						colour = "TestDialogInternalBorder",
+						ID = 31,
+						p2 =  
+						{
+							1,
+							1,
+						},
+						p1 =  
+						{
+							1,
+							0,
+						},
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+				},
+			},
+			size =  
+			{
+				0.12500,
+				0.05000,
+			},
+		},
+		 
+		{
+			HitArea =  
+			{
+				 
+				{
+					type = "Rectangle",
+					size =  
+					{
+						1,
+						1,
+					},
+					position =  
+					{
+						0,
+						0,
+					},
+				},
+			},
+			name = "defStyleCheckBox",
+			type = "ButtonStyle",
+			Presentation =  
+			{
+				Art =  
+				{
+					 
+					{
+						type = "Graphic",
+						colour = "White",
+						ID = 32,
+						size =  
+						{
+							0.10000,
+							1,
+						},
+						texture = "",
+						states =  
+						{
+							"Checked",
+							"CheckedHover",
+							"CheckedDisabled",
+						},
+					},
+					 
+					{
+						type = "Graphic",
+						colour = "White",
+						ID = 33,
+						size =  
+						{
+							0.10000,
+							1,
+						},
+						texture = "",
+						states =  
+						{
+							"Normal",
+							"Hover",
+							"Disabled",
+						},
+					},
+					 
+					{
+						type = "Graphic",
+						colour = "White",
+						ID = 34,
+						size =  
+						{
+							0.10000,
+							1,
+						},
+						texture = "",
+						states =  
+						{
+							"Active",
+							"CheckedActive",
+						},
+					},
+					 
+					{
+						type = "Text",
+						textColourBottom = "TestCheckBoxTextHighlight",
+						fontname = "century16",
+						textColourTop = "TestCheckBoxTextHighlight",
+						position =  
+						{
+							0.10000,
+							0,
+						},
+						ID = 35,
+						size =  
+						{
+							0.90000,
+							1,
+						},
+						states =  
+						{
+							"Hover",
+							"Active",
+							"CheckedHover",
+							"CheckedActive",
+						},
+					},
+					 
+					{
+						type = "Text",
+						textColourBottom = "TestCheckBoxText",
+						fontname = "century16",
+						textColourTop = "TestCheckBoxText",
+						position =  
+						{
+							0.10000,
+							0,
+						},
+						ID = 36,
+						size =  
+						{
+							0.90000,
+							1,
+						},
+						states =  
+						{
+							"Normal",
+							"Disabled",
+							"Checked",
+							"CheckedDisabled",
+						},
+					},
+				},
+			},
+			size =  
+			{
+				0.25000,
+				0.02500,
+			},
+		},
+		 
+		{
+			HitArea =  
+			{
+				 
+				{
+					type = "Rectangle",
+					size =  
+					{
+						1,
+						1,
+					},
+					position =  
+					{
+						0,
+						0,
+					},
+				},
+			},
+			name = "defStyleRadioButton",
+			type = "ButtonStyle",
+			Presentation =  
+			{
+				Art =  
+				{
+					 
+					{
+						type = "Graphic",
+						colour = "White",
+						ID = 37,
+						size =  
+						{
+							0.10000,
+							1,
+						},
+						texture = "",
+						states =  
+						{
+							"Checked",
+							"CheckedHover",
+							"CheckedDisabled",
+						},
+					},
+					 
+					{
+						type = "Graphic",
+						colour = "White",
+						ID = 38,
+						size =  
+						{
+							0.10000,
+							1,
+						},
+						texture = "",
+						states =  
+						{
+							"Normal",
+							"Hover",
+							"Disabled",
+						},
+					},
+					 
+					{
+						type = "Graphic",
+						colour = "White",
+						ID = 39,
+						size =  
+						{
+							0.10000,
+							1,
+						},
+						texture = "",
+						states =  
+						{
+							"Active",
+							"CheckedActive",
+						},
+					},
+					 
+					{
+						type = "Text",
+						textColourBottom = "TestCheckBoxTextHighlight",
+						fontname = "century16",
+						textColourTop = "TestCheckBoxTextHighlight",
+						position =  
+						{
+							0.10000,
+							0,
+						},
+						ID = 40,
+						size =  
+						{
+							0.90000,
+							1,
+						},
+						states =  
+						{
+							"Hover",
+							"Active",
+							"CheckedHover",
+							"CheckedActive",
+						},
+					},
+					 
+					{
+						type = "Text",
+						textColourBottom = "TestCheckBoxText",
+						fontname = "century16",
+						textColourTop = "TestCheckBoxText",
+						position =  
+						{
+							0.10000,
+							0,
+						},
+						ID = 41,
+						size =  
+						{
+							0.90000,
+							1,
+						},
+						states =  
+						{
+							"Normal",
+							"Disabled",
+							"Checked",
+							"CheckedDisabled",
+						},
+					},
+				},
+			},
+			size =  
+			{
+				0.25000,
+				0.02500,
+			},
+		},
+		 
+		{
+			HitArea =  
+			{
+				 
+				{
+					type = "Rectangle",
+					size =  
+					{
+						1,
+						1,
+					},
+					position =  
+					{
+						0,
+						0,
+					},
+				},
+			},
+			name = "defStyleEditText",
+			editTextType = "Normal",
+			type = "EditTextStyle",
+			Presentation =  
+			{
+				Art =  
+				{
+					 
+					{
+						type = "Rectangle",
+						ID = 42,
+						colour = "TestEditTextBackground",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+							"Checked",
+						},
+					},
+					 
+					{
+						type = "Text",
+						textColourBottom = "TestEditTextText",
+						fontname = "century14",
+						ID = 43,
+						padding =  
+						{
+							0.00625,
+							0,
+						},
+						textColourTop = "TestEditTextText",
+						states =  
+						{
+							"Normal",
+							"Disabled",
+							"Active",
+						},
+					},
+					 
+					{
+						type = "Text",
+						textColourBottom = "TestEditTextTextHighlight",
+						fontname = "century14",
+						ID = 44,
+						padding =  
+						{
+							0.00625,
+							0,
+						},
+						textColourTop = "TestEditTextTextHighlight",
+						states =  
+						{
+							"Hover",
+							"Checked",
+						},
+					},
+					 
+					{
+						type = "Rectangle",
+						ID = 45,
+						colour = "TestDialogInternalBorder",
+						rectangleType = "Border",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+							"Checked",
+						},
+					},
+				},
+			},
+			size =  
+			{
+				0.25000,
+				0.02500,
+			},
+		},
+		 
+		{
+			type = "ProgressBarStyle",
+			Progress =  
+			{
+				HitArea =  
+				{
+					 
+					{
+						type = "Rectangle",
+						size =  
+						{
+							1,
+							1,
+						},
+						position =  
+						{
+							0,
+							0,
+						},
+					},
+				},
+				Presentation =  
+				{
+					Art =  
+					{
+						 
+						{
+							type = "Rectangle",
+							ID = 48,
+							colour = "TestProgressBarProgress",
+							states =  
+							{
+								"Normal",
+								"Active",
+								"Hover",
+								"Disabled",
+							},
+						},
+						 
+						{
+							type = "Rectangle",
+							ID = 49,
+							colour = "TestDialogInternalBorder",
+							rectangleType = "Border",
+							states =  
+							{
+								"Normal",
+								"Active",
+								"Hover",
+								"Disabled",
+							},
+						},
+					},
+				},
+				type = "Style",
+			},
+			range =  
+			{
+				0,
+				100,
+			},
+			HitArea =  
+			{
+				 
+				{
+					type = "Rectangle",
+					size =  
+					{
+						1,
+						1,
+					},
+					position =  
+					{
+						0,
+						0,
+					},
+				},
+			},
+			name = "defStyleProgressBar",
+			stepSize = 20,
+			Presentation =  
+			{
+				Art =  
+				{
+					 
+					{
+						type = "Rectangle",
+						ID = 46,
+						colour = "TestProgressBarBackground",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+					 
+					{
+						type = "Rectangle",
+						ID = 47,
+						colour = "TestDialogInternalBorder",
+						rectangleType = "Border",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+				},
+			},
+			size =  
+			{
+				0.25000,
+				0.12500,
+			},
+		},
+		 
+		{
+			HitArea =  
+			{
+				 
+				{
+					type = "Rectangle",
+					size =  
+					{
+						1,
+						1,
+					},
+					position =  
+					{
+						0,
+						0,
+					},
+				},
+			},
+			name = "defStyleCustomListBox",
+			type = "Style",
+			size =  
+			{
+				0.25000,
+				0.17500,
+			},
+		},
+		 
+		{
+			type = "ButtonStyle",
+			name = "btn_ColorSwatch",
+			buttonType = "ClickOnRelease",
+			Presentation =  
+			{
+				Art =  
+				{
+					 
+					{
+						type = "Graphic",
+						ID = 26357,
+						colour = "White",
+						texture = "art/ui/textures/btn_colorswatch_skull.tga",
+						states =  
+						{
+							"Active",
+							"Checked",
+							"CheckedActive",
+							"CheckedHover",
+						},
+					},
+					 
+					{
+						type = "Graphic",
+						ID = 26358,
+						texture = "art/ui/textures/btn_colorswatch_skull.tga",
+						states =  
+						{
+							"Active",
+							"Hover",
+							"Checked",
+							"CheckedActive",
+						},
+					},
+					 
+					{
+						type = "Graphic",
+						colour =  
+						{
+							31,
+							73,
+							153,
+							118,
+						},
+						position =  
+						{
+							0.11618,
+							0.10106,
+						},
+						ID = 26359,
+						size =  
+						{
+							0.76765,
+							0.79788,
+						},
+						texture = "art/ui/textures/btn_colorswatch.tga",
+						states =  
+						{
+							"Normal",
+							"Disabled",
+							"Active",
+							"Hover",
+							"Checked",
+							"CheckedActive",
+							"CheckedHover",
+						},
+					},
+					 
+					{
+						type = "Graphic",
+						colour = "White",
+						position =  
+						{
+							0.11618,
+							0.10106,
+						},
+						ID = 26360,
+						size =  
+						{
+							0.76765,
+							0.79788,
+						},
+						texture = "art/ui/textures/btn_colorswatch_border.tga",
+						states =  
+						{
+							"Normal",
+							"Disabled",
+							"Active",
+							"Hover",
+							"Checked",
+							"CheckedActive",
+							"CheckedHover",
+						},
+					},
+				},
+			},
+			size =  
+			{
+				0.08149,
+				0.10235,
+			},
+		},
+		 
+		{
+			ListBox =  
+			{
+				type = "ListBoxStyle",
+				ItemsGroup =  
+				{
+					type = "Style",
+					Presentation =  
+					{
+						Art =  
+						{
+							 
+							{
+								type = "Rectangle",
+								ID = 47673,
+								colour =  
+								{
+									0,
+									0,
+									0,
+									64,
+								},
+								states =  
+								{
+									"Normal",
+									"Active",
+									"Hover",
+									"Disabled",
+								},
+							},
+							 
+							{
+								type = "Rectangle",
+								ID = 47674,
+								colour = "TestDialogInternalBorder",
+								rectangleType = "Border",
+								states =  
+								{
+									"Normal",
+									"Active",
+									"Hover",
+									"Disabled",
+								},
+							},
+						},
+					},
+					size =  
+					{
+						0.25000,
+						0.17500,
+					},
+				},
+				ScrollBar =  
+				{
+					type = "ScrollBarStyle",
+					ButtonUp =  
+					{
+						type = "ButtonStyle",
+						buttonType = "ClickOnPress",
+						Presentation =  
+						{
+							Art =  
+							{
+								 
+								{
+									type = "Graphic",
+									ID = 47667,
+									colour = "White",
+									texture = "art/ui/textures/widgets/scroll_button_up.tga",
+									states =  
+									{
+										"Normal",
+										"Active",
+										"Disabled",
+									},
+								},
+								 
+								{
+									type = "Graphic",
+									ID = 47668,
+									colour = "White",
+									texture = "art/ui/textures/widgets/scroll_button_up_highlight.tga",
+									states =  
+									{
+										"Hover",
+									},
+								},
+								 
+								{
+									type = "Rectangle",
+									ID = 47669,
+									colour = "TestDialogInternalBorder",
+									rectangleType = "Border",
+									states =  
+									{
+										"Normal",
+										"Active",
+										"Hover",
+										"Disabled",
+									},
+								},
+							},
+						},
+						size =  
+						{
+							0.02500,
+							0.02500,
+						},
+					},
+					range =  
+					{
+						0,
+						0,
+					},
+					ButtonDown =  
+					{
+						type = "ButtonStyle",
+						buttonType = "ClickOnPress",
+						Presentation =  
+						{
+							Art =  
+							{
+								 
+								{
+									type = "Graphic",
+									ID = 47670,
+									colour = "White",
+									texture = "art/ui/textures/widgets/scroll_button_down.tga",
+									states =  
+									{
+										"Normal",
+										"Active",
+										"Disabled",
+									},
+								},
+								 
+								{
+									type = "Graphic",
+									ID = 47671,
+									colour = "White",
+									texture = "art/ui/textures/widgets/scroll_button_down_highlight.tga",
+									states =  
+									{
+										"Hover",
+									},
+								},
+								 
+								{
+									type = "Rectangle",
+									ID = 47672,
+									colour = "TestDialogInternalBorder",
+									rectangleType = "Border",
+									states =  
+									{
+										"Normal",
+										"Active",
+										"Hover",
+										"Disabled",
+									},
+								},
+							},
+						},
+						size =  
+						{
+							0.02500,
+							0.02500,
+						},
+					},
+					stepSize = 0,
+					orientation = "Vertical",
+					Presentation =  
+					{
+						Art =  
+						{
+							 
+							{
+								type = "Rectangle",
+								ID = 47665,
+								colour =  
+								{
+									0,
+									0,
+									0,
+									64,
+								},
+								states =  
+								{
+									"Normal",
+									"Active",
+									"Hover",
+									"Disabled",
+								},
+							},
+							 
+							{
+								type = "Rectangle",
+								ID = 47666,
+								colour = "TestDialogInternalBorder",
+								rectangleType = "Border",
+								states =  
+								{
+									"Normal",
+									"Active",
+									"Hover",
+									"Disabled",
+								},
+							},
+						},
+					},
+					size =  
+					{
+						0.02500,
+						0.17500,
+					},
+				},
+				ItemTemplate =  
+				{
+					type = "Style",
+					Presentation =  
+					{
+						Art =  
+						{
+							 
+							{
+								type = "Text",
+								textColourBottom =  
+								{
+									255,
+									0,
+									0,
+									255,
+								},
+								vertAlign = "Top",
+								ID = 47675,
+								textColourTop =  
+								{
+									255,
+									0,
+									0,
+									255,
+								},
+								fontname = "century16",
+								states =  
+								{
+									"Hover",
+									"Checked",
+									"CheckedDisabled",
+									"CheckedActive",
+									"CheckedHover",
+								},
+							},
+							 
+							{
+								type = "Text",
+								textColourBottom =  
+								{
+									255,
+									0,
+									0,
+									255,
+								},
+								vertAlign = "Top",
+								ID = 47676,
+								textColourTop =  
+								{
+									255,
+									0,
+									0,
+									255,
+								},
+								fontname = "century16",
+								states =  
+								{
+									"Normal",
+									"Disabled",
+									"Active",
+								},
+							},
+						},
+					},
+					size =  
+					{
+						0.25000,
+						0.02800,
+					},
+				},
+				maxItems = -1,
+				size =  
+				{
+					0.25000,
+					0.17500,
+				},
+			},
+			type = "ComboBoxStyle",
+			name = "defStyleComboBox",
+			Label =  
+			{
+				type = "ButtonStyle",
+				buttonType = "ClickOnRelease",
+				Presentation =  
+				{
+					Art =  
+					{
+						 
+						{
+							type = "Rectangle",
+							ID = 47658,
+							colour =  
+							{
+								0,
+								0,
+								0,
+								64,
+							},
+							states =  
+							{
+								"Normal",
+								"Active",
+								"Hover",
+								"Disabled",
+							},
+						},
+						 
+						{
+							type = "Text",
+							textColourBottom = "TestComboBoxText",
+							fontname = "century14",
+							ID = 47659,
+							padding =  
+							{
+								0.00625,
+								0,
+							},
+							textColourTop = "TestComboBoxText",
+							states =  
+							{
+								"Normal",
+								"Active",
+								"Disabled",
+							},
+						},
+						 
+						{
+							type = "Text",
+							textColourBottom = "TestComboBoxTextHighlight",
+							fontname = "century14",
+							ID = 47660,
+							padding =  
+							{
+								0.00625,
+								0,
+							},
+							textColourTop = "TestComboBoxTextHighlight",
+							states =  
+							{
+								"Hover",
+							},
+						},
+						 
+						{
+							type = "Rectangle",
+							ID = 47661,
+							colour = "TestDialogInternalBorder",
+							rectangleType = "Border",
+							states =  
+							{
+								"Normal",
+								"Active",
+								"Hover",
+								"Disabled",
+							},
+						},
+					},
+				},
+				size =  
+				{
+					0.20153,
+					0.02838,
+				},
+			},
+			ArrowButton =  
+			{
+				type = "ButtonStyle",
+				buttonType = "ClickOnRelease",
+				Presentation =  
+				{
+					Art =  
+					{
+						 
+						{
+							type = "Graphic",
+							ID = 47662,
+							colour = "White",
+							texture = "art/ui/textures/widgets/scroll_button_down.tga",
+							states =  
+							{
+								"Normal",
+								"Active",
+								"Disabled",
+							},
+						},
+						 
+						{
+							type = "Graphic",
+							ID = 47663,
+							colour = "White",
+							texture = "art/ui/textures/widgets/scroll_button_down_highlight.tga",
+							states =  
+							{
+								"Hover",
+							},
+						},
+						 
+						{
+							type = "Rectangle",
+							ID = 47664,
+							colour = "TestDialogInternalBorder",
+							rectangleType = "Border",
+							states =  
+							{
+								"Normal",
+								"Active",
+								"Hover",
+								"Disabled",
+							},
+						},
+					},
+				},
+				size =  
+				{
+					0.02500,
+					0.02838,
+				},
+			},
+			size =  
+			{
+				0.22653,
+				0.02838,
+			},
+		},
+		 
+		{
+			type = "ListBoxStyle",
+			name = "defStyleListbox",
+			ItemsGroup =  
+			{
+				type = "Style",
+				Presentation =  
+				{
+				},
+				size =  
+				{
+					0.40958,
+					0.23598,
+				},
+			},
+			maxItems = -1,
+			ItemTemplate =  
+			{
+				type = "Style",
+				Presentation =  
+				{
+					Art =  
+					{
+						 
+						{
+							type = "Text",
+							textColourBottom =  
+							{
+								255,
+								255,
+								255,
+								176,
+							},
+							fontname = "albertus extra bold12",
+							ID = 69870,
+							textColourTop =  
+							{
+								246,
+								246,
+								246,
+								184,
+							},
+							dropShadow = true,
+							states =  
+							{
+								"Normal",
+								"Active",
+								"Disabled",
+							},
+						},
+						 
+						{
+							type = "Text",
+							textColourBottom =  
+							{
+								255,
+								255,
+								255,
+								233,
+							},
+							fontname = "albertus extra bold12",
+							ID = 69871,
+							textColourTop =  
+							{
+								255,
+								255,
+								255,
+								255,
+							},
+							dropShadow = true,
+							states =  
+							{
+								"Hover",
+								"Checked",
+								"CheckedActive",
+								"CheckedHover",
+								"CheckedDisabled",
+							},
+						},
+					},
+				},
+				size =  
+				{
+					0.40958,
+					0.02000,
+				},
+			},
+			ScrollBar =  
+			{
+				type = "ScrollBarStyle",
+				ButtonDown =  
+				{
+					type = "ButtonStyle",
+					buttonType = "ClickOnPress",
+					Presentation =  
+					{
+						Art =  
+						{
+							 
+							{
+								type = "Graphic",
+								ID = 69867,
+								colour = "White",
+								texture = "art/ui/textures/widgets/scroll_button_down.tga",
+								states =  
+								{
+									"Normal",
+									"Active",
+									"Disabled",
+								},
+							},
+							 
+							{
+								type = "Graphic",
+								ID = 69868,
+								colour = "White",
+								texture = "art/ui/textures/widgets/scroll_button_down_highlight.tga",
+								states =  
+								{
+									"Hover",
+								},
+							},
+							 
+							{
+								type = "Rectangle",
+								ID = 69869,
+								colour = "TestDialogInternalBorder",
+								rectangleType = "Border",
+								states =  
+								{
+									"Normal",
+									"Active",
+									"Hover",
+									"Disabled",
+								},
+							},
+						},
+					},
+					size =  
+					{
+						0.02500,
+						0.02500,
+					},
+				},
+				orientation = "Vertical",
+				stepSize = 0,
+				ButtonUp =  
+				{
+					type = "ButtonStyle",
+					buttonType = "ClickOnPress",
+					Presentation =  
+					{
+						Art =  
+						{
+							 
+							{
+								type = "Graphic",
+								ID = 69864,
+								colour = "White",
+								texture = "art/ui/textures/widgets/scroll_button_up.tga",
+								states =  
+								{
+									"Normal",
+									"Active",
+									"Disabled",
+								},
+							},
+							 
+							{
+								type = "Graphic",
+								ID = 69865,
+								colour = "White",
+								texture = "art/ui/textures/widgets/scroll_button_up_highlight.tga",
+								states =  
+								{
+									"Hover",
+								},
+							},
+							 
+							{
+								type = "Rectangle",
+								ID = 69866,
+								colour = "TestDialogInternalBorder",
+								rectangleType = "Border",
+								states =  
+								{
+									"Normal",
+									"Active",
+									"Hover",
+									"Disabled",
+								},
+							},
+						},
+					},
+					size =  
+					{
+						0.02500,
+						0.02500,
+					},
+				},
+				range =  
+				{
+					0,
+					0,
+				},
+				size =  
+				{
+					0.02500,
+					0.23598,
+				},
+			},
+			size =  
+			{
+				0.40958,
+				0.23598,
+			},
+		},
+		
+		{
+			HitArea =  
+			{
+				 
+				{
+					type = "Rectangle",
+					size =  
+					{
+						1,
+						1,
+					},
+					position =  
+					{
+						0,
+						0,
+					},
+				},
+			},
+			name = "defStyleSwf",
+			type = "Style",
+			Presentation =  
+			{
+				Art =  
+				{
+					 
+					{
+						type = "Swf",
+						ID = 24,
+						colour = "TestDialogTitleBackground",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+				},
+			},
+			size =  
+			{
+				0.25000,
+				0.02500,
+			},
+		},
+		 		
+	},
+	version = 4,
+}

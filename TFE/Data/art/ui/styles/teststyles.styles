@@ -1,0 +1,416 @@
+StyleSheet =  
+{
+	Styles =  
+	{
+		 
+		{
+			HitArea =  
+			{
+				 
+				{
+					type = "Rectangle",
+					size =  
+					{
+						1,
+						1,
+					},
+					position =  
+					{
+						0,
+						0,
+					},
+				},
+			},
+			name = "testStyleDialogBackground",
+			Presentation =  
+			{
+				Art =  
+				{
+					 
+					{
+						type = "Rectangle",
+						colour = "TestDialogBackground",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+					 
+					{
+						type = "Rectangle",
+						colour = "TestDialogExternalBorder",
+						rectangleType = "Border",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+				},
+			},
+			type = "Style",
+		},
+		 
+		{
+			type = "Style",
+			name = "kGroupStyle",
+			Presentation =  
+			{
+				Art =  
+				{
+					 
+					{
+						type = "Rectangle",
+						colour =  
+						{
+							212,
+							6,
+							6,
+							31,
+						},
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+					 
+					{
+						type = "Rectangle",
+						colour =  
+						{
+							176,
+							158,
+							124,
+							242,
+						},
+						rectangleType = "Border",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+				},
+			},
+			size =  
+			{
+				0.27284,
+				0.56928,
+			},
+		},
+		 
+		{
+			type = "ButtonStyle",
+			name = "kButtonStyle",
+			Presentation =  
+			{
+				Art =  
+				{
+					 
+					{
+						type = "Rectangle",
+						colour =  
+						{
+							255,
+							0,
+							0,
+							46,
+						},
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Disabled",
+						},
+					},
+					 
+					{
+						type = "Rectangle",
+						colour =  
+						{
+							255,
+							192,
+							0,
+							108,
+						},
+						states =  
+						{
+							"Hover",
+						},
+					},
+					 
+					{
+						type = "Text",
+						textColourBottom = "TestButtonAcceptText",
+						text = "JOIN GAME",
+						fontname = "century16",
+						textColourTop = "TestButtonAcceptText",
+						horzAlign = "Centre",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+					 
+					{
+						type = "Rectangle",
+						colour =  
+						{
+							163,
+							0,
+							0,
+							255,
+						},
+						rectangleType = "Border",
+						states =  
+						{
+							"Normal",
+							"Disabled",
+							"Active",
+							"Hover",
+						},
+					},
+				},
+			},
+			size =  
+			{
+				0.21527,
+				0.03673,
+			},
+		},
+		 
+		{
+			type = "Style",
+			name = "k_lblStyle",
+			Presentation =  
+			{
+				Art =  
+				{
+					 
+					{
+						type = "Text",
+						textColourBottom = "TestTitleText",
+						text = "AVAILABLE GAMES",
+						fontname = "century16",
+						textColourTop = "TestTitleText",
+						horzAlign = "Centre",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+					 
+					{
+						type = "Line",
+						p2 =  
+						{
+							0.16590,
+							0.80966,
+						},
+						colour =  
+						{
+							157,
+							135,
+							123,
+							246,
+						},
+						p1 =  
+						{
+							0.82028,
+							0.80966,
+						},
+						states =  
+						{
+							"Normal",
+							"Disabled",
+							"Active",
+							"Hover",
+						},
+					},
+				},
+			},
+			size =  
+			{
+				0.27159,
+				0.03505,
+			},
+		},
+		 
+		{
+			type = "Style",
+			name = "EmptyText",
+			Presentation =  
+			{
+				Art =  
+				{
+					 
+					{
+						type = "Text",
+						textColourBottom = "TestTitleText",
+						fontname = "century16",
+						textColourTop = "TestTitleText",
+						horzAlign = "Centre",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+				},
+			},
+			size =  
+			{
+				0.13517,
+				0.03172,
+			},
+		},
+		 
+		{
+			type = "Style",
+			name = "InfoLabel",
+			Presentation =  
+			{
+				Art =  
+				{
+					 
+					{
+						type = "Text",
+						textColourBottom =  
+						{
+							255,
+							177,
+							89,
+							192,
+						},
+						text = "Game Name:",
+						fontname = "century16",
+						textColourTop = "TestTitleText",
+						horzAlign = "Centre",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+				},
+			},
+			size =  
+			{
+				0.13517,
+				0.03172,
+			},
+		},
+		 
+		{
+			type = "Style",
+			name = "InfoTxt",
+			Presentation =  
+			{
+				Art =  
+				{
+					 
+					{
+						type = "Text",
+						textColourBottom =  
+						{
+							255,
+							235,
+							112,
+							242,
+						},
+						text = "dsfds",
+						fontname = "century16",
+						textColourTop = "TestTitleText",
+						horzAlign = "Centre",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+				},
+			},
+			size =  
+			{
+				0.13517,
+				0.03172,
+			},
+		},
+		 
+		{
+			type = "Style",
+			name = "mBoxStyle",
+			Presentation =  
+			{
+				Art =  
+				{
+					 
+					{
+						type = "Rectangle",
+						colour =  
+						{
+							104,
+							84,
+							57,
+							82,
+						},
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+					 
+					{
+						type = "Rectangle",
+						colour =  
+						{
+							255,
+							198,
+							108,
+							255,
+						},
+						rectangleType = "Border",
+						states =  
+						{
+							"Normal",
+							"Active",
+							"Hover",
+							"Disabled",
+						},
+					},
+				},
+			},
+			size =  
+			{
+				0.40801,
+				0.39065,
+			},
+		},
+	},
+	version = 1,
+}
