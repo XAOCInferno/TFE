@@ -2,16 +2,11 @@
 UIName = TFEMaps
 Description = 
 Playable = 0
-DllName = WXPMod
+DllName = DXP3Mod
 ModFolder = TFE_ReduxMaps
 ModVersion = 1.0
 TextureFE = 
 TextureIcon = 
+RuntimeMode = 3
 
-DataFolder.1 = %LOCALE%\Data
-DataFolder.2 = Data
-DataFolder.3 = Data_Shared_Textures\%TEXTURE-LEVEL%
-DataFolder.4 = Data_Sound\%SOUND-LEVEL%
-DataFolder.5 = Data_Music
-DataFolder.6 = Data_Whm\%MODEL-LEVEL%
-
+DataFolder.1 = Data
