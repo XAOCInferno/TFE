@@ -6731,7 +6731,7 @@ Screen =
 								{
 									 
 									{
-										visible = false,
+										visible = true,
 										type = "Button",
 										buttonType = "ClickOnPress",
 										text = "$9020",
