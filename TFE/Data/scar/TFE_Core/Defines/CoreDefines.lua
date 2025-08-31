@@ -1,0 +1,1 @@
+INDEX_NONE = -1

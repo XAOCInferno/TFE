@@ -239,7 +239,7 @@ function OnAsyncSquadUpdateComplete()
 	local FunctionTree = 
 	{
 		{ Function = Set_AllEntities_Immediate, Necessity = eREQUIRED_FUNCTION },
-		{ Function = Set_AllSquadCoverModifiers, Necessity = eREQUIRED_FUNCTION },
+		--{ Function = Set_AllSquadCoverModifiers, Necessity = eREQUIRED_FUNCTION },
 		{ Function = Set_PlayerUpkeep, Necessity = eREQUIRED_FUNCTION },
 		{ Function = Set_ResourceMature, Necessity = eREQUIRED_FUNCTION },
 		{ Function = Implement_UpkeepAndMature, Necessity = eREQUIRED_FUNCTION },

@@ -1,0 +1,146 @@
+local function ApplyModifiersToObject(_ObjectID, _ModifierTable, _Func)
+
+    AddStacktrace("ApplyModifiersToObject")
+
+    local appliedModIDs = {}
+
+    for i = 1, table.getn(_ModifierTable) do
+        -- Apply modifier
+        local functionSuccess, tmpModID = pcall(_Func, _ModifierTable[i], _ObjectID)
+
+        if (functionSuccess) then
+
+            table.insert(appliedModIDs, tmpModID)
+
+        else
+            LogOnce(eLOG_LOG_TYPE_WARNING, eLOG_VERBOSE,
+                "Cover mod at pos: " .. modIndex .. " Can't be added for unknown reason! Triggered pcall.")
+        end
+
+    end
+
+    RemoveStacktrace()
+
+    return appliedModIDs;
+
+end
+
+ModifierManager = {}
+function ModifierManager:new()
+
+    AddStacktrace("ModifierManager:new")
+
+    local ModifierManagerObject = {
+        ObjectIDDataMap = {},
+        ObjectIDModifiersIDMap = {}
+    }
+
+    self.__index = self
+
+    local globalObject = setmetatable(ModifierManagerObject, self)
+
+    RegisterClass(globalObject, "ModifierManager")
+
+    RemoveStacktrace()
+
+    return globalObject
+
+end
+
+function ModifierManager:Deconstruct()
+
+    DeconstructClass(self)
+
+    self.__index = nil
+    self = nil
+
+end
+
+function ModifierManager:RegisterModifierReceiver(_ObjectID, _IsSquad)
+
+    AddStacktrace("ModifierManager:RegisterModifierReceiver")
+
+    self.ObjectIDDataMap[_ObjectID] = {
+        AppliedModifierIDs = {},
+        IsSquad = _IsSquad
+    }
+    self.ObjectIDModifiersIDMap[_ObjectID] = {}
+
+    RemoveStacktrace()
+
+end
+
+function ModifierManager:UnRegisterModifierReceiver(_ObjectID, _ClearModifiers)
+
+    AddStacktrace("ModifierManager:UnRegisterModifierReceiver")
+
+    if (_ClearModifiers) then
+
+        self:RemoveAppliedModifiers(_ObjectID)
+
+    end
+
+    self.ObjectIDDataMap[_ObjectID] = nil
+    self.ObjectIDModifiersIDMap[_ObjectID] = nil
+
+    RemoveStacktrace()
+
+end
+
+function ModifierManager:ApplyModifiers(_ObjectID, _ModifierTable)
+
+    AddStacktrace("ModifierManager:ApplyModifiers")
+
+    if (self.ObjectIDDataMap[_ObjectID] ~= nil) then
+
+        if (_ModifierTable ~= nil) then
+            local func = self.ObjectIDDataMap[_ObjectID].IsSquad and Modifier_ApplyToSquad or Modifier_ApplyToEntity
+            local appliedModIDs = ApplyModifiersToObject(_ObjectID, _ModifierTable, func)
+
+            for i = 1, table.getn(appliedModIDs) do
+
+                table.insert(self.ObjectIDModifiersIDMap[_ObjectID], appliedModIDs[i])
+
+            end
+
+        else
+
+            Log(eLOG_LOG_TYPE_ERROR, eLOG_VERBOSE, "Cannot apply modifiers for object as no modifiers provided!")
+
+        end
+
+    else
+
+        Log(eLOG_LOG_TYPE_ERROR, eLOG_VERBOSE,
+            "Cannot apply modifiers for object as it has not been registered! Ensure you register before trying to apply.")
+
+    end
+
+    RemoveStacktrace()
+
+end
+
+function ModifierManager:RemoveAppliedModifiers(_ObjectID)
+
+    AddStacktrace("ModifierManager:RemoveAppliedModifiers")
+
+    if (self.ObjectIDModifiersIDMap[_ObjectID] ~= nil) then
+
+        for i = 1, table.getn(self.ObjectIDModifiersIDMap[_ObjectID]) do
+
+            pcall(Modifier_Remove, self.ObjectIDModifiersIDMap[_ObjectID][i])
+
+        end
+
+        self.ObjectIDModifiersIDMap[_ObjectID] = {}
+
+    else
+
+        Log(eLOG_LOG_TYPE_WARNING, eLOG_SIMPLE,
+            "Cannot remove modifiers from object as no modifiers have been applied to it.")
+
+    end
+
+    RemoveStacktrace()
+
+end

@@ -1,0 +1,41 @@
+SquadDataSnapshot = {}
+function SquadDataSnapshot:new (_sLoadout, _sLeaderCount, _sPosition, _sIsAttached, _sIsOwnedByPlayer, _sIsSelected, _sAvgHealth, _sAvgMorale, _sUpgradedWeapons, _sActiveCommand, _sCover)
+
+	AddStacktrace("SquadDataSnapshot:new")
+
+    local SquadDataSnapshotObject = 
+    {
+		SquadLoadout = _sLoadout,
+		SquadHasLeader = _sLeaderCount > 0,
+		SquadLeaderCount = _sLeaderCount,
+		SquadPosition = _sPosition,
+		SquadIsAttached = _sIsAttached,
+		OwnedByPlayer = _sIsOwnedByPlayer,
+		IsSelected_Unsynced = _sIsSelected, --Not online synced!
+		SquadAvgHealth = _sAvgHealth,
+		SquadAvgMorale = _sAvgMorale,
+		SquadUpgradedWeapons = _sUpgradedWeapons,
+		SquadActiveCommand = _sActiveCommand,
+		SquadCover = _sCover,
+	}
+
+	self.__index = self
+
+	local globalObject = setmetatable(SquadDataSnapshotObject, self)
+
+	RegisterClass(globalObject, "SquadDataSnapshot")
+
+	RemoveStacktrace()
+
+	return globalObject
+
+end
+
+function SquadDataSnapshot:Deconstruct()
+
+	DeconstructClass(self)
+	
+	self.__index = nil
+	self = nil
+
+end

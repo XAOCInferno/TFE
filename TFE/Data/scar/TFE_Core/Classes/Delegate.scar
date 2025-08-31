@@ -1,0 +1,188 @@
+import("TFE_Core/Classes/DelegateSubscription.scar")
+
+Delegate = {}
+function Delegate:new(_DelegateDefinition)
+
+    AddStacktrace("Delegate:new")
+    
+    local DelegateObject = {
+        Subscriptions = {},
+        Definition = _DelegateDefinition
+    }
+
+    self.__index = self
+
+    local globalObject = setmetatable(DelegateObject, self)
+
+    RegisterClass(DelegateObject, "Delegate")
+
+    RemoveStacktrace()
+
+    return globalObject
+
+end
+
+local function GetIndexOfSubscription(_Func, _AllSubscriptions)
+
+    AddStacktrace("GetIndexOfSubscription")
+
+    local index = INDEX_NONE
+
+    for i = 1, table.getn(_AllSubscriptions) do
+
+        if (_AllSubscriptions[i].FunctionToCall == _Func) then
+
+            index = i
+            break
+
+        end
+
+    end
+
+    RemoveStacktrace()
+
+    return index
+
+end
+
+local function GetIndexOfDefine(_Define, _AllSubscriptions)
+
+    AddStacktrace("GetIndexOfDefine")
+
+    local index = INDEX_NONE
+
+    for i = 1, table.getn(_AllSubscriptions) do
+
+        if (_AllSubscriptions[i] == _Define) then
+
+            index = i
+            break
+
+        end
+
+    end
+
+    RemoveStacktrace()
+
+    return index
+
+end
+
+function Delegate:IsSubscribed(_Func)
+
+    AddStacktrace("Delegate:IsSubscribed")
+
+    local isSubscribed = GetIndexOfSubscription(_Func, self.Subscriptions) ~= INDEX_NONE
+
+    RemoveStacktrace()
+
+    return isSubscribed
+
+end
+
+function Delegate:Subscribe(_Func)
+
+    AddStacktrace("Delegate:Subscribe")
+
+    local subscription = nil
+
+    if (self:IsSubscribed(_Func) == false) then
+
+        subscription = DelegateSubscription:new()
+        subscription.FunctionToCall = _Func
+        table.insert(self.Subscriptions, subscription)
+
+    else
+
+        Log(eLOG_LOG_TYPE_WARNING, eLOG_SIMPLE, "Trying to subscribe to same delegate multiple times")
+
+    end
+
+    RemoveStacktrace()
+
+    return subscription
+
+end
+
+function Delegate:Unsubscribe(_Func)
+
+    AddStacktrace("Delegate:Unsubscribe")
+
+    local indexOfDefine = GetIndexOfSubscription(_Func, _AllSubscriptions)
+
+    if (indexOfDefine ~= INDEX_NONE) then
+
+        self.Subscriptions[i]:Deconstruct()
+        table.remove(self.Subscriptions, i)
+        success = true
+
+    else
+
+        Log(eLOG_LOG_TYPE_WARNING, eLOG_SIMPLE, "Cannot unsubscribe function as it is not subscribed.")
+
+    end
+
+    RemoveStacktrace()
+
+end
+
+function Delegate:Fire(_Args)
+
+    AddStacktrace("Delegate:Fire")
+
+    if (self:ValidateArgsAgainstDefinition(_Args)) then
+
+        for i in self.Subscriptions do
+
+            self.Subscriptions[i].FunctionToCall(_Args)
+
+        end
+
+    else
+
+        Log(eLOG_LOG_TYPE_ERROR, eLOG_VERBOSE, "Invalid arguments, cannot fire delegate!")
+
+    end
+
+    RemoveStacktrace()
+
+end
+
+function Delegate:ValidateArgsAgainstDefinition(_Args)
+
+    AddStacktrace("Delegate:ValidateArgsAgainstDefinition")
+
+    local isValid = true
+
+    if (self.Definition ~= nil) then
+
+        if (type(_Args) ~= type(self.Definition)) then
+
+            isValid = false
+            Log(eLOG_LOG_TYPE_WARNING, eLOG_SIMPLE, "Delegate args are invalid type!")
+        end
+        --[[elseif (type(self.Definition) == "table" and table.getn(self.Definition) ~= table.getn(_Args)) then
+
+            isValid = false
+            print(table.getn(self.Definition))
+            print(table.getn(_Args))
+            Log(eLOG_LOG_TYPE_WARNING, eLOG_SIMPLE, "Delegate args do not match table length of definition!")
+
+        end]]
+
+    end
+
+    RemoveStacktrace()
+
+    return isValid
+
+end
+
+function Delegate:Deconstruct()
+
+    DeconstructClass(self)
+
+    self.__index = nil
+    self = nil
+
+end

@@ -9,9 +9,21 @@ import("WXPScarUtil.scar")
 
 
 ----------------------------------
------W40k RELATED DATA------------
+--CORE GENERIC--------------------
+----------------------------------
+import("TFE_Core/Defines/CoreDefines.lua")
+import("TFE_Core/Classes/Delegate.scar")
+import("TFE_Core/Classes/ModifierManager.scar")
+----------------------------------
+----------------------------------
+
+
+----------------------------------
+--W40k RELATED DATA---------------
 ----------------------------------
 import("TFE_Core/CriticalScars/Modifiers/CachedModifiers.scar")
+----------------------------------
+----------------------------------
 
 
 ----------------------------------
@@ -21,12 +33,16 @@ import("TFE_Core/Classes/LinkedList.scar")
 import("TFE_Core/Classes/HashTable.scar")
 import("TFE_Core/Classes/ThresholdsTable.scar")
 import("TFE_Core/Classes/Stack.scar")
+----------------------------------
+----------------------------------
 
 
 ----------------------------------
------DEBUG MUST BE RUN FIRST!-----
+--DEBUG MUST BE RUN FIRST!--------
 ----------------------------------
 import("TFE_Core/CriticalScars/Debug/GlobalsDebug.scar")
+----------------------------------
+----------------------------------
 
 
 ----------------------------------
@@ -70,3 +86,5 @@ import("TFE_Core/Classes/ResourceGroup.scar")
 import("TFE_Core/Classes/KillTimestamp.scar")
 import("TFE_Core/Classes/StatsManager.scar")
 import("TFE_Core/Classes/FarsightVisionCircle.scar")
+----------------------------------
+----------------------------------

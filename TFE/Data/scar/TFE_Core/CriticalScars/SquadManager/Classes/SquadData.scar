@@ -1,672 +1,745 @@
+eSQUAD_DELEGATES = {
+    OnSquadCoverChanged = 0,
+    OnSquadConstructed = 1,
+    OnSquadDeConstructed = 2
+}
+
+SquadDataDelegateDefines = {}
+SquadDataDelegateDefines[eSQUAD_DELEGATES.OnSquadCoverChanged] = {
+    sID = 0,
+    oldCover = CT_None,
+    newCover = CT_None
+}
+
+SquadDataDelegateDefines[eSQUAD_DELEGATES.OnSquadConstructed] = {
+    sID = 0
+}
+SquadDataDelegateDefines[eSQUAD_DELEGATES.OnSquadDeConstructed] = {
+    sID = 0
+}
+SquadDataDelegates = {}
+SquadDataDelegates[eSQUAD_DELEGATES.OnSquadCoverChanged] = Delegate:new(
+    SquadDataDelegateDefines[eSQUAD_DELEGATES.OnSquadCoverChanged])
+SquadDataDelegates[eSQUAD_DELEGATES.OnSquadConstructed] = Delegate:new(
+    SquadDataDelegateDefines[eSQUAD_DELEGATES.OnSquadConstructed])
+SquadDataDelegates[eSQUAD_DELEGATES.OnSquadDeConstructed] = Delegate:new(
+    SquadDataDelegateDefines[eSQUAD_DELEGATES.OnSquadDeConstructed])
+
 SquadData = {}
-function SquadData:new (_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _player, _IsRelicUnit, _IdleState)
+function SquadData:new(_sGameID, _sGroupID, _sIndex, _sID, _sRace, _sBP, _player, _IsRelicUnit, _IdleState)
 
-	AddStacktrace("SquadData:new")
-	
-	local tmpSGroupID = _sGroupID
-	
-	if(_sGroupID == false) then
+    AddStacktrace("SquadData:new")
 
-		tmpSGroupID = GetUniqueSG("SquadData_".._sBP)
-		SGroup_Add(tmpSGroupID, _sID)
+    local tmpSGroupID = _sGroupID
 
-	end
-	
-	local tmpSGroupName = SGroup_GetName(tmpSGroupID)
-	local squadRepairable, _ = TableContains(g_AllRepairableSquads, _sBP)
+    if (_sGroupID == false) then
 
-	---------------------------------------------------------------------------------------
-	----If adding any new attributes, ensure to update Create copy and Total Copy funcs----
-	---------------------------------------------------------------------------------------
-    local SquadDataObject = 
-    {
-		SquadUniqueID = _sGameID,	
-		SquadGroupID = tmpSGroupID,
-		SquadGroupName = tmpSGroupName,	
-		SquadIndex = _sIndex, 
-		SquadID = _sID,	
-		SquadUnitRace = _sRace,
-		SquadBlueprint = _sBP,
-		IsRelicUnit = _IsRelicUnit,
-		SquadLoadout = Squad_Count(_sID),
-		SquadHasLeader = Squad_HasLeader(_sID),
-		SquadLeaderCount = Squad_CountLeaders(_sID),
-		SquadMultiLeaders = g_MultiSquadLeaders[_sRace][_sBP] or {},
-		SquadMultiLeaderCount = 0,
-		SquadInitTime = g_WorldTime,	
-		SquadPosition = Squad_GetPosition(_sID),
-		SquadHasBeenAttachedTo = false,
-		SquadHasAttachedToThis = nil,
-		SquadHasAttached = false,
-		SquadIsAttached = Squad_IsAttached(_sID),
-		SquadAttachedTo = nil,
-		SquadDetachedFrom = nil,
-		SquadAvgHealth = SGroup_GetAvgHealth( tmpSGroupName ),
-		SquadAvgMorale = SGroup_GetAvgMorale( tmpSGroupName ),
-		SquadUpgradedWeapons = {},
-		SquadValidWeapons = g_ValidSquadWeapons[_sRace][_sBP] or {},
-		SquadActiveCommand = Squad_GetActiveCommand( _sID ),
-		SquadIsRepairable = squadRepairable,
-		OwnedByPlayer = Squad_GetPlayerOwner(_sID),
-		OwnerPlayer = _player, 
-		IsSelected_Unsynced = Misc_IsSquadSelected(_sID),
-		IdleBehaviourController = nil,
-		HasSynapseScore = g_SquadSynapseScore[_sBP] ~= nil,
+        tmpSGroupID = GetUniqueSG("SquadData_" .. _sBP)
+        SGroup_Add(tmpSGroupID, _sID)
 
-		XP = XPManager:new(),
+    end
 
-		SquadAppliedCoverMods = {},
-		SquadAppliedCoverMods_IDs = {},
-		SquadAppliedCoverMods_Index = {},
+    local tmpSGroupName = SGroup_GetName(tmpSGroupID)
+    local squadRepairable, _ = TableContains(g_AllRepairableSquads, _sBP)
 
-		--Variables
-		History = FixedLengthTable:new(g_MaximumHistories, SquadDataHistory:new(-1, nil)), --A collection of timestamped squad states 
-		NextHistoryTime = g_WorldTime + g_HistoryUpdateRate,
-		IsUnderAttack = false,
-		IsAttacking = false,
-		IsMoving = false,
-		PreviousSquadLoadout = Squad_Count(_sID),
-		PreviousSquadLeaderCount = Squad_CountLeaders(_sID),
-		PreviouslyAttackedByPlayers = {},
-		PreviouslyAttackedTime = 0,
-		PreviouslyAttackedBySquads = {},
-		PreviouslyAttackingTime = 0,
-		HasAppliedSynapseScore = false,
-		HasAppliedSynapseLeaderScore = false,
-		
-		IdleState = _IdleState,
-		IsIdle = false,
-		HasPerformedIdleState = false,
-		TimeSinceIdle = 0,
-		IdleStartTime = 0,
-		AppliedIdleModifiers = {}
-	}
+    ---------------------------------------------------------------------------------------
+    ----If adding any new attributes, ensure to update Create copy and Total Copy funcs----
+    ---------------------------------------------------------------------------------------
+    local SquadDataObject = {
+        SquadUniqueID = _sGameID,
+        SquadGroupID = tmpSGroupID,
+        SquadGroupName = tmpSGroupName,
+        SquadIndex = _sIndex,
+        SquadID = _sID,
+        SquadUnitRace = _sRace,
+        SquadBlueprint = _sBP,
+        IsRelicUnit = _IsRelicUnit,
+        SquadLoadout = 0,
+        SquadHasLeader = false,
+        SquadLeaderCount = 0,
+        SquadMultiLeaders = g_MultiSquadLeaders[_sRace][_sBP] or {},
+        SquadMultiLeaderCount = 0,
+        SquadInitTime = g_WorldTime,
+        SquadPosition = World_Pos(0, 0, 0),
+        SquadHasBeenAttachedTo = false,
+        SquadHasAttachedToThis = nil,
+        SquadHasAttached = false,
+        SquadIsAttached = false,
+        SquadAttachedTo = nil,
+        SquadDetachedFrom = nil,
+        SquadAvgHealth = 0,
+        SquadAvgMorale = 0,
+        SquadUpgradedWeapons = {},
+        SquadValidWeapons = g_ValidSquadWeapons[_sRace][_sBP] or {},
+        SquadActiveCommand = SQUADSTATEID_Idle,
+        SquadCover = CT_None,
+        SquadIsRepairable = squadRepairable,
+        OwnedByPlayer = nil,
+        OwnerPlayer = _player,
+        IsSelected_Unsynced = false,
+        IdleBehaviourController = nil,
+        HasSynapseScore = g_SquadSynapseScore[_sBP] ~= nil,
 
-	self.__index = self
+        XP = XPManager:new(),
 
-	local globalObject = setmetatable(SquadDataObject, self)
+        -- Variables
+        History = FixedLengthTable:new(g_MaximumHistories, SquadDataHistory:new(-1, nil)), -- A collection of timestamped squad states 
+        NextHistoryTime = g_WorldTime + g_HistoryUpdateRate,
+        IsUnderAttack = false,
+        IsAttacking = false,
+        IsMoving = false,
+        PreviousSquadLoadout = 0, -- Squad_Count(_sID),
+        PreviousSquadLeaderCount = 0, -- Squad_CountLeaders(_sID),
+        PreviouslyAttackedByPlayers = {},
+        PreviouslyAttackedTime = 0,
+        PreviouslyAttackedBySquads = {},
+        PreviouslyAttackingTime = 0,
+        HasAppliedSynapseScore = false,
+        HasAppliedSynapseLeaderScore = false,
 
-	RegisterClass(globalObject, "SquadData")
+        IdleState = _IdleState,
+        IsIdle = false,
+        HasPerformedIdleState = false,
+        TimeSinceIdle = 0,
+        IdleStartTime = 0,
+        AppliedIdleModifiers = {}
+    }
 
-	globalObject:LateConstructor()
+    self.__index = self
 
-	RemoveStacktrace()
+    local globalObject = setmetatable(SquadDataObject, self)
 
-	return globalObject
+    RegisterClass(globalObject, "SquadData")
+
+    globalObject:LateConstructor()
+
+    RemoveStacktrace()
+
+    return globalObject
 
 end
 
 function SquadData:LateConstructor()
 
-	self.XP.LinkedSquadData = self --VERY MESSY! Change this later...
-	self.SquadMultiLeaderCount = table.getn(self.SquadMultiLeaders)
-	
-	self:SetInitialWeaponData()
-	self:SetWeaponLoadout()
+    AddStacktrace("SquadData:LateConstructor")
 
-	
-	if(self.HasSynapseScore) then
+    self.XP.LinkeeSQUAD_DELEGATES = self -- VERY MESSY! Change this later...
+    self.SquadMultiLeaderCount = table.getn(self.SquadMultiLeaders)
 
-		if(g_SquadSynapseScore[self.SquadBlueprint].SquadScore == 0) then
+    self:SetInitialWeaponData()
+    self:SetWeaponLoadout()
 
-			self.HasSynapseScore = false
-			
-		end
+    if (self.HasSynapseScore) then
 
-	end
+        if (g_SquadSynapseScore[self.SquadBlueprint].SquadScore == 0) then
+
+            self.HasSynapseScore = false
+
+        end
+
+    end
+
+    SquadDataDelegates[eSQUAD_DELEGATES.OnSquadConstructed]:Fire({sID = self.SquadID --[[ID]] })
+
+    RemoveStacktrace()
 
 end
 
 function SquadData:GetIfAlive()
 
-	AddStacktrace("SquadData:GetIfExists")
+    AddStacktrace("SquadData:GetIfExists")
 
-	local alive = true
+    local alive = true
 
-	if Squad_Exists(self.SquadUniqueID) == false then
+    if Squad_Exists(self.SquadUniqueID) == false then
 
-		alive = false
+        alive = false
 
-	elseif Squad_Count(self.SquadID) + Squad_CountLeaders(self.SquadID) == 0 then
+    elseif Squad_Count(self.SquadID) + Squad_CountLeaders(self.SquadID) == 0 then
 
-		alive = false
+        alive = false
 
-	end
+    end
 
-	RemoveStacktrace()
+    RemoveStacktrace()
 
-	return alive 
+    return alive
 
 end
 
 function SquadData:SetInitialWeaponData()
 
-	for weapon in self.SquadValidWeapons do
+    for weapon in self.SquadValidWeapons do
 
-		self.SquadUpgradedWeapons[weapon] = { Count = 0 }
+        self.SquadUpgradedWeapons[weapon] = {
+            Count = 0
+        }
 
-	end
+    end
 
 end
 
 function SquadData:SetWeaponLoadout()
 
-	for weapon in self.SquadValidWeapons do
-		
-		self.SquadUpgradedWeapons[weapon].Count = Squad_WeaponCount( self.SquadID, self.SquadValidWeapons[weapon] )
+    for weapon in self.SquadValidWeapons do
 
-	end
+        self.SquadUpgradedWeapons[weapon].Count = Squad_WeaponCount(self.SquadID, self.SquadValidWeapons[weapon])
+
+    end
 
 end
 
 function SquadData:ReaffirmConstants()
 
-	local SetSquadDetails = function(_sgroupid, _itemindex, _squadID)
+    local SetSquadDetails = function(_sgroupid, _itemindex, _squadID)
 
-		self.SquadID = _squadID
-		self.SquadIndex = _itemindex
-		self.SquadUniqueID = Squad_GetGameID( _squadID )
-		--[[We should probably not update the BP here as this changes when a squad attaches to the attachee squad]]
-		--self.SquadBlueprint = Squad_GetBlueprintName( _squadID )
+        self.SquadID = _squadID
+        self.SquadIndex = _itemindex
+        self.SquadUniqueID = Squad_GetGameID(_squadID)
+        --[[We should probably not update the BP here as this changes when a squad attaches to the attachee squad]]
+        -- self.SquadBlueprint = Squad_GetBlueprintName( _squadID )
 
-	end
+    end
 
-	SGroup_ForEach(self.SquadGroupID, SetSquadDetails)
+    SGroup_ForEach(self.SquadGroupID, SetSquadDetails)
 
 end
 
 function SquadData:GetUpToDateSquadID()
 
-	return Squad_GetSquadFromGameID(self.SquadUniqueID)
+    return Squad_GetSquadFromGameID(self.SquadUniqueID)
+
+end
+
+function SquadData:CreateSnapshotOfCurrentState()
+
+    return SquadDataSnapshot:new(self.SquadLoadout, self.SquadLeaderCount, self.SquadPosition, self.SquadIsAttached,
+        self.OwnedByPlayer, self.IsSelected_Unsynced, self.SquadAvgHealth, self.SquadAvgMorale,
+        self.SquadUpgradedWeapons, self.SquadActiveCommand, self.SquadCover)
 
 end
 
 function SquadData:CreateCopy()
 
-	return SquadData:new(self.SquadUniqueID, self.SquadGroupID, self.SquadIndex, self.SquadID, self.SquadUnitRace, self.SquadBlueprint, self.OwnerPlayer, self.IsRelicUnit, self.IdleState)
+    return SquadData:new(self.SquadUniqueID, self.SquadGroupID, self.SquadIndex, self.SquadID, self.SquadUnitRace,
+        self.SquadBlueprint, self.OwnerPlayer, self.IsRelicUnit, self.IdleState)
 
 end
 
 function SquadData:CreateTotalCopy()
 
-	--Get new squad data entry based on current details
-	local copy = self:CreateCopy()
+    -- Get new squad data entry based on current details
+    local copy = self:CreateCopy()
 
-	--Manually add extra stats
-	copy.History = self.History
-	copy.PreviouslyAttackedByPlayers = self.PreviouslyAttackedByPlayers
-	copy.PreviouslyAttackedTime = self.PreviouslyAttackedTime
-	copy.PreviouslyAttackedBySquads = self.PreviouslyAttackedBySquads
-	copy.IsUnderAttack = self.IsUnderAttack
-	copy.SquadAppliedCoverMods = self.SquadAppliedCoverMods
-	copy.SquadAppliedCoverMods_IDs = self.SquadAppliedCoverMods_IDs
-	copy.SquadAppliedCoverMods_Index = self.SquadAppliedCoverMods_Index
-	copy.SquadDetachedFrom = self.SquadDetachedFrom
-	copy.SquadAttachedTo = self.SquadAttachedTo	
-	copy.SquadHasAttached = self.SquadHasAttached	
-	copy.SquadIsAttached = self.SquadIsAttached	
-	copy.SquadUpgradedWeapons = self.SquadUpgradedWeapons
-	copy.SquadActiveCommand = self.SquadActiveCommand
-	copy.IdleBehaviourController = self.IdleBehaviourController
-	copy.IsMoving = self.IsMoving
-	copy.HasAppliedSynapseScore = self.HasAppliedSynapseScore
-	copy.HasAppliedSynapseLeaderScore = self.HasAppliedSynapseLeaderScore
+    -- Manually add extra stats
+    copy.History = self.History
+    copy.PreviouslyAttackedByPlayers = self.PreviouslyAttackedByPlayers
+    copy.PreviouslyAttackedTime = self.PreviouslyAttackedTime
+    copy.PreviouslyAttackedBySquads = self.PreviouslyAttackedBySquads
+    copy.IsUnderAttack = self.IsUnderAttack
+    copy.SquadDetachedFrom = self.SquadDetachedFrom
+    copy.SquadAttachedTo = self.SquadAttachedTo
+    copy.SquadHasAttached = self.SquadHasAttached
+    copy.SquadIsAttached = self.SquadIsAttached
+    copy.SquadUpgradedWeapons = self.SquadUpgradedWeapons
+    copy.SquadActiveCommand = self.SquadActiveCommand
+    copy.IdleBehaviourController = self.IdleBehaviourController
+    copy.IsMoving = self.IsMoving
+    copy.HasAppliedSynapseScore = self.HasAppliedSynapseScore
+    copy.HasAppliedSynapseLeaderScore = self.HasAppliedSynapseLeaderScore
 
-	return copy
+    return copy
 
 end
 
 function SquadData:GoBackInTime(_TimeTravelAmmount)
-		
-	AddStacktrace("SquadData:GoBackInTime")
 
-	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, self.SquadBlueprint.." attempting to go back in time.")
+    AddStacktrace("SquadData:GoBackInTime")
 
-	World_FXEvent("data:Art/Events/races/necron/abilities/necron_AoE_time_travel_squad", self.SquadPosition)
+    Log(eLOG_TYPE_INFO, eLOG_SIMPLE, self.SquadBlueprint .. " attempting to go back in time.")
 
-	--Get the nearest recorded history, if no history is provided we will need to handle it a different way
-	local ClosestHistoryStateIndex = self:GetClosestHistoryIndexToDesired(_TimeTravelAmmount)
+    World_FXEvent("data:Art/Events/races/necron/abilities/necron_AoE_time_travel_squad", self.SquadPosition)
 
-	--I don't necessarily want a null check here, need to implement logic to create a proxy history if one isn't found
-	if ClosestHistoryStateIndex ~= -1 then
+    -- Get the nearest recorded history, if no history is provided we will need to handle it a different way
+    local ClosestHistoryStateIndex = self:GetClosestHistoryIndexToDesired(_TimeTravelAmmount)
 
-		--Convert the current state into the synced state then updates the game to the synced state
-		self:SyncSquadDataStates(self.History.Data[ClosestHistoryStateIndex].State)
-		self:SyncGameStateToDataState()
+    -- I don't necessarily want a null check here, need to implement logic to create a proxy history if one isn't found
+    if ClosestHistoryStateIndex ~= -1 then
 
-	end
+        -- Convert the current state into the synced state then updates the game to the synced state
+        self:SyncSquadDataStates(self.History.Data[ClosestHistoryStateIndex].State)
+        self:SyncGameStateToDataState()
 
-	World_FXEvent("data:Art/Events/races/necron/abilities/necron_AoE_time_travel_squad", self.SquadPosition)
+    end
 
-	RemoveStacktrace()
+    World_FXEvent("data:Art/Events/races/necron/abilities/necron_AoE_time_travel_squad", self.SquadPosition)
+
+    RemoveStacktrace()
 
 end
 
 function SquadData:GetClosestHistoryIndexToDesired(_TimeTravelAmmount)
 
-	AddStacktrace("SquadData:GetClosestHistoryIndexToDesired")
+    AddStacktrace("SquadData:GetClosestHistoryIndexToDesired")
 
-	local ClosestTimeToDesired = 10000
-	local ClosestStateIndex = -1
-	local DesiredGameTime = g_WorldTime - _TimeTravelAmmount
+    local ClosestTimeToDesired = 10000
+    local ClosestStateIndex = -1
+    local DesiredGameTime = g_WorldTime - _TimeTravelAmmount
 
-	for i = 1, self.History.MaximumTableEntries do
-		
-		if self.History.Data[i].Time ~= -1 then
+    for i = 1, self.History.MaximumTableEntries do
 
-			local TimeToDesired = self.History.Data[i].Time - DesiredGameTime
-			
-			if TimeToDesired == _TimeTravelAmmount then
+        if self.History.Data[i].Time ~= -1 then
 
-				ClosestState = i
-				break
+            local TimeToDesired = self.History.Data[i].Time - DesiredGameTime
 
-			elseif TimeToDesired < ClosestTimeToDesired  then
+            if TimeToDesired == _TimeTravelAmmount then
 
-				ClosestStateIndex = i
-				ClosestTimeToDesired = TimeToDesired
+                ClosestState = i
+                break
 
-			end
+            elseif TimeToDesired < ClosestTimeToDesired then
 
-		end
+                ClosestStateIndex = i
+                ClosestTimeToDesired = TimeToDesired
 
-	end
-	
-	if self.SquadHasAttached then
+            end
 
-		self:ReaffirmConstants()
+        end
 
-	end
+    end
 
-	RemoveStacktrace()
-	
-	return ClosestStateIndex
+    if self.SquadHasAttached then
+
+        self:ReaffirmConstants()
+
+    end
+
+    RemoveStacktrace()
+
+    return ClosestStateIndex
+
+end
+
+function SquadData:UpdateState()
+
+    AddStacktrace("SquadData:UpdateState")
+
+    local snapshotLastState = self:CreateSnapshotOfCurrentState()
+    self:QueryStateFromGame()
+
+    self.IsAttacking = GetWorldLifetime(self.PreviouslyAttackingTime) <= g_CombatTimeWindow
+    self.IsMoving = World_DistancePointToPoint(self.SquadPosition, snapshotLastState.SquadPosition) ~= 0
+
+    if (self.SquadCover ~= snapshotLastState.SquadCover) then
+
+        SquadDataDelegates[eSQUAD_DELEGATES.OnSquadCoverChanged]:Fire({sID = self.SquadID --[[ID]] ,
+                                                                       oldCover = snapshotLastState.SquadCover --[[old state]] ,
+                                                                       newCover = self.SquadCover --[[new state]] })
+
+    end
+
+    -- Update history at set intervals
+    --[[TODO: Index workaround, fix later]]
+    if g_WorldTime >= self.NextHistoryTime and self.History.__index then
+
+        self.History:Insert(SquadDataHistory:new(g_WorldTime, snapshotLastState))
+        self.NextHistoryTime = self.NextHistoryTime + g_HistoryUpdateRate
+
+    end
+
+    snapshotLastState:Deconstruct()
+
+    -- TODO: Cleanup "Synapse Score" can it be a new class? It's messy...
+    if self.HasSynapseScore == true then
+
+        if self.HasAppliedSynapseScore == false then
+
+            self.HasAppliedSynapseScore = true
+            self.OwnerPlayer:ApplySynapseScore(g_SquadSynapseScore[self.SquadBlueprint].SquadScore)
+
+        end
+
+        if self.HasAppliedSynapseLeaderScore == false then
+
+            if self.SquadLeaderCount ~= 0 then
+
+                self.HasAppliedSynapseLeaderScore = true
+                self.OwnerPlayer:ApplySynapseScore(g_SquadSynapseScore[self.SquadBlueprint].SquadLeaderScore)
+
+            end
+
+        else
+
+            if self.SquadLeaderCount == 0 then
+
+                self.HasAppliedSynapseLeaderScore = false
+                self.OwnerPlayer:UnApplySynapseScore(g_SquadSynapseScore[self.SquadBlueprint].SquadLeaderScore)
+
+            end
+
+        end
+
+    end
+
+    RemoveStacktrace()
+
+end
+
+function SquadData:QueryStateFromGame()
+
+    AddStacktrace("SquadData:QueryStateFromGame")
+
+    self.SquadLoadout = Squad_Count(self.SquadID)
+    self.SquadHasLeader = Squad_HasLeader(self.SquadID)
+    self.SquadLeaderCount = Squad_CountLeaders(self.SquadID)
+    self.SquadPosition = Squad_GetPosition(self.SquadID)
+    self.SquadIsAttached = Squad_IsAttached(self.SquadID)
+    self.OwnedByPlayer = Squad_GetPlayerOwner(self.SquadID)
+    self.IsSelected_Unsynced = Misc_IsSquadSelected(self.SquadID) -- Not online synced!
+    self.SquadAvgHealth = SGroup_GetAvgHealth(self.SquadGroupName)
+    self.SquadAvgMorale = SGroup_GetAvgMorale(self.SquadGroupName)
+    self.SquadUpgradedWeapons = _sUpgradedWeapons
+    self.SquadActiveCommand = Squad_GetActiveCommand(self.SquadID)
+    self.SquadCover = Squad_GetCoverType(self.SquadID, 0)
+
+    RemoveStacktrace()
 
 end
 
 function SquadData:Update()
-		
-	AddStacktrace("SquadData:Update")
 
-	--Store current state in our history
-	local copy = self:CreateCopy()
+    AddStacktrace("SquadData:Update")
 
-	--Update history at set intervals
-	--[[TODO: Index workaround, fix later]]
-	if g_WorldTime >= self.NextHistoryTime and self.History.__index then
-		
-		self.History:Insert(SquadDataHistory:new(g_WorldTime, copy))
-		self.NextHistoryTime = self.NextHistoryTime + g_HistoryUpdateRate
+    self:UpdateState()
 
-	end
+    if self.IdleState.Behaviour ~= eIDLE_STATE_BEHAVIOUR_NONE then
 
-	self.IsAttacking = GetWorldLifetime(self.PreviouslyAttackingTime) <= g_CombatTimeWindow 
+        self:ManageIdleState()
 
-	--Update current state, doesn't matter which order we do this as 
-	if copy ~= nil then
+    end
 
-		self.IsMoving = World_DistancePointToPoint(self.SquadPosition, copy.SquadPosition) ~= 0 	
-		
-		self:SyncSquadDataStates(copy)
-
-		copy:Deconstruct()
-
-	end
-
-	if self.IdleState.Behaviour ~= eIDLE_STATE_BEHAVIOUR_NONE then
-
-		self:ManageIdleState()
-
-	end
-
-	if self.HasSynapseScore == true then
-
-		if self.HasAppliedSynapseScore == false then
-			
-			self.HasAppliedSynapseScore = true
-			self.OwnerPlayer:ApplySynapseScore(g_SquadSynapseScore[self.SquadBlueprint].SquadScore)
-
-		end
-
-		if self.HasAppliedSynapseLeaderScore == false then
-
-			if self.SquadLeaderCount ~= 0 then
-
-				self.HasAppliedSynapseLeaderScore = true
-				self.OwnerPlayer:ApplySynapseScore(g_SquadSynapseScore[self.SquadBlueprint].SquadLeaderScore)
-
-			end
-
-		else
-
-			if self.SquadLeaderCount == 0 then
-
-				self.HasAppliedSynapseLeaderScore = false
-				self.OwnerPlayer:UnApplySynapseScore(g_SquadSynapseScore[self.SquadBlueprint].SquadLeaderScore)
-
-			end
-
-		end
-
-
-	end
-
-	RemoveStacktrace()
+    RemoveStacktrace()
 
 end
 
 function SquadData:ManageIdleState()
-		
-	AddStacktrace("SquadData:ManageIdleState")
 
-	local isIdle = (self.SquadActiveCommand == SQUADSTATEID_Idle) and (self.IsMoving == false) and (self.IsAttacking == false) and (self.SquadIsAttached == false)
+    AddStacktrace("SquadData:ManageIdleState")
 
-	if isIdle == true and self.IsIdle == false then
+    local isIdle = (self.SquadActiveCommand == SQUADSTATEID_Idle) and (self.IsMoving == false) and
+                       (self.IsAttacking == false) and (self.SquadIsAttached == false)
 
-		--Set to idle if we are not already set as idle
-		self:SetIdleStateToActive()
+    if isIdle == true and self.IsIdle == false then
 
-	elseif isIdle == false and self.IsIdle == true then
+        -- Set to idle if we are not already set as idle
+        self:SetIdleStateToActive()
 
-		--Set to not idle if we are already set as idle
-		self:SetIdleStateToInactive()
+    elseif isIdle == false and self.IsIdle == true then
 
-	end
+        -- Set to not idle if we are already set as idle
+        self:SetIdleStateToInactive()
 
-	--If we've been idle for enough time, perform the idle behaviour
-	self.TimeSinceIdle = GetWorldLifetime(self.IdleStartTime)
+    end
 
-	if self.IsIdle then
+    -- If we've been idle for enough time, perform the idle behaviour
+    self.TimeSinceIdle = GetWorldLifetime(self.IdleStartTime)
 
-		if self.HasPerformedIdleState == false then
+    if self.IsIdle then
 
-			if self.TimeSinceIdle > self.IdleState.TimeMustBeIdleFor then
+        if self.HasPerformedIdleState == false then
 
-				self:DoIdleState()
+            if self.TimeSinceIdle > self.IdleState.TimeMustBeIdleFor then
 
-			end
+                self:DoIdleState()
 
-		elseif(self.IdleBehaviourController ~= nil) then			
+            end
 
-			self.IdleBehaviourController:UpdateEachTick()
+        elseif (self.IdleBehaviourController ~= nil) then
 
-		end
+            self.IdleBehaviourController:UpdateEachTick()
 
-	end
+        end
 
-	RemoveStacktrace()
+    end
+
+    RemoveStacktrace()
 
 end
 
 function SquadData:DoIdleState()
 
-	AddStacktrace("SquadData:DoIdleState")
-	
-	if self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_CANNIBALIZE then
+    AddStacktrace("SquadData:DoIdleState")
 
-		Command_Squad(self.OwnedByPlayer, self.SquadGroupID, SCMD_Cannibalize)
+    if self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_CANNIBALIZE then
 
-	elseif self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_REPAIR then
+        Command_Squad(self.OwnedByPlayer, self.SquadGroupID, SCMD_Cannibalize)
 
-		if(self.IdleBehaviourController == nil) then
+    elseif self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_REPAIR then
 
-			self.IdleBehaviourController = IdleRepair:new(self.OwnedByPlayer, self, nil, self.IdleState.Radius)
-	
-		end
+        if (self.IdleBehaviourController == nil) then
 
-		self.IdleBehaviourController:Update()
+            self.IdleBehaviourController = IdleRepair:new(self.OwnedByPlayer, self, nil, self.IdleState.Radius)
 
-	elseif self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_CONSTRUCT then
+        end
 
-		if(self.IdleBehaviourController == nil) then
+        self.IdleBehaviourController:Update()
 
-			self.IdleBehaviourController = IdleConstruct:new(self.OwnedByPlayer, self, nil, self.IdleState.Radius)
-	
-		end
+    elseif self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_CONSTRUCT then
 
-		self.IdleBehaviourController:Update()
+        if (self.IdleBehaviourController == nil) then
 
-	elseif self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_REPAIR_CONSTRUCT then
+            self.IdleBehaviourController = IdleConstruct:new(self.OwnedByPlayer, self, nil, self.IdleState.Radius)
 
-		if(self.IdleBehaviourController == nil) then
+        end
 
-			self.IdleBehaviourController = IdleBuilder:new (self.OwnedByPlayer, self, self.IdleState.Radius, self.IdleState.Radius, false)
+        self.IdleBehaviourController:Update()
 
-		end
-		
-		self.IdleBehaviourController:Update()
+    elseif self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_REPAIR_CONSTRUCT then
 
-	elseif self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_REPAIR_CONSTRUCT_CANNIBALIZE then
+        if (self.IdleBehaviourController == nil) then
 
-		if(self.IdleBehaviourController == nil) then
+            self.IdleBehaviourController = IdleBuilder:new(self.OwnedByPlayer, self, self.IdleState.Radius,
+                self.IdleState.Radius, false)
 
-			self.IdleBehaviourController = IdleBuilder:new (self.OwnedByPlayer, self, self.IdleState.Radius, self.IdleState.Radius, true)
+        end
 
-		end
+        self.IdleBehaviourController:Update()
 
-		self.IdleBehaviourController:Update()
+    elseif self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_REPAIR_CONSTRUCT_CANNIBALIZE then
 
-	elseif self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_WORSHIP_CHAOS then
+        if (self.IdleBehaviourController == nil) then
 
-		if(self.IdleBehaviourController == nil) then
+            self.IdleBehaviourController = IdleBuilder:new(self.OwnedByPlayer, self, self.IdleState.Radius,
+                self.IdleState.Radius, true)
 
-			self.IdleBehaviourController = IdleSummmonEntity:new(self.OwnedByPlayer, self, nil, self.IdleState.EntityToSummon)
-	
-		end
+        end
 
-		self.IdleBehaviourController:Update()
+        self.IdleBehaviourController:Update()
 
-		Anim_PlaySquadAnim(self.SquadID, "sp_ritual")
-		table.insert(self.AppliedIdleModifiers, Modifier_ApplyToSquad(gMod_DisableShooting, self.SquadID))
-		table.insert(self.AppliedIdleModifiers, Modifier_ApplyToSquad(gMod_SightRadiusReduction60, self.SquadID))
-		table.insert(self.AppliedIdleModifiers, Modifier_ApplyToSquad(gMod_KeenSightRadiusReduction60, self.SquadID))
+    elseif self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_WORSHIP_CHAOS then
 
-	end
+        if (self.IdleBehaviourController == nil) then
 
-	self.HasPerformedIdleState = true
+            self.IdleBehaviourController = IdleSummmonEntity:new(self.OwnedByPlayer, self, nil,
+                self.IdleState.EntityToSummon)
 
-	RemoveStacktrace()
+        end
+
+        self.IdleBehaviourController:Update()
+
+        Anim_PlaySquadAnim(self.SquadID, "sp_ritual")
+        table.insert(self.AppliedIdleModifiers, Modifier_ApplyToSquad(gMod_DisableShooting, self.SquadID))
+        table.insert(self.AppliedIdleModifiers, Modifier_ApplyToSquad(gMod_SightRadiusReduction60, self.SquadID))
+        table.insert(self.AppliedIdleModifiers, Modifier_ApplyToSquad(gMod_KeenSightRadiusReduction60, self.SquadID))
+
+    end
+
+    self.HasPerformedIdleState = true
+
+    RemoveStacktrace()
 
 end
 
 function SquadData:SetIdleStateToActive()
-	
-	AddStacktrace("SquadData:SetIdleStateToActive")
 
-	--Set that idle state is activated
-	self.IsIdle = true
-	self.IdleStartTime = g_WorldTime
-	self.TimeSinceIdle = 0
+    AddStacktrace("SquadData:SetIdleStateToActive")
 
-	--Trigger post-activation effects
-	self:OnIdleActivate()
+    -- Set that idle state is activated
+    self.IsIdle = true
+    self.IdleStartTime = g_WorldTime
+    self.TimeSinceIdle = 0
 
-	RemoveStacktrace()
+    -- Trigger post-activation effects
+    self:OnIdleActivate()
+
+    RemoveStacktrace()
 
 end
 
 function SquadData:OnIdleActivate()
 
-	AddStacktrace("SquadData:OnIdleActivate")
+    AddStacktrace("SquadData:OnIdleActivate")
 
-	RemoveStacktrace()
+    RemoveStacktrace()
 
 end
 
 function SquadData:SetIdleStateToInactive()
 
-	AddStacktrace("SquadData:SetIdleStateToInactive")
+    AddStacktrace("SquadData:SetIdleStateToInactive")
 
-	--Set we've ended idle
-	self.IsIdle = false
+    -- Set we've ended idle
+    self.IsIdle = false
 
-	--Activate post-idle effects
-	self:OnIdleEnd()
+    -- Activate post-idle effects
+    self:OnIdleEnd()
 
-	--Set we've not performed the idle state
-	self.HasPerformedIdleState = false
-	
-	RemoveStacktrace()
+    -- Set we've not performed the idle state
+    self.HasPerformedIdleState = false
+
+    RemoveStacktrace()
 
 end
 
 function SquadData:OnIdleEnd()
 
-	AddStacktrace("SquadData:OnIdleEnd")
+    AddStacktrace("SquadData:OnIdleEnd")
 
-	if self.HasPerformedIdleState == true then
+    if self.HasPerformedIdleState == true then
 
-		if self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_WORSHIP_CHAOS then
+        if self.IdleState.Behaviour == eIDLE_STATE_BEHAVIOUR_WORSHIP_CHAOS then
 
-			Anim_StopSquadAnim(self.SquadID, "sp_ritual")
-				
-		end
+            Anim_StopSquadAnim(self.SquadID, "sp_ritual")
 
-		if(self.IdleBehaviourController ~= nil) then
+        end
 
-			self.IdleBehaviourController:Update()
+        if (self.IdleBehaviourController ~= nil) then
 
-		end
+            self.IdleBehaviourController:Update()
 
-		for i = 1, table.getn(self.AppliedIdleModifiers) do
-			
-			pcall(Modifier_Remove, self.AppliedIdleModifiers[i])
+        end
 
-		end
+        for i = 1, table.getn(self.AppliedIdleModifiers) do
 
-	end
+            pcall(Modifier_Remove, self.AppliedIdleModifiers[i])
 
-	RemoveStacktrace()
+        end
+
+    end
+
+    RemoveStacktrace()
 
 end
 
-function SquadData:SyncSquadDataStates(copyFromState)
+function SquadData:SyncSquadDataStates(copyFromSnapshot)
 
-	AddStacktrace("SquadData:SyncSquadDataStates")
+    AddStacktrace("SquadData:SyncSquadDataStates")
 
-	self.SquadLoadout = copyFromState.SquadLoadout
-	self.SquadHasLeader = copyFromState.SquadHasLeader
-	self.SquadLeaderCount = copyFromState.SquadLeaderCount
-	self.SquadPosition = copyFromState.SquadPosition
-	self.SquadIsAttached = copyFromState.SquadIsAttached
-	self.OwnedByPlayer = copyFromState.OwnedByPlayer
-	self.IsSelected_Unsynced = copyFromState.IsSelected_Unsynced --Not online synced!
-	self.SquadAvgHealth = copyFromState.SquadAvgHealth
-	self.SquadAvgMorale = copyFromState.SquadAvgMorale
-	self.SquadUpgradedWeapons = copyFromState.SquadUpgradedWeapons
-	self.SquadActiveCommand = copyFromState.SquadActiveCommand
+    self.SquadLoadout = copyFromSnapshot.SquadLoadout
+    self.SquadHasLeader = copyFromSnapshot.SquadHasLeader
+    self.SquadLeaderCount = copyFromSnapshot.SquadLeaderCount
+    self.SquadPosition = copyFromSnapshot.SquadPosition
+    self.SquadIsAttached = copyFromSnapshot.SquadIsAttached
+    self.OwnedByPlayer = copyFromSnapshot.OwnedByPlayer
+    self.IsSelected_Unsynced = copyFromSnapshot.IsSelected_Unsynced -- Not online synced!
+    self.SquadAvgHealth = copyFromSnapshot.SquadAvgHealth
+    self.SquadAvgMorale = copyFromSnapshot.SquadAvgMorale
+    self.SquadUpgradedWeapons = copyFromSnapshot.SquadUpgradedWeapons
+    self.SquadActiveCommand = copyFromSnapshot.SquadActiveCommand
 
-	RemoveStacktrace()
+    RemoveStacktrace()
 
 end
 
 function SquadData:SyncGameStateToDataState()
 
-	AddStacktrace("SquadData:SyncGameStateToDataState")
+    AddStacktrace("SquadData:SyncGameStateToDataState")
 
-	--Despawn and clear squad
-	SGroup_DeSpawn(self.SquadGroupName)
-	Squad_Destroy(self.SquadID)
-	SGroup_Clear(self.SquadGroupID)
+    -- Despawn and clear squad
+    SGroup_DeSpawn(self.SquadGroupName)
+    Squad_Destroy(self.SquadID)
+    SGroup_Clear(self.SquadGroupID)
 
-	--Summon replacement squad at location with loadout
-	self.SquadID = ActivateSummonSquadAbility(self.SquadBlueprint, self.OwnedByPlayer, self.SquadPosition, self.SquadLoadout)
+    -- Summon replacement squad at location with loadout
+    self.SquadID = ActivateSummonSquadAbility(self.SquadBlueprint, self.OwnedByPlayer, self.SquadPosition,
+        self.SquadLoadout)
 
-	--Setup new squad constants
-	SGroup_Add(self.SquadGroupID, self.SquadID)
-	self.SquadUniqueID = Squad_GetGameID(self.SquadID)
+    -- Setup new squad constants
+    SGroup_Add(self.SquadGroupID, self.SquadID)
+    self.SquadUniqueID = Squad_GetGameID(self.SquadID)
 
-	for weapon in self.SquadValidWeapons do
-		
-		for i = 1, self.SquadUpgradedWeapons[weapon].Count do
+    for weapon in self.SquadValidWeapons do
 
-			Squad_UpgradeWeapon( self.SquadID, self.SquadValidWeapons[weapon] )
+        for i = 1, self.SquadUpgradedWeapons[weapon].Count do
 
-		end
+            Squad_UpgradeWeapon(self.SquadID, self.SquadValidWeapons[weapon])
 
-	end
+        end
 
-	--Add leader if history had one
-	if self.SquadHasLeader then
+    end
 
-		if self.SquadMultiLeaderCount > 0 then
-			
-			for i = 1, self.SquadLeaderCount do
+    -- Add leader if history had one
+    if self.SquadHasLeader then
 
-				--Need to add functionality to record which types of Leader are in the squad, currently we pick at random
-				Squad_AddLeaderAtIndex(self.SquadID, World_GetRand(1, self.SquadMultiLeaderCount))
+        if self.SquadMultiLeaderCount > 0 then
 
-			end
+            for i = 1, self.SquadLeaderCount do
 
-		else
+                -- Need to add functionality to record which types of Leader are in the squad, currently we pick at random
+                Squad_AddLeaderAtIndex(self.SquadID, World_GetRand(1, self.SquadMultiLeaderCount))
 
-			for i = 1, self.SquadLeaderCount do
+            end
 
-				Squad_AddLeader(self.SquadID)
+        else
 
-			end
+            for i = 1, self.SquadLeaderCount do
 
-		end
+                Squad_AddLeader(self.SquadID)
 
-	end
+            end
 
-	--Set stats
-	Squad_SetHealth(self.SquadID, self.SquadAvgHealth)
-	Squad_SetMorale(self.SquadID, self.SquadAvgMorale)
+        end
 
-	RemoveStacktrace()
+    end
+
+    -- Set stats
+    Squad_SetHealth(self.SquadID, self.SquadAvgHealth)
+    Squad_SetMorale(self.SquadID, self.SquadAvgMorale)
+
+    RemoveStacktrace()
 
 end
 
-
 function SquadData:CheckForDetachAndUpdateLoadout()
-	
-	AddStacktrace("SquadData:CheckForDetachAndUpdateLoadout")
 
-	--If we think we have been attched to, but no longer have an attached model, reduce the expected squad size by 1 to compensate for the detach 
-	local isAttached = Squad_IsAttached(self.SquadID)
-	if(self.SquadHasBeenAttachedTo and isAttached == false) then
+    AddStacktrace("SquadData:CheckForDetachAndUpdateLoadout")
 
-		self.PreviousSquadLoadout = self.PreviousSquadLoadout - 1
-		self.SquadHasBeenAttachedTo = false
+    -- If we think we have been attched to, but no longer have an attached model, reduce the expected squad size by 1 to compensate for the detach 
+    local isAttached = Squad_IsAttached(self.SquadID)
+    if (self.SquadHasBeenAttachedTo and isAttached == false) then
 
-	end
+        self.PreviousSquadLoadout = self.PreviousSquadLoadout - 1
+        self.SquadHasBeenAttachedTo = false
 
-	RemoveStacktrace()
+    end
+
+    RemoveStacktrace()
 
 end
 
 function SquadData:Deconstruct()
 
-	AddStacktrace("SquadData:Deconstruct")
-	
-	if(self.HasAppliedSynapseScore) then
-		
-		self.OwnerPlayer:UnApplySynapseScore(g_SquadSynapseScore[self.SquadBlueprint].SquadScore)
+    AddStacktrace("SquadData:Deconstruct")
 
-	end
+    if (self.HasAppliedSynapseScore) then
 
-	if(self.HasAppliedSynapseLeaderScore) then
-		
-		self.OwnerPlayer:UnApplySynapseScore(g_SquadSynapseScore[self.SquadBlueprint].SquadLeaderScore)
+        self.OwnerPlayer:UnApplySynapseScore(g_SquadSynapseScore[self.SquadBlueprint].SquadScore)
 
-	end
+    end
 
-	--Note we do not need to deconstruct the idle behaviour here as it handles itself
-	self.XP:Deconstruct()
+    if (self.HasAppliedSynapseLeaderScore) then
 
-	--[[TODO: Workaround fix this later]]
-	if(self.History.__index ~= nil) then
+        self.OwnerPlayer:UnApplySynapseScore(g_SquadSynapseScore[self.SquadBlueprint].SquadLeaderScore)
 
-		self.History:Deconstruct()
+    end
 
-	end
+    -- Note we do not need to deconstruct the idle behaviour here as it handles itself
+    self.XP:Deconstruct()
 
-	RemoveStacktrace()
+    --[[TODO: Workaround fix this later]]
+    if (self.History.__index ~= nil) then
 
-	DeconstructClass(self)
-	
-	self.__index = nil
-	self = nil
+        self.History:Deconstruct()
+
+    end
+
+    SquadDataDelegates[eSQUAD_DELEGATES.OnSquadDeConstructed]:Fire({sID = self.SquadID --[[ID]] })
+
+    RemoveStacktrace()
+
+    DeconstructClass(self)
+
+    self.__index = nil
+    self = nil
 
 end

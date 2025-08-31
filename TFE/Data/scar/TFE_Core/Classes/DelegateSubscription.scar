@@ -1,0 +1,30 @@
+DelegateSubscription = {}
+function DelegateSubscription:new ()
+	
+    AddStacktrace("DelegateSubscription:new")
+
+	local DelegateSubscriptionObject = 
+	{
+		FunctionToCall = nil,
+	}
+	
+	self.__index = self
+
+	local globalObject = setmetatable(DelegateSubscriptionObject, self)
+	
+	RegisterClass(DelegateSubscriptionObject, "DelegateSubscription")
+	
+	RemoveStacktrace()
+	
+	return globalObject
+
+end
+
+function DelegateSubscription:Deconstruct()
+
+    DeconstructClass(self)
+
+    self.__index = nil
+    self = nil
+
+end
