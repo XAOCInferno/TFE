@@ -153,6 +153,10 @@ W40k.ini.Backup
 Witch_Hunters.module
 things to do.txt
 DoWRedefined.module
+_pipeline.ini
+BugSplatMonitor.exe
+installscript.bat
+ModAssistant.exe
 
 
 # for specific file types, use format *.filetype
