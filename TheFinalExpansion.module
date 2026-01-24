@@ -8,13 +8,16 @@ ModVersion = 0.0.1.1823
 ModGitParentCommit = 391825e5
 TextureFE =
 TextureIcon = 
-RuntimeMode = 3
 
-DataFolder.1 = Data
+DataFolder.1 = %LOCALE%\Data
+DataFolder.2 = Data
+DataFolder.3 = Data_Shared_Textures\%TEXTURE-LEVEL%
+DataFolder.4 = Data_Sound\%SOUND-LEVEL%
+DataFolder.5 = Data_Music
+DataFolder.6 = Data_Whm\%MODEL-LEVEL%
 
 RequiredMod.1 = DoWDE
 RequiredMod.2 = DXP3
 RequiredMod.3 = DXP2
 RequiredMod.4 = W40k
-RequiredMod.5 = WXP
-RequiredMod.6 = TFEReduxMaps
+RequiredMod.5 = TFEReduxMaps
