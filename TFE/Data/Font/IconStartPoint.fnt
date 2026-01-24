@@ -1,0 +1,16 @@
+font = 
+{
+	type 		= "FreeType2";
+	name 		= "Arial";
+	file		= "NotoSans-Black.ttf";
+
+	sizeDefault = 40;
+	size640		= 40;
+	size800		= 40;
+	size1024	= 40;
+	size1280 	= 40;
+	size1600 	= 40;
+
+	spaceChar	= " ";
+	missingChar	= "?";
+}

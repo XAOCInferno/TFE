@@ -2,20 +2,19 @@
 UIName = TheFinalExpansion
 Description =
 Playable = 1
-DllName = WXPMod
+DllName = DXP3Mod
 ModFolder = TFE
 ModVersion = 0.0.1.1823
 ModGitParentCommit = 391825e5
 TextureFE =
 TextureIcon = 
+RuntimeMode = 3
 
-DataFolder.1 = %LOCALE%\Data
-DataFolder.2 = Data
-DataFolder.3 = Data_Shared_Textures\%TEXTURE-LEVEL%
-DataFolder.4 = Data_Sound\%SOUND-LEVEL%
-DataFolder.5 = Data_Music
-DataFolder.6 = Data_Whm\%MODEL-LEVEL%
+DataFolder.1 = Data
 
-RequiredMod.1 = DXP2
-RequiredMod.2 = W40k
-RequiredMod.3 = TFEReduxMaps
+RequiredMod.1 = DoWDE
+RequiredMod.2 = DXP3
+RequiredMod.3 = DXP2
+RequiredMod.4 = W40k
+RequiredMod.5 = WXP
+RequiredMod.6 = TFEReduxMaps

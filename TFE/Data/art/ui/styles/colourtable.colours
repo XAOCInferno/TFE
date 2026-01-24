@@ -1,0 +1,164 @@
+-- BIA Style Sheet Colour Table
+
+---------------------------------------------------------------------------
+-- colour table
+
+ColourTable =
+{
+	-- Test style colours
+	{
+		key		= "TestTitleText",
+		value	= { 255, 255, 255, 192 },		
+	},
+	{
+		key		= "TestMessageText",
+		value	= { 255, 255, 255, 192 },		
+	},
+	{
+		key		= "TestButtonAcceptText",
+		value	= { 255, 255, 255, 192 },		
+	},
+	{
+		key		= "TestButtonCancelText",
+		value	= { 255, 255, 255, 192 },		
+	},
+	{
+		key		= "TestCheckBoxText",
+		value	= { 255, 255, 255, 192 },		
+	},
+	{
+		key		= "TestCheckBoxTextHighlight",
+		value	= { 255, 255, 255, 255 },		
+	},
+	{
+		key		= "TestDialogBackground",
+		value	= { 255, 0, 64, 128 },
+	},
+	{	
+		key		= "TestDialogTitleBackground",
+		value	= { 255, 0, 128, 128 },
+	},
+	{
+		key		= "TestButtonAcceptBackground",
+		value	= { 255, 0, 128, 128 },
+	},
+	{
+		key		= "TestButtonAcceptBackgroundHighlight",
+		value	= { 255, 192, 0, 192 },
+	},
+	{
+		key		= "TestButtonCancelBackground",
+		value	= { 255, 0, 128, 128 },
+	},
+	{
+		key		= "TestButtonCancelBackgroundHighlight",
+		value	= { 255, 192, 0, 192 },
+	},
+	{
+		key		= "TestButtonBackground",
+		value	= { 128, 128, 128, 32 },
+	},
+	{
+		key		= "TestButtonBackgroundHighlight",
+		value	= { 128, 128, 128, 128 },
+	},
+	{
+		key		= "TestCheckBoxBackground",
+		value	= { 255, 0, 128, 128 },
+	},
+	{
+		key		= "TestCheckBoxBackgroundHighlight",
+		value	= { 255, 192, 0, 192 },
+	},
+	{
+		key		= "TestEditTextBackground",
+		value	= { 0, 0, 0, 64 },
+	},
+	{
+		key		= "TestProgressBarBackground",
+		value	= { 0, 0, 0, 64 },
+	},
+	{
+		key		= "TestProgressBarProgress",
+		value	= { 255, 192, 0, 192 },
+	},
+	{
+		key		= "TestEditTextText",
+		value	= { 255, 255, 255, 192 },
+	},
+	{
+		key		= "TestEditTextTextHighlight",
+		value	= { 255, 255, 255, 255 },
+	},
+	{
+		key		= "TestComboBoxText",
+		value	= { 255, 255, 255, 192 },
+	},
+	{
+		key		= "TestComboBoxTextHighlight",
+		value	= { 255, 255, 255, 255 },
+	},
+	{
+		key		= "TestDialogExternalBorder",
+		value	= { 255, 0, 128, 255 },
+	},
+	{
+		key		= "TestDialogInternalBorder",
+		value	= { 155, 155, 155, 192 },
+	},
+	{
+		key		= "TestArtColour1",
+		value	= { 255, 0, 64, 64 },
+	},
+	{
+		key		= "TestArtColour2",
+		value	= { 128, 128, 128, 64 },
+	},
+	{
+		key		= "TestArtColour3a",
+		value	= { 255, 0, 128, 255 },
+	},
+	{
+		key		= "TestArtColour3b",
+		value	= { 255, 0, 128, 192 },
+	},
+	{
+		key		= "TestArtColour3c",
+		value	= { 255, 0, 128, 128 },
+	},
+	
+	
+	-- basic colours
+	{
+		key		= "White",
+		value	= { 255, 255, 255, 255 },
+	},
+	{
+		key		= "Black",
+		value	= { 0, 0, 0, 255 },
+	},
+	{
+		key		= "Red",
+		value	= { 255, 0, 0, 255 },
+	},
+	{
+		key		= "Orange",
+		value	= { 255, 128, 0, 255 },
+	},
+	{
+		key		= "Yellow",
+		value	= {255, 255, 0, 255 },
+	},
+	{
+		key		= "Green",
+		value	= { 0, 255, 0, 255 },
+	},
+	{
+		key		= "Blue",
+		value	= { 0, 0, 255, 255 },
+	},
+	{
+		key		= "Purple",
+		value	= { 255, 0, 255, 255 },
+	},
+}		
