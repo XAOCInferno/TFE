@@ -557,3 +557,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$97154]] -- - Can
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$97155]] -- - Weapon upgrades effective against infantry and breaking morale.
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[space_marine_icons/terminator_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$97150]] -- Terminator Squad
+GameData["ui_ext"]["use_hero_ui"] = true 

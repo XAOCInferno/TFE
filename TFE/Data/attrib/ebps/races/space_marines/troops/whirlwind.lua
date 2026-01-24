@@ -690,3 +690,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$701503]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$701502]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[space_marine_icons/whirlwind_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$97170]] -- Whirlwind
+GameData["ui_ext"]["use_hero_ui"] = true

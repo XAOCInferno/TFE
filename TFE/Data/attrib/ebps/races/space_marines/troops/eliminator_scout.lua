@@ -715,3 +715,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$97115]] -- - Can
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$97116]] -- - Effective as scouts and support units.
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[space_marine_icons/eliminator_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$97110]] -- Eliminator
+GameData["ui_ext"]["use_hero_ui"] = true 

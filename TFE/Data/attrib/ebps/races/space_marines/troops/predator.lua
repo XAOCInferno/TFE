@@ -707,3 +707,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$701450]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$701454]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[space_marine_icons/predator_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$701451]]
+GameData["ui_ext"]["use_hero_ui"] = true 

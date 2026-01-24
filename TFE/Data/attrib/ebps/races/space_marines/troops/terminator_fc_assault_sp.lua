@@ -525,6 +525,6 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_01"] = [[$97152]] -- - Hea
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_02"] = [[$97153]] -- - Very tough advanced combat unit. Slow moving.
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$97154]] -- - Can be teleported to any visible location from this structure.
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$97155]] -- - Weapon upgrades effective against infantry and breaking morale.
-GameData["ui_ext"]["ui_info"]["icon_name"] = [[space_marine_icons/terminator_icon]]
+GameData["ui_ext"]["ui_info"]["icon_name"] = [[space_marine_icons/terminator_assault_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$97150]] -- Terminator Squad
 GameData["ui_ext"]["use_hero_ui"] = true 

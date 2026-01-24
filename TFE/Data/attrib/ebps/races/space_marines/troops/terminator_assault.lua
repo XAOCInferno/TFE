@@ -780,5 +780,6 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_02"] = [[$97163]] -- - Ver
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$97164]] -- - Can be teleported to any visible location from this structure.
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$97165]] -- - Foregoes ranged weaponry for additional close combat damage and defense.
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$97166]] -- - Effective against most unit types in close combat.
-GameData["ui_ext"]["ui_info"]["icon_name"] = [[space_marine_icons/terminator_icon]]
+GameData["ui_ext"]["ui_info"]["icon_name"] = [[space_marine_icons/terminator_assault_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$97160]] -- Assault Terminator Squad
+GameData["ui_ext"]["use_hero_ui"] = true 
