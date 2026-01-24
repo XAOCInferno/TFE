@@ -30361,7 +30361,7 @@ Screen =
 														size =  
 														{
 															0.04440,
-															0.07602,
+															0.07600,
 														},
 													},
 													 
@@ -30884,7 +30884,7 @@ Screen =
 														position =  
 														{
 															0.11100,
-															0.00497,
+															0.00300,
 														},
 														Clip = true,
 														name = "Hero_4",
@@ -30894,7 +30894,7 @@ Screen =
 														size =  
 														{
 															0.04375,
-															0.07590,
+															0.07600,
 														},
 													},
 													 
@@ -31417,7 +31417,7 @@ Screen =
 														position =  
 														{
 															0.16300,
-															0.00497,
+															0.00300,
 														},
 														Clip = true,
 														name = "Hero_5",
@@ -31427,7 +31427,7 @@ Screen =
 														size =  
 														{
 															0.04500,
-															0.07403,
+															0.07600,
 														},
 													},
 													 
@@ -31950,7 +31950,7 @@ Screen =
 														position =  
 														{
 															0.21500,
-															0.00497,
+															0.00300,
 														},
 														Clip = true,
 														name = "Hero_6",
@@ -31960,7 +31960,7 @@ Screen =
 														size =  
 														{
 															0.05200,
-															0.07590,
+															0.07600,
 														},
 													},
 													 
@@ -32483,7 +32483,7 @@ Screen =
 														position =  
 														{
 															0.26700,
-															0.00497,
+															0.00300,
 														},
 														Clip = true,
 														name = "Hero_7",
@@ -32493,7 +32493,7 @@ Screen =
 														size =  
 														{
 															0.05200,
-															0.07403,
+															0.07600,
 														},
 													},
 													 
@@ -33016,7 +33016,7 @@ Screen =
 														position =  
 														{
 															0.00750,
-															0.09000,
+															0.08306,
 														},
 														Clip = true,
 														name = "Hero_8",
@@ -33549,7 +33549,7 @@ Screen =
 														position =  
 														{
 															0.05941,
-															0.09000,
+															0.08306,
 														},
 														Clip = true,
 														name = "Hero_9",
@@ -34062,7 +34062,7 @@ Screen =
 														position =  
 														{
 															0.11100,
-															0.09000,
+															0.08306,
 														},
 														Clip = true,
 														name = "Hero_10",
@@ -34595,7 +34595,7 @@ Screen =
 														position =  
 														{
 															0.16300,
-															0.09000,
+															0.08306,
 														},
 														Clip = true,
 														name = "Hero_11",
@@ -35128,7 +35128,7 @@ Screen =
 														position =  
 														{
 															0.21500,
-															0.09000,
+															0.08306,
 														},
 														Clip = true,
 														name = "Hero_12",
@@ -35661,7 +35661,7 @@ Screen =
 														position =  
 														{
 															0.26700,
-															0.09000,
+															0.08306,
 														},
 														Clip = true,
 														name = "Hero_13",
@@ -35695,7 +35695,7 @@ Screen =
 												},
 												size =  
 												{
-													0.26181,
+													0.31881,
 													0.17174,
 												},
 											},
@@ -40166,94 +40166,6 @@ ToolInfo =
 			ArtGuides =  
 			{
 			},
-			name = "CommandIcon14",
-			HitAreaGuides =  
-			{
-			},
-			type = "Button",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "CommandIcon13",
-			HitAreaGuides =  
-			{
-			},
-			type = "Button",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "ProgressIcon14",
-			HitAreaGuides =  
-			{
-			},
-			type = "ProgressBar",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "prgLbl_ProgressIcon14",
-			HitAreaGuides =  
-			{
-			},
-			type = "Component",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "ProgressIcon13",
-			HitAreaGuides =  
-			{
-			},
-			type = "ProgressBar",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "prgLbl_ProgressIcon13",
-			HitAreaGuides =  
-			{
-			},
-			type = "Component",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "CommandIcon13Hotkey",
-			HitAreaGuides =  
-			{
-			},
-			type = "TextLabel",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "CommandIcon14Hotkey",
-			HitAreaGuides =  
-			{
-			},
-			type = "TextLabel",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
 			name = "grpUpgrades",
 			HitAreaGuides =  
 			{
@@ -42482,6 +42394,105 @@ ToolInfo =
 			ArtGuides =  
 			{
 			},
+			name = "grpCommandIconsSpecial",
+			HitAreaGuides =  
+			{
+			},
+			type = "Group",
+		},
+		 
+		{
+			ArtGuides =  
+			{
+			},
+			name = "CommandIcon13",
+			HitAreaGuides =  
+			{
+			},
+			type = "Button",
+		},
+		 
+		{
+			ArtGuides =  
+			{
+			},
+			name = "CommandIcon14",
+			HitAreaGuides =  
+			{
+			},
+			type = "Button",
+		},
+		 
+		{
+			ArtGuides =  
+			{
+			},
+			name = "CommandIcon13Hotkey",
+			HitAreaGuides =  
+			{
+			},
+			type = "TextLabel",
+		},
+		 
+		{
+			ArtGuides =  
+			{
+			},
+			name = "CommandIcon14Hotkey",
+			HitAreaGuides =  
+			{
+			},
+			type = "TextLabel",
+		},
+		 
+		{
+			ArtGuides =  
+			{
+			},
+			name = "ProgressIcon13",
+			HitAreaGuides =  
+			{
+			},
+			type = "ProgressBar",
+		},
+		 
+		{
+			ArtGuides =  
+			{
+			},
+			name = "prgLbl_ProgressIcon13",
+			HitAreaGuides =  
+			{
+			},
+			type = "Component",
+		},
+		 
+		{
+			ArtGuides =  
+			{
+			},
+			name = "ProgressIcon14",
+			HitAreaGuides =  
+			{
+			},
+			type = "ProgressBar",
+		},
+		 
+		{
+			ArtGuides =  
+			{
+			},
+			name = "prgLbl_ProgressIcon14",
+			HitAreaGuides =  
+			{
+			},
+			type = "Component",
+		},
+		 
+		{
+			ArtGuides =  
+			{
+			},
 			name = "grpTaskbarLeft",
 			HitAreaGuides =  
 			{
@@ -44651,17 +44662,6 @@ ToolInfo =
 			{
 			},
 			type = "",
-		},
-		 
-		{
-			ArtGuides =  
-			{
-			},
-			name = "grpCommandIconsSpecial",
-			HitAreaGuides =  
-			{
-			},
-			type = "Group",
 		},
 	},
 	Guides =  
