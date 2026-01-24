@@ -677,4 +677,3 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$583702]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$583703]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[chaos_icons/predator_tzeentch_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$90611]] -- Chaos Predator
-GameData["ui_ext"]["use_hero_ui"] = true 
