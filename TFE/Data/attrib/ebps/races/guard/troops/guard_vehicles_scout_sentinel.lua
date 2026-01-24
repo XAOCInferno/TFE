@@ -233,3 +233,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_02"] = [[$691102]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$4600012]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[guard_icons/guard_squad_scout_sentinel]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$691100]]
+GameData["ui_ext"]["use_hero_ui"] = true 

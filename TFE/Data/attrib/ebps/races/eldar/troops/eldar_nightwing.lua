@@ -695,3 +695,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_02"] = [[$4450052]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$4600010]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[eldar_icons/nightwing_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$4450050]]
+GameData["ui_ext"]["use_hero_ui"] = true 

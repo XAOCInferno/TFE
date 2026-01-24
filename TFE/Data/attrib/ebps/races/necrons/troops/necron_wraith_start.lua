@@ -674,3 +674,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_06"] = [[$705707]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_07"] = [[$708662]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[necron_wraith_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$705700]]
+GameData["ui_ext"]["use_hero_ui"] = true 

@@ -230,3 +230,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$706208]] -- - We
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$706209]] -- - Uses Squad Cap
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[tau_icons/tau_crisis_suit_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$706200]] -- XV8 Crisis Battlesuit
+GameData["ui_ext"]["use_hero_ui"] = true 

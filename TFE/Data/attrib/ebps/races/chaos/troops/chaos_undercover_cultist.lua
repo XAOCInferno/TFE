@@ -724,3 +724,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$97275]] -- - Sta
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$575706]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[chaos_icons/undercover_cultist_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$90603]] -- Undercover Cultist
+GameData["ui_ext"]["use_hero_ui"] = true 

@@ -694,3 +694,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_02"] = [[$4050124]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$4050125]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[dark_eldar_icons/ravager_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$4050122]]
+GameData["ui_ext"]["use_hero_ui"] = true 

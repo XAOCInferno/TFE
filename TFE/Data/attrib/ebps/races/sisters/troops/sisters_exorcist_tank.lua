@@ -655,3 +655,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$4250150]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$4250151]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[sisters_icons/squad_exorcist_tank]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$4250147]]
+GameData["ui_ext"]["use_hero_ui"] = true 

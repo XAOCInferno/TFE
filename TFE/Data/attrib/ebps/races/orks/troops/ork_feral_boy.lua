@@ -258,3 +258,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$20010105]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$20010106]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[ork_icons/feral_boyz_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$20010101]] -- Slugga Boy
+GameData["ui_ext"]["use_hero_ui"] = true 

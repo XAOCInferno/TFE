@@ -422,3 +422,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_02"] = [[$4250107]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$4250108]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[sisters_icons/squad_leader_repentia]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$4250105]]
+GameData["ui_ext"]["use_hero_ui"] = true 

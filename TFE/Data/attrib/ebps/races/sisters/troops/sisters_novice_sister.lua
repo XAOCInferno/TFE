@@ -717,3 +717,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$4250076]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$4250077]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[sisters_icons/squad_novice_sisters]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$4250073]] -- Novitiate Sisiter
+GameData["ui_ext"]["use_hero_ui"] = true 

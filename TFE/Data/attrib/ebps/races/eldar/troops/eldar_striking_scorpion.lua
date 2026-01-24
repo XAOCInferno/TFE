@@ -208,3 +208,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$97754]] -- - Eff
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$0]] -- - Starts with infiltartion.
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[eldar_icons/striking_scorpion_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$90714]] -- Striking Scorpion
+GameData["ui_ext"]["use_hero_ui"] = true 

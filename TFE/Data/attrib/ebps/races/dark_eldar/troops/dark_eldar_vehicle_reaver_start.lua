@@ -648,3 +648,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_02"] = [[$691102]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$4050116]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[dark_eldar_icons/reaver_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$4050113]]
+GameData["ui_ext"]["use_hero_ui"] = true 

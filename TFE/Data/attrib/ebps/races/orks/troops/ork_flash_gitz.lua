@@ -743,3 +743,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$575353]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$575354]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[ork_icons/flash_gitz_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$575350]]
+GameData["ui_ext"]["use_hero_ui"] = true 

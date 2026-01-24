@@ -492,3 +492,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$4050135]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$4050104]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[dark_eldar_icons/warp_beast_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$4050096]]
+GameData["ui_ext"]["use_hero_ui"] = true 

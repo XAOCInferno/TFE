@@ -256,3 +256,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$4050158]] -- - E
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[dark_eldar_icons/HG_incubus_icon]]
 GameData["ui_ext"]["ui_info"]["pseudo_leader"] = true 
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$4050067]]
+GameData["ui_ext"]["use_hero_ui"] = true 

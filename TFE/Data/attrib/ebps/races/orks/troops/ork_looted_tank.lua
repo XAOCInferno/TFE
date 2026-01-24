@@ -713,3 +713,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$700655]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_05"] = [[$700654]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[ork_icons/looted_tank_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$90811]] -- Looted Leman Russ Tank
+GameData["ui_ext"]["use_hero_ui"] = true 

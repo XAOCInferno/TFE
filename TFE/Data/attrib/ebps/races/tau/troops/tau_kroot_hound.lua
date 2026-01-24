@@ -509,3 +509,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_02"] = [[$706502]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$706503]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[tau_icons/tau_kroot_hound_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$706500]]
+GameData["ui_ext"]["use_hero_ui"] = true 

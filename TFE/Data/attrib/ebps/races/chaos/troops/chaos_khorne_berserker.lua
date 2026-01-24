@@ -727,3 +727,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$693902]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$693904]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[chaos_icons/chaos_marine_icon_khorne_berzerker]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$693900]]
+GameData["ui_ext"]["use_hero_ui"] = true 

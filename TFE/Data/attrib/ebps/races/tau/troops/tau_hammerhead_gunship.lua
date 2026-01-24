@@ -664,3 +664,4 @@ GameData["ui_ext"]["ui_info"]["help_text_list"]["text_03"] = [[$707108]]
 GameData["ui_ext"]["ui_info"]["help_text_list"]["text_04"] = [[$4600012]]
 GameData["ui_ext"]["ui_info"]["icon_name"] = [[tau_icons/tau_hammerhead_icon]]
 GameData["ui_ext"]["ui_info"]["screen_name_id"] = [[$707100]]
+GameData["ui_ext"]["use_hero_ui"] = true 
