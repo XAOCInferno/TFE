@@ -1,0 +1,1 @@
+"C:\Program Files (x86)\Steam\steamapps\common\Dawn of War Definitive Edition\W40k.exe"  -modname TheFinalExpansion -nomovies
