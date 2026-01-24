@@ -7995,7 +7995,7 @@ Screen =
 														},
 														size =  
 														{
-															0.14800,
+															0.16300,
 															0.07900,
 														},
 													},
@@ -8036,7 +8036,7 @@ Screen =
 														},
 														size =  
 														{
-															0.14800,
+															0.16300,
 															0.07900,
 														},
 													},
@@ -8110,7 +8110,7 @@ Screen =
 														},
 														size =  
 														{
-															0.15179,
+															0.16460,
 															0.08619,
 														},
 													},
@@ -8440,7 +8440,7 @@ Screen =
 												position =  
 												{
 													0.00139,
-													0.06806,
+													0.08200,
 												},
 												Clip = true,
 												style =  
@@ -8453,8 +8453,8 @@ Screen =
 												},
 												size =  
 												{
-													0.15267,
-													0.08694,
+													0.16361,
+													0.07300,
 												},
 											},
 										},
@@ -8478,8 +8478,8 @@ Screen =
 										name = "grpGlobalAbilities",
 										position =  
 										{
-											0.74496,
-											0.64186,
+											0.72934,
+											0.64464,
 										},
 										Clip = true,
 										style =  
@@ -8535,6 +8535,7 @@ Screen =
 													-0.00021,
 													0.00312,
 												},
+												Clip = true,
 												name = "CommandIcon01",
 												Presentation =  
 												{
@@ -8602,7 +8603,11 @@ Screen =
 														},
 													},
 												},
-												Clip = true,
+												size =  
+												{
+													0.04321,
+													0.05451,
+												},
 											},
 											 
 											{
@@ -11233,530 +11238,6 @@ Screen =
 												{
 													0.03500,
 													0.00600,
-												},
-											},
-											 
-											{
-												type = "Button",
-												buttonType = "ClickOnPress",
-												text = "",
-												wantAlternate = true,
-												HitArea =  
-												{
-													 
-													{
-														type = "Rectangle",
-														size =  
-														{
-															1,
-															1,
-														},
-														position =  
-														{
-															0,
-															0,
-														},
-													},
-												},
-												name = "CommandIcon14",
-												position =  
-												{
-													0.13428,
-													-0.05799,
-												},
-												Clip = true,
-												style =  
-												{
-													"uistyles",
-													"cmd_Temp",
-												},
-												Presentation =  
-												{
-													Art =  
-													{
-														 
-														{
-															type = "Graphic",
-															ID = 318,
-															texture = "art/ui/textures/default.tga",
-															states =  
-															{
-																"Disabled",
-															},
-														},
-														 
-														{
-															type = "Graphic",
-															ID = 319,
-															texture = "art/ui/textures/taskbar/taskbar_share/cmd_temp.tga",
-															states =  
-															{
-																"Normal",
-																"Active",
-																"Hover",
-															},
-														},
-														 
-														{
-															type = "Rectangle",
-															ID = 320,
-															rectangleType = "Border",
-															states =  
-															{
-																"Active",
-															},
-														},
-														 
-														{
-															type = "Rectangle",
-															ID = 321,
-															colour =  
-															{
-																255,
-																255,
-																255,
-																255,
-															},
-															rectangleType = "Border",
-															states =  
-															{
-																"Hover",
-															},
-														},
-													},
-													Sound =  
-													{
-														 
-														{
-															event = "OnClick",
-														},
-														 
-														{
-															event = "OnClickAlternate",
-														},
-													},
-												},
-												size =  
-												{
-													0.04339,
-													0.05451,
-												},
-											},
-											 
-											{
-												type = "Button",
-												buttonType = "ClickOnPress",
-												text = "",
-												wantAlternate = true,
-												HitArea =  
-												{
-													 
-													{
-														type = "Rectangle",
-														size =  
-														{
-															1,
-															1,
-														},
-														position =  
-														{
-															0,
-															0,
-														},
-													},
-												},
-												name = "CommandIcon13",
-												position =  
-												{
-													0.08945,
-													-0.05799,
-												},
-												Clip = true,
-												style =  
-												{
-													"uistyles",
-													"cmd_Temp",
-												},
-												Presentation =  
-												{
-													Art =  
-													{
-														 
-														{
-															type = "Graphic",
-															ID = 314,
-															texture = "art/ui/textures/default.tga",
-															states =  
-															{
-																"Disabled",
-															},
-														},
-														 
-														{
-															type = "Graphic",
-															ID = 315,
-															texture = "art/ui/textures/taskbar/taskbar_share/cmd_temp.tga",
-															states =  
-															{
-																"Normal",
-																"Active",
-																"Hover",
-															},
-														},
-														 
-														{
-															type = "Rectangle",
-															ID = 316,
-															rectangleType = "Border",
-															states =  
-															{
-																"Active",
-															},
-														},
-														 
-														{
-															type = "Rectangle",
-															ID = 317,
-															colour =  
-															{
-																255,
-																255,
-																255,
-																255,
-															},
-															rectangleType = "Border",
-															states =  
-															{
-																"Hover",
-															},
-														},
-													},
-													Sound =  
-													{
-														 
-														{
-															event = "OnClick",
-														},
-														 
-														{
-															event = "OnClickAlternate",
-														},
-													},
-												},
-												size =  
-												{
-													0.04339,
-													0.05451,
-												},
-											},
-											 
-											{
-												type = "ProgressBar",
-												Progress =  
-												{
-													type = "ArtLabel",
-													name = "prgLbl_ProgressIcon14",
-													position =  
-													{
-														0,
-														0,
-													},
-													Clip = true,
-													HitArea =  
-													{
-													},
-													Presentation =  
-													{
-														Art =  
-														{
-															 
-															{
-																type = "Graphic",
-																ID = 224951,
-																colour =  
-																{
-																	255,
-																	183,
-																	19,
-																	255,
-																},
-																texture = "art/ui/textures/art_gradient_ability.tga",
-																states =  
-																{
-																	"Normal",
-																	"Active",
-																	"Hover",
-																	"Disabled",
-																},
-															},
-															 
-															{
-																type = "Rectangle",
-																ID = 224952,
-																rectangleType = "Border",
-																states =  
-																{
-																	"Normal",
-																	"Active",
-																	"Hover",
-																	"Disabled",
-																},
-															},
-														},
-													},
-													size =  
-													{
-														0,
-														0.00600,
-													},
-												},
-												HitArea =  
-												{
-												},
-												style =  
-												{
-													"uistyles",
-													"cmd_AbilityProgress",
-												},
-												position =  
-												{
-													0.13893,
-													-0.01508,
-												},
-												name = "ProgressIcon14",
-												Clip = true,
-												size =  
-												{
-													0.03500,
-													0.00600,
-												},
-											},
-											 
-											{
-												type = "ProgressBar",
-												Progress =  
-												{
-													type = "ArtLabel",
-													name = "prgLbl_ProgressIcon13",
-													position =  
-													{
-														0,
-														0,
-													},
-													Clip = true,
-													HitArea =  
-													{
-													},
-													Presentation =  
-													{
-														Art =  
-														{
-															 
-															{
-																type = "Graphic",
-																ID = 224911,
-																colour =  
-																{
-																	255,
-																	183,
-																	19,
-																	255,
-																},
-																texture = "art/ui/textures/art_gradient_ability.tga",
-																states =  
-																{
-																	"Normal",
-																	"Active",
-																	"Hover",
-																	"Disabled",
-																},
-															},
-															 
-															{
-																type = "Rectangle",
-																ID = 224912,
-																rectangleType = "Border",
-																states =  
-																{
-																	"Normal",
-																	"Active",
-																	"Hover",
-																	"Disabled",
-																},
-															},
-														},
-													},
-													size =  
-													{
-														0,
-														0.00600,
-													},
-												},
-												HitArea =  
-												{
-												},
-												style =  
-												{
-													"uistyles",
-													"cmd_AbilityProgress",
-												},
-												position =  
-												{
-													0.09391,
-													-0.01508,
-												},
-												name = "ProgressIcon13",
-												Clip = true,
-												size =  
-												{
-													0.03500,
-													0.00600,
-												},
-											},
-											 
-											{
-												type = "TextLabel",
-												text = "",
-												HitArea =  
-												{
-												},
-												name = "CommandIcon13Hotkey",
-												position =  
-												{
-													0.09100,
-													-0.05400,
-												},
-												Clip = true,
-												style =  
-												{
-													"defaultstyles",
-													"defStyleTextLabel",
-												},
-												Presentation =  
-												{
-													Art =  
-													{
-														 
-														{
-															type = "Rectangle",
-															ID = 368407,
-															colour =  
-															{
-																0,
-																0,
-																0,
-																153,
-															},
-															states =  
-															{
-																"Normal",
-																"Active",
-																"Hover",
-																"Disabled",
-															},
-														},
-														 
-														{
-															type = "Text",
-															textColourBottom = "TestTitleText",
-															fontname = "notosans_m_16_xc",
-															textColourTop = "TestTitleText",
-															multiline = false,
-															horzAlign = "Centre",
-															ID = 354034,
-															padding =  
-															{
-																0,
-																0.02000,
-															},
-															dropShadow = true,
-															states =  
-															{
-																"Normal",
-																"Active",
-																"Hover",
-																"Disabled",
-															},
-														},
-													},
-												},
-												size =  
-												{
-													0.01500,
-													0.01800,
-												},
-											},
-											 
-											{
-												type = "TextLabel",
-												text = "",
-												HitArea =  
-												{
-												},
-												name = "CommandIcon14Hotkey",
-												position =  
-												{
-													0.13600,
-													-0.05400,
-												},
-												Clip = true,
-												style =  
-												{
-													"defaultstyles",
-													"defStyleTextLabel",
-												},
-												Presentation =  
-												{
-													Art =  
-													{
-														 
-														{
-															type = "Rectangle",
-															ID = 368407,
-															colour =  
-															{
-																0,
-																0,
-																0,
-																153,
-															},
-															states =  
-															{
-																"Normal",
-																"Active",
-																"Hover",
-																"Disabled",
-															},
-														},
-														 
-														{
-															type = "Text",
-															textColourBottom = "TestTitleText",
-															fontname = "notosans_m_16_xc",
-															textColourTop = "TestTitleText",
-															multiline = false,
-															horzAlign = "Centre",
-															ID = 354034,
-															padding =  
-															{
-																0,
-																0.02000,
-															},
-															dropShadow = true,
-															states =  
-															{
-																"Normal",
-																"Active",
-																"Hover",
-																"Disabled",
-															},
-														},
-													},
-												},
-												size =  
-												{
-													0.01500,
-													0.01800,
 												},
 											},
 										},
@@ -25742,6 +25223,580 @@ Screen =
 										{
 											1,
 											1,
+										},
+									},
+									 
+									{
+										type = "Group",
+										Children =  
+										{
+											 
+											{
+												visible = false,
+												type = "Button",
+												buttonType = "ClickOnPress",
+												text = "",
+												wantAlternate = true,
+												HitArea =  
+												{
+													 
+													{
+														type = "Rectangle",
+														size =  
+														{
+															1,
+															1,
+														},
+														position =  
+														{
+															0,
+															0,
+														},
+													},
+												},
+												style =  
+												{
+													"uistyles",
+													"cmd_Temp",
+												},
+												position =  
+												{
+													0,
+													0.00300,
+												},
+												Clip = true,
+												name = "CommandIcon13",
+												Presentation =  
+												{
+													Art =  
+													{
+														 
+														{
+															type = "Graphic",
+															ID = 314,
+															texture = "art/ui/textures/default.tga",
+															states =  
+															{
+																"Disabled",
+															},
+														},
+														 
+														{
+															type = "Graphic",
+															ID = 315,
+															texture = "art/ui/textures/taskbar/taskbar_share/cmd_temp.tga",
+															states =  
+															{
+																"Normal",
+																"Active",
+																"Hover",
+															},
+														},
+														 
+														{
+															type = "Rectangle",
+															ID = 316,
+															rectangleType = "Border",
+															states =  
+															{
+																"Active",
+															},
+														},
+														 
+														{
+															type = "Rectangle",
+															ID = 317,
+															colour =  
+															{
+																255,
+																255,
+																255,
+																255,
+															},
+															rectangleType = "Border",
+															states =  
+															{
+																"Hover",
+															},
+														},
+													},
+													Sound =  
+													{
+														 
+														{
+															event = "OnClick",
+														},
+														 
+														{
+															event = "OnClickAlternate",
+														},
+													},
+												},
+												size =  
+												{
+													0.04300,
+													0.05500,
+												},
+											},
+											 
+											{
+												visible = false,
+												type = "Button",
+												buttonType = "ClickOnPress",
+												text = "",
+												wantAlternate = true,
+												HitArea =  
+												{
+													 
+													{
+														type = "Rectangle",
+														size =  
+														{
+															1,
+															1,
+														},
+														position =  
+														{
+															0,
+															0,
+														},
+													},
+												},
+												style =  
+												{
+													"uistyles",
+													"cmd_Temp",
+												},
+												position =  
+												{
+													0.04500,
+													0.00300,
+												},
+												Clip = true,
+												name = "CommandIcon14",
+												Presentation =  
+												{
+													Art =  
+													{
+														 
+														{
+															type = "Graphic",
+															ID = 318,
+															texture = "art/ui/textures/default.tga",
+															states =  
+															{
+																"Disabled",
+															},
+														},
+														 
+														{
+															type = "Graphic",
+															ID = 319,
+															texture = "art/ui/textures/taskbar/taskbar_share/cmd_temp.tga",
+															states =  
+															{
+																"Normal",
+																"Active",
+																"Hover",
+															},
+														},
+														 
+														{
+															type = "Rectangle",
+															ID = 320,
+															rectangleType = "Border",
+															states =  
+															{
+																"Active",
+															},
+														},
+														 
+														{
+															type = "Rectangle",
+															ID = 321,
+															colour =  
+															{
+																255,
+																255,
+																255,
+																255,
+															},
+															rectangleType = "Border",
+															states =  
+															{
+																"Hover",
+															},
+														},
+													},
+													Sound =  
+													{
+														 
+														{
+															event = "OnClick",
+														},
+														 
+														{
+															event = "OnClickAlternate",
+														},
+													},
+												},
+												size =  
+												{
+													0.04300,
+													0.05500,
+												},
+											},
+											 
+											{
+												visible = false,
+												type = "TextLabel",
+												text = "",
+												HitArea =  
+												{
+												},
+												style =  
+												{
+													"defaultstyles",
+													"defStyleTextLabel",
+												},
+												position =  
+												{
+													0.00200,
+													0.00700,
+												},
+												Clip = true,
+												name = "CommandIcon13Hotkey",
+												Presentation =  
+												{
+													Art =  
+													{
+														 
+														{
+															type = "Rectangle",
+															ID = 368407,
+															colour =  
+															{
+																0,
+																0,
+																0,
+																153,
+															},
+															states =  
+															{
+																"Normal",
+																"Active",
+																"Hover",
+																"Disabled",
+															},
+														},
+														 
+														{
+															type = "Text",
+															textColourBottom = "TestTitleText",
+															fontname = "notosans_m_16_xc",
+															textColourTop = "TestTitleText",
+															multiline = false,
+															horzAlign = "Centre",
+															ID = 354034,
+															padding =  
+															{
+																0,
+																0.02000,
+															},
+															dropShadow = true,
+															states =  
+															{
+																"Normal",
+																"Active",
+																"Hover",
+																"Disabled",
+															},
+														},
+													},
+												},
+												size =  
+												{
+													0.01500,
+													0.01800,
+												},
+											},
+											 
+											{
+												visible = false,
+												type = "TextLabel",
+												text = "",
+												HitArea =  
+												{
+												},
+												style =  
+												{
+													"defaultstyles",
+													"defStyleTextLabel",
+												},
+												position =  
+												{
+													0.04700,
+													0.00700,
+												},
+												Clip = true,
+												name = "CommandIcon14Hotkey",
+												Presentation =  
+												{
+													Art =  
+													{
+														 
+														{
+															type = "Rectangle",
+															ID = 368407,
+															colour =  
+															{
+																0,
+																0,
+																0,
+																153,
+															},
+															states =  
+															{
+																"Normal",
+																"Active",
+																"Hover",
+																"Disabled",
+															},
+														},
+														 
+														{
+															type = "Text",
+															textColourBottom = "TestTitleText",
+															fontname = "notosans_m_16_xc",
+															textColourTop = "TestTitleText",
+															multiline = false,
+															horzAlign = "Centre",
+															ID = 354034,
+															padding =  
+															{
+																0,
+																0.02000,
+															},
+															dropShadow = true,
+															states =  
+															{
+																"Normal",
+																"Active",
+																"Hover",
+																"Disabled",
+															},
+														},
+													},
+												},
+												size =  
+												{
+													0.01500,
+													0.01800,
+												},
+											},
+											 
+											{
+												visible = false,
+												type = "ProgressBar",
+												Progress =  
+												{
+													type = "ArtLabel",
+													name = "prgLbl_ProgressIcon13",
+													position =  
+													{
+														0,
+														0,
+													},
+													Clip = true,
+													HitArea =  
+													{
+													},
+													Presentation =  
+													{
+														Art =  
+														{
+															 
+															{
+																type = "Graphic",
+																ID = 224911,
+																colour =  
+																{
+																	255,
+																	183,
+																	19,
+																	255,
+																},
+																texture = "art/ui/textures/art_gradient_ability.tga",
+																states =  
+																{
+																	"Normal",
+																	"Active",
+																	"Hover",
+																	"Disabled",
+																},
+															},
+															 
+															{
+																type = "Rectangle",
+																ID = 224912,
+																rectangleType = "Border",
+																states =  
+																{
+																	"Normal",
+																	"Active",
+																	"Hover",
+																	"Disabled",
+																},
+															},
+														},
+													},
+													size =  
+													{
+														0,
+														0.00600,
+													},
+												},
+												HitArea =  
+												{
+												},
+												style =  
+												{
+													"uistyles",
+													"cmd_AbilityProgress",
+												},
+												position =  
+												{
+													0.00400,
+													0.04894,
+												},
+												name = "ProgressIcon13",
+												Clip = true,
+												size =  
+												{
+													0.03500,
+													0.00600,
+												},
+											},
+											 
+											{
+												visible = false,
+												type = "ProgressBar",
+												Progress =  
+												{
+													type = "ArtLabel",
+													name = "prgLbl_ProgressIcon14",
+													position =  
+													{
+														0,
+														0,
+													},
+													Clip = true,
+													HitArea =  
+													{
+													},
+													Presentation =  
+													{
+														Art =  
+														{
+															 
+															{
+																type = "Graphic",
+																ID = 224951,
+																colour =  
+																{
+																	255,
+																	183,
+																	19,
+																	255,
+																},
+																texture = "art/ui/textures/art_gradient_ability.tga",
+																states =  
+																{
+																	"Normal",
+																	"Active",
+																	"Hover",
+																	"Disabled",
+																},
+															},
+															 
+															{
+																type = "Rectangle",
+																ID = 224952,
+																rectangleType = "Border",
+																states =  
+																{
+																	"Normal",
+																	"Active",
+																	"Hover",
+																	"Disabled",
+																},
+															},
+														},
+													},
+													size =  
+													{
+														0,
+														0.00600,
+													},
+												},
+												HitArea =  
+												{
+												},
+												style =  
+												{
+													"uistyles",
+													"cmd_AbilityProgress",
+												},
+												position =  
+												{
+													0.04900,
+													0.04894,
+												},
+												name = "ProgressIcon14",
+												Clip = true,
+												size =  
+												{
+													0.03500,
+													0.00600,
+												},
+											},
+										},
+										HitArea =  
+										{
+											 
+											{
+												type = "Rectangle",
+												size =  
+												{
+													1,
+													1,
+												},
+												position =  
+												{
+													0,
+													0,
+												},
+											},
+										},
+										name = "grpCommandIconsSpecial",
+										position =  
+										{
+											0.89672,
+											0.75389,
+										},
+										Clip = true,
+										style =  
+										{
+											"defaultstyles",
+											"defStyleGroup",
+										},
+										Presentation =  
+										{
+										},
+										size =  
+										{
+											0.08984,
+											0.06000,
 										},
 									},
 								},
@@ -44596,6 +44651,17 @@ ToolInfo =
 			{
 			},
 			type = "",
+		},
+		 
+		{
+			ArtGuides =  
+			{
+			},
+			name = "grpCommandIconsSpecial",
+			HitAreaGuides =  
+			{
+			},
+			type = "Group",
 		},
 	},
 	Guides =  

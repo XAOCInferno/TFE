@@ -430,6 +430,8 @@ list_abilities_progress =
     "ProgressIcon10", -- 	ABILITY2
     "ProgressIcon11", -- 	ABILITY3
     "ProgressIcon12", -- 	ABILITY4
+    "ProgressIcon13", -- 	ABILITY TOP L 
+    "ProgressIcon14", -- 	ABILITY TOP R
 	
     "GlobalProgressIcon01", -- 	GLOBAL ABILITY 1
     "GlobalProgressIcon02", -- 	GLOBAL ABILITY 2
