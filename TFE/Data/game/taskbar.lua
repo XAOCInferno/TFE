@@ -254,18 +254,59 @@ list_commands =
 	"CommandIcon10",
 	"CommandIcon11",
 	"CommandIcon12",
-
-	"CommandIcon01Special", --Stance (Yellow,Blue,Orange,Red,Green)
-	"CommandIcon02Special", --Stance (Melee,Range)
+	"CommandIcon13",
+	"CommandIcon14",
 	
-	"CommandIconGlobalAbility01",
-	"CommandIconGlobalAbility02",
-	"CommandIconGlobalAbility03",
-	"CommandIconGlobalAbility04",
-	"CommandIconGlobalAbility05",
+	"GlobalCommandIcon01",
+	"GlobalCommandIcon02",
+	"GlobalCommandIcon03",
+	"GlobalCommandIcon04",
+	"GlobalCommandIcon05",
 }
 
-list_production = list_commands
+list_production = 
+{
+	"CommandIcon01",
+	"CommandIcon02",
+	"CommandIcon03",
+	"CommandIcon04",
+	"CommandIcon05",
+	"CommandIcon06",
+	"CommandIcon07",
+	"CommandIcon08",
+	"CommandIcon09", 
+	"CommandIcon10",
+	"CommandIcon11",
+	"CommandIcon12",
+	"CommandIcon13", 
+	"CommandIcon14", 
+}
+
+-- Spécial Ombrephenix  modifications Démo Mod Codex Evolutions  --
+--new list--
+list_extra_menu_production =
+{
+	"CommandIcon01",
+	"CommandIcon02",
+	"CommandIcon03",
+	"CommandIcon04",
+	"CommandIcon05",
+	"CommandIcon06",
+	"CommandIcon07",
+	"CommandIcon08",
+	"CommandIcon09", 
+	"CommandIcon10",
+	"CommandIcon11",
+	"CommandIcon12",
+	"CommandIcon13", 
+	"CommandIcon14", 
+	
+	"GlobalCommandIcon01",
+	"GlobalCommandIcon02",
+	"GlobalCommandIcon03",
+	"GlobalCommandIcon04",
+	"GlobalCommandIcon05",
+}
 
 list_builder_construction = 
 {
@@ -280,64 +321,63 @@ list_builder_construction =
 	"CommandIcon09", 
 	"CommandIcon10",
 	"CommandIcon11",
-	"CommandIcon12",
-
-	"CommandIcon01Special", 
-	"CommandIcon02Special", 
+	--"CommandIcon12",-- BACK button
+	"CommandIcon13",
+	"CommandIcon14",
 	
-	"CommandIconGlobalAbility01",
-	"CommandIconGlobalAbility02",
-	"CommandIconGlobalAbility03",
-	"CommandIconGlobalAbility04",
-	"CommandIconGlobalAbility05",
+	"GlobalCommandIcon01",
+	"GlobalCommandIcon02",
+	"GlobalCommandIcon03",
+	"GlobalCommandIcon04",
+	"GlobalCommandIcon05",
 }
 
 -- mappings for command buttons (command buttons always appear in the same slot on the taskbar)
 commandsmall_buttons = 
 {
-
-	combat_stance	= list_commands[13], --7
-	melee_stance  	= list_commands[14],--8
-
-	--move 			= list_commands[2], 
-	stop 			= list_commands[1],	
+	--move 			= list_commands[2],
+	stop 			= list_commands[14],--2	
 	--attack				= list_commands[3],
-	attack_melee	= list_commands[4],
 	attack_move		= list_commands[3],
+	attack_melee	= list_commands[4],
 	
-	deploy					= list_commands[5],
-	undeploy				= list_commands[5],
+	deploy					= list_commands[6],--5
+	undeploy				= list_commands[6],--5
 	possess			= list_commands[10],--5
+	build_basic		= "Upgrade04", list_commands[3], --5
 	nightbringer		= list_commands[10],--5
 	--worship				= list_commands[5],
 	darklance			= list_commands[6],
 	possess_enemy		= list_commands[12],--5
 	deceive				= list_commands[10],
-	direct_spawn		= list_commands[8],
+	direct_spawn		= list_commands[8],--5
 	burrow					= list_commands[12],--5
-	melee_dance		= list_commands[9],
+	melee_dance		= list_commands[9],--5
 	holy_passion	= list_commands[5],
 	harvest		= list_commands[9],--6
-	harvest_off		= list_commands[8],--6
-	attack_ground		= list_commands[2], --temporary move this later --list_commands[11], --list_commands[6], -- "Upgrade04", 
-	unload_here		= list_commands[12],--6
-	deepstrike		= list_commands[12],--6
-	unload			= list_commands[12],--6
-	build_basic		= "Upgrade04", list_commands[3],--5
-	repair			= "Upgrade03", --list_commands[4],--6
+	harvest_off		= list_commands[9],--6
+	attack_ground		= list_commands[2],--[Temporary move this later] --6
+	unload_here		= list_commands[12], --6
+	deepstrike		= list_commands[12], --6
+	unload			= list_commands[12], --6
+	repair			= "Upgrade03", --6
 	direct_spawn_rally		= list_commands[6],
+
+	combat_stance	= list_commands[13], --7
 	
-	harvest_spawn_a = list_commands[10],
-	harvest_spawn_b = list_commands[11], 
-	harvest_spawn_c = list_commands[12], 
-	miraculous_intervention = "Upgrade01",--list_commands[11],
+	melee_stance  	= list_commands[14], --8
+	
+	harvest_spawn_a = list_commands[10], --9
+	harvest_spawn_b = list_commands[11], --10
+	harvest_spawn_c = list_commands[12], --11
+	miraculous_intervention = "Upgrade01", --11
 	
 	-- NOTE: you cannot move jump or rampage buttons without updating their progress recharge bars
 	rampage			= list_commands[12], 	-- temp location
 	jump			= list_commands[12], 		-- temp location
 	
 	-- Cannibalize ability overlaps with 4th ability
-	cannibalize		= list_commands[9],
+	cannibalize		= list_commands[9], --12
 	
 --	build_adv		= list_commands[6],	
 	
@@ -349,10 +389,9 @@ commandsmall_buttons =
 	deepstrike_modal	= "Upgrade01", 
 	building_attack		= "Upgrade02", 
 	scuttle 					= "Detach", 
-	relocate					= "Upgrade03",
+	relocate					= "Upgrade03", --Upgrade01
 	
-	cancel_construction	= list_commands[12],	
-	
+	cancel_construction	= list_commands[12],
 }
 
 list_abilities = 
@@ -378,7 +417,6 @@ list_abilities =
     soul_ability_4, -- ABILITY12
     soul_ability_5, -- ABILITY13
     soul_ability_6, -- ABILITY14
-
 }
 
 -- progress positions must be in sync with above list_abilities list
@@ -393,11 +431,11 @@ list_abilities_progress =
     "ProgressIcon11", -- 	ABILITY3
     "ProgressIcon12", -- 	ABILITY4
 	
-    "ProgressIconGlobalAbility01", -- 	GLOBAL ABILITY 1
-    "ProgressIconGlobalAbility02", -- 	GLOBAL ABILITY 2
-    "ProgressIconGlobalAbility03", -- 	GLOBAL ABILITY 3
-    "ProgressIconGlobalAbility04", -- 	GLOBAL ABILITY 4
-    "ProgressIconGlobalAbility05", -- 	GLOBAL ABILITY 5
+    "GlobalProgressIcon01", -- 	GLOBAL ABILITY 1
+    "GlobalProgressIcon02", -- 	GLOBAL ABILITY 2
+    "GlobalProgressIcon03", -- 	GLOBAL ABILITY 3
+    "GlobalProgressIcon04", -- 	GLOBAL ABILITY 4
+    "GlobalProgressIcon05", -- 	GLOBAL ABILITY 5
 }
 
 
@@ -444,7 +482,6 @@ list_weapon_upgrades =
 -- ILE
 list_weapon_upgrades2 =
 {
-	"Upgrade01",
 	"Upgrade03",
 	"Upgrade04",
 }
@@ -465,22 +502,17 @@ list_multileader_upgrades =
 	"Upgrade02",
 	"Upgrade03",
 	"Upgrade04",
-	"AddLeader", -- 		REINFORCE LEADER
 }
 
 list_multileader_upgrades2 =
 {
-	"AddLeader", -- 		REINFORCE LEADER
-	--"Upgrade01",
+	"Upgrade01",
 	"Upgrade02",
-	"Upgrade03",
-	"Upgrade04",
 }
 
 list_multibase_upgrades =
 {
-	"Reinforce", -- 		REINFORCE TROOPER
-	--"AddLeader", -- 		REINFORCE LEADER
+	"AddLeader", -- 		REINFORCE LEADER
 }
 
 list_production_queue = 
@@ -492,55 +524,6 @@ list_production_queue =
 	"buildQueue04",
 	"buildQueue05",
 	"buildQueue06"
-}
-
--- Spécial Ombrephenix  modifications Démo Mod Codex Evolutions  --
---new list--
-list_production = 
-{
-	"CommandIcon01",
-	"CommandIcon02",
-	"CommandIcon03",
-	"CommandIcon04",
-	"CommandIcon05",
-	"CommandIcon06",
-	"CommandIcon07",
-	"CommandIcon08",
-	"CommandIcon09", 
-	"CommandIcon10",
-	"CommandIcon11",
-	"CommandIcon12",
-
-	"CommandIcon01Special", 
-	"CommandIcon02Special", 
-}
-
-
--- Spécial Ombrephenix  modifications Démo Mod Codex Evolutions  --
---new list--
-list_extra_menu_production =
-{
-	"CommandIcon01",
-	"CommandIcon02",
-	"CommandIcon03",
-	"CommandIcon04",
-	"CommandIcon05",
-	"CommandIcon06",
-	"CommandIcon07",
-	"CommandIcon08",
-	"CommandIcon09", 
-	"CommandIcon10",
-	"CommandIcon11",
-	"CommandIcon12",
-
-	"CommandIcon01Special", 
-	"CommandIcon02Special", 
-	
-	"CommandIconGlobalAbility01",
-	"CommandIconGlobalAbility02",
-	"CommandIconGlobalAbility03",
-	"CommandIconGlobalAbility04",
-	"CommandIconGlobalAbility05",
 }
 
 -- for squad out
@@ -621,6 +604,13 @@ list_hero_select_groups =
 	"btnHero_4",
 	"btnHero_5",
 	"btnHero_6",
+	"btnHero_7",
+	"btnHero_8",
+	"btnHero_9",
+	"btnHero_10",
+	"btnHero_11",
+	"btnHero_12",
+	"btnHero_13",
 }
 
 ----------------------------------------------------------------------------------------
@@ -796,8 +786,13 @@ background =
 {
 	-- race skins
 	{ bind = "race_image", ui = "artTaskbar", texture = "taskbar" },
+	{ bind = "race_image", ui = "artTaskbarPadded", texture = "taskbar_padded" },
+	{ bind = "race_image", ui = "artTaskbarLeft", texture = "map_separated" },
+	{ bind = "race_image", ui = "artTaskbarRight", texture = "taskbar_separated" },
 	{ bind = "race_image", ui = "artOverlay", texture = "taskbar_minimap" },
 	{ bind = "race_image", ui = "artMenubar", texture = "taskbar_menu" },
+	{ bind = "race_image", ui = "artMenubarLeft", texture = "taskbar_menu_separated_left" },
+	{ bind = "race_image", ui = "artMenubarRight", texture = "taskbar_menu_separated_right" },
 }
 
 -- bindings for critical warning / instruction messages
@@ -864,6 +859,7 @@ static_hotkey_bindings =
 	-- Set Melee Stance
 	{ bind = "set_melee_stance", hk = "melee_stance_assault", 	optionalUI=true,ui="shk_6", 	stance ="assault" },
 	{ bind = "set_melee_stance", hk = "melee_stance_ranged", 	optionalUI=true,ui="shk_7", 	stance ="ranged" },
+	
 	-- Cycle primary selection
 	{ bind = "cycle_primary_squad", hk = "next_primary_selection", cycle = "next", optionalUI = true, ui = "shk_9" },
 	{ bind = "cycle_primary_squad", hk = "prev_primary_selection", cycle = "prev", optionalUI = true, ui = "shk_10" },
@@ -898,7 +894,7 @@ controlplayer =
 {
 	{ bind = "selector_playback",
 		
-		active = --uses( simulation_controls ) //FoW Hack :(
+		active = 
 		{
 		},
 		
@@ -940,7 +936,14 @@ hero_ui =
 	{ bind = "race_image", ui = "borderHero_4", texture = "border_hero" },
 	{ bind = "race_image", ui = "borderHero_5", texture = "border_hero" },
 	{ bind = "race_image", ui = "borderHero_6", texture = "border_hero" },
-
+	{ bind = "race_image", ui = "borderHero_7", texture = "border_hero" },
+	{ bind = "race_image", ui = "borderHero_8", texture = "border_hero" },
+	{ bind = "race_image", ui = "borderHero_9", texture = "border_hero" },
+	{ bind = "race_image", ui = "borderHero_10", texture = "border_hero" },
+	{ bind = "race_image", ui = "borderHero_11", texture = "border_hero" },
+	{ bind = "race_image", ui = "borderHero_12", texture = "border_hero" },
+	{ bind = "race_image", ui = "borderHero_13", texture = "border_hero" },
+	
 	{ bind = "list", uilist = list_hero_select_groups,
 		content =
 		{
@@ -956,7 +959,7 @@ hero_ui =
 }
 
 scar_ui =
-{					
+{
 	{ bind = "scar_button", ui = "btn_ScarUI", tt = tooltip_simple_template, },
 }
 
@@ -981,23 +984,22 @@ submenu_modal = uses(static)
 
 GlobalAbilities =
 {					
-	{ bind = "scar_button", ui = "btn_GlobalAbility01", submenu = submenu_modal, tt = tooltip_simple_template, },	
-	{ bind = "scar_button", ui = "btn_GlobalAbility02", submenu = submenu_modal, tt = tooltip_simple_template, },
-	{ bind = "scar_button", ui = "btn_GlobalAbility03", submenu = submenu_modal, tt = tooltip_simple_template, },	
-	{ bind = "scar_button", ui = "btn_GlobalAbility04", submenu = submenu_modal, tt = tooltip_simple_template, },
-	{ bind = "scar_button", ui = "btn_GlobalAbility05", submenu = submenu_modal, tt = tooltip_simple_template, },
+	{ bind = "scar_button", ui = "GlobalCommandIcon01", submenu = submenu_modal, tt = tooltip_simple_template, },	
+	{ bind = "scar_button", ui = "GlobalCommandIcon02", submenu = submenu_modal, tt = tooltip_simple_template, },
+	{ bind = "scar_button", ui = "GlobalCommandIcon03", submenu = submenu_modal, tt = tooltip_simple_template, },	
+	{ bind = "scar_button", ui = "GlobalCommandIcon04", submenu = submenu_modal, tt = tooltip_simple_template, },
+	{ bind = "scar_button", ui = "GlobalCommandIcon05", submenu = submenu_modal, tt = tooltip_simple_template, },
 }
 
 SoulAbilities = 
 {
-	-- soulability1
-	{ bind = "soul_ability_1", hk = "rampage", texture =  "Dark_Eldar_Icons/piercing_vision_icon", ui = "btnSoulAbility01", progress_recharge = "SoulProgress01", submenu =  submenu_modal, tt = tooltip_ability, tt_title = "$40938", tt_desc = "$40939" },
-	{ bind = "soul_ability_2", hk = "rampage", texture =  "Dark_Eldar_Icons/screams_of_the_damned_icon", ui = "btnSoulAbility02", progress_recharge = "SoulProgress02", submenu =  submenu_modal, tt = tooltip_ability, tt_title = "$40938", tt_desc = "$40939" },
-	{ bind = "soul_ability_3", hk = "rampage", texture =  "Dark_Eldar_Icons/rend_soul_icon", ui = "btnSoulAbility03", progress_recharge = "SoulProgress03", submenu =  submenu_modal, tt = tooltip_ability, tt_title = "$40938", tt_desc = "$40939" },
-	{ bind = "soul_ability_4", hk = "rampage", texture =  "Dark_Eldar_Icons/corrosive_cloud_icon", ui = "btnSoulAbility04", progress_recharge = "SoulProgress04", submenu =  submenu_modal, tt = tooltip_ability, tt_title = "$40938", tt_desc = "$40939" },
-	{ bind = "soul_ability_5", hk = "rampage", texture =  "Dark_Eldar_Icons/Soulstorm_icon", ui = "btnSoulAbility06", progress_recharge = "SoulProgress06", submenu =  submenu_modal, tt = tooltip_ability, tt_title = "$40938", tt_desc = "$40939" },
-	{ bind = "soul_ability_6", hk = "rampage", texture =  "Dark_Eldar_Icons/rekindle_rage_icon", ui = "btnSoulAbility05", progress_recharge = "SoulProgress05", submenu =  submenu_modal, tt = tooltip_ability, tt_title = "$40938", tt_desc = "$40939" },
-	
+	-- soulability1	
+	{ bind = "soul_ability_1", hk = "dark_eldar_piercing_vision", texture =  "Dark_Eldar_Icons/piercing_vision_icon", ui = "btnSoulAbility01", progress_recharge = "SoulProgress01", submenu =  submenu_modal, tt = tooltip_ability, tt_title = "$40938", tt_desc = "$40939" },
+	{ bind = "soul_ability_2", hk = "dark_eldar_screams_of_the_damned", texture =  "Dark_Eldar_Icons/screams_of_the_damned_icon", ui = "btnSoulAbility02", progress_recharge = "SoulProgress02", submenu =  submenu_modal, tt = tooltip_ability, tt_title = "$40938", tt_desc = "$40939" },
+	{ bind = "soul_ability_3", hk = "dark_eldar_rend_soul", texture =  "Dark_Eldar_Icons/rend_soul_icon", ui = "btnSoulAbility03", progress_recharge = "SoulProgress03", submenu =  submenu_modal, tt = tooltip_ability, tt_title = "$40938", tt_desc = "$40939" },
+	{ bind = "soul_ability_4", hk = "dark_eldar_corrosion", texture =  "Dark_Eldar_Icons/corrosive_cloud_icon", ui = "btnSoulAbility04", progress_recharge = "SoulProgress04", submenu =  submenu_modal, tt = tooltip_ability, tt_title = "$40938", tt_desc = "$40939" },
+	{ bind = "soul_ability_5", hk = "dark_eldar_soulstorm", texture =  "Dark_Eldar_Icons/Soulstorm_icon", ui = "btnSoulAbility06", progress_recharge = "SoulProgress06", submenu =  submenu_modal, tt = tooltip_ability, tt_title = "$40938", tt_desc = "$40939" },
+	{ bind = "soul_ability_6", hk = "dark_eldar_rekindle_rage", texture =  "Dark_Eldar_Icons/rekindle_rage_icon", ui = "btnSoulAbility05", progress_recharge = "SoulProgress05", submenu =  submenu_modal, tt = tooltip_ability, tt_title = "$40938", tt_desc = "$40939" },
 }
 
 
@@ -1005,7 +1007,7 @@ SoulAbilities =
 submenu_structures = uses(static, SoulAbilities, GlobalAbilities)
 {
     -- cancel
-    { bind = "cancel_menu_button", ui = "AddLeader", hk = "escape", texture =  "command_icons/Back", tt = tooltip_simple_template, tt_title = "$40850", tt_desc = "$40851" },
+    { bind = "cancel_menu_button", ui = list_commands[12], hk = "escape", texture =  "command_icons/Back", tt = tooltip_simple_template, tt_title = "$40850", tt_desc = "$40851" },
 
     -- basic buildings
     { bind = "list", uilist = list_builder_construction, 
@@ -1088,7 +1090,7 @@ production_info = uses(SoulAbilities, GlobalAbilities)
 	},
 }
 
-reinforcement_info = uses(SoulAbilities, GlobalAbilities)
+reinforcement_info = uses(SoulAbilities)
 {
 	-- display the reinforcement queue
 	{ bind = "reinforcement_queue_progress", ui = "buildProgress", display_type = "bar" },
@@ -1549,7 +1551,7 @@ commands = uses(SoulAbilities, GlobalAbilities)
 
 	-- ILE
 	-- soul destruction
-	{ bind = "extension_ability_soul_destruction", ui = "CommandIcon07", progress_recharge = "ProgressIcon07", hk = "dark_eldar_soul_destruction", tt = tooltip_simple_template,},
+	{ bind = "extension_ability_soul_destruction", ui = "CommandIcon05", progress_recharge = "ProgressIcon05", hk = "dark_eldar_soul_destruction", tt = tooltip_simple_template,},
 
 		-- all abilities list_abilities
 	{ bind = "list", uilist = list_abilities, 
