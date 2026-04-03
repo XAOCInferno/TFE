@@ -10,8 +10,6 @@ function Core_InitSetup()
 	local debugFuncName = "Core_InitSetup"
 	
 	Log(eLOG_TYPE_INFO, eLOG_SIMPLE, "Starting: '"..debugFuncName.."'...")
-	
-	FOW_Reset()
 
 	local SetupSuccess = Core_Init_Load()
 	
