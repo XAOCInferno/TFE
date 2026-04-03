@@ -336,7 +336,7 @@ list_builder_construction =
 commandsmall_buttons = 
 {
 	--move 			= list_commands[2],
-	stop 			= list_commands[14],--2	
+	stop 			= list_commands[1],--2	
 	--attack				= list_commands[3],
 	attack_move		= list_commands[3],
 	attack_melee	= list_commands[4],
