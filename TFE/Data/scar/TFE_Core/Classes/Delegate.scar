@@ -28,14 +28,22 @@ local function GetIndexOfSubscription(_Func, _AllSubscriptions)
 
     local index = INDEX_NONE
 
-    for i = 1, table.getn(_AllSubscriptions) do
+    if(_AllSubscriptions ~= nil) then
 
-        if (_AllSubscriptions[i].FunctionToCall == _Func) then
+        for i = 1, table.getn(_AllSubscriptions) do
 
-            index = i
-            break
+            if (_AllSubscriptions[i].FunctionToCall == _Func) then
+
+                index = i
+                break
+
+            end
 
         end
+        
+    else
+        
+        Log(eLOG_LOG_TYPE_ERROR, eLOG_FULL, "FIX THIS!") 
 
     end
 
@@ -121,6 +129,21 @@ function Delegate:Unsubscribe(_Func)
         Log(eLOG_LOG_TYPE_WARNING, eLOG_SIMPLE, "Cannot unsubscribe function as it is not subscribed.")
 
     end
+
+    
+    --[[local indexOfDefine = GetIndexOfSubscription(_Func, self.Subscriptions)
+
+    if (indexOfDefine ~= INDEX_NONE) then
+
+        self.Subscriptions[indexOfDefine]:Deconstruct()
+        table.remove(self.Subscriptions, indexOfDefine)
+        success = true
+
+    else
+
+        Log(eLOG_LOG_TYPE_WARNING, eLOG_SIMPLE, "Cannot unsubscribe function as it is not subscribed.")
+
+    end]]
 
     RemoveStacktrace()
 
