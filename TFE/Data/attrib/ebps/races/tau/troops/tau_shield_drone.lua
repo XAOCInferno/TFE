@@ -434,6 +434,7 @@ GameData["event_manager_ext"]["event_28"]["modifier_name"] = [[ability_mandate_e
 GameData["event_manager_ext"]["event_29"]["event_entry_01"]["event_name"] = [[Sisters\LaudImpact_Foe]]
 GameData["event_manager_ext"]["event_29"]["modifier_name"] = [[ability_laud_hailers_foeaura_event]]
 GameData["health_ext"] = Reference([[ebpextensions\health_ext.lua]])
+GameData["health_ext"]["armour"] = 100
 GameData["health_ext"]["death_event"] = [[unit_death_events/vehicle_death]]
 GameData["health_ext"]["display_health_bar"] = true 
 GameData["health_ext"]["hitpoints"] = 325
